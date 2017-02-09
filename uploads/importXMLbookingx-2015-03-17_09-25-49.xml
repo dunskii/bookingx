@@ -1,0 +1,159 @@
+<?xml version="1.0"?>
+<Root>
+  <CurrentSeats>
+    <Seat id="1">
+      <Name>Test seat</Name>
+      <Description>test seat</Description>
+      <Information>xet</Information>
+      <Color>######</Color>
+      <Location></Location>
+      <Street>test street</Street>
+      <City>test city</City>
+      <State>test state</State>
+      <Postcode>564587</Postcode>
+      <Country>United States</Country>
+      <IsCertainDay>Y</IsCertainDay>
+      <Days>
+        <Day timeFrom="12:00 AM" timeTo="01:30 AM">Monday</Day>
+        <Day timeFrom="02:00 AM" timeTo="05:00 AM">Tuesday</Day>
+      </Days>
+      <RequirePrePayment>Y</RequirePrePayment>
+      <PaymentType>Deposit</PaymentType>
+      <FixedAmount>10.00</FixedAmount>
+      <DepositType>Fixed Amount</DepositType>
+      <Phone>54548788787</Phone>
+      <Email>akeel.munshi@wwindia.com</Email>
+      <UserType>administrator</UserType>
+      <UserName>booking_admin</UserName>
+      <Status>1</Status>
+    </Seat>
+    <Seat id="2">
+      <Name>Test seat dvkgd</Name>
+      <Description>test seat sgsd</Description>
+      <Information>xet</Information>
+      <Color>#####</Color>
+      <Location></Location>
+      <Street>test street</Street>
+      <City>test city</City>
+      <State>test state</State>
+      <Postcode>564587</Postcode>
+      <Country>United States</Country>
+      <IsCertainDay>Y</IsCertainDay>
+      <Days>
+        <Day timeFrom="07:30 AM" timeTo="03:30 PM">Tuesday</Day>
+        <Day timeFrom="01:00 AM" timeTo="04:00 AM">Sunday</Day>
+      </Days>
+      <RequirePrePayment>Y</RequirePrePayment>
+      <PaymentType>Deposit</PaymentType>
+      <FixedAmount>0.00</FixedAmount>
+      <DepositType>Fixed Amount</DepositType>
+      <Phone>54548788787</Phone>
+      <Email>akeel.munshi@wwindia.com</Email>
+      <UserType></UserType>
+      <UserName></UserName>
+      <Status>1</Status>
+    </Seat>
+    <Seat id="3">
+      <Name>Test seat 3</Name>
+      <Description>test seat 3</Description>
+      <Information>xet</Information>
+      <Image>1415795708_Wood4.png</Image>
+      <Color>######</Color>
+      <Location></Location>
+      <Street>test street</Street>
+      <City>test city</City>
+      <State>test state</State>
+      <Postcode>564587</Postcode>
+      <Country>India</Country>
+      <IsCertainDay>Y</IsCertainDay>
+      <Days>
+        <Day timeFrom="07:30 AM" timeTo="03:30 PM">Tuesday</Day>
+        <Day timeFrom="01:00 AM" timeTo="04:00 AM">Sunday</Day>
+      </Days>
+      <RequirePrePayment>Y</RequirePrePayment>
+      <PaymentType>Deposit</PaymentType>
+      <DepositType>Fixed Amount</DepositType>
+      <Phone>54548788787</Phone>
+      <Email></Email>
+      <UserType></UserType>
+      <UserName></UserName>
+      <Status>1</Status>
+    </Seat>
+    <Seat id="4">
+      <Name>Test seat 4</Name>
+      <Description>test seat 4</Description>
+      <Information>xet</Information>
+      <Image>1415795708_Wood4.png</Image>
+      <Color>######</Color>
+      <Location></Location>
+      <Street>test street</Street>
+      <City>test city</City>
+      <State>test state</State>
+      <Postcode>564587</Postcode>
+      <Country>India</Country>
+      <IsCertainDay>Y</IsCertainDay>
+      <Days/>
+      <RequirePrePayment>Y</RequirePrePayment>
+      <PaymentType>Deposit</PaymentType>
+      <DepositType>Fixed Amount</DepositType>
+      <Phone>54548788787</Phone>
+      <Email></Email>
+      <UserType></UserType>
+      <UserName></UserName>
+      <Status>1</Status>
+    </Seat>
+  </CurrentSeats>
+  <CurrentBases>
+    <Base id="1">
+      <Name>test base</Name>
+      <Description>test base desc</Description>
+      <Image>1415795692_Wood4.png</Image>
+      <Color>########7a2323</Color>
+      <Price>$$$$$10</Price>
+      <Time>10 Hours</Time>
+      <CanBeExtended>Y</CanBeExtended>
+      <Seats>
+        <Seat id="1">Test seat</Seat>
+        <Seat id="2">Test seat dvkgd</Seat>
+        <Seat id="3">Test seat 3</Seat>
+        <Seat id="4">Test seat 4</Seat>
+      </Seats>
+      <Location>Fixed</Location>
+      <IsLocationDiffer>Y</IsLocationDiffer>
+      <Street>test</Street>
+      <City>test</City>
+      <State>test</State>
+      <Postcode></Postcode>
+      <AllowAddition>Y</AllowAddition>
+    </Base>
+  </CurrentBases>
+  <CurrentAdditions>
+    <Addition id="1">
+      <Name>test addition</Name>
+      <Description>test desc</Description>
+      <Image>1423773600_info-128.png</Image>
+      <Price>10.00</Price>
+      <Color>#######6c460d</Color>
+      <Time>10 Days</Time>
+      <Bases>
+        <Base id="1">test base</Base>
+      </Bases>
+      <Status>1</Status>
+      <Overlap>Y</Overlap>
+    </Addition>
+    <Addition id="2">
+      <Name>Test Extra</Name>
+      <Description>Extra desc</Description>
+      <Image>1415795796_fork3.png</Image>
+      <Price>10.00</Price>
+      <Color>####284f0c</Color>
+      <Minutes>15</Minutes>
+      <Time>10 Hours</Time>
+      <Bases>
+        <Base id="1">test base</Base>
+      </Bases>
+      <Status>1</Status>
+      <Overlap>Y</Overlap>
+    </Addition>
+  </CurrentAdditions>
+</Root>

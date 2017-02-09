@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+<Root>
+  <CurrentSeats>
+    <Seat id="1">
+      <Name>Jorge</Name>
+      <Description>Jorge</Description>
+      <Color>8224e3</Color>
+      <Location></Location>
+      <Street>Ahmedabad</Street>
+      <City>Ahmedabad</City>
+      <State>Gujarat</State>
+      <Postcode>390001</Postcode>
+      <Country>India</Country>
+      <IsCertainDay>Y</IsCertainDay>
+      <Days/>
+      <RequirePrePayment>N</RequirePrePayment>
+      <PaymentType>Full Payment</PaymentType>
+      <FixedAmount>0.00</FixedAmount>
+      <DepositType>Fixed Amount</DepositType>
+      <Phone>07878226101</Phone>
+      <Email>jorge@indianic.com</Email>
+      <UserType></UserType>
+      <UserName></UserName>
+      <Status>1</Status>
+    </Seat>
+    <Seat id="2">
+      <Name>Mark</Name>
+      <Description>Mark</Description>
+      <Information>Mark</Information>
+      <Color>1e73be</Color>
+      <Location></Location>
+      <Street>Ahmedabad</Street>
+      <City>Ahmedabad</City>
+      <State>Gujarat</State>
+      <Postcode>390001</Postcode>
+      <Country>India</Country>
+      <RequirePrePayment>N</RequirePrePayment>
+      <PaymentType>Full Payment</PaymentType>
+      <FixedAmount>0.00</FixedAmount>
+      <DepositType>Fixed Amount</DepositType>
+      <Phone>07878226101</Phone>
+      <Email>mark@indianic.com</Email>
+      <UserType></UserType>
+      <UserName></UserName>
+      <Status>1</Status>
+    </Seat>
+    <Seat id="3">
+      <Name>Steave</Name>
+      <Description>Steave</Description>
+      <Information>Steave</Information>
+      <Color>81d742</Color>
+      <Location></Location>
+      <Street>Ahmedabad</Street>
+      <City>Ahmedabad</City>
+      <State>Gujarat</State>
+      <Postcode>390001</Postcode>
+      <Country>India</Country>
+      <RequirePrePayment>N</RequirePrePayment>
+      <PaymentType>Full Payment</PaymentType>
+      <FixedAmount>0.00</FixedAmount>
+      <DepositType>Fixed Amount</DepositType>
+      <Phone>07878226101</Phone>
+      <Email>steave@indianic.com</Email>
+      <UserType></UserType>
+      <UserName></UserName>
+      <Status>1</Status>
+    </Seat>
+    <Seat id="4">
+      <Name>Martin</Name>
+      <Description>Martin</Description>
+      <Information>Martin</Information>
+      <Color>eeee22</Color>
+      <Location></Location>
+      <Street>Ahmedabad</Street>
+      <City>Ahmedabad</City>
+      <State>Gujarat</State>
+      <Postcode>390001</Postcode>
+      <Country>India</Country>
+      <RequirePrePayment>N</RequirePrePayment>
+      <PaymentType>Full Payment</PaymentType>
+      <FixedAmount>0.00</FixedAmount>
+      <DepositType>Fixed Amount</DepositType>
+      <Phone>07878226101</Phone>
+      <Email>martin@indianic.com</Email>
+      <UserType></UserType>
+      <UserName></UserName>
+      <Status>1</Status>
+    </Seat>
+  </CurrentSeats>
+  <CurrentBases>
+    <Base id="1">
+      <Name>Hot Stones Massage</Name>
+      <Description>Hot Stones Massage</Description>
+      <Color>8224e3</Color>
+      <Price>100</Price>
+      <Time>1 Hours</Time>
+      <CanBeExtended>N</CanBeExtended>
+      <Seats>
+        <Seat id="1">Jorge</Seat>
+        <Seat id="3">Steave</Seat>
+        <Seat id="4">Martin</Seat>
+      </Seats>
+      <Location>Mobile</Location>
+      <AllowAddition>Y</AllowAddition>
+    </Base>
+    <Base id="2">
+      <Name>The Steam Room Massage and Spa</Name>
+      <Description>The Steam Room Massage and Spa</Description>
+      <Color>1e73be</Color>
+      <Price>120</Price>
+      <Time>2 Hours</Time>
+      <CanBeExtended>N</CanBeExtended>
+      <Seats>
+        <Seat id="1">Jorge</Seat>
+        <Seat id="2">Mark</Seat>
+        <Seat id="4">Martin</Seat>
+      </Seats>
+      <Location>Fixed</Location>
+      <IsLocationDiffer>Y</IsLocationDiffer>
+      <Street>Ahmedabad</Street>
+      <City>Ahmedabad</City>
+      <State>Gujarat</State>
+      <Postcode></Postcode>
+      <AllowAddition>Y</AllowAddition>
+    </Base>
+  </CurrentBases>
+  <CurrentAdditions/>
+</Root>

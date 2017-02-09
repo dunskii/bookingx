@@ -1,0 +1,571 @@
+# Copyright (C) 2016 BookingX
+# This file is distributed under the same license as the BookingX package.
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: BookingX 0.6\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/BookingX\n"
+"POT-Creation-Date: 2016-12-14 14:22+0530\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"X-Generator: Poedit 1.8.7.1\n"
+
+#: booking.php:72 booking.php:100 booking.php:114 booking.php:128
+#: booking.php:142 booking.php:156 booking.php:170 booking.php:187
+#: booking.php:213 booking.php:227
+msgid "You do not have sufficient permissions to access this page."
+msgstr ""
+
+#: booking.php:258 booking.php:259
+msgid "Settings"
+msgstr ""
+
+#: booking.php:1085 booking.php:1086
+msgid "Add New Resource"
+msgstr ""
+
+#: booking.php:1087
+msgid "Edit Resource"
+msgstr ""
+
+#: booking.php:1090 booking.php:1125 booking.php:1158
+msgid "Not Found"
+msgstr ""
+
+#: booking.php:1091 booking.php:1126 booking.php:1159
+msgid "Not found in Trash"
+msgstr ""
+
+#: booking.php:1120 booking.php:1121
+msgid "Add New Service"
+msgstr ""
+
+#: booking.php:1122
+msgid "Edit Service"
+msgstr ""
+
+#: booking.php:1123
+msgid "Update Service"
+msgstr ""
+
+#: booking.php:1153 booking.php:1154
+msgid "Add New Extra"
+msgstr ""
+
+#: booking.php:1155
+msgid "Edit Extra"
+msgstr ""
+
+#: booking.php:1156
+msgid "Update Extra"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+#: booking.php:1181 booking.php:1182
+msgid "BookingX"
+msgstr ""
+
+#: booking.php:1194
+msgid "Resource"
+msgstr ""
+
+#: booking_general_functions.php:53
+msgid "1 item"
+msgid_plural "%s items"
+msgstr[0] ""
+msgstr[1] ""
+
+#: booking_general_functions.php:71
+msgid "Go to the first page"
+msgstr ""
+
+#: booking_general_functions.php:78
+msgid "Go to the previous page"
+msgstr ""
+
+#: booking_general_functions.php:87
+msgid "Current page"
+msgstr ""
+
+#: booking_general_functions.php:93
+msgctxt "paging"
+msgid "%1$s of %2$s"
+msgstr ""
+
+#: booking_general_functions.php:97
+msgid "Go to the next page"
+msgstr ""
+
+#: booking_general_functions.php:104
+msgid "Go to the last page"
+msgstr ""
+
+#: booking_widget.php:14
+msgid "A Booking Widget"
+msgstr ""
+
+#: booking_widget.php:69
+msgid "New title"
+msgstr ""
+
+#: booking_widget.php:73
+msgid "Title:"
+msgstr ""
+
+#: inc/base_metabox.php:64
+msgid "%1$s  Price:"
+msgstr ""
+
+#: inc/base_metabox.php:74
+msgid "Is %1$s  time in  days, hours or minutes :"
+msgstr ""
+
+#: inc/base_metabox.php:79
+msgid "Select Time Option"
+msgstr ""
+
+#: inc/base_metabox.php:80
+msgid "Days"
+msgstr ""
+
+#: inc/base_metabox.php:81
+msgid "Hour and Minutes"
+msgstr ""
+
+#: inc/base_metabox.php:90
+msgid "Number of Months for %1$s   Time :"
+msgstr ""
+
+#: inc/base_metabox.php:101
+msgid "Number of Days for %1$s   Time :"
+msgstr ""
+
+#: inc/base_metabox.php:112
+msgid "%1$s  Time In Hours and Minutes :"
+msgstr ""
+
+#: inc/base_metabox.php:124
+msgid "00"
+msgstr ""
+
+#: inc/base_metabox.php:125
+msgid "15"
+msgstr ""
+
+#: inc/base_metabox.php:126
+msgid "30"
+msgstr ""
+
+#: inc/base_metabox.php:127
+msgid "45"
+msgstr ""
+
+#: inc/base_metabox.php:135
+msgid "Can %1$s  time be extended :"
+msgstr ""
+
+#: inc/base_metabox.php:141 inc/base_metabox.php:213 inc/base_metabox.php:233
+#: inc/base_metabox.php:263 inc/base_metabox.php:285
+msgid "Yes"
+msgstr ""
+
+#: inc/base_metabox.php:145 inc/base_metabox.php:217 inc/base_metabox.php:237
+#: inc/base_metabox.php:267
+msgid "No"
+msgstr ""
+
+#: inc/base_metabox.php:155
+msgid "This %1$s  is available to the following Seats :"
+msgstr ""
+
+#: inc/base_metabox.php:161 inc/seat_metabox.php:85
+msgid "All"
+msgstr ""
+
+#: inc/base_metabox.php:189
+msgid "Is this  %1$s   in a fixed location or mobile? :"
+msgstr ""
+
+#: inc/base_metabox.php:195
+msgid "Fixed Location"
+msgstr ""
+
+#: inc/base_metabox.php:199
+msgid "Mobile"
+msgstr ""
+
+#: inc/base_metabox.php:206
+msgid "Is this base/resource a mobile only option? :"
+msgstr ""
+
+#: inc/base_metabox.php:226
+msgid "Does the  %1$s   Location differ from Seat Location :"
+msgstr ""
+
+#: inc/base_metabox.php:245
+msgid "Base Location :"
+msgstr ""
+
+#: inc/base_metabox.php:247
+msgid "Street"
+msgstr ""
+
+#: inc/base_metabox.php:248 inc/seat_metabox.php:58
+msgid "City"
+msgstr ""
+
+#: inc/base_metabox.php:249
+msgid "State / Province / Region"
+msgstr ""
+
+#: inc/base_metabox.php:250 inc/seat_metabox.php:66
+msgid "Zip / Postal Code"
+msgstr ""
+
+#: inc/base_metabox.php:257
+msgid "Does this  %1$s   allow for Additions :"
+msgstr ""
+
+#: inc/base_metabox.php:281
+msgid "Does the  %1$s  Unavailable? :"
+msgstr ""
+
+#: inc/base_metabox.php:293
+msgid "%1$s   Unavailable From :"
+msgstr ""
+
+#: inc/base_metabox.php:304
+msgid "%1$s  Unavailable Till :"
+msgstr ""
+
+#: inc/seat_metabox.php:54
+msgid "Street name"
+msgstr ""
+
+#: inc/seat_metabox.php:62
+msgid "State"
+msgstr ""
+
+#: inc/seat_metabox.php:70
+msgid "Country"
+msgstr ""
+
+#: inc/seat_metabox.php:73
+msgid "Set Times, Days and Months Available"
+msgstr ""
+
+#: inc/seat_metabox.php:74
+msgid "Will this Seat only be available certain months of the year"
+msgstr ""
+
+#: inc/seat_metabox.php:77
+msgid ""
+"(Note: selection of 'No' indicates that it will be available throughout the "
+"year.)"
+msgstr ""
+
+#: inc/seat_metabox.php:80
+msgid "If yes, Select months of the year"
+msgstr ""
+
+#: inc/seat_metabox.php:91
+msgid "January"
+msgstr ""
+
+#: inc/seat_metabox.php:96
+msgid "February"
+msgstr ""
+
+#: inc/seat_metabox.php:101
+msgid "March"
+msgstr ""
+
+#: inc/seat_metabox.php:106
+msgid "April"
+msgstr ""
+
+#: inc/seat_metabox.php:111
+msgid "May"
+msgstr ""
+
+#: inc/seat_metabox.php:116
+msgid "June"
+msgstr ""
+
+#: inc/seat_metabox.php:121
+msgid "July"
+msgstr ""
+
+#: inc/seat_metabox.php:126
+msgid "August"
+msgstr ""
+
+#: inc/seat_metabox.php:131
+msgid "September"
+msgstr ""
+
+#: inc/seat_metabox.php:136
+msgid "October"
+msgstr ""
+
+#: inc/seat_metabox.php:141
+msgid "November"
+msgstr ""
+
+#: inc/seat_metabox.php:146
+msgid "December"
+msgstr ""
+
+#: inc/seat_metabox.php:151
+msgid "Will %1$s be available at certain days only "
+msgstr ""
+
+#: inc/seat_metabox.php:155
+msgid ""
+"(Note: selection of 'No' indicates that it will be available 7 days a week, "
+"and 24 hours a day)"
+msgstr ""
+
+#: inc/seat_metabox.php:158
+msgid "If yes, Select days of the week :"
+msgstr ""
+
+#: inc/seat_metabox.php:163
+msgid "Sunday"
+msgstr ""
+
+#: inc/seat_metabox.php:164 inc/seat_metabox.php:172 inc/seat_metabox.php:180
+#: inc/seat_metabox.php:188 inc/seat_metabox.php:196 inc/seat_metabox.php:204
+#: inc/seat_metabox.php:212
+msgid "From"
+msgstr ""
+
+#: inc/seat_metabox.php:166 inc/seat_metabox.php:174 inc/seat_metabox.php:182
+#: inc/seat_metabox.php:190 inc/seat_metabox.php:198 inc/seat_metabox.php:206
+#: inc/seat_metabox.php:214
+msgid "Till"
+msgstr ""
+
+#: inc/seat_metabox.php:171
+msgid "Monday"
+msgstr ""
+
+#: inc/seat_metabox.php:179
+msgid "Tuesday"
+msgstr ""
+
+#: inc/seat_metabox.php:187
+msgid "Wednesday"
+msgstr ""
+
+#: inc/seat_metabox.php:195
+msgid "Thursday"
+msgstr ""
+
+#: inc/seat_metabox.php:203
+msgid "Friday"
+msgstr ""
+
+#: inc/seat_metabox.php:211
+msgid "Saturday"
+msgstr ""
+
+#: inc/seat_metabox.php:220
+msgid "Payment Options"
+msgstr ""
+
+#: inc/seat_metabox.php:221
+msgid "Will the %1$sbooking require pre payment : "
+msgstr ""
+
+#: inc/seat_metabox.php:227
+msgid "Will payment be deposit or full payment"
+msgstr ""
+
+#: inc/seat_metabox.php:230
+msgid "Select"
+msgstr ""
+
+#: inc/seat_metabox.php:231
+msgid "Deposit"
+msgstr ""
+
+#: inc/seat_metabox.php:232
+msgid "Full Payment"
+msgstr ""
+
+#: inc/seat_metabox.php:238
+msgid "Is deposit a fixed amount ($) or percentage (%)? :"
+msgstr ""
+
+#: inc/seat_metabox.php:241
+msgid "Fixed Amount ($)"
+msgstr ""
+
+#: inc/seat_metabox.php:242
+msgid "Percentage (%)"
+msgstr ""
+
+#: inc/seat_metabox.php:247
+msgid "Enter Amount ($):"
+msgstr ""
+
+#: inc/seat_metabox.php:253
+msgid "Enter Percentage (%):"
+msgstr ""
+
+#: inc/seat_metabox.php:258
+msgid "User Options"
+msgstr ""
+
+#: inc/seat_metabox.php:259
+msgid "Do you want to associate this %1$s with a user ? : "
+msgstr ""
+
+#: inc/seat_metabox.php:261
+msgid "NO"
+msgstr ""
+
+#: inc/seat_metabox.php:263
+msgid "YES"
+msgstr ""
+
+#: inc/seat_metabox.php:267
+msgid "Please select user type :"
+msgstr ""
+
+#: inc/seat_metabox.php:270
+msgid "Select Role"
+msgstr ""
+
+#: inc/seat_metabox.php:284
+msgid "Please select user :"
+msgstr ""
+
+#: inc/seat_metabox.php:292
+msgid "Notification Details"
+msgstr ""
+
+#: inc/seat_metabox.php:294
+msgid "Phone :"
+msgstr ""
+
+#: inc/seat_metabox.php:297
+msgid "Email :"
+msgstr ""
+
+#: inc/seat_metabox.php:300
+msgid "Would you like to notify a second email address? :"
+msgstr ""
+
+#: inc/seat_metabox.php:303
+msgid "Secondary Email :"
+msgstr ""
+
+#: inc/seat_metabox.php:309
+msgid ""
+"Do you want a Google Calendar address to enable you to view the bookings in "
+"Google calendar etc? :"
+msgstr ""
+
+#: inc/seat_metabox.php:312
+msgid "Google Calendar ID :"
+msgstr ""
+
+#: inc/seat_metabox.php:503
+msgid "User already exists.  Password inherited."
+msgstr ""
+
+#: languages/tools/i18n/t/data/add-textdomain-0-result.php:3
+#: languages/tools/i18n/t/data/add-textdomain-0-result.php:4
+#: languages/tools/i18n/t/data/add-textdomain-0.php:3
+#: languages/tools/i18n/t/data/add-textdomain-0.php:4
+msgid "Hello World"
+msgstr ""
+
+#: languages/tools/i18n/t/data/add-textdomain-0-result.php:5
+#: languages/tools/i18n/t/data/add-textdomain-0.php:5
+msgid "Single"
+msgid_plural "Plural"
+msgstr[0] ""
+msgstr[1] ""
+
+#: languages/tools/i18n/t/data/add-textdomain-0-result.php:6
+#: languages/tools/i18n/t/data/add-textdomain-0.php:6
+msgid "Single Noop"
+msgid_plural "Plural Noop"
+msgstr[0] ""
+msgstr[1] ""
+
+#: languages/tools/i18n/t/data/add-textdomain-0-result.php:7
+#: languages/tools/i18n/t/data/add-textdomain-0-result.php:8
+#: languages/tools/i18n/t/data/add-textdomain-0.php:7
+#: languages/tools/i18n/t/data/add-textdomain-0.php:8
+msgctxt "Testing"
+msgid "Hello World"
+msgstr ""
+
+#: languages/tools/i18n/t/data/add-textdomain-0-result.php:10
+msgctxt "test-domain"
+msgid "Hello World Noop"
+msgid_plural "Testing"
+msgstr[0] ""
+msgstr[1] ""
+
+#: languages/tools/i18n/t/data/add-textdomain-0-result.php:11
+#: languages/tools/i18n/t/data/add-textdomain-0-result.php:13
+#: languages/tools/i18n/t/data/add-textdomain-0.php:11
+#: languages/tools/i18n/t/data/add-textdomain-0.php:13
+msgid "Attribute"
+msgstr ""
+
+#: languages/tools/i18n/t/data/add-textdomain-0-result.php:12
+#: languages/tools/i18n/t/data/add-textdomain-0-result.php:14
+#: languages/tools/i18n/t/data/add-textdomain-0.php:12
+#: languages/tools/i18n/t/data/add-textdomain-0.php:14
+msgid "HTML"
+msgstr ""
+
+#: languages/tools/i18n/t/data/add-textdomain-0-result.php:15
+#: languages/tools/i18n/t/data/add-textdomain-0.php:15
+msgctxt "Testing"
+msgid "Attribute"
+msgstr ""
+
+#: languages/tools/i18n/t/data/add-textdomain-0-result.php:16
+#: languages/tools/i18n/t/data/add-textdomain-0.php:16
+msgctxt "Testing"
+msgid "HTML"
+msgstr ""
+
+#: my_login_bx.php:23
+msgid "Username"
+msgstr ""
+
+#: my_login_bx.php:24
+msgid "Password"
+msgstr ""
+
+#: my_login_bx.php:25
+msgid "Remember Me"
+msgstr ""
+
+#: my_login_bx.php:26
+msgid "Log In"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "BookingX is a booking and appointments plugin for WordPress"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Dunskii Web Services"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://dunskii.com"
+msgstr ""
