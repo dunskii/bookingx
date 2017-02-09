@@ -1,0 +1,346 @@
+<?php	session_start();
+require_once('../../../wp-load.php');
+require_once('booking_general_functions.php');
+global $wpdb;
+
+/**
+ * Converts number of seconds to hours:mins acc to the WP time format setting
+ * @return string
+ */
+function secs2hours( $secs ) {
+	$min = (int)($secs / 60);
+	$hours = "00";
+	if ( $min < 60 )
+		$hours_min = $hours . ":" . $min;
+	else {
+		$hours = (int)($min / 60);
+		if ( $hours < 10 )
+			$hours = "0" . $hours;
+		$mins = $min - $hours * 60;
+		if ( $mins < 10 )
+			$mins = "0" . $mins;
+		$hours_min = $hours . ":" . $mins;
+	}
+	//if ( $this->time_format )
+	$hours_min = date( 'H:i', strtotime( $hours_min . ":00" ) );
+
+	return $hours_min;
+}
+
+function getDayName($day)
+{
+	if($day ==0)
+	{
+		$day_name = 'Sunday';
+	}
+	else if($day == 1)
+	{
+		$day_name = 'Monday';
+	}
+	else if($day == 2)
+	{
+		$day_name = 'Tuesday';
+	}
+	else if($day == 3)
+	{
+		$day_name = 'Wednesday';
+	}
+	else if($day == 4)
+	{
+		$day_name = 'Thursday';
+	}
+	else if($day == 5)
+	{
+		$day_name = 'Friday';
+	}
+	else if($day == 6)
+	{
+		$day_name = 'Saturday';
+	}
+	return $day_name;
+}
+
+function getMinsSlot($mins)
+{
+	if(intval($mins) == 0 )
+	{
+		$slot = 1;
+	}
+	else if(intval($mins) == 15 )
+	{
+		$slot = 2;
+	}
+	else if(intval($mins) == 30 )
+	{
+		$slot = 3;
+	}
+	else if(intval($mins) == 45 )
+	{
+		$slot = 4;
+	}
+	return $slot;
+}
+
+?>
+<style>
+.app_timetable_cell
+{
+	text-align: center;
+	width: 30%;
+	border: none;
+	margin: 1px;
+	float: left;
+	
+}
+.free
+{
+	cursor:pointer;
+	background:#73AC39
+}
+.full
+{
+	background:gray;
+}
+.selected-slot{background:#e64754;}
+.notavailable
+{
+	background:lightgray;
+	display:none;
+}
+.error_booking {color: #e64754;font-weight: bold;}
+.booking-status-div{display:inline-block;}
+.booking-status{float:left; text-align:center;padding:0 10px;}
+.booking-status div{width:20px;height:20px;display: inline-block;}
+</style>
+<?php
+	$bookigndate = '';
+	$full_day = '';
+	$order_statuses = array('bkx-processing','bkx-on-hold','bkx-completed');
+	if(isset($_POST['bookigndate']))
+	{
+		/**
+		 *    Added By : Divyang Parekh
+		 *    Reason For : Any Seat Functionality
+		 *    Date : 4-11-2015
+		 */
+		$service_id = $_POST['service_id'];
+		$bookigndate = $_POST['bookigndate'];
+		$_SESSION['_session_base_id'] = $service_id;
+
+		if (isset($_POST['seatid']) && $_POST['seatid'] == 'any' && $service_id !='' && crud_option_multisite('enable_any_seat') == 1 && crud_option_multisite('select_default_seat') != ''):
+
+
+			$_enable_any_seat_selected_id = (int)crud_option_multisite('select_default_seat'); // Default Seat id
+ 
+			$search = array('bookigndate' => $bookigndate,
+				'service_id'=>$service_id ,
+				'status' => $order_statuses,
+				'seat_id' => 'any' ,'display'=> 1);
+			$BkxBooking =  new BkxBooking();
+			$objBookigntime = $BkxBooking->GetBookedRecords($search);
+
+			//echo "<pre>";
+			//print_r($objBookigntime);
+			//$objBookigntime = $BkxBooking->get_order_time_data('',$search);
+		
+			/*$objBookigntime = $wpdb->get_results('SELECT * FROM bkx_booking_time inner join bkx_booking_record on bkx_booking_record.booking_record_id =  bkx_booking_time.booking_record_id WHERE  payment_status = "Completed" AND bkx_booking_time.booking_date = "' . trim($bookigndate) . '" AND  seat_id  IN (SELECT seat_id FROM bkx_seat_base where base_id ='.$service_id.')');*/
+			
+			//echo '<pre>' . print_r($get_order_time_data, true) . '</pre>';
+
+			$BkxBase = new BkxBase('',$service_id);
+			$seat_by_base = $BkxBase->get_seat_by_base();
+
+			if(!empty($seat_by_base)){
+				$total_free_seat_all  = sizeof($seat_by_base);
+				$free_seat_all_arr = $seat_by_base;
+			}
+			
+			if(!empty($free_seat_all_arr)):
+				foreach($free_seat_all_arr as $seat_id)
+				{
+					$get_range_by_seat[$seat_id]= get_range($bookigndate,$seat_id);
+				}
+			endif;
+			
+			if(!empty($objBookigntime)):
+				foreach ($objBookigntime as $objBooknig):
+					$slot_id= $objBooknig['full_day'];
+					$duration = ($objBooknig['booking_time'])/60;
+					$seatslots = intval($duration/15);
+					$_SESSION['_display_seat_slots']=$seatslots;
+					$booking_slot_range=array();
+					if($seatslots>1)
+					{
+						for($i=0; $i<$seatslots; $i++) {
+							$slot_id = $objBooknig['full_day'];
+							$booking_slot_range[] = $slot_id + $i;
+						}
+					}
+					else
+					{
+						$booking_slot_range[] =	$slot_id;
+					}
+					$booking_seat_id= $objBooknig['seat_id'];
+					$get_booked_range[$slot_id][$booking_seat_id] =$booking_slot_range;
+				endforeach;
+			endif;
+
+			
+			if(!empty($get_booked_range)):
+				foreach($get_booked_range as $slot_id=>$get_booked_slot)
+				{
+					if(function_exists('_get_booked_slot')):
+						$get_data[] =_get_booked_slot($slot_id,$get_booked_range,$free_seat_all_arr,$total_free_seat_all);
+					endif;
+				}
+				if(!empty($get_data)):
+					foreach ($get_data as $slots_booked_data)
+					{
+						if(!empty($slots_booked_data['slots_blocked']))
+						{
+							foreach($slots_booked_data as $slot_ids)
+							{
+								foreach($slot_ids as $_slot_id)
+								{
+									$slots_are_booked[]=$_slot_id;
+									$slots_are_booked= array_unique($slots_are_booked);
+								}
+							}
+						}
+					}
+				endif;
+			endif;
+		else:
+
+			$search = array('bookigndate' => $bookigndate,
+				'service_id'=>$service_id ,
+				'status' => $order_statuses,
+				'seat_id' => $_POST['seatid'] ,'display'=> 1);
+			$BkxBooking =  new BkxBooking();
+			$objBookigntime = $BkxBooking->GetBookedRecords($search);
+
+			//print_r($objBookigntime);
+			if (!empty($objBookigntime)) {
+				//$full_day = $objBookigntime->full_day; change by Arif Khan
+				$full_day = $objBookigntime[0]->full_day;
+			}
+
+		endif;
+	}
+
+	
+	$booking_slot_temp = '';
+	$booking_slot_arr=array();
+	$i=0; 
+	$booking_slot = array();
+
+	$objBookigntime = apply_filters('customise_display_booking_data',$objBookigntime);
+
+	if(!empty($objBookigntime))
+	{
+		$cnt=count($objBookigntime);
+		//echo "<pre>";
+		//print_r($objBookigntime);
+		foreach($objBookigntime as $temp)
+		{
+			/**
+			 * Updated By  : Divyang Parekh
+			 * For  : Add Any Seat functionality.*/
+			if(crud_option_multisite('enable_any_seat') == 1 && crud_option_multisite('select_default_seat')!= '' && $_POST['seatid'] == 'any'):
+
+				if(!empty($slots_are_booked)):
+					$booking_slot_arr= $slots_are_booked;
+				endif;
+
+			else:
+				/* Updated By : Madhuri Rokade*/
+				/* Reason : To get the multiple booking slots. */
+				$duration = ($temp['booking_time'])/60;
+				$seatslots = intval($duration/15);
+				/**
+				 * Updated By  : Divyang Parekh
+				 * For  : Add Any Seat functionality.
+				 */
+				if($seatslots>1){
+					for($i=0; $i<$seatslots+1; $i++){
+						$booking_slot_arr[] = $temp['full_day']+$i;
+					}
+				} else {
+					$booking_slot_arr[] = $temp['full_day'];
+				}
+			endif;
+
+		}
+		
+		//print_r($booking_slot_arr);
+		foreach($booking_slot_arr as $slot)
+		{
+			if($slot!="")
+			{
+				array_push($booking_slot,$slot);
+			}
+		}
+	}
+
+	
+
+	/*if (isset($_POST['seatid']) && $_POST['seatid'] == 'any' && $_SESSION['free_seat_id']!=''  && crud_option_multisite('enable_any_seat') == 1 && crud_option_multisite('select_default_seat') != ''):
+		$seatid = $_SESSION['free_seat_id'];
+	else:
+		$seatid = $_POST['seatid'];
+	endif;*/
+
+	$bookingdate = $_POST['bookigndate'];
+	$range= get_range($bookingdate,$_POST['seatid']);
+	//$_SESSION['range_by_seat']=$range;
+	//start and end of hours of a day
+	$start = 0;
+	$end = 24;
+			
+	$first = $start *3600; // Timestamp of the first cell
+	$last = $end *3600; // Timestamp of the last cell
+			
+	$step = 15 * 60; // Timestamp increase interval to one cell ahead
+	$counter = 1;
+	?>
+	<div class="booking-status-div">
+		<div class="booking-status">Booked <div style="background-color:gray;"></div></div>
+		<div class="booking-status">Open <div style="background-color:green;"></div></div>
+	</div>
+	<br/>
+	<?php
+	/**
+	 * Updated By :  Divyang Parekh
+	 * Date : 16-11-2015
+	 * Please do not edit below code Or carefully
+	 * Please don't change below div class name, its very sensitive and its depend on some functionality.
+	 */
+	//print_r($booking_slot);
+	for ( $t=$first; $t<$last; $t=$t+$step ) {
+			$ccs = $t; 				// Current cell starts
+			$cce = $ccs + $step;	// Current cell ends
+			$empty = 'free';
+
+			if(!in_array($counter, $range))
+			{
+				$empty = 'notavailable';
+			}
+			else
+			{
+				if(in_array($counter, $booking_slot))//if that slot booked or not
+				{
+					$empty = 'full';
+				}
+			}
+			?>
+			<div class="<?php echo $counter; ?>-is-<?php echo $empty; ?> app_timetable_cell <?php echo $counter; ?> <?php echo $empty; ?> <?php echo $_POST['bookigndate'].'-'.$counter; ?>" id="<?php echo secs2hours( $ccs ); ?>" data-slotnumber="<?php echo $_POST['bookigndate'].'-'.$counter; ?>">
+			<input type="hidden" value="<?php echo secs2hours( $ccs ); ?>" />
+			<?php
+				echo secs2hours($ccs);
+			?>
+			</div>
+			<?php
+			$counter = $counter + 1;
+	}
+?>
+<br/>
