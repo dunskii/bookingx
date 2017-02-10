@@ -4,7 +4,7 @@
  *  Plugin URI: 
  *  Description: BookingX is a booking and appointments plugin for WordPress
  *  Author: Dunskii Web Services 
- *  Version: 1.1 
+ *  Version: 1.0.1 
  *  Author URI: http://dunskii.com
  * 
  *  Text Domain: bookingx
