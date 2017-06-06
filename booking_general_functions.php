@@ -1,125 +1,4 @@
 <?php
-/**
- *This Function gets current page number using the request url
- *@access public
- *@param 
- *@return int $pagenum
- */
-function get_pagenum() {
-		$pagenum = isset( $_REQUEST['paged'] ) ? absint( $_REQUEST['paged'] ) : 0;
-		/*
-		if( isset( $this->_pagination_args['total_pages'] ) && $pagenum > $this->_pagination_args['total_pages'] )
-			$pagenum = $this->_pagination_args['total_pages'];
-		*/
-		return max( 1, $pagenum );
-	}
-/**
- *This Function sets and returns the number of items to be displayed in per page
- *@access public
- *@return integer $per_page
- */
-function get_per_page(){
-	$per_page = 20;
-	return $per_page;
-}
-/**
- *This Function generates the html for pagination items
- *@access public
- *@param $which, $total_items, $total_pages, $per_page
- *@return string $pagination
- */
-function pagination( $which,$total_items,$total_pages,$per_page = 20 ) {
-		/*
-		if ( empty( $this->_pagination_args ) )
-			return;
-		*/
-		//extract( $this->_pagination_args, EXTR_SKIP );
-		$style = "<style>.tablenav-pages{padding:5px;}.tablenav-pages a {
-border-color: #E3E3E3 !important;
--webkit-border-radius: 3px;
-border-radius: 3px;
-border: 1px solid;
-padding: 3px 6px;
-background-color:lightgray;
-color:#333;
-text-decoration: none;
-}
-.tablenav-pages a.disabled
-{
-cursor:default;
-}
-</style>";
-
-	$output = '<span class="displaying-num">' . sprintf( _n( '1 item', '%s items', $total_items ), number_format_i18n( $total_items ) ) . '</span>';
-
-	$current = get_pagenum();
-
-	$current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-
-	$current_url = remove_query_arg( array( 'hotkeys_highlight_last', 'hotkeys_highlight_first' ), $current_url );
-
-	$page_links = array();
-
-	$disable_first = $disable_last = '';
-	if ( $current == 1 )
-		$disable_first = ' disabled';
-	if ( $current == $total_pages )
-		$disable_last = ' disabled';
-
-	$page_links[] = sprintf( "<a class='%s' title='%s' href='%s'>%s</a>",
-		'first-page' . $disable_first,
-		esc_attr__( 'Go to the first page' ),
-		esc_url( remove_query_arg( 'paged', $current_url ) ),
-		'&laquo;'
-	);
-
-	$page_links[] = sprintf( "<a class='%s' title='%s' href='%s'>%s</a>",
-		'prev-page' . $disable_first,
-		esc_attr__( 'Go to the previous page' ),
-		esc_url( add_query_arg( 'paged', max( 1, $current-1 ), $current_url ) ),
-		'&lsaquo;'
-	);
-
-	if ( 'bottom' == $which )
-		$html_current_page = $current;
-	else
-		$html_current_page = sprintf( "<input class='current-page' title='%s' type='text' name='paged' value='%s' size='%d' />",
-			esc_attr__( 'Current page' ),
-			$current,
-			strlen( $total_pages )
-		);
-
-	$html_total_pages = sprintf( "<span class='total-pages'>%s</span>", number_format_i18n( $total_pages ) );
-	$page_links[] = '<span class="paging-input">' . sprintf( _x( '%1$s of %2$s', 'paging' ), $html_current_page, $html_total_pages ) . '</span>';
-
-	$page_links[] = sprintf( "<a class='%s' title='%s' href='%s'>%s</a>",
-		'next-page' . $disable_last,
-		esc_attr__( 'Go to the next page' ),
-		esc_url( add_query_arg( 'paged', min( $total_pages, $current+1 ), $current_url ) ),
-		'&rsaquo;'
-	);
-
-	$page_links[] = sprintf( "<a class='%s' title='%s' href='%s'>%s</a>",
-		'last-page' . $disable_last,
-		esc_attr__( 'Go to the last page' ),
-		esc_url( add_query_arg( 'paged', $total_pages, $current_url ) ),
-		'&raquo;'
-	);
-
-	$pagination_links_class = 'pagination-links';
-	if ( ! empty( $infinite_scroll ) )
-		$pagination_links_class = ' hide-if-js';
-	$output .= "\n<span class='$pagination_links_class'>" . join( "\n", $page_links ) . '</span>';
-
-	if ( $total_pages )
-		$page_class = $total_pages < 2 ? ' one-page' : '';
-	else
-		$page_class = ' no-pages';
-
-	//$this->_pagination = "<div class='tablenav-pages{$page_class}'>$output</div>";
-	$pagination = $style."<div class='tablenav-pages{$page_class}' style='float:right;'>$output</div>";
-	echo $pagination;
-}
 
 /**
  *This Function includes/loads the scripts in footer
@@ -129,7 +8,7 @@ cursor:default;
 function custom_load_scripts($scripts = array()) {
  
     foreach( $scripts as $script ){
-        wp_enqueue_script( $script,  plugins_url('/js/' . $script, __FILE__),false,null,false ); 
+        wp_enqueue_script( $script,  plugins_url('/js/' . $script, __FILE__),false,rand(1,9999999),false ); 
 
     }
     
@@ -178,7 +57,7 @@ function reassign_available_emp_list($seat_id,$start_date,$end_date,$service_id)
 	$key_rm = array_search($seat_id, $get_employees);
 	if($key_rm !== false){ unset($get_employees[$key_rm]);}
 
-	$status = array('bkx-processing','bkx-on-hold','bkx-completed');
+	$order_statuses = array('bkx-pending','bkx-ack','bkx-completed','bkx-missed');
  
 	if(!empty($get_employees))
 	{
@@ -427,6 +306,8 @@ function wc_setup_bkx_post_data( $post ) {
         unset( $globalS['bkx_addition'] );
         unset( $globalS['bkx_post'] );
 
+        global $bkx_seat,$bkx_base,$bkx_addition;
+
 	if ( is_int($post))
             $post = get_post( $post );
 
@@ -434,13 +315,13 @@ function wc_setup_bkx_post_data( $post ) {
             return;
         
         if(isset($post->post_type) && $post->post_type =='bkx_seat')
-            $globalS[$post->post_type] = new BkxSeat($post);
+            $GLOBALS[$post->post_type] = new BkxSeat($post);
         elseif(isset($post->post_type) && $post->post_type =='bkx_base')
-            $globalS[$post->post_type] = new BkxBase($post);
+            $GLOBALS[$post->post_type] = new BkxBase($post);
         elseif(isset($post->post_type) && $post->post_type =='bkx_addition')
-            $globalS[$post->post_type] = new BkxExtra($post);
+            $GLOBALS[$post->post_type] = new BkxExtra($post);
 
-	return $globalS[$post->post_type];
+	return $GLOBALS[$post->post_type];
 }
 add_action( 'the_post', 'wc_setup_bkx_post_data' );
 
@@ -457,7 +338,263 @@ function bkx_placeholder_img($size='service-thumb')
   return apply_filters('bkx_placeholder_img', '<img src="'.bkx_placeholder_img_src().'" alt="' . esc_attr__( 'Placeholder', 'bookingx' ) . '" width="' . esc_attr( $dimensions['width'] ) . '" class="bkx-placeholder wp-post-image" height="' . esc_attr( $dimensions['height'] ) . '" />',$size, $dimensions );
 }
 
+function get_wp_country()
+{
 
+	$all_countries = array(
+		"AF" => "Afghanistan",
+		"AX" => "Aland Islands",
+		"AL" => "Albania",
+		"DZ" => "Algeria",
+		"AS" => "American Samoa",
+		"AD" => "Andorra",
+		"AO" => "Angola",
+		"AI" => "Anguilla",
+		"AQ" => "Antarctica",
+		"AG" => "Antigua and Barbuda",
+		"AR" => "Argentina",
+		"AM" => "Armenia",
+		"AW" => "Aruba",
+		"AU" => "Australia",
+		"AT" => "Austria",
+		"AZ" => "Azerbaijan",
+		"BS" => "Bahamas",
+		"BH" => "Bahrain",
+		"BD" => "Bangladesh",
+		"BB" => "Barbados",
+		"BY" => "Belarus",
+		"BE" => "Belgium",
+		"BZ" => "Belize",
+		"BJ" => "Benin",
+		"BM" => "Bermuda",
+		"BT" => "Bhutan",
+		"BO" => "Bolivia, Plurinational State of",
+		"BQ" => "Bonaire, Sint Eustatius and Saba",
+		"BA" => "Bosnia and Herzegovina",
+		"BW" => "Botswana",
+		"BV" => "Bouvet Island",
+		"BR" => "Brazil",
+		"IO" => "British Indian Ocean Territory",
+		"BN" => "Brunei Darussalam",
+		"BG" => "Bulgaria",
+		"BF" => "Burkina Faso",
+		"BI" => "Burundi",
+		"KH" => "Cambodia",
+		"CM" => "Cameroon",
+		"CA" => "Canada",
+		"CV" => "Cape Verde",
+		"KY" => "Cayman Islands",
+		"CF" => "Central African Republic",
+		"TD" => "Chad",
+		"CL" => "Chile",
+		"CN" => "China",
+		"CX" => "Christmas Island",
+		"CC" => "Cocos (Keeling) Islands",
+		"CO" => "Colombia",
+		"KM" => "Comoros",
+		"CG" => "Congo",
+		"CD" => "Congo, the Democratic Republic of the",
+		"CK" => "Cook Islands",
+		"CR" => "Costa Rica",
+		"CI" => "Cote d'Ivoire",
+		"HR" => "Croatia",
+		"CU" => "Cuba",
+		"CW" => "Curacao",
+		"CY" => "Cyprus",
+		"CZ" => "Czech Republic",
+		"DK" => "Denmark",
+		"DJ" => "Djibouti",
+		"DM" => "Dominica",
+		"DO" => "Dominican Republic",
+		"EC" => "Ecuador",
+		"EG" => "Egypt",
+		"SV" => "El Salvador",
+		"GQ" => "Equatorial Guinea",
+		"ER" => "Eritrea",
+		"EE" => "Estonia",
+		"ET" => "Ethiopia",
+		"FK" => "Falkland Islands (Malvinas)",
+		"FO" => "Faroe Islands",
+		"FJ" => "Fiji",
+		"FI" => "Finland",
+		"FR" => "France",
+		"GF" => "French Guiana",
+		"PF" => "French Polynesia",
+		"TF" => "French Southern Territories",
+		"GA" => "Gabon",
+		"GM" => "Gambia",
+		"GE" => "Georgia",
+		"DE" => "Germany",
+		"GH" => "Ghana",
+		"GI" => "Gibraltar",
+		"GR" => "Greece",
+		"GL" => "Greenland",
+		"GD" => "Grenada",
+		"GP" => "Guadeloupe",
+		"GU" => "Guam",
+		"GT" => "Guatemala",
+		"GG" => "Guernsey",
+		"GN" => "Guinea",
+		"GW" => "Guinea-Bissau",
+		"GY" => "Guyana",
+		"HT" => "Haiti",
+		"HM" => "Heard Island and McDonald Islands",
+		"VA" => "Holy See (Vatican City State)",
+		"HN" => "Honduras",
+		"HK" => "Hong Kong",
+		"HU" => "Hungary",
+		"IS" => "Iceland",
+		"IN" => "India",
+		"ID" => "Indonesia",
+		"IR" => "Iran, Islamic Republic of",
+		"IQ" => "Iraq",
+		"IE" => "Ireland",
+		"IM" => "Isle of Man",
+		"IL" => "Israel",
+		"IT" => "Italy",
+		"JM" => "Jamaica",
+		"JP" => "Japan",
+		"JE" => "Jersey",
+		"JO" => "Jordan",
+		"KZ" => "Kazakhstan",
+		"KE" => "Kenya",
+		"KI" => "Kiribati",
+		"KP" => "Korea, Democratic People's Republic",
+		"KR" => "Korea, Republic of",
+		"KW" => "Kuwait",
+		"KG" => "Kyrgyzstan",
+		"LA" => "Lao People's Democratic Republic",
+		"LV" => "Latvia",
+		"LB" => "Lebanon",
+		"LS" => "Lesotho",
+		"LR" => "Liberia",
+		"LY" => "Libya",
+		"LI" => "Liechtenstein",
+		"LT" => "Lithuania",
+		"LU" => "Luxembourg",
+		"MO" => "Macao",
+		"MK" => "Macedonia",
+		"MG" => "Madagascar",
+		"MW" => "Malawi",
+		"MY" => "Malaysia",
+		"MV" => "Maldives",
+		"ML" => "Mali",
+		"MT" => "Malta",
+		"MH" => "Marshall Islands",
+		"MQ" => "Martinique",
+		"MR" => "Mauritania",
+		"MU" => "Mauritius",
+		"YT" => "Mayotte",
+		"MX" => "Mexico",
+		"FM" => "Micronesia, Federated States of",
+		"MD" => "Moldova",
+		"MC" => "Monaco",
+		"MN" => "Mongolia",
+		"ME" => "Montenegro",
+		"MS" => "Montserrat",
+		"MA" => "Morocco",
+		"MZ" => "Mozambique",
+		"MM" => "Myanmar",
+		"NA" => "Namibia",
+		"NR" => "Nauru",
+		"NP" => "Nepal",
+		"NL" => "Netherlands",
+		"NC" => "New Caledonia",
+		"NZ" => "New Zealand",
+		"NI" => "Nicaragua",
+		"NE" => "Niger",
+		"NG" => "Nigeria",
+		"NU" => "Niue",
+		"NF" => "Norfolk Island",
+		"MP" => "Northern Mariana Islands",
+		"NO" => "Norway",
+		"OM" => "Oman",
+		"PK" => "Pakistan",
+		"PW" => "Palau",
+		"PS" => "Palestine, State of",
+		"PA" => "Panama",
+		"PG" => "Papua New Guinea",
+		"PY" => "Paraguay",
+		"PE" => "Peru",
+		"PH" => "Philippines",
+		"PN" => "Pitcairn",
+		"PL" => "Poland",
+		"PT" => "Portugal",
+		"PR" => "Puerto Rico",
+		"QA" => "Qatar",
+		"RE" => "Reunion",
+		"RO" => "Romania",
+		"RU" => "Russian Federation",
+		"RW" => "Rwanda",
+		"BL" => "Saint-Barthelemy",
+		"SH" => "Saint Helena, Ascension and Tristan da Cunha",
+		"KN" => "Saint Kitts and Nevis",
+		"LC" => "Saint Lucia",
+		"MF" => "Saint Martin (French part)",
+		"PM" => "Saint Pierre and Miquelon",
+		"VC" => "Saint Vincent and the Grenadines",
+		"WS" => "Samoa",
+		"SM" => "San Marino",
+		"ST" => "Sao Tome and Principe",
+		"SA" => "Saudi Arabia",
+		"SN" => "Senegal",
+		"RS" => "Serbia",
+		"SC" => "Seychelles",
+		"SL" => "Sierra Leone",
+		"SG" => "Singapore",
+		"SX" => "Sint Maarten (Dutch part)",
+		"SK" => "Slovakia",
+		"SI" => "Slovenia",
+		"SB" => "Solomon Islands",
+		"SO" => "Somalia",
+		"ZA" => "South Africa",
+		"GS" => "South Georgia and the South Sandwich Islands",
+		"SS" => "South Sudan",
+		"ES" => "Spain",
+		"LK" => "Sri Lanka",
+		"SD" => "Sudan",
+		"SR" => "Suriname",
+		"SJ" => "Svalbard and Jan Mayen",
+		"SZ" => "Swaziland",
+		"SE" => "Sweden",
+		"CH" => "Switzerland",
+		"SY" => "Syrian Arab Republic",
+		"TW" => "Taiwan, Province of China",
+		"TJ" => "Tajikistan",
+		"TZ" => "Tanzania, United Republic of",
+		"TH" => "Thailand",
+		"TL" => "Timor-Leste",
+		"TG" => "Togo",
+		"TK" => "Tokelau",
+		"TO" => "Tonga",
+		"TT" => "Trinidad and Tobago",
+		"TN" => "Tunisia",
+		"TR" => "Turkey",
+		"TM" => "Turkmenistan",
+		"TC" => "Turks and Caicos Islands",
+		"TV" => "Tuvalu",
+		"UG" => "Uganda",
+		"UA" => "Ukraine",
+		"AE" => "United Arab Emirates",
+		"GB" => "United Kingdom",
+		"US" => "United States",
+		"UM" => "United States Minor Outlying Islands",
+		"UY" => "Uruguay",
+		"UZ" => "Uzbekistan",
+		"VU" => "Vanuatu",
+		"VE" => "Venezuela",
+		"VN" => "Viet Nam",
+		"VG" => "Virgin Islands, British",
+		"VI" => "Virgin Islands, U.S.",
+		"WF" => "Wallis and Futuna",
+		"EH" => "Western Sahara",
+		"YE" => "Yemen",
+		"ZM" => "Zambia",
+		"ZW" => "Zimbabwe",
+	);
+
+	return array_unique( apply_filters( 'bookingx_country', $all_countries ) );
+}
 
 /**
  * Get full list of currency codes.
@@ -465,9 +602,8 @@ function bkx_placeholder_img($size='service-thumb')
  * @return array
  */
 function get_bookingx_currencies() {
-	return array_unique(
-		apply_filters( 'bookingx_currencies',
-			array(
+	
+			$country_arr = array(
 				'AED' => __( 'United Arab Emirates dirham', 'bookingx' ),
 				'AFN' => __( 'Afghan afghani', 'bookingx' ),
 				'ALL' => __( 'Albanian lek', 'bookingx' ),
@@ -628,9 +764,10 @@ function get_bookingx_currencies() {
 				'YER' => __( 'Yemeni rial', 'bookingx' ),
 				'ZAR' => __( 'South African rand', 'bookingx' ),
 				'ZMW' => __( 'Zambian kwacha', 'bookingx' ),
-			)
-		)
-	);
+			);
+
+	 asort($country_arr, SORT_STRING | SORT_FLAG_CASE);
+	return array_unique( apply_filters( 'bookingx_currencies', $country_arr ) );
 }
 
 /**
@@ -859,3 +996,18 @@ function crud_option_multisite($option_name,$option_val=null,$type='get')
 function to_slug($string){
     return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $string)));
 }
+
+function get_allowed()
+{
+	$get_alllowed = array('bkx_booking','bkx_seat','bkx_base','bkx_addition');
+
+	return apply_filters( 'bookingx_get_allowed_on_page',$get_alllowed);
+}
+
+
+function get_loader() { 
+	return '<div class="bookingx-loader" style="display:none">Loading&#8230;</div>';
+}
+
+
+

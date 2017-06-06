@@ -2,25 +2,28 @@
 add_action( 'add_meta_boxes', 'add_bkx_base_metaboxes' );
 function add_bkx_base_metaboxes()
 {
-    $alias_seat = get_option('bkx_alias_base', "default");
-    add_meta_box('bkx_base_boxes',__("$alias_seat Details", 'cqpim'),'bkx_base_boxes_metabox_callback','bkx_base','normal');
+    $alias_seat = crud_option_multisite('bkx_alias_base');
+    add_meta_box('bkx_base_boxes',__("$alias_seat Details", 'bookingx'),'bkx_base_boxes_metabox_callback','bkx_base','normal','high');
 }
 
 function bkx_base_boxes_metabox_callback($post)
 {
     wp_nonce_field('bkx_base_boxes_metabox','bkx_base_boxes_metabox_nonce' );
     //load custom scripts & styles
-    custom_load_scripts(array('jquery-1.7.1.js','jquery-ui.js'));
+    //custom_load_scripts(array('jquery-1.7.1.js'));
     color_load_scripts(array('iris.min.js'));
-    wp_enqueue_style( 'jquery-ui', '//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css' );
+    //wp_enqueue_style( 'jquery-ui', '//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css' );
     custom_load_styles(array('basic-style.css'));
     //register and access the script handle in main.js
-
-    wp_enqueue_script("main_script", plugins_url( "js/main_1.js" , __DIR__ ));
-    $translation_array = array( 'plugin_url' => plugins_url( "" , __DIR__ ));
+    $seat_alias = crud_option_multisite('bkx_alias_seat');
+    $base_alias = crud_option_multisite('bkx_alias_base');
+    wp_enqueue_script("main_script", plugins_url( "js/main_1.js" , __DIR__ ),false, rand(1,9999999), true);
+    $translation_array = array( 'plugin_url' => plugins_url( "" , __DIR__ ), 'seat_alias' => $seat_alias , 'base_alias' => $seat_alias);
     wp_localize_script( 'main_script', 'url_obj', $translation_array );
 
-    $base_alias = get_option('bkx_alias_base', "default");
+    $base_alias = crud_option_multisite('bkx_alias_base');
+    $addition_alias = crud_option_multisite('bkx_alias_addition');
+
     
     //Get Seat post Array
     $args = array(
@@ -38,6 +41,7 @@ function bkx_base_boxes_metabox_callback($post)
     $base_month = isset( $values['base_month'] ) ? esc_attr( $values['base_month'][0] ) : "";
     $base_day = isset( $values['base_day'] ) ? esc_attr( $values['base_day'][0] ) : "";
     $base_hours = isset( $values['base_hours'] ) ? esc_attr( $values['base_hours'][0] ) : "";
+    $base_extended_limit = isset( $values['base_extended_limit'] ) ? esc_attr( $values['base_extended_limit'][0] ) : "";
     
     $base_minutes = isset( $values['base_minutes'] ) ? esc_attr( $values['base_minutes'][0] ) : "";   
     $base_is_extended = isset( $values['base_is_extended'] ) ? esc_attr( $values['base_is_extended'][0] ) : "";
@@ -54,7 +58,11 @@ function bkx_base_boxes_metabox_callback($post)
     $base_unavailable_till = isset( $values['base_unavailable_till'] ) ? esc_attr( $values['base_unavailable_till'][0] ) : "";    
     $res_seat_final = maybe_unserialize($values['base_selected_seats'][0]);
     $res_seat_final= maybe_unserialize($res_seat_final);
+    
+    $base_seat_all = isset( $values['base_seat_all'] ) ? esc_attr( $values['base_seat_all'][0] ) : "";  
+    
     }
+    $alias_seat = crud_option_multisite('bkx_alias_seat');
     //print_r($values);
     ?>
     <div class="error" id="error_list" style="display:none;"></div>
@@ -137,11 +145,11 @@ function bkx_base_boxes_metabox_callback($post)
 			<div class="plugin-description">
 			<ul class="gfield_radio" id="input_2_15">
 				<li class="gchoice_15_0"><?php //echo $base_is_extended; ?>
-					<input name="base_extended" type="radio" value="Yes" id="choice_15_0" tabindex="10" <?php if($base_is_extended=="Y"){ echo "checked='checked'"; } ?>>
+					<input name="base_extended" type="radio" value="Yes" id="id_base_extended_yes" tabindex="10" <?php if($base_is_extended=="Y"){ echo "checked='checked'"; } ?>>
 					<label for="choice_15_0"><?php esc_html_e( 'Yes', 'bookingx' ); ?></label>
 				</li>
 				<li class="gchoice_15_1">
-					<input name="base_extended" type="radio" value="No" id="choice_15_1" tabindex="11" <?php if($base_is_extended=="N"){ echo "checked='checked'"; } ?>>
+					<input name="base_extended" type="radio" value="No" id="id_base_extended_no" tabindex="11" <?php if($base_is_extended=="N"){ echo "checked='checked'"; } ?>>
 					<label for="choice_15_1"><?php esc_html_e( 'No', 'bookingx' ); ?></label>
 				</li>
 			</ul>
@@ -149,15 +157,22 @@ function bkx_base_boxes_metabox_callback($post)
 		
 	</div>
 
+	<div class="active" id="base_extended_input" style="display: none;">
+		<?php printf( esc_html__( 'Max limit of %1$s extends', 'bookingx' ),  $base_alias ); ?>
+		<div class="plugin-description">
+			<input name="base_extended_limit" type="number"  value="<?php if(isset($base_extended_limit) && $base_extended_limit!=""){ echo $base_extended_limit; } ?>" id="id_base_extended_limit" >
+		</div>
+	</div>
+
 	<div class="active" id="base_name">
 		
 			
-		<?php printf( esc_html__( 'This %1$s  is available to the following Seats :', 'bookingx' ),  $base_alias ); ?>
+		<?php printf( esc_html__( 'This %1$s  is available to the following %2$s :', 'bookingx' ),  $base_alias , $alias_seat ); ?>
 		
 			<div class="plugin-description">
 			<ul class="gfield_checkbox" id="input_2_9">
 				<li class="gchoice_9_1">
-				<input name="base_seat_all" type="checkbox" value="All" id="id_base_seat_all" tabindex="12">
+				<input name="base_seat_all" <?php echo ($base_seat_all) ? 'checked' : ''; ?> type="checkbox" value="All" id="id_base_seat_all" tabindex="12">
 				<label for="choice_9_1"><?php esc_html_e( 'All', 'bookingx' ); ?></label>
 				</li>
 			<?php 
@@ -223,7 +238,7 @@ function bkx_base_boxes_metabox_callback($post)
 	<div class="active" id="location_differ" style="display:none;">
 		
 			
-		 <?php printf( esc_html__( 'Does the  %1$s   Location differ from Seat Location :', 'bookingx' ),  $base_alias ); ?>
+		 <?php printf( esc_html__( 'Does the %1$s Location differ from %2$ Location :', 'bookingx' ),  $base_alias, $alias_seat ); ?>
                         
 		
 			<div class="plugin-description">
@@ -252,10 +267,7 @@ function bkx_base_boxes_metabox_callback($post)
 	</div>
 
 	<div class="active" id="allow_addition">
-		
-			
-		<?php printf( esc_html__( 'Does this  %1$s   allow for Additions :', 'bookingx' ),  $base_alias ); ?>
-		
+		<?php printf( esc_html__( 'Does this %1$s allow for %2$ss :', 'bookingx' ),  $base_alias, $addition_alias ); ?>
 			<div class="plugin-description">
 			<ul class="gfield_radio" id="input_2_13">
 			<li class="gchoice_13_0">
@@ -314,10 +326,15 @@ function bkx_base_boxes_metabox_callback($post)
 jQuery(document).ready(function(){
 	if(jQuery("input[name=base_location_differ_seat]:radio:checked").val() == "Yes")
 	{		 
-            $("#location_address").show();			
+            jQuery("#location_address").show();			
+	}
+
+	if(jQuery("input[name=base_extended]:radio:checked").val() == "Yes")
+	{	
+        jQuery("#base_extended_input").show();			
 	}
 	       
-        if(jQuery("input[name=base_location_type]:radio:checked").val()=="Mobile")
+    if(jQuery("input[name=base_location_type]:radio:checked").val()=="Mobile")
 	{
 		jQuery("#mobile_only").show();
 	}
@@ -371,9 +388,7 @@ function save_bkx_base_metaboxes( $post_id, $post, $update )
 	$baseMinutes		=	trim($_POST['base_minutes']);
 	$baseExtended	=	trim($_POST['base_extended']);
 	$baseLocationType	=	trim($_POST['base_location_type']);
-	
 	$baselocationmobile	=	trim($_POST['base_location_mobile']);
-	
 	$baseLocationDifferSeat	=	trim($_POST['base_location_differ_seat']);
 	$baseStreet	=	trim($_POST['base_street']);
 	$baseCity	=	trim($_POST['base_city']);
@@ -381,15 +396,17 @@ function save_bkx_base_metaboxes( $post_id, $post, $update )
 	$basePostcode	=	trim($_POST['base_postcode']);
 	$baseAllowAddition	=	trim($_POST['base_allow_addition']);
 	$baseSeatAll	=	trim($_POST['base_seat_all']);
-	
 	$base_is_unavailable = trim($_POST['base_is_unavailable']);
 	$base_unavailable_from = trim($_POST['base_unavailable_from']);
 	$base_unavailable_till = trim($_POST['base_unavailable_till']);
-        
-        $baseSeatsValue = $_POST['base_seats'];
+    $baseSeatsValue = $_POST['base_seats'];
+    $base_extended_limit = $_POST['base_extended_limit'];
+    $base_seat_all = $_POST['base_seat_all'];
+
+
               
         if ($baseMonthDaysTime == "Months") {
-	$baseTimeOption = 'M';
+			$baseTimeOption = 'M';
         }
 
         if ($baseMonthDaysTime == "Days") {
@@ -506,8 +523,12 @@ function save_bkx_base_metaboxes( $post_id, $post, $update )
         update_post_meta( $post_id, 'base_unavailable_till', $base_unavailable_till );
     
     if( !empty($baseSeatsValue) )
-        update_post_meta( $post_id, 'base_selected_seats', $baseSeatsValue );    
-}
+        update_post_meta( $post_id, 'base_selected_seats', $baseSeatsValue ); 
+    if(!empty($base_extended_limit))
+    	 update_post_meta( $post_id, 'base_extended_limit', $base_extended_limit );
+    
+    update_post_meta( $post_id, 'base_seat_all', $base_seat_all );
+}	
 
 add_filter('manage_bkx_base_posts_columns', 'bkx_base_columns_head');
 add_action('manage_bkx_base_posts_custom_column', 'bkx_base_columns_content', 10, 2);
@@ -518,7 +539,7 @@ add_action('manage_bkx_base_posts_custom_column', 'bkx_base_columns_content', 10
  * @return string
  */
 function bkx_base_columns_head($defaults) {
-    $defaults['display_shortcode_all'] = 'Shortcode [bookingx base-id="all"]';
+    $defaults['display_shortcode_all'] = 'Shortcode [bookingx display="rows" base-id="all"] (display : rows|columns)';
     return $defaults;
 }
  

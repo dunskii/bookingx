@@ -4,7 +4,7 @@
 
 if ( ! function_exists( 'bookingx_show_post_images' ) ) {
 	function bookingx_show_post_images($data) {
-            if(is_single() || (!empty($data) && strtolower($data['image']) =='yes' && $data['image']!=''))
+            if(is_single() || (!empty($data) || $data['id'] == 'all') || (!empty($data) && strtolower($data['image']) =='yes' && $data['image']!=''))
             {
                 bkx_get_template( 'bkx-single/image.php' ); 
             }
@@ -12,28 +12,7 @@ if ( ! function_exists( 'bookingx_show_post_images' ) ) {
 	}
 }
 
-//if ( ! function_exists( 'bookingx_show_post_thumbnails' ) ) {
-//
-//	/**
-//	 * Output the post thumbnails.
-//	 *
-//	 * @subpackage	Post
-//	 */
-//	function bookingx_show_post_thumbnails() {
-//		bkx_get_template( 'bkx-single/post-thumbnails.php' );
-//	}
-//}
-//if ( ! function_exists( 'bookingx_output_post_data_tabs' ) ) {
-//
-//	/**
-//	 * Output the post tabs.
-//	 *
-//	 * @subpackage	Post/Tabs
-//	 */
-//	function bookingx_output_post_data_tabs() {
-//		bkx_get_template( 'bkx-single/tabs/tabs.php' );
-//	}
-//}
+
 if ( ! function_exists( 'bookingx_template_single_title' ) ) {
 
 	/**
@@ -45,17 +24,7 @@ if ( ! function_exists( 'bookingx_template_single_title' ) ) {
 		bkx_get_template( 'bkx-single/title.php' );
 	}
 }
-//if ( ! function_exists( 'bookingx_template_single_rating' ) ) {
-//
-//	/**
-//	 * Output the post rating.
-//	 *
-//	 * @subpackage	Post
-//	 */
-//	function bookingx_template_single_rating() {
-//		bkx_get_template( 'bkx-single/rating.php' );
-//	}
-//}
+
 if ( ! function_exists( 'bookingx_template_single_price' ) ) {
 
 	/**
@@ -75,7 +44,7 @@ if ( ! function_exists( 'bookingx_template_single_excerpt' ) ) {
 	 * @subpackage	Post
 	 */
 	function bookingx_template_single_excerpt($data) {
-            if(is_single() || (!empty($data) && strtolower($data['extra-info']) =='yes' && $data['extra-info']!=''))
+            if(is_single() ||  (!empty($data) || $data['id'] == 'all') || (!empty($data) && strtolower($data['extra-info']) =='yes' && $data['extra-info']!=''))
             {
                 bkx_get_template( 'bkx-single/short-description.php' );
             }
@@ -164,3 +133,123 @@ if ( ! function_exists( 'bookingx_get_sidebar' ) ) {
 	}
 }
 
+
+function get_formatted_price($price)
+{
+	$currencyBlock = '';
+	$currency_option = (crud_option_multisite('currency_option') ? crud_option_multisite('currency_option') : 'AUD' );
+	if(!empty($price)) :
+		$currencyBlock = '<span class="currencyBlock"> 
+			<span itemprop="priceCurrency" content="'.$currency_option.'" style="color:#7BBD4D!important"> '.get_bookingx_currency_symbol( $currency_option ).'</span>
+			<span itemprop="price" content="'.$price.'" style="color:#7BBD4D!important">
+			'.$price.'</span>
+		</span>';
+	endif;
+
+	return $currencyBlock;
+}
+
+function get_post_price_duration_plain( $postobj, $alias)
+{
+	if(!empty($postobj)){
+
+			$base_post =  $postobj->post;
+			$base_id = $base_post->ID;
+			$base_name = $base_post->post_title;
+
+			if(!empty($postobj->get_service_time)){
+				$base_service_time = $postobj->get_service_time;
+			}
+
+			if(!empty($postobj->get_extra_time)){
+				$base_service_time = $postobj->get_extra_time;
+			}
+			$currencyBlock = get_formatted_price($postobj->get_price);
+			$base_service_timeHMObj = $base_service_time['H']; //Hours and minutes
+			$base_service_timeDObj = $base_service_time['D']; // Days
+
+			if(!empty($base_service_timeHMObj)):
+			    $hours  = isset($base_service_timeHMObj['hours']) && $base_service_timeHMObj['hours'] > 0 && $base_service_timeHMObj['hours']!='' ? $base_service_timeHMObj['hours'].' Hours ' : '';
+			    $mins   = isset($base_service_timeHMObj['minutes'])  && $base_service_timeHMObj['minutes'] > 0 && $base_service_timeHMObj['minutes']!='' ? $base_service_timeHMObj['minutes'].' Minutes' : '';
+			    $base_service_time_text = $hours.' '.$mins;
+			endif;
+
+			if(!empty($base_service_timeDObj)):
+			    $day    = isset($base_service_timeDObj['days']) && $base_service_timeDObj['days']!='' ? $base_service_timeDObj['days'].' Days ' : '';
+			    $base_service_time_text = $day;
+			endif;
+
+			$available_services['time'] = $base_service_time_text;
+			$available_services['price'] = $currencyBlock;
+	}
+
+	return $available_services;
+}
+
+
+function get_post_with_price_duration( $get_base_by_seat, $alias, $type = null)
+{
+	$available_services = '';
+	$bkx_set_booking_page = crud_option_multisite('bkx_set_booking_page');
+	if(!empty($bkx_set_booking_page)){
+		$booking_url = esc_url(user_trailingslashit(get_permalink($bkx_set_booking_page)));
+	}
+
+	if(!empty($get_base_by_seat)){
+		$available_services .= '<h3>Availabel '.$alias.'</h3>';
+		$available_services .= '<ul>';
+		foreach ($get_base_by_seat as $key => $BaseObj) {
+			$base_post =  $BaseObj->post;
+			$base_id = $base_post->ID;
+			$base_name = $base_post->post_title;
+			if($type == 'seat'){
+				$ClassObj = new BkxBase( '', $base_id );
+				$post_type = $base_post->post_type;
+			}
+
+			if($type == 'base'){
+				$ClassObj = new BkxBase( '', $base_id );
+				$post_type = $base_post->post_type;
+			}
+
+			if(!empty($BaseObj->get_service_time)){
+				$base_service_time = $BaseObj->get_service_time;
+
+			}
+
+			if(!empty($BaseObj->get_extra_time)){
+				$base_service_time = $BaseObj->get_extra_time;
+			}
+			if(!empty($BaseObj->get_price)){
+				$currencyBlock = get_formatted_price($BaseObj->get_price);				
+			}
+
+
+			$base_service_timeHMObj = $base_service_time['H']; //Hours and minutes
+			$base_service_timeDObj = $base_service_time['D']; // Days
+
+			if(!empty($base_service_timeHMObj)):
+		    $hours  = isset($base_service_timeHMObj['hours']) && $base_service_timeHMObj['hours'] > 0 && $base_service_timeHMObj['hours']!='' ? $base_service_timeHMObj['hours'].' Hours ' : '';
+		    $mins   = isset($base_service_timeHMObj['minutes'])  && $base_service_timeHMObj['minutes'] > 0 && $base_service_timeHMObj['minutes']!='' ? $base_service_timeHMObj['minutes'].' Minutes' : '';
+		    $base_service_time_text = " - ".$hours.' '.$mins;
+			endif;
+
+			if(!empty($base_service_timeDObj)):
+			    $day    = isset($base_service_timeDObj['days']) && $base_service_timeDObj['days']!='' ? $base_service_timeDObj['days'].' Days ' : '';
+			    $base_service_time_text = $day;
+			endif;
+ 			if(!empty($base_id)):
+			$available_services .= '<li style="padding:8px;"><a href="'.get_permalink($base_id).'">'.$base_name.'</a> '.$base_service_time_text.' '.$currencyBlock.'<form style="float:right;" method="post" enctype="multipart/form-data" action="'.$booking_url.'">
+					 	<input type="hidden" name="type" value="'.$post_type.'" />
+				                <input type="hidden" name="id" value="'. $base_id.'" />
+					 	<button type="submit" class="small-button smallblue alt">'.sprintf( __('Book now','Bookingx')).'</button>
+				</form></li>';
+			endif;
+
+		}
+
+		$available_services .= '</ul>';
+	}
+
+	return $available_services;
+}

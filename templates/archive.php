@@ -8,16 +8,9 @@ if(!empty($in_array) && sizeof($in_array) == 1)
 	die();
 }
 ?>
-<section id="primary" class="content-area">
-		<main id="main" class="site-main" role="main">
+<div class="bookingx-service-listing">
 
 		<?php if ( $query->have_posts() ) : ?>
-
-			<header class="page-header">
-                            <h1 class="page-title">
-				<?php printf( esc_html__( '%1$s Lists', 'bookingx' ),  $alias ); ?>
-                            </h1>
-			</header><!-- .page-header -->
 			<?php
 			// Start the Loop.
 			while ( $query->have_posts() ) : $query->the_post();
@@ -46,7 +39,7 @@ if(!empty($in_array) && sizeof($in_array) == 1)
 		endif;
 		?>
 
-		</main><!-- .site-main -->
-	</section><!-- .content-area -->
+ 
+	</div><!-- .Main service listing-area -->
 
 

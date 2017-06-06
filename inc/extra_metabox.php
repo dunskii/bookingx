@@ -2,19 +2,19 @@
 add_action( 'add_meta_boxes', 'add_bkx_extra_metaboxes' );
 function add_bkx_extra_metaboxes()
 {
-    $alias_addition = get_option('bkx_alias_addition', "default");
-    add_meta_box('bkx_base_boxes',__(ucwords($alias_addition)." Details", 'cqpim'),'bkx_extra_boxes_metabox_callback','bkx_addition','normal');
+    $alias_addition = crud_option_multisite('bkx_alias_addition');
+    add_meta_box('bkx_base_boxes',__(ucwords($alias_addition)." Details", 'bookingx'),'bkx_extra_boxes_metabox_callback','bkx_addition','normal','high');
 }
 
 function bkx_extra_boxes_metabox_callback()
 {
     wp_nonce_field('bkx_extra_boxes_metabox','bkx_extra_boxes_metabox_nonce' );
-    custom_load_scripts(array('jquery-1.7.1.js','jquery-ui.js'));
-    $addition_alias = get_option('bkx_alias_addition', "default");
-    wp_enqueue_script("main_addition_script", plugins_url( "js/main_addition_1.js" , __DIR__ ));
+    //custom_load_scripts(array('jquery-1.7.1.js','jquery-ui.js'));
+    $addition_alias = crud_option_multisite('bkx_alias_addition');
+    wp_enqueue_script("main_addition_script", plugins_url( "js/main_addition_1.js" , __DIR__ ),false, rand(1,9999999), true);
     $translation_array = array( 'plugin_url' => plugins_url( "" , __DIR__ ));
     wp_localize_script( 'main_addition_script', 'url_obj', $translation_array );
-    wp_enqueue_style( 'jquery-ui', '//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css' );
+    //wp_enqueue_style( 'jquery-ui', '//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css' );
     //Get Seat post Array
     $args = array(
 	'posts_per_page'   => -1,
@@ -23,6 +23,8 @@ function bkx_extra_boxes_metabox_callback()
     );
     $get_base_array = get_posts( $args );
     $values = get_post_custom( $post->ID );
+
+    $alias_seat = crud_option_multisite('bkx_alias_seat');
     
     if(!empty($values) && !is_wp_error($values)){
     $addition_price = isset( $values['addition_price'] ) ? esc_attr( $values['addition_price'][0] ) : "";   
@@ -38,7 +40,18 @@ function bkx_extra_boxes_metabox_callback()
     $addition_available_to = isset( $values['addition_unavailable_to'] ) ? esc_attr( $values['addition_unavailable_to'][0] ) : "";   
     $res_base_final = maybe_unserialize($values['extra_selected_base'][0]);
     $res_base_final= maybe_unserialize($res_base_final);
+
+    $extra_selected_seats = maybe_unserialize($values['extra_selected_seats'][0]);
+    $extra_selected_seats = maybe_unserialize($extra_selected_seats);
+
     }
+
+     $args = array(
+    'posts_per_page'   => -1,
+    'post_type'        => 'bkx_seat',
+    'post_status'      => 'publish',
+    );
+    $get_seat_array = get_posts( $args );
     ?>
         <div class="error" id="error_list" style="display:none;"></div>
 	<div class="active" id="base_name">		
@@ -50,7 +63,7 @@ function bkx_extra_boxes_metabox_callback()
 	<div class="active" id="months_days_times">
             Is <?php echo $addition_alias; ?> time in  days, hours & minutes:		
             <div class="plugin-description">
-                    <select name="addition_time_option" id="id_addition_time_option" onchange="gf_apply_rules(3,[14,4,7,8]);" class="medium gfield_select" tabindex="4">				
+                    <select name="addition_time_option" id="id_addition_time_option" class="medium gfield_select" tabindex="4">				
                     <option value="Months" <?php if($addition_time_option == "M"){ echo "selected='selected'"; } ?> >Months</option>
                     <option value="Days" <?php if($addition_time_option == "D"){ echo "selected='selected'"; } ?>>Days</option>
                     <option value="Hour and Minutes" <?php if($addition_time_option == "H"){ echo "selected='selected'"; } ?>>Hour and Minutes</option>
@@ -58,7 +71,7 @@ function bkx_extra_boxes_metabox_callback()
             </div>
 	</div>
 	<div class="active" id="overlap">
-            Does this <?php echo $addition_alias; ?> require its own time bracket or can it overlap with other additions :		
+            Does this <?php echo $addition_alias; ?> require its own time bracket or can it overlap with other <?php echo $addition_alias;?> :		
             <div class="plugin-description">
                     <ul class="gfield_radio" id="input_3_14">
                     <li class="gchoice_14_0">
@@ -128,6 +141,44 @@ function bkx_extra_boxes_metabox_callback()
     </ul>
     </div>
 </div>
+
+
+    <div class="active" id="seat_name">
+            This <?php echo $addition_alias; ?> is available to the following <?php echo $alias_seat; ?> :     
+            <div class="plugin-description">
+            <ul class="gfield_checkbox" id="input_2_9">
+            <li class="gchoice_9_1">
+                    <input name="seat_all" type="checkbox" value="All" id="id_seat_all" tabindex="12" >
+                    <label for="choice_9_1">All</label>
+            </li>
+            <?php 
+            if(!empty($get_seat_array) && !is_wp_error($get_seat_array)) :
+
+            $selected = '';
+            foreach($get_seat_array as $value){ ?>
+            <?php 
+            if(!empty($extra_selected_seats))
+            {
+                if(in_array($value->ID,$extra_selected_seats))
+                {
+                    $selected = '1';
+                }
+                else
+                {
+                     $selected = '';
+                }
+            }
+            ?>
+            <li class="gchoice_9_2">
+            <input name="seat_on_extra[]" type="checkbox" value="<?php echo $value->ID; ?>" tabindex="13" class="seat_checked" <?php if($selected== '1'){ echo "checked='checked'";  } ?>>
+            <label for="choice_9_2"><?php echo $value->post_title; ?></label>
+            </li>
+    <?php } endif;?>
+    </ul>
+    </div>
+</div>
+
+
 	<!--only for edit form  --> 
 	<div class="active" id="is_unavailable" >		
             Does the <?php echo $addition_alias; ?> Unavailable? :		
@@ -172,6 +223,7 @@ function save_bkx_addition_metaboxes( $post_id, $post, $update )
     $additionUnavailableFrom      = trim($_POST['addition_unavailable_from']);
     $additionUnavailableTo        = trim($_POST['addition_unavailable_to']);   
     $extraSeatsValue = $_POST['addition_base'];
+    $checked_seats = $_POST['seat_on_extra'];
         
     if (isset($_POST['addition_is_unavailable']) && ($_POST['addition_is_unavailable'] == "Yes")){
 	$additionIsUnavailable = 'Y';
@@ -248,7 +300,12 @@ function save_bkx_addition_metaboxes( $post_id, $post, $update )
         update_post_meta( $post_id, 'addition_unavailable_to', $additionUnavailableTo );
       
     if( !empty($extraSeatsValue) )
-        update_post_meta( $post_id, 'extra_selected_base', $_POST['addition_base'] );     
+        update_post_meta( $post_id, 'extra_selected_base', $_POST['addition_base'] ); 
+
+    if( !empty($checked_seats) )
+        update_post_meta( $post_id, 'extra_selected_seats', $_POST['seat_on_extra'] );
+
+           
 }
 
 add_filter('manage_bkx_addition_posts_columns', 'bkx_addition_columns_head');
@@ -260,7 +317,7 @@ add_action('manage_bkx_addition_posts_custom_column', 'bkx_addition_columns_cont
  * @return string
  */
 function bkx_addition_columns_head($defaults) {
-    $defaults['display_shortcode_all'] = 'Shortcode [bookingx extra-id="all"]';
+    $defaults['display_shortcode_all'] = 'Shortcode [bookingx display="rows" extra-id="all"] (display : rows|columns)';
     return $defaults;
 }
  

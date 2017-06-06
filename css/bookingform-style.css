@@ -85,3 +85,8 @@
     padding-left: 30px;
 }
 .price {font-weight: bold;}
+
+#adminmenu .menu-icon-bkx_booking div.wp-menu-image:before {
+    content: "\f508" !important;
+}
+ 

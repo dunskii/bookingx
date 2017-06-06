@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 global $bkx_seat;
 ?>
-<div class="images">
+<div class="images col-1 service-category-active">
 	<?php
 		if ( has_post_thumbnail() ) {
 			//$attachment_count = count( $bkx_seat->get_gallery_attachment_ids() );
@@ -13,6 +13,7 @@ global $bkx_seat;
 			$image            = get_the_post_thumbnail( $bkx_seat->ID, apply_filters( 'single_post_large_thumbnail_size', 'shop_single' ), array(
 				'title'	 => get_the_title(),
 				'alt'    => get_the_title(),
+				'class'  => '',
 			) );
 			echo apply_filters(
 				'bookingx_single_post_image_html',
@@ -26,9 +27,12 @@ global $bkx_seat;
 				$bkx_seat->ID
 			);
 		} else {
-			echo apply_filters( 'bookingx_single_post_image_html', sprintf( '<img src="%s" alt="%s" />', bkx_placeholder_img_src(), __( 'Placeholder', 'bookingx' ) ), $bkx_seat->ID );
+			echo apply_filters( 'bookingx_single_post_image_html', sprintf( '<img src="%s" alt="%s" class="" />', bkx_placeholder_img_src(), __( 'Placeholder', 'bookingx' ) ), $bkx_seat->ID );
 		}
 
 		do_action( 'bookingx_post_thumbnails' );
+
+		 
 	?>
+
 </div>

@@ -1,19 +1,40 @@
 <?php
 session_start();
 require_once('../../../wp-load.php');
-//include_once($_SERVER['DOCUMENT_ROOT'].'/wp-load.php' );
+$booking_customer_note = 'zero';
 global $wpdb;
 
-$baseid = $_POST['baseid'];
-if (isset($_POST['seatid']) && $_POST['seatid'] == 'any' && $_SESSION['free_seat_id']!=''  && get_option('enable_any_seat') == 1 && get_option('select_default_seat') != ''):
+$seat_alias = crud_option_multisite("bkx_alias_seat");
+$base_alias = crud_option_multisite("bkx_alias_base");
+$addition_alias = crud_option_multisite('bkx_alias_addition');
+
+$baseid 	= $_POST['baseid'];
+$additionid = $_POST['additionid'];
+
+if (isset($_POST['seatid']) && $_POST['seatid'] == 'any' && $_SESSION['free_seat_id']!=''  && crud_option_multisite('enable_any_seat') == 1 && crud_option_multisite('select_default_seat') != ''):
+
 	$mobonlyobj = $_SESSION['free_seat_id'];
 else:
 	$mobonlyobj = $_POST['seatid'];
 endif;
+
+$booking_summary = '<ul>';
+ 
+if(is_numeric($mobonlyobj) && $mobonlyobj!=0){
+ 	$SeatObj = get_post($mobonlyobj);
+    $seatmeta = get_post_custom( $SeatObj->ID );
+    $seat_is_pre_payment = isset( $seatmeta['seatIsPrePayment'] ) ? esc_attr( $seatmeta['seatIsPrePayment'][0] ) : "";
+    if($seat_is_pre_payment == 'N'){
+    	$booking_customer_note = ' Payment will be made when the customer comes for the booking.';
+    }
+    $booking_summary .= '<li><b>'.$seat_alias.' name : </b>'.$SeatObj->post_title.'';
+}
+
 if(isset($baseid) && $baseid!='')
 {
-    $GetBaseObj = get_post($baseid);
+    $GetBaseObj = get_post($baseid);   
     $objBase = get_post_custom( $GetBaseObj->ID ); 
+    $base_data = '<li><b>'.$base_alias.' name : </b>'.$GetBaseObj->post_title.'';
 }
 
 $res_arr = array();
@@ -114,7 +135,8 @@ function checkIfSeatCanBeBooked($seatid, $totalduration)
 		//print_r($res_seat_time);
 		foreach($res_seat_time as $temp)
 		{
-			$res_seat_time_arr[strtolower($temp->day)]['time_from'] = $temp->time_from; 				$res_seat_time_arr[strtolower($temp->day)]['time_till'] = $temp->time_till;
+			$res_seat_time_arr[strtolower($temp->day)]['time_from'] = $temp->time_from; 				
+			$res_seat_time_arr[strtolower($temp->day)]['time_till'] = $temp->time_till;
 		}
 		$days = 0 ;
 		if($totalduration > (24*60*60))
@@ -234,7 +256,7 @@ function checkIfSeatCanBeBooked($seatid, $totalduration)
 if(isset($mobonlyobj)){
 	$mob_only_res = $objBase['base_is_mobile_only'][0];;
 }
-
+ 
 //calculation of base duration
 $str_addition_name = '';
 if(isset($baseid))
@@ -246,100 +268,101 @@ if(isset($baseid))
 
 	$res_arr['base']['base_time_option'] = $base_time_option;
 	$base_time=0;
-	if($base_time_option=="H")
-	{
+	if($base_time_option=="H"){
 		//calculate base minutes
 		$base_minutes = $objBase['base_minutes'][0];
 		$minute = 0;
-		if($base_minutes == 0)
-		{
+		if($base_minutes == 0){
 			$minute = 0;
-		}
-		else if($base_minutes == 15)
-		{
+		}else if($base_minutes == 15){
 			$minute = 0.25;
-		}
-		else if($base_minutes == 30)
-		{
+		}else if($base_minutes == 30){
 			$minute = 0.5;
-		}
-		else if($base_minutes == 45)
-		{
+		}else if($base_minutes == 45){
 			$minute = 0.75;
 		}
 
+		$base_hours_display = '';
+		if( $objBase['base_hours'][0] ){
+                $base_hours_display .= $objBase['base_hours'][0]. " Hours ";
+        }
+        if( $base_minutes!=0 ) {
+               $base_hours_display .= $base_minutes." Minutes";;
+        }
+
+		$booking_summary .= $base_data . " - " .$base_hours_display;
+
 		$base_time = $objBase['base_hours'][0] + $minute; //add base minutes to base hours
 	}
-	if($base_time_option=="D")
-	{
+	if( $base_time_option=="D" ){
 		$base_time = $objBase['base_day'][0]*24;
+		
 	}
-	if($base_time_option=="M")
-	{
+	if( $base_time_option=="M" ){
 		$base_time = $objBase['base_month'][0]*30*24;
 	}
 	//total base time in seconds
 	$total_base_time_insec = $base_time * 60 *60;
 
 	//calculation of addition duration
-	$objAddition = Array();
-	if(isset($_POST['additionid']) && sizeof($_POST['additionid'])>0)
+	$objAddition = array();
+	if( isset($_POST['additionid']) && sizeof($_POST['additionid']) > 0 )
 	{                
-               //Get Seat post Array
-                $args = array(
-                    'posts_per_page'   => -1,
-                    'post_type'        => 'bkx_addition',
-                    'post_status'      => 'publish',
-                    'include'          => $_POST['additionid']
-                );
-                $objListAddition = get_posts( $args );
-               
-        
+       //Get Seat post Array
+        $args = array(
+            'posts_per_page'   => -1,
+            'post_type'        => 'bkx_addition',
+            'post_status'      => 'publish',
+            'include'          => $_POST['additionid']
+        );
+        $objListAddition = get_posts( $args );
+
 		$str_addition_name = "<ul>";
-		foreach($objListAddition as $extra)
-		{
-                    
+		foreach( $objListAddition as $extra ){
+           // $booking_summary .= '<li>'.$SeatObj->post_title.'</li>';  
             $objextra = get_post_custom( $extra->ID );
            //print_r($extra);
 			$objAddition[$extra->ID]['addition_time_option'] = $objextra['addition_time_option'][0];
-			if($objextra['addition_time_option'][0]=="H")
-			{
+			if($objextra['addition_time_option'][0]=="H"){
 				//calculate addition minutes in hours
 				$addition_minutes = $objextra['addition_minutes'][0];
 				$minute = 0;
-				if($addition_minutes == 0)
-				{
+				if($addition_minutes == 0){
 					$minute = 0;
-				}
-				else if($addition_minutes == 15)
-				{
+				}else if($addition_minutes == 15){
 					$minute = 0.25;
-				}
-				else if($addition_minutes == 30)
-				{
+				}else if($addition_minutes == 30){
 					$minute = 0.5;
-				}
-				else if($addition_minutes == 45)
-				{
+				}else if($addition_minutes == 45){
 					$minute = 0.75;
 				}
+				 
 				$objAddition[$extra->ID]['addition_time'] = $objextra['addition_hours'][0] + $minute;
-				$objAddition[$extra->ID]['addition_time_display'] = $objextra['addition_hours'][0]." Hours" + $addition_minutes." Minutes";
+
+				$extra_hours_display = '';			 
+				if($objextra['addition_hours'][0]){
+		                $extra_hours_display .= $objextra['addition_hours'][0]. " Hours ";
+		        }
+		        if($addition_minutes!=0){
+		               $extra_hours_display .= $addition_minutes." Minutes";;
+		        }
+
+		        $objAddition[$extra->ID]['addition_time_display']  = $extra_hours_display;
+
 				//add addition minutes to addition hours
-			}
-			else if($temp->addition_time_option=="D")
-			{
+			}else if($temp->addition_time_option=="D"){
 				$objAddition[$extra->ID]['addition_time'] = $objextra['addition_days'][0]*24;
 				$objAddition[$extra->ID]['addition_time_display'] = $objextra['addition_days'][0]." Days";
-			}
-			else if($temp->addition_time_option=="M")
-			{
+			}else if($temp->addition_time_option=="M"){
 				$objAddition[$extra->ID]['addition_time'] = $objextra['addition_months'][0]*24*30;
 				$objAddition[$extra->ID]['addition_time_display'] = $objextra['addition_months'][0]." Months";
 			}
-			$str_addition_name .= "<li>".$extra->post_title." - $".$objextra['addition_price'][0]." - ".$objAddition[$extra->ID]['addition_time_display']."</li>"; 	
+			$str_addition_name .= "<li>".$extra->post_title." - $".$objextra['addition_price'][0]." - ".$extra_hours_display."</li>"; 	
 		}
+		//$booking_summary .= '</ul>';
 		$str_addition_name.="</ul>";
+
+		$booking_summary .= '<li><b>'.$addition_alias.' : </b></li><li>'.$str_addition_name.'</li>';
 		
 	}
 	$counter = 0;
@@ -364,11 +387,11 @@ if(isset($baseid))
 
 	$counter = $counter + $base_time;
 	
-	if($counter<24)
+	if($counter < 24)
 	{
 		$output_time = $counter." Hours";
 	}
-	else if($counter>24)
+	else if($counter >= 24)
 	{
 		$days = floor($counter/24);
 		$hours_remaining = $counter%24;
@@ -411,14 +434,44 @@ if(isset($baseid))
 			}
 		}
 	}
-	
 }
-$output_time = str_replace('"', "", $output_time);
+$total_tax = 0;
+$total_price = 0;
+$total_price 	= bkx_cal_total_price( $baseid, $_POST['extended'] , $additionid );
 
-$arr_output['addition_list'] = $str_addition_name;
-$arr_output['time_output'] = $output_time;
+if(!empty($total_price)){
+	$bkx_cal_total_tax 		= bkx_cal_total_tax( $total_price );
+	if(!empty($bkx_cal_total_tax)){
+		$total_tax 		= $bkx_cal_total_tax['total_tax'];
+		$tax_rate 		= $bkx_cal_total_tax['tax_rate'];
+		$grand_total 	= $bkx_cal_total_tax['grand_total'];
+		$tax_name 		= $bkx_cal_total_tax['tax_name'];
+		$total_price 	= $bkx_cal_total_tax['total_price'];
+
+		$total_tax 		= number_format((float)$total_tax, 2, '.', '');
+		$total_price 	= number_format((float)$total_price, 2, '.', '');
+		$grand_total 	= number_format((float)$grand_total, 2, '.', '');
+	}
+}
+
+
+$booking_summary .= '<li><b>Total Time  : </b>'.$output_time.'</li></ul>';
+$currency = get_current_currency();
+$output_time 							= str_replace('"', "", $output_time);
+$arr_output['addition_list'] 			= $str_addition_name;
+$arr_output['booking_customer_note'] 	= $booking_customer_note;
+$arr_output['booked_summary'] 			= $booking_summary;
+$arr_output['time_output'] 				= $output_time;
 $arr_output['totalduration_in_seconds'] = $total_duration_seconds;
-$arr_output['result'] = $result;
-$arr_output['mob_only'] = $mobonlyobj;
-$output = json_encode($arr_output);
-echo $output;
+$arr_output['result'] 					= $result;
+$arr_output['mob_only'] 				= $mobonlyobj;
+$arr_output['total_price'] 				= $total_price;
+$arr_output['total_tax'] 				= $total_tax;
+$arr_output['tax_rate'] 				= $tax_rate;
+$arr_output['grand_total'] 				= $grand_total;
+$arr_output['tax_name'] 				= $tax_name;
+$arr_output['currency']					= $currency;
+
+$output_time							= json_encode($arr_output);
+
+echo $output_time;

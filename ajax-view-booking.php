@@ -7,6 +7,15 @@ global $wpdb;
 	$query = 'SELECT * FROM bkx_booking_record INNER JOIN bkx_base ON bkx_base.base_id = bkx_booking_record.base_id WHERE booking_record_id = '.trim($booking_record_id);;
 	$objBooking=$wpdb->get_results($query);
 	$name = $objBooking[0]->first_name." ".$objBooking[0]->last_name;
+
+		$business_address_1 = crud_option_multisite("bkx_business_address_1");
+		$business_address_2 = crud_option_multisite("bkx_business_address_2");
+		$bkx_business_city = crud_option_multisite("bkx_business_city");
+		$bkx_business_state = crud_option_multisite("bkx_business_state");
+		$bkx_business_zip = crud_option_multisite("bkx_business_zip");
+		$bkx_business_country = crud_option_multisite("bkx_business_country");
+
+		$full_address = $business_address_1.",".$bkx_business_city.",".$bkx_business_state.",".$bkx_business_zip.",".$bkx_business_country;
 ?>
 
 
@@ -388,10 +397,12 @@ function draw_rectangle(id_temp, name)
 	</div>
 	</div>
 	</br>
-	<input type="hidden" id="address_val<?php echo $objBooking[0]->booking_record_id; ?>" value="<?php echo $objBooking[0]->street.",".$objBooking[0]->city.",".$objBooking[0]->state; ?>">
+
+	<input type="hidden" id="address_val<?php echo $objBooking[0]->booking_record_id; ?>"
+	value="<?php echo $full_address; ?>">
 	<div class="centeralign">
 	<div class="leftalign">
-	Address: <?php echo $objBooking[0]->street.",".$objBooking[0]->city.",".$objBooking[0]->state.", Postcode-".$objBooking[0]->postcode; ?>
+	Address: <?php echo $full_address; ?>
 	</div>
 	<div id="map_canvas<?php echo $objBooking[0]->booking_record_id; ?>" ></div>
 	</div> <!--end centeralign-->

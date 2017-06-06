@@ -1,128 +1,163 @@
 <?xml version="1.0"?>
 <Root>
-  <CurrentSeats>
-    <Seat id="1">
-      <Name>Jorge</Name>
-      <Description>Jorge</Description>
-      <Color>8224e3</Color>
-      <Location></Location>
-      <Street>Ahmedabad</Street>
-      <City>Ahmedabad</City>
-      <State>Gujarat</State>
-      <Postcode>390001</Postcode>
-      <Country>India</Country>
-      <IsCertainDay>Y</IsCertainDay>
-      <Days/>
-      <RequirePrePayment>N</RequirePrePayment>
-      <PaymentType>Full Payment</PaymentType>
-      <FixedAmount>0.00</FixedAmount>
-      <DepositType>Fixed Amount</DepositType>
-      <Phone>07878226101</Phone>
-      <Email>jorge@indianic.com</Email>
-      <UserType></UserType>
-      <UserName></UserName>
-      <Status>1</Status>
+  <SeatPosts>
+    <Seat id="283">
+      <Name>Resource 1</Name>
+      <Description>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</Description>
+      <Postmeta>
+        <seat_street>123 Military Rd</seat_street>
+        <seat_city>Mosman</seat_city>
+        <seat_state>NSW</seat_state>
+        <seat_zip>2088</seat_zip>
+        <seat_country>Australia</seat_country>
+        <seat_is_certain_month>N</seat_is_certain_month>
+        <seat_months/>
+        <seat_is_certain_day>Y</seat_is_certain_day>
+        <seat_days>Monday,Tuesday,Wednesday,Thursday,Friday,</seat_days>
+        <seat_days_time>a:5:{i:0;a:3:{s:3:"day";s:6:"monday";s:9:"time_from";s:8:"09:00 AM";s:9:"time_till";s:8:"05:00 PM";}i:1;a:3:{s:3:"day";s:7:"tuesday";s:9:"time_from";s:8:"09:00 AM";s:9:"time_till";s:8:"05:00 PM";}i:2;a:3:{s:3:"day";s:9:"wednesday";s:9:"time_from";s:8:"09:00 AM";s:9:"time_till";s:8:"05:00 PM";}i:3;a:3:{s:3:"day";s:8:"thursday";s:9:"time_from";s:8:"09:00 AM";s:9:"time_till";s:8:"05:00 PM";}i:4;a:3:{s:3:"day";s:6:"friday";s:9:"time_from";s:8:"09:00 AM";s:9:"time_till";s:8:"05:00 PM";}}</seat_days_time>
+        <seatIsPrePayment>N</seatIsPrePayment>
+        <seat_payment_type>D</seat_payment_type>
+        <seat_payment_option>P</seat_payment_option>
+        <seat_amount/>
+        <seat_percentage>25</seat_percentage>
+        <seatPhone>0403885899</seatPhone>
+        <seatEmail>dunskii@gmail.com</seatEmail>
+        <seatIsAlternateEmail>Yes</seatIsAlternateEmail>
+        <seatAlternateEmail>dunskii@hotmail.com</seatAlternateEmail>
+        <seatIsIcal>Yes</seatIsIcal>
+        <seatIcalAddress>dunskii.com_g1pujjeeg73jerkop076kcm3ms@group.calendar.google.com</seatIcalAddress>
+        <seat_wp_user_id>2</seat_wp_user_id>
+        <_thumbnail_id>41</_thumbnail_id>
+        <associate_with_user>Y</associate_with_user>
+        <associate_with_user_role>resource</associate_with_user_role>
+        <associate_with_username>dunskii@gmail.com</associate_with_username>
+      </Postmeta>
     </Seat>
-    <Seat id="2">
-      <Name>Mark</Name>
-      <Description>Mark</Description>
-      <Information>Mark</Information>
-      <Color>1e73be</Color>
-      <Location></Location>
-      <Street>Ahmedabad</Street>
-      <City>Ahmedabad</City>
-      <State>Gujarat</State>
-      <Postcode>390001</Postcode>
-      <Country>India</Country>
-      <RequirePrePayment>N</RequirePrePayment>
-      <PaymentType>Full Payment</PaymentType>
-      <FixedAmount>0.00</FixedAmount>
-      <DepositType>Fixed Amount</DepositType>
-      <Phone>07878226101</Phone>
-      <Email>mark@indianic.com</Email>
-      <UserType></UserType>
-      <UserName></UserName>
-      <Status>1</Status>
-    </Seat>
-    <Seat id="3">
-      <Name>Steave</Name>
-      <Description>Steave</Description>
-      <Information>Steave</Information>
-      <Color>81d742</Color>
-      <Location></Location>
-      <Street>Ahmedabad</Street>
-      <City>Ahmedabad</City>
-      <State>Gujarat</State>
-      <Postcode>390001</Postcode>
-      <Country>India</Country>
-      <RequirePrePayment>N</RequirePrePayment>
-      <PaymentType>Full Payment</PaymentType>
-      <FixedAmount>0.00</FixedAmount>
-      <DepositType>Fixed Amount</DepositType>
-      <Phone>07878226101</Phone>
-      <Email>steave@indianic.com</Email>
-      <UserType></UserType>
-      <UserName></UserName>
-      <Status>1</Status>
-    </Seat>
-    <Seat id="4">
-      <Name>Martin</Name>
-      <Description>Martin</Description>
-      <Information>Martin</Information>
-      <Color>eeee22</Color>
-      <Location></Location>
-      <Street>Ahmedabad</Street>
-      <City>Ahmedabad</City>
-      <State>Gujarat</State>
-      <Postcode>390001</Postcode>
-      <Country>India</Country>
-      <RequirePrePayment>N</RequirePrePayment>
-      <PaymentType>Full Payment</PaymentType>
-      <FixedAmount>0.00</FixedAmount>
-      <DepositType>Fixed Amount</DepositType>
-      <Phone>07878226101</Phone>
-      <Email>martin@indianic.com</Email>
-      <UserType></UserType>
-      <UserName></UserName>
-      <Status>1</Status>
-    </Seat>
-  </CurrentSeats>
-  <CurrentBases>
-    <Base id="1">
-      <Name>Hot Stones Massage</Name>
-      <Description>Hot Stones Massage</Description>
-      <Color>8224e3</Color>
-      <Price>100</Price>
-      <Time>1 Hours</Time>
-      <CanBeExtended>N</CanBeExtended>
-      <Seats>
-        <Seat id="1">Jorge</Seat>
-        <Seat id="3">Steave</Seat>
-        <Seat id="4">Martin</Seat>
-      </Seats>
-      <Location>Mobile</Location>
-      <AllowAddition>Y</AllowAddition>
+  </SeatPosts>
+  <BasePosts>
+    <Base id="284">
+      <Name>Service 1</Name>
+      <Description>Lorem ipsum dolor sit amet, ne vis veniam facete blandit, audire tibique sit at, dicam postulant maluisset vis ei. Dolor argumentum cum no, no soluta temporibus ius, vel cu decore regione meliore. Nec fabulas facilis eu.</Description>
+      <Postmeta>
+        <_thumbnail_id>43</_thumbnail_id>
+        <base_price>100</base_price>
+        <base_time_option>H</base_time_option>
+        <base_month/>
+        <base_day/>
+        <base_hours>1</base_hours>
+        <base_minutes>00</base_minutes>
+        <base_seats/>
+        <base_is_location_fixed>N</base_is_location_fixed>
+        <base_is_mobile_only>Y</base_is_mobile_only>
+        <base_is_location_differ_seat>N</base_is_location_differ_seat>
+        <base_city/>
+        <base_street/>
+        <base_state/>
+        <base_postcode/>
+        <base_is_allow_addition>Y</base_is_allow_addition>
+        <base_is_extended>Y</base_is_extended>
+        <base_is_unavailable>Y</base_is_unavailable>
+        <base_unavailable_from/>
+        <base_unavailable_till/>
+        <base_selected_seats>a:1:{i:0;s:2:"40";}</base_selected_seats>
+      </Postmeta>
     </Base>
-    <Base id="2">
-      <Name>The Steam Room Massage and Spa</Name>
-      <Description>The Steam Room Massage and Spa</Description>
-      <Color>1e73be</Color>
-      <Price>120</Price>
-      <Time>2 Hours</Time>
-      <CanBeExtended>N</CanBeExtended>
-      <Seats>
-        <Seat id="1">Jorge</Seat>
-        <Seat id="2">Mark</Seat>
-        <Seat id="4">Martin</Seat>
-      </Seats>
-      <Location>Fixed</Location>
-      <IsLocationDiffer>Y</IsLocationDiffer>
-      <Street>Ahmedabad</Street>
-      <City>Ahmedabad</City>
-      <State>Gujarat</State>
-      <Postcode></Postcode>
-      <AllowAddition>Y</AllowAddition>
-    </Base>
-  </CurrentBases>
-  <CurrentAdditions/>
+  </BasePosts>
+  <ExtraPosts>
+    <Extra id="286">
+      <Name>Extras 1</Name>
+      <Description>Lorem ipsum dolor sit amet, ne vis veniam facete blandit, audire tibique sit at,</Description>
+      <Postmeta>
+        <_thumbnail_id>45</_thumbnail_id>
+        <addition_price>25</addition_price>
+        <addition_time_option>H</addition_time_option>
+        <addition_months/>
+        <addition_days/>
+        <addition_hours>0</addition_hours>
+        <addition_minutes>30</addition_minutes>
+        <addition_overlap>N</addition_overlap>
+        <addition_bases/>
+        <addition_differ_seat/>
+        <addition_differ_base/>
+        <addition_is_unavailable>Y</addition_is_unavailable>
+        <addition_unavailable_from>02/22/2017</addition_unavailable_from>
+        <addition_unavailable_to>02/25/2017</addition_unavailable_to>
+        <extra_selected_base>a:1:{i:0;s:2:"42";}</extra_selected_base>
+      </Postmeta>
+    </Extra>
+    <Extra id="285">
+      <Name>Extra 2</Name>
+      <Description>Extra 2</Description>
+      <Postmeta>
+        <addition_price>50</addition_price>
+        <addition_time_option>H</addition_time_option>
+        <addition_months/>
+        <addition_days/>
+        <addition_hours>1</addition_hours>
+        <addition_minutes>00</addition_minutes>
+        <addition_overlap>Y</addition_overlap>
+        <addition_bases>All</addition_bases>
+        <addition_differ_seat/>
+        <addition_differ_base/>
+        <addition_is_unavailable/>
+        <addition_unavailable_from/>
+        <addition_unavailable_to/>
+        <extra_selected_base>a:1:{i:0;s:2:"42";}</extra_selected_base>
+      </Postmeta>
+    </Extra>
+  </ExtraPosts>
+  <Settings>
+    <bkx_google_calendar_id/>
+    <bkx_api_paypal_paypalmode/>
+    <bkx_api_paypal_username/>
+    <bkx_api_paypal_password/>
+    <bkx_api_paypal_signature/>
+    <bkx_api_google_map_key/>
+    <enable_cancel_booking>1</enable_cancel_booking>
+    <enable_any_seat>1</enable_any_seat>
+    <cancellation_policy_page_id>38</cancellation_policy_page_id>
+    <currency_option>AUD</currency_option>
+    <reg_customer_crud_op>1</reg_customer_crud_op>
+    <bkx_seat_role>resource</bkx_seat_role>
+    <bkx_set_booking_page>2</bkx_set_booking_page>
+    <bkx_alias_seat/>
+    <bkx_alias_base/>
+    <bkx_alias_addition/>
+    <bkx_alias_notification/>
+    <bkx_client_id/>
+    <bkx_client_secret/>
+    <bkx_tempalate_thankyou>105</bkx_tempalate_thankyou>
+    <bkx_tempalate_pending>106</bkx_tempalate_pending>
+    <bkx_tempalate_sucess>107</bkx_tempalate_sucess>
+    <bkx_term_cond_page>50</bkx_term_cond_page>
+    <bkx_privacy_policy_page>50</bkx_privacy_policy_page>
+    <enable_editor>1</enable_editor>
+    <notice_time_extended_text_alias>How many hours would you like?</notice_time_extended_text_alias>
+    <label_of_step1/>
+    <bkx_siteuser_canedit_seat/>
+    <bkx_siteclient_canedit_css/>
+    <bkx_siteclient_css_text_color>#4c4542</bkx_siteclient_css_text_color>
+    <bkx_siteclient_css_background_color>#eeeff0</bkx_siteclient_css_background_color>
+    <bkx_siteclient_css_border_color>#896ca7</bkx_siteclient_css_border_color>
+    <bkx_siteclient_css_progressbar_color>#8c64a9</bkx_siteclient_css_progressbar_color>
+    <bkx_siteclient_css_cal_border_color/>
+    <bkx_siteclient_css_cal_day_color/>
+    <bkx_siteclient_css_cal_day_selected_color/>
+    <time_available_color>#85b661</time_available_color>
+    <time_selected_color>#cf3939</time_selected_color>
+    <time_unavailable_color>#433b3b</time_unavailable_color>
+    <time_block_bg_color>#c96d6d</time_block_bg_color>
+    <time_block_extra_color>#8349ce</time_block_extra_color>
+    <time_block_service_color>#71ad46</time_block_service_color>
+    <bkx_business_name>Booking X Staging</bkx_business_name>
+    <bkx_business_email>test@bookingx.com</bkx_business_email>
+    <bkx_business_phone>1234567890</bkx_business_phone>
+    <bkx_business_address_1>123 Military Rd</bkx_business_address_1>
+    <bkx_business_address_2/>
+    <bkx_business_city>Mosman</bkx_business_city>
+    <bkx_business_state>NSW</bkx_business_state>
+    <bkx_business_zip>2088</bkx_business_zip>
+    <bkx_business_country>AU</bkx_business_country>
+    <bkx_business_days>a:4:{s:15:"selected_days_1";a:2:{s:4:"days";a:2:{i:0;s:6:"Sunday";i:1;s:6:"Monday";}s:4:"time";a:2:{s:4:"open";s:8:"10:00 AM";s:5:"close";s:7:"5:00 PM";}}s:15:"selected_days_2";a:2:{s:4:"days";a:1:{i:0;s:6:"Monday";}s:4:"time";a:2:{s:4:"open";s:7:"8:00 AM";s:5:"close";s:7:"5:00 PM";}}s:15:"selected_days_3";a:2:{s:4:"days";a:3:{i:0;s:7:"Tuesday";i:1;s:9:"Wednesday";i:2;s:8:"Thursday";}s:4:"time";a:2:{s:4:"open";s:8:"10:00 AM";s:5:"close";s:7:"4:00 PM";}}s:15:"selected_days_4";a:2:{s:4:"days";a:1:{i:0;s:6:"Friday";}s:4:"time";a:2:{s:4:"open";s:8:"10:00 AM";s:5:"close";s:7:"5:00 PM";}}}</bkx_business_days>
+  </Settings>
 </Root>

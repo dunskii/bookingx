@@ -17,7 +17,7 @@ class Bkx_Meta_Boxes {
 	public function __construct() {
 		add_action( 'add_meta_boxes', array( $this, 'remove_meta_boxes' ), 10 );
 		add_action( 'add_meta_boxes', array( $this, 'rename_meta_boxes' ), 20 );
-		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ), 30 );
+		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
 		add_action( 'save_post', array( $this, 'save_meta_boxes' ), 1, 2 );
 	}
 
@@ -64,14 +64,16 @@ class Bkx_Meta_Boxes {
 	 */
 	public function add_meta_boxes() {
 
+		global $post;
+
 		// Orders
 			$order_type_object = get_post_type_object( $this->post_type );
 
-			add_meta_box( 'bkx-general-data', sprintf( __( '%s Data', 'bookingx' ), $order_type_object->labels->singular_name ), 'Bkx_Meta_Boxes::order_output', $this->post_type, 'normal', 'high' );
+			add_meta_box( 'bkx-general-data', sprintf( __( '%s Data', 'bookingx' ), $order_type_object->labels->singular_name ), 'Bkx_Meta_Boxes::bookingx_output', $this->post_type, 'normal', 'high' );
 
-			add_meta_box( 'bkx-order_summary', sprintf( __( '%s Order Summary', 'bookingx' ), $order_type_object->labels->singular_name ), 'Bkx_Meta_Boxes::order_summary_output', $this->post_type, 'side', 'high' );
+			add_meta_box( 'bkx-order_note', sprintf( __( '%s #%s Notes', 'bookingx' ), $order_type_object->labels->singular_name, $post->ID ), 'Bkx_Meta_Boxes::bookingx_note_output', $this->post_type, 'side', 'high' );
 
-			add_meta_box( 'bkx-order_reassign', sprintf( __( '%s Reassign', 'bookingx' ), $order_type_object->labels->singular_name ), 'Bkx_Meta_Boxes::order_reassign_output', $this->post_type, 'side' );
+			add_meta_box( 'bkx-order_reassign', sprintf( __( '%s Reassign', 'bookingx' ), $order_type_object->labels->singular_name ), 'Bkx_Meta_Boxes::bookingx_reassign_output', $this->post_type, 'side' );
 		
 	}
 
@@ -103,46 +105,215 @@ class Bkx_Meta_Boxes {
 	
 	}
 
-	public function order_output($post)
-	{
+	public function bookingx_output( $post, $return_type = null )
+	{	
+		$status_view = 0;
+		$status_view = $_REQUEST['view'];
+		 
 		$orderObj =  new BkxBooking();
     	$order_meta = $orderObj->get_order_meta_data($post->ID);
+    	$base_extended = $order_meta['extended_base_time'];
+        $base_extended = ($base_extended) ? $base_extended : 0 ;
+
+    	$order_id = $post->ID;
     	//print_r($order_meta );
 		$order_type_object = get_post_type_object( $post->post_type );
-		wp_nonce_field( 'bookingx_save_data', 'bookingx_meta_nonce' );
-		if(!empty($order_meta)):
-				$translation_array = array('order_id' => $post->ID,
-											'seat_id' => $order_meta['seat_id'],
-											'base_id' => $order_meta['base_id'],
-											'extra_id' => !empty($order_meta['addition_ids']) ? $order_meta['addition_ids'] : '0',
-											'action' => 'edit');
-		else:
-			$translation_array = array('order_id' => '',
-											'seat_id' => '',
-											'base_id' => '',
-											'extra_id' => 0,
-											'action' => 'add');
-		endif;
-		
-		wp_localize_script('common_script', 'edit_order_data', $translation_array);
-
-
-		echo do_shortcode('[bookingform]');?>
-			<style type="text/css">
+		wp_nonce_field( 'bookingx_save_data', 'bookingx_meta_nonce' );	
+		//if($return_type == ''){ 
+?>			<style type="text/css">
 			#post-body-content, #titlediv { display:none }
+			.bkx-general_full { float: left;width: 32%;}
+			.bkx-order_summary_full{background: #fff; min-height: 510px;}
+			.base_timeline{width: 204px;background: red; float: left;}
+			.seat_rectangle{font-size:12px;}
 			</style>
 		 <?php
+
+		 if(empty($order_meta['seat_id'])){
+		  echo do_shortcode('[bookingform order_post_id='.$post->ID.']');
+		  return;
+		 }
+
+		 $extra_id = get_post_meta( $post->ID, 'addition_ids', true );
+         $extra_id = rtrim( $extra_id, ",");
+ 
+			if(!empty($order_meta) ):
+					$translation_array = array('order_id' => $post->ID,
+												'seat_id' => $order_meta['seat_id'],
+												'base_id' => $order_meta['base_id'],
+												'extra_id' => !empty($extra_id) ? $extra_id : '0',
+												'extended' => $base_extended,
+												'action' => 'edit');
+			else:
+				$translation_array = array('order_id' => '',
+												'seat_id' => '',
+												'base_id' => '',
+												'extra_id' => 0,
+												'action' => 'add');
+			endif;
+			
+			wp_localize_script('common_script', 'edit_order_data', $translation_array);
+			
+			$seat_alias = crud_option_multisite('bkx_alias_seat');      
+	    	$base_alias = crud_option_multisite('bkx_alias_base');
+	    	$addition_alias = crud_option_multisite('bkx_alias_addition');
+	    	$payment_status = get_post_meta($order_id,'payment_status',true);
+	    	$payment_meta = get_post_meta($order_id,'payment_meta',true);
+	    	 
+	    	$payment_status = ($payment_status) ? $payment_status : 'Pending';
+			
+			if($payment_status == 'Not Completed'){
+				$payment_status = 'Pending';
+			}	    	
+			//print_r($order_meta['extra_arr']);
+	    	$extra_data = sprintf( __('<p>%s service\'s :','Bookingx'),$addition_alias);
+	    	if(!empty($order_meta['extra_arr'])){
+	    		foreach ($order_meta['extra_arr'] as $key => $extra_arr) {
+	    			$extra_data .=  sprintf(__('&nbsp;<a href="%s" target="_blank">%s</a>&nbsp;','Bookingx'),$extra_arr['permalink'],$extra_arr['title'],$extra_arr['title']);
+	    		}	
+	    	}
+
+		$order_summary = sprintf('<div class="bkx-order_summary_full">','Bookingx');
+		$order_summary .= sprintf( __('<h3>Booking #%d details</h3>','Bookingx'),$post->ID);
+
+		$order_summary .= sprintf('<div class="bkx-general_full">','Bookingx');
+		//$order_summary .= sprintf( __('<h4>Customer Information</h4>','Bookingx'));
+		$order_summary .= sprintf( __('<p>Full Name : %s %s</p>','Bookingx'),$order_meta['first_name'],$order_meta['last_name']);
+		$order_summary .= sprintf( __('<p>Phone : <a href="callto:%s">%s</a></p>','Bookingx'),$order_meta['phone'],$order_meta['phone']);
+		$order_summary .= sprintf( __('<p>Email : <a href="mailto:%s">%s</a></p>','Bookingx'),$order_meta['email'],$order_meta['email']);
+		$order_summary .= sprintf( __('<p>Address : %s %s </p>','Bookingx'),$order_meta['city'],$order_meta['state']);
+		$order_summary .= sprintf( __('<p>Postcode : %s </p>','Bookingx'),$order_meta['postcode']);
+		$order_summary .= sprintf('</div>','Bookingx');
+
+		$order_summary .= sprintf('<div class="bkx-general_full">','Bookingx');
+		//$order_summary .= sprintf( __('<h4>Booking Details</h4>','Bookingx'));
+		$order_summary .= sprintf(__('<p>Booking Date : %s </p>','Bookingx'),$order_meta['booking_start_date']);
+		$order_summary .= sprintf(__('<p>Time : %s </p>','Bookingx'),$order_meta['total_duration']);
+		$order_summary .= sprintf(__('<p>Status : %s </p>','Bookingx'),$orderObj->get_order_status($post->ID));
+		$order_summary .= sprintf(__('<p>Total : %s%s </p>','Bookingx'),$order_meta['currency'],$order_meta['total_price']);
+ 
+			$order_summary .= sprintf(__('<p>Payment : %s </p>','Bookingx'),$payment_status); 
+			if($payment_status == 'completed'){
+				$order_summary .= sprintf(__('<p>Token : %s </p>','Bookingx'),$payment_meta['token']);
+				$order_summary .= sprintf(__('<p>PayerID Id : %s </p>','Bookingx'),$payment_meta['PayerID']); 
+				$order_summary .= sprintf(__('<p>Transaction Id : %s </p>','Bookingx'),$payment_meta['transactionID']);
+			}
+			else
+			{
+				$order_summary .= sprintf(__('<p> Note  : %s </p>','Bookingx'),"payment will be made when the customer comes for the booking");
+			}
+		$order_summary .= sprintf('</div>','Bookingx');
+		$extra_data = sprintf( __('<p>%s service\'s :','Bookingx'),$addition_alias);
+    	if(!empty($order_meta['extra_arr'])){
+    		foreach ($order_meta['extra_arr'] as $key => $extra_arr) {
+    			$extra_data .=  sprintf(__('&nbsp;<a href="%s" target="_blank">%s</a>&nbsp;','Bookingx'),$extra_arr['permalink'],$extra_arr['title'],$extra_arr['title']);
+    		}	
+    	}
+	    $order_summary .= sprintf('<div class="bkx-general_full">','Bookingx');
+ 
+		$order_summary .= sprintf(__('<p>%s Name : <a href="%s" title="%s">%s</a></p>','Bookingx'),$seat_alias,$order_meta['seat_arr']['permalink'],$order_meta['seat_arr']['title'],$order_meta['seat_arr']['title']);
+		$order_summary .= sprintf(__('<p>%s Name : <a href="%s">%s</a> </p>','Bookingx'),$base_alias,$order_meta['base_arr']['permalink'],$order_meta['base_arr']['title'],$order_meta['base_arr']['title']);
+		$order_summary .= $extra_data;
+		$order_summary .= sprintf('</div>','Bookingx');
+ 	 
+		$order_summary .= sprintf('<div style="clear:left;">&nbsp;</div>','Bookingx');
+				 
+		$order_summary .='<div class="bkx-general_full" style="width: 100%;"><div id="seat_rect_'.$post->ID.'" class="seat_rectangle" style="padding: 5px;min-height: 150px;height:auto;width: 100%;border:1px solid #62A636;float:left">
+			</div>';
+
+		$order_summary .= sprintf('</div></div>','Bookingx');
+
+ 		if($return_type == 'ajax'){
+ 		return $order_summary;
+ 		}
+		echo $order_summary;
+		include_once(PLUGIN_DIR_PATH.'/inc/time_block_data.php');
+		echo '<div style="clear:left;">&nbsp;</div>';
+		echo do_shortcode('[bookingform order_post_id='.$post->ID.']');
+
+		//}	
 	}
 
 
-	public function order_reassign_output($post)
+	public function bookingx_note_output( $post, $return_type = null )
+	{
+		$orderObj =  new BkxBooking();
+		$order_meta = $orderObj->get_order_meta_data($post->ID);
+
+		if(empty($order_meta['seat_id'])){
+		  echo '<style>#bkx-order_summary { display : none; };</style>';
+		  return;
+		}
+		$script = '<script type="text/javascript"> jQuery(document).ready(function(){ jQuery( "#bkx_id_add_custom_note" ).on( "click", function() {
+		jQuery("#bkx_add_custom_note_loader").show();
+		jQuery("#bkx_id_add_custom_note").hide();
+		
+		var booking_id = jQuery( "#bkx_booking_id" ).val();
+		var bkx_custom_note = jQuery( "#bkx_custom_note" ).val();
+		if(bkx_custom_note == "")
+		{
+			jQuery("#bkx_add_custom_note_err").html("Please add note.");
+			jQuery("#bkx_add_custom_note_loader").hide();
+			jQuery("#bkx_id_add_custom_note").show();
+			return false;
+		}
+
+		if(confirm("Are you sure want to add note?"))
+		{
+			jQuery("#bkx_add_custom_note_err").hide();
+			var data = {
+	            "action": "bkx_action_add_custom_note",
+	            "bkx_custom_note": bkx_custom_note,
+	            "booking_id" : booking_id
+	        };
+
+	        // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
+	        jQuery.post(ajaxurl, data, function(response) {
+	        	jQuery("#bkx_add_custom_note_loader").hide();
+	        	jQuery("#bkx_id_add_custom_note").hide();
+	             location.reload();
+	        });
+
+		}		
+	});});</script>';
+		$seat_alias = crud_option_multisite('bkx_alias_seat');      
+    	$base_alias = crud_option_multisite('bkx_alias_base');
+    	$addition_alias = crud_option_multisite('bkx_alias_addition');
+
+		$order_summary 	= sprintf('<div class="bkx-order_summary">','Bookingx');
+		$order_summary .= sprintf( __('<h3>Booking #%d Notes</h3>','Bookingx'),$post->ID);
+		$order_summary .= sprintf( __('<span id="bkx_add_custom_note_err"></span><textarea rows="4" id="bkx_custom_note"></textarea>','Bookingx'), '');
+		$order_summary .= sprintf( __('<input type="hidden" id="bkx_booking_id" value="%d">','Bookingx'),$post->ID);
+		
+		$order_summary .= sprintf( __('<a style="cursor:pointer;" id="bkx_id_add_custom_note" name="bkx_add_custom_note"> Add note </a> <span id="bkx_add_custom_note_loader" style="display:none;"> Please wait.. </span>','Bookingx'), '');
+		$order_summary .= $orderObj->get_booking_notes($post->ID);
+		$order_summary .= sprintf('</div>','Bookingx');
+		$order_summary .= $script;
+		
+
+		if($return_type == 'ajax'){
+ 				return $order_summary;
+ 		}
+		echo $order_summary;
+
+	}
+
+
+	public function bookingx_reassign_output( $post, $return_type = null  )
 	{
 		$seat_alias = crud_option_multisite('bkx_alias_seat'); 
 
 		$orderObj =  new BkxBooking();
 		$order_meta = $orderObj->get_order_meta_data($post->ID);
 
-		echo sprintf(__('<p>Current %s assign : <a href="%s" title="%s">%s</a></p>','Bookingx'),
+		if(empty($order_meta['seat_id'])){
+		  echo '<style>#bkx-order_reassign { display : none; };</style>';
+		  return;
+		 }
+
+		$reassign_booking = '';
+
+		$reassign_booking .=  sprintf(__('<div class="bkx-order_summary"><p>Current %s assign : <a href="%s" title="%s">%s</a></p>','Bookingx'),
 			$seat_alias,$order_meta['seat_arr']['permalink'],
 			$order_meta['seat_arr']['title'],
 			$order_meta['seat_arr']['title']);
@@ -152,31 +323,30 @@ class Bkx_Meta_Boxes {
 		$booking_start_date = addslashes($date->format('m/d/Y'));
 		$start_time = addslashes($date->format('H:i:s'));
 
-		$get_available_staff = reassign_available_emp_list($order_meta['seat_id'],$order_meta['start_date'],$order_meta['end_date'],$order_meta['base_id']);?>
-
-		<b>Reassign <?php echo $seat_alias;?> to booking: </b>
-			 <select id="id_reassign_booking_<?php echo $order_meta['order_id'];?>" name="reassign_booking_<?php echo $order_meta['order_id'];?>">
-					  <option value=""> --Reassign <?php echo $seat_alias;?> --</option>
-							<?php if(!empty($get_available_staff)):
-									foreach ( $get_available_staff as $staff ):
-										if(isset($staff['name']) && $staff['name'] != "") :?>
-									 <option value="<?php echo $staff['id']; ?>"><?php echo ucwords($staff['name']); ?></option>
-									 <?php endif;
-									endforeach;
-							endif; ?>
-             </select>
-             <script type="text/javascript">
+		$get_available_staff = reassign_available_emp_list($order_meta['seat_id'],$order_meta['start_date'],$order_meta['end_date'],$order_meta['base_id']);
+		$reassign_booking .= '<b>Reassign '.$seat_alias.' to booking: </b>
+			 <select id="id_reassign_booking_'.$order_meta['order_id'].'" name="reassign_booking_'.$order_meta['order_id'].'">
+					  <option value=""> --Reassign '.$seat_alias.' --</option>';
+		if(!empty($get_available_staff)):
+			foreach ( $get_available_staff as $staff ):
+					if(isset($staff['name']) && $staff['name'] != "") :
+						$reassign_booking .= ' <option value="'.$staff['id'].'">'.ucwords($staff['name']).' </option>';
+					endif;
+			endforeach;
+		endif;
+        $reassign_booking .= '</select></div>
+              <script type="text/javascript">
 	jQuery(document).ready(function(){
-		jQuery( "#id_reassign_booking_<?php {echo $order_meta['order_id'];}?>").change(function() {
-			var booking_date  = "<?php echo $order_meta['booking_start_date'];?>";
-			var start_time     = "<?php echo $start_time;?>";
-			var durations     = "<?php echo $order_meta['booking_time'];?>";
-			var seat_id     = jQuery( "#id_reassign_booking_<?php echo $order_meta['order_id'];?>").val();
-			var booking_record_id = '<?php echo $order_meta['order_id'];?>';
-			var name = "<?php echo $order_meta['first_name']." ".$order_meta['last_name']; ?>";
-			var start_date  ="<?php echo $order_meta['booking_start_date'];?>";
-			var end_date  ="<?php echo $order_meta['booking_end_date'];?>";
-			var base_id  ="<?php echo $order_meta['base_id'];?>";
+		jQuery( "#id_reassign_booking_'.$order_meta['order_id'].'").change(function() {
+			var booking_date  = "'.$order_meta['booking_start_date'].'";
+			var start_time     = "'.$start_time.'";
+			var durations     = "'.$order_meta['booking_time'].'";
+			var seat_id     = jQuery( "#id_reassign_booking_'.$order_meta['order_id'].'").val();
+			var booking_record_id = '.$order_meta['order_id'].';
+			var name = "'.$order_meta['first_name']." ".$order_meta['last_name'].'";
+			var start_date  ="'.$order_meta['booking_start_date'].'";
+			var end_date  ="'.$order_meta['booking_end_date'].'";
+			var base_id  ="'.$order_meta['base_id'].'";
 			if(seat_id!="")
 			{
 				check_staff_availability(seat_id,start_time,durations,booking_date,booking_record_id,name,start_date,end_date,base_id);
@@ -184,60 +354,17 @@ class Bkx_Meta_Boxes {
 
 		});
 	});
-</script>
+</script>';?>
+<?php
 
-             <?php
-
+		if($return_type == 'ajax'){
+		 	return $reassign_booking;
+		}else{
+			echo $reassign_booking;
+		}
 	}
 
-	public function order_summary_output($post)
-	{
-		$orderObj =  new BkxBooking();
-		$order_meta = $orderObj->get_order_meta_data($post->ID);
 
-		if(empty($order_meta))
-			return;
-
-		$seat_alias = crud_option_multisite('bkx_alias_seat');      
-    	$base_alias = crud_option_multisite('bkx_alias_base');
-    	$addition_alias = crud_option_multisite('bkx_alias_addition');
-		
-		//print_r($order_meta['extra_arr']);
-    	$extra_data = sprintf( __('<p>%s service\'s :','Bookingx'),$addition_alias);
-    	if(!empty($order_meta['extra_arr'])){
-    		foreach ($order_meta['extra_arr'] as $key => $extra_arr) {
-    			$extra_data .=  sprintf(__('&nbsp;<a href="%s" target="_blank">%s</a>&nbsp;','Bookingx'),$extra_arr['permalink'],$extra_arr['title'],$extra_arr['title']);
-    		}	
-    	}
-    	//$extra_data .= sprintf( __('</p>'));
-
-		$order_summary = sprintf('<div class="bkx-order_summary">','Bookingx');
-		$order_summary .= sprintf( __('<h3>Order #%d details</h3>','Bookingx'),$post->ID);
-
-		$order_summary .= sprintf(__('<p>Booking Date : %s </p>','Bookingx'),$order_meta['booking_start_date']);
-		$order_summary .= sprintf(__('<p>Time : %s </p>','Bookingx'),$order_meta['total_duration']);
-		$order_summary .= sprintf(__('<p>Status : %s </p>','Bookingx'),$orderObj->get_order_status($post->ID));
-		$order_summary .= sprintf(__('<p>Total : %s%s </p>','Bookingx'),$order_meta['currency'],$order_meta['total_price']);
-		$order_summary .= sprintf( __('<p>Customer Name : %s %s</p>','Bookingx'),$order_meta['first_name'],$order_meta['last_name']);
-
-		$order_summary .= sprintf( __('<h3>Service details</h3>','Bookingx'));
-		$order_summary .= sprintf(__('<p>%s Name : <a href="%s" title="%s">%s</a></p>','Bookingx'),$seat_alias,$order_meta['seat_arr']['permalink'],$order_meta['seat_arr']['title'],$order_meta['seat_arr']['title']);
-		$order_summary .= sprintf(__('<p>%s Name : <a href="%s">%s</a> </p>','Bookingx'),$base_alias,$order_meta['base_arr']['permalink'],$order_meta['base_arr']['title'],$order_meta['base_arr']['title']);
-		$order_summary .= $extra_data;
-
-		$order_summary .= sprintf('<div class="bkx-general">','Bookingx');
-		$order_summary .= sprintf( __('<h4>General details</h4>','Bookingx'));
-		$order_summary .= sprintf( __('<p>Full Name : %s %s</p>','Bookingx'),$order_meta['first_name'],$order_meta['last_name']);
-		$order_summary .= sprintf( __('<p>Phone : <a href="callto:%s">%s</a></p>','Bookingx'),$order_meta['phone'],$order_meta['phone']);
-		$order_summary .= sprintf( __('<p>Email : <a href="mailto:%s">%s</a></p>','Bookingx'),$order_meta['email'],$order_meta['email']);
-		$order_summary .= sprintf( __('<p>Address : %s %s </p>','Bookingx'),$order_meta['city'],$order_meta['state']);
-		$order_summary .= sprintf( __('<p>Postcode : %s </p>','Bookingx'),$order_meta['postcode']);
-		$order_summary .= sprintf('</div>','Bookingx');
-		$order_summary .= sprintf('</div>','Bookingx');
-
-		echo $order_summary;
-
-	}
 
 	public function save_meta_boxes($post_id, $post)
 	{
@@ -296,7 +423,6 @@ class Bkx_Meta_Boxes {
 	       $post_update =  $wpdb->update( 
 						$wpdb->posts, 
 						array( 
-							'post_status' => 'bkx-' . apply_filters( 'bkx_default_order_status', 'pending' ),	// string
 							'ping_status' => 'closed',
 							'post_password' => uniqid( 'order_' ),
 							'post_title' => sprintf( __( 'Order &ndash; %s', 'bookingx' ), strftime( _x( '%b %d, %Y @ %I:%M %p', 'Order date parsed by strftime', 'bookingx' ) ) ),			
@@ -308,7 +434,9 @@ class Bkx_Meta_Boxes {
 	       		if(isset($order_id) && $order_id!='')
 	       		{
 	       			//send email that booking confirmed
-					$res = do_send_mail($order_id);	
+					$res = do_send_mail($order_id);
+					$post_status = 'bkx-' . apply_filters( 'bkx_default_order_status', 'pending');
+					do_action( 'bkx_order_edit_status', $order_id, $post_status);
 
 	       			$get_blog_id = get_current_blog_id();
 	       			$return = get_admin_url($get_blog_id,'edit.php?post_type=bkx_booking');

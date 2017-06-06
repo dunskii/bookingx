@@ -23,37 +23,9 @@ if(isset($_POST['seatid']))
              }
         }
 }
+$total_price = bkx_cal_total_price( $_POST['baseid'], $_POST['extended'] , $_POST['additionid'] );
 
-if(isset($_POST['baseid']))
-{
-	    $base = $_POST['baseid'];
-        $BaseObj = get_post($base);
-        $BkxBase    = new BkxBase($BaseObj);
-        if(!empty($BkxBase) && !is_wp_error($BkxBase))
-        {
-            $base_price = $BkxBase->get_price();
-        }
-}
-if(isset($_POST['extended'])){
-	$base_extended = $_POST['extended'];
-}
-
-
-if(isset($base_extended) && ($base_extended!=0))
-{
-	$base_price = $base_price + ($base_extended*$base_price);
-}
- 
-if(isset($_POST['additionid']) && sizeof($_POST['additionid'])>0)
-{        
-    $BkxExtraObj  = new BkxExtra();
-    $addition_price = $BkxExtraObj->get_total_price_by_ids($_POST['additionid']);
-}
- 
-$total_price = $base_price+$addition_price;
-
-if($booking_require_prepayment=="Y")
-{
+if($booking_require_prepayment=="Y"){
      
 	if($payment_type=="FP")
 	{
@@ -74,7 +46,8 @@ if($booking_require_prepayment=="Y")
 } else{
 	$deposit_price = 0;
 }
-	 
+
+$result['total_tax'] = bkx_cal_total_tax($total_price);
 $result['total_price'] = number_format((float)$total_price, 2, '.', '');
 $result['seat_is_booking_prepayment'] = $booking_require_prepayment;
 $result['deposit_price'] = number_format((float)$deposit_price, 2, '.', '');

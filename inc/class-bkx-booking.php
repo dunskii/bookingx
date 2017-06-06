@@ -14,10 +14,7 @@ class BkxBooking {
 
 	protected $post_type;
 
-    //public $bkx_global ='bkx_booking_data';
-
-
-	 /**
+     /**
      * 
      * @param type $booking_set_array
      */
@@ -54,6 +51,16 @@ class BkxBooking {
         }
         $this->order_id = $order_id;
         $this->post_type = 'bkx_booking';
+        add_filter( 'comments_clauses', array( __CLASS__, 'bkx_comments_clauses' ) , 10, 2);
+    }
+
+    function bkx_comments_clauses( $pieces, $wp_query)
+    {
+        global $wpdb;
+
+        $post_id = $wp_query->query_vars['post_id'];
+        $pieces['where'] = "( ( comment_approved = '0' OR comment_approved = '1' ) ) AND comment_post_ID = $post_id AND  ".$wpdb->prefix."posts.post_type NOT IN ('bkx_seat','bkx_base','bkx_addition') ";
+        return $pieces;
     }
 
     public function get_calculate_total()
@@ -84,16 +91,20 @@ class BkxBooking {
         if(empty($post_data))
             return;
 
+        global $bkx_booking_data;
+
         if(isset($post_data['order_id']) && $post_data['order_id']!='')
         {
             $order_id = $post_data['order_id'];
         }
 
-        $reg_customer_crud_op = crud_option_multisite('reg_customer_crud_op'); // If 1 means enable to create customer 
+        $reg_customer_crud_op = crud_option_multisite('reg_customer_crud_op'); 
+        // If 1 means enable to create customer 
 
         if(isset($reg_customer_crud_op) == 1 && !is_user_logged_in()) :
                 $user_id = BkxBooking::create_new_user($post_data);
         endif;
+        
         if(!isset($order_id) && $order_id=='')
         {   
             $order_data['post_type']     = $this->post_type;
@@ -113,8 +124,9 @@ class BkxBooking {
             return;
 
         $post_data['order_id'] = $order_id;
+        $post_data['post_status'] = $order_data['post_status'];
+        $GLOBALS['bkx_booking_data'] = $post_data;
 
-        $globalS['bkx_booking_data'] = $post_data;
         //Update order meta
         $BkxBooking = BkxBooking::generate_order_meta($post_data);
 
@@ -136,7 +148,10 @@ class BkxBooking {
                 if(!empty($order_val))
                     update_post_meta($order_id,$order_key,$order_val);
             }
+             
             update_post_meta($order_id,'order_meta_data',$post_data);
+             
+            
         }  
 
         $bookingTimeRecord['order_id'] = $order_id;
@@ -151,12 +166,12 @@ class BkxBooking {
         if(!empty($bookingTimeRecord)){
                 update_post_meta($order_id,'bookingTimeRecord',$bookingTimeRecord);
         }
-        $globalS['bkx_booking_data'] = array('meta_data' => $bkx_booking_data,'time_data' => $bookingTimeRecord);
+        $GLOBALS['bkx_booking_data'] = array('meta_data' => $bkx_booking_data,'time_data' => $bookingTimeRecord);
 
         //send email that booking confirmed
-        $res = do_send_mail($order_id);
+        do_action( 'bkx_order_edit_status', $order_id, $post_data['post_status'] );
          
-        return $globalS['bkx_booking_data'];
+        return $GLOBALS['bkx_booking_data'];
     }
 
     public function create_new_user($post_data)
@@ -204,18 +219,30 @@ class BkxBooking {
 
         if((isset($order_id) && $order_id!='') && (isset($status) && $status!=''))
         {   
+
+            $BkxBookingObj = new BkxBooking('',$order_id);
+            $new_status_obj = get_post_status_object('bkx-'.$status);
+            $new_status = $new_status_obj->label;
+            $old_status = $BkxBookingObj->get_order_status($order_id);
+
+            if($old_status != $new_status){
+                $BkxBookingObj->add_order_note( sprintf( __( 'Successfully update order from %1$s to %2$s.', 'bookingx' ), $old_status, $new_status ), 0, $manual );
+            }
+            
+            
             $post_update =  $wpdb->update( $wpdb->posts,array('post_status' => 'bkx-'.$status,), 
             array( 'ID' => $order_id ));
+
             update_post_meta($order_id,'last_updated_date',$date);
             update_post_meta($order_id,'updated_by',$current_user_id);
-
+            do_action( 'bkx_order_edit_status', $order_id, $status );
 
             if(!is_wp_error($post_update))
                 return $order_id;
         }
     }
 
-    public function add_order_note( $note, $is_customer_note = 0, $added_by_user = false ) {
+    public function add_order_note( $note, $is_customer_note = 0, $added_by_user = false, $order_id = null ) {
 
         if ( is_user_logged_in() && $added_by_user ) {
             $user                 = get_user_by( 'id', get_current_user_id() );
@@ -226,6 +253,10 @@ class BkxBooking {
             $comment_author_email = strtolower( __( 'BookingX', 'bookingx' ) ) . '@';
             $comment_author_email .= isset( $_SERVER['HTTP_HOST'] ) ? str_replace( 'www.', '', $_SERVER['HTTP_HOST'] ) : 'noreply.com';
             $comment_author_email = sanitize_email( $comment_author_email );
+        }
+
+        if(!empty($order_id)){
+            $this->order_id = $order_id;
         }
 
         $comment_post_ID        = $this->order_id;
@@ -281,13 +312,14 @@ class BkxBooking {
             return;         
 
         $order_meta_data = get_post_meta($order_id,'order_meta_data',true);
+        
 
         if(empty($order_meta_data))
             return;
 
         $seat_id = $order_meta_data['seat_id'];
         $base_id = $order_meta_data['base_id'];
-        $addition_ids = $order_meta_data['addition_ids'];
+        $addition_ids = get_post_meta($order_id,'addition_ids',true );
         if(isset($seat_id) && $seat_id!=''){
             $BkxSeat = new BkxSeat('',$seat_id);
             $seat_arr = array('main_obj'=>$BkxSeat,'title' => $BkxSeat->get_title(),'permalink'=>get_edit_post_link($BkxSeat->id) );
@@ -321,6 +353,32 @@ class BkxBooking {
 
         $order_time_data = get_post_meta($order_id,'bookingTimeRecord',true);
         return $order_time_data;
+    }
+
+    public function get_booking_notes( $order_id ){
+
+        global $wpdb;
+
+        if(empty($order_id))
+            return;
+
+        $booking_note_data = get_comments( array(
+            'post_id'   => $order_id,
+        ) );
+
+
+        $booking_notes = '';
+        if(!empty($booking_note_data) && !is_wp_error($booking_note_data)){
+             $booking_notes .= '<ul>';
+            foreach ($booking_note_data as $key => $notes) {
+                $system_notes = $notes->comment_content;
+                $note_date    = $notes->comment_date;
+                $booking_notes .= '<li> <b>'.$note_date.' : </b> '.$system_notes.'</li>';
+            }
+            $booking_notes .= '</ul>';
+        }
+        return $booking_notes;
+
     }
 
     public function GetBookedRecords($search=null)
@@ -379,13 +437,17 @@ class BkxBooking {
         global $wpdb;
         $bkx_seat_role = crud_option_multisite('bkx_seat_role');
 
-        $status  = array('bkx-pending','bkx-processing','bkx-on-hold','bkx-completed','bkx-refunded');
+        $status  = array('bkx-pending','bkx-ack','bkx-missed','bkx-completed','bkx-cancelled');
         $user_id = (empty($search['user_id'])) ? '' : $search['user_id'];
         $seat_id = (empty($search['seat_id'])) ? '' : $search['seat_id'];
         $role = (empty($search['role'])) ? '' : $search['role'];
+        $search_by = (empty($search['search_by'])) ? '' : $search['search_by'];
+        $search_date = (empty($search['search_date'])) ? '' : $search['search_date'];
 
+        $search_date = date('m/d/Y',strtotime($search_date));
         switch ($role) {
             case $bkx_seat_role: // Query for Seat user booking data
+
                     $args = array(
                         'post_type'  => $this->post_type,
                         'post_status' => $status,
@@ -399,8 +461,36 @@ class BkxBooking {
                     );
                 break;
 
+            case ($search_by == 'future') :
+                    $args = array(
+                        'post_type'  => $this->post_type,
+                        'post_status' => $status,
+                        'meta_query' => array(
+                            array(
+                                'key' => 'booking_date',
+                                'value'   => $search_date,
+                                'compare' => '<'
+                            ),
+                        ),
+                    );
+                break;
+
+            case ($search_by == 'past') :
+                    $args = array(
+                        'post_type'  => $this->post_type,
+                        'post_status' => $status,
+                        'meta_query' => array(
+                            array(
+                                'key' => 'booking_date',
+                                'value'   => $search_date,
+                                'compare' => '>='
+                            ),
+                        ),
+                    );
+                break;
+
             case 'administrator': // Query for all booking data
-                 
+            
                 break;
             
             default:  // Query for user specific data
@@ -412,10 +502,9 @@ class BkxBooking {
                 break;
         }     
 
+
         
         $bookedresult = new WP_Query( $args );
-
-        //print_r($bookedresult);
 
         if ( $bookedresult->have_posts() ) :
             while ( $bookedresult->have_posts() ) : $bookedresult->the_post();
@@ -542,9 +631,43 @@ class BkxBooking {
         return $bookingTime;
     }
 
+    public function order_search_for_filter( $search ){
 
-        public function order_search( $term )
-        {
+        global $wpdb;
+
+        switch ($search) {
+            case 'today':
+                $term = date('Y-m-d');
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+ 
+        $search_fields = array('booking_start_date', 'booking_date');
+
+        $post_ids = array_unique( array_merge(
+                $wpdb->get_col(
+                    $wpdb->prepare( "
+                        SELECT DISTINCT p1.post_id
+                        FROM {$wpdb->postmeta} p1
+                        INNER JOIN {$wpdb->postmeta} p2 ON p1.post_id = p2.post_id
+                        WHERE ( p1.meta_key IN ('" . implode( "','", array_map( 'esc_sql', $search_fields ) ) . "') AND p1.meta_value LIKE '%%%s%%' )
+                        ",
+                        $term
+                    )
+                )
+            ) );
+
+        return $post_ids;
+
+    }
+
+
+    public function order_search( $term ){
+
+
         global $wpdb;
 
         $term     = str_replace( 'Order #', '', bkx_clean( $term ) );
@@ -584,7 +707,10 @@ class BkxBooking {
         if ( is_numeric( $term ) ) {
             $post_ids = array_unique( array_merge(
                 $wpdb->get_col(
-                    $wpdb->prepare( "SELECT DISTINCT p1.post_id FROM {$wpdb->postmeta} p1 WHERE p1.meta_key IN ('" . implode( "','", array_map( 'esc_sql', $search_fields ) ) . "') AND p1.meta_value LIKE '%%%s%%';", bkx_clean( $term ) )
+                    $wpdb->prepare( "SELECT DISTINCT p1.post_id FROM {$wpdb->postmeta} p1 
+                        INNER JOIN {$wpdb->posts} p2 ON p1.post_id = p2.ID
+                        WHERE p1.meta_key IN ('" . implode( "','", array_map( 'esc_sql', $search_fields ) ) . "')
+                        OR p2.post_title AND p1.meta_value LIKE '%%%s%%';", bkx_clean( $term ) )
                 ),
                 array( absint( $term ) )
             ) );
@@ -594,18 +720,19 @@ class BkxBooking {
                     $wpdb->prepare( "
                         SELECT DISTINCT p1.post_id
                         FROM {$wpdb->postmeta} p1
-                        INNER JOIN {$wpdb->postmeta} p2 ON p1.post_id = p2.post_id
+                        INNER JOIN {$wpdb->posts} p2 ON p1.post_id = p2.ID
                         WHERE
-                            ( p1.meta_key = 'first_name' AND p2.meta_key = 'last_name' AND CONCAT(p1.meta_value, ' ', p2.meta_value) LIKE '%%%s%%' )
-                        OR
-                            ( p1.meta_key IN ('" . implode( "','", array_map( 'esc_sql', $search_fields ) ) . "') AND p1.meta_value LIKE '%%%s%%' )
+                            
+                            ( p1.meta_key IN ('" . implode( "','", array_map( 'esc_sql', $search_fields ) ) . "') 
+                            OR p2.post_title
+                            AND p1.meta_value LIKE '%%%s%%' )
                         ",
                         $term, $term, $term
                     )
                 )
             ) );
         }        
-
+ 
         return $post_ids;
     }
 

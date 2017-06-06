@@ -12,7 +12,7 @@ if(isset($_POST['loc'])){
         {
             $BaseMetaObj = get_post_custom( $BaseObj->ID ); 
             $base_is_location_fixed = isset( $BaseMetaObj['base_is_location_fixed'] ) ? esc_attr( $BaseMetaObj['base_is_location_fixed'][0] ) : "";
-            print_r($base_is_location_fixed);
+            //print_r($base_is_location_fixed);
         }
 	//$query = "SELECT base_is_location_fixed FROM bkx_base WHERE base_id = ".trim($baseid); 
 	//$objListSeat= $wpdb->get_results($query);
@@ -28,7 +28,7 @@ if(isset($_POST['mob'])){
         {
             $BaseMetaObj = get_post_custom( $BaseObj->ID ); 
             $base_is_mobile_only = isset( $BaseMetaObj['base_is_mobile_only'] ) ? esc_attr( $BaseMetaObj['base_is_mobile_only'][0] ) : "";
-            print_r($base_is_mobile_only);
+            //print_r($base_is_mobile_only);
         }
 //	$query_mob = "SELECT base_is_mobile_only FROM bkx_base WHERE base_id = ".trim($baseid1); 
 //	$objListMob= $wpdb->get_results($query_mob);
@@ -158,11 +158,11 @@ else {
                                 {
                                         if($base_hours!=0)
                                         {
-                                                $base_time .= $base_hours. "Hours ";
+                                                $base_time .= $base_hours. " Hours ";
                                         }
                                         if($base_minutes!=0)
                                         {
-                                                $base_time .= $base_minutes. "Minutes ";
+                                                $base_time .= $base_minutes. " Minutes ";
                                         }
                                 }
                                 else if($base_time_option == "D")

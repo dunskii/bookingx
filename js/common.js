@@ -14,6 +14,9 @@ var validWorldPhoneChars = phoneNumberDelimiters + "+";
 // Minimum no of digits in an international phone no.
 var minDigitsInIPhoneNumber = 10;
 
+var body = $('body');
+var loader = $('.bookingx-loader');
+
 function isInteger(s)
 {   var i;
     for (i = 0; i < s.length; i++)
@@ -73,12 +76,12 @@ function ValidateForm(){
 		Phone.focus()
 		return false
 	}
-	if (checkInternationalPhone(Phone.value)==false){
-		alert("Please Enter a Valid Phone Number")
-		Phone.value=""
-		Phone.focus()
-		return false
-	}
+	// if (checkInternationalPhone(Phone.value)==false){
+	// 	alert("Please Enter a Valid Phone Number")
+	// 	Phone.value=""
+	// 	Phone.focus()
+	// 	return false
+	// }
 	return true
  }
 /**
@@ -119,73 +122,60 @@ function zeroPad(num, places) {
  *@return boolean True or False with current input date and class to be applied to the current date cell
  */
 function disableSpecificWeekDays(date) {
+
+	var loader = $('.bookingx-loader');
+
+	loader.show();
+
 		var x=new Date();
 		x.setFullYear(2014,0,27);
 		//var comp = dates.compare(x,date)
 		//alert(date);
 		if(date.getTime() == x.getTime())
 		{
-			//alert(x);
+			 loader.hide();
 			return [false];
 		}
-		//alert(date.getDay()+"Hii"+date.getMonth()+"year"+date.getYear());
-		/*
-		var prevDate = new Date('1/25/2011');
-		var currDate = new Date('1/26/2011');
-		var newDate = new Date('1/27/2011');
-		var arr_date = new Array();
-		arr_date.push(prevDate);
-		arr_date.push(currDate);
-		if ($.inArray(newDate, arr_date) == -1) {
-			alert("true");
-		}
-		else
-		{
-			alert("false");
-		}
-		*/
+		 
 		var flag_val = $("#id_days_availability_certain").val();
 		var option_val = $("#id_days_availability").val();
 		var flag_month_val = $("#id_months_availability").val();
 		var option_month_val = $("#id_months_availability_certain").val();
+		var booked_days = url_obj.booked_days;
+		var collect_disable_days = new Array();
+
+
+		if(booked_days === undefined || booked_days == 0 ){}
+		else{ var booked_days_arr = booked_days.split(",");}
+
+
+		if(booked_days_arr === undefined || booked_days_arr == '' ){}
+		else
+		{
+			for (var i = 0; i <= booked_days_arr.length; i++)
+			{
+				collect_disable_days.push(booked_days_arr[i]);
+			}
+		}
+
 		//alert($("#id_days_availability").val());
 		var daysToDisable = new Array();
 		var temp_option_val = option_val.split(",");
 		//console.log(option_val);alert(option_val);
 		for (x in temp_option_val)
 		{
-			if(temp_option_val[x]=="Monday")
-			{
-			daysToDisable.push(1);	
-			}
-			if(temp_option_val[x]=="Tuesday")
-			{
-			daysToDisable.push(2);	
-			}
-			if(temp_option_val[x]=="Wednesday")
-			{
-			daysToDisable.push(3);	
-			}
-			if(temp_option_val[x]=="Thursday")
-			{
-			daysToDisable.push(4);	
-			}
-			if(temp_option_val[x]=="Friday")
-			{
-			daysToDisable.push(5);	
-			}
-			if(temp_option_val[x]=="Saturday")
-			{
-			daysToDisable.push(6);	
-			}
-			if(temp_option_val[x]=="Sunday")
-			{
-			daysToDisable.push(0);	
-			}
+			if(temp_option_val[x]=="Monday"){ daysToDisable.push(1);}
+			if(temp_option_val[x]=="Tuesday"){ daysToDisable.push(2);}
+			if(temp_option_val[x]=="Wednesday"){ daysToDisable.push(3);}
+			if(temp_option_val[x]=="Thursday"){ daysToDisable.push(4); }
+			if(temp_option_val[x]=="Friday"){ daysToDisable.push(5); }
+			if(temp_option_val[x]=="Saturday") { daysToDisable.push(6);	 }
+			if(temp_option_val[x]=="Sunday") { daysToDisable.push(0); }
 
 		}
 
 		var temp_option_month_val = option_month_val.split(",");
+
 		var monthsToDisable = new Array();
 
 		for (x in temp_option_month_val)
@@ -252,59 +242,63 @@ function disableSpecificWeekDays(date) {
 			{
 					 if ($.inArray(month, monthsToDisable) == -1)
 					{
+							 loader.hide();
 							return [false];
 					}
 					else
 					{
 						for (i = 0; i < daysToDisable.length; i++) {
 							if ($.inArray(day, daysToDisable) == -1) {
-							return [false];
+								 loader.hide();
+								return [false];
 							}
 						}
 						
 						var temp_date = zeroPad(date.getMonth()+1, 2)+"/"+zeroPad(date.getDate(),2)+"/"+date.getFullYear();
 						var classname = '';
-						/*$.post(url_obj.plugin_url+'/if_date_booked.php',{'bookigndate':temp_date}, function(data) {
-							///$("#booking_details_value").html(data);
-							//alert(data);
-							classname = data;
-						 });*/
+						loader.hide(); 
 						return [true];
 						
 					}
 		      }
 			
-			/*
-		        for (i = 0; i < daysToDisable.length; i++) {
-		            if ($.inArray(day, daysToDisable) == -1) {
-		                return [false];
-		            }
-		        }
-		        return [true];
-			*/
 		}
 		else
 		{
-			//alert('else');alert(daysToDisable);console.log(daysToDisable);
-			//alert(day);alert(date);
+			 $checkdate = $.datepicker.formatDate('mm/dd/yy', date);
 			for (i = 0; i < daysToDisable.length; i++) {
 				    if ($.inArray(day, daysToDisable) == -1) {
-					return [false];
+				    	loader.hide();
+						return [false];
 				    }
+			}
+
+			var booked_days = $('#id_booked_days').val();
+			if(booked_days == 'yes'){
+				if(collect_disable_days === undefined || collect_disable_days==''){}
+				else
+				{
+					for (var i = 0; i <= collect_disable_days.length; i++)
+					{
+						if(collect_disable_days[i] == $checkdate)
+						{
+							return [false];
+						}
+					}
+				}
 			}
 			
 			var temp_date = zeroPad(date.getMonth()+1, 2)+"/"+zeroPad(date.getDate(),2)+"/"+date.getFullYear();
 			var classname = '';
-			/*$.post(url_obj.plugin_url+'/if_date_booked.php',{'bookigndate':temp_date}, function(data) {
-				///$("#booking_details_value").html(data);
-				//alert(data);
-				classname = data;
-			 });*/
+
+			loader.hide();
 			return [true];
 		
 		}
 		//var temp_date= new date(Y-m-d);
-		
+
+		 
+		loader.hide();
 
    }
 /**
@@ -313,44 +307,158 @@ function disableSpecificWeekDays(date) {
  *@params date
  *@return void
  */
-function change_timepicker_val(date)
+function change_timepicker_val( date, inst)
 {
-	$("#booking_details_value").css("display","block");
+	var booked_days = $('#id_booked_days').val();
+	var base_days = $('#id_base_days').val();
+	var option_val = $("#id_days_availability").val();
+	var generate_checked_dates = Array();
+	var generate_checked_days = Array();
+	var disable_array = Array();
+	var error = Array();
+	var selected_dates = Array();
 
-	$("#booking_details_value").html("<img src='"+url_obj.plugin_url+"/images/loading.gif' width='200px;'>");
-	//$("#booking_details_value").html("hello");
-	$("#id_input_date").val(date);
-	//get time display options
-	$.post(url_obj.plugin_url+'/displaytimeoptions.php',{'bookigndate':date,service_id:$('#id_base_selector').val(),'seatid': $('#myInputSeat').val()}, function(data) {
-		$("#booking_details_value").html(data);
-	 });
+//	console.log(inst);
 
-	//unset all timepicker selected values
-	$("#id_booking_time_from").val('');
-	$("#id_display_success").html("");
-	$("#id_can_proceed").val(0);
-
-	$("#time_options").html("<option>Select a time</option>");
-	var myTime=new Array("12:00AM","12:30AM","01:00AM", "01:30AM");
-	var option_text = "";
-	for(temp in myTime)
+	if( booked_days == 'yes' && base_days != '' )
 	{
-		option_text = option_text+"<option>"+myTime[temp]+"</option>";
-	}
-	$("#time_options").append(option_text);
-	
-	
-	var fromtime = $('#id_time_availability_certain_from').val();
-	var tilltime = $('#id_time_availability_certain_till').val();
-	//alert(fromtime+"And "+tilltime)
-	if(fromtime!="" && tilltime!="")
-	{
-		$('#input_4_11_2').timepicker({minTime: fromtime, maxTime: tilltime, interval: 10});
+		for (var a = 0; a <= base_days.length; a++)
+		{
+			var dateObject = new Date(date);
+	        dateObject.setDate(dateObject.getDate()+a); 
+	 
+	        var dd = dateObject.getDate();
+	    	var mm = dateObject.getMonth() + 1;//January is 0! 
+	    	var yyyy = dateObject.getFullYear();
+		    if (dd < 10) { dd = '0' + dd }
+		    if (mm < 10) { mm = '0' + mm }
+	     	var checked_date= mm + '/' + dd + '/' + yyyy;
+	        generate_checked_dates.push( checked_date );   
+		}
+
+		$('#id_datepicker td.ui-datepicker-unselectable').each( function() {
+		
+		  	var find_unselectable = $.trim($(this).text());
+			if( find_unselectable.length > 0 && find_unselectable != '' && !isNaN(find_unselectable) ){
+				var dateObject = new Date(date);
+		        dateObject.setDate(dateObject.getDate()); 
+		        var dd = find_unselectable;
+		    	var mm = dateObject.getMonth() + 1;//January is 0! 
+		    	var yyyy = dateObject.getFullYear();
+			    if (dd < 10) { dd = '0' + dd }
+			    if (mm < 10) { mm = '0' + mm }
+		     	var checked_date= mm + '/' + dd + '/' + yyyy;
+		     	disable_array.push(checked_date);
+			}		
+	});
+
+		if(disable_array === undefined || disable_array==''){}
+		else
+		{
+			for (var b = 0; b <= base_days.length; b++)
+			{
+				for (var i = 0; i <= disable_array.length; i++)
+				{
+					if( disable_array[i] == generate_checked_dates[b])
+					{
+						error.push('Please select other day to booking');
+					}
+					else
+					{
+						selected_dates.push(generate_checked_dates[b]);
+						  
+
+					}	 
+				}
+			}
+		}
+
+		selected_dates = jQuery.unique( selected_dates );
+		 
+
+
+		 
+
+		if( error == '' ){
+		 	selected_dates = jQuery.unique( selected_dates );
+
+		 	for (var b = 0; b <= selected_dates.length; b++)
+		 	{
+		 		$('#id_datepicker td').each( function() {
+				  	var find_selectable = $(this).andSelf();
+				  	var find_day = $(this).text();
+
+					if( find_day != '' && !isNaN(find_day) ){
+						var dateObject = new Date(date);
+				        dateObject.setDate(dateObject.getDate()); 
+				        var dd = find_day;
+				    	var mm = dateObject.getMonth() + 1;//January is 0! 
+				    	var yyyy = dateObject.getFullYear();
+					    if (dd < 10) { dd = '0' + dd }
+					    if (mm < 10) { mm = '0' + mm }
+				     	var checked_date = mm + '/' + dd + '/' + yyyy;
+
+				     	 if(checked_date == selected_dates[b])
+				     	 {
+				     	 	console.log(find_selectable);
+				     	 	console.log(find_selectable.addClass('divyang'));
+				     	 }
+					}		
+			});
+		 	 
+			}
+		 }
+
+		 
+		  
+		 
+
+		
+
+		
 	}
 	else
 	{
-		$('#input_4_11_2').timepicker();
+
+			$("#booking_details_value").css("display","block");
+			$("#booking_details_value").html("<img src='"+url_obj.plugin_url+"/images/loading.gif' width='200px;'>");
+			//$("#booking_details_value").html("hello");
+			$("#id_input_date").val(date);
+			//get time display options
+			$.post(url_obj.plugin_url+'/displaytimeoptions.php',{'bookigndate':date,service_id:$('#id_base_selector').val(),'seatid': $('#myInputSeat').val()}, function(data) {
+				$("#booking_details_value").html(data);
+			 });
+
+			//unset all timepicker selected values
+			$("#id_booking_time_from").val('');
+			$("#id_display_success").html("");
+			$("#id_can_proceed").val(0);
+
+			$("#time_options").html("<option>Select a time</option>");
+			var myTime=new Array("12:00AM","12:30AM","01:00AM", "01:30AM");
+			var option_text = "";
+			for(temp in myTime)
+			{
+				option_text = option_text+"<option>"+myTime[temp]+"</option>";
+			}
+			$("#time_options").append(option_text);
+			
+			
+			var fromtime = $('#id_time_availability_certain_from').val();
+			var tilltime = $('#id_time_availability_certain_till').val();
+			//alert(fromtime+"And "+tilltime)
+			if(fromtime!="" && tilltime!="")
+			{
+				$('#input_4_11_2').timepicker({minTime: fromtime, maxTime: tilltime, interval: 10});
+			}
+			else
+			{
+				$('#input_4_11_2').timepicker();
+			}
 	}
+ 
+
+	 
 }
 /**
  *method displaySecondForm
@@ -360,20 +468,58 @@ function change_timepicker_val(date)
  */
 function displaySecondForm()
 {
+	 var loader = $('.bookingx-loader');
+
+	loader.show();
+
 	//alert($("#id_booking_duration_insec").attr("display-date-picker"));
+	 
 	if($("#id_booking_duration_insec").attr("display-date-picker") == "1")
 	 {
 		$( "#id_datepicker_extended" ).datepicker();
 		var today = new Date();
 		 var $today_date =$.datepicker.formatDate('mm/dd/yy', new Date());
 		 $('#id_datepicker').datepicker('setDate', $today_date);
-		$( "#id_datepicker" ).datepicker({minDate: today,setDate: $today_date,beforeShowDay: disableSpecificWeekDays, onSelect: function(date){change_timepicker_val(date);}});
+		 $( "#id_datepicker" ).datepicker({minDate: today,setDate: $today_date,beforeShowDay: disableSpecificWeekDays, onSelect: function( date, inst){change_timepicker_val(date, inst);}});
 	 }
 	 else
 	 {
 		$("#id_display_success").html("You Can Diretly Contact Administrator and proceed with booking payment");
 		$("#id_can_proceed").val(1);
 	 }
+	  
+}
+
+function get_content_by_page_id( page_id, class_name )
+{
+	var loader = $('.bookingx-loader');
+	    loader.show();
+		var data = {
+			'action': 'bkx_get_page_content',
+			'page_id': page_id
+		};
+		jQuery.post(url_obj.admin_ajax, data, function(response) {
+			loader.hide();
+			 response = JSON.parse(response);
+			 var content = response.post_content;
+			 var title = response.post_title;
+			 jQuery('.'+class_name).attr('title',title);
+			 jQuery('.'+class_name).html(content);
+			 jQuery( "."+class_name ).dialog({
+				  modal: true,
+				  width: "auto",
+				      // maxWidth: 660, // This won't work
+				      create: function( event, ui ) {
+				        // Set maxWidth
+				        $(this).css("maxWidth", "660px");
+				      }
+				});
+			 jQuery( "."+class_name ).siblings('div.ui-dialog-titlebar').removeClass('ui-widget-header');
+			 jQuery( "."+class_name ).siblings('div.ui-dialog-titlebar').find('span').html('');
+			 jQuery( "."+class_name ).siblings('div.ui-dialog-titlebar').find('span').html('<h2>'+title+'</h2>');
+		});
+		 
+
 }
 /*--------------------------------------------------------------------------------------------------------*/
 $(document).ready(function(){
@@ -386,69 +532,18 @@ $(document).ready(function(){
 
 		
   $(function() {		
-        $( "#gf_progressbar_wrapper_4" ).progressbar({
+        $( "#bkx_progressbar_wrapper_4" ).progressbar({
             value: 25
         });
 	//alert("<?php echo "dfgfd"; ?>");
     });
 
-		/*
-		$('#display_calendar_full').once('calendar').fullCalendar({
-			defaultView: 'agendaWeek',
-			aspectRatio: 1.8,
-			contentHeight: 400,
-			header: {
-				left: 'prev,next today',
-				center: 'title',
-				right: 'agendaWeek'
-			},
-			 dayClick: function( date, allDay, jsEvent, view ) { 
-                    var myDate = new Date();
-                    
-                    //How many days to add from today?
-                    var daysToAdd = 0;
-                    
-                    myDate.setDate(myDate.getDate() + daysToAdd);
-                
-                    if (date <= myDate) {
-                        //TRUE Clicked date smaller than today + daysToadd
-						alert("You cannot book on this day!");  
-                    }
-                    else
-                    {
-                        //FLASE Clicked date larger than today + daysToadd
-                        alert("Excellent choice! We can book today..");    
-                     }   
-                
-                    
-            }, 
-			viewDisplay: function(view) {
-			// maybe return false aborts action? 
-			if (view.start > lastDayOfNextMonth) {
-				return false;
-			}
-			// or disable next button if this is last valid month
-			if (view.end + oneDay >= lastValidDate) {
-				$("#calendar #fc-button-next").attr("disabled","disabled");
-			}
-			// or gotoDate if view.start is out of range
-			if (view.start > lastValidDate) {
-			   // gotoDate
-			}
-		},
-		});
-		*/
-		//alert(url_obj.plugin_url);
 
-		/*$('#input_4_11_2').timepicker({
-		    showPeriod: true,
-		    showLeadingZero: true,
-		    minTime:'10:45:00'
-		  });
-		*/
-		//$('#input_4_11_2').timepicker();
+
+
+	 
 		 $(function() {
-			 $("#gform_next_button_4_7").click(function(){
+			 $("#bkx_next_button_4_7").click(function(){
 
 				 //alert($("#id_booking_duration_insec").attr("display-date-picker"));
 
@@ -515,6 +610,7 @@ $(document).ready(function(){
 			});
                     }
                             $('#myInputSeat').bind('change', function(){
+                            	loader.show();
                                 //var oldvalue = ???
                                      var seat_temp = $(this).val();
                                      var seat_temp_name = $(this).html();
@@ -573,8 +669,10 @@ $(document).ready(function(){
                                                     }
                                                     else
                                                     {	
-                                                            alert("Couldn't list bases");
+                                                            alert("Something went wrong..");
                                                     }
+
+                                                    loader.hide();
                                             });
                             });
                         
@@ -591,7 +689,7 @@ $(document).ready(function(){
 						$('#field_4_18').remove();
 						$('#mobile_only').css('display', 'block');
 						$('#user_details').css('display', 'none');
-						$('#gform_page_footer_details').css('display', 'none');
+						$('#bkx_page_footer_details').css('display', 'none');
 						
 					}
 				}
@@ -604,7 +702,7 @@ $(document).ready(function(){
 			
 			$("input[name=mobile_only_choice]:radio").change(function () {
 				$('#user_details').css('display', 'block');
-				$('#gform_page_footer_details').css('display', 'block');
+				$('#bkx_page_footer_details').css('display', 'block');
 				$('li#field_4_18').remove();
 			
 			var selected_radio = $("input[name='mobile_only_choice']:checked").val();
@@ -612,7 +710,7 @@ $(document).ready(function(){
 			{	
 			
 				var x = $('ul#4_form_user_details');
-				x.append('<li id="field_4_18" class="gfield"><label class="gfield_label" for="input_4_18_1">Address</label><div class="ginput_complex ginput_container" id="input_4_18"><span class="ginput_full" id="input_4_18_1_container"><input type="text" name="input_street" id="id_street" value="" tabindex="18"><label for="input_4_18_1" id="input_4_18_1_label">Street</label></span><br><span class="ginput_left" id="input_4_18_3_container"><input type="text" name="input_city" id="id_city" value="" tabindex="19"><label for="input_4_18_3" id="input_4_18.3_label">City</label></span><br><span class="ginput_right" id="input_4_18_4_container"><input type="text" name="input_state" id="id_state" value="" tabindex="21"><label for="input_4_18_4" id="input_4_18_4_label">State / Province / Region</label></span><br><span class="ginput_left" id="input_4_18_5_container"><input type="text" name="input_postcode" id="id_postcode" value="" tabindex="22"><label for="input_4_18_5" id="input_4_18_5_label">Zip / Postal Code</label></span><input type="hidden" class="gform_hidden" name="input_18.6" id="input_4_18_6" value=""></div></li>');
+				x.append('<li id="field_4_18" class="gfield"><label class="gfield_label" for="input_4_18_1">Address</label><div class="ginput_complex ginput_container" id="input_4_18"><span class="ginput_full" id="input_4_18_1_container"><input type="text" name="input_street" id="id_street" value="" tabindex="18"><label for="input_4_18_1" id="input_4_18_1_label">Street</label></span><br><span class="ginput_left" id="input_4_18_3_container"><input type="text" name="input_city" id="id_city" value="" tabindex="19"><label for="input_4_18_3" id="input_4_18.3_label">City</label></span><br><span class="ginput_right" id="input_4_18_4_container"><input type="text" name="input_state" id="id_state" value="" tabindex="21"><label for="input_4_18_4" id="input_4_18_4_label">State / Province / Region</label></span><br><span class="ginput_left" id="input_4_18_5_container"><input type="text" name="input_postcode" id="id_postcode" value="" tabindex="22"><label for="input_4_18_5" id="input_4_18_5_label">Zip / Postal Code</label></span><input type="hidden" class="bkx_hidden" name="input_18.6" id="input_4_18_6" value=""></div></li>');
 				
 			}
 			else 
@@ -631,6 +729,15 @@ $(document).ready(function(){
 
 		$('#id_base_selector').bind('change', function(){
 			var base_temp = $(this).val();
+			$.post(url_obj.plugin_url+'/get_booked_days.php', { baseid: base_temp }, function(data) {
+				 var base_data = $.parseJSON(data);
+				 if(base_data.disable == 'yes')
+				 {
+				 	$('#id_booked_days').val('yes'); 
+				 	$('#id_base_days').val(base_data.time); 
+				 }
+
+			});
 			
 			$.post(url_obj.plugin_url+'/get_base_on_seat.php', {baseid: base_temp, loc: 'fixed' }, function(data) {
 				if(data!="error")
@@ -652,7 +759,6 @@ $(document).ready(function(){
 	
 	var availableTags = 
 		[
-            "0",
             "1",
             "2",
             "3",
@@ -703,6 +809,7 @@ $(document).ready(function(){
 		}
 		else
 		{
+			$('#extended_time').hide();
 			$.post(url_obj.plugin_url+'/get_if_base_extended.php', { baseid: base_temp }, function(data) {
 			
 				if(data=="Y")
@@ -718,7 +825,9 @@ $(document).ready(function(){
 			});
 		}
 		get_total_price('');
-		$.post(url_obj.plugin_url+'/get_addition_on_base.php', { baseid: base_temp }, function(data) {
+
+		var seat_id = $('#myInputSeat').val();
+		$.post(url_obj.plugin_url+'/get_addition_on_base.php', { baseid: base_temp, seat_id : seat_id }, function(data) {
 			
 			var temp_obj = $.parseJSON(data);
 				//console.log(temp_obj[0].addition_alies);
@@ -744,10 +853,10 @@ $(document).ready(function(){
 	 });
 	*/
 	
-	$(":checkbox").bind("click",function(event, ui){
+	/*$(":checkbox").bind("click",function(event, ui){
 		alert('clicked');
 		
-	});
+	});*/
 	
     });//close document.ready function 
 
@@ -755,6 +864,7 @@ function get_total_price(thisval)
 {
 	var temp = $(thisval).val();
 	var addition_list = new Array();
+	var loader = $('.bookingx-loader');
 
 
 	$('.addition_name_class').each(function(index) {
@@ -775,11 +885,13 @@ function get_total_price(thisval)
 	//alert(base_extended);
 	var seat_temp = $('#myInputSeat').val();
 	var base_temp = $('#id_base_selector').val();
+	loader.show();
 	$.post(url_obj.plugin_url+'/get_total_price.php', { seatid : seat_temp, baseid: base_temp,additionid : addition_list,extended : base_extended}, 	function(data) {
 		$('h4 span#total_price').html(data['total_price']);
 		$('#hidden_total_price').val(data['total_price']);
 		$('#deposit_price').val(data['deposit_price']);
 		$('#seat_is_booking_prepayment').val(data['seat_is_booking_prepayment']);
+		loader.hide();
 	}, "json");
 	
 }
@@ -787,6 +899,8 @@ function get_total_price(thisval)
 function validate_form(source_val,destination_val)
 {
 	var error_list = new Array();
+	var loader = $('.bookingx-loader');
+
 	if(source_val==1 && destination_val == 2)
 	{
 		var addition_list =  new Array();
@@ -875,10 +989,10 @@ function validate_form(source_val,destination_val)
 		}
 		else
 		{
-			if (checkInternationalPhone($("#id_phonenumber").val())==false)
-			{
-				error_list.push("Please Enter a Valid Phone Number");
-			}
+			// if (checkInternationalPhone($("#id_phonenumber").val())==false)
+			// {
+			// 	error_list.push("Please Enter a Valid Phone Number");
+			// }
 		}
 		if($("#id_email").val()=="")
 		{
@@ -897,8 +1011,23 @@ function validate_form(source_val,destination_val)
 			error_list.push("Please enter your post code");
 		}
 
-	}
+		if ($("#id_terms").is(":checked")) {}
+	    else {
+	        error_list.push("Please checked our terms & condtion.");
+	    }
 
+	    if ($("#id_privacy").is(":checked")) {}
+	    else {
+	        error_list.push("Please checked our privacy policy.");
+	    }
+
+	    if ($("#id_cancellation").is(":checked")) {}
+	    else {
+	        error_list.push("Please checked our cancellation policy.");
+	    }
+	    
+	}
+	
 	temp_err='';
 	for(var i=0; i<error_list.length; i++)
 	{
@@ -906,8 +1035,10 @@ function validate_form(source_val,destination_val)
 	}
 	if(temp_err!='')
 	{
+
 		$(".error").html(temp_err);
 		$(".error").show();
+
 		return false;
 	}
 	else
@@ -918,10 +1049,10 @@ function validate_form(source_val,destination_val)
 		var booking_duration = $("#id_booking_duration_insec").val();
 
 		$(".error").html('');
-		$( "#gf_progressbar_wrapper_4" ).progressbar({
+		$( "#bkx_progressbar_wrapper_4" ).progressbar({
 			value: 25*destination_val
 		});
-		$('h3.gf_progressbar_title').html('Step '+destination_val+' of 4');
+		$('h3.bkx_progressbar_title').html('Step '+destination_val+' of 4');
 		//alert("writing html here");
 		//start code for getting selected seat,base and additions			
 			var addition_list = new Array();
@@ -945,74 +1076,72 @@ function validate_form(source_val,destination_val)
 			var seat_temp = $('#myInputSeat').val();
 			var base_temp = $('#id_base_selector').val();
 			var mob_only = $('#id_selected_base').val();
+			 
+
+			var base_extended  = 0;
+			var input_extended = document.getElementById("id_input_extended_time");
+			base_extended = input_extended.value;
+
 			//end code for getting selected seat, base and addition
 
-			
-			$.post(url_obj.plugin_url+'/get_duration_booking.php', { seatid : seat_temp, baseid: base_temp,additionid : addition_list}, 	function(data) {
+			loader.show();
+			$.post(url_obj.plugin_url+'/get_duration_booking.php', { seatid : seat_temp, baseid: base_temp, extended: base_extended, additionid : addition_list}, 	function(data) {
 				//alert(data);
 				var temp_data = $.parseJSON(data);
 				//alert(temp_data);console.log(temp_data);
 				//alert(data);alert(addition_list);console.log(addition_list);
-				$("#display_total_duration").html(temp_data['time_output']);
+				$("#display_total_duration").html(temp_data['booked_summary']);
 				$("#id_booking_duration_insec").val(temp_data['totalduration_in_seconds']);
 				var result = temp_data['result'];
 				$("#id_booking_duration_insec").attr('display-date-picker', result);
+				
 				displaySecondForm();
+				loader.hide();
 				//$("#id_total_duration").val(temp_data['time_output']);
 				//$("span#id_selected_addition").html(temp_data['addition_list']);
 			});
+			 
 			var $today_date =$.datepicker.formatDate('mm/dd/yy', new Date());
 			change_timepicker_val($today_date);
+			 
 		}
 		$("span#id_selected_base").html($("#id_base_selector option:selected").text());
-	//$("input.id_selected_base").val($("#id_base_selector option:selected").text());
+ 
 		if(source_val==3 && destination_val == 4)
 		{	
-			//alert($("#myInputSeat option:selected").text());
-			//alert("writing html");
-			
-			//start code for getting selected seat,base and additions			
-			/*var addition_list = new Array();
-			$('.addition_name_class').each(function(index) {
-				//alert($(this).val());
-				if($(this).attr('checked')=='checked')
-				{
-		
-				addition_list.push($(this).val());
-				}
-				else
-				{
-				//alert('not checked');
-				}
-
-			});*/
-			//alert(addition_list);
-			//console.log(addition_list);
+ 			
+ 			loader.show();
 			var seat_temp = $('#myInputSeat').val();
 			var base_temp = $('#id_base_selector').val();
+			 
+			var input_extended = document.getElementById("id_input_extended_time");
+			base_extended = input_extended.value;
 			//alert($('#id_base_selector').val());
 			//end code for getting selected seat, base and addition			
 			
-			$.post(url_obj.plugin_url+'/get_duration_booking.php', { seatid : seat_temp, baseid: base_temp,additionid : addition_list}, 	function(data) {
+			$.post(url_obj.plugin_url+'/get_duration_booking.php', { seatid : seat_temp, baseid: base_temp, extended : base_extended, additionid : addition_list}, 	function(data) {
 				var temp_data = $.parseJSON(data);
 				//alert(temp_data);console.log(temp_data);
 				//alert(data);alert(addition_list);console.log(addition_list);
 				$("#id_estimated_time").html(temp_data['time_output']);
+				var currency = temp_data['currency'];
 				$("#id_total_duration").val(temp_data['time_output']);
-				$("span#id_selected_addition").html(temp_data['addition_list']);
+				// $("span#id_selected_addition").html(temp_data['addition_list']);
+				$(".booking_summary_data").html(temp_data['booked_summary']);
+				$(".booking_summary_cost").html('<li> <b> Total Cost : </b>'+temp_data['currency'] + ' '+ temp_data['total_price'] +'</li>');
+				$(".booking_summary_grand_total").html('<li> <b> Total Tax ('+ temp_data['tax_rate'] +'% '+ temp_data['tax_name'] +' ): </b>'+temp_data['currency'] + ' ' + temp_data['total_tax'] +'</li><li> <b> Grand Total : </b>'+temp_data['currency'] + ' '+ temp_data['grand_total'] +'</li>');
+				 
+				if(temp_data['booking_customer_note']!= 'zero'){
+				$(".booking_customer_note").html('<li> <b> Note : </b>'+ temp_data['booking_customer_note'] +'</li>');
+				}
 				//$("span#id_selected_base11").html(temp_data['mob_only']);
 
 			});
-
+			$(".booking_summary_date").html('<li> <b> Date / Time : </b>'+ $("#id_datepicker").val() +' at '+ $("#id_booking_time_from").val() +'</li>');
 			$("span#id_selected_date").html($("#id_datepicker").val());
 			//$("span#id_selected_time").html($("#input_4_11_2").val());
 			$("span#id_selected_time").html($("#id_booking_time_from").val());
 			$("span#id_selected_seat").html($("#myInputSeat option:selected").text());
-			//$("span#id_selected_base").html($("#id_base_selector option:selected").text());
-			//$("span#id_selected_addition").html($("#input_4_11_2").val());
-			//alert("$"+$("#total_price").html());
-			
-			//alert($("#myInputSeat option:selected").val());
 			$("#id_totalling").html("$"+$("#total_price").html());
 
 			//$("#id_deposit_val").html("$"+$("#total_price").html());
@@ -1020,13 +1149,14 @@ function validate_form(source_val,destination_val)
 			//console.log("payment: "+seat_is_booking_prepayment);
 			if(seat_is_booking_prepayment == 'Y'){
 				$("#id_deposit_val").html("Please Note a deposit of $"+$("#deposit_price").val()+" is required to process and confirm this booking.");
-				$("#gform_submit_button_4").addClass("paypal_button");
-				$("#gform_submit_button_4").val("");
+				$("#bkx_submit_button_4").addClass("paypal_button");
+				$("#bkx_submit_button_4").val("");
 			} else {
 				$("#id_deposit_val").html("");
-				if($("#gform_submit_button_4").hasClass("paypal_button"))
-					$("#gform_submit_button_4").removeClass("paypal_button");
+				if($("#bkx_submit_button_4").hasClass("paypal_button"))
+					$("#bkx_submit_button_4").removeClass("paypal_button");
 			}
+
 		}
 		check_slot_is_available(seat_temp,start_time,booking_duration,booking_date,source_val,destination_val);
 
@@ -1052,6 +1182,8 @@ $('div.app_timetable_cell.free').bind('click', function() {
 
 //on click of any time slot
 $("div").on("click", "div.app_timetable_cell.free", function() {
+	var loader = $('.bookingx-loader');
+	loader.show();
     //alert("hii+++");
 	//get the clicked time
 	$("#booking_details_value div").removeClass("selected-slot");
@@ -1069,7 +1201,7 @@ $("div").on("click", "div.app_timetable_cell.free", function() {
 		if(parseInt(result) == 1)
 		{
 			$("#id_booking_time_from").val(start_time);
-			$("#id_display_success").html("You Can book this slot");
+			//$("#id_display_success").html("You Can book this slot");
 			$("#id_can_proceed").val(1);
 			var selected_start = starting_slot + 1;
 			var selected_end = starting_slot + temp_obj['no_of_slots']+1;
@@ -1111,8 +1243,8 @@ $("div").on("click", "div.app_timetable_cell.free", function() {
 			//console.log(good_ids);
 			if($process == 0)
 			{
-				alert("You Cannot book this slot.");
-				$("#id_display_success").html("<span class='error_booking'>You Cannot book this slot</span>");
+				//alert("You Cannot book this slot.");
+				//$("#id_display_success").html("<span class='error_booking'>You Cannot book this slot</span>");
 				$("#id_can_proceed").val(0);
 			}
 			else
@@ -1126,10 +1258,11 @@ $("div").on("click", "div.app_timetable_cell.free", function() {
 		}
 		else
 		{
-			alert("You Cannot book this slot.");
-			$("#id_display_success").html("<span class='error_booking'>You Cannot book this slot</span>");
+			//alert("You Cannot book this slot.");
+			//$("#id_display_success").html("<span class='error_booking'>You Cannot book this slot</span>");
 			$("#id_can_proceed").val(0);
 		}
+		loader.hide();
 	});
 	
 	return false;
@@ -1200,6 +1333,9 @@ function check_staff_availability(seat_id,start_time,durations,booking_date,book
 
 function check_slot_is_available(seat_temp,start_time,booking_duration,booking_date,source_val,destination_val)
 {
+	var loader = $('.bookingx-loader');
+	loader.show();
+
 	if(booking_date!='') {
 		$.post(url_obj.plugin_url + '/check_ifit_canbe_booked.php', {
 			seatid: seat_temp,
@@ -1211,10 +1347,10 @@ function check_slot_is_available(seat_temp,start_time,booking_duration,booking_d
 			var result = temp_obj['result'];
 			var starting_slot = temp_obj['starting_slot'];
 			var $process;
-
+			loader.hide();
 			if (parseInt(result) == 1) {
 				$("#id_booking_time_from").val(start_time);
-				$("#id_display_success").html("You Can book this slot");
+				//$("#id_display_success").html("You Can book this slot");
 				$("#id_can_proceed").val(1);
 				var selected_start = starting_slot + 1;
 				var selected_end = starting_slot + temp_obj['no_of_slots'];
@@ -1250,8 +1386,8 @@ function check_slot_is_available(seat_temp,start_time,booking_duration,booking_d
 				//alert($process);
 				//console.log(good_ids);
 				if ($process == 0) {
-					alert("You Cannot book this slot.");
-					$("#id_display_success").html("<span class='error_booking'>You Cannot book this slot</span>");
+					//alert("You Cannot book this slot.");
+					//$("#id_display_success").html("<span class='error_booking'>You Cannot book this slot</span>");
 					$("#id_can_proceed").val(0);
 				}
 				else {
@@ -1259,15 +1395,15 @@ function check_slot_is_available(seat_temp,start_time,booking_duration,booking_d
 						$("#booking_details_value ." + good_ids[sel]).addClass("selected-slot");
 					}
 				}
-				$("#gform_page_4_"+source_val).css('display','none');
-				$("#gform_page_4_"+destination_val).css('display','block');
+				$("#bkx_page_4_"+source_val).css('display','none');
+				$("#bkx_page_4_"+destination_val).css('display','block');
 
 			}
 			else
 			{
 
-				alert("You Cannot book this slot.");
-				$("#id_display_success").html("<span class='error_booking'>You Cannot book this slot</span>");
+				//alert("You Cannot book this slot.");
+				//$("#id_display_success").html("<span class='error_booking'>You Cannot book this slot</span>");
 				$("#id_can_proceed").val(0);
 				change_timepicker_val(booking_date);
 				return false;
@@ -1276,9 +1412,12 @@ function check_slot_is_available(seat_temp,start_time,booking_duration,booking_d
 	}
 	else
 	{
-		$("#gform_page_4_"+source_val).css('display','none');
-		$("#gform_page_4_"+destination_val).css('display','block');
+		loader.hide();
+		$("#bkx_page_4_"+source_val).css('display','none');
+		$("#bkx_page_4_"+destination_val).css('display','block');
 	}
+
+	
 }
 
 
@@ -1439,7 +1578,7 @@ function draw_rectangle(id_temp, name)
 			divAddition.setAttribute("id","addition_container");
 			divAddition.style.border = "0px solid #ccc";
 			divAddition.style.height = "auto";
-			divAddition.style.width = "300px";
+			//divAddition.style.width = "300px";
 			divAddition.style.background = 'Yellow';
 			divAddition.style.position = 'relative';
 			divAddition.style.left = +baseWidth+'px';

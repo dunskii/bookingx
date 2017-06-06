@@ -1,35 +1,35 @@
-$(document).ready(function(){
-
+jQuery(document).ready(function(){
+jQuery('#wpseo_meta').remove();
 	//diasable all timepicker if day checkbox is not checked
-	$.each($("input[name='seat_certain_day[]']"), function(val) {
+	jQuery.each(jQuery("input[name='seat_certain_day[]']"), function(val) {
 		if(this.checked===false)
 		{
-			var n=$(this).attr('id').split("_");
+			var n=jQuery(this).attr('id').split("_");
 			var dayName = n[2];
-			$("#id_seat_time_from_"+dayName).attr("disabled",true);
-			$("#id_seat_time_till_"+dayName).attr("disabled",true);
+			jQuery("#id_seat_time_from_"+dayName).attr("disabled",true);
+			jQuery("#id_seat_time_till_"+dayName).attr("disabled",true);
 		}
 	});
 
 	//disable and enable the timepicker textbox on change of the input chekcbox for days
-	$("input[name='seat_certain_day[]']").change(function(){
+	jQuery("input[name='seat_certain_day[]']").change(function(){
 		//alert("changing");
 		if(this.checked===false)
 		{
-			var n=$(this).attr('id').split("_");
+			var n=jQuery(this).attr('id').split("_");
 			var dayName = n[2];
-			$("#id_seat_time_from_"+dayName).attr("disabled",true);
-			$("#id_seat_time_till_"+dayName).attr("disabled",true);
+			jQuery("#id_seat_time_from_"+dayName).attr("disabled",true);
+			jQuery("#id_seat_time_till_"+dayName).attr("disabled",true);
 			//23rd April 2013 reset the value of time from and time till field if checkbox is unchecked
-			$("#id_seat_time_from_"+dayName).val('');
-			$("#id_seat_time_till_"+dayName).val('');
+			jQuery("#id_seat_time_from_"+dayName).val('');
+			jQuery("#id_seat_time_till_"+dayName).val('');
 		}
 		else if(this.checked===true)
 		{
-			var n=$(this).attr('id').split("_");
+			var n=jQuery(this).attr('id').split("_");
 			var dayName = n[2];
-			$("#id_seat_time_till_"+dayName).attr("disabled",false);
-			$("#id_seat_time_from_"+dayName).attr("disabled",false);
+			jQuery("#id_seat_time_till_"+dayName).attr("disabled",false);
+			jQuery("#id_seat_time_from_"+dayName).attr("disabled",false);
 		}
 	});
 	
@@ -40,14 +40,14 @@ $(document).ready(function(){
 	{
 		var day = weekdays[i];
 		
-		$('input#id_seat_time_from_'+day).timepicker({
+		jQuery('input#id_seat_time_from_'+day).timepicker({
 			timeFormat: 'hh:mm p',
 			// items in the dropdown are separated by at interval minutes
 			interval: 30,
 			scrollbar: true
 		});
 		
-		$('input#id_seat_time_till_'+day).timepicker({
+		jQuery('input#id_seat_time_till_'+day).timepicker({
 			timeFormat: 'hh:mm p',
 			// year, month, day and seconds are not important
 			interval: 30,
@@ -57,167 +57,167 @@ $(document).ready(function(){
 	
 
 	//Onchange Sunday From Time
-	$('#id_seat_time_from_sunday').timepicker().option('change', function(time) {	            
+	jQuery('#id_seat_time_from_sunday').timepicker().option('change', function(time) {	            
 			time.setMinutes (time.getMinutes() + 30 );	
 			window.from_time = time.getTime();			
-			$('#id_seat_time_till_sunday').timepicker('option', 'startTime', time);
-			$('#id_seat_time_till_sunday').val("");			
+			jQuery('#id_seat_time_till_sunday').timepicker('option', 'startTime', time);
+			jQuery('#id_seat_time_till_sunday').val("");			
 	});
 	// Validate Sunday Till Time
-	$("input#id_seat_time_till_sunday").timepicker().option('change', function(time) {
+	jQuery("input#id_seat_time_till_sunday").timepicker().option('change', function(time) {
 		var till_time = time.getTime();
 		if(from_time > till_time) {
 			if(time.getHours() == 0 && time.getMinutes()==0){
-				$(this).removeClass("time_error");
+				jQuery(this).removeClass("time_error");
 			}else{
-				$(this).addClass("time_error");		
-				$(this).val("");
+				jQuery(this).addClass("time_error");		
+				jQuery(this).val("");
 			}
 		}
 		else{
-			$(this).removeClass("time_error");
+			jQuery(this).removeClass("time_error");
 		}
 	});	
 
 	//Onchange Monday From Time
-	$('input#id_seat_time_from_monday').timepicker().option('change', function(time) {		
+	jQuery('input#id_seat_time_from_monday').timepicker().option('change', function(time) {		
 			time.setMinutes (time.getMinutes() + 30 );	
 			window.from_time = time.getTime();			
-			$('#id_seat_time_till_monday').timepicker('option', 'startTime', time);
-			$('#id_seat_time_till_monday').val("");			
+			jQuery('#id_seat_time_till_monday').timepicker('option', 'startTime', time);
+			jQuery('#id_seat_time_till_monday').val("");			
 	});
 	// Validate Monday Till Time
-	$("input#id_seat_time_till_monday").timepicker().option('change', function(time) {
+	jQuery("input#id_seat_time_till_monday").timepicker().option('change', function(time) {
 		var till_time = time.getTime();
 		if(from_time > till_time) {
 			if(time.getHours() == 0 && time.getMinutes()==0){
-				$(this).removeClass("time_error");
+				jQuery(this).removeClass("time_error");
 			}else{
-				$(this).addClass("time_error");		
-				$(this).val("");
+				jQuery(this).addClass("time_error");		
+				jQuery(this).val("");
 			}
 		}
 		else{
-			$(this).removeClass("time_error");
+			jQuery(this).removeClass("time_error");
 		}
 	});	
 	
 
 	//Onchange Tuesday From Time
-	$('input#id_seat_time_from_tuesday').timepicker().option('change', function(time) {		
+	jQuery('input#id_seat_time_from_tuesday').timepicker().option('change', function(time) {		
 			time.setMinutes (time.getMinutes() + 30 );	
 			window.from_time = time.getTime();			
-			$('#id_seat_time_till_tuesday').timepicker('option', 'startTime', time);
-			$('#id_seat_time_till_tuesday').val("");			
+			jQuery('#id_seat_time_till_tuesday').timepicker('option', 'startTime', time);
+			jQuery('#id_seat_time_till_tuesday').val("");			
 	});
 	// Validate Tuesday Till Time
-	$("input#id_seat_time_till_tuesday").timepicker().option('change', function(time) {
+	jQuery("input#id_seat_time_till_tuesday").timepicker().option('change', function(time) {
 		var till_time = time.getTime();
 		if(from_time > till_time) {
 			if(time.getHours() == 0 && time.getMinutes()==0){
-				$(this).removeClass("time_error");
+				jQuery(this).removeClass("time_error");
 			}else{
-				$(this).addClass("time_error");		
-				$(this).val("");
+				jQuery(this).addClass("time_error");		
+				jQuery(this).val("");
 			}
 		}
 		else{
-			$(this).removeClass("time_error");
+			jQuery(this).removeClass("time_error");
 		}
 	});	
 	
 
 	//Onchange Wednesday From Time
-	$('input#id_seat_time_from_wednesday').timepicker().option('change', function(time) {		
+	jQuery('input#id_seat_time_from_wednesday').timepicker().option('change', function(time) {		
 			time.setMinutes (time.getMinutes() + 30 );	
 			window.from_time = time.getTime();			
-			$('#id_seat_time_till_wednesday').timepicker('option', 'startTime', time);
-			$('#id_seat_time_till_wednesday').val("");			
+			jQuery('#id_seat_time_till_wednesday').timepicker('option', 'startTime', time);
+			jQuery('#id_seat_time_till_wednesday').val("");			
 	});
 	// Validate Wednesday Till Time
-	$("input#id_seat_time_till_wednesday").timepicker().option('change', function(time) {
+	jQuery("input#id_seat_time_till_wednesday").timepicker().option('change', function(time) {
 		var till_time = time.getTime();
 		if(from_time > till_time) {
 			if(time.getHours() == 0 && time.getMinutes()==0){
-				$(this).removeClass("time_error");
+				jQuery(this).removeClass("time_error");
 			}else{
-				$(this).addClass("time_error");		
-				$(this).val("");
+				jQuery(this).addClass("time_error");		
+				jQuery(this).val("");
 			}
 		}
 		else{
-			$(this).removeClass("time_error");
+			jQuery(this).removeClass("time_error");
 		}
 	});	
 
 	
 	//Onchange Thursday From Time
-	$('input#id_seat_time_from_thursday').timepicker().option('change', function(time) {		
+	jQuery('input#id_seat_time_from_thursday').timepicker().option('change', function(time) {		
 			time.setMinutes (time.getMinutes() + 30 );	
 			window.from_time = time.getTime();			
-			$('#id_seat_time_till_thursday').timepicker('option', 'startTime', time);
-			$('#id_seat_time_till_thursday').val("");			
+			jQuery('#id_seat_time_till_thursday').timepicker('option', 'startTime', time);
+			jQuery('#id_seat_time_till_thursday').val("");			
 	});
 	// Validate Thursday Till Time
-	$("input#id_seat_time_till_thursday").timepicker().option('change', function(time) {
+	jQuery("input#id_seat_time_till_thursday").timepicker().option('change', function(time) {
 		var till_time = time.getTime();
 		if(from_time > till_time) {
 			if(time.getHours() == 0 && time.getMinutes()==0){
-				$(this).removeClass("time_error");
+				jQuery(this).removeClass("time_error");
 			}else{
-				$(this).addClass("time_error");		
-				$(this).val("");
+				jQuery(this).addClass("time_error");		
+				jQuery(this).val("");
 			}
 		}
 		else{
-			$(this).removeClass("time_error");
+			jQuery(this).removeClass("time_error");
 		}
 	});	
 	
 
 	//Onchange Friday From Time
-	$('input#id_seat_time_from_friday').timepicker().option('change', function(time) {		
+	jQuery('input#id_seat_time_from_friday').timepicker().option('change', function(time) {		
 			time.setMinutes (time.getMinutes() + 30 );	
 			window.from_time = time.getTime();			
-			$('#id_seat_time_till_friday').timepicker('option', 'startTime', time);
-			$('#id_seat_time_till_friday').val("");			
+			jQuery('#id_seat_time_till_friday').timepicker('option', 'startTime', time);
+			jQuery('#id_seat_time_till_friday').val("");			
 	});
 	// Validate Friday Till Time
-	$("input#id_seat_time_till_friday").timepicker().option('change', function(time) {
+	jQuery("input#id_seat_time_till_friday").timepicker().option('change', function(time) {
 		var till_time = time.getTime();
 		if(from_time > till_time) {
 			if(time.getHours() == 0 && time.getMinutes()==0){
-				$(this).removeClass("time_error");
+				jQuery(this).removeClass("time_error");
 			}else{
-				$(this).addClass("time_error");		
-				$(this).val("");
+				jQuery(this).addClass("time_error");		
+				jQuery(this).val("");
 			}
 		}
 		else{
-			$(this).removeClass("time_error");
+			jQuery(this).removeClass("time_error");
 		}
 	});	
 	
 	//Onchange Saturday From Time
-	$('input#id_seat_time_from_saturday').timepicker().option('change', function(time) {		
+	jQuery('input#id_seat_time_from_saturday').timepicker().option('change', function(time) {		
 			time.setMinutes (time.getMinutes() + 30 );	
 			window.from_time = time.getTime();			
-			$('#id_seat_time_till_saturday').timepicker('option', 'startTime', time);
-			$('#id_seat_time_till_saturday').val("");			
+			jQuery('#id_seat_time_till_saturday').timepicker('option', 'startTime', time);
+			jQuery('#id_seat_time_till_saturday').val("");			
 	});
 	// Validate Saturday Till Time
-	$("input#id_seat_time_till_saturday").timepicker().option('change', function(time) {
+	jQuery("input#id_seat_time_till_saturday").timepicker().option('change', function(time) {
 		var till_time = time.getTime();
 		if(from_time > till_time) {
 			if(time.getHours() == 0 && time.getMinutes()==0){
-				$(this).removeClass("time_error");
+				jQuery(this).removeClass("time_error");
 			}else{
-				$(this).addClass("time_error");		
-				$(this).val("");
+				jQuery(this).addClass("time_error");		
+				jQuery(this).val("");
 			}
 		}
 		else{
-			$(this).removeClass("time_error");
+			jQuery(this).removeClass("time_error");
 		}
 	});		
 });
@@ -233,47 +233,55 @@ function ValidateEmail(mail)
         return (error);  
     } 
     
- $(document).on('submit', '#post', function (e) {
+ jQuery(document).on('submit', '#post', function (e) {
      
    
 	var error_list = new Array();
-	//alert($('#id_seat_image').val());
-	if($('#id_seat_name').val()=="")
+	//alert(jQuery('#id_seat_image').val());
+
+	
+		 
+	 
+
+	if(jQuery('#id_seat_name').val()=="")
 	{
 		error_list.push("Please enter seat name");
 	}
-	if($('#selOpt').val()=="")
+	if(jQuery('#selOpt').val()=="")
 	{
 		error_list.push("Please select associate option");
 	}
 
-	if($('#selOpt').val()=='Y'){
-		if($('#role').val() ==""){
-			error_list.push("Please select user type");
-		}
-		if($('#role').val() !=""){
-			if($('#users').val() ==""){
-				error_list.push("Please select user");
+	if(jQuery("input[name=bkx_user_auto]:radio:checked").val()=="N"){
+
+			if(jQuery('#selOpt').val()=='Y'){
+				if(jQuery('#role').val() ==""){
+					error_list.push("Please select user type");
+				}
+				if(jQuery('#role').val() !=""){
+					if(jQuery('#users').val() ==""){
+						error_list.push("Please select user");
+					}
+				}
 			}
-		}
 	}
 
-	if($('textarea#id_seat_description').val()=="")
+	if(jQuery('textarea#id_seat_description').val()=="")
 	{
 		error_list.push("Please enter seat description");
 	}
-	if($('textarea#id_seat_image').val()=="")
+	if(jQuery('textarea#id_seat_image').val()=="")
 	{
 		error_list.push("Please upload seat image");
 	}
-	if($('#id_seat_color').val()=="")
+	if(jQuery('#id_seat_color').val()=="")
 	{
 		error_list.push("Please choose seat color");
 	}
 	else
 	{
-//		var temp_color = $('#id_seat_color').val();
-//		$.post('<?php echo plugins_url( "validate_color.php" , __FILE__ ); ?>', { seat_color: temp_color }, function(data) {
+//		var temp_color = jQuery('#id_seat_color').val();
+//		jQuery.post('<?php echo plugins_url( "validate_color.php" , __FILE__ ); ?>', { seat_color: temp_color }, function(data) {
 //			if(parseInt(data)>0)
 //			{
 //				error_list.push("Please choose different seat color, this color already exists");
@@ -282,70 +290,70 @@ function ValidateEmail(mail)
 //		});
 	}
 	/*
-	if($("#id_seat_location").val()=="")
+	if(jQuery("#id_seat_location").val()=="")
 	{
 		error_list.push("Please enter seat location");
 	}
 	*/
-	if($("#seat_street").val()=="")
+	if(jQuery("#seat_street").val()=="")
 	{
 		error_list.push("Please enter street");
 	}
-	if($("#seat_city").val()=="")
+	if(jQuery("#seat_city").val()=="")
 	{
 		error_list.push("Please enter city");
 	}
-	if($("#seat_state").val()=="")
+	if(jQuery("#seat_state").val()=="")
 	{
 		error_list.push("Please enter state");
 	}
-	if($("#seat_zip").val()=="")
+	if(jQuery("#seat_zip").val()=="")
 	{
 		error_list.push("Please enter zip/postal code");
 	}
 	
-	if($("input[name=seat_is_certain_time]:radio:checked").val()=="Y")
+	if(jQuery("input[name=seat_is_certain_time]:radio:checked").val()=="Y")
 	{
-		if($("#id_seat_certain_time_from").val()=="")
+		if(jQuery("#id_seat_certain_time_from").val()=="")
 		{
 		error_list.push("Please enter time from");
 		}
-		if($("#id_seat_certain_time_till").val()=="")
+		if(jQuery("#id_seat_certain_time_till").val()=="")
 		{
 		error_list.push("Please enter time till");
 		}
 	}
 	
-	if($("input[name=seat_is_alternate_time]:radio:checked").val()=="Y")
+	if(jQuery("input[name=seat_is_alternate_time]:radio:checked").val()=="Y")
 	{
-		if($("#id_seat_alternate_time_from").val()=="")
+		if(jQuery("#id_seat_alternate_time_from").val()=="")
 		{
 		error_list.push("Please enter alternate time from");
 		}
-		if($("#id_seat_alternate_time_till").val()=="")
+		if(jQuery("#id_seat_alternate_time_till").val()=="")
 		{
 		error_list.push("Please enter alternate time till");
 		}
 	}
 
-	if($("input[name=seat_is_certain_day]:radio:checked").val()=="Y")
+	if(jQuery("input[name=seat_is_certain_day]:radio:checked").val()=="Y")
 	{
 		
-		$("input[name=seat_certain_day,type=checkbox]:checked").each(function(){
-			//alert($(this).val()+"value");
+		jQuery("input[name=seat_certain_day,type=checkbox]:checked").each(function(){
+			//alert(jQuery(this).val()+"value");
 		});
 	}
 	
-	if($("#id_seat_email").val()=="" || $("#id_seat_email")==undefined)
+	if(jQuery("#id_seat_email").val()=="" || jQuery("#id_seat_email")==undefined)
 	{
 		error_list.push("Please enter your email address");
 	}
 	else
 	{
-                var seat_email = $("#id_seat_email").val();
-                var seat_alias = $("#seat_alias").val();
-                var res = ValidateEmail($("#id_seat_email").val());
-                var $post_new_php = $( "body" ).hasClass( "post-new-php" );
+                var seat_email = jQuery("#id_seat_email").val();
+                var seat_alias = jQuery("#seat_alias").val();
+                var res = ValidateEmail(jQuery("#id_seat_email").val());
+                var $post_new_php = jQuery( "body" ).hasClass( "post-new-php" );
 		if(res!=true)
 		{
                     error_list.push("Please enter valid email address");
@@ -375,38 +383,38 @@ function ValidateEmail(mail)
    
                 
 	}
-	if($("#id_seat_is_alternate_email").attr('checked')=="checked")
+	if(jQuery("#id_seat_is_alternate_email").attr('checked')=="checked")
 	{
-		if($("#id_seat_alternate_email").val()!="" || $("#id_seat_alternate_email").val()!=undefined)
+		if(jQuery("#id_seat_alternate_email").val()!="" || jQuery("#id_seat_alternate_email").val()!=undefined)
 		{
-			var res_alt = ValidateEmail($("#id_seat_alternate_email").val());
+			var res_alt = ValidateEmail(jQuery("#id_seat_alternate_email").val());
 			if(res_alt!=true)
 			{
 				error_list.push("Please enter valid alternate email address");
 			}
 		}
 	}
-	if($("#id_seat_alternate_email").val()==$("#id_seat_email").val())
+	if(jQuery("#id_seat_alternate_email").val()==jQuery("#id_seat_email").val())
 	{
 		error_list.push("Email and Alternate Email should not be same");
 	}
-	$.each($("input[name='seat_certain_day[]']"), function(val) {
+	jQuery.each(jQuery("input[name='seat_certain_day[]']"), function(val) {
 		if(this.checked===true)
 		{
-			var n=$(this).attr('id').split("_");
+			var n=jQuery(this).attr('id').split("_");
 			var dayName = n[2];
 			//added if condition to check if both time from and till value is blank then consider it as valid time as it will be available for full day
-			if($("#id_seat_time_from_"+dayName).val()=="" && $("#id_seat_time_till_"+dayName).val()=="" )
+			if(jQuery("#id_seat_time_from_"+dayName).val()=="" && jQuery("#id_seat_time_till_"+dayName).val()=="" )
 			{
 				
 			}
 			else
 			{
-				if($("#id_seat_time_from_"+dayName).val()=="")
+				if(jQuery("#id_seat_time_from_"+dayName).val()=="")
 				{
 					error_list.push("Please enter time from value for "+dayName.toUpperCase());
 				}
-				if($("#id_seat_time_till_"+dayName).val()=="")
+				if(jQuery("#id_seat_time_till_"+dayName).val()=="")
 				{
 					error_list.push("Please enter time till value for "+dayName.toUpperCase());
 				}
@@ -421,24 +429,24 @@ function ValidateEmail(mail)
 	}
 	if(temp_err=="")
 	{
-		$("#error_list").hide();
+		jQuery("#error_list").hide();
 		if(error_list.length==0)
 		{
-			//$("#id_seat_add").submit();
+			//jQuery("#id_seat_add").submit();
                         return true;
 		}
 	}
 	else
 	{
-		$("#error_list").html(temp_err);
-		$("#error_list").show();
-                $("#error_list").scrollTop( 300 );
-                $(this).find('.button-primary').removeClass('disabled');
-                $(this).find('.spinner').removeClass('is-active');
+		jQuery("#error_list").html(temp_err);
+		jQuery("#error_list").show();
+                jQuery("#error_list").scrollTop( 300 );
+                jQuery(this).find('.button-primary').removeClass('disabled');
+                jQuery(this).find('.spinner').removeClass('is-active');
                 
 		return false;
 	}
-	//$("#id_seat_add").submit();
+	//jQuery("#id_seat_add").submit();
 
 
      
@@ -450,43 +458,46 @@ function ValidateEmail(mail)
 function validate_form()
 {
 	var error_list = new Array();
-	//alert($('#id_seat_image').val());
-	if($('#id_seat_name').val()=="")
+	//alert(jQuery('#id_seat_image').val());
+	if(jQuery('#id_seat_name').val()=="")
 	{
 		error_list.push("Please enter seat name");
 	}
-	if($('#selOpt').val()=="")
+
+
+
+	if(jQuery('#selOpt').val()=="")
 	{
 		error_list.push("Please select associate option");
 	}
 
-	if($('#selOpt').val()=='Y'){
-		if($('#role').val() ==""){
+	if(jQuery('#selOpt').val()=='Y'){
+		if(jQuery('#role').val() ==""){
 			error_list.push("Please select user type");
 		}
-		if($('#role').val() !=""){
-			if($('#users').val() ==""){
+		if(jQuery('#role').val() !=""){
+			if(jQuery('#users').val() ==""){
 				error_list.push("Please select user");
 			}
 		}
 	}
 
-	if($('textarea#id_seat_description').val()=="")
+	if(jQuery('textarea#id_seat_description').val()=="")
 	{
 		error_list.push("Please enter seat description");
 	}
-	if($('textarea#id_seat_image').val()=="")
+	if(jQuery('textarea#id_seat_image').val()=="")
 	{
 		error_list.push("Please upload seat image");
 	}
-	if($('#id_seat_color').val()=="")
+	if(jQuery('#id_seat_color').val()=="")
 	{
 		error_list.push("Please choose seat color");
 	}
 	else
 	{
-		var temp_color = $('#id_seat_color').val();
-		$.post('<?php echo plugins_url( "validate_color.php" , __FILE__ ); ?>', { seat_color: temp_color }, function(data) {
+		var temp_color = jQuery('#id_seat_color').val();
+		jQuery.post('<?php echo plugins_url( "validate_color.php" , __FILE__ ); ?>', { seat_color: temp_color }, function(data) {
 			if(parseInt(data)>0)
 			{
 				error_list.push("Please choose different seat color, this color already exists");
@@ -494,105 +505,100 @@ function validate_form()
 
 		});
 	}
-	/*
-	if($("#id_seat_location").val()=="")
-	{
-		error_list.push("Please enter seat location");
-	}
-	*/
-	if($("#id_seat_street").val()=="")
+
+	if(jQuery("#id_seat_street").val()=="")
 	{
 		error_list.push("Please enter street");
 	}
-	if($("#id_seat_city").val()=="")
+	if(jQuery("#id_seat_city").val()=="")
 	{
 		error_list.push("Please enter city");
 	}
-	if($("#id_seat_state").val()=="")
+	if(jQuery("#id_seat_state").val()=="")
 	{
 		error_list.push("Please enter state");
 	}
-	if($("#id_seat_postcode").val()=="")
+	if(jQuery("#id_seat_postcode").val()=="")
 	{
 		error_list.push("Please enter zip/postal code");
 	}
 	
-	if($("input[name=seat_is_certain_time]:radio:checked").val()=="Y")
+	if(jQuery("input[name=seat_is_certain_time]:radio:checked").val()=="Y")
 	{
-		if($("#id_seat_certain_time_from").val()=="")
+		if(jQuery("#id_seat_certain_time_from").val()=="")
 		{
 		error_list.push("Please enter time from");
 		}
-		if($("#id_seat_certain_time_till").val()=="")
+		if(jQuery("#id_seat_certain_time_till").val()=="")
 		{
 		error_list.push("Please enter time till");
 		}
 	}
 	
-	if($("input[name=seat_is_alternate_time]:radio:checked").val()=="Y")
+	if(jQuery("input[name=seat_is_alternate_time]:radio:checked").val()=="Y")
 	{
-		if($("#id_seat_alternate_time_from").val()=="")
+		if(jQuery("#id_seat_alternate_time_from").val()=="")
 		{
 		error_list.push("Please enter alternate time from");
 		}
-		if($("#id_seat_alternate_time_till").val()=="")
+		if(jQuery("#id_seat_alternate_time_till").val()=="")
 		{
 		error_list.push("Please enter alternate time till");
 		}
 	}
 
-	if($("input[name=seat_is_certain_day]:radio:checked").val()=="Y")
+	if(jQuery("input[name=seat_is_certain_day]:radio:checked").val()=="Y")
 	{
 		
-		$("input[name=seat_certain_day,type=checkbox]:checked").each(function(){
-			//alert($(this).val()+"value");
+		jQuery("input[name=seat_certain_day,type=checkbox]:checked").each(function(){
+			//alert(jQuery(this).val()+"value");
 		});
 	}
 	
-	if($("#id_seat_email").val()=="" || $("#id_seat_email")==undefined)
+	if(jQuery("#id_seat_email").val()=="" || jQuery("#id_seat_email")==undefined)
 	{
 		error_list.push("Please enter your email address");
 	}
 	else
 	{
-		var res = ValidateEmail($("#id_seat_email").val());
+		var res = ValidateEmail(jQuery("#id_seat_email").val());
 		if(res!=true)
 		{
 			error_list.push("Please enter valid email address");
 		}
 	}
-	if($("#id_seat_is_alternate_email").attr('checked')=="checked")
+	if(jQuery("#id_seat_is_alternate_email").attr('checked')=="checked")
 	{
-		if($("#id_seat_alternate_email").val()!="" || $("#id_seat_alternate_email").val()!=undefined)
+		if(jQuery("#id_seat_alternate_email").val()!="" || jQuery("#id_seat_alternate_email").val()!=undefined)
 		{
-			var res_alt = ValidateEmail($("#id_seat_alternate_email").val());
+			var res_alt = ValidateEmail(jQuery("#id_seat_alternate_email").val());
 			if(res_alt!=true)
 			{
 				error_list.push("Please enter valid alternate email address");
 			}
 		}
 	}
-	if($("#id_seat_alternate_email").val()==$("#id_seat_email").val())
+	if(jQuery("#id_seat_alternate_email").val()==jQuery("#id_seat_email").val())
 	{
 		error_list.push("Email and Alternate Email should not be same");
 	}
-	$.each($("input[name='seat_certain_day[]']"), function(val) {
+	jQuery.each(jQuery("input[name='seat_certain_day[]']"), function(val) {
 		if(this.checked===true)
 		{
-			var n=$(this).attr('id').split("_");
+			var n=jQuery(this).attr('id').split("_");
 			var dayName = n[2];
 			//added if condition to check if both time from and till value is blank then consider it as valid time as it will be available for full day
-			if($("#id_seat_time_from_"+dayName).val()=="" && $("#id_seat_time_till_"+dayName).val()=="" )
+			if(jQuery("#id_seat_time_from_"+dayName).val()=="" && jQuery("#id_seat_time_till_"+dayName).val()=="" )
 			{
 				
 			}
 			else
 			{
-				if($("#id_seat_time_from_"+dayName).val()=="")
+				if(jQuery("#id_seat_time_from_"+dayName).val()=="")
 				{
 					error_list.push("Please enter time from value for "+dayName.toUpperCase());
 				}
-				if($("#id_seat_time_till_"+dayName).val()=="")
+				if(jQuery("#id_seat_time_till_"+dayName).val()=="")
 				{
 					error_list.push("Please enter time till value for "+dayName.toUpperCase());
 				}
@@ -607,19 +613,19 @@ function validate_form()
 	}
 	if(temp_err=="")
 	{
-		$("#error_list").hide();
+		jQuery("#error_list").hide();
 		if(error_list.length==0)
 		{
-			$("#id_seat_add").submit();
+			jQuery("#id_seat_add").submit();
 		}
 	}
 	else
 	{
-		$("#error_list").html(temp_err);
-		$("#error_list").show();
+		jQuery("#error_list").html(temp_err);
+		jQuery("#error_list").show();
 		return false;
 	}
-	//$("#id_seat_add").submit();
+	//jQuery("#id_seat_add").submit();
 
 }
 
@@ -628,14 +634,14 @@ function change_amount_option(thisval)
 	//alert(thisval);
 	if(thisval=="FixedAmount")
 	{
-		$('#fixedamount').show();
-		$('#percentage').hide();
+		jQuery('#fixedamount').show();
+		jQuery('#percentage').hide();
 	}
 
 	if(thisval=="Percentage")
 	{
-		$('#fixedamount').hide();
-		$('#percentage').show();
+		jQuery('#fixedamount').hide();
+		jQuery('#percentage').show();
 	}
 
 }
@@ -644,17 +650,17 @@ function display_ical_address(thisval)
 {
 /*
 alert(thisval);
-var temp = $(thisval).checked();
+var temp = jQuery(thisval).checked();
 alert(temp);
 */
-var checked_val = $("#id_seat_is_ical").attr('checked');
+var checked_val = jQuery("#id_seat_is_ical").attr('checked');
 	if(checked_val=="checked")
 	{
-		$("#ical_address").show();
+		jQuery("#ical_address").show();
 	}
 	else
 	{
-		$("#ical_address").hide();
+		jQuery("#ical_address").hide();
 	}
 }
 
@@ -663,16 +669,16 @@ function hide_fixed_percentage(thisval)
 //alert(thisval);
 if(thisval=="Full Payment")
 	{
-		$("#fixed_percentage").hide();
-		$("#percentage").hide();
-		$("#fixedamount").hide();
+		jQuery("#fixed_percentage").hide();
+		jQuery("#percentage").hide();
+		jQuery("#fixedamount").hide();
 	}
 	else if(thisval == "Deposit")
 	{
-		$("#fixed_percentage").show();
-		$("#id_seat_payment_type").val("FixedAmount");
-		//$("#percentage").show();
-		$("#fixedamount").show();
+		jQuery("#fixed_percentage").show();
+		jQuery("#id_seat_payment_type").val("FixedAmount");
+		//jQuery("#percentage").show();
+		jQuery("#fixedamount").show();
 	}
 }
 
@@ -680,256 +686,274 @@ if(thisval=="Full Payment")
 function display_secondary_email(thisval)
 {
 
-var checked_val_email = $("#id_seat_is_alternate_email").attr('checked');
+var checked_val_email = jQuery("#id_seat_is_alternate_email").attr('checked');
 //alert(checked_val_email);
 if(checked_val_email=="checked")
 	{
-		$("#secondary_email").show();
+		jQuery("#secondary_email").show();
 	}
 else
 	{
-		$("#secondary_email").hide();
+		jQuery("#secondary_email").hide();
 	}
 }
 
 /////////////////////////////document ready scripts///////////////////////////////////////////////////////
-$(document).ready(function(){
+jQuery(document).ready(function(){
 
 	/**********************start script for color picker******************************/
 
-	$('#id_seat_color').iris({
+	jQuery('#id_seat_color').iris({
 		width: 300,
 		hide: true,
 		palettes: true
 	});
 	/********************end script for color picker*******************************/
 
-	/*----------------------start script for checkbox select all-----------------------*/
-	$("input[name=seat_certain_month_all]").bind("change",function(event, ui){
+	jQuery("input[name=bkx_user_auto]").bind("change",function(event, ui){
 					
-			if($(this).attr('checked'))
+			 var bkx_user_auto = jQuery(this).val();
+
+			 if(bkx_user_auto=="Y")
+				{
+					jQuery(".bkx_user_mannual").hide();
+				}
+
+				if(bkx_user_auto=="N")
+				{
+					jQuery(".bkx_user_mannual").show();
+				}
+		});
+
+
+	/*----------------------start script for checkbox select all-----------------------*/
+	jQuery("input[name=seat_certain_month_all]").bind("change",function(event, ui){
+					
+			if(jQuery(this).attr('checked'))
 			{
-				$('.month_checkbox').attr('checked','checked');
+				jQuery('.month_checkbox').attr('checked','checked');
 			}
 			else
 			{
-				$('.month_checkbox').removeAttr('checked','checked');
+				jQuery('.month_checkbox').removeAttr('checked','checked');
 			}
 		});
 	
-	var payment_type = $("#id_seat_deposit_full").val();
+	var payment_type = jQuery("#id_seat_deposit_full").val();
+
 	if(payment_type=="Deposit")
 	{
 
 	}
 	if(payment_type=="Full Payment")
 	{
-		$("#fixed_percentage").hide();
-		$("#fixedamount").show();
-		$("#percentage").hide();
+		jQuery("#fixed_percentage").hide();
+		jQuery("#fixedamount").show();
+		jQuery("#percentage").hide();
 	}
 
 	
 	/*show hide availability of certain times*/
-	var temp = $('input[name=seat_is_certain_time]:checked').val();
+	var temp = jQuery('input[name=seat_is_certain_time]:checked').val();
 	//alert(temp);
 
 	if(temp=="Y")
 	{
-		$("#certain_time").show();
+		jQuery("#certain_time").show();
 	}
 
 	if(temp=="N")
 	{
-		$("#certain_time").hide();
+		jQuery("#certain_time").hide();
 	}
 
-	$("input[name=seat_is_certain_time]:radio").bind( "change", function(event, ui) {
-		//console.log('seat_is_certain_time: '+$(this).val());
-		if($(this).val()=="Y")
+	jQuery("input[name=seat_is_certain_time]:radio").bind( "change", function(event, ui) {
+		//console.log('seat_is_certain_time: '+jQuery(this).val());
+		if(jQuery(this).val()=="Y")
 		{
-			$("#certain_time").show();
+			jQuery("#certain_time").show();
 		}
-		if($(this).val()=="N")
+		if(jQuery(this).val()=="N")
 		{
-			$("#certain_time").hide();
+			jQuery("#certain_time").hide();
 		}
 		// Call function here
 	});
 
 	/*show hide availability of pre payment*/
-	var temp_pre_payment = $('input[name=seat_is_pre_payment]:checked').val();
+	var temp_pre_payment = jQuery('input[name=seat_is_pre_payment]:checked').val();
+
 	if(temp_pre_payment=="Y")
 	{
-		$("#deposit_fullpayment").show();
-		$("#fixed_percentage").show();
-		$("#fixedamount").show();
-		$("#percentage").show();
+		jQuery("#deposit_fullpayment").show();
+		jQuery("#fixed_percentage").show();
+		jQuery("#fixedamount").show();
+		jQuery("#percentage").show();
 	}
 
 	if(temp_pre_payment=="N")
 	{
-		$("#deposit_fullpayment").hide();
-		$("#fixed_percentage").hide();
-		$("#fixedamount").hide();
-		$("#percentage").hide();
+		jQuery("#deposit_fullpayment").hide();
+		jQuery("#fixed_percentage").hide();
+		jQuery("#fixedamount").hide();
+		jQuery("#percentage").hide();
 	}
 
-	$("input[name=seat_is_pre_payment]:radio").bind( "change", function(event, ui) {
-		//console.log('seat_is_certain_time: '+$(this).val());
-		if($(this).val()=="Y")
+	jQuery("input[name=seat_is_pre_payment]:radio").bind( "change", function(event, ui) {
+		//console.log('seat_is_certain_time: '+jQuery(this).val());
+		if(jQuery(this).val()=="Y")
 		{
-			$("#deposit_fullpayment").show();
-			/*$("#fixed_percentage").show();
-			$("#fixedamount").show();
-			$("#percentage").show();*/
+			jQuery("#deposit_fullpayment").show();
+			/*jQuery("#fixed_percentage").show();
+			jQuery("#fixedamount").show();
+			jQuery("#percentage").show();*/
 		}
-		if($(this).val()=="N")
+		if(jQuery(this).val()=="N")
 		{
-			$("#deposit_fullpayment").hide();
-			$("#fixed_percentage").hide();
-			$("#fixedamount").hide();
-			$("#percentage").hide();
+			jQuery("#deposit_fullpayment").hide();
+			jQuery("#fixed_percentage").hide();
+			jQuery("#fixedamount").hide();
+			jQuery("#percentage").hide();
 		}
 		// Call function here
 	});
 
 
 	/*show hide availability of alternate times*/
-	var temp_alternate_time = $('input[name=seat_is_alternate_time]:checked').val();
+	var temp_alternate_time = jQuery('input[name=seat_is_alternate_time]:checked').val();
 	//alert(temp);
 
 	if(temp_alternate_time=="Y")
 	{
-		$("#alternate_time").show();
+		jQuery("#alternate_time").show();
 	}
 
 	if(temp_alternate_time=="N")
 	{
-		$("#alternate_time").hide();
+		jQuery("#alternate_time").hide();
 	}
 
-	$("input[name=seat_is_alternate_time]:radio").bind( "change", function(event, ui) {
-		//console.log('seat_is_certain_time: '+$(this).val());
-		if($(this).val()=="Y")
+	jQuery("input[name=seat_is_alternate_time]:radio").bind( "change", function(event, ui) {
+		//console.log('seat_is_certain_time: '+jQuery(this).val());
+		if(jQuery(this).val()=="Y")
 		{
-			$("#alternate_time").show();
+			jQuery("#alternate_time").show();
 		}
-		if($(this).val()=="N")
+		if(jQuery(this).val()=="N")
 		{
-			$("#alternate_time").hide();
+			jQuery("#alternate_time").hide();
 		}
 		// Call function here
 	});
 
-	display_secondary_email($("#id_seat_is_alternate_email").val());
-	display_ical_address($("#id_seat_is_ical").val());
+	display_secondary_email(jQuery("#id_seat_is_alternate_email").val());
+	display_ical_address(jQuery("#id_seat_is_ical").val());
 
 	/*show hide availability of certain days*/
-	var temp_certain_days = $('input[name=seat_is_certain_day]:checked').val();
+	var temp_certain_days = jQuery('input[name=seat_is_certain_day]:checked').val();
 	//alert(temp);
 
 	if(temp_certain_days=="Y")
 	{
-		$("#certain_day").show();
+		jQuery("#certain_day").show();
 	}
 
 	if(temp_certain_days=="N")
 	{
-		$("#certain_day").hide();
+		jQuery("#certain_day").hide();
 	}
 
-	$("input[name=seat_is_certain_day]:radio").bind( "change", function(event, ui) {
-		//console.log('seat_is_certain_time: '+$(this).val());
-		if($(this).val()=="Y")
+	jQuery("input[name=seat_is_certain_day]:radio").bind( "change", function(event, ui) {
+		//console.log('seat_is_certain_time: '+jQuery(this).val());
+		if(jQuery(this).val()=="Y")
 		{
-			$("#certain_day").show();
+			jQuery("#certain_day").show();
 		}
-		if($(this).val()=="N")
+		if(jQuery(this).val()=="N")
 		{
-			$("#certain_day").hide();
+			jQuery("#certain_day").hide();
 		}
 		// Call function here
 	});
 
 
 	/*show hide availability of alternate days*/
-	var temp_alternate_day = $('input[name=seat_is_alternate_day]:checked').val();
+	var temp_alternate_day = jQuery('input[name=seat_is_alternate_day]:checked').val();
 	//alert(temp);
 
 	if(temp_alternate_day=="Y")
 	{
-		$("#alternate_day").show();
+		jQuery("#alternate_day").show();
 	}
 
 	if(temp_alternate_day=="N")
 	{
-		$("#alternate_day").hide();
+		jQuery("#alternate_day").hide();
 	}
 
-	$("input[name=seat_is_alternate_day]:radio").bind( "change", function(event, ui) {
-		//console.log('seat_is_time: '+$(this).val());
-		if($(this).val()=="Y")
+	jQuery("input[name=seat_is_alternate_day]:radio").bind( "change", function(event, ui) {
+		//console.log('seat_is_time: '+jQuery(this).val());
+		if(jQuery(this).val()=="Y")
 		{
-			$("#alternate_day").show();
+			jQuery("#alternate_day").show();
 		}
-		if($(this).val()=="N")
+		if(jQuery(this).val()=="N")
 		{
-			$("#alternate_day").hide();
+			jQuery("#alternate_day").hide();
 		}
 		// Call function here
 	});
 
 	/*show hide availability of certain months*/
-	var temp_certain_month = $('input[name=seat_is_certain_month]:checked').val();
+	var temp_certain_month = jQuery('input[name=seat_is_certain_month]:checked').val();
 	
 	if(temp_certain_month=="Y")
 	{
-		$("#certain_month").show();
+		jQuery("#certain_month").show();
 	}
 
 	if(temp_certain_month=="N")
 	{
-		$("#certain_month").hide();
+		jQuery("#certain_month").hide();
 	}
 
-	$("input[name=seat_is_certain_month]:radio").bind( "change", function(event, ui) {
+	jQuery("input[name=seat_is_certain_month]:radio").bind( "change", function(event, ui) {
 	 
-		if($(this).val()=="Y")
+		if(jQuery(this).val()=="Y")
 		{
-			$("#certain_month").show();
+			jQuery("#certain_month").show();
 		}
-		if($(this).val()=="N")
+		if(jQuery(this).val()=="N")
 		{
-			$("#certain_month").hide();
+			jQuery("#certain_month").hide();
 		}
 		// Call function here
 	});
 
 
 	/*show hide availability of alternate months*/
-	var temp_alternate_month = $('input[name=seat_is_alternate_month]:checked').val();
+	var temp_alternate_month = jQuery('input[name=seat_is_alternate_month]:checked').val();
 	//alert(temp);
 
 	if(temp_alternate_month=="Y")
 	{
-		$("#alternate_month").show();
+		jQuery("#alternate_month").show();
 	}
 
 	if(temp_alternate_month=="N")
 	{
-		$("#alternate_month").hide();
+		jQuery("#alternate_month").hide();
 	}
 
-	$("input[name=seat_is_alternate_month]:radio").bind( "change", function(event, ui) {
-		//console.log('seat_is_certain_time: '+$(this).val());
-		if($(this).val()=="Y")
+	jQuery("input[name=seat_is_alternate_month]:radio").bind( "change", function(event, ui) {
+		//console.log('seat_is_certain_time: '+jQuery(this).val());
+		if(jQuery(this).val()=="Y")
 		{
-			$("#alternate_month").show();
+			jQuery("#alternate_month").show();
 		}
-		if($(this).val()=="N")
+		if(jQuery(this).val()=="N")
 		{
-			$("#alternate_month").hide();
+			jQuery("#alternate_month").hide();
 		}
 		// Call function here
 	});
@@ -937,67 +961,63 @@ $(document).ready(function(){
 	/*
 		FUNCTION WRITTEN BY ARIF KHAN. TO SHOW AND HIDE ROW 
 	*/
-	$('#selOpt').on('change', function() {
-  		// alert($(this).val() ); // or $(this).val()
-  		if($(this).val() == 'Y'){
-  			$('#selRoles').show();
-  			/* var data = {
-		        action: 'my_action',
-		        data: $(this).val()
-		    };
-
-		    jQuery.post(ajaxurl, data, function(response) {
-		        alert('Got this from the server: ' + response);
-		    });*/
+	if(jQuery('#selOpt').val() == 'Y'){
+		jQuery('#selRoles').show();
+		jQuery('#selUsers').show();
+	}
+	jQuery('#selOpt').on('change', function() {
+  		// alert(jQuery(this).val() ); // or jQuery(this).val()
+  		if(jQuery(this).val() == 'Y'){
+  			jQuery('#selRoles').show();
   		}
-  		if($(this).val() == 'N'){
-  			$('#selRoles').hide();
-  			$('#selUsers').remove();
+  		if(jQuery(this).val() == 'N'){
+  			jQuery('#selRoles').hide();
+  			jQuery('#selUsers').remove();
   		}
 	});
 
-	$('#role').on('change', function() {
-  		// alert($(this).val() ); // or $(this).val()
-  		if($(this).val() != ''){
+	jQuery('#role').on('change', function() {
+  		// alert(jQuery(this).val() ); // or jQuery(this).val()
+  		if(jQuery(this).val() != ''){
   			 var data = {
 		        action: 'get_user',
-		        data: $(this).val(),
+		        data: jQuery(this).val(),
 		        dataType : 'json'
 		    };
 
 		    jQuery.post(ajaxurl, data, function(response) {
   				response = JSON.parse(response);
 				content = '<option value="">Select User</option>';
-  				$.each(response, function(i, item){
+  				jQuery.each(response, function(i, item){
   					if(item.data.user_login !=''){
-	 					content += '<option value="'+item.data.user_login+'">' + item.data.user_login + '</option>';
+	 					content += '<option value="'+item.data.ID+'">' + item.data.user_login + '</option>';
   					}
 		         });
   				// console.log(content);
-  				$( "#users" ).html( content );
-  				$('#selUsers').show();
+  				jQuery( "#users" ).html( content );
+  				jQuery('#selUsers').show();
 		    });
   		}
   		
 	});
 
-	var seat_pyt_type = $("#id_seat_deposit_full").val();
+	var seat_pyt_type = jQuery("#id_seat_deposit_full").val();
 	if(seat_pyt_type=='Full Payment'){
-       $('#fixed_percentage').hide();
-	   $('#fixedamount').hide();
-	   $('#percentage').hide();
+       jQuery('#fixed_percentage').hide();
+	   jQuery('#fixedamount').hide();
+	   jQuery('#percentage').hide();
 	}else{
-        var Select1 = $("#id_seat_payment_type").val();
+        var Select1 = jQuery("#id_seat_payment_type").val();
 		if(Select1=="FixedAmount")
 		{
-			$('#fixedamount').show();
-			$('#percentage').hide();
+			jQuery('#fixedamount').show();
+			jQuery('#percentage').hide();
 		}
 
 		if(Select1=="Percentage")
 		{
-			$('#fixedamount').hide();
-			$('#percentage').show();
+			jQuery('#fixedamount').hide();
+			jQuery('#percentage').show();
 		}
 	}
 

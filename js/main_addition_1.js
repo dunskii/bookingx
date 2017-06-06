@@ -89,6 +89,25 @@ jQuery(document).ready(function(){
 	}
 
 
+	jQuery("input[name=seat_all]").bind("change",function(event, ui){
+		if(jQuery(this).attr('checked'))
+		{
+			jQuery('.seat_checked').attr('checked','checked');
+		}
+		else
+		{
+			jQuery('.seat_checked').removeAttr('checked','checked');
+		}
+	});
+
+	if(jQuery("input[name=seat_all]").attr('checked'))
+	{
+		jQuery('.seat_checked').attr('checked','checked');
+	}
+
+	
+
+
 	//to change the addition unavailability form input type visibility
 	jQuery("input[name=addition_is_unavailable]").bind("change",function(event, ui){
 		
@@ -113,7 +132,7 @@ jQuery(document).ready(function(){
 });
 
 
-$(document).on('submit', '#post', function (e) {
+jQuery(document).on('submit', '#post', function (e) {
 	
 	var error_list = new Array();
 	
@@ -199,8 +218,8 @@ jQuery(".myCheckbox").each(function(){
 		{
 			jQuery("#error_list").html(temp_err);
 			jQuery("#error_list").show();
-                        $(this).find('.button-primary').removeClass('disabled');
-                        $(this).find('.spinner').removeClass('is-active');
+                        jQuery(this).find('.button-primary').removeClass('disabled');
+                        jQuery(this).find('.spinner').removeClass('is-active');
 			return false;
                 }
 	 

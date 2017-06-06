@@ -13,7 +13,7 @@ function my_account_bx()
        $login_url = get_permalink($login_page_id);
         echo 'You need to login first.<a href="'.$login_url.'">Login here</a>';
    else:
-       require('dashboard2.php');
+       require(PLUGIN_DIR_PATH.'customer-bookings.php');
    endif;
 
 }

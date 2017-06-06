@@ -3,4 +3,5 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-the_content();
+
+echo get_the_content();

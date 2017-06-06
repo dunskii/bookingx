@@ -7,7 +7,7 @@ require_once('booking_general_functions.php');
 custom_load_scripts(array('jquery-1.7.1.js','jquery-ui.js'));
 custom_load_styles(array('jquery-ui.css'));
 global $wpdb; ?>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<?php echo get_option('bkx_api_google_map_key'); ?>&sensor=false" ></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWj_y315MvVm1l30ArFr0sh4tZjuK6I4w&sensor=false" ></script>
 <style>
 tr.view-details{display:none;}
 </style>
@@ -38,7 +38,7 @@ if ( !($current_user instanceof WP_User) )
 
 if (isset( $roles['0'] ) && $roles['0']=='administrator') {
 
-	$query = 'SELECT * FROM bkx_booking_record INNER JOIN bkx_base ON bkx_base.base_id = bkx_booking_record.base_id WHERE (payment_status="Completed" or payment_status="cancelled")  order by bkx_booking_record.booking_record_id desc ';
+	// $query = 'SELECT * FROM bkx_booking_record INNER JOIN bkx_base ON bkx_base.base_id = bkx_booking_record.base_id WHERE (payment_status="Completed" or payment_status="cancelled")  order by bkx_booking_record.booking_record_id desc ';
 
 }
 else if(isset( $roles['0'] ) && $roles['0']== $bkx_seat_role)
@@ -229,7 +229,7 @@ function initialize(counter) {
 		    }
 		    map = new google.maps.Map(document.getElementById("map_canvas_"+counter), mapOptions);
       } else {
-       //alert("Geocode was not successful for the following reason: " + status);
+       alert("Geocode was not successful for the following reason: " + status);
       }
     });
 }

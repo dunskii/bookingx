@@ -10,7 +10,7 @@ class BkxBase {
     
     public $meta_data= array();
     
-    public $bkx_post_type;
+    public $bkx_post_type = 'bkx_base';
     
     public $post;
     
@@ -38,8 +38,10 @@ class BkxBase {
      * @param type $bkx_post
      */
     public function __construct( $bkx_post = null , $post_id = null) {
-        
-                $this->bkx_post_type = $bkx_post->post_type;
+                if(!empty($bkx_post->post_type)){
+                     $this->bkx_post_type = $bkx_post->post_type;
+                }
+
                 if(isset($post_id) && $post_id!=''){
                     $post_id = $post_id;
                     $bkx_post = get_post($post_id);
@@ -267,10 +269,83 @@ class BkxBase {
         return apply_filters( 'bkx_base_service_unavailable', $service_unavailable, $this );
     }
 
+    public function get_base_by_seat($seat_id)
+    {
+        if(empty($seat_id))
+            return;
+
+        $args = array(
+            'post_type'  => $this->bkx_post_type,
+            'post_status' => 'publish',
+            'meta_query' => array(
+                array(
+                    'key' => 'base_selected_seats',
+                    'value'   => $seat_id,
+                    'compare' => 'LIKE',
+                ),
+            ),
+        );
+
+        $baseresult = new WP_Query( $args );
+
+        $BaseData = array();
+
+        if ( $baseresult->have_posts() ) :
+            while ( $baseresult->have_posts() ) : $baseresult->the_post();
+                    $base_id = get_the_ID();
+                   $BkxBaseObj =  new BkxBase('',$base_id);
+                   $BaseData[] = $BkxBaseObj;
+            endwhile;
+            wp_reset_query();
+            wp_reset_postdata();
+        endif;
+
+        return $BaseData;  
+    }
+
+    public function get_seat_obj_by_base($base_id)
+    {
+        if(empty($base_id))
+            return;
+
+        $SeatData = array();
+        $base_selected_seats = get_post_meta( $base_id, 'base_selected_seats', true );
+        if(!empty($base_selected_seats)) {
+
+             foreach ($base_selected_seats as $key => $seat) {
+                $BkxSeatObj =  new BkxSeat('',$seat);
+                $SeatData[] = $BkxSeatObj;
+            }
+        }
+        
+        return $SeatData;  
+    }
+
+
+    public function get_base_by_extra($extra_id)
+    {
+        if(empty($extra_id))
+            return;
+
+        $BaseData = array();
+        $extra_selected_base = get_post_meta( $extra_id, 'extra_selected_base', true );
+
+        if(!empty($extra_selected_base)) {
+
+             foreach ($extra_selected_base as $key => $base_id) {
+                $BkxBaseObj =  new BkxBase('',$base_id);
+                $BaseData[] = $BkxBaseObj;
+            }
+        }
+        
+        return $BaseData;  
+    }
+
+
     public function get_booking_url()
         {
              
-            $bkx_set_booking_page = get_option('bkx_set_booking_page');
+            $bkx_set_booking_page = crud_option_multisite('bkx_set_booking_page');
             if ( get_option('permalink_structure') ) 
             {
                 $booking_url = esc_url(user_trailingslashit(get_permalink($bkx_set_booking_page).''.$this->url_arg_name.'/'.get_the_ID()));   

@@ -402,7 +402,7 @@ function do_send_mail($last_inserted_id)
 }
 
 
-function mail_format_and_send_process($subject,$data_html,$to_mail,$cc_mail,$bcc_mail)
+function mail_format_and_send_process( $subject, $data_html, $to_mail, $cc_mail = null, $bcc_mail = null )
 {
 	if(isset($to_mail))
 	{
@@ -420,11 +420,8 @@ function mail_format_and_send_process($subject,$data_html,$to_mail,$cc_mail,$bcc
 		    {
 		    	$headers[] = 'Bcc: '.$bcc_mail; 
 		    }
-		    if(!empty($data_html) && $data_html!='')
-			{
-				//$email_formating = get_content_with_formating($data_html);
-			}
-    		wp_mail( $to_mail, $subject, $email_formating, $headers );
+		     
+    		wp_mail( $to_mail, $subject, $data_html, $headers );
 	}
 			
 }

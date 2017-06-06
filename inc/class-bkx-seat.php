@@ -39,15 +39,9 @@ class BkxSeat {
                     $post_id = $bkx_post->ID;
                 }
                 
-                if ( is_multisite() ) 
-                {
-                    $current_blog_id = get_current_blog_id();
-                    $alias_seat = get_blog_option( $current_blog_id,'bkx_alias_seat');
-                }
-                else
-                {
-                    $alias_seat = get_option('bkx_alias_seat');
-                }
+                
+                $alias_seat = crud_option_multisite('bkx_alias_seat');
+               
                 $this->alias = $alias_seat;
                 $this->post = $bkx_post;
                 $this->meta_data = get_post_custom( $post_id ); 
@@ -177,7 +171,10 @@ class BkxSeat {
             
             if(isset($seat_is_certain_day) && $seat_is_certain_day == 'Y'):
                 $seat_days_time = maybe_unserialize($meta_data['seat_days_time'][0]);
-                    if(!empty($seat_days_time)){
+                if(!is_array($seat_days_time)){
+                    $seat_days_time = maybe_unserialize($seat_days_time);
+                }
+                    if(!empty($seat_days_time) ){
                         foreach($seat_days_time as $temp)
                         {
                                 $seat_days_time_data[strtolower($temp['day'])]['time_from'] = $temp['time_from']; 				
@@ -245,7 +242,38 @@ class BkxSeat {
             $get_seat_notifiaction_info['seat_ical_address']    = $seatIcalAddress;
             
             return apply_filters( 'bkx_seat_notifiaction_info', $get_seat_notifiaction_info, $this );
-        }   
+        } 
+
+
+        public function get_seat_by_extra( $extra_id )
+        {
+            if(empty($extra_id))
+                return;
+            
+            $extra_selected_base = get_post_meta( $extra_id, 'extra_selected_base', true );
+            
+            if(!empty($extra_selected_base))
+            {
+                        foreach ($extra_selected_base as $key => $base_id){
+                           $base_selected_seats = get_post_meta( $base_id, 'base_selected_seats', true );
+                            if(!empty($base_selected_seats)){
+                                foreach ($base_selected_seats as $key => $seat_id) {
+                                    $seat_array[] = $seat_id;
+                                    $seat_unique=array_unique($seat_array);
+                                }
+                            }
+                        }  
+
+                    if(!empty($seat_unique)) {
+                        foreach ($seat_unique as $key => $seat_id) {
+                            $BkxSeatObj =  new BkxSeat('',$seat_id);
+                            $seat_array[] = $BkxSeatObj;
+                        }
+                    } 
+            }
+
+            return $seat_array;
+        }  
        
         public function get_booking_url()
         {

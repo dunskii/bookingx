@@ -13,8 +13,8 @@ $DurationDObj = $Duration['D'];
 echo sprintf('<li><h3>%s</h3></li>',__('Additional Information : ', 'bookingx'));
 
 if(!empty($DurationHMObj)):
-    $hours  = isset($DurationHMObj['hours']) && $DurationHMObj['hours']!='' ? $DurationHMObj['hours'].' Hours ' : '';
-    $mins   = isset($DurationHMObj['minutes']) && $DurationHMObj['minutes']!='' ? $DurationHMObj['minutes'].' Minutes' : '';
+    $hours  = isset($DurationHMObj['hours']) && $DurationHMObj['hours'] > 0 && $DurationHMObj['hours']!='' ? $DurationHMObj['hours'].' Hours ' : '';
+    $mins   = isset($DurationHMObj['minutes'])  && $DurationHMObj['minutes'] > 0 && $DurationHMObj['minutes']!='' ? $DurationHMObj['minutes'].' Minutes' : '';
     $duration_text = $hours.' and '.$mins;
 endif;
 

@@ -2,7 +2,7 @@
 require_once('../../../wp-load.php');
 require_once('booking_general_functions.php');
 global $wpdb;
-
+$base_alias = crud_option_multisite("bkx_alias_base");
 /**
  * Converts number of seconds to hours:mins acc to the WP time format setting
  * @return string
@@ -81,41 +81,10 @@ function getMinsSlot($mins)
 	return $slot;
 }
 
-?>
-<style>
-.app_timetable_cell
-{
-	text-align: center;
-	width: 30%;
-	border: none;
-	margin: 1px;
-	float: left;
-	
-}
-.free
-{
-	cursor:pointer;
-	background:#73AC39
-}
-.full
-{
-	background:gray;
-}
-.selected-slot{background:#e64754;}
-.notavailable
-{
-	background:lightgray;
-	display:none;
-}
-.error_booking {color: #e64754;font-weight: bold;}
-.booking-status-div{display:inline-block;}
-.booking-status{float:left; text-align:center;padding:0 10px;}
-.booking-status div{width:20px;height:20px;display: inline-block;}
-</style>
-<?php
 	$bookigndate = '';
 	$full_day = '';
-	$order_statuses = array('bkx-processing','bkx-on-hold','bkx-completed');
+	$order_statuses = array('bkx-pending','bkx-ack','bkx-completed','bkx-missed');
+
 	if(isset($_POST['bookigndate']))
 	{
 		/**
@@ -228,6 +197,13 @@ function getMinsSlot($mins)
 		endif;
 	}
 
+	$BkxBase = new BkxBase('', $_POST['service_id'] );
+	$base_meta_data = $BkxBase->meta_data;
+ 
+	$base_time_option = $base_meta_data['base_time_option'][0];
+	$base_day = $base_meta_data['base_day'][0];
+	$base_extended = isset( $base_meta_data['base_is_extended'] ) ? esc_attr( $base_meta_data['base_is_extended'][0] ) : "";
+
 	
 	$booking_slot_temp = '';
 	$booking_slot_arr=array();
@@ -302,45 +278,70 @@ function getMinsSlot($mins)
 			
 	$step = 15 * 60; // Timestamp increase interval to one cell ahead
 	$counter = 1;
-	?>
-	<div class="booking-status-div">
-		<div class="booking-status">Booked <div style="background-color:gray;"></div></div>
-		<div class="booking-status">Open <div style="background-color:green;"></div></div>
-	</div>
-	<br/>
-	<?php
-	/**
-	 * Updated By :  Divyang Parekh
-	 * Date : 16-11-2015
-	 * Please do not edit below code Or carefully
-	 * Please don't change below div class name, its very sensitive and its depend on some functionality.
-	 */
-	//print_r($booking_slot);
-	for ( $t=$first; $t<$last; $t=$t+$step ) {
-			$ccs = $t; 				// Current cell starts
-			$cce = $ccs + $step;	// Current cell ends
-			$empty = 'free';
 
-			if(!in_array($counter, $range))
-			{
-				$empty = 'notavailable';
-			}
-			else
-			{
-				if(in_array($counter, $booking_slot))//if that slot booked or not
-				{
-					$empty = 'full';
-				}
-			}
-			?>
-			<div class="<?php echo $counter; ?>-is-<?php echo $empty; ?> app_timetable_cell <?php echo $counter; ?> <?php echo $empty; ?> <?php echo $_POST['bookigndate'].'-'.$counter; ?>" id="<?php echo secs2hours( $ccs ); ?>" data-slotnumber="<?php echo $_POST['bookigndate'].'-'.$counter; ?>">
-			<input type="hidden" value="<?php echo secs2hours( $ccs ); ?>" />
-			<?php
-				echo secs2hours($ccs);
-			?>
+	$time_available_color = crud_option_multisite('bkx_time_available_color');
+	$time_available_color = ($time_available_color) ? $time_available_color : '#368200';
+
+	$time_selected_color = crud_option_multisite('bkx_time_selected_color');
+	$time_selected_color = ($time_selected_color) ? $time_selected_color : '#e64754';
+
+	$time_unavailable_color = crud_option_multisite('bkx_time_unavailable_color');
+	$time_unavailable_color = ($time_unavailable_color) ? $time_unavailable_color : 'gray';
+
+	if($base_time_option == 'H') { ?>
+			<p><label>Booking of the day</label></p>
+			<div class="booking-status-div">
+				<div class="booking-status">Booked <div style="background-color:<?php echo $time_unavailable_color;?>;"></div></div>
+				<div class="booking-status">Open <div style="background-color:<?php echo $time_available_color;?>;"></div></div>
 			</div>
+			<br/>
+		<div id="date_time_display">
 			<?php
-			$counter = $counter + 1;
-	}
-?>
-<br/>
+			/**
+			 * Updated By :  Divyang Parekh
+			 * Date : 16-11-2015
+			 * Please do not edit below code Or carefully
+			 * Please don't change below div class name, its very sensitive and its depend on some functionality.
+			 */
+			//print_r($booking_slot);
+			for ( $t=$first; $t<$last; $t=$t+$step ) {
+					$ccs = $t; 				// Current cell starts
+					$cce = $ccs + $step;	// Current cell ends
+					$empty = 'free';
+
+					if(!in_array($counter, $range))
+					{
+						$empty = 'notavailable';
+					}
+					else
+					{
+						if(in_array($counter, $booking_slot))//if that slot booked or not
+						{
+							$empty = 'full';
+						}
+					}
+					?>
+					<div class="<?php echo $counter; ?>-is-<?php echo $empty; ?> app_timetable_cell <?php echo $counter; ?> <?php echo $empty; ?> <?php echo $_POST['bookigndate'].'-'.$counter; ?>" id="<?php echo secs2hours( $ccs ); ?>" data-slotnumber="<?php echo $_POST['bookigndate'].'-'.$counter; ?>">
+					<input type="hidden" value="<?php echo secs2hours( $ccs ); ?>" />
+					<?php
+						echo secs2hours($ccs);
+					?>
+					</div>
+					<?php
+					$counter = $counter + 1;
+			}
+		?>
+		</div>
+		<br/>
+	<?php }	?> 
+<!-- || $base_time_option == 'M' -->
+<?php if( $base_time_option == 'D' && $base_day > 1  && $base_extended == 'Y' ) : ?>
+<div class="gfield_description"> If <?php echo $base_alias;?> can be extended time is set in days/months display second calender for end date.</div>
+<div class="ginput_container" id="base_extended_calender">
+<input name="datepicker_extended" id="id_datepicker_extended" type="text" value="" class="" tabindex="8"> </div>
+<?php endif;?>
+<script type="text/javascript">
+var loader = jQuery('.bookingx-loader');
+loader.hide();
+</script>
+

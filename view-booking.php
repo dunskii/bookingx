@@ -17,16 +17,25 @@
 	$booking_start_date = addslashes($date->format('m/d/Y'));
 	$start_time = addslashes($date->format('H:i:s'));
 
-	if(isset($base_is_location_fixed) && $base_is_location_fixed == 'Y' && isset($base_is_location_differ_seat) && $base_is_location_differ_seat == 'Y')
-	{
-		$objBooking['street'] 	= $BkxBaseMetaData['base_street'][0];
-		$objBooking['city']		= $BkxBaseMetaData['base_city'][0];
-		$objBooking['state']	= $BkxBaseMetaData['base_state'][0];
-		$objBooking['postcode'] = $BkxBaseMetaData['base_postcode'][0];
-	}
+	// if(isset($base_is_location_fixed) && $base_is_location_fixed == 'Y' && isset($base_is_location_differ_seat) && $base_is_location_differ_seat == 'Y')
+	// {
+	// 	$objBooking['street'] 	= $BkxBaseMetaData['base_street'][0];
+	// 	$objBooking['city']		= $BkxBaseMetaData['base_city'][0];
+	// 	$objBooking['state']	= $BkxBaseMetaData['base_state'][0];
+	// 	$objBooking['postcode'] = $BkxBaseMetaData['base_postcode'][0];
+	// }
+
+	$business_address_1 = crud_option_multisite("bkx_business_address_1");
+		$business_address_2 = crud_option_multisite("bkx_business_address_2");
+		$bkx_business_city = crud_option_multisite("bkx_business_city");
+		$bkx_business_state = crud_option_multisite("bkx_business_state");
+		$bkx_business_zip = crud_option_multisite("bkx_business_zip");
+		$bkx_business_country = crud_option_multisite("bkx_business_country");
+
+		$full_address = $business_address_1.",".$bkx_business_city.",".$bkx_business_state.",".$bkx_business_zip.",".$bkx_business_country;
 
 ?>
-	<input type="hidden" id="address_val<?php echo $objBooking['booking_record_id']; ?>" value="<?php echo $objBooking['street'].",".$objBooking['city'].",".$objBooking['state']; ?>">
+	<input type="hidden" id="address_val<?php echo $booking_record_id; ?>" value="<?php echo $full_address; ?>">
 <div class="wrap">
 	<div id="reassign_msg"></div>
 	<table>
@@ -83,11 +92,11 @@
 			</td>
 		</tr>
 		<?php
-		if($objBooking['street']!='' && $objBooking['city']!='' && $objBooking['state']!=''){ ?>
+		if($business_address_1!='' && $bkx_business_city!='' && $bkx_business_state!=''){ ?>
 		<tr> 
 			<td colspan="3">
 				<div style="width:44.4%;float:left;">
-				<b>Address:</b> &nbsp;&nbsp;&nbsp; <?php echo $objBooking['street'].",<br/>".$objBooking['city'].",".$objBooking['state'].",<br/> Postcode-".$objBooking['postcode']; ?>
+				<b>Address:</b> &nbsp;&nbsp;&nbsp; <?php echo $full_address; ?>
 				</div>
 				<div id="map_canvas_<?php echo $booking_record_id; ?>" style="width: 50%; float:left; height: 300px"></div>
 			</td>

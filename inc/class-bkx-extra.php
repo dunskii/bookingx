@@ -223,6 +223,96 @@ class BkxExtra {
            $service_by_extra = maybe_unserialize($meta_data['extra_selected_base'][0]);
            return apply_filters( 'bkx_addition_service_by_extra', $service_by_extra, $this );
     }
+
+    public function get_extra_by_seat( $data){
+
+    // Process Flow : seat_id ---> Base Data ---> base_id ----> Extra data
+    // Seat id to Base data and Base data to Extra
+        if(empty($data))
+            return;
+
+        $ExtraData = array();
+        foreach ($data as $key => $base) {
+            
+            $base_id = $base->id;
+
+            $args = array(
+                'post_type'  => $this->bkx_post_type,
+                'post_status' => 'publish',
+                'meta_query' => array(
+                    array(
+                        'key' => 'extra_selected_base',
+                        'value'   => $base_id,
+                        'compare' => 'LIKE',
+                    ),
+                ),
+            );
+
+            $extraresult = new WP_Query( $args );
+          
+            if ( $extraresult->have_posts() ) :
+                while ( $extraresult->have_posts() ) : $extraresult->the_post();
+                        $extra_array[] = get_the_ID();
+                        $extra_unique = array_unique($extra_array);
+                endwhile;
+                wp_reset_query();
+                wp_reset_postdata();
+            endif;
+        }
+
+        if(!empty($extra_unique)){
+                foreach ($extra_unique as $key => $extra_id)
+                {                    
+                    $BkxExtraObj =  new BkxExtra('',$extra_id);
+                    $ExtraData[] = $BkxExtraObj;
+                }
+        }
+
+
+        return $ExtraData;
+    }
+
+
+    public function get_extra_by_base( $base_id ){
+
+        if(empty($base_id))
+            return;
+
+        $ExtraData = array();
+         
+        $args = array(
+            'post_type'  => $this->bkx_post_type,
+            'post_status' => 'publish',
+            'meta_query' => array(
+                array(
+                    'key' => 'extra_selected_base',
+                    'value'   => $base_id,
+                    'compare' => 'LIKE',
+                ),
+            ),
+        );
+
+        $extraresult = new WP_Query( $args );
+      
+        if ( $extraresult->have_posts() ) :
+            while ( $extraresult->have_posts() ) : $extraresult->the_post();
+                    $extra_array[] = get_the_ID();
+                    $extra_unique = array_unique($extra_array);
+            endwhile;
+            wp_reset_query();
+            wp_reset_postdata();
+        endif;
+
+        if(!empty($extra_unique)){
+                foreach ($extra_unique as $key => $extra_id)
+                {                    
+                    $BkxExtraObj =  new BkxExtra('',$extra_id);
+                    $ExtraData[] = $BkxExtraObj;
+                }
+        }
+       
+        return $ExtraData;
+    }
         
     public function get_addition_unavailable(){
             $meta_data = $this->meta_data;

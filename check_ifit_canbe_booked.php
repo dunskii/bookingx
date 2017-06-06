@@ -6,7 +6,7 @@ global $wpdb;
 $start = $_POST['start'];
 $bookingduration = $_POST['bookingduration'];
 $bookingdate = $_POST['bookingdate'];
-$order_statuses = array('bkx-processing','bkx-on-hold','bkx-completed');
+$order_statuses = array('bkx-pending','bkx-ack','bkx-completed','bkx-missed');
 if (isset($_POST['seatid']) && $_POST['seatid'] == 'any' && crud_option_multisite('enable_any_seat') == 1 && crud_option_multisite('select_default_seat') != ''):
 	$base_id = $_SESSION['_session_base_id'];
 //get current booking start time slot
@@ -321,12 +321,17 @@ else
 
 
 					$bookingSlotNext = "";
-					foreach($resBookingTimeNext as $temp)
-					{
-						$bookingSlotNext .= $temp['full_day'];
+					$arrTempExplodeNext = array();
+					if(!empty($resBookingTimeNext)){
+							foreach($resBookingTimeNext as $temp)
+							{
+								$bookingSlotNext .= $temp['full_day'];
+							}
+							$arrTempExplodeNext = explode(',',$bookingSlotNext);
+							$arrTempExplodeNext = array_unique($arrTempExplodeNext);
+
 					}
-					$arrTempExplodeNext = explode(',',$bookingSlotNext);
-					$arrTempExplodeNext = array_unique($arrTempExplodeNext);
+
 					$availableSlots = range(1,96);
 					$lastSlotRequired;
 					if($numberOfSlotsRemaining > 96)
@@ -338,15 +343,18 @@ else
 						$lastSlotRequired = $numberOfSlotsRemaining;
 					}
 					$requiredSlots = range(1,$lastSlotRequired);
-					
-					foreach($requiredSlots as $temp)
-					{
-						if(in_array($temp,$arrTempExplodeNext))
+					if(!empty($requiredSlots)){
+						foreach($requiredSlots as $temp)
 						{
-							$res = 0;
-							continue;
+							if(in_array($temp,$arrTempExplodeNext))
+							{
+								$res = 0;
+								continue;
+							}
 						}
+
 					}
+					
 					$numberOfSlotsRemaining = $numberOfSlotsRemaining - 96;//get remaining slots after current loop
 				}
 			}

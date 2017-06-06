@@ -14,6 +14,9 @@ $roles = $current_user->roles;
 $data = $current_user->data;
 $booking_record_id = $_POST['booking_record_id'];
 $mode = $_POST['mode'];
+$is_cust = 0;
+$comment = $_POST['comment'];
+if(!empty($comment )) { $is_cust = 1;}
 $current_user_id = $current_user->ID;
 $date = date("Y-m-d H:i:s");
 $admin_email = get_option( 'admin_email' );
@@ -31,6 +34,8 @@ if(isset($booking_record_id) && $booking_record_id!='' && $mode == 'cancelled'):
     $update_order = $BkxBookingObj->update_status('cancelled');
     //Add note in comment for cancelled booking
     $BkxBookingObj->add_order_note( sprintf( __( 'Successfully update order from %1$s to %2$s.', 'bookingx' ), $old_status, $new_status ), 0, $manual );
+
+    $BkxBookingObj->add_order_note( sprintf( __( 'Customer note : %1$s', 'bookingx' ), $comment ), $is_cust, $manual );
 
     if ($update_order) :
        

@@ -2,44 +2,92 @@
 add_action( 'add_meta_boxes', 'add_bkx_seat_metaboxes' );
 function add_bkx_seat_metaboxes()
 {
-    $alias_seat = get_option('bkx_alias_seat', "default");
-    add_meta_box('bkx_seat_boxes',__("$alias_seat Details", 'bookingx'),'bkx_seat_boxes_metabox_callback','bkx_seat','normal');
+    $alias_seat = crud_option_multisite('bkx_alias_seat');
+    add_meta_box('bkx_seat_boxes',__("$alias_seat Details", 'bookingx'),'bkx_seat_boxes_metabox_callback','bkx_seat','normal','high');
 }
- 
+
+//add_filter('wpseo_metabox_prio', 'bkx_wpseo_metabox_prio');
+function bkx_wpseo_metabox_prio()
+{
+    return 'normal';
+}
+  
 function bkx_seat_boxes_metabox_callback($post)
 {   
     wp_nonce_field('bkx_seat_boxes_metabox','bkx_seat_boxes_metabox_nonce' );
-    if ( is_multisite() ) 
-    {
-        $current_blog_id = get_current_blog_id();
-        $alias_seat = get_blog_option($current_blog_id,'bkx_alias_seat');
-    }
-    else
-    {
-        $alias_seat = get_option('bkx_alias_seat');
-    }
-    $values = get_post_custom( $post->ID );
+     
+        $alias_seat = crud_option_multisite('bkx_alias_seat');
+        $bkx_user_auto = 'Y';
+    
+    	$country = get_wp_country();
+
+    	$values = get_post_custom( $post->ID );
+		$business_address_1 = crud_option_multisite("bkx_business_address_1");
+		$business_address_2 = crud_option_multisite("bkx_business_address_2");
+		$bkx_business_city = crud_option_multisite("bkx_business_city");
+		$bkx_business_state = crud_option_multisite("bkx_business_state");
+		$bkx_business_zip = crud_option_multisite("bkx_business_zip");
+		$bkx_business_country = crud_option_multisite("bkx_business_country");
+
+
+	$bkx_business_days = crud_option_multisite("bkx_business_days");
+	if(!is_array($bkx_business_days)){ $bkx_business_days = maybe_unserialize($bkx_business_days);}
+	$business_days =  array();
+	if(!empty($bkx_business_days) && sizeof($bkx_business_days) > 0)
+	    {
+	        $populate_business_days = array();
+	        foreach($bkx_business_days as $key => $obj_obusiness_days)
+	        {				
+	             $days_arr = $obj_obusiness_days['days'];
+	             $times_arr = $obj_obusiness_days['time'];
+	             if(!empty($days_arr)){
+	             		foreach ($days_arr as $day) {
+	             			$business_days[strtolower($day)] = $day;
+	             			$populate_business_days[strtolower($day)]['time_from'] = $times_arr['open'];
+	             			$populate_business_days[strtolower($day)]['time_till'] = $times_arr['close'];
+	             		}
+	             }  
+	        } 
+
+	        $res_seat_time_arr =  $populate_business_days;
+	        $temp_seat_days = $business_days;
+	    }
+
+    $seat_street = isset($business_address_1) ? esc_attr( $business_address_1.",".$business_address_2 ) : "";   
+    $seat_city = isset( $bkx_business_city ) ? esc_attr( $bkx_business_city ) : "";
+    $seat_state = isset( $bkx_business_state ) ? esc_attr( $bkx_business_state ) : "";
+    $seat_zip = isset( $bkx_business_zip ) ? esc_attr( $bkx_business_zip ) : "";
+    $seat_country = isset( $bkx_business_country ) ? esc_attr( $bkx_business_country ) : "";
+
+
     if(!empty($values) && !is_wp_error($values)){
-    $seat_street = isset( $values['seat_street'] ) ? esc_attr( $values['seat_street'][0] ) : "";   
-    $seat_city = isset( $values['seat_city'] ) ? esc_attr( $values['seat_city'][0] ) : "";
-    $seat_state = isset( $values['seat_state'] ) ? esc_attr( $values['seat_state'][0] ) : "";
-    $seat_zip = isset( $values['seat_zip'] ) ? esc_attr( $values['seat_zip'][0] ) : "";
-    $seat_country = isset( $values['seat_country'] ) ? esc_attr( $values['seat_country'][0] ) : "";
+    $seat_street = isset( $values['seat_street'] ) ? esc_attr( $values['seat_street'][0] ) : $seat_street;   
+    $seat_city = isset( $values['seat_city'] ) ? esc_attr( $values['seat_city'][0] ) : $seat_city;
+    $seat_state = isset( $values['seat_state'] ) ? esc_attr( $values['seat_state'][0] ) : $seat_state;
+    $seat_zip = isset( $values['seat_zip'] ) ? esc_attr( $values['seat_zip'][0] ) : $seat_zip;
+    $seat_days_arr = $values['seat_days'][0];
+    //$seat_country = isset( $values['seat_country'] ) ? esc_attr( $values['seat_country'][0] ) : "";
     $seat_is_certain_month = $values['seat_is_certain_month'][0];
     $seat_months = isset($values['seat_months'][0]) && $values['seat_months'][0]!='' ? $temp_seat_months = explode(',',$values['seat_months'][0]) :  '';
-    $seat_days = isset($values['seat_days'][0]) && $values['seat_days'][0]!='' ? $temp_seat_days = explode(',',$values['seat_days'][0]) :  '';
+
+    $seat_days = isset($values['seat_days'][0]) && $values['seat_days'][0]!='' ? $temp_seat_days = explode(',',$seat_days_arr) :  '';
     $seat_is_certain_day = $values['seat_is_certain_day'][0];
     $seat_days_time = maybe_unserialize($values['seat_days_time'][0]);
     $res_seat_time= maybe_unserialize($seat_days_time);
-    
-    if(!empty($res_seat_time)){
+    $associate_with_user = isset( $values['associate_with_user'] ) ? esc_attr( $values['associate_with_user'][0] ) : "N";   
+    $associate_with_user_role = isset( $values['associate_with_user_role'] ) ? esc_attr( $values['associate_with_user_role'][0] ) : "";
+     $associate_with_username = isset( $values['associate_with_username'] ) ? esc_attr( $values['associate_with_username'][0] ) : "";
+
+    if(!empty( $res_seat_time )){
         $res_seat_time_arr = array();
-	foreach($res_seat_time as $temp)
-	{
-		$res_seat_time_arr[strtolower($temp['day'])]['time_from'] = $temp['time_from']; 				
-                $res_seat_time_arr[strtolower($temp['day'])]['time_till'] = $temp['time_till'];
-	}
+		foreach($res_seat_time as $temp)
+		{
+			$res_seat_time_arr[ strtolower($temp['day']) ]['time_from'] = $temp['time_from'];	
+	        $res_seat_time_arr[ strtolower($temp['day']) ]['time_till'] = $temp['time_till'];
+		}
     }
+
+
     $seat_is_pre_payment = isset( $values['seatIsPrePayment'] ) ? esc_attr( $values['seatIsPrePayment'][0] ) : "";
     $seat_payment_type = isset( $values['seat_payment_type'] ) ? esc_attr( $values['seat_payment_type'][0] ) : ""; //Payment Type
     
@@ -52,8 +100,11 @@ function bkx_seat_boxes_metabox_callback($post)
     $seatAlternateEmail = isset( $values['seatAlternateEmail'] ) ? esc_attr( $values['seatAlternateEmail'][0] ) : "";
     $seat_ical_address = isset( $values['seatIsIcal'] ) ? esc_attr( $values['seatIsIcal'][0] ) : "";
     $seatIcalAddress = isset( $values['seatIcalAddress'] ) ? esc_attr( $values['seatIcalAddress'][0] ) : "";
-    }    
-    custom_load_scripts(array('jquery-1.7.1.js','jquery-ui.js','jquery.timePicker.js','timepicker_implementation_1.js'));
+    $bkx_user_auto = isset( $values['bkx_user_auto'] ) ? esc_attr( $values['bkx_user_auto'][0] ) : "Y";
+    }
+
+  
+    custom_load_scripts(array('timepicker_implementation_1.js'));
     color_load_scripts(array('iris.min.js'));
     custom_load_styles(array('basic-style.css','redmond/jquery-ui-timepicker.css','bkx-admin.css'));
     ?>
@@ -76,7 +127,14 @@ function bkx_seat_boxes_metabox_callback($post)
     </p>
 
     <p><label for="seat_country"><?php esc_html_e( 'Country', 'bookingx' ); ?> :</label>
-    <input type="text" name="seat_country" id="seat_country" value="<?php echo esc_attr( $seat_country ); ?>" />
+    <select name="seat_country">
+					<?php if(!empty($country)){
+							foreach ($country as $code => $country_name) {?>
+								 <option value="<?php echo $code;?>" <?php if($code == esc_attr( $seat_country )){ echo "selected";} ?>><?php echo $country_name;?></option>
+							<?php 
+							}
+						}?>
+					</select>
     </p>
     <strong> <?php esc_html_e( 'Set Times, Days and Months Available', 'bookingx' ); ?></strong>
     <p><label for="seat_country"><?php esc_html_e( 'Will this Seat only be available certain months of the year', 'bookingx' ); ?> :</label></p>
@@ -149,7 +207,7 @@ function bkx_seat_boxes_metabox_callback($post)
 				<label for="choice_16_12"><?php esc_html_e( 'November', 'bookingx' ); ?></label>
 				</li>
 				<li class="gchoice_16_13">
-				<input name="seat_certain_month[]" class="month_checkbox" type="checkbox" value="December" id="choice_16_13" tabindex="42" <?php if(isset($temp_seat_months) && ($temp_seat_months!='')){ if(in_array("December",$temp_seat_months)){ echo
+				<input name="seat_certain_month[]" class="months_checkbox" type="checkbox" value="December" id="choice_16_13" tabindex="42" <?php if(isset($temp_seat_months) && ($temp_seat_months!='')){ if(in_array("December",$temp_seat_months)){ echo
 "checked='checked'"; } } ?>>
 				<label for="choice_16_13"><?php esc_html_e( 'December', 'bookingx' ); ?></label>
 				</li>
@@ -264,25 +322,59 @@ function bkx_seat_boxes_metabox_callback($post)
 			</div>
     </div>
     <p><strong><?php esc_html_e( 'User Options', 'bookingx' ); ?></strong></p>
+    <?php if(!empty($associate_with_username)){
+    		$associate_with_username_obj = get_user_by('id', $associate_with_username);
+    		if(!empty($associate_with_username_obj) && !is_wp_error($associate_with_username_obj)){    			 
+    			echo 'This profile link to '.$associate_with_username_obj->data->display_name.'<a href="'.get_edit_user_link( $associate_with_username ).'" > view profile</a>';
+    		}
+    		 
+    		$associate_with_email = get_user_by('email', $associate_with_username);
+    		if(!empty($associate_with_email) && !is_wp_error($associate_with_email)){    			 
+    			echo 'This profile link to '.$associate_with_email->data->display_name.' <a href="'.get_edit_user_link( $associate_with_email->data->ID ).'" > view profile</a>';
+    		}
+    	}
+    	 
+    	if($bkx_user_auto == 'Y'){
+    		$auto_user = get_user_by('email', $seat_notification_email);
+    		if(!empty($auto_user) && !is_wp_error($auto_user)){
+    			$associate_with_username =  $values['seatEmail'];			 
+    			echo 'This profile link to '.$auto_user->data->display_name.' <a href="'.get_edit_user_link( $auto_user->data->ID ).'"> view profile</a>';
+    		}
+    	}
+
+    ?>
+
+    <?php if(empty($associate_with_username)){  ?>
+    <p><?php printf( esc_html__( 'Create User automatically : ', 'bookingx' ));?></p>
+
+    <p><input type="radio" name="bkx_user_auto" id="id_bkx_user_auto_y" value="Y" <?php if($bkx_user_auto=="Y"){ echo "checked='checked'"; } ?> />Yes 
+        <input type="radio" name="bkx_user_auto" id="id_bkx_user_auto_n"  value="N" <?php if($bkx_user_auto=="N"){ echo "checked='checked'"; } ?>  <?php if(!isset($bkx_user_auto)){ echo "checked='checked'"; } ?>/>No
+    </p>
+    <?php if($bkx_user_auto=="N"){ $mannual = 'display:block;'; $associate_with_user = 'Y'; } else { $mannual = 'display:none;'; $associate_with_user = 'N'; }?>
+    <div class="bkx_user_mannual" style="<?php echo $mannual; ?>" >
     <p><?php printf( esc_html__( 'Do you want to associate this %1$s with a user ? : ', 'bookingx' ),$alias_seat); ?></p>
-    <select name="selOpt" id="selOpt">
-					<option value="N"><?php esc_html_e( 'NO', 'bookingx' ); ?></option>
-					<option value="Y" <?php if(isset($user_type) && ($user_type!='')){
+    <select name="associate_with_user" id="selOpt">
+					<option value="N" <?php if(isset($associate_with_user) && ($associate_with_user =='N')){
+						echo "selected='selected'";} ?>><?php esc_html_e( 'NO', 'bookingx' ); ?></option>
+					<option value="Y" <?php if(isset($associate_with_user) && ($associate_with_user =='Y')){
 						echo "selected='selected'";} ?>><?php esc_html_e( 'YES', 'bookingx' ); ?></option>
     </select>
     
     <div class="active" id="selRoles" style="<?php if(isset($user_type) && ($user_type!='')){echo "display:table-row;";}else{echo "display:none";} ?>">
        <?php esc_html_e( 'Please select user type :', 'bookingx' ); ?> 
 			<div class="plugin-description">
-				<select id="role" name="role">
+				<select id="role" name="associate_with_user_role">
 					<option value=""> <?php esc_html_e( 'Select Role', 'bookingx' ); ?></option>
 					<?php 
 					    global $wp_roles;
 					    $roles = $wp_roles->get_names(); // Below code will print the all list of roles.
-					    foreach($roles as $key => $role){   echo $user_type;  
+					   	unset($roles['administrator']);
+					    
+					    foreach($roles as $key => $role){   
+					    	echo $user_type;  
 					?>
 						<option value="<?php echo $key; ?>"
-						<?php if(isset($user_type) && ($user_type ==$key) ){echo "selected='selected'";} ?>
+						<?php if(isset($associate_with_user_role) && ($associate_with_user_role ==$key) ){echo "selected='selected'";} ?>
 						><?php echo $role; ?></option>
 					<?php  } ?>
 				</select>
@@ -291,12 +383,15 @@ function bkx_seat_boxes_metabox_callback($post)
     
     <div class="active" id="selUsers" style="<?php if(isset($user_name) && ($user_name!='')){echo "display:table-row;";}else{echo "display:none";} ?>"> <?php esc_html_e( 'Please select user :', 'bookingx' ); ?>
             <div class="plugin-description">
-                    <select id="users" name="users">
-                            <option value="<?php echo $user_name; ?>"><?php echo $user_name; ?></option>
+                    <select id="users" name="associate_with_username">
+                            <option value="<?php echo $associate_with_username; ?>"><?php echo $associate_with_username; ?></option>
                     </select>
-
             </div>
     </div>
+
+    </div>
+
+    <?php } ?>
     <p><strong><?php esc_html_e( 'Notification Details', 'bookingx' ); ?></strong></p>
     
     <p><?php esc_html_e( 'Phone :', 'bookingx' ); ?></p>
@@ -346,8 +441,8 @@ function save_bkx_seat_metaboxes( $post_id, $post, $update )
     $seatCertainMonth      = $_POST['seat_certain_month'];
     $seatCertainDay        = $_POST['seat_certain_day'];
     $seatIsPrePayment      = trim($_POST['seat_is_pre_payment']);
-    $seatDepositFull     = trim($_POST['seat_deposit_full']);
-    $seatPaymentOption   = trim($_POST['seat_payment_option']);
+    $seatDepositFull       = trim($_POST['seat_deposit_full']);
+    $seatPaymentOption     = trim($_POST['seat_payment_option']);
     $seat_amount           = trim($_POST['seat_amount']);
     $seat_percentage       = trim($_POST['seat_percentage']);
     $seatPhone             = trim($_POST['seat_phone']);
@@ -356,32 +451,21 @@ function save_bkx_seat_metaboxes( $post_id, $post, $update )
     $seatAlternateEmail    = trim($_POST['seat_alternate_email']);
     $seatIsIcal            = trim($_POST['seat_is_ical']);
     $seatIcalAddress       = trim($_POST['seat_ical_address']);
- 
+    $associate_with_user   = trim($_POST['associate_with_user']);
+    $associate_with_user_role = trim($_POST['associate_with_user_role']);
+    $associate_with_username = trim($_POST['associate_with_username']);
+    $bkx_user_auto = trim($_POST['bkx_user_auto']);
     
-     if($seatDepositFull=="Deposit")
-		{
-			$tempDepositFull = "D";
-		}
-		else if($seatDepositFull=="Full Payment")
-		{
-			$tempDepositFull = "FP";
-		}
-		$seatDepositFull = $tempDepositFull;
+    if($seatDepositFull=="Deposit"){ $tempDepositFull = "D";}
+	else if($seatDepositFull=="Full Payment"){$tempDepositFull = "FP";}
+	$seatDepositFull = $tempDepositFull;
 
-		if($seatPaymentOption=="FixedAmount")
-		{
-			$tempPaymentOption = "FA";
-		}
-		elseif($seatPaymentOption=="Percentage")
-		{
-
-			$tempPaymentOption = "P";
-		}
-		$seatPaymentOption = $tempPaymentOption;
-                
-                
+	if($seatPaymentOption=="FixedAmount"){$tempPaymentOption = "FA";}
+	elseif($seatPaymentOption=="Percentage"){$tempPaymentOption = "P";}
+	$seatPaymentOption = $tempPaymentOption;
+                                
     $seatCertainMonthTemp = '';
-    if(sizeof($seatCertainMonth)>0)
+    if(sizeof($seatCertainMonth) > 0)
     {
             foreach($seatCertainMonth as $key=>$temp)
             {
@@ -416,20 +500,29 @@ function save_bkx_seat_metaboxes( $post_id, $post, $update )
     }
     
     if(sizeof($arr_seat_time)>0)
-            {
-                $seat_days_time = array();
-                foreach($arr_seat_time as $key => $temp_seat_days){					
-                        if($temp_seat_days['time_from']=="" || $temp_seat_days['time_till']==""){
-                                $temp_seat_days['time_from'] = "12:00 AM";
-                                $temp_seat_days['time_till'] = "12:00 PM";
-                                $seat_days_time[] =$temp_seat_days;
-                        }else{
-                            $seat_days_time[]=$temp_seat_days;
-                        }                      
-                }
-                $seat_days_time_data = $seat_days_time;
-            }       
+	    {
+	        $seat_days_time = array();
+	        foreach($arr_seat_time as $key => $temp_seat_days){				
+	                if($temp_seat_days['time_from']=="" || $temp_seat_days['time_till']==""){
+	                        $temp_seat_days['time_from'] = "12:00 AM";
+	                        $temp_seat_days['time_till'] = "12:00 PM";
+	                        $seat_days_time[] =$temp_seat_days;
+	                }else{
+	                    $seat_days_time[]=$temp_seat_days;
+	                }                      
+	        }
+	        $seat_days_time_data = $seat_days_time;
+	    }       
      // Make sure your data is set before trying to save it
+    if( isset( $associate_with_user ) )
+        update_post_meta( $post_id, 'associate_with_user',$associate_with_user );
+
+	if( isset( $associate_with_user_role ) )
+        update_post_meta( $post_id, 'associate_with_user_role',$associate_with_user_role );
+
+    if( isset( $associate_with_username ) )
+        update_post_meta( $post_id, 'associate_with_username',$associate_with_username );
+
     if( isset( $_POST['seat_street'] ) )
         update_post_meta( $post_id, 'seat_street', esc_attr( $_POST['seat_street'] ) );
          
@@ -494,148 +587,163 @@ function save_bkx_seat_metaboxes( $post_id, $post, $update )
         update_post_meta( $post_id, 'seatIsIcal',  $seatIsIcal);
     
     if( isset( $seatIcalAddress ) )
-        update_post_meta( $post_id, 'seatIcalAddress',$seatIcalAddress );  
+        update_post_meta( $post_id, 'seatIcalAddress',$seatIcalAddress ); 
+
+    if( isset( $bkx_user_auto ) )
+        update_post_meta( $post_id, 'bkx_user_auto',$bkx_user_auto );
+    
     
     
     /**
      * Create New User and Role as Resource by default or Get by get_option('bkx_seat_role');
      */
-    if ( is_multisite() ) 
-    {
-        $bkx_seat_role = get_blog_option($current_blog_id,'bkx_seat_role');
-    }
-    else
-    {
-         $bkx_seat_role = get_option('bkx_seat_role');
-    }
+    
+    $bkx_seat_role = crud_option_multisite('bkx_seat_role');
+   
     if(isset($bkx_seat_role) && $bkx_seat_role!=''){
         $role = $bkx_seat_role;
     }else{
        $role = 'resource';
     }
-        $seat_wp_user_id = get_post_meta( $post_id, 'seat_wp_user_id',true );
-        $random_password = wp_generate_password( $length=12, $include_standard_special_chars=false );
 
-        if ( is_multisite() ) 
-        {
+    
 
-        	$SeatWpuserObj = get_blogs_of_user($seat_wp_user_id);
-        	if(empty($SeatWpuserObj)){
-        		$user_id = wpmu_create_user($seatEmail, $random_password, $seatEmail);
-        	}
-        	else
-        	{
-        		$user_id = $seat_wp_user_id;
-        	}
-        	
-        }
-        else
-        {
-        			$SeatWpuserObj = WP_User::get_data_by( 'ID', $seat_wp_user_id );
+if($bkx_user_auto == 'N'){
+    
+    if(isset($associate_with_username) && $associate_with_username!=''){
+    	$user = get_user_by( 'id', $associate_with_username);
+    	$bkx_user_id = $associate_user_id = $user->ID;
+
+    	if(isset($associate_user_id) && $associate_user_id!=''){
+    		update_post_meta( $post_id, 'seat_wp_user_id',$associate_user_id );
+    	}	
+    }
+}
+
+    if($bkx_user_auto == 'Y'){
+
+		    $seat_wp_user_id = get_post_meta( $post_id, 'seat_wp_user_id',true );
+		    $random_password = wp_generate_password( $length=12, $include_standard_special_chars=false );
+
+		    if ( is_multisite() ) 
+		    {
+		    	$SeatWpuserObj = get_blogs_of_user($seat_wp_user_id);
+		    	if(empty($SeatWpuserObj)){
+		    		$bkx_user_id = wpmu_create_user($seatEmail, $random_password, $seatEmail);
+		    	}
+		    	else
+		    	{
+		    		$bkx_user_id = $seat_wp_user_id;
+		    	}
+		    	
+		    }
+		    else
+		    {
+					$SeatWpuserObj = WP_User::get_data_by( 'ID', $seat_wp_user_id );
+
+					//print_r($SeatWpuserObj);
 
 		        	 if ( $SeatWpuserObj === false || empty($SeatWpuserObj)) {
-		            //user id does not exist
+		            	//echo "seat_wp_user_id: ". $seat_wp_user_id ."<br>";
 		                $check_user_id = username_exists( $seatEmail );
 		                if ( !$check_user_id && email_exists($seatEmail) == false ) {
-		                        
-		                        $user_id = wp_create_user( $seatEmail, $random_password, $seatEmail );
+		                       
+		                        $bkx_user_id = wp_create_user( $seatEmail, $random_password, $seatEmail );
+		                        //echo "wp_create_user: ". $user_id ."<br>";
+		                        update_post_meta( $post_id, 'seat_wp_user_id',$bkx_user_id );
 		                } else {
 		                        $random_password = __('User already exists.  Password inherited.');
 		                }
 			        } else {
-			            $user_id= $seat_wp_user_id;
+
+			            $bkx_user_id= $seat_wp_user_id;
+			            //echo "else: ". $user_id."<br>";;
 			        }
-        }
+		    }
+
+	}
+
+
  
-
-        update_post_meta( $post_id, 'seat_wp_user_id',$user_id ); 
-
-
-   
-    //$seatEmail
-     
-        if(isset($user_id) && $user_id!='')
+        if(isset($bkx_user_id) && $bkx_user_id!='')
         {
             $userdata = array(
-                    'ID' => $user_id,
+                    'ID' => $bkx_user_id,
                     'first_name'    =>  $_POST['post_title'],
                     'role'          =>  $role ,
                     'display_name'  => $_POST['post_title'],                
             );
 
-            $user_id = wp_update_user( $userdata);
+            $bkx_user_id = wp_update_user( $userdata);
 
-            update_user_meta( $user_id, 'seat_post_id',$post_id ); 
+            update_user_meta( $bkx_user_id, 'seat_post_id',$post_id ); 
 
             if( isset( $_POST['seat_street'] ) )
-                update_user_meta( $user_id, 'seat_street', esc_attr( $_POST['seat_street'] ) );
+                update_user_meta( $bkx_user_id, 'seat_street', esc_attr( $_POST['seat_street'] ) );
 
             if( isset( $_POST['seat_city'] ) )
-                update_user_meta( $user_id, 'seat_city', esc_attr( $_POST['seat_city'] ) );
+                update_user_meta( $bkx_user_id, 'seat_city', esc_attr( $_POST['seat_city'] ) );
 
             if( isset( $_POST['seat_state'] ) )
-                update_user_meta( $user_id, 'seat_state', esc_attr( $_POST['seat_state'] ) );
+                update_user_meta( $bkx_user_id, 'seat_state', esc_attr( $_POST['seat_state'] ) );
 
             if( isset( $_POST['seat_zip'] ) )
-                update_user_meta( $user_id, 'seat_zip', esc_attr( $_POST['seat_zip'] ) );
+                update_user_meta( $bkx_user_id, 'seat_zip', esc_attr( $_POST['seat_zip'] ) );
 
             if( isset( $_POST['seat_country'] ) )
-                update_user_meta( $user_id, 'seat_country', esc_attr( $_POST['seat_country'] ) );
+                update_user_meta( $bkx_user_id, 'seat_country', esc_attr( $_POST['seat_country'] ) );
 
             if( isset( $_POST['seat_city'] ) )
-                update_user_meta( $user_id, 'seat_city', esc_attr( $_POST['seat_city'] ) );
+                update_user_meta( $bkx_user_id, 'seat_city', esc_attr( $_POST['seat_city'] ) );
 
             if( isset( $_POST['seat_is_certain_month'] ) )
-                update_user_meta( $user_id, 'seat_is_certain_month', esc_attr( $_POST['seat_is_certain_month'] ) );
+                update_user_meta( $bkx_user_id, 'seat_is_certain_month', esc_attr( $_POST['seat_is_certain_month'] ) );
 
             if( isset( $seatCertainMonth ) )
-                update_user_meta( $user_id, 'seat_months', esc_attr( $seatCertainMonth ) );
+                update_user_meta( $bkx_user_id, 'seat_months', esc_attr( $seatCertainMonth ) );
 
             if( isset( $_POST['seat_is_certain_day'] ) )
-                update_user_meta( $user_id, 'seat_is_certain_day', esc_attr( $_POST['seat_is_certain_day'] ) );
+                update_user_meta( $bkx_user_id, 'seat_is_certain_day', esc_attr( $_POST['seat_is_certain_day'] ) );
 
             if( isset( $seatCertainDay ) )
-                update_user_meta( $user_id, 'seat_days',  $seatCertainDay);
+                update_user_meta( $bkx_user_id, 'seat_days',  $seatCertainDay);
 
             if( isset( $seat_days_time_data ) )
-                update_user_meta( $user_id, 'seat_days_time',$seat_days_time_data );
+                update_user_meta( $bkx_user_id, 'seat_days_time',$seat_days_time_data );
 
             if( isset( $seatIsPrePayment ) )
-                update_user_meta( $user_id, 'seatIsPrePayment',  $seatIsPrePayment);
+                update_user_meta( $bkx_user_id, 'seatIsPrePayment',  $seatIsPrePayment);
 
             if( isset( $seatDepositFull ) )
-                update_user_meta( $user_id, 'seat_payment_type',  $seatDepositFull);
+                update_user_meta( $bkx_user_id, 'seat_payment_type',  $seatDepositFull);
 
             if( isset( $seatPaymentOption ) )
-                update_user_meta( $user_id, 'seat_payment_option',$seatPaymentOption );
+                update_user_meta( $bkx_user_id, 'seat_payment_option',$seatPaymentOption );
 
             if( isset( $seat_amount ) )
-                update_user_meta( $user_id, 'seat_amount',  $seat_amount);    
+                update_user_meta( $bkx_user_id, 'seat_amount',  $seat_amount);    
 
             if( isset( $seat_percentage ) )
-                update_user_meta( $user_id, 'seat_percentage',  $seat_percentage);    
+                update_user_meta( $bkx_user_id, 'seat_percentage',  $seat_percentage);    
 
             if( isset( $seatPhone ) )
-                update_user_meta( $user_id, 'seatPhone',$seatPhone );
+                update_user_meta( $bkx_user_id, 'seatPhone',$seatPhone );
 
             if( isset( $seatEmail ) )
-                update_user_meta( $user_id, 'seatEmail',  $seatEmail);
+                update_user_meta( $bkx_user_id, 'seatEmail',  $seatEmail);
 
             if( isset( $seatIsAlternateEmail ) )
-                update_user_meta( $user_id, 'seatIsAlternateEmail',$seatIsAlternateEmail );
+                update_user_meta( $bkx_user_id, 'seatIsAlternateEmail',$seatIsAlternateEmail );
 
             if( isset( $seatAlternateEmail ) )
-                update_user_meta( $user_id, 'seatAlternateEmail',$seatAlternateEmail );
+                update_user_meta( $bkx_user_id, 'seatAlternateEmail',$seatAlternateEmail );
 
             if( isset( $seatIsIcal ) )
-                update_user_meta( $user_id, 'seatIsIcal',  $seatIsIcal);
+                update_user_meta( $bkx_user_id, 'seatIsIcal',  $seatIsIcal);
 
             if( isset( $seatIcalAddress ) )
-                update_user_meta( $user_id, 'seatIcalAddress',$seatIcalAddress ); 
+                update_user_meta( $bkx_user_id, 'seatIcalAddress',$seatIcalAddress ); 
         }
-
-
-
 }
 
 add_filter('manage_bkx_seat_posts_columns', 'bkx_seat_columns_head');
@@ -651,7 +759,7 @@ function bkx_seat_columns_head($defaults) {
 	if(isset($enable_any_seat) && $enable_any_seat == 1) :
 	$defaults['any_seat'] = '<span class="any_seat tips" data-tip="' . esc_attr__( 'Set as any Seat', 'bookingx' ) . '">' . esc_attr__( 'Set as any seat', 'bookingx' ) . '</span>';
 	endif;
-    $defaults['display_shortcode_all'] = 'Shortcode [bookingx seat-id="all"]';    
+    $defaults['display_shortcode_all'] = 'Shortcode [bookingx display="rows" seat-id="all"] (display : rows|columns)';    
     return $defaults;
 }
  
@@ -679,18 +787,4 @@ function bkx_seat_columns_content($column_name, $post_ID) {
     if ($column_name == 'display_shortcode_all') {
         echo '[bookingx seat-id="'.$post_ID.'" description="yes" image="yes" extra-info="no"]';
     }
-}
-
-add_action( 'wp_ajax_bookingx_set_as_any_seat', 'bookingx_set_as_any_seat_callback' );
-add_action( 'wp_ajax_nopriv_bookingx_set_as_any_seat', 'bookingx_set_as_any_seat_callback' );
-
-function bookingx_set_as_any_seat_callback() {
-		
-			$seat_id = absint( $_GET['seat_id'] );
-
-			if ( 'bkx_seat' === get_post_type( $seat_id ) ) {
-				crud_option_multisite('select_default_seat',$seat_id,'update');
-			}
-		wp_safe_redirect( wp_get_referer() ? remove_query_arg( array( 'trashed', 'untrashed', 'deleted', 'ids' ), wp_get_referer() ) : admin_url( 'edit.php?post_type=bkx_seat' ) );
-		die();
 }
