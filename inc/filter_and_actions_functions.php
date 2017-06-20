@@ -5,14 +5,14 @@
 add_action( 'init', 'bkx_create_seat_post_type' );
 function bkx_create_seat_post_type()
 {
-    $alias_seat = get_option( 'bkx_alias_seat', "Resources" );
-    $alias_seat = isset( $alias_seat ) && $alias_seat != '' ? $alias_seat : "Resources";
+    $alias_seat = get_option( 'bkx_alias_seat', "Seat" );
+    $alias_seat = isset( $alias_seat ) && $alias_seat != '' ? $alias_seat : "Seat";
     // Set UI labels for Custom Post Type
     $labels     = array(
          'name' => _x( $alias_seat, 'Post Type General Name', 'bookingx' ),
         'singular_name' => _x( $alias_seat, 'Post Type Singular Name', 'bookingx' ),
         'menu_name' => __( $alias_seat, 'bookingx' ),
-        'all_items' => __( $alias_seat."s", 'bookingx' ),
+        'all_items' => __( $alias_seat, 'bookingx' ),
         'view_item' => __( "View $alias_seat", 'bookingx' ),
         'add_new_item' => __( "Add New Resource", 'bookingx' ),
         'add_new' => __( "Add New Resource", 'bookingx' ),
@@ -44,14 +44,14 @@ function bkx_create_seat_post_type()
 add_action( 'init', 'bkx_create_base_post_type' );
 function bkx_create_base_post_type()
 {
-    $alias_base = get_option( 'bkx_alias_base', "Services" );
-    $alias_base = isset( $alias_base ) && $alias_base != '' ? $alias_base : "Services";
+    $alias_base = get_option( 'bkx_alias_base', "Base" );
+    $alias_base = isset( $alias_base ) && $alias_base != '' ? $alias_base : "Base";
     // Set UI labels for Custom Post Type
     $labels     = array(
          'name' => _x( $alias_base, 'Post Type General Name', 'bookingx' ),
         'singular_name' => _x( $alias_base, 'Post Type Singular Name', 'bookingx' ),
         'menu_name' => __( $alias_base, 'bookingx' ),
-        'all_items' => __( $alias_base."s", 'bookingx' ),
+        'all_items' => __( $alias_base, 'bookingx' ),
         'view_item' => __( "View $alias_base", 'bookingx' ),
         'add_new_item' => __( "Add New Service", 'bookingx' ),
         'add_new' => __( "Add New Service", 'bookingx' ),
@@ -82,13 +82,13 @@ function bkx_create_base_post_type()
 add_action( 'init', 'bkx_create_addition_post_type' );
 function bkx_create_addition_post_type()
 {
-    $alias_addition = get_option( 'bkx_alias_addition', "Extras" );
-    $alias_addition = isset( $alias_addition ) && $alias_addition != '' ? $alias_addition : "Extras";
+    $alias_addition = get_option( 'bkx_alias_addition', "Addition" );
+    $alias_addition = isset( $alias_addition ) && $alias_addition != '' ? $alias_addition : "Addition";
     $labels         = array(
          'name' => _x( $alias_addition, 'Post Type General Name', 'bookingx' ),
         'singular_name' => _x( $alias_addition, 'Post Type Singular Name', 'bookingx' ),
         'menu_name' => __( $alias_addition, 'bookingx' ),
-        'all_items' => __( $alias_addition."s", 'bookingx' ),
+        'all_items' => __( $alias_addition, 'bookingx' ),
         'view_item' => __( "View $alias_addition", 'bookingx' ),
         'add_new_item' => __( "Add New Extra", 'bookingx' ),
         'add_new' => __( "Add New Extra", 'bookingx' ),
