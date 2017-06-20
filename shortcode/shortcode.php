@@ -290,7 +290,7 @@ function bookinbkx_shortcode_function($atts)
 						 
 						// Updated By : Divyang Parekh
 						 $BkxBookingUpdateStatus = new BkxBooking('',$order_id);
-						 $BkxBookingUpdateStatus->update_status('ack');
+						 $BkxBookingUpdateStatus->update_status('pending');
 						 $BkxBookingObj = $BkxBookingUpdateStatus->get_order_meta_data($order_id);
 
 						$strt_dt = $BkxBookingObj['booking_start_date'];
@@ -370,6 +370,10 @@ function bookinbkx_shortcode_function($atts)
 							}							 
 						}
 
+						$base_addc = '' . $base_name . '';
+						$tot_price_val = "Total Cost: $" . $grand_total;
+						$total_duration = $_POST["total_duration"];	
+
 						 
 						$bookingdet = '<div><div class="bkx_page_fields">
 					<ul class="bkx_fields top_label">
@@ -386,12 +390,8 @@ function bookinbkx_shortcode_function($atts)
 						  <br/><br/>Address:  <span id="id_totalling"><p>' . $loc_add . '</p></span>
 						  <br/>';
 						$bookingdet .= '</li></ul></div></div>';
-
-						echo $bookingdet;
-						 
-						$base_addc = '' . $base_name . '';
-						$tot_price_val = "Total Cost: $" . $grand_total;
-						$total_duration = $_POST["total_duration"];					
+						echo $bookingdet;		
+									
 						$bkDet = str_replace(" ", "+",$seat_name) . "," . str_replace(" ", "+",$base_addc) . "," . str_replace(" ", "+",$sel_add) . " %0a" . $tot_price_val;
 
 						echo "<span>You can add this booking to your google calendar <a href='https://www.google.com/calendar/render?action=TEMPLATE&text=" . $base_name . "&dates=" . $fnl_dt . "/" . $ed_fnl_dt . "&details=" . $bkDet . "&location=" . $event_address . "&sf=true&output=xml' target='_blank'>
