@@ -386,12 +386,12 @@ function bookinbkx_shortcode_function($atts)
 						  <br>
 						  Time:  <span id="id_totalling">' . $_POST["input_date"] . ' ' . $_POST["booking_time_from"] . '</span>
 						  <br>Duration - <span id="id_estimated_time">' . $total_duration . ' </span>(estimated)
-						  <br/>Total Cost:  <span id="id_totalling">$' . $tot_price_val . '</span>
+						  <br/><span id="id_totalling">' . $tot_price_val . '</span>
 						  <br/><br/>Address:  <span id="id_totalling"><p>' . $loc_add . '</p></span>
 						  <br/>';
 						$bookingdet .= '</li></ul></div></div>';
 						echo $bookingdet;		
-									
+
 						$bkDet = str_replace(" ", "+",$seat_name) . "," . str_replace(" ", "+",$base_addc) . "," . str_replace(" ", "+",$sel_add) . " %0a" . $tot_price_val;
 
 						echo "<span>You can add this booking to your google calendar <a href='https://www.google.com/calendar/render?action=TEMPLATE&text=" . $base_name . "&dates=" . $fnl_dt . "/" . $ed_fnl_dt . "&details=" . $bkDet . "&location=" . $event_address . "&sf=true&output=xml' target='_blank'>
