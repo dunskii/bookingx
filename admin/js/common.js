@@ -403,6 +403,8 @@ jQuery(document).ready(function(){
  	edit_seat_id = edit_order_data.seat_id,
  	edit_base_id = edit_order_data.base_id,
  	edit_extra_id = edit_order_data.extra_id;
+
+ 	alert(edit_extra_id)
  
 
 
@@ -818,6 +820,7 @@ function validate_form(source_val,destination_val)
 	var edit_base_id = 0;
  
  	edit_base_id = edit_order_data.base_id;
+ 	edit_base_extended = edit_order_data.extended;
 	 
 
 	if(source_val==1 && destination_val == 2)
@@ -1022,8 +1025,15 @@ function validate_form(source_val,destination_val)
 			{
 				base_temp = mob_only = edit_base_id;
 			}
-			var input_extended = document.getElementById("id_input_extended_time");
-			base_extended = input_extended.value;
+			
+
+			var base_extended = 0;
+			if(edit_base_extended == '' || edit_base_extended == 0){
+					var input_extended = document.getElementById("id_input_extended_time");
+					base_extended = input_extended.value;
+			}else{
+					base_extended = edit_base_extended;
+			}
 			//alert(jQuery('#id_base_selector').val());
 			//end code for getting selected seat, base and addition			
 			

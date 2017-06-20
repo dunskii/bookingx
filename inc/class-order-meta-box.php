@@ -112,7 +112,7 @@ class Bkx_Meta_Boxes {
 		 
 		$orderObj =  new BkxBooking();
     	$order_meta = $orderObj->get_order_meta_data($post->ID);
-    	$base_extended = $order_meta['extended_base_time'];
+    	$base_extended = get_post_meta($post->ID, 'extended_base_time', true);
         $base_extended = ($base_extended) ? $base_extended : 0 ;
 
     	$order_id = $post->ID;
