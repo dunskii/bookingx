@@ -404,7 +404,7 @@ jQuery(document).ready(function(){
  	edit_base_id = edit_order_data.base_id,
  	edit_extra_id = edit_order_data.extra_id;
 
- 	alert(edit_extra_id)
+ 	//alert(edit_extra_id)
  
 
 
