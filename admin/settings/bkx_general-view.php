@@ -169,10 +169,9 @@
 			 
 			<td class="plugin-description">
 					<div class="plugin-description">
-						<input type="radio" name="enable_editor" id="id_enable_editor_yes" value="1" <?php if(crud_option_multisite('enable_editor')==1) echo "checked"; ?>><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Yes'  ); ?></br>
+						<input type="radio" name="enable_editor" id="id_enable_editor_yes" value="1" <?php if(crud_option_multisite('bkx_enable_editor')==1) echo "checked"; ?>><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Yes'  ); ?></br>
 						<input type="radio" name="enable_editor" id="id_enable_editor_no" value="0" <?php if(crud_option_multisite('enable_editor')==0) echo "checked"; ?>
-						<?php if(crud_option_multisite('enable_editor')==1) echo "checked"; ?>>
-						<?php printf( esc_html__( '%1$s', 'bookingx' ),  'No'  ); ?> 
+						 <?php printf( esc_html__( '%1$s', 'bookingx' ),  'No'  ); ?> 
 					</div>
 			</td>
 		</tr>
