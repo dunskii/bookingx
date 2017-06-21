@@ -8,6 +8,8 @@
 
 function login_customer_bx()
 {
+    ob_start();
+
     $the_account_page = get_page_by_title("My Account");
     $the_account_page_id= $the_account_page->ID;
     if($the_account_page_id!=''):$the_account_page_link = get_permalink($the_account_page_id);endif;
@@ -28,5 +30,7 @@ function login_customer_bx()
             'value_remember' => false
         );
     wp_login_form($args);
+
+    ob_clean();
 }
 add_shortcode('login_customer_bx', 'login_customer_bx');
