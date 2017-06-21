@@ -651,7 +651,7 @@ function generate_listing_view( $type )
                 right: ''
             },
             defaultView: '<?php echo $defaultView;?>',
-            defaultDate: '2017-05-12',
+            defaultDate: '<?php echo date('Y-m-d'); ?>',
             navLinks: true, // can click day/week names to navigate views
             editable: false,
             eventLimit: true, // allow "more" link when too many events

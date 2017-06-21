@@ -726,6 +726,45 @@ function bkx_add_meta_query( $query ) {
     }
 }
 
+/**
+ * Returns the timezone string for a site, even if it's set to a UTC offset
+ *
+ * Adapted from http://www.php.net/manual/en/function.timezone-name-from-abbr.php#89155
+ *
+ * @return string valid PHP timezone string
+ */
+function wp_get_timezone_string() {
+ 
+    // if site timezone string exists, return it
+    if ( $timezone = get_option( 'timezone_string' ) )
+        return $timezone;
+ 
+    // get UTC offset, if it isn't set then return UTC
+    if ( 0 === ( $utc_offset = get_option( 'gmt_offset', 0 ) ) )
+        return 'UTC';
+ 
+    // adjust UTC offset from hours to seconds
+    $utc_offset *= 3600;
+ 
+    // attempt to guess the timezone string from the UTC offset
+    if ( $timezone = timezone_name_from_abbr( '', $utc_offset, 0 ) ) {
+        return $timezone;
+    }
+ 
+    // last try, guess timezone string manually
+    $is_dst = date( 'I' );
+ 
+    foreach ( timezone_abbreviations_list() as $abbr ) {
+        foreach ( $abbr as $city ) {
+            if ( $city['dst'] == $is_dst && $city['offset'] == $utc_offset )
+                return $city['timezone_id'];
+        }
+    }
+     
+    // fallback to UTC
+    return 'UTC';
+}
+
 
 add_filter ('posts_request', 'posts_request', 2, 10);
 
@@ -737,7 +776,8 @@ function posts_request ($order ,$WP_Query ) {
     if($WP_Query->query['post_type'] == 'bkx_booking' && $listing_view == 'weekly') {
             $get_posts = $wpdb->get_results( $order, ARRAY_A );
             $BkxBooking = new BkxBooking();
-
+            date_default_timezone_set(get_option('timezone_string'));
+            
         if(!empty($get_posts)){
             $generate_json = '';
             $generate_info = array();
@@ -752,11 +792,13 @@ function posts_request ($order ,$WP_Query ) {
                  $total_duration = $order_meta_data['total_duration'];
                  $base_arr  = $order_meta_data['base_arr']['main_obj']->post;
                  $service_name = $base_arr->post_title;
+                 $datetime = new DateTime( $datetime_string, new DateTimeZone( wp_get_timezone_string() ) );
 
-                
-                $formatted_start_date = date('Y-m-d',strtotime($booking_start_date)).'T'.date('H:m:s',strtotime($booking_start_date));
-                $formatted_end_date = date('Y-m-d',strtotime($booking_end_date)).'T'.date('H:m:s',strtotime($booking_end_date));
-                  
+                $start_date_obj = new DateTime($booking_start_date);
+                $end_date_obj   = new DateTime($booking_end_date);
+
+                $formatted_start_date = date_format($start_date_obj, 'Y-m-d')."T".date_format($start_date_obj, 'H:i:s');
+                $formatted_end_date = date_format($end_date_obj, 'Y-m-d')."T".date_format($end_date_obj, 'H:i:s');                
                  $generate_info['title']  = $first_name.' '.$last_name.' - ( '.$service_name.')';
                  $generate_info['start']  = $formatted_start_date;
                  $generate_info['end']    = $formatted_end_date;
