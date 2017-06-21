@@ -29,8 +29,7 @@ function login_customer_bx()
             'value_username' => '',
             'value_remember' => false
         );
-    wp_login_form($args);
 
-    ob_clean();
+     return ob_get_contents(wp_login_form($args));
 }
 add_shortcode('login_customer_bx', 'login_customer_bx');
