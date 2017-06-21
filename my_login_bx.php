@@ -14,7 +14,7 @@ function login_customer_bx()
     $the_account_page_id= $the_account_page->ID;
     if($the_account_page_id!=''):$the_account_page_link = get_permalink($the_account_page_id);endif;
         $args = array(
-            'echo'           => true,
+            'echo'           => false,
             'remember'       => true,
             'redirect'       => $the_account_page_link,
             'form_id'        => 'loginform',
@@ -29,7 +29,7 @@ function login_customer_bx()
             'value_username' => '',
             'value_remember' => false
         );
-
-     return ob_get_contents(wp_login_form($args));
+      return  wp_login_form($args);
+      
 }
 add_shortcode('login_customer_bx', 'login_customer_bx');
