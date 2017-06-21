@@ -523,6 +523,12 @@ function get_content_by_page_id( page_id, class_name )
 }
 /*--------------------------------------------------------------------------------------------------------*/
 $(document).ready(function(){
+
+	var get_width = $(".bookingx_form_container").parent().width();
+	if( get_width <= 650 ){
+		$('#field_4_display_booking').css("width","auto");
+	}
+
 		$(".fc-widget-content[data-date='20130105']").addClass("disabled-slot");
 		
 		$("#time_options").change(function(){

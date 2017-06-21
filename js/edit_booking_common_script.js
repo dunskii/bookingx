@@ -373,6 +373,11 @@ function displaySecondForm()
 }
 /*--------------------------------------------------------------------------------------------------------*/
 jQuery(document).ready(function(){
+
+	var get_width = $(".bookingx_form_container").parent().width();
+	if( get_width <= 650 ){
+		$('#field_4_display_booking').css("width","auto");
+	}
  
 	var order_id = edit_booking_obj.order_id,
  	edit_seat_id = edit_booking_obj.seat_id,

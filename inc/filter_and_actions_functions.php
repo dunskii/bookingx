@@ -753,6 +753,7 @@ function posts_request ($order ,$WP_Query ) {
                  $base_arr  = $order_meta_data['base_arr']['main_obj']->post;
                  $service_name = $base_arr->post_title;
 
+                
                 $formatted_start_date = date('Y-m-d',strtotime($booking_start_date)).'T'.date('H:m:s',strtotime($booking_start_date));
                 $formatted_end_date = date('Y-m-d',strtotime($booking_end_date)).'T'.date('H:m:s',strtotime($booking_end_date));
                   
@@ -765,6 +766,8 @@ function posts_request ($order ,$WP_Query ) {
                  $generate_json .= json_encode($generate_info).',';         
             }
             $generate_json = rtrim($generate_json,",");
+
+         //  print_r($generate_info);
 
             crud_option_multisite('bkx_calendar_json_data', $generate_json, 'update');
         }

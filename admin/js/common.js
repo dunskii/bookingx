@@ -365,6 +365,11 @@ function displaySecondForm()
 /*--------------------------------------------------------------------------------------------------------*/
 jQuery(document).ready(function(){
 
+	var get_width = $(".bookingx_form_container").parent().width();
+	if( get_width <= 650 ){
+		$('#field_4_display_booking').css("width","auto");
+	}
+
 	jQuery( "#bkx_id_add_custom_note" ).on( "click", function() {
 		jQuery("#bkx_add_custom_note_loader").show();
 		jQuery("#bkx_id_add_custom_note").hide();
