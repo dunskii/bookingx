@@ -933,7 +933,7 @@ function validate_form(source_val,destination_val)
 		}
 		if(jQuery("#id_postcode").val()== "")
 		{
-			error_list.push("Please enter your post code");
+			//error_list.push("Please enter your post code");
 		}
 
 	}

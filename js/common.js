@@ -1014,7 +1014,7 @@ function validate_form(source_val,destination_val)
 		}
 		if($("#id_postcode").val()== "")
 		{
-			error_list.push("Please enter your post code");
+			//error_list.push("Please enter your post code");
 		}
 
 		if ($("#id_terms").is(":checked")) {}
