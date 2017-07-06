@@ -18,23 +18,27 @@ if(isset($_POST['loc'])){
 	//$objListSeat= $wpdb->get_results($query);
 	//print_r($objListSeat[0]->base_is_location_fixed);
 
-}
-else
-if(isset($_POST['mob'])){
+}elseif(isset($_POST['mob'])){
 
-	$baseid1 = $_POST['baseid1'];
-        $BaseObj = get_post($baseid);
-        if(!empty($BaseObj) && !is_wp_error($baseid1))
+	   $baseid1 = $_POST['baseid1'];
+       
+        $BaseObj = get_post($baseid1);
+        if(!empty($BaseObj) && !is_wp_error($BaseObj))
         {
             $BaseMetaObj = get_post_custom( $BaseObj->ID ); 
             $base_is_mobile_only = isset( $BaseMetaObj['base_is_mobile_only'] ) ? esc_attr( $BaseMetaObj['base_is_mobile_only'][0] ) : "";
+            $base_location_type = isset( $BaseMetaObj['base_location_type'] ) ? esc_attr( $BaseMetaObj['base_location_type'][0] ) : "";
+            $arr_base['base_location_type'] = $base_location_type;
+            
+
             //print_r($base_is_mobile_only);
         }
 //	$query_mob = "SELECT base_is_mobile_only FROM bkx_base WHERE base_id = ".trim($baseid1); 
 //	$objListMob= $wpdb->get_results($query_mob);
 //	print_r($objListMob[0]->base_is_mobile_only);
 }
-else {
+else 
+{
 	/**
 	 *	Added By : Divyang Parekh
 	 *	Reason For : Any Seat Functionality
@@ -176,6 +180,7 @@ else {
                         $counter++;
                 } 
         }
-	$output = json_encode($arr_base);
-	echo $output;
+	
 }
+$output = json_encode($arr_base);
+echo $output;

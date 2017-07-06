@@ -100,6 +100,11 @@ jQuery(document).ready(function(){
 		{
 			jQuery("#location_differ").show();
 		}
+		else if(jQuery("input[name=base_location_type]:radio:checked").val()=="FM")
+		{
+			jQuery("#mobile_only").show();
+			jQuery("#location_differ").show();
+		}
 
 		jQuery("input[name=base_location_type]:radio").bind( "change", function(event, ui) {
 				var this_val = jQuery(this).val();
@@ -110,6 +115,11 @@ jQuery(document).ready(function(){
 				}
 				else if(this_val=="Fixed Location")
 				{
+					jQuery("#location_differ").show();
+				}
+				else if(this_val=="FM")
+				{
+					jQuery("#mobile_only").hide();
 					jQuery("#location_differ").show();
 				}
 		});

@@ -688,15 +688,25 @@ $(document).ready(function(){
 			var base_temp1 = $(this).val();
 			
 			$.post(url_obj.plugin_url+'/get_base_on_seat.php', {baseid1: base_temp1, mob: 'no' }, function(data) {
+				var base_data = $.parseJSON(data);
+				if(base_data.base_location_type == 'FM' || base_data.base_location_type == 'Mobile')
+				{
+					//$('#field_4_18').show();
+					//$('#mobile_only').css('display', 'block');
+						$('#field_4_18').hide();
+						$('#mobile_only').css('display', 'block');
+						$('#user_details').css('display', 'none');
+						$('#bkx_page_footer_details').css('display', 'none');
+
+				}
 				if(data!="error")
 				{
 					if(data == 'N')
 					{
-						$('#field_4_18').remove();
+						$('#field_4_18').hide();
 						$('#mobile_only').css('display', 'block');
 						$('#user_details').css('display', 'none');
 						$('#bkx_page_footer_details').css('display', 'none');
-						
 					}
 				}
 				else
@@ -709,19 +719,19 @@ $(document).ready(function(){
 			$("input[name=mobile_only_choice]:radio").change(function () {
 				$('#user_details').css('display', 'block');
 				$('#bkx_page_footer_details').css('display', 'block');
-				$('li#field_4_18').remove();
+				$('li#field_4_18').hide();
 			
 			var selected_radio = $("input[name='mobile_only_choice']:checked").val();
 			if(selected_radio == "YES" )
-			{	
-			
-				var x = $('ul#4_form_user_details');
-				x.append('<li id="field_4_18" class="gfield"><label class="gfield_label" for="input_4_18_1">Address</label><div class="ginput_complex ginput_container" id="input_4_18"><span class="ginput_full" id="input_4_18_1_container"><input type="text" name="input_street" id="id_street" value="" tabindex="18"><label for="input_4_18_1" id="input_4_18_1_label">Street</label></span><br><span class="ginput_left" id="input_4_18_3_container"><input type="text" name="input_city" id="id_city" value="" tabindex="19"><label for="input_4_18_3" id="input_4_18.3_label">City</label></span><br><span class="ginput_right" id="input_4_18_4_container"><input type="text" name="input_state" id="id_state" value="" tabindex="21"><label for="input_4_18_4" id="input_4_18_4_label">State / Province / Region</label></span><br><span class="ginput_left" id="input_4_18_5_container"><input type="text" name="input_postcode" id="id_postcode" value="" tabindex="22"><label for="input_4_18_5" id="input_4_18_5_label">Zip / Postal Code</label></span><input type="hidden" class="bkx_hidden" name="input_18.6" id="input_4_18_6" value=""></div></li>');
+			{
+				$('li#field_4_18').show();
+				// var x = $('ul#4_form_user_details');
+				// x.append('<li id="field_4_18" class="gfield"><label class="gfield_label" for="input_4_18_1">Address</label><div class="ginput_complex ginput_container" id="input_4_18"><span class="ginput_full" id="input_4_18_1_container"><input type="text" name="input_street" id="id_street" value="" tabindex="18"><label for="input_4_18_1" id="input_4_18_1_label">Street</label></span><br><span class="ginput_left" id="input_4_18_3_container"><input type="text" name="input_city" id="id_city" value="" tabindex="19"><label for="input_4_18_3" id="input_4_18.3_label">City</label></span><br><span class="ginput_right" id="input_4_18_4_container"><input type="text" name="input_state" id="id_state" value="" tabindex="21"><label for="input_4_18_4" id="input_4_18_4_label">State / Province / Region</label></span><br><span class="ginput_left" id="input_4_18_5_container"><input type="text" name="input_postcode" id="id_postcode" value="" tabindex="22"><label for="input_4_18_5" id="input_4_18_5_label">Zip / Postal Code</label></span><input type="hidden" class="bkx_hidden" name="input_18.6" id="input_4_18_6" value=""></div></li>');
 				
 			}
 			else 
 			{
-				$('li#field_4_18').remove();
+				$('li#field_4_18').hide();
 
 			}
 						

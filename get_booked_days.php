@@ -15,5 +15,5 @@ if( $base_time_option=="D" || $base_time_option=="M" ){
 	$base_data['time'] = $BaseMetaObj['base_day'][0];
 	echo json_encode($base_data);  
 }else{
-	echo '';
+	echo json_encode('');
 }

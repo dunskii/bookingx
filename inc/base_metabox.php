@@ -58,6 +58,7 @@ function bkx_base_boxes_metabox_callback($post)
     $base_unavailable_till = isset( $values['base_unavailable_till'] ) ? esc_attr( $values['base_unavailable_till'][0] ) : "";    
     $res_seat_final = maybe_unserialize($values['base_selected_seats'][0]);
     $res_seat_final= maybe_unserialize($res_seat_final);
+    $base_location_type = isset( $values['base_location_type'] ) ? esc_attr( $values['base_location_type'][0] ) : "";
     
     $base_seat_all = isset( $values['base_seat_all'] ) ? esc_attr( $values['base_seat_all'][0] ) : "";  
     
@@ -201,17 +202,22 @@ function bkx_base_boxes_metabox_callback($post)
 
 	<div class="active" id="base_name">		
 			
-                        <?php printf( esc_html__( 'Is this  %1$s   in a fixed location or mobile? :', 'bookingx' ),  $base_alias ); ?>
-                        
+            <?php printf( esc_html__( 'Is this  %1$s   in a fixed location or mobile? :', 'bookingx' ),  $base_alias ); ?>        
 			<div class="plugin-description">
 			<ul class="gfield_radio" id="input_2_11">
+
 			<li class="gchoice_11_0">
-			<input name="base_location_type" type="radio" value="Fixed Location" id="choice_11_0" tabindex="16" onclick="" <?php if($base_is_location_fixed=="Y"){ echo "checked='checked'"; } ?>>
+			<input name="base_location_type" type="radio" value="Fixed Location" id="choice_11_0" tabindex="16" onclick="" <?php if($base_location_type == "Fixed Location"){ echo "checked='checked'"; } ?>>
 			<label for="choice_11_0"><?php esc_html_e( 'Fixed Location', 'bookingx' ); ?></label>
 			</li>
+
 			<li class="gchoice_11_1">
-			<input name="base_location_type" type="radio" value="Mobile" id="choice_11_1" tabindex="17" onclick="" <?php if($base_is_location_fixed=="N"){ echo "checked='checked'"; } ?> >
-			<label for="choice_11_1"><?php esc_html_e( 'Mobile', 'bookingx' ); ?></label></li>
+			<input name="base_location_type" type="radio" value="Mobile" id="choice_11_1" tabindex="17" onclick="" <?php if($base_location_type == "Mobile"){ echo "checked='checked'"; } ?> >
+			<label for="choice_11_1"><?php esc_html_e( 'Mobile Location', 'bookingx' ); ?></label></li>
+
+			<li class="gchoice_11_1">
+			<input name="base_location_type" type="radio" value="FM" id="id_base_type_fm" tabindex="17" onclick="" <?php if($base_location_type == "FM"){ echo "checked='checked'"; } ?> >
+			<label for="choice_11_1"><?php esc_html_e( 'Fixed and Mobile Location', 'bookingx' ); ?></label></li>
 			</ul>
 			</div>
 		
@@ -238,9 +244,8 @@ function bkx_base_boxes_metabox_callback($post)
 	<div class="active" id="location_differ" style="display:none;">
 		
 			
-		 <?php printf( esc_html__( 'Does the %1$s Location differ from %2$ Location :', 'bookingx' ),  $base_alias, $alias_seat ); ?>
+		 <?php printf( esc_html__( 'Does the %1$s location differ from %2$s location ?', 'bookingx' ),  $base_alias, $alias_seat ); ?>
                         
-		
 			<div class="plugin-description">
 			<ul class="gfield_radio" id="input_2_13">
 			<li class="gchoice_13_0">
@@ -324,6 +329,7 @@ function bkx_base_boxes_metabox_callback($post)
     
     <script>
 jQuery(document).ready(function(){
+
 	if(jQuery("input[name=base_location_differ_seat]:radio:checked").val() == "Yes")
 	{		 
             jQuery("#location_address").show();			
@@ -341,6 +347,11 @@ jQuery(document).ready(function(){
 	else if(jQuery("input[name=base_location_type]:radio:checked").val()=="Fixed Location")
 	{
 		jQuery("#mobile_only").hide();
+	}
+	else if(jQuery("input[name=base_location_type]:radio:checked").val()=="FM")
+	{
+		jQuery("#mobile_only").show();
+		jQuery("#location_differ").show();
 	}
         
 if(jQuery("input[name=base_is_unavailable]").attr('checked')=="checked")
@@ -380,7 +391,7 @@ function save_bkx_base_metaboxes( $post_id, $post, $update )
     
     if($post->post_type!='bkx_base')  return;
    
-        $basePrice			=	trim($_POST['base_price']);
+    $basePrice			=	trim($_POST['base_price']);
 	$baseMonthDaysTime =	trim($_POST['base_months_days_times']);
 	$baseMonths		=	trim($_POST['base_months']);
 	$baseDays		=	trim($_POST['base_days']);
@@ -425,20 +436,20 @@ function save_bkx_base_metaboxes( $post_id, $post, $update )
                 $baseIsExtended = 'N';
         }
 
-        if ($baseLocationType == "Fixed Location") {
+        if ($baseLocationType == "Fixed Location" || "FM") {
                 $isLocationFixed = 'Y';
                 $isMobileOnly = 'N';
         } 
 
         if ($baseLocationType == "Mobile") {
-                $isLocationFixed = 'N';
-                if ($baselocationmobile == "Yes") {
-                        $isMobileOnly = 'Y';
-                }
+            $isLocationFixed = 'N';
+            if ($baselocationmobile == "Yes") {
+                    $isMobileOnly = 'Y';
+            }
 
-                if ($baselocationmobile == "No") {
-                        $isMobileOnly = 'N';
-                }
+            if ($baselocationmobile == "No") {
+                    $isMobileOnly = 'N';
+            }
         }
 
         if ($baseLocationDifferSeat == "Yes") {
@@ -523,9 +534,14 @@ function save_bkx_base_metaboxes( $post_id, $post, $update )
         update_post_meta( $post_id, 'base_unavailable_till', $base_unavailable_till );
     
     if( !empty($baseSeatsValue) )
-        update_post_meta( $post_id, 'base_selected_seats', $baseSeatsValue ); 
+        update_post_meta( $post_id, 'base_selected_seats', $baseSeatsValue );
+
     if(!empty($base_extended_limit))
     	 update_post_meta( $post_id, 'base_extended_limit', $base_extended_limit );
+
+    if(!empty($baseLocationType))
+    	 update_post_meta( $post_id, 'base_location_type', $baseLocationType );
+    
     
     update_post_meta( $post_id, 'base_seat_all', $base_seat_all );
 }	
