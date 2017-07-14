@@ -60,7 +60,7 @@
                     
                     <td class="plugin-description">
                          <?php
-                         $bkx_set_booking_page = crud_option_multisite('bkx_set_booking_page');
+                        $bkx_set_booking_page = crud_option_multisite('bkx_set_booking_page');
                           $args = array(
                                     'depth'                 => 0,
                                     'child_of'              => 0,
@@ -83,7 +83,7 @@
 			</tr>
 
 		<tr class="active">
-			<th scope="row"><label for="Thank you page"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Status Pending (default)' ); ?> </label></th>
+			<th scope="row"><label for="Status Pending (default)"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Status Pending (default)' ); ?> </label></th>
 			 
 			<td class="plugin-description">
 				<div class="plugin-description">				

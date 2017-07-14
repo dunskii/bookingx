@@ -467,12 +467,57 @@ function process_mail_by_status( $booking_id, $subject, $content, $template_id =
 //Create default Template Pages Function
 function bkx_create_default_template()
 {
-   $thank_you_page_id       = crud_option_multisite('bkx_tempalate_thankyou'); 
-   $payment_pending_page_id = crud_option_multisite('bkx_tempalate_pending');
-   $payment_success_page_id = crud_option_multisite('bkx_tempalate_sucess');
+    $thank_you_page_id       = crud_option_multisite('bkx_tempalate_thankyou'); 
+    $payment_pending_page_id = crud_option_multisite('bkx_tempalate_pending');
+    $payment_success_page_id = crud_option_multisite('bkx_tempalate_sucess');
+    $bkx_tempalate_status_pending = crud_option_multisite("bkx_tempalate_status_pending");
+    $bkx_tempalate_status_ack = crud_option_multisite("bkx_tempalate_status_ack");
+    $bkx_tempalate_status_complete = crud_option_multisite("bkx_tempalate_status_complete");
+    $bkx_tempalate_status_missed = crud_option_multisite("bkx_tempalate_status_missed");
+    $bkx_tempalate_status_cancelled = crud_option_multisite("bkx_tempalate_status_cancelled");
+
+
 
    $default_content = 'These tags can be placed in the email form and they will pull data from the database to include in the email.
         [fname], [lname], [total_price], [order_id] , [txn_id], [seat_name], [base_name], [additions_list], [time_of_booking], [date_of_booking], [location_of_booking].';
+
+
+    $thanks_pending_content = 'Thanks [fname][/fname] for booking [base_name][/base_name],
+
+Here are your booking details.
+<ul>
+    <li style="list-style-type: none;">
+        <ul>
+            <li>Booking ID: [order_id][/order_id]</li>
+            <li>Resource: [seat_name][/seat_name]</li>
+            <li>Service: [base_name][/base_name]</li>
+            <li>Extras: [additions_list][/additions_list]</li>
+        </ul>
+        <ul>
+            <li>Time: [time_of_booking][/time_of_booking]</li>
+            <li>Date: [date_of_booking][/date_of_booking]</li>
+            <li>Location: [location_of_booking][/location_of_booking]</li>
+            <li>Price: [total_price][/total_price]</li>
+        </ul>
+    </li>
+    <li>
+        <ul>
+            <li>Amount Paid : [amount_paid][/amount_paid]</li>
+            <li>Amount Pending : [amount_pending][/amount_pending]</li>
+            <li>Business Name : [business_name][/business_name]</li>
+            <li>Business Phone : [business_phone][/business_phone]</li>
+            <li>Business Email : [business_email][/business_email]</li>
+            <li>Booking Status : [booking_status][/booking_status]</li>
+        </ul>
+    </li>
+</ul>';
+
+
+$cancelled_content = 'Hi [fname][/fname],
+
+Your [base_name][/base_name] with [seat_name][/seat_name] has been cancelled.
+
+You can rebook <a href="http://booking-x.com">here</a>.';
 
         
     $thank_you_page          = get_page_by_title('Thank You | Payment Confirmed');
@@ -481,6 +526,11 @@ function bkx_create_default_template()
     $booking_edit_process    = get_page_by_title('Booking Edit');
     $booking_page_title      = get_page_by_title('Your Booking Form Here');
 
+    $bkx_tempalate_status_pending_page      = get_page_by_title('Email Template | Status Pending');
+    $bkx_tempalate_status_ack_page          = get_page_by_title('Email Template | Status Acknowledge');
+    $bkx_tempalate_status_complete_page     = crud_option_multisite("Email Template | Status Complete");
+    $bkx_tempalate_status_missed_page       = crud_option_multisite("Email Template | Status Missed");
+    $bkx_tempalate_status_cancelled_page    = crud_option_multisite("Email Template | Status Cancelled");
 
     if ( !$thank_you_page ){
          
@@ -498,9 +548,54 @@ function bkx_create_default_template()
        crud_option_multisite("bkx_tempalate_thankyou", $thank_you_page_id,'update');
     }
  
-    if ( !$payment_pending ){
+    if ( empty($bkx_tempalate_status_pending) &&  !$bkx_tempalate_status_pending_page ){
 
-        $tpl_p[ 'post_title' ]     = "Email Confirmation | Payment Pending";
+        $tpl_p[ 'post_title' ]     = "Email Template | Status Pending";
+        $tpl_p[ 'post_content' ]   = $thanks_pending_content;
+        $tpl_p[ 'post_status' ]    = 'publish';
+        $tpl_p[ 'post_type' ]      = 'page';
+        $tpl_p[ 'comment_status' ] = 'closed';
+        $tpl_p[ 'ping_status' ]    = 'closed';
+        $tpl_p[ 'post_category' ]  = array(1); // the default 'Uncatrgorised'
+        // Insert the post into the database
+        $payment_pending_page_id = wp_insert_post( $tpl_p );
+
+        crud_option_multisite("bkx_tempalate_status_pending", $payment_pending_page_id,'update');
+    }
+
+    if ( empty($bkx_tempalate_status_ack) && !$bkx_tempalate_status_ack_page ){
+
+        $tpl_p[ 'post_title' ]     = "Email Template | Status Acknowledge";
+        $tpl_p[ 'post_content' ]   = $thanks_pending_content;
+        $tpl_p[ 'post_status' ]    = 'publish';
+        $tpl_p[ 'post_type' ]      = 'page';
+        $tpl_p[ 'comment_status' ] = 'closed';
+        $tpl_p[ 'ping_status' ]    = 'closed';
+        $tpl_p[ 'post_category' ]  = array(1); // the default 'Uncatrgorised'
+        // Insert the post into the database
+        $payment_pending_page_id = wp_insert_post( $tpl_p );
+
+        crud_option_multisite("bkx_tempalate_status_ack", $payment_pending_page_id,'update');
+    }
+
+    if ( empty($bkx_tempalate_status_complete) && !$bkx_tempalate_status_complete_page ){
+
+        $tpl_p[ 'post_title' ]     = "Email Template | Status Complete";
+        $tpl_p[ 'post_content' ]   = $thanks_pending_content;
+        $tpl_p[ 'post_status' ]    = 'publish';
+        $tpl_p[ 'post_type' ]      = 'page';
+        $tpl_p[ 'comment_status' ] = 'closed';
+        $tpl_p[ 'ping_status' ]    = 'closed';
+        $tpl_p[ 'post_category' ]  = array(1); // the default 'Uncatrgorised'
+        // Insert the post into the database
+        $payment_pending_page_id = wp_insert_post( $tpl_p );
+
+        crud_option_multisite("bkx_tempalate_status_complete", $payment_pending_page_id,'update');
+    }
+
+    if ( empty($bkx_tempalate_status_missed) && !$bkx_tempalate_status_missed_page ){
+
+        $tpl_p[ 'post_title' ]     = "Email Template | Status Missed";
         $tpl_p[ 'post_content' ]   = $default_content;
         $tpl_p[ 'post_status' ]    = 'publish';
         $tpl_p[ 'post_type' ]      = 'page';
@@ -510,9 +605,24 @@ function bkx_create_default_template()
         // Insert the post into the database
         $payment_pending_page_id = wp_insert_post( $tpl_p );
 
-        crud_option_multisite("bkx_tempalate_pending", $payment_pending_page_id,'update');
+        crud_option_multisite("bkx_tempalate_status_missed", $payment_pending_page_id,'update');
     }
 
+    if ( empty($bkx_tempalate_status_cancelled) && !$bkx_tempalate_status_cancelled_page ){
+
+        $tpl_p[ 'post_title' ]     = "Email Template | Status Cancelled";
+        $tpl_p[ 'post_content' ]   = $cancelled_content;
+        $tpl_p[ 'post_status' ]    = 'publish';
+        $tpl_p[ 'post_type' ]      = 'page';
+        $tpl_p[ 'comment_status' ] = 'closed';
+        $tpl_p[ 'ping_status' ]    = 'closed';
+        $tpl_p[ 'post_category' ]  = array(1); // the default 'Uncatrgorised'
+        // Insert the post into the database
+        $payment_pending_page_id = wp_insert_post( $tpl_p );
+
+        crud_option_multisite("bkx_tempalate_status_cancelled", $payment_pending_page_id,'update');
+    }
+ 
     if ( !$payment_success ){
 
         $tpl_s[ 'post_title' ]     = "Transaction Success";
