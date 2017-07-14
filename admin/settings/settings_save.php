@@ -66,17 +66,12 @@ if(!empty($_POST))
         
 	if(isset($_POST['alias_flag']) && ($_POST['alias_flag']==1))
 	{
-		$temp_seat = crud_option_multisite('bkx_alias_seat');
 		crud_option_multisite("bkx_alias_seat", $_POST['seat_alias'],'update');
-
-		$temp_base = crud_option_multisite('bkx_alias_base');
 		crud_option_multisite("bkx_alias_base", $_POST['base_alias'],'update');
-		
-		$temp_addition = crud_option_multisite('bkx_alias_addition');
 		crud_option_multisite("bkx_alias_addition", $_POST['addition_alias'],'update');
-
-		$temp_notification = crud_option_multisite('bkx_alias_notification');
 		crud_option_multisite("bkx_alias_notification", $_POST['notification_alias'],'update');
+		crud_option_multisite("notice_time_extended_text_alias", $_POST['notice_time_extended_text_alias'],'update');
+		crud_option_multisite("label_of_step1", $_POST['label_of_step1'],'update');
 
 		$_SESSION['success']='Alias updated successfully.';
 	}
@@ -106,8 +101,7 @@ if(!empty($_POST))
 		crud_option_multisite("bkx_term_cond_page", $_POST['bkx_term_cond_page'],'update');
 		crud_option_multisite("bkx_privacy_policy_page", $_POST['bkx_privacy_policy_page'],'update');
 		crud_option_multisite("enable_editor", $_POST['enable_editor'],'update');
-		crud_option_multisite("notice_time_extended_text_alias", $_POST['notice_time_extended_text_alias'],'update');
-		crud_option_multisite("label_of_step1", $_POST['label_of_step1'],'update');
+
 
 		$bkx_set_booking_page = crud_option_multisite('bkx_set_booking_page');
 		crud_option_multisite("bkx_set_booking_page", $_POST['bkx_set_booking_page'],'update');

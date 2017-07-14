@@ -38,6 +38,24 @@
 				</div>
 			</td>
 		</tr>
+
+		<tr class="active">
+			<th scope="row"><label for="label_of_step1 Text"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Label for booking form Step 1 ' ); ?></label></th>
+			<td class="plugin-description">
+				<div class="plugin-description">
+					<textarea name="label_of_step1" cols="50"><?php echo crud_option_multisite('label_of_step1'); ?></textarea>
+				</div>
+			</td>
+		</tr> 
+
+		<tr class="active">
+			<th scope="row"><label for="extended Text">Label for <?php echo crud_option_multisite('bkx_alias_base');?> time be extended text</label></th>
+			<td class="plugin-description">
+				<div class="plugin-description">
+					<textarea name="notice_time_extended_text_alias" cols="50"><?php echo crud_option_multisite('notice_time_extended_text_alias'); ?></textarea>
+				</div>
+			</td>
+		</tr>
 	
 	</tbody>
 </table>
@@ -175,25 +193,6 @@
 					</div>
 			</td>
 		</tr>
-
-		<tr class="active">
-			<th scope="row"><label for="label_of_step1 Text"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Label of booking form step 1 ' ); ?></label></th>
-			<td class="plugin-description">
-				<div class="plugin-description">
-					<textarea name="label_of_step1" cols="50"><?php echo crud_option_multisite('label_of_step1'); ?></textarea>
-				</div>
-			</td>
-		</tr> 
-
-		<tr class="active">
-			<th scope="row"><label for="extended Text"><?php echo crud_option_multisite('bkx_alias_base');?> time be extended text</label></th>
-			<td class="plugin-description">
-				<div class="plugin-description">
-					<textarea name="notice_time_extended_text_alias" cols="50"><?php echo crud_option_multisite('notice_time_extended_text_alias'); ?></textarea>
-				</div>
-			</td>
-		</tr>
-
 	</tbody>
 </table>
 <p class="submit"><input type="submit" onclick="" class='button-primary' name="save_template" id="id_save_template" value="Save Changes" /></p>
