@@ -22,7 +22,7 @@ function get_seat_list($by_base=NULL){
     
         if(isset($by_base) && $by_base!='')
         {
-            $base_selected_seats = get_post_meta($by_base,'base_selected_seats',true);   
+            $base_selected_seats = get_post_meta($by_base,'base_selected_seats',true);  
         }
 	//Get Seat post Array
         $args = array(

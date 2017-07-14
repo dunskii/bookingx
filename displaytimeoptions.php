@@ -31,31 +31,31 @@ function getDayName($day)
 {
 	if($day ==0)
 	{
-		$day_name = 'Sunday';
+		$day_name = sprintf( __( 'Sunday', 'bookingx' ), '');
 	}
 	else if($day == 1)
 	{
-		$day_name = 'Monday';
+		$day_name = sprintf( __( 'Monday', 'bookingx' ), '');
 	}
 	else if($day == 2)
 	{
-		$day_name = 'Tuesday';
+		$day_name = sprintf( __( 'Tuesday', 'bookingx' ), '');
 	}
 	else if($day == 3)
 	{
-		$day_name = 'Wednesday';
+		$day_name = sprintf( __( 'Wednesday', 'bookingx' ), '');
 	}
 	else if($day == 4)
 	{
-		$day_name = 'Thursday';
+		$day_name = sprintf( __( 'Thursday', 'bookingx' ), '');
 	}
 	else if($day == 5)
 	{
-		$day_name = 'Friday';
+		$day_name = sprintf( __( 'Friday', 'bookingx' ), '');
 	}
 	else if($day == 6)
 	{
-		$day_name = 'Saturday';
+		$day_name = sprintf( __( 'Saturday', 'bookingx' ), '');
 	}
 	return $day_name;
 }
@@ -289,10 +289,10 @@ function getMinsSlot($mins)
 	$time_unavailable_color = ($time_unavailable_color) ? $time_unavailable_color : 'gray';
 
 	if($base_time_option == 'H') { ?>
-			<p><label>Booking of the day</label></p>
+			<p><label><?php echo sprintf(esc_html__('Booking of the day','bookingx'), '');?></label></p>
 			<div class="booking-status-div">
-				<div class="booking-status">Booked <div style="background-color:<?php echo $time_unavailable_color;?>;"></div></div>
-				<div class="booking-status">Open <div style="background-color:<?php echo $time_available_color;?>;"></div></div>
+				<div class="booking-status"><?php echo sprintf(esc_html__('Booked','bookingx'), '');?> <div style="background-color:<?php echo $time_unavailable_color;?>;"></div></div>
+				<div class="booking-status"><?php echo sprintf(esc_html__('Open','bookingx'), ''); ?> <div style="background-color:<?php echo $time_available_color;?>;"></div></div>
 			</div>
 			<br/>
 		<div id="date_time_display">

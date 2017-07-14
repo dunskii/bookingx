@@ -12,7 +12,6 @@ $baseid 	= $_POST['baseid'];
 $additionid = $_POST['additionid'];
 
 if (isset($_POST['seatid']) && $_POST['seatid'] == 'any' && $_SESSION['free_seat_id']!=''  && crud_option_multisite('enable_any_seat') == 1 && crud_option_multisite('select_default_seat') != ''):
-
 	$mobonlyobj = $_SESSION['free_seat_id'];
 else:
 	$mobonlyobj = $_POST['seatid'];
@@ -25,16 +24,19 @@ if(is_numeric($mobonlyobj) && $mobonlyobj!=0){
     $seatmeta = get_post_custom( $SeatObj->ID );
     $seat_is_pre_payment = isset( $seatmeta['seatIsPrePayment'] ) ? esc_attr( $seatmeta['seatIsPrePayment'][0] ) : "";
     if($seat_is_pre_payment == 'N'){
-    	$booking_customer_note = ' Payment will be made when the customer comes for the booking.';
+
+    	$booking_customer_note = sprintf( __( 'Payment will be made when the customer comes for the booking.', 'bookingx' ), '');
     }
-    $booking_summary .= '<li><b>'.$seat_alias.' name : </b>'.$SeatObj->post_title.'';
+    //$booking_summary .= '<li><b>'.$seat_alias.' name : </b>'.$SeatObj->post_title.'';
+    $booking_summary .= sprintf( __( '<li><b> %1$s name : </b> %2$s', 'bookingx' ), $seat_alias,$SeatObj->post_title);
 }
 
 if(isset($baseid) && $baseid!='')
 {
     $GetBaseObj = get_post($baseid);   
     $objBase = get_post_custom( $GetBaseObj->ID ); 
-    $base_data = '<li><b>'.$base_alias.' name : </b>'.$GetBaseObj->post_title.'';
+    //$base_data = '<li><b>'.$base_alias.' name : </b>'.$GetBaseObj->post_title.'';
+    $base_data = sprintf( __( '<li><b> %1$s name : </b> %2$s', 'bookingx' ), $base_alias,$GetBaseObj->post_title);
 }
 
 $res_arr = array();
@@ -284,13 +286,17 @@ if(isset($baseid))
 
 		$base_hours_display = '';
 		if( $objBase['base_hours'][0] ){
-                $base_hours_display .= $objBase['base_hours'][0]. " Hours ";
+                //$base_hours_display .= $objBase['base_hours'][0]. " Hours ";
+                $base_hours_display .= sprintf( __( '%1$s Hours', 'bookingx' ), $objBase['base_hours'][0]);
         }
         if( $base_minutes!=0 ) {
-               $base_hours_display .= $base_minutes." Minutes";;
+               //$base_hours_display .= $base_minutes." Minutes";
+               $base_hours_display .= sprintf( __( '%1$s Minutes', 'bookingx' ), $base_minutes);
         }
 
 		$booking_summary .= $base_data . " - " .$base_hours_display;
+
+		//$booking_summary .= sprintf( __( '%1$s - %1$s', 'bookingx' ), $base_data, $base_hours_display);
 
 		$base_time = $objBase['base_hours'][0] + $minute; //add base minutes to base hours
 	}
@@ -341,10 +347,12 @@ if(isset($baseid))
 
 				$extra_hours_display = '';			 
 				if($objextra['addition_hours'][0]){
-		                $extra_hours_display .= $objextra['addition_hours'][0]. " Hours ";
+		                //$extra_hours_display .= $objextra['addition_hours'][0]. " Hours ";
+		                $extra_hours_display .= sprintf( __( '%1$s Hours', 'bookingx' ), $objextra['addition_hours'][0]);
 		        }
 		        if($addition_minutes!=0){
-		               $extra_hours_display .= $addition_minutes." Minutes";;
+		               //$extra_hours_display .= $addition_minutes." Minutes";
+		               $extra_hours_display .= sprintf( __( '%1$s Minutes', 'bookingx' ), $addition_minutes);
 		        }
 
 		        $objAddition[$extra->ID]['addition_time_display']  = $extra_hours_display;
@@ -352,17 +360,21 @@ if(isset($baseid))
 				//add addition minutes to addition hours
 			}else if($temp->addition_time_option=="D"){
 				$objAddition[$extra->ID]['addition_time'] = $objextra['addition_days'][0]*24;
-				$objAddition[$extra->ID]['addition_time_display'] = $objextra['addition_days'][0]." Days";
+				//$objAddition[$extra->ID]['addition_time_display'] = $objextra['addition_days'][0]." Days";
+				$objAddition[$extra->ID]['addition_time_display'] = sprintf( __( '%1$s Days', 'bookingx' ), $objextra['addition_days'][0]);
+
 			}else if($temp->addition_time_option=="M"){
 				$objAddition[$extra->ID]['addition_time'] = $objextra['addition_months'][0]*24*30;
-				$objAddition[$extra->ID]['addition_time_display'] = $objextra['addition_months'][0]." Months";
+				//$objAddition[$extra->ID]['addition_time_display'] = $objextra['addition_months'][0]." Months";
+				$objAddition[$extra->ID]['addition_time_display'] = sprintf( __( '%1$s Months', 'bookingx' ), $objextra['addition_months'][0]);
 			}
-			$str_addition_name .= "<li>".$extra->post_title." - $".$objextra['addition_price'][0]." - ".$extra_hours_display."</li>"; 	
+			//$str_addition_name .= "<li>".$extra->post_title." - $".$objextra['addition_price'][0]." - ".$extra_hours_display."</li>";
+			$str_addition_name .= sprintf( __( '<li> %1$s - %2$s%3$s - %4$s </li>', 'bookingx' ),$extra->post_title,get_current_currency(),$objextra['addition_price'][0],$extra_hours_display);
 		}
 		//$booking_summary .= '</ul>';
 		$str_addition_name.="</ul>";
 
-		$booking_summary .= '<li><b>'.$addition_alias.' : </b></li><li>'.$str_addition_name.'</li>';
+		$booking_summary .= '<li><b>'.sprintf( __( '%1$s', 'bookingx' ), $addition_alias).' : </b></li><li>'.$str_addition_name.'</li>';
 		
 	}
 	$counter = 0;
@@ -389,7 +401,7 @@ if(isset($baseid))
 	
 	if($counter < 24)
 	{
-		$output_time = $counter." Hours";
+		$output_time = sprintf( __( '%1$s Hours', 'bookingx' ), $counter);
 	}
 	else if($counter >= 24)
 	{
@@ -399,11 +411,13 @@ if(isset($baseid))
 		{
 			if($hours_remaining!=0)
 			{
-			$output_time = $days." Days ".$hours_remaining." Hours";
+				//$output_time = $days." Days ".$hours_remaining." Hours";
+				$output_time = sprintf( __( '%1$s Days %2$s Hours', 'bookingx' ), $days,$hours_remaining);
 			}
 			else
 			{
-			$output_time = $days." Days";
+				//$output_time = $days." Days";
+				$output_time = sprintf( __( '%1$s Days', 'bookingx' ), $days);
 			}
 		}
 		else if($days>30)
@@ -414,22 +428,27 @@ if(isset($baseid))
 			{
 				if($days_remaining==0)
 				{
-					$output_time = $months." Months ";
+					//$output_time = $months." Months ";
+					$output_time = sprintf( __( '%1$s Months', 'bookingx' ), $months);
 				}
 				else
 				{
-					$output_time = $months." Months ".$days_remaining." Days";
+					//$output_time = $months." Months ".$days_remaining." Days";
+					$output_time = sprintf( __( '%1$s Months %2$s Days', 'bookingx' ), $months,$days_remaining);
+					 
 				}
 			}
 			else
 			{
 				if($days_remaining==0)
 				{
-					$output_time = $months." Months ".$hours_remaining." Hours";
+					//$output_time = $months." Months ".$hours_remaining." Hours";
+					$output_time = sprintf( __( '%1$s Months %2$s Hours', 'bookingx' ), $months, $hours_remaining);
 				}
 				else
 				{
-					$output_time = $months." Months ".$days_remaining." Days ".$hours_remaining." Hours";
+					//$output_time = $months." Months ".$days_remaining." Days ".$hours_remaining." Hours";
+					$output_time = sprintf( __( '%1$s Months %2$s Days %3$s Hours', 'bookingx' ), $months, $days_remaining, $hours_remaining);
 				}
 			}
 		}
@@ -455,7 +474,9 @@ if(!empty($total_price)){
 }
 
 
-$booking_summary .= '<li><b>Total Time  : </b>'.$output_time.'</li></ul>';
+//$booking_summary .= '<li><b>Total Time  : </b>'.$output_time.'</li></ul>';
+$booking_summary .= sprintf( __( '<li><b> Total Time : </b> %1$s </li></ul>', 'bookingx' ),$output_time);
+
 $currency = get_current_currency();
 $output_time 							= str_replace('"', "", $output_time);
 $arr_output['addition_list'] 			= $str_addition_name;

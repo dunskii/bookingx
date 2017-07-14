@@ -69,10 +69,10 @@ else
 if(crud_option_multisite('enable_cancel_booking')== 1 
   && crud_option_multisite('reg_customer_crud_op') == 1) :
 
-  $cancel_booking_text = "Delete Booking";
-  $complete_booking_text = "Complete Booking";
-  $alert_cancel_booking_text = "Are you sure want to delete this booking?";
-  $alert_complete_booking_text = "Are you sure want to Complete this booking?";
+  $cancel_booking_text = sprintf( __( 'Delete Booking', 'bookingx' ), '');
+  $complete_booking_text = sprintf( __( 'Complete Booking', 'bookingx' ), '');
+  $alert_cancel_booking_text = sprintf( __( 'Are you sure want to delete this booking ?', 'bookingx' ), '');
+  $alert_complete_booking_text = sprintf( __( 'Are you sure want to Complete this booking ?', 'bookingx' ), '');
 
   $cancellation_policy_page_id = get_option('cancellation_policy_page_id');
   $page_data = get_page( $cancellation_policy_page_id );
@@ -80,7 +80,8 @@ if(crud_option_multisite('enable_cancel_booking')== 1
   $cancellation_policy_page_link = get_permalink($cancellation_policy_page_id);
 
   if(isset($cancellation_policy_page_link)) : $cancellation_policy_page_link = $cancellation_policy_page_link; else: $cancellation_policy_page_link= "#"; endif;
-  $cancellation_policy_link ='<b>Read more about cancellation policy , <a href="'.$cancellation_policy_page_link.'" target="_blank">Click here</a></b>';
+  //$cancellation_policy_link = '<b>Read more about cancellation policy , <a href="'.$cancellation_policy_page_link.'" target="_blank">Click here</a></b>';
+  $cancellation_policy_link = sprintf( __( '<b> Read more about cancellation policy , <a href="%1$s" target="_blank"> Click here </a> </b>', 'bookingx' ), $cancellation_policy_page_link);
   $cancellation_policy_title= $page_data->post_title;
   
 endif;
@@ -115,16 +116,16 @@ echo get_loader();
 ?>
  <div id="bkx-booking-data">
  <div class="et-tabs-container et_sliderfx_fade et_sliderauto_false et_sliderauto_speed_5000 et_slidertype_top_tabs" style="position: relative;">
- <ul class="et_shortcodes_mobile_nav bookingx"><li><a href="#" class="et_sc_nav_next">Next<span></span></a></li><li><a href="#" class="et_sc_nav_prev">Previous<span></span></a></li></ul>
+ <ul class="et_shortcodes_mobile_nav bookingx-mobile_nav"><li><a href="#" class="et_sc_nav_next"><?php echo __( 'Next', 'bookingx' ) ?><span></span></a></li><li><a href="#" class="et_sc_nav_prev"><?php echo __( 'Previous', 'bookingx' ) ?><span></span></a></li></ul>
 
 
               <a href="#" class="nav-tabs-dropdown mobile_menu_bar"></a>
               <ul class="et-tabs-control">
                  
-                <li class="active"><a data-toggle="tab" onclick="tabsubmit('future');" id="future" href="javascript:void(0);">Future Bookings<span>(<?php echo sizeof($GetFutureBookedRecords); ?>)</span></a></li>
-                <li class=""><a data-toggle="tab" onclick="tabsubmit('past');" id="pbooktab" href="javascript:void(0);">Past Bookings <span>(<?php echo sizeof($GetPastBookedRecords); ?>)</span></a></li>
+                <li class="active"><a data-toggle="tab" onclick="tabsubmit('future');" id="future" href="javascript:void(0);"><?php echo __( 'Future Bookings', 'bookingx' ) ?><span>(<?php echo sizeof($GetFutureBookedRecords); ?>)</span></a></li>
+                <li class=""><a data-toggle="tab" onclick="tabsubmit('past');" id="pbooktab" href="javascript:void(0);"><?php echo __( 'Past Bookings', 'bookingx' ) ?> <span>(<?php echo sizeof($GetPastBookedRecords); ?>)</span></a></li>
 
-                 <li class=""><a data-toggle="tab" id="setting_tab" href="javascript:void(0);"> Settings </a></li>
+                 <li class=""><a data-toggle="tab" id="setting_tab" href="javascript:void(0);"> <?php echo __( 'Settings', 'bookingx' ) ?> </a></li>
      </ul>
 
               <div class="et-tabs-content bookingx" style="overflow: hidden; position: relative;">
@@ -142,18 +143,17 @@ echo get_loader();
                               //echo "<pre>";
                               $cancelled_booking = '';
                               if($get_order_status =='Cancelled'){ 
-                                $cancelled_booking =  '<p>Booking Status : '.$get_order_status.'</p>';
+                                //$cancelled_booking =  '<p>Booking Status : '.$get_order_status.'</p>';
+                                $cancelled_booking =  sprintf( __( '<p>Booking Status :  %1$s </p>', 'bookingx' ), $get_order_status);
                               }
                             ?>
                              <div class="card staffCard services" id="ack-booking-43">
-                              <h3>Booking ID : #<?php echo $futurebooking['booking_record_id']; ?></h3><?php echo $cancelled_booking;?>
+                              <h3><?php printf( esc_html__( 'Booking ID : #%d', 'bookingx' ), $futurebooking['booking_record_id'] );?></h3><?php echo $cancelled_booking;?>
+
                               <div style="float: left; padding: 0 20px;"><?php echo date('d/m/Y',strtotime($futurebooking['booking_start_date'])); ?> <?php echo date('h:i:s A', strtotime($futurebooking['booking_start_date'])); ?></div> 
                               <div style="float: left; padding: 0 20px;"><?php echo $futurebooking['total_duration']; ?> </div>   
                               <div style="float: left; padding: 0 20px;"><?php echo $serviceObj->post->post_title; ?></div> 
-                               <div style="float: left; padding: 0 20px;"> <a id="view_href-<?php echo $futurebooking['booking_record_id']; ?>" href="javascript:view_booking(<?php echo $futurebooking['booking_record_id']; ?>);">view / hide</a> </div> 
-                              <p> &nbsp;</p>
-
-
+                               <div style="float: left; padding: 0 20px;"> <a id="view_href-<?php echo $futurebooking['booking_record_id']; ?>" href="javascript:view_booking(<?php echo $futurebooking['booking_record_id']; ?>);"> <?php echo __( 'view / hide', 'bookingx' );?></a> </div> <p> &nbsp;</p>
                                <div style="float: left;padding: 0 20px;padding-top: 10px;display: none;"  id="detail-view-<?php echo $futurebooking['booking_record_id']; ?>">
                                 <?php
 
@@ -171,9 +171,9 @@ echo get_loader();
 
             echo $extra_data;
 
-            echo "<p><b>Location :</b> ".$full_address."</p>";
+            echo "<p><b> ".__( 'Location :', 'bookingx' )."</b> ".$full_address."</p>";
 
-            echo '<p class="booking-'.$get_order_status.'"><b> Booking Status : '.$get_order_status.'</b></p>';
+            echo '<p class="booking-'.$get_order_status.'"><b>'.__( 'Booking Status :', 'bookingx' ).''.$get_order_status.'</b></p>';
 
             $booking_edit_process_page_id = crud_option_multisite("booking_edit_process_page_id");
  
@@ -191,28 +191,28 @@ echo get_loader();
 
 if($get_order_status!='Cancelled'){
   ?>
-   <a href="<?php echo $booking_safe_link;?>">Edit</a> | <a href="javascript:cancel_booking(<?php echo $futurebooking['booking_record_id'];?>,'n');" >Cancel</a> 
+   <a href="<?php echo $booking_safe_link;?>"><?php echo __( 'Edit', 'bookingx' ) ?></a> | <a href="javascript:cancel_booking(<?php echo $futurebooking['booking_record_id'];?>,'n');" ><?php echo __( 'Cancel', 'bookingx' ) ?></a>
     <span align="center" id="generate_pdf_data_spinner-<?php echo $futurebooking['booking_record_id'];?>" style="display:none;"><img src="<?php echo get_site_url();?>/bodikea-loader1.gif" /></span>
   <form id="cancel_process_booking_<?php echo $futurebooking['booking_record_id']; ?>_n" style="display: none;"   method="post">
     <textarea id="cancel_comment_<?php echo $futurebooking['booking_record_id'];?>_n" name="comment_is" style="width: 100%;height: 150px;"></textarea>
     <input type="hidden" name="_i_process" id="_i_process<?php echo $futurebooking['booking_record_id'];?>_n"  value="<?php echo $encrypted_booking_id;?>">
-    <input type="button" value="Cancel Booking" class="button" id="cancel_process_submit_<?php echo $futurebooking['booking_record_id']; ?>_n">
-    <input type="button" value="Close" class="button" id="cancel_<?php echo $futurebooking['booking_record_id'];?>_n">
+    <input type="button" value="<?php echo __( 'Cancel Booking', 'bookingx' ) ?>" class="button" id="cancel_process_submit_<?php echo $futurebooking['booking_record_id']; ?>_n">
+    <input type="button" value="<?php echo __( 'Close', 'bookingx' ) ?>" class="button" id="cancel_<?php echo $futurebooking['booking_record_id'];?>_n">
   </form>
   <?php
 }
-?>        </div>
+?>
+</div>
+</div>
 
-                            </div>
-
-                          <?php endforeach;?>
-                          <?php else : ?>
-                            <div class="card staffCard services" id="ack-booking-43">
-                              <h3> No booking's found.</h3>  
-                            </div>
-                        <?php endif;?>
-                      </div>
-                  </div>
+<?php endforeach;?>
+        <?php else : ?>
+          <div class="card staffCard services" id="ack-booking-43">
+          <h3> <?php echo __( 'No booking\'s found.', 'bookingx' ) ?></h3>  
+        </div>
+    <?php endif;?>
+  </div>
+</div>
             <!-- Future BOOKING TAB END -->
 
                         <!-- Past Booking TAB START -->
@@ -261,7 +261,7 @@ if($get_order_status!='Cancelled'){
                           <?php endforeach;?>
                         <?php else : ?>
                             <div class="card staffCard services" id="ack-booking-43">
-                              <h3> No booking's found.</h3>  
+                              <h3><?php echo __( 'No booking\'s found.', 'bookingx' ) ?></h3>  
                             </div>
                         <?php endif;?>
                           </div>
@@ -276,17 +276,17 @@ if($get_order_status!='Cancelled'){
               <div class="bkx_cust_setting_err"></div>
               <div class="bkx_cust_setting_suc"></div>
               <form id="bkx_cust_setting" name="bkx_cust_setting" method="post" >
-                  <p> <label> Name </label> <input type="text" name="bkx_cust_name" value="<?php echo $bkx_cust_name; ?>"> </p>
-                  <p> <label> Email </label><input type="text" name="bkx_cust_email" value="<?php echo $bkx_cust_email; ?>"> </p>
-                  <p> <label> Phone </label><input type="text" name="bkx_cust_phone" value="<?php echo $bkx_cust_phone; ?>"> </p>
-                  <p> <label> Google calendar </label><input type="text" name="bkx_cust_gc" value="<?php echo $bkx_cust_gc; ?>"></p>
-                  <p> <label> Password  </label><input type="password" name="bkx_cust_pwd"></p>
-                  <p> <label> Confirm Password  </label><input type="password" name="bkx_cust_cnf_pwd"></p>
-                  <p> <h3> Address </h3> </p>
-                  <p> <label> Street  </label><input type="text" name="bkx_cust_add_street" value="<?php echo $bkx_cust_add_street; ?>"> </p>
-                  <p> <label> City  </label>  <input type="text" name="bkx_cust_add_city" value="<?php echo $bkx_cust_add_city; ?>"> </p>
-                  <p> <label> State </label>  <input type="text" name="bkx_cust_add_state" value="<?php echo $bkx_cust_add_state; ?>"> </p>
-                  <p> <label> zip  </label>   <input type="text" name="bkx_cust_add_zip" value="<?php echo $bkx_cust_add_zip; ?>"> </p> 
+                  <p> <label> <?php echo __( 'Name', 'bookingx' ) ?> </label> <input type="text" name="bkx_cust_name" value="<?php echo $bkx_cust_name; ?>"> </p>
+                  <p> <label> <?php echo __( 'Email', 'bookingx' ) ?> </label><input type="text" name="bkx_cust_email" value="<?php echo $bkx_cust_email; ?>"> </p>
+                  <p> <label> <?php echo __( 'Phone', 'bookingx' ) ?> </label><input type="text" name="bkx_cust_phone" value="<?php echo $bkx_cust_phone; ?>"> </p>
+                  <p> <label> <?php echo __( 'Google calendar', 'bookingx' ) ?> </label><input type="text" name="bkx_cust_gc" value="<?php echo $bkx_cust_gc; ?>"></p>
+                  <p> <label> <?php echo __( 'Password', 'bookingx' ) ?>  </label><input type="password" name="bkx_cust_pwd" style="width: auto;"></p>
+                  <p> <label> <?php echo __( 'Confirm Password', 'bookingx' ) ?>  </label><input type="password" name="bkx_cust_cnf_pwd" style="width: auto;"></p>
+                  <p> <h3> <?php echo __( 'Address', 'bookingx' ) ?> </h3> </p>
+                  <p> <label> <?php echo __( 'Street', 'bookingx' ) ?>  </label><input type="text" name="bkx_cust_add_street" value="<?php echo $bkx_cust_add_street; ?>"> </p>
+                  <p> <label> <?php echo __( 'City', 'bookingx' ) ?>  </label>  <input type="text" name="bkx_cust_add_city" value="<?php echo $bkx_cust_add_city; ?>"> </p>
+                  <p> <label> <?php echo __( 'State', 'bookingx' ) ?> </label>  <input type="text" name="bkx_cust_add_state" value="<?php echo $bkx_cust_add_state; ?>"> </p>
+                  <p> <label> <?php echo __( 'zip', 'bookingx' ) ?>  </label>   <input type="text" name="bkx_cust_add_zip" value="<?php echo $bkx_cust_add_zip; ?>"> </p> 
                   <p> <label> &nbsp;  </label><input type="button" name="bkx_cust_save" id="bkx_cust_save" value="Update"> </p> 
               </form> 
           </div>
@@ -301,11 +301,10 @@ if($get_order_status!='Cancelled'){
 
 
 <script type="text/javascript">
-
+jQuery( document ).ready(function() {
+    setTimeout(function(){ jQuery('.et_shortcodes_mobile_nav').remove();}, 100);
+});
 jQuery(function() {
-
-  jQuery(' .et_shortcodes_mobile_nav ').remove();
-
   jQuery('#bkx_cust_save').on('click', function(e) {
 
      e.preventDefault();

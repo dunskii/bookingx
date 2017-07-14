@@ -1,0 +1,1803 @@
+# Copyright (C) 2017 BookingX
+# This file is distributed under the same license as the BookingX package.
+msgid ""
+msgstr ""
+"Project-Id-Version: BookingX 0.5\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/BookingX\n"
+"POT-Creation-Date: 2017-06-30 13:32+0530\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2017-07-14 09:34+0530\n"
+"Language-Team: \n"
+"X-Generator: Poedit 1.8.7.1\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: hi_IN\n"
+
+#: admin/booking-listing.php:14
+msgid "Status"
+msgstr "वर्तमान स्थिति"
+
+#: admin/booking-listing.php:14
+msgid "Current Status"
+msgstr "वर्तमान स्थिति"
+
+#: admin/booking-listing.php:15
+msgid "Date"
+msgstr "तारीख"
+
+#: admin/booking-listing.php:16
+msgid "Time"
+msgstr "समय"
+
+#: admin/booking-listing.php:17
+msgid "Duration"
+msgstr "अवधि"
+
+#: admin/booking-listing.php:18 customer-bookings.php:279
+msgid "Name"
+msgstr "नाम"
+
+#: admin/booking-listing.php:19 customer-bookings.php:281 inc/class-order-meta-box.php:55 shortcode/shortcode.php:845
+msgid "Phone"
+msgstr "फ़ोन"
+
+#: admin/booking-listing.php:23
+msgid "Total"
+msgstr "कुल"
+
+#: admin/booking-listing.php:24
+msgid "Actions"
+msgstr "क्रिया"
+
+#: admin/booking-listing.php:25
+msgid "View"
+msgstr "देखना"
+
+#: admin/booking-listing.php:42 admin/booking-listing.php:46 admin/booking-listing.php:49 admin/booking-listing.php:52
+#: admin/booking-listing.php:59 admin/booking-listing.php:63 admin/booking-listing.php:67 inc/call_ajax_functions.php:183
+msgid "%s"
+msgstr "%s"
+
+#: admin/booking-listing.php:55
+msgid "%s %s"
+msgstr "%s %s"
+
+#: admin/booking-listing.php:77
+msgid "%s%d %s"
+msgstr "%s%d %s"
+
+#: admin/booking-listing.php:466 admin/booking-listing.php:476
+msgid "Pending"
+msgstr "अपूर्ण"
+
+#: admin/booking-listing.php:468 admin/booking-listing.php:478
+msgid "Acknowledged"
+msgstr "स्वीकार किया"
+
+#: admin/booking-listing.php:470 admin/booking-listing.php:480
+msgid "Completed"
+msgstr "संपूर्ण"
+
+#: admin/booking-listing.php:472 admin/booking-listing.php:482
+msgid "Missed"
+msgstr "चुक गया"
+
+#: admin/booking-listing.php:474 admin/booking-listing.php:484
+msgid "Cancelled"
+msgstr "रद्द"
+
+#: admin/settings/bkx_biz-view.php:2 admin/settings/bkx_biz-view.php:110 admin/settings/bkx_biz-view.php:128
+#: admin/settings/bkx_biz-view.php:166 admin/settings/bkx_general-view.php:3 admin/settings/bkx_general-view.php:9
+#: admin/settings/bkx_general-view.php:17 admin/settings/bkx_general-view.php:25 admin/settings/bkx_general-view.php:34
+#: admin/settings/bkx_general-view.php:51 admin/settings/bkx_general-view.php:59 admin/settings/bkx_general-view.php:86
+#: admin/settings/bkx_general-view.php:98 admin/settings/bkx_general-view.php:110 admin/settings/bkx_general-view.php:122
+#: admin/settings/bkx_general-view.php:134 admin/settings/bkx_general-view.php:146 admin/settings/bkx_general-view.php:157
+#: admin/settings/bkx_general-view.php:168 admin/settings/bkx_general-view.php:172 admin/settings/bkx_general-view.php:174
+#: admin/settings/bkx_general-view.php:180 admin/settings/bkx_general-view.php:204 admin/settings/bkx_general-view.php:211
+#: admin/settings/bkx_general-view.php:218 admin/settings/bkx_general-view.php:226 admin/settings/bkx_general-view.php:234
+#: admin/settings/bkx_general-view.php:241 admin/settings/bkx_general-view.php:248 admin/settings/bkx_general-view.php:255
+#: admin/settings/bkx_general-view.php:262 admin/settings/bkx_general-view.php:269 admin/settings/bkx_general-view.php:276
+#: admin/settings/bkx_general-view.php:283 admin/settings/bkx_general-view.php:290 admin/settings/bkx_general-view.php:297
+#: admin/settings/bkx_general-view.php:317 admin/settings/bkx_general-view.php:322 admin/settings/bkx_general-view.php:326
+#: admin/settings/bkx_general-view.php:327 admin/settings/bkx_general-view.php:332 admin/settings/bkx_general-view.php:345
+#: admin/settings/bkx_general-view.php:346 admin/settings/bkx_general-view.php:352 admin/settings/bkx_general-view.php:356
+#: admin/settings/bkx_general-view.php:357 admin/settings/bkx_general-view.php:378 admin/settings/bkx_general-view.php:395
+#: admin/settings/bkx_general-view.php:400 admin/settings/bkx_payment-view.php:4 admin/settings/bkx_payment-view.php:59
+#: admin/settings/bkx_payment-view.php:103 get_duration_booking.php:377 shortcode/shortcode.php:729
+msgid "%1$s"
+msgstr "%1$s"
+
+#: admin/settings/bkx_general-view.php:341
+msgid "Allow \"Any\" for %1$s option"
+msgstr "\"किसी भी\" के लिए अनुमति दें"
+
+#: bkx-single/add-to-booking.php:33 inc/template-functions.php:245 templates/content-base.php:36 templates/content-base.php:55
+#: templates/content-seat.php:41 templates/content-seat.php:62
+msgid "Book now"
+msgstr "अभी बुक करें"
+
+#: bkx-single/image.php:30 booking_general_functions.php:338
+msgid "Placeholder"
+msgstr "प्लेसहोल्डर"
+
+#: bkx-single/meta/base.php:13 bkx-single/meta/seat.php:16
+msgid "Additional Information : "
+msgstr "अतिरिक्त जानकारी :"
+
+#: bkx-single/pagination.php:8 customer-bookings.php:7 customer-bookings.php:119 shortcode/shortcode.php:799
+#: shortcode/shortcode.php:827 shortcode/shortcode.php:829
+msgid "Next"
+msgstr "आगामी"
+
+#: bkx-single/pagination.php:9
+msgid "Next post:"
+msgstr "अगला पोस्ट:"
+
+#: bkx-single/pagination.php:11 customer-bookings.php:7 customer-bookings.php:119 shortcode/shortcode.php:815
+#: shortcode/shortcode.php:893
+msgid "Previous"
+msgstr "पिछला"
+
+#: bkx-single/pagination.php:12
+msgid "Previous post:"
+msgstr "पिछला पद:"
+
+#: booking.php:70 inc/filter_and_actions_functions.php:173
+msgctxt "Order status"
+msgid "Pending"
+msgstr "अपूर्ण"
+
+#: booking.php:71 inc/filter_and_actions_functions.php:181
+msgctxt "Order status"
+msgid "Acknowledged"
+msgstr "स्वीकार किया"
+
+#: booking.php:72 inc/filter_and_actions_functions.php:189
+msgctxt "Order status"
+msgid "Completed"
+msgstr "संपूर्ण"
+
+#: booking.php:73 inc/filter_and_actions_functions.php:205
+msgctxt "Order status"
+msgid "Missed"
+msgstr "चुक गया"
+
+#: booking.php:74 inc/filter_and_actions_functions.php:197
+msgctxt "Order status"
+msgid "Cancelled"
+msgstr "रद्द"
+
+#: booking.php:75 inc/filter_and_actions_functions.php:213
+msgctxt "Order status"
+msgid "Failed"
+msgstr "असफल हुआ"
+
+#: booking.php:99 customer-bookings.php:128
+msgid "Settings"
+msgstr "सेटिंग्स"
+
+#: booking.php:209
+msgid "Resource"
+msgstr "संसाधन"
+
+#: booking_general_functions.php:607
+msgid "United Arab Emirates dirham"
+msgstr ""
+
+#: booking_general_functions.php:608
+msgid "Afghan afghani"
+msgstr ""
+
+#: booking_general_functions.php:609
+msgid "Albanian lek"
+msgstr ""
+
+#: booking_general_functions.php:610
+msgid "Armenian dram"
+msgstr ""
+
+#: booking_general_functions.php:611
+msgid "Netherlands Antillean guilder"
+msgstr ""
+
+#: booking_general_functions.php:612
+msgid "Angolan kwanza"
+msgstr ""
+
+#: booking_general_functions.php:613
+msgid "Argentine peso"
+msgstr ""
+
+#: booking_general_functions.php:614
+msgid "Australian dollar"
+msgstr ""
+
+#: booking_general_functions.php:615
+msgid "Aruban florin"
+msgstr ""
+
+#: booking_general_functions.php:616
+msgid "Azerbaijani manat"
+msgstr ""
+
+#: booking_general_functions.php:617
+msgid "Bosnia and Herzegovina convertible mark"
+msgstr ""
+
+#: booking_general_functions.php:618
+msgid "Barbadian dollar"
+msgstr ""
+
+#: booking_general_functions.php:619
+msgid "Bangladeshi taka"
+msgstr ""
+
+#: booking_general_functions.php:620
+msgid "Bulgarian lev"
+msgstr ""
+
+#: booking_general_functions.php:621
+msgid "Bahraini dinar"
+msgstr ""
+
+#: booking_general_functions.php:622
+msgid "Burundian franc"
+msgstr ""
+
+#: booking_general_functions.php:623
+msgid "Bermudian dollar"
+msgstr ""
+
+#: booking_general_functions.php:624
+msgid "Brunei dollar"
+msgstr ""
+
+#: booking_general_functions.php:625
+msgid "Bolivian boliviano"
+msgstr ""
+
+#: booking_general_functions.php:626
+msgid "Brazilian real"
+msgstr ""
+
+#: booking_general_functions.php:627
+msgid "Bahamian dollar"
+msgstr ""
+
+#: booking_general_functions.php:628
+msgid "Bitcoin"
+msgstr ""
+
+#: booking_general_functions.php:629
+msgid "Bhutanese ngultrum"
+msgstr ""
+
+#: booking_general_functions.php:630
+msgid "Botswana pula"
+msgstr ""
+
+#: booking_general_functions.php:631
+msgid "Belarusian ruble"
+msgstr ""
+
+#: booking_general_functions.php:632
+msgid "Belize dollar"
+msgstr ""
+
+#: booking_general_functions.php:633
+msgid "Canadian dollar"
+msgstr ""
+
+#: booking_general_functions.php:634
+msgid "Congolese franc"
+msgstr ""
+
+#: booking_general_functions.php:635
+msgid "Swiss franc"
+msgstr ""
+
+#: booking_general_functions.php:636
+msgid "Chilean peso"
+msgstr ""
+
+#: booking_general_functions.php:637
+msgid "Chinese yuan"
+msgstr ""
+
+#: booking_general_functions.php:638
+msgid "Colombian peso"
+msgstr ""
+
+#: booking_general_functions.php:639
+msgid "Costa Rican col&oacute;n"
+msgstr ""
+
+#: booking_general_functions.php:640
+msgid "Cuban convertible peso"
+msgstr ""
+
+#: booking_general_functions.php:641
+msgid "Cuban peso"
+msgstr ""
+
+#: booking_general_functions.php:642
+msgid "Cape Verdean escudo"
+msgstr ""
+
+#: booking_general_functions.php:643
+msgid "Czech koruna"
+msgstr ""
+
+#: booking_general_functions.php:644
+msgid "Djiboutian franc"
+msgstr ""
+
+#: booking_general_functions.php:645
+msgid "Danish krone"
+msgstr ""
+
+#: booking_general_functions.php:646
+msgid "Dominican peso"
+msgstr ""
+
+#: booking_general_functions.php:647
+msgid "Algerian dinar"
+msgstr ""
+
+#: booking_general_functions.php:648
+msgid "Egyptian pound"
+msgstr ""
+
+#: booking_general_functions.php:649
+msgid "Eritrean nakfa"
+msgstr ""
+
+#: booking_general_functions.php:650
+msgid "Ethiopian birr"
+msgstr ""
+
+#: booking_general_functions.php:651
+msgid "Euro"
+msgstr ""
+
+#: booking_general_functions.php:652
+msgid "Fijian dollar"
+msgstr ""
+
+#: booking_general_functions.php:653
+msgid "Falkland Islands pound"
+msgstr ""
+
+#: booking_general_functions.php:654
+msgid "Pound sterling"
+msgstr ""
+
+#: booking_general_functions.php:655
+msgid "Georgian lari"
+msgstr ""
+
+#: booking_general_functions.php:656
+msgid "Guernsey pound"
+msgstr ""
+
+#: booking_general_functions.php:657
+msgid "Ghana cedi"
+msgstr ""
+
+#: booking_general_functions.php:658
+msgid "Gibraltar pound"
+msgstr ""
+
+#: booking_general_functions.php:659
+msgid "Gambian dalasi"
+msgstr ""
+
+#: booking_general_functions.php:660
+msgid "Guinean franc"
+msgstr ""
+
+#: booking_general_functions.php:661
+msgid "Guatemalan quetzal"
+msgstr ""
+
+#: booking_general_functions.php:662
+msgid "Guyanese dollar"
+msgstr ""
+
+#: booking_general_functions.php:663
+msgid "Hong Kong dollar"
+msgstr ""
+
+#: booking_general_functions.php:664
+msgid "Honduran lempira"
+msgstr ""
+
+#: booking_general_functions.php:665
+msgid "Croatian kuna"
+msgstr ""
+
+#: booking_general_functions.php:666
+msgid "Haitian gourde"
+msgstr ""
+
+#: booking_general_functions.php:667
+msgid "Hungarian forint"
+msgstr ""
+
+#: booking_general_functions.php:668
+msgid "Indonesian rupiah"
+msgstr ""
+
+#: booking_general_functions.php:669
+msgid "Israeli new shekel"
+msgstr ""
+
+#: booking_general_functions.php:670
+msgid "Manx pound"
+msgstr ""
+
+#: booking_general_functions.php:671
+msgid "Indian rupee"
+msgstr ""
+
+#: booking_general_functions.php:672
+msgid "Iraqi dinar"
+msgstr ""
+
+#: booking_general_functions.php:673
+msgid "Iranian rial"
+msgstr ""
+
+#: booking_general_functions.php:674
+msgid "Icelandic kr&oacute;na"
+msgstr ""
+
+#: booking_general_functions.php:675
+msgid "Jersey pound"
+msgstr ""
+
+#: booking_general_functions.php:676
+msgid "Jamaican dollar"
+msgstr ""
+
+#: booking_general_functions.php:677
+msgid "Jordanian dinar"
+msgstr ""
+
+#: booking_general_functions.php:678
+msgid "Japanese yen"
+msgstr ""
+
+#: booking_general_functions.php:679
+msgid "Kenyan shilling"
+msgstr ""
+
+#: booking_general_functions.php:680
+msgid "Kyrgyzstani som"
+msgstr ""
+
+#: booking_general_functions.php:681
+msgid "Cambodian riel"
+msgstr ""
+
+#: booking_general_functions.php:682
+msgid "Comorian franc"
+msgstr ""
+
+#: booking_general_functions.php:683
+msgid "North Korean won"
+msgstr ""
+
+#: booking_general_functions.php:684
+msgid "South Korean won"
+msgstr ""
+
+#: booking_general_functions.php:685
+msgid "Kuwaiti dinar"
+msgstr ""
+
+#: booking_general_functions.php:686
+msgid "Cayman Islands dollar"
+msgstr ""
+
+#: booking_general_functions.php:687
+msgid "Kazakhstani tenge"
+msgstr ""
+
+#: booking_general_functions.php:688
+msgid "Lao kip"
+msgstr ""
+
+#: booking_general_functions.php:689
+msgid "Lebanese pound"
+msgstr ""
+
+#: booking_general_functions.php:690
+msgid "Sri Lankan rupee"
+msgstr ""
+
+#: booking_general_functions.php:691
+msgid "Liberian dollar"
+msgstr ""
+
+#: booking_general_functions.php:692
+msgid "Lesotho loti"
+msgstr ""
+
+#: booking_general_functions.php:693
+msgid "Libyan dinar"
+msgstr ""
+
+#: booking_general_functions.php:694
+msgid "Moroccan dirham"
+msgstr ""
+
+#: booking_general_functions.php:695
+msgid "Moldovan leu"
+msgstr ""
+
+#: booking_general_functions.php:696
+msgid "Malagasy ariary"
+msgstr ""
+
+#: booking_general_functions.php:697
+msgid "Macedonian denar"
+msgstr ""
+
+#: booking_general_functions.php:698
+msgid "Burmese kyat"
+msgstr ""
+
+#: booking_general_functions.php:699
+msgid "Mongolian t&ouml;gr&ouml;g"
+msgstr ""
+
+#: booking_general_functions.php:700
+msgid "Macanese pataca"
+msgstr ""
+
+#: booking_general_functions.php:701
+msgid "Mauritanian ouguiya"
+msgstr ""
+
+#: booking_general_functions.php:702
+msgid "Mauritian rupee"
+msgstr ""
+
+#: booking_general_functions.php:703
+msgid "Maldivian rufiyaa"
+msgstr ""
+
+#: booking_general_functions.php:704
+msgid "Malawian kwacha"
+msgstr ""
+
+#: booking_general_functions.php:705
+msgid "Mexican peso"
+msgstr ""
+
+#: booking_general_functions.php:706
+msgid "Malaysian ringgit"
+msgstr ""
+
+#: booking_general_functions.php:707
+msgid "Mozambican metical"
+msgstr ""
+
+#: booking_general_functions.php:708
+msgid "Namibian dollar"
+msgstr ""
+
+#: booking_general_functions.php:709
+msgid "Nigerian naira"
+msgstr ""
+
+#: booking_general_functions.php:710
+msgid "Nicaraguan c&oacute;rdoba"
+msgstr ""
+
+#: booking_general_functions.php:711
+msgid "Norwegian krone"
+msgstr ""
+
+#: booking_general_functions.php:712
+msgid "Nepalese rupee"
+msgstr ""
+
+#: booking_general_functions.php:713
+msgid "New Zealand dollar"
+msgstr ""
+
+#: booking_general_functions.php:714
+msgid "Omani rial"
+msgstr ""
+
+#: booking_general_functions.php:715
+msgid "Panamanian balboa"
+msgstr ""
+
+#: booking_general_functions.php:716
+msgid "Peruvian nuevo sol"
+msgstr ""
+
+#: booking_general_functions.php:717
+msgid "Papua New Guinean kina"
+msgstr ""
+
+#: booking_general_functions.php:718
+msgid "Philippine peso"
+msgstr ""
+
+#: booking_general_functions.php:719
+msgid "Pakistani rupee"
+msgstr ""
+
+#: booking_general_functions.php:720
+msgid "Polish z&#x142;oty"
+msgstr ""
+
+#: booking_general_functions.php:721
+msgid "Transnistrian ruble"
+msgstr ""
+
+#: booking_general_functions.php:722
+msgid "Paraguayan guaran&iacute;"
+msgstr ""
+
+#: booking_general_functions.php:723
+msgid "Qatari riyal"
+msgstr ""
+
+#: booking_general_functions.php:724
+msgid "Romanian leu"
+msgstr ""
+
+#: booking_general_functions.php:725
+msgid "Serbian dinar"
+msgstr ""
+
+#: booking_general_functions.php:726
+msgid "Russian ruble"
+msgstr ""
+
+#: booking_general_functions.php:727
+msgid "Rwandan franc"
+msgstr ""
+
+#: booking_general_functions.php:728
+msgid "Saudi riyal"
+msgstr ""
+
+#: booking_general_functions.php:729
+msgid "Solomon Islands dollar"
+msgstr ""
+
+#: booking_general_functions.php:730
+msgid "Seychellois rupee"
+msgstr ""
+
+#: booking_general_functions.php:731
+msgid "Sudanese pound"
+msgstr ""
+
+#: booking_general_functions.php:732
+msgid "Swedish krona"
+msgstr ""
+
+#: booking_general_functions.php:733
+msgid "Singapore dollar"
+msgstr ""
+
+#: booking_general_functions.php:734
+msgid "Saint Helena pound"
+msgstr ""
+
+#: booking_general_functions.php:735
+msgid "Sierra Leonean leone"
+msgstr ""
+
+#: booking_general_functions.php:736
+msgid "Somali shilling"
+msgstr ""
+
+#: booking_general_functions.php:737
+msgid "Surinamese dollar"
+msgstr ""
+
+#: booking_general_functions.php:738
+msgid "South Sudanese pound"
+msgstr ""
+
+#: booking_general_functions.php:739
+msgid "S&atilde;o Tom&eacute; and Pr&iacute;ncipe dobra"
+msgstr ""
+
+#: booking_general_functions.php:740
+msgid "Syrian pound"
+msgstr ""
+
+#: booking_general_functions.php:741
+msgid "Swazi lilangeni"
+msgstr ""
+
+#: booking_general_functions.php:742
+msgid "Thai baht"
+msgstr ""
+
+#: booking_general_functions.php:743
+msgid "Tajikistani somoni"
+msgstr ""
+
+#: booking_general_functions.php:744
+msgid "Turkmenistan manat"
+msgstr ""
+
+#: booking_general_functions.php:745
+msgid "Tunisian dinar"
+msgstr ""
+
+#: booking_general_functions.php:746
+msgid "Tongan pa&#x2bb;anga"
+msgstr ""
+
+#: booking_general_functions.php:747
+msgid "Turkish lira"
+msgstr ""
+
+#: booking_general_functions.php:748
+msgid "Trinidad and Tobago dollar"
+msgstr ""
+
+#: booking_general_functions.php:749
+msgid "New Taiwan dollar"
+msgstr ""
+
+#: booking_general_functions.php:750
+msgid "Tanzanian shilling"
+msgstr ""
+
+#: booking_general_functions.php:751
+msgid "Ukrainian hryvnia"
+msgstr ""
+
+#: booking_general_functions.php:752
+msgid "Ugandan shilling"
+msgstr ""
+
+#: booking_general_functions.php:753
+msgid "United States dollar"
+msgstr ""
+
+#: booking_general_functions.php:754
+msgid "Uruguayan peso"
+msgstr ""
+
+#: booking_general_functions.php:755
+msgid "Uzbekistani som"
+msgstr ""
+
+#: booking_general_functions.php:756
+msgid "Venezuelan bol&iacute;var"
+msgstr ""
+
+#: booking_general_functions.php:757
+msgid "Vietnamese &#x111;&#x1ed3;ng"
+msgstr ""
+
+#: booking_general_functions.php:758
+msgid "Vanuatu vatu"
+msgstr ""
+
+#: booking_general_functions.php:759
+msgid "Samoan t&#x101;l&#x101;"
+msgstr ""
+
+#: booking_general_functions.php:760
+msgid "Central African CFA franc"
+msgstr ""
+
+#: booking_general_functions.php:761
+msgid "East Caribbean dollar"
+msgstr ""
+
+#: booking_general_functions.php:762
+msgid "West African CFA franc"
+msgstr ""
+
+#: booking_general_functions.php:763
+msgid "CFP franc"
+msgstr ""
+
+#: booking_general_functions.php:764
+msgid "Yemeni rial"
+msgstr ""
+
+#: booking_general_functions.php:765
+msgid "South African rand"
+msgstr ""
+
+#: booking_general_functions.php:766
+msgid "Zambian kwacha"
+msgstr ""
+
+#: booking_widget.php:14
+msgid "A Booking Widget"
+msgstr "बुकिंग को अद्यतन करें"
+
+#: booking_widget.php:69
+msgid "New title"
+msgstr "नया शीर्षक"
+
+#: booking_widget.php:73
+msgid "Title:"
+msgstr "शीर्षक:"
+
+#: cancel_booking.php:36 inc/class-bkx-booking.php:229
+msgid "Successfully update order from %1$s to %2$s."
+msgstr "%1$s  से %2$s ऑर्डर सफलतापूर्वक कर दीया है "
+
+#: cancel_booking.php:38
+msgid "Customer note : %1$s"
+msgstr "ग्राहक नोट  : %1$s"
+
+#: customer-bookings.php:72
+msgid "Delete Booking"
+msgstr "बुकिंग को अद्यतन करें"
+
+#: customer-bookings.php:73
+msgid "Complete Booking"
+msgstr "बुकिंग को अद्यतन करें"
+
+#: customer-bookings.php:74
+msgid "Are you sure want to delete this booking ?"
+msgstr "क्या आप वाकई इस बुकिंग को हटाना चाहते हैं?"
+
+#: customer-bookings.php:75
+msgid "Are you sure want to Complete this booking ?"
+msgstr "क्या आप वाकई इस बुकिंग को पूरा करना चाहते हैं?"
+
+#: customer-bookings.php:84
+msgid "<b> Read more about cancellation policy , <a href=\"%1$s\" target=\"_blank\"> Click here </a> </b>"
+msgstr "<b> रद्दीकरण नीति के बारे में अधिक पढ़ें, <a href=\"%1$s\" target=\"_blank\"> यहां क्लिक करे </a> </b>"
+
+#: customer-bookings.php:125
+msgid "Future Bookings"
+msgstr "भविष्य की बुकिंग"
+
+#: customer-bookings.php:126
+msgid "Past Bookings"
+msgstr "पिछली बुकिंग"
+
+#: customer-bookings.php:147
+msgid "<p>Booking Status :  %1$s </p>"
+msgstr "<p>बुकिंग स्थिति :  %1$s </p>"
+
+#: customer-bookings.php:151
+msgid "Booking ID : #%d"
+msgstr "बुकिंग आईडी"
+
+#: customer-bookings.php:156
+msgid "view / hide"
+msgstr "देखें / छिपाना"
+
+#: customer-bookings.php:162 customer-bookings.php:240
+msgid "<p><b> %s service's : </b>"
+msgstr ""
+
+#: customer-bookings.php:164 customer-bookings.php:242
+msgid "&nbsp;%s &nbsp;"
+msgstr ""
+
+#: customer-bookings.php:168 customer-bookings.php:170 customer-bookings.php:246 customer-bookings.php:248
+msgid "<p><b> %s Name :</b> %s </p>"
+msgstr ""
+
+#: customer-bookings.php:174
+msgid "Location :"
+msgstr "स्थान :"
+
+#: customer-bookings.php:176
+msgid "Booking Status :"
+msgstr "बुकिंग स्थिति : "
+
+#: customer-bookings.php:194
+msgid "Edit"
+msgstr "संपादित करें"
+
+#: customer-bookings.php:194
+msgid "Cancel"
+msgstr "रद्द करना"
+
+#: customer-bookings.php:199
+msgid "Cancel Booking"
+msgstr "बुकिंग रद्द करें"
+
+#: customer-bookings.php:200
+msgid "Close"
+msgstr "बंद करे"
+
+#: customer-bookings.php:211 customer-bookings.php:264
+msgid "No booking's found."
+msgstr "कोई बुकिंग नहीं मिली है"
+
+#: customer-bookings.php:280 inc/class-order-meta-box.php:52 shortcode/shortcode.php:847
+msgid "Email"
+msgstr "ईमेल"
+
+#: customer-bookings.php:282
+msgid "Google calendar"
+msgstr "गूगल कैलेंडर"
+
+#: customer-bookings.php:283 my_login_bx.php:26
+msgid "Password"
+msgstr "पासवर्ड"
+
+#: customer-bookings.php:284
+msgid "Confirm Password"
+msgstr "पासवर्ड की पुष्टि कीजिये"
+
+#: customer-bookings.php:285 shortcode/shortcode.php:852
+msgid "Address"
+msgstr "पता"
+
+#: customer-bookings.php:286 inc/base_metabox.php:262 shortcode/shortcode.php:852
+msgid "Street"
+msgstr "मार्ग"
+
+#: customer-bookings.php:287 inc/base_metabox.php:263 inc/class-order-meta-box.php:40 inc/seat_metabox.php:117
+#: shortcode/shortcode.php:852
+msgid "City"
+msgstr "शहर"
+
+#: customer-bookings.php:288 inc/seat_metabox.php:121
+msgid "State"
+msgstr "राज्य"
+
+#: customer-bookings.php:289
+msgid "zip"
+msgstr "ज़िप"
+
+#: displaytimeoptions.php:34 inc/seat_metabox.php:229
+msgid "Sunday"
+msgstr "रविवार"
+
+#: displaytimeoptions.php:38 inc/seat_metabox.php:237
+msgid "Monday"
+msgstr "सोमवार"
+
+#: displaytimeoptions.php:42 inc/seat_metabox.php:245
+msgid "Tuesday"
+msgstr "मंगलवार"
+
+#: displaytimeoptions.php:46 inc/seat_metabox.php:253
+msgid "Wednesday"
+msgstr "बुधवार"
+
+#: displaytimeoptions.php:50 inc/seat_metabox.php:261
+msgid "Thursday"
+msgstr "गुरूवार"
+
+#: displaytimeoptions.php:54 inc/seat_metabox.php:269
+msgid "Friday"
+msgstr "शुक्रवार"
+
+#: displaytimeoptions.php:58 inc/seat_metabox.php:277
+msgid "Saturday"
+msgstr "शनिवार"
+
+#: displaytimeoptions.php:292
+msgid "Booking of the day"
+msgstr "दिन की बुकिंग"
+
+#: displaytimeoptions.php:294
+msgid "Booked"
+msgstr "बुक्ड"
+
+#: displaytimeoptions.php:295
+msgid "Open"
+msgstr "खुला"
+
+#: get_duration_booking.php:28
+msgid "Payment will be made when the customer comes for the booking."
+msgstr "भुगतान किया जाएगा जब ग्राहक बुकिंग के लिए आता है।"
+
+#: get_duration_booking.php:31 get_duration_booking.php:39
+msgid "<li><b> %1$s name : </b> %2$s"
+msgstr ""
+
+#: get_duration_booking.php:290 get_duration_booking.php:351 get_duration_booking.php:404
+msgid "%1$s Hours"
+msgstr "%1$s घंटे"
+
+#: get_duration_booking.php:294 get_duration_booking.php:355
+msgid "%1$s Minutes"
+msgstr "%1$s  मिनट"
+
+#: get_duration_booking.php:364 get_duration_booking.php:420
+msgid "%1$s Days"
+msgstr "%1$s दिन"
+
+#: get_duration_booking.php:369 get_duration_booking.php:432
+msgid "%1$s Months"
+msgstr "%1$s महीने"
+
+#: get_duration_booking.php:372
+msgid "<li> %1$s - %2$s%3$s - %4$s </li>"
+msgstr ""
+
+#: get_duration_booking.php:415
+msgid "%1$s Days %2$s Hours"
+msgstr "%1$s दिन %2$s घंटे"
+
+#: get_duration_booking.php:437
+msgid "%1$s Months %2$s Days"
+msgstr "%1$s महीने %2$s दिन"
+
+#: get_duration_booking.php:446
+msgid "%1$s Months %2$s Hours"
+msgstr "%1$s महीने %2$s घंटे"
+
+#: get_duration_booking.php:451
+msgid "%1$s Months %2$s Days %3$s Hours"
+msgstr "%1$s महीने %2$s दिन %3$s घंटे"
+
+#: get_duration_booking.php:478
+msgid "<li><b> Total Time : </b> %1$s </li></ul>"
+msgstr "<li><b> कुल समय : </b> %1$s </li></ul>"
+
+#: inc/base_metabox.php:72
+msgid "%1$s  Price:"
+msgstr "%1$s  मूल्य :"
+
+#: inc/base_metabox.php:82
+msgid "Is %1$s  time in  days, hours or minutes :"
+msgstr "दिन, घंटे या मिनटों में %1$s का समय है :"
+
+#: inc/base_metabox.php:87
+msgid "Select Time Option"
+msgstr "समय विकल्प का चयन करें"
+
+#: inc/base_metabox.php:89
+msgid "Hour and Minutes"
+msgstr "घंटे और मिनट"
+
+#: inc/base_metabox.php:98
+msgid "Number of Months for %1$s   Time :"
+msgstr " %1$s के लिए महीनों की संख्या:"
+
+#: inc/base_metabox.php:109
+msgid "Number of Days for %1$s   Time :"
+msgstr "%1$s के लिए दिनों की संख्या:"
+
+#: inc/base_metabox.php:120
+msgid "%1$s  Time In Hours and Minutes :"
+msgstr "%1$s  घंटे और मिनटों में समय:"
+
+#: inc/base_metabox.php:132
+msgid "00"
+msgstr ""
+
+#: inc/base_metabox.php:133
+msgid "15"
+msgstr ""
+
+#: inc/base_metabox.php:134
+msgid "30"
+msgstr ""
+
+#: inc/base_metabox.php:135
+msgid "45"
+msgstr ""
+
+#: inc/base_metabox.php:143
+msgid "Can %1$s  time be extended :"
+msgstr "%1$s का समय बढ़ाया जा सकता है:"
+
+#: inc/base_metabox.php:149 inc/base_metabox.php:228 inc/base_metabox.php:248 inc/base_metabox.php:275 inc/base_metabox.php:297
+#: inc/seat_metabox.php:780
+msgid "Yes"
+msgstr "हाँ"
+
+#: inc/base_metabox.php:153 inc/base_metabox.php:232 inc/base_metabox.php:252 inc/base_metabox.php:279 inc/seat_metabox.php:782
+msgid "No"
+msgstr "नहीं"
+
+#: inc/base_metabox.php:161
+msgid "Max limit of %1$s extends"
+msgstr "%1$s की अधिकतम सीमा फैली हुई है"
+
+#: inc/base_metabox.php:170
+msgid "This %1$s  is available to the following %2$s :"
+msgstr ""
+
+#: inc/base_metabox.php:176 inc/seat_metabox.php:151
+msgid "All"
+msgstr "सब"
+
+#: inc/base_metabox.php:204
+msgid "Is this  %1$s   in a fixed location or mobile? :"
+msgstr "क्या यह %1$s एक निश्चित स्थान या मोबाइल में है? :"
+
+#: inc/base_metabox.php:210
+msgid "Fixed Location"
+msgstr "फिक्स्ड स्थान"
+
+#: inc/base_metabox.php:214
+msgid "Mobile"
+msgstr "मोबाइल"
+
+#: inc/base_metabox.php:221
+msgid "Is this base/resource a mobile only option? :"
+msgstr "क्या यह आधार / संसाधन एक मोबाइल ही विकल्प है? :"
+
+#: inc/base_metabox.php:241
+msgid "Does the %1$s Location differ from %2$ Location :"
+msgstr ""
+
+#: inc/base_metabox.php:260
+msgid "Base Location :"
+msgstr "आधार स्थान:"
+
+#: inc/base_metabox.php:264 shortcode/shortcode.php:852
+msgid "State / Province / Region"
+msgstr "राज्य / प्रांत / क्षेत्र"
+
+#: inc/base_metabox.php:265 inc/seat_metabox.php:125 shortcode/shortcode.php:852
+msgid "Zip / Postal Code"
+msgstr "ज़िप / पोस्टल कोड"
+
+#: inc/base_metabox.php:270
+msgid "Does this %1$s allow for %2$ss :"
+msgstr ""
+
+#: inc/base_metabox.php:293
+msgid "Does the  %1$s  Unavailable? :"
+msgstr ""
+
+#: inc/base_metabox.php:305
+msgid "%1$s   Unavailable From :"
+msgstr ""
+
+#: inc/base_metabox.php:316
+msgid "%1$s  Unavailable Till :"
+msgstr ""
+
+#: inc/class-bkx-booking.php:115 inc/class-order-meta-box.php:428
+msgid "Order &ndash; %s"
+msgstr ""
+
+#: inc/class-bkx-booking.php:115 inc/class-order-meta-box.php:428
+msgctxt "Order date parsed by strftime"
+msgid "%b %d, %Y @ %I:%M %p"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+#: inc/class-bkx-booking.php:252 inc/class-bkx-booking.php:253 inc/filter_and_actions_functions.php:126
+msgid "BookingX"
+msgstr "BookingX"
+
+#: inc/class-order-meta-box.php:28
+msgid "First Name"
+msgstr "पहला नाम"
+
+#: inc/class-order-meta-box.php:32
+msgid "Last Name"
+msgstr "अंतिम नाम"
+
+#: inc/class-order-meta-box.php:36
+msgid "Address 1"
+msgstr "पता"
+
+#: inc/class-order-meta-box.php:44
+msgid "Postcode"
+msgstr "पोस्टकोड"
+
+#: inc/class-order-meta-box.php:48 inc/seat_metabox.php:129
+msgid "Country"
+msgstr "देश"
+
+#: inc/class-order-meta-box.php:72
+msgid "%s Data"
+msgstr ""
+
+#: inc/class-order-meta-box.php:74
+msgid "%s #%s Notes"
+msgstr ""
+
+#: inc/class-order-meta-box.php:76
+msgid "%s Reassign"
+msgstr ""
+
+#: inc/class-order-meta-box.php:90
+msgid "Reviews"
+msgstr "समीक्षा"
+
+#: inc/class-order-meta-box.php:169 inc/class-order-meta-box.php:206
+msgid "<p>%s service's :"
+msgstr ""
+
+#: inc/class-order-meta-box.php:172 inc/class-order-meta-box.php:209
+msgid "&nbsp;<a href=\"%s\" target=\"_blank\">%s</a>&nbsp;"
+msgstr ""
+
+#: inc/class-order-meta-box.php:177
+msgid "<h3>Booking #%d details</h3>"
+msgstr ""
+
+#: inc/class-order-meta-box.php:181
+msgid "<p>Full Name : %s %s</p>"
+msgstr ""
+
+#: inc/class-order-meta-box.php:182
+msgid "<p>Phone : <a href=\"callto:%s\">%s</a></p>"
+msgstr ""
+
+#: inc/class-order-meta-box.php:183
+msgid "<p>Email : <a href=\"mailto:%s\">%s</a></p>"
+msgstr ""
+
+#: inc/class-order-meta-box.php:184
+msgid "<p>Address : %s %s </p>"
+msgstr ""
+
+#: inc/class-order-meta-box.php:185
+msgid "<p>Postcode : %s </p>"
+msgstr ""
+
+#: inc/class-order-meta-box.php:190
+msgid "<p>Booking Date : %s </p>"
+msgstr ""
+
+#: inc/class-order-meta-box.php:191
+msgid "<p>Time : %s </p>"
+msgstr ""
+
+#: inc/class-order-meta-box.php:192
+msgid "<p>Status : %s </p>"
+msgstr ""
+
+#: inc/class-order-meta-box.php:193
+msgid "<p>Total : %s%s </p>"
+msgstr ""
+
+#: inc/class-order-meta-box.php:195
+msgid "<p>Payment : %s </p>"
+msgstr ""
+
+#: inc/class-order-meta-box.php:197
+msgid "<p>Token : %s </p>"
+msgstr ""
+
+#: inc/class-order-meta-box.php:198
+msgid "<p>PayerID Id : %s </p>"
+msgstr ""
+
+#: inc/class-order-meta-box.php:199
+msgid "<p>Transaction Id : %s </p>"
+msgstr ""
+
+#: inc/class-order-meta-box.php:203
+msgid "<p> Note  : %s </p>"
+msgstr ""
+
+#: inc/class-order-meta-box.php:214
+msgid "<p>%s Name : <a href=\"%s\" title=\"%s\">%s</a></p>"
+msgstr ""
+
+#: inc/class-order-meta-box.php:215
+msgid "<p>%s Name : <a href=\"%s\">%s</a> </p>"
+msgstr ""
+
+#: inc/class-order-meta-box.php:284
+msgid "<h3>Booking #%d Notes</h3>"
+msgstr ""
+
+#: inc/class-order-meta-box.php:285
+msgid "<span id=\"bkx_add_custom_note_err\"></span><textarea rows=\"4\" id=\"bkx_custom_note\"></textarea>"
+msgstr ""
+
+#: inc/class-order-meta-box.php:286
+msgid "<input type=\"hidden\" id=\"bkx_booking_id\" value=\"%d\">"
+msgstr ""
+
+#: inc/class-order-meta-box.php:288
+msgid ""
+"<a style=\"cursor:pointer;\" id=\"bkx_id_add_custom_note\" name=\"bkx_add_custom_note\"> Add note </a> <span id="
+"\"bkx_add_custom_note_loader\" style=\"display:none;\"> Please wait.. </span>"
+msgstr ""
+
+#: inc/class-order-meta-box.php:316
+msgid "<div class=\"bkx-order_summary\"><p>Current %s assign : <a href=\"%s\" title=\"%s\">%s</a></p>"
+msgstr ""
+
+#: inc/filter_and_actions_functions.php:17 inc/filter_and_actions_functions.php:18
+msgid "Add New Resource"
+msgstr ""
+
+#: inc/filter_and_actions_functions.php:19
+msgid "Edit Resource"
+msgstr ""
+
+#: inc/filter_and_actions_functions.php:22 inc/filter_and_actions_functions.php:61 inc/filter_and_actions_functions.php:98
+msgid "Not Found"
+msgstr ""
+
+#: inc/filter_and_actions_functions.php:23 inc/filter_and_actions_functions.php:62 inc/filter_and_actions_functions.php:99
+msgid "Not found in Trash"
+msgstr ""
+
+#: inc/filter_and_actions_functions.php:56 inc/filter_and_actions_functions.php:57
+msgid "Add New Service"
+msgstr ""
+
+#: inc/filter_and_actions_functions.php:58
+msgid "Edit Service"
+msgstr ""
+
+#: inc/filter_and_actions_functions.php:59
+msgid "Update Service"
+msgstr ""
+
+#: inc/filter_and_actions_functions.php:93 inc/filter_and_actions_functions.php:94
+msgid "Add New Extra"
+msgstr ""
+
+#: inc/filter_and_actions_functions.php:95
+msgid "Edit Extra"
+msgstr ""
+
+#: inc/filter_and_actions_functions.php:96
+msgid "Update Extra"
+msgstr ""
+
+#: inc/filter_and_actions_functions.php:124
+msgctxt "Post Type General Name"
+msgid "Booking"
+msgstr ""
+
+#: inc/filter_and_actions_functions.php:125
+msgctxt "Post Type Singular Name"
+msgid "Booking"
+msgstr ""
+
+#: inc/filter_and_actions_functions.php:127
+msgid "Bookings"
+msgstr ""
+
+#: inc/filter_and_actions_functions.php:128
+msgid "View Booking"
+msgstr ""
+
+#: inc/filter_and_actions_functions.php:129 inc/filter_and_actions_functions.php:130
+msgid "Add Booking"
+msgstr ""
+
+#: inc/filter_and_actions_functions.php:131
+msgid "Edit Booking"
+msgstr ""
+
+#: inc/filter_and_actions_functions.php:132
+msgid "Update Booking"
+msgstr ""
+
+#: inc/filter_and_actions_functions.php:133
+msgid "Search Booking"
+msgstr ""
+
+#: inc/filter_and_actions_functions.php:134
+msgid "Booking not Found"
+msgstr ""
+
+#: inc/filter_and_actions_functions.php:135
+msgid "Booking not found in Trash"
+msgstr ""
+
+#: inc/filter_and_actions_functions.php:178
+msgid "Pending <span class=\"count\">(%s)</span>"
+msgid_plural "Pending <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/filter_and_actions_functions.php:186
+msgid "Acknowledged <span class=\"count\">(%s)</span>"
+msgid_plural "Acknowledged <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/filter_and_actions_functions.php:194
+msgid "Completed <span class=\"count\">(%s)</span>"
+msgid_plural "Completed <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/filter_and_actions_functions.php:202
+msgid "Cancelled <span class=\"count\">(%s)</span>"
+msgid_plural "Cancelled <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/filter_and_actions_functions.php:210
+msgid "Missed <span class=\"count\">(%s)</span>"
+msgid_plural "Missed <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/filter_and_actions_functions.php:218
+msgid "Failed <span class=\"count\">(%s)</span>"
+msgid_plural "Failed <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/seat_metabox.php:113
+msgid "Street name"
+msgstr "मार्ग"
+
+#: inc/seat_metabox.php:139
+msgid "Set Times, Days and Months Available"
+msgstr ""
+
+#: inc/seat_metabox.php:140
+msgid "Will this Seat only be available certain months of the year"
+msgstr ""
+
+#: inc/seat_metabox.php:143
+msgid "(Note: selection of 'No' indicates that it will be available throughout the year.)"
+msgstr ""
+
+#: inc/seat_metabox.php:146
+msgid "If yes, Select months of the year"
+msgstr ""
+
+#: inc/seat_metabox.php:157
+msgid "January"
+msgstr ""
+
+#: inc/seat_metabox.php:162
+msgid "February"
+msgstr ""
+
+#: inc/seat_metabox.php:167
+msgid "March"
+msgstr ""
+
+#: inc/seat_metabox.php:172
+msgid "April"
+msgstr ""
+
+#: inc/seat_metabox.php:177
+msgid "May"
+msgstr ""
+
+#: inc/seat_metabox.php:182
+msgid "June"
+msgstr ""
+
+#: inc/seat_metabox.php:187
+msgid "July"
+msgstr ""
+
+#: inc/seat_metabox.php:192
+msgid "August"
+msgstr ""
+
+#: inc/seat_metabox.php:197
+msgid "September"
+msgstr ""
+
+#: inc/seat_metabox.php:202
+msgid "October"
+msgstr ""
+
+#: inc/seat_metabox.php:207
+msgid "November"
+msgstr ""
+
+#: inc/seat_metabox.php:212
+msgid "December"
+msgstr ""
+
+#: inc/seat_metabox.php:217
+msgid "Will %1$s be available at certain days only "
+msgstr ""
+
+#: inc/seat_metabox.php:221
+msgid "(Note: selection of 'No' indicates that it will be available 7 days a week, and 24 hours a day)"
+msgstr ""
+
+#: inc/seat_metabox.php:224
+msgid "If yes, Select days of the week :"
+msgstr ""
+
+#: inc/seat_metabox.php:230 inc/seat_metabox.php:238 inc/seat_metabox.php:246 inc/seat_metabox.php:254 inc/seat_metabox.php:262
+#: inc/seat_metabox.php:270 inc/seat_metabox.php:278
+msgid "From"
+msgstr ""
+
+#: inc/seat_metabox.php:232 inc/seat_metabox.php:240 inc/seat_metabox.php:248 inc/seat_metabox.php:256 inc/seat_metabox.php:264
+#: inc/seat_metabox.php:272 inc/seat_metabox.php:280
+msgid "Till"
+msgstr ""
+
+#: inc/seat_metabox.php:286
+msgid "Payment Options"
+msgstr ""
+
+#: inc/seat_metabox.php:287
+msgid "Will the %1$sbooking require pre payment : "
+msgstr ""
+
+#: inc/seat_metabox.php:293
+msgid "Will payment be deposit or full payment"
+msgstr ""
+
+#: inc/seat_metabox.php:296
+msgid "Select"
+msgstr ""
+
+#: inc/seat_metabox.php:297
+msgid "Deposit"
+msgstr ""
+
+#: inc/seat_metabox.php:298
+msgid "Full Payment"
+msgstr ""
+
+#: inc/seat_metabox.php:304
+msgid "Is deposit a fixed amount ($) or percentage (%)? :"
+msgstr ""
+
+#: inc/seat_metabox.php:307
+msgid "Fixed Amount ($)"
+msgstr ""
+
+#: inc/seat_metabox.php:308
+msgid "Percentage (%)"
+msgstr ""
+
+#: inc/seat_metabox.php:313
+msgid "Enter Amount ($):"
+msgstr ""
+
+#: inc/seat_metabox.php:319
+msgid "Enter Percentage (%):"
+msgstr ""
+
+#: inc/seat_metabox.php:324
+msgid "User Options"
+msgstr ""
+
+#: inc/seat_metabox.php:348
+msgid "Create User automatically : "
+msgstr ""
+
+#: inc/seat_metabox.php:355
+msgid "Do you want to associate this %1$s with a user ? : "
+msgstr "क्या आप यह %1$s किसी उपयोगकर्ता से संबद्ध करना चाहते हैं? :"
+
+#: inc/seat_metabox.php:358
+msgid "NO"
+msgstr "नहीं"
+
+#: inc/seat_metabox.php:360
+msgid "YES"
+msgstr "हाँ"
+
+#: inc/seat_metabox.php:364
+msgid "Please select user type :"
+msgstr "कृपया उपयोगकर्ता का प्रकार चुनें:"
+
+#: inc/seat_metabox.php:367
+msgid "Select Role"
+msgstr "रोल का चयन करें"
+
+#: inc/seat_metabox.php:384
+msgid "Please select user :"
+msgstr "कृपया उपयोगकर्ता का प्रकार चुनें:"
+
+#: inc/seat_metabox.php:395
+msgid "Notification Details"
+msgstr "अधिसूचना विवरण"
+
+#: inc/seat_metabox.php:397
+msgid "Phone :"
+msgstr "फ़ोन"
+
+#: inc/seat_metabox.php:400
+msgid "Email :"
+msgstr "ईमेल"
+
+#: inc/seat_metabox.php:403
+msgid "Would you like to notify a second email address? :"
+msgstr "क्या आप एक दूसरे ईमेल पते को सूचित करना चाहेंगे? :"
+
+#: inc/seat_metabox.php:406
+msgid "Secondary Email :"
+msgstr "द्वैतीयक ईमेल :"
+
+#: inc/seat_metabox.php:412
+msgid "Do you want a Google Calendar address to enable you to view the bookings in Google calendar etc? :"
+msgstr "क्या आप Google कैलेंडर पते को Google कैलेंडर आदि में देखने के लिए सक्षम करने के लिए एक Google कैलेंडर पता चाहते हैं? :"
+
+#: inc/seat_metabox.php:415
+msgid "Google Calendar ID :"
+msgstr "Google कैलेंडर आईडी:"
+
+#: inc/seat_metabox.php:655
+msgid "User already exists.  Password inherited."
+msgstr "उपयोगकर्ता पहले से मौजूद है। "
+
+#: inc/seat_metabox.php:760 inc/seat_metabox.php:778
+msgid "Set as any Seat"
+msgstr "किसी भी सीट के रूप में सेट करें"
+
+#: inc/seat_metabox.php:760
+msgid "Set as any seat"
+msgstr "किसी भी सीट के रूप में सेट करें"
+
+#: languages/tools/i18n/t/data/add-textdomain-0-result.php:3 languages/tools/i18n/t/data/add-textdomain-0-result.php:4
+#: languages/tools/i18n/t/data/add-textdomain-0.php:3 languages/tools/i18n/t/data/add-textdomain-0.php:4
+msgid "Hello World"
+msgstr ""
+
+#: languages/tools/i18n/t/data/add-textdomain-0-result.php:5 languages/tools/i18n/t/data/add-textdomain-0.php:5
+msgid "Single"
+msgid_plural "Plural"
+msgstr[0] ""
+msgstr[1] ""
+
+#: languages/tools/i18n/t/data/add-textdomain-0-result.php:6 languages/tools/i18n/t/data/add-textdomain-0.php:6
+msgid "Single Noop"
+msgid_plural "Plural Noop"
+msgstr[0] ""
+msgstr[1] ""
+
+#: languages/tools/i18n/t/data/add-textdomain-0-result.php:7 languages/tools/i18n/t/data/add-textdomain-0-result.php:8
+#: languages/tools/i18n/t/data/add-textdomain-0.php:7 languages/tools/i18n/t/data/add-textdomain-0.php:8
+msgctxt "Testing"
+msgid "Hello World"
+msgstr ""
+
+#: languages/tools/i18n/t/data/add-textdomain-0-result.php:10
+msgctxt "test-domain"
+msgid "Hello World Noop"
+msgid_plural "Testing"
+msgstr[0] ""
+msgstr[1] ""
+
+#: languages/tools/i18n/t/data/add-textdomain-0-result.php:11 languages/tools/i18n/t/data/add-textdomain-0-result.php:13
+#: languages/tools/i18n/t/data/add-textdomain-0.php:11 languages/tools/i18n/t/data/add-textdomain-0.php:13
+msgid "Attribute"
+msgstr ""
+
+#: languages/tools/i18n/t/data/add-textdomain-0-result.php:12 languages/tools/i18n/t/data/add-textdomain-0-result.php:14
+#: languages/tools/i18n/t/data/add-textdomain-0.php:12 languages/tools/i18n/t/data/add-textdomain-0.php:14
+msgid "HTML"
+msgstr ""
+
+#: languages/tools/i18n/t/data/add-textdomain-0-result.php:15 languages/tools/i18n/t/data/add-textdomain-0.php:15
+msgctxt "Testing"
+msgid "Attribute"
+msgstr ""
+
+#: languages/tools/i18n/t/data/add-textdomain-0-result.php:16 languages/tools/i18n/t/data/add-textdomain-0.php:16
+msgctxt "Testing"
+msgid "HTML"
+msgstr ""
+
+#: my_login_bx.php:25
+msgid "Username"
+msgstr "उपयोगकर्ता नाम"
+
+#: my_login_bx.php:27
+msgid "Remember Me"
+msgstr "मुझे याद रखना"
+
+#: my_login_bx.php:28
+msgid "Log In"
+msgstr "लॉग इन करें"
+
+#: shortcode/shortcode.php:116 shortcode/shortcode.php:792 shortcode/shortcode.php:793 shortcode/shortcode.php:794
+msgid "Select a %1$s"
+msgstr "एक %1$s चयन करें"
+
+#: shortcode/shortcode.php:125
+msgid "Any %1$s"
+msgstr "\"किसी भी\" के लिए अनुमति दें"
+
+#: shortcode/shortcode.php:254
+msgid "Booking has been successfully updated.."
+msgstr "बुकिंग सफलतापूर्वक अपडेट हो गई है .."
+
+#: shortcode/shortcode.php:257
+msgid "Booking has been successfully created.."
+msgstr "आरक्षण सफलतापूर्वक बनाया गया है .."
+
+#: shortcode/shortcode.php:573
+msgid "Payment has been via Paypal done successfully"
+msgstr "Paypal द्वारा सफलतापूर्वक सफलतापूर्वक किया गया है"
+
+#: shortcode/shortcode.php:757
+msgid "Do you agree with our cancellation policy? "
+msgstr "क्या आप हमारी रद्द नीति से सहमत हैं?"
+
+#: shortcode/shortcode.php:797
+msgid "The total is - %s<span id=\"total_price\"></span>  %s"
+msgstr "कुल है - %s<span id=\"total_price\"></span>  %s"
+
+#: shortcode/shortcode.php:757
+msgid "click here "
+msgstr "यहां क्लिक करे"
+
+#: shortcode/shortcode.php:805
+msgid "Select a date and time for your booking"
+msgstr "अपनी बुकिंग के लिए एक दिनांक और समय चुनें"
+
+#: shortcode/shortcode.php:811
+msgid "Choose a date"
+msgstr "एक तिथि चुनें"
+
+#: shortcode/shortcode.php:840
+msgid "First:"
+msgstr "पहला नाम"
+
+#: shortcode/shortcode.php:843
+msgid "Last: "
+msgstr "अंतिम नाम"
+
+#: shortcode/shortcode.php:858
+msgid "Do you agree with our terms and conditions? "
+msgstr "क्या आप हमारे नियमों और शर्तों से सहमत हैं?"
+
+#: shortcode/shortcode.php:863
+msgid "Do you agree with our privacy policy? "
+msgstr "क्या आप हमारी गोपनीयता नीति से सहमत हैं?"
+
+#: shortcode/shortcode.php:872
+msgid "Update Booking "
+msgstr "बुकिंग को अद्यतन करें"
+
+#: shortcode/shortcode.php:876
+msgid "Previous "
+msgstr "पिछला"
+
+#: shortcode/shortcode.php:876
+msgid "Next "
+msgstr "आगामी"
+
+#: shortcode/shortcode.php:883
+msgid "Please check your booking before continuing "
+msgstr "कृपया जारी रखने से पहले अपनी बुकिंग की जांच करें"
+
+#: shortcode/shortcode.php:884
+msgid "You are about to book the following on the "
+msgstr "आप नीचे दिया विवरण पर बुक करने जा रहे हैं"
+
+#: shortcode/shortcode.php:895
+msgid "Submit"
+msgstr "जमा करें"
+
+#: templates/archive.php:30
+msgid "Previous page"
+msgstr "पिछला पृष्ठ"
+
+#: templates/archive.php:31
+msgid "Next page"
+msgstr "अगला पृष्ठ"
+
+#: templates/archive.php:32
+msgid "Page"
+msgstr "पृष्ठ"
+
+#. Description of the plugin/theme
+msgid "BookingX is a booking and appointments plugin for WordPress"
+msgstr "BookingX एक बुकिंग और WordPress के लिए नियुक्तियों प्लगइन है"
+
+#. Author of the plugin/theme
+msgid "Dunskii Web Services"
+msgstr "Dunskii Web Services"
+
+#. Author URI of the plugin/theme
+msgid "http://dunskii.com"
+msgstr "http://dunskii.com"

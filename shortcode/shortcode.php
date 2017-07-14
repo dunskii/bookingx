@@ -766,7 +766,7 @@ $want_to_disable = 'style="display:none;"';$update_btn = 'style="display:block;"
 	$update_btn = 'style="display:none;"'; 
 	$bkx_display = 'style="display:none;"';
 }
-
+$currency    =  get_current_currency();
 
 $temp = '';
 $temp .= get_loader().'
@@ -793,9 +793,10 @@ $temp .= get_loader().'
                             <ul id="bkx_fields_4" class="bkx_fields top_label description_below"><li id="field_4_6" class="gfield  gsection"><h4 class="gsection_title">'.$label_of_step1.'</h4></li><li id="field_4_1" class="gfield"><label class="gfield_label" for="input_4_1">
                             '.sprintf(esc_html__('Select a %1$s','bookingx'), $seat_alias).'</label><div class="ginput_container"><input type="hidden" name="seat_name" id="id_seat_name" value=""><select name="input_seat" id="myInputSeat" class="medium gfield_select" tabindex="1">'.$option.'</select><input type="hidden" name="time_availability" id="id_time_availability" value=""><input type="hidden" name="time_availability_certain_from" id="id_time_availability_certain_from" value=""><input type="hidden" name="time_availability_certain_till" id="id_time_availability_certain_till" value=""><input type="hidden" name="days_availability" id="id_days_availability" value=""><input type="hidden" name="days_availability_certain" id="id_days_availability_certain" value=""><input type="hidden" name="months_availability" id="id_months_availability" value=""><input type="hidden" name="months_availability_certain" id="id_months_availability_certain" value=""><input type="hidden" name="total_duration" id="id_total_duration" value="" /><input type="hidden" id="seat_is_booking_prepayment" name="seat_is_booking_prepayment" value="" /><input type="hidden" id="deposit_price" name="deposit_price" value="" /></div> </li><li id="field_4_4" class="gfield"><label class="gfield_label" for="input_4_4">
                             	'.sprintf(esc_html__('Select a %1$s','bookingx'), $base_alias).'</label><div class="ginput_container"><select name="input_base" id="id_base_selector" class="medium gfield_select" tabindex="2" disabled><option value="">
-                            	'.sprintf(esc_html__('Select a %1$s','bookingx'), $base_alias).'</option></select></div></li><li id="extended_time" class="gfield" style="display:none;"><label class="gfield_label" for="input_4_9">'.crud_option_multisite('notice_time_extended_text_alias').'</label><div class="ginput_container"><input name="input_extended_time" id="id_input_extended_time" type="text" class="medium" tabindex="3"><input type="button" name="clear_extended_time" id="id_clear_extended_time" value="X" ></div></li><li id="field_4_5" class="gfield"><div class="ginput_container"><ul class="addition_checkbox" id="id_addition_checkbox"></ul></div></li><li id="field_4_12" class="gfield  gsection"><h4 class="gsection_title" id="total_price_container">The total is - $<span id="total_price"></span></h4> </li></ul>
-
-							
+                            	'.sprintf(esc_html__('Select a %1$s','bookingx'), $base_alias).'</option></select></div></li><li id="extended_time" class="gfield" style="display:none;"><label class="gfield_label" for="input_4_9">'.crud_option_multisite('notice_time_extended_text_alias').'</label><div class="ginput_container"><input name="input_extended_time" id="id_input_extended_time" type="text" class="medium" tabindex="3"><input type="button" name="clear_extended_time" id="id_clear_extended_time" value="X" ></div></li><li id="field_4_5" class="gfield"><div class="ginput_container"><ul class="addition_checkbox" id="id_addition_checkbox"></ul></div></li><li id="field_4_12" class="gfield  gsection"><h4 class="gsection_title" id="total_price_container">
+                            		'.sprintf( __( 'The total is - %s<span id="total_price"></span>  %s', 'bookingx' ), $currency, get_option( 'currency_option' ) ).'
+                            		</h4> </li></ul>
+		
                     </div>
                     <div class="bkx_page_footer">
                         <input type="button" id="bkx_next_button_4_7" class="button bkx_next_button" value="'.sprintf(esc_html__('Next','bookingx'), '').'" tabindex="7" onclick="jQuery(\'#bkx_target_page_number_4\').val(\'2\');validate_form(1,2);jQuery(\'html,body\').animate({ scrollTop: jQuery(\'#bkx_4\').offset().top -50 }, 500);">
@@ -807,7 +808,8 @@ $temp .= get_loader().'
                         <ul class="bkx_fields top_label"><li id="field_4_8" class="gfield  gsection"><h4 class="gsection_title">'.sprintf(__('Select a date and time for your booking','bookingx'), '').'</h4><div class="gsection_description" id="display_total_duration" style=""></div></li>
                         <li id="field_4_10" class="gfield bookingx_display_calendar">
 						<div id="display_calendar_full"></div>
-						<label class="gfield_label" for="input_4_10">Choose a date</label><div class="ginput_container"><input type="hidden" name="input_date" value="" id="id_input_date"><div  id="id_datepicker" type="text" value="" class="" tabindex="8"> </div> </div><input type="hidden" id="gforms_calendar_icon_input_4_10" class="bkx_hidden" value="http://yfbiz.net.au/wp-content/plugins/gravityforms/images/calendar.png">
+						<label class="gfield_label" for="input_4_10">'.sprintf(__('Choose a date','bookingx'), '').'
+						</label><div class="ginput_container"><input type="hidden" name="input_date" value="" id="id_input_date"><div  id="id_datepicker" type="text" value="" class="" tabindex="8"> </div> </div><input type="hidden" id="gforms_calendar_icon_input_4_10" class="bkx_hidden" value="http://yfbiz.net.au/wp-content/plugins/gravityforms/images/calendar.png">
 
 </li><li id="field_4_display_booking" style=""><div id="booking_details_value"></div></li><!--<li id="field_4_11" class="gfield"><label class="gfield_label" for="input_4_11">Choose a Time</label>--><div class="clear-multi"><div class="gfield_time_minute ginput_container"><!--<input type="select" maxlength="2" name="input_timevalue" id="input_4_11_2" value="" tabindex="10" readonly="readonly">--><!--<select id="time_options"></select>--></div></div><br/><div id="id_display_success" class="display_success"></div><input type="hidden" value="0" name="can_proceed" id="id_can_proceed"><input type="hidden" name="booking_time_from" id="id_booking_time_from" value=""><input type="hidden" name="booking_duration_insec" id="id_booking_duration_insec" value="0"><!-- </li> --></ul>
 						
@@ -815,7 +817,7 @@ $temp .= get_loader().'
 
                     <div class="bkx_page_footer" '.$want_to_disable.'>
                         <input type="button" id="bkx_previous_button_4_13" class="button bkx_previous_button" value="'.sprintf(__('Previous','bookingx'), '').'" tabindex="13" onclick="jQuery(\'#bkx_target_page_number_4\').val(\'1\');validate_form(2,1);jQuery(\'html,body\').animate({ scrollTop: jQuery(\'#bkx_4\').offset().top -50 }, 500);"> 
-						<input type="button" id="bkx_next_button_4_13" class="button bkx_next_button" value="Next" tabindex="12" onclick="jQuery(\'#bkx_target_page_number_4\').val(\'3\');validate_form(2,3);jQuery(\'html,body\').animate({ scrollTop: jQuery(\'#bkx_4\').offset().top -50 }, 500); ">
+						<input type="button" id="bkx_next_button_4_13" class="button bkx_next_button" value="'.sprintf(esc_html__('Next','bookingx'), '').'" tabindex="12" onclick="jQuery(\'#bkx_target_page_number_4\').val(\'3\');validate_form(2,3);jQuery(\'html,body\').animate({ scrollTop: jQuery(\'#bkx_4\').offset().top -50 }, 500); ">
                     </div>
                 </div>';
 
