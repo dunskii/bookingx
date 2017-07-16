@@ -106,17 +106,48 @@ $bkx_business_days = crud_option_multisite("bkx_business_days");
 if(!is_array($bkx_business_days)){ $bkx_business_days = maybe_unserialize($bkx_business_days);}
 $selected = 2;
 if(!empty($bkx_business_days)) { $selected = sizeof($bkx_business_days)+1; }
+ 
+$bkx_biz_pub_holiday = crud_option_multisite('bkx_biz_pub_holiday');
+$temp_pu_h_cnt = !empty($bkx_biz_pub_holiday) ? sizeof($bkx_biz_pub_holiday) : 1;
+$bkx_biz_pub_holiday = array_values($bkx_biz_pub_holiday);
+
 ?>
 <h3> <?php printf( esc_html__( '%1$s', 'bookingx' ),  $bkx_general_submenu_label ); ?> </h3>
 <form name="form_alias" id="id_form_alias" method="post">
-<input type="hidden" name="days_operation_flag" value="1">
-<input type="hidden" id="current_value" value="<?php echo $selected;?>">
-<ul class="setting-bookingx">
+	<input type="hidden" name="days_operation_flag" value="1">
+	<input type="hidden" id="current_value" value="<?php echo $selected;?>">
+	<input type="hidden" id="temp_pu_h_cnt" value="<?php echo $temp_pu_h_cnt;?>">
+	<ul class="setting-bookingx">
         <?php echo generate_days_section(7 , $bkx_business_days);?>
 		<li class="standard" id="add_more_days">
 		<a href="javascript:add_more_days()" class='button-primary'> Add another set of hours</a>
 		</li> 
     </ul>
+	<div class="clear"></div>
+    <h3> Business Vacation </h3>
+    <input type="text" name="bkx_biz_vac_sd" id="id_biz_vac_sd"  value="<?php echo crud_option_multisite('bkx_biz_vac_sd'); ?>">
+    <input type="text" name="bkx_biz_vac_ed" id="id_biz_vac_ed"  value="<?php echo crud_option_multisite('bkx_biz_vac_ed'); ?>">
+    <div class="clear"></div>
+    <h3> Public Holidays </h3>
+    <input type="text" name="biz_ph[]" id="id_biz_ph_1" value="<?php echo $bkx_biz_pub_holiday[0];?>">
+    <a href="javascript:add_more_ph()" class='button-primary'> Add more </a>
+    <div class="clear"></div>
+    <?php
+    	if(!empty($bkx_biz_pub_holiday)){
+    		
+    		foreach ($bkx_biz_pub_holiday as $key => $pub_holiday) {
+    			 if($key > 0 ){
+    			 	$key = $key + 1;
+    			 	echo '<input type="text" name="biz_ph[]" id="id_clone_ph_'.$key.'" value="'.$pub_holiday.'"><div class="clear"></div>';
+    			 	echo '<script type="text/javascript">jQuery( document ).ready(function() {
+    			 		jQuery( "#id_clone_ph_'.$key.'").datepicker();
+    			 	});</script>';
+    			 }    			  
+    		}
+    	}
+    ?>
+    
+    <div class="bkx_more_pub_holiday"></div>
     <div class="clear"></div>
     <p class="submit"><input type="submit" onclick="" class='button-primary' name="save_days_ope" id="id_save_days_ope" value="Save Changes" /></p>
 </form>
@@ -138,8 +169,7 @@ if(!empty($bkx_business_days)) { $selected = sizeof($bkx_business_days)+1; }
 					<select name="can_edit_seat" id="id_can_edit_seat">
 						<option value="Y" <?php if($temp_option=="Y"){echo "selected";} ?> >Yes</option>
 						<option value="N" <?php if($temp_option=="N" || $temp_option == "default"){echo "selected";} ?> >No</option>
-					</select>
-				
+					</select>				
 			</td>
 		</tr>
 		<tr class="active">
@@ -151,9 +181,7 @@ if(!empty($bkx_business_days)) { $selected = sizeof($bkx_business_days)+1; }
 </table>
 <p class="submit"><input type="submit" onclick="" class='button-primary' name="save_siteuser" id="id_save_siteuser" value="Save Changes" /></p>
 </form>
- 
 
- 
 <?php
 $alias_seat = crud_option_multisite('bkx_alias_seat'); 
 $bkx_seat_role = crud_option_multisite('bkx_seat_role');

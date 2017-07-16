@@ -142,21 +142,22 @@ function disableSpecificWeekDays(date) {
 		var flag_month_val = $("#id_months_availability").val();
 		var option_month_val = $("#id_months_availability_certain").val();
 		var booked_days = url_obj.booked_days;
+		var biz_vac_days = url_obj.biz_vac_days;
+		var biz_pub_days = url_obj.biz_pub_days;
 		var collect_disable_days = new Array();
 
 
 		if(booked_days === undefined || booked_days == 0 ){}
 		else{ var booked_days_arr = booked_days.split(",");}
 
-
 		if(booked_days_arr === undefined || booked_days_arr == '' ){}
-		else
-		{
-			for (var i = 0; i <= booked_days_arr.length; i++)
-			{
-				collect_disable_days.push(booked_days_arr[i]);
-			}
-		}
+		else{for (var i = 0; i <= booked_days_arr.length; i++){collect_disable_days.push(booked_days_arr[i]);}}
+
+		if(biz_vac_days === undefined || biz_vac_days == '' ){}
+		else{ $('#id_booked_days').val('yes'); var biz_vac_arr = biz_vac_days.split(","); for (var i = 0; i <= biz_vac_arr.length; i++){collect_disable_days.push(biz_vac_arr[i]);}}
+
+		if(biz_pub_days === undefined || biz_pub_days == '' ){}
+		else{ $('#id_booked_days').val('yes'); var biz_pub_arr = biz_pub_days.split(",");  for (var i = 0; i <= biz_pub_arr.length; i++){collect_disable_days.push(biz_pub_arr[i]);}}
 
 		//alert($("#id_days_availability").val());
 		var daysToDisable = new Array();
@@ -240,7 +241,7 @@ function disableSpecificWeekDays(date) {
 	
 			for (i = 0; i < monthsToDisable.length; i++)
 			{
-					 if ($.inArray(month, monthsToDisable) == -1)
+					if ($.inArray(month, monthsToDisable) == -1)
 					{
 							 loader.hide();
 							return [false];
@@ -260,12 +261,12 @@ function disableSpecificWeekDays(date) {
 						return [true];
 						
 					}
-		      }
+		    }
 			
 		}
 		else
 		{
-			 $checkdate = $.datepicker.formatDate('mm/dd/yy', date);
+			$checkdate = $.datepicker.formatDate('mm/dd/yy', date);
 			for (i = 0; i < daysToDisable.length; i++) {
 				    if ($.inArray(day, daysToDisable) == -1) {
 				    	loader.hide();
@@ -274,6 +275,7 @@ function disableSpecificWeekDays(date) {
 			}
 
 			var booked_days = $('#id_booked_days').val();
+
 			if(booked_days == 'yes'){
 				if(collect_disable_days === undefined || collect_disable_days==''){}
 				else

@@ -12,8 +12,7 @@ function generate_xml()
 	//console.log(values);
 	jQuery("#id_addition_list").val(values);
 	document.forms["xml_export"].submit();
-}
-
+} 
 jQuery(document).ready(function(){
 	/**********************start script for color picker******************************/
 var ajax_url = '<?php echo admin_url( 'admin-ajax.php' ); ?>';
@@ -283,18 +282,31 @@ jQuery( document ).ready(function() {
 				jQuery("#page_drop_down_cancel_booking").hide();
 			}
 		});
+
+		jQuery( "#id_biz_vac_sd" ).datepicker({onSelect: function(date){jQuery( "#id_biz_vac_ed" ).val('');jQuery( "#id_biz_vac_ed" ).datepicker( "option", "minDate", date );}});
+		jQuery( "#id_biz_vac_ed" ).datepicker();
+		jQuery( "#id_biz_ph_1").datepicker();
+		
 	});
+
+	function add_more_ph()
+	{
+		var current_value = jQuery('#temp_pu_h_cnt').val();
+	    var set_next_val = current_value;
+	    set_next_val++;
+	    jQuery('#temp_pu_h_cnt').val(set_next_val);
+		jQuery( ".bkx_more_pub_holiday" ).after('<input type="text" name="biz_ph[]" id="id_clone_ph_'+set_next_val+'"><div class="clear"></div>');
+		jQuery( "#id_clone_ph_"+set_next_val).datepicker();
+
+	}
+
 	function add_more_days()
 	{
 	    var current_value = jQuery('#current_value').val();
 	    var set_next_val = current_value;
 	    jQuery( ".day_section_"+current_value).show();
 	    if(current_value == '7'){ jQuery("#add_more_days").hide();}
-	     
-	    if(current_value <= '6')
-	    {
-	        set_next_val++;
-	    }
+	    if(current_value <= '6'){ set_next_val++;}
 	    jQuery('#current_value').val(set_next_val);
 	}
 

@@ -179,6 +179,7 @@ if(!empty($_POST))
 
 	if(isset($_POST['days_operation_flag']) && ($_POST['days_operation_flag']==1))
 	{
+			$biz_ph = array_unique($_POST['biz_ph']);
 			$selected_days=array();
 			for($d=1;$d <=7;$d++)
 			{
@@ -200,7 +201,11 @@ if(!empty($_POST))
 					}
 			}
 
-		crud_option_multisite("bkx_business_days", $selected_days,'update');			 
+		crud_option_multisite("bkx_business_days", $selected_days,'update');
+		crud_option_multisite("bkx_biz_vac_sd", $_POST['bkx_biz_vac_sd'],'update');
+		crud_option_multisite("bkx_biz_vac_ed", $_POST['bkx_biz_vac_ed'],'update');
+		crud_option_multisite("bkx_biz_pub_holiday", $biz_ph,'update');
+
 	}
 
 	if(isset($_POST['tax_option_flag']) && ($_POST['tax_option_flag']==1))

@@ -276,11 +276,24 @@ function my_scripts_method()
             $booked_days = rtrim( $booked_days, ',');
         }else { $booked_days = 0;}
 
+        $bkx_biz_vac_sd = crud_option_multisite('bkx_biz_vac_sd');
+        $bkx_biz_vac_ed = crud_option_multisite('bkx_biz_vac_ed');
+
+        $bkx_biz_pub_holiday = crud_option_multisite('bkx_biz_pub_holiday');
+        if(!empty($bkx_biz_pub_holiday)){
+            $bkx_biz_pub_holiday = array_values($bkx_biz_pub_holiday);
+            $biz_pub_days = implode(",", $bkx_biz_pub_holiday);  
+        }
+        $biz_vac_days = getDatesFromRange( $bkx_biz_vac_sd, $bkx_biz_vac_ed, "m/d/y");
+        if(!empty($biz_vac_days)){ $biz_vac_days = implode(",", $biz_vac_days); }
+
         $translation_array = array(
              'plugin_url' => plugins_url( '', __FILE__ ),
              'admin_ajax' => admin_url('admin-ajax.php'),
              'base' => $base_alias,
-             'booked_days' => $booked_days
+             'booked_days' => $booked_days,
+             'biz_vac_days' => $biz_vac_days,
+             'biz_pub_days' => $biz_pub_days
         );
         wp_localize_script( 'common_script', 'url_obj', $translation_array );
 
