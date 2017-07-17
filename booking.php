@@ -98,7 +98,13 @@ function booking_admin_actions()
 {
     add_submenu_page( 'edit.php?post_type=bkx_booking', __( 'Settings', 'bookingx' ), __( 'Settings', 'bookingx' ), 'manage_options', 'bkx-setting', 'bkx_setting_page_callback' );
 }
+add_action( 'admin_menu', 'booking_admin_actions' );
 
+add_filter('plugin_action_links', 'bkx_plugin_action_links', 10, 2);
+function bkx_plugin_action_links( $links, $file ) {
+        $links[ ] = '<a href="edit.php?post_type=bkx_booking&page=bkx-setting">' . __( 'Settings', 'bookingx' ) . '</a>';  
+    return $links;
+}
 /**
  *function to create all tables in database while installation of plugin
  *@access public
@@ -198,8 +204,6 @@ function remove_booking_tables()
 {
     flush_rewrite_rules();
 }
-
-add_action( 'admin_menu', 'booking_admin_actions' );
 add_action( 'widgets_init', create_function( '', 'register_widget( "booking_widget" );' ) );
 register_activation_hook( __FILE__, 'create_booking_tables' );
 //register_deactivation_hook( __FILE__, 'remove_booking_tables' );
