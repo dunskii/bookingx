@@ -18,6 +18,7 @@ function bkx_seat_boxes_metabox_callback($post)
      
         $alias_seat = crud_option_multisite('bkx_alias_seat');
         $bkx_user_auto = 'Y';
+        $seat_is_certain_day = "Y";
     
     	$country = get_wp_country();
 
@@ -71,7 +72,7 @@ function bkx_seat_boxes_metabox_callback($post)
     $seat_months = isset($values['seat_months'][0]) && $values['seat_months'][0]!='' ? $temp_seat_months = explode(',',$values['seat_months'][0]) :  '';
 
     $seat_days = isset($values['seat_days'][0]) && $values['seat_days'][0]!='' ? $temp_seat_days = explode(',',$seat_days_arr) :  '';
-    $seat_is_certain_day = $values['seat_is_certain_day'][0];
+    
     $seat_days_time = maybe_unserialize($values['seat_days_time'][0]);
     $res_seat_time= maybe_unserialize($seat_days_time);
     $associate_with_user = isset( $values['associate_with_user'] ) ? esc_attr( $values['associate_with_user'][0] ) : "N";   
@@ -102,6 +103,7 @@ function bkx_seat_boxes_metabox_callback($post)
     $seatIcalAddress = isset( $values['seatIcalAddress'] ) ? esc_attr( $values['seatIcalAddress'][0] ) : "";
     $bkx_user_auto = isset( $values['bkx_user_auto'] ) ? esc_attr( $values['bkx_user_auto'][0] ) : "Y";
     $seat_is_different_loc = isset( $values['seat_is_different_loc'] ) ? esc_attr( $values['seat_is_different_loc'][0] ) : "N";
+    $seat_is_certain_day = isset($values['seat_is_certain_day']) ? esc_attr($values['seat_is_certain_day'][0]) : "Y";
     }
 
   
@@ -226,8 +228,8 @@ function bkx_seat_boxes_metabox_callback($post)
     </div>
   <p><?php printf( esc_html__( 'Will %1$s be available at certain days only ', 'bookingx' ), $alias_seat ); ?></p>
     <p><div class="plugin-description">
-<input type="radio" name="seat_is_certain_day" value="Y" <?php if(isset($seat_is_certain_day) && $seat_is_certain_day!='' &&  $seat_is_certain_day=="Y"){ echo "checked='checked'"; } ?> />Yes 
-<input type="radio" name="seat_is_certain_day" value="N" <?php if(isset($seat_is_certain_day) && $seat_is_certain_day!='' &&  $seat_is_certain_day=="N"){ echo "checked='checked'"; } ?>  <?php if(!isset($seat_is_certain_day)){ echo "checked='checked'"; } ?> />No
+<input type="radio" name="seat_is_certain_day" value="Y" <?php if($seat_is_certain_day=="Y"){ echo "checked='checked'"; } ?> />Yes 
+<input type="radio" name="seat_is_certain_day" value="N" <?php if($seat_is_certain_day=="N"){ echo "checked='checked'"; } ?> />No
 <p><?php esc_html_e( '(Note: selection of \'No\' indicates that it will be available 7 days a week, and 24 hours a day)', 'bookingx' ); ?></p>
     </div></p>
     <div id="certain_day">
