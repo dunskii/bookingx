@@ -101,41 +101,51 @@ function bkx_seat_boxes_metabox_callback($post)
     $seat_ical_address = isset( $values['seatIsIcal'] ) ? esc_attr( $values['seatIsIcal'][0] ) : "";
     $seatIcalAddress = isset( $values['seatIcalAddress'] ) ? esc_attr( $values['seatIcalAddress'][0] ) : "";
     $bkx_user_auto = isset( $values['bkx_user_auto'] ) ? esc_attr( $values['bkx_user_auto'][0] ) : "Y";
+    $seat_is_different_loc = isset( $values['seat_is_different_loc'] ) ? esc_attr( $values['seat_is_different_loc'][0] ) : "N";
     }
 
   
     custom_load_scripts(array('timepicker_implementation_1.js'));
     color_load_scripts(array('iris.min.js'));
     custom_load_styles(array('basic-style.css','redmond/jquery-ui-timepicker.css','bkx-admin.css'));
+     
+    $display_location = ($seat_is_different_loc == "Y") ? 'display: block;' : 'display: none;';
     ?>
 
-<div class="error" id="error_list" style="display:none;"></div>
-    <p><label for="seat_street"><?php esc_html_e( 'Street name', 'bookingx' ); ?> : </label>
-        <textarea name="seat_street" id="seat_street"><?php echo esc_attr( $seat_street );  ?></textarea>
-    </p>
+	<div class="error" id="error_list" style="display:none;"></div>
+	<p><label for="seat_is_different_loc"><strong><?php printf( esc_html__( 'Is %1$s at a different location ? ', 'bookingx' ), $alias_seat ); ?> :</strong></label></p>
+    <p><input type="radio" name="seat_is_different_loc" value="Y" <?php if($seat_is_different_loc == "Y"){ echo "checked='checked'"; } ?> />Yes 
+        <input type="radio" name="seat_is_different_loc" value="N" <?php if($seat_is_different_loc == "N"){ echo "checked='checked'"; } ?>  <?php if(!isset($seat_is_different_loc)){ echo "checked='checked'"; } ?>/>No</p>
+ 
+    <div class="seat_is_different_loc" style="<?php echo $display_location;?>">
+	    <p><label for="seat_street"><?php esc_html_e( 'Street name', 'bookingx' ); ?> : </label>
+	        <textarea name="seat_street" id="seat_street"><?php echo esc_attr( $seat_street );  ?></textarea>
+	    </p>
 
-    <p><label for="seat_city"><?php esc_html_e( 'City', 'bookingx' ); ?> :</label>
-    <input type="text" name="seat_city" id="seat_city" value="<?php echo esc_attr( $seat_city ); ?>" />
-    </p>
+	    <p><label for="seat_city"><?php esc_html_e( 'City', 'bookingx' ); ?> :</label>
+	    <input type="text" name="seat_city" id="seat_city" value="<?php echo esc_attr( $seat_city ); ?>" />
+	    </p>
 
-    <p><label for="seat_state"><?php esc_html_e( 'State', 'bookingx' ); ?> :</label>
-    <input type="text" name="seat_state" id="seat_state" value="<?php echo esc_attr( $seat_state ); ?>" />
-    </p>
+	    <p><label for="seat_state"><?php esc_html_e( 'State', 'bookingx' ); ?> :</label>
+	    <input type="text" name="seat_state" id="seat_state" value="<?php echo esc_attr( $seat_state ); ?>" />
+	    </p>
 
-    <p><label for="seat_zip"><?php esc_html_e( 'Zip / Postal Code', 'bookingx' ); ?> :</label>
-    <input type="text" name="seat_zip" id="seat_zip" value="<?php echo esc_attr( $seat_zip ); ?>" />
-    </p>
+	    <p><label for="seat_zip"><?php esc_html_e( 'Zip / Postal Code', 'bookingx' ); ?> :</label>
+	    <input type="text" name="seat_zip" id="seat_zip" value="<?php echo esc_attr( $seat_zip ); ?>" />
+	    </p>
 
-    <p><label for="seat_country"><?php esc_html_e( 'Country', 'bookingx' ); ?> :</label>
-    <select name="seat_country">
-					<?php if(!empty($country)){
-							foreach ($country as $code => $country_name) {?>
-								 <option value="<?php echo $code;?>" <?php if($code == esc_attr( $seat_country )){ echo "selected";} ?>><?php echo $country_name;?></option>
-							<?php 
-							}
-						}?>
-					</select>
-    </p>
+	    <p><label for="seat_country"><?php esc_html_e( 'Country', 'bookingx' ); ?> :</label>
+	    <select name="seat_country">
+						<?php if(!empty($country)){
+								foreach ($country as $code => $country_name) {?>
+									 <option value="<?php echo $code;?>" <?php if($code == esc_attr( $seat_country )){ echo "selected";} ?>><?php echo $country_name;?></option>
+								<?php 
+								}
+							}?>
+						</select>
+	    </p>
+    </div>
+ 
     <strong> <?php esc_html_e( 'Set Times, Days and Months Available', 'bookingx' ); ?></strong>
     <p><label for="seat_country"><?php esc_html_e( 'Will this Seat only be available certain months of the year', 'bookingx' ); ?> :</label></p>
     <p><input type="radio" name="seat_is_certain_month" value="Y" <?php if($seat_is_certain_month=="Y"){ echo "checked='checked'"; } ?> />Yes 
@@ -455,6 +465,7 @@ function save_bkx_seat_metaboxes( $post_id, $post, $update )
     $associate_with_user_role = trim($_POST['associate_with_user_role']);
     $associate_with_username = trim($_POST['associate_with_username']);
     $bkx_user_auto = trim($_POST['bkx_user_auto']);
+    $seat_is_different_loc = trim($_POST['seat_is_different_loc']);
     
     if($seatDepositFull=="Deposit"){ $tempDepositFull = "D";}
 	else if($seatDepositFull=="Full Payment"){$tempDepositFull = "FP";}
@@ -591,6 +602,8 @@ function save_bkx_seat_metaboxes( $post_id, $post, $update )
 
     if( isset( $bkx_user_auto ) )
         update_post_meta( $post_id, 'bkx_user_auto',$bkx_user_auto );
+    if(isset($seat_is_different_loc))
+    	update_post_meta( $post_id, 'seat_is_different_loc',$seat_is_different_loc );
     
     
     

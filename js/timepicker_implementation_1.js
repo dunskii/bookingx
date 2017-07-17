@@ -945,6 +945,23 @@ jQuery(document).ready(function(){
 		jQuery("#alternate_month").hide();
 	}
 
+	 
+
+
+	jQuery("input[name=seat_is_different_loc]:radio").bind( "change", function(event, ui) {
+		//console.log('seat_is_certain_time: '+jQuery(this).val());
+		if(jQuery(this).val()=="Y")
+		{
+			jQuery(".seat_is_different_loc").show();
+		}
+		if(jQuery(this).val()=="N")
+		{
+			jQuery(".seat_is_different_loc").hide();
+		}
+		// Call function here
+	});
+
+
 	jQuery("input[name=seat_is_alternate_month]:radio").bind( "change", function(event, ui) {
 		//console.log('seat_is_certain_time: '+jQuery(this).val());
 		if(jQuery(this).val()=="Y")
