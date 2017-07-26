@@ -71,6 +71,21 @@ function bkx_extra_boxes_metabox_callback()
                     </select>
             </div>
 	</div>
+    <div class="active" id="hours_minutes">
+            <?php echo $addition_alias; ?> Time In Hours and Minutes :      
+            <div class="plugin-description">
+                    <input name="addition_hours_minutes" type="text"  value="<?php if(isset($addition_hours)){echo $addition_hours;}else{ echo 0; } ?>" id="id_addition_hours_minutes" >
+                    <?php 
+                    if(isset($addition_minutes))
+                    $additionMinute = $addition_minutes; ?>
+                    <select name="addition_minutes" id="id_addition_minutes" >
+                            <option value=00 <?php if($additionMinute==15){echo "selected"; } ?>>00</option>
+                            <option value=15 <?php if($additionMinute==15){echo "selected"; } ?>>15</option>
+                            <option value=30 <?php if($additionMinute==30){echo "selected"; } ?>>30</option>
+                            <option value=45 <?php if($additionMinute==45){echo "selected"; } ?>>45</option>
+                    </select>
+            </div>
+    </div>
 	<div class="active" id="overlap">
             Does this <?php echo $addition_alias; ?> require its own time bracket or can it overlap with other <?php echo $addition_alias;?> :		
             <div class="plugin-description">
@@ -98,21 +113,7 @@ function bkx_extra_boxes_metabox_callback()
                     <input name="addition_days" type="text"  value="<?php if(isset($addition_days)){echo $addition_days;} ?>" id="id_addition_days" >
             </div>
 	</div>	
-	<div class="active" id="hours_minutes">
-            <?php echo $addition_alias; ?> Time In Hours and Minutes :		
-            <div class="plugin-description">
-                    <input name="addition_hours_minutes" type="text"  value="<?php if(isset($addition_hours)){echo $addition_hours;}else{ echo 0; } ?>" id="id_addition_hours_minutes" >
-                    <?php 
-                    if(isset($addition_minutes))
-                    $additionMinute = $addition_minutes; ?>
-                    <select name="addition_minutes" id="id_addition_minutes" >
-                            <option value=00 <?php if($additionMinute==15){echo "selected"; } ?>>00</option>
-                            <option value=15 <?php if($additionMinute==15){echo "selected"; } ?>>15</option>
-                            <option value=30 <?php if($additionMinute==30){echo "selected"; } ?>>30</option>
-                            <option value=45 <?php if($additionMinute==45){echo "selected"; } ?>>45</option>
-                    </select>
-            </div>
-	</div>
+
 	<div class="active" id="base_name">
             This <?php echo $addition_alias; ?> is available to the following <?php echo $base_alias; ?>s :		
             <div class="plugin-description">
