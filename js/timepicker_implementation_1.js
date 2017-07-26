@@ -35,191 +35,191 @@ jQuery('#wpseo_meta').remove();
 	
 
 	//Set Timpicker Options for all days
-	var weekdays=new Array("sunday","monday","tuesday","wednesday","thursday","friday","saturday");
-	for (var i=0;i<weekdays.length;i++)
-	{
-		var day = weekdays[i];
+	// var weekdays=new Array("sunday","monday","tuesday","wednesday","thursday","friday","saturday");
+	// for (var i=0;i<weekdays.length;i++)
+	// {
+	// 	var day = weekdays[i];
 		
-		jQuery('input#id_seat_time_from_'+day).timepicker({
-			timeFormat: 'hh:mm p',
-			// items in the dropdown are separated by at interval minutes
-			interval: 30,
-			scrollbar: true
-		});
+	// 	jQuery('input#id_seat_time_from_'+day).timepicker({
+	// 		timeFormat: 'hh:mm p',
+	// 		// items in the dropdown are separated by at interval minutes
+	// 		interval: 30,
+	// 		scrollbar: true
+	// 	});
 		
-		jQuery('input#id_seat_time_till_'+day).timepicker({
-			timeFormat: 'hh:mm p',
-			// year, month, day and seconds are not important
-			interval: 30,
-			scrollbar: true
-		});		
-	}	
+	// 	jQuery('input#id_seat_time_till_'+day).timepicker({
+	// 		timeFormat: 'hh:mm p',
+	// 		// year, month, day and seconds are not important
+	// 		interval: 30,
+	// 		scrollbar: true
+	// 	});		
+	// }	
 	
 
-	//Onchange Sunday From Time
-	jQuery('#id_seat_time_from_sunday').timepicker().option('change', function(time) {	            
-			time.setMinutes (time.getMinutes() + 30 );	
-			window.from_time = time.getTime();			
-			jQuery('#id_seat_time_till_sunday').timepicker('option', 'startTime', time);
-			jQuery('#id_seat_time_till_sunday').val("");			
-	});
-	// Validate Sunday Till Time
-	jQuery("input#id_seat_time_till_sunday").timepicker().option('change', function(time) {
-		var till_time = time.getTime();
-		if(from_time > till_time) {
-			if(time.getHours() == 0 && time.getMinutes()==0){
-				jQuery(this).removeClass("time_error");
-			}else{
-				jQuery(this).addClass("time_error");		
-				jQuery(this).val("");
-			}
-		}
-		else{
-			jQuery(this).removeClass("time_error");
-		}
-	});	
+	// //Onchange Sunday From Time
+	// jQuery('#id_seat_time_from_sunday').timepicker().option('change', function(time) {	            
+	// 		time.setMinutes (time.getMinutes() + 30 );	
+	// 		window.from_time = time.getTime();			
+	// 		jQuery('#id_seat_time_till_sunday').timepicker('option', 'startTime', time);
+	// 		jQuery('#id_seat_time_till_sunday').val("");			
+	// });
+	// // Validate Sunday Till Time
+	// jQuery("input#id_seat_time_till_sunday").timepicker().option('change', function(time) {
+	// 	var till_time = time.getTime();
+	// 	if(from_time > till_time) {
+	// 		if(time.getHours() == 0 && time.getMinutes()==0){
+	// 			jQuery(this).removeClass("time_error");
+	// 		}else{
+	// 			jQuery(this).addClass("time_error");		
+	// 			jQuery(this).val("");
+	// 		}
+	// 	}
+	// 	else{
+	// 		jQuery(this).removeClass("time_error");
+	// 	}
+	// });	
 
-	//Onchange Monday From Time
-	jQuery('input#id_seat_time_from_monday').timepicker().option('change', function(time) {		
-			time.setMinutes (time.getMinutes() + 30 );	
-			window.from_time = time.getTime();			
-			jQuery('#id_seat_time_till_monday').timepicker('option', 'startTime', time);
-			jQuery('#id_seat_time_till_monday').val("");			
-	});
-	// Validate Monday Till Time
-	jQuery("input#id_seat_time_till_monday").timepicker().option('change', function(time) {
-		var till_time = time.getTime();
-		if(from_time > till_time) {
-			if(time.getHours() == 0 && time.getMinutes()==0){
-				jQuery(this).removeClass("time_error");
-			}else{
-				jQuery(this).addClass("time_error");		
-				jQuery(this).val("");
-			}
-		}
-		else{
-			jQuery(this).removeClass("time_error");
-		}
-	});	
+	// //Onchange Monday From Time
+	// jQuery('input#id_seat_time_from_monday').timepicker().option('change', function(time) {		
+	// 		time.setMinutes (time.getMinutes() + 30 );	
+	// 		window.from_time = time.getTime();			
+	// 		jQuery('#id_seat_time_till_monday').timepicker('option', 'startTime', time);
+	// 		jQuery('#id_seat_time_till_monday').val("");			
+	// });
+	// // Validate Monday Till Time
+	// jQuery("input#id_seat_time_till_monday").timepicker().option('change', function(time) {
+	// 	var till_time = time.getTime();
+	// 	if(from_time > till_time) {
+	// 		if(time.getHours() == 0 && time.getMinutes()==0){
+	// 			jQuery(this).removeClass("time_error");
+	// 		}else{
+	// 			jQuery(this).addClass("time_error");		
+	// 			jQuery(this).val("");
+	// 		}
+	// 	}
+	// 	else{
+	// 		jQuery(this).removeClass("time_error");
+	// 	}
+	// });	
 	
 
-	//Onchange Tuesday From Time
-	jQuery('input#id_seat_time_from_tuesday').timepicker().option('change', function(time) {		
-			time.setMinutes (time.getMinutes() + 30 );	
-			window.from_time = time.getTime();			
-			jQuery('#id_seat_time_till_tuesday').timepicker('option', 'startTime', time);
-			jQuery('#id_seat_time_till_tuesday').val("");			
-	});
-	// Validate Tuesday Till Time
-	jQuery("input#id_seat_time_till_tuesday").timepicker().option('change', function(time) {
-		var till_time = time.getTime();
-		if(from_time > till_time) {
-			if(time.getHours() == 0 && time.getMinutes()==0){
-				jQuery(this).removeClass("time_error");
-			}else{
-				jQuery(this).addClass("time_error");		
-				jQuery(this).val("");
-			}
-		}
-		else{
-			jQuery(this).removeClass("time_error");
-		}
-	});	
+	// //Onchange Tuesday From Time
+	// jQuery('input#id_seat_time_from_tuesday').timepicker().option('change', function(time) {		
+	// 		time.setMinutes (time.getMinutes() + 30 );	
+	// 		window.from_time = time.getTime();			
+	// 		jQuery('#id_seat_time_till_tuesday').timepicker('option', 'startTime', time);
+	// 		jQuery('#id_seat_time_till_tuesday').val("");			
+	// });
+	// // Validate Tuesday Till Time
+	// jQuery("input#id_seat_time_till_tuesday").timepicker().option('change', function(time) {
+	// 	var till_time = time.getTime();
+	// 	if(from_time > till_time) {
+	// 		if(time.getHours() == 0 && time.getMinutes()==0){
+	// 			jQuery(this).removeClass("time_error");
+	// 		}else{
+	// 			jQuery(this).addClass("time_error");		
+	// 			jQuery(this).val("");
+	// 		}
+	// 	}
+	// 	else{
+	// 		jQuery(this).removeClass("time_error");
+	// 	}
+	// });	
 	
 
-	//Onchange Wednesday From Time
-	jQuery('input#id_seat_time_from_wednesday').timepicker().option('change', function(time) {		
-			time.setMinutes (time.getMinutes() + 30 );	
-			window.from_time = time.getTime();			
-			jQuery('#id_seat_time_till_wednesday').timepicker('option', 'startTime', time);
-			jQuery('#id_seat_time_till_wednesday').val("");			
-	});
-	// Validate Wednesday Till Time
-	jQuery("input#id_seat_time_till_wednesday").timepicker().option('change', function(time) {
-		var till_time = time.getTime();
-		if(from_time > till_time) {
-			if(time.getHours() == 0 && time.getMinutes()==0){
-				jQuery(this).removeClass("time_error");
-			}else{
-				jQuery(this).addClass("time_error");		
-				jQuery(this).val("");
-			}
-		}
-		else{
-			jQuery(this).removeClass("time_error");
-		}
-	});	
+	// //Onchange Wednesday From Time
+	// jQuery('input#id_seat_time_from_wednesday').timepicker().option('change', function(time) {		
+	// 		time.setMinutes (time.getMinutes() + 30 );	
+	// 		window.from_time = time.getTime();			
+	// 		jQuery('#id_seat_time_till_wednesday').timepicker('option', 'startTime', time);
+	// 		jQuery('#id_seat_time_till_wednesday').val("");			
+	// });
+	// // Validate Wednesday Till Time
+	// jQuery("input#id_seat_time_till_wednesday").timepicker().option('change', function(time) {
+	// 	var till_time = time.getTime();
+	// 	if(from_time > till_time) {
+	// 		if(time.getHours() == 0 && time.getMinutes()==0){
+	// 			jQuery(this).removeClass("time_error");
+	// 		}else{
+	// 			jQuery(this).addClass("time_error");		
+	// 			jQuery(this).val("");
+	// 		}
+	// 	}
+	// 	else{
+	// 		jQuery(this).removeClass("time_error");
+	// 	}
+	// });	
 
 	
-	//Onchange Thursday From Time
-	jQuery('input#id_seat_time_from_thursday').timepicker().option('change', function(time) {		
-			time.setMinutes (time.getMinutes() + 30 );	
-			window.from_time = time.getTime();			
-			jQuery('#id_seat_time_till_thursday').timepicker('option', 'startTime', time);
-			jQuery('#id_seat_time_till_thursday').val("");			
-	});
-	// Validate Thursday Till Time
-	jQuery("input#id_seat_time_till_thursday").timepicker().option('change', function(time) {
-		var till_time = time.getTime();
-		if(from_time > till_time) {
-			if(time.getHours() == 0 && time.getMinutes()==0){
-				jQuery(this).removeClass("time_error");
-			}else{
-				jQuery(this).addClass("time_error");		
-				jQuery(this).val("");
-			}
-		}
-		else{
-			jQuery(this).removeClass("time_error");
-		}
-	});	
+	// //Onchange Thursday From Time
+	// jQuery('input#id_seat_time_from_thursday').timepicker().option('change', function(time) {		
+	// 		time.setMinutes (time.getMinutes() + 30 );	
+	// 		window.from_time = time.getTime();			
+	// 		jQuery('#id_seat_time_till_thursday').timepicker('option', 'startTime', time);
+	// 		jQuery('#id_seat_time_till_thursday').val("");			
+	// });
+	// // Validate Thursday Till Time
+	// jQuery("input#id_seat_time_till_thursday").timepicker().option('change', function(time) {
+	// 	var till_time = time.getTime();
+	// 	if(from_time > till_time) {
+	// 		if(time.getHours() == 0 && time.getMinutes()==0){
+	// 			jQuery(this).removeClass("time_error");
+	// 		}else{
+	// 			jQuery(this).addClass("time_error");		
+	// 			jQuery(this).val("");
+	// 		}
+	// 	}
+	// 	else{
+	// 		jQuery(this).removeClass("time_error");
+	// 	}
+	// });	
 	
 
-	//Onchange Friday From Time
-	jQuery('input#id_seat_time_from_friday').timepicker().option('change', function(time) {		
-			time.setMinutes (time.getMinutes() + 30 );	
-			window.from_time = time.getTime();			
-			jQuery('#id_seat_time_till_friday').timepicker('option', 'startTime', time);
-			jQuery('#id_seat_time_till_friday').val("");			
-	});
-	// Validate Friday Till Time
-	jQuery("input#id_seat_time_till_friday").timepicker().option('change', function(time) {
-		var till_time = time.getTime();
-		if(from_time > till_time) {
-			if(time.getHours() == 0 && time.getMinutes()==0){
-				jQuery(this).removeClass("time_error");
-			}else{
-				jQuery(this).addClass("time_error");		
-				jQuery(this).val("");
-			}
-		}
-		else{
-			jQuery(this).removeClass("time_error");
-		}
-	});	
+	// //Onchange Friday From Time
+	// jQuery('input#id_seat_time_from_friday').timepicker().option('change', function(time) {		
+	// 		time.setMinutes (time.getMinutes() + 30 );	
+	// 		window.from_time = time.getTime();			
+	// 		jQuery('#id_seat_time_till_friday').timepicker('option', 'startTime', time);
+	// 		jQuery('#id_seat_time_till_friday').val("");			
+	// });
+	// // Validate Friday Till Time
+	// jQuery("input#id_seat_time_till_friday").timepicker().option('change', function(time) {
+	// 	var till_time = time.getTime();
+	// 	if(from_time > till_time) {
+	// 		if(time.getHours() == 0 && time.getMinutes()==0){
+	// 			jQuery(this).removeClass("time_error");
+	// 		}else{
+	// 			jQuery(this).addClass("time_error");		
+	// 			jQuery(this).val("");
+	// 		}
+	// 	}
+	// 	else{
+	// 		jQuery(this).removeClass("time_error");
+	// 	}
+	// });	
 	
-	//Onchange Saturday From Time
-	jQuery('input#id_seat_time_from_saturday').timepicker().option('change', function(time) {		
-			time.setMinutes (time.getMinutes() + 30 );	
-			window.from_time = time.getTime();			
-			jQuery('#id_seat_time_till_saturday').timepicker('option', 'startTime', time);
-			jQuery('#id_seat_time_till_saturday').val("");			
-	});
-	// Validate Saturday Till Time
-	jQuery("input#id_seat_time_till_saturday").timepicker().option('change', function(time) {
-		var till_time = time.getTime();
-		if(from_time > till_time) {
-			if(time.getHours() == 0 && time.getMinutes()==0){
-				jQuery(this).removeClass("time_error");
-			}else{
-				jQuery(this).addClass("time_error");		
-				jQuery(this).val("");
-			}
-		}
-		else{
-			jQuery(this).removeClass("time_error");
-		}
-	});		
+	// //Onchange Saturday From Time
+	// jQuery('input#id_seat_time_from_saturday').timepicker().option('change', function(time) {		
+	// 		time.setMinutes (time.getMinutes() + 30 );	
+	// 		window.from_time = time.getTime();			
+	// 		jQuery('#id_seat_time_till_saturday').timepicker('option', 'startTime', time);
+	// 		jQuery('#id_seat_time_till_saturday').val("");			
+	// });
+	// // Validate Saturday Till Time
+	// jQuery("input#id_seat_time_till_saturday").timepicker().option('change', function(time) {
+	// 	var till_time = time.getTime();
+	// 	if(from_time > till_time) {
+	// 		if(time.getHours() == 0 && time.getMinutes()==0){
+	// 			jQuery(this).removeClass("time_error");
+	// 		}else{
+	// 			jQuery(this).addClass("time_error");		
+	// 			jQuery(this).val("");
+	// 		}
+	// 	}
+	// 	else{
+	// 		jQuery(this).removeClass("time_error");
+	// 	}
+	// });		
 });
 
 ///////////////////////////////add seat form scripts///////////////////////////////////////////////////////////////////

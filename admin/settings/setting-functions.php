@@ -85,8 +85,8 @@ function generate_days_section($set = 7 ,$selected = array())
 				<li class="standard"><label for="closing time" class="lable">Close </label>
 				<input name="closing_time_'.$gen.'" id="id_closing_time_'.$gen.'" type="text" value="'.$time['close'].'">
 				</li>';
-			if($gen > 1){
-				$generate_html .='<li class="standard" style="width:100px;"><label for="opening time" class="lable">&nbsp; </label><a class="business_hour_close" href="javascript:remove_more_days('.$gen.');">X</a></li>';
+			if( $gen > 1){
+				$generate_html .='<li class="standard close" style="width:100px;"><label for="opening time" class="lable">&nbsp; </label><a class="business_hour_close" href="javascript:remove_more_days('.$gen.');">X</a></li>';
 			}
 			$generate_html .='<div class="clear"></div></div>';
 
@@ -118,8 +118,8 @@ function generate_days_section($set = 7 ,$selected = array())
 	<li class="standard"><label for="closing time" class="lable">Close </label>
 	<input name="closing_time_'.$gen.'" id="id_closing_time_'.$gen.'" type="text" value="5:00 PM">
 	</li>';
-	if($gen > 1){
-		$generate_html .='<li class="standard" style="width:100px;"><label for="opening time" class="lable">&nbsp; </label><a class="business_hour_close" href="javascript:remove_more_days('.$gen.');">X</a></li>';
+	if( $gen > 1){
+		$generate_html .='<li class="standard close" style="width:100px;"><label for="opening time" class="lable">&nbsp; </label><a class="business_hour_close" href="javascript:remove_more_days('.$gen.');">X</a></li>';
 	}
 	$generate_html .='<div class="clear"></div></div>';
 }

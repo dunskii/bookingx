@@ -104,8 +104,8 @@
 <?php 
 $bkx_business_days = crud_option_multisite("bkx_business_days");
 if(!is_array($bkx_business_days)){ $bkx_business_days = maybe_unserialize($bkx_business_days);}
-$selected = 2;
-if(!empty($bkx_business_days)) { $selected = sizeof($bkx_business_days)+1; }
+$selected = !empty($bkx_business_days) ? sizeof($bkx_business_days)+1 : 2;
+$add_more_status = ($selected >= 7) ? 'display:none' : 'display:block';
  
 $bkx_biz_pub_holiday = crud_option_multisite('bkx_biz_pub_holiday');
 $temp_pu_h_cnt = !empty($bkx_biz_pub_holiday) ? sizeof($bkx_biz_pub_holiday) : 1;
@@ -119,7 +119,7 @@ $bkx_biz_pub_holiday = array_values($bkx_biz_pub_holiday);
 	<input type="hidden" id="temp_pu_h_cnt" value="<?php echo $temp_pu_h_cnt;?>">
 	<ul class="setting-bookingx">
         <?php echo generate_days_section(7 , $bkx_business_days);?>
-		<li class="standard" id="add_more_days">
+		<li class="standard" id="add_more_days" style="<?php echo $add_more_status; ?>;">
 		<a href="javascript:add_more_days()" class='button-primary'> Add another set of hours</a>
 		</li> 
     </ul>

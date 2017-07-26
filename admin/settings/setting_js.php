@@ -305,7 +305,7 @@ jQuery( document ).ready(function() {
 	    var current_value = jQuery('#current_value').val();
 	    var set_next_val = current_value;
 	    jQuery( ".day_section_"+current_value).show();
-	    if(current_value == '7'){ jQuery("#add_more_days").hide();}
+	    if(current_value >= 7){ jQuery("#add_more_days").hide();}else{ jQuery("#add_more_days").show();}
 	    if(current_value <= '6'){ set_next_val++;}
 	    jQuery('#current_value').val(set_next_val);
 	}
@@ -317,10 +317,7 @@ jQuery( document ).ready(function() {
 	    var current_value = val;
 	    jQuery( ".day_section_"+current_value).hide(); 
 	    jQuery('#current_value').val(set_next_val);
-
-	    if(set_next_val == 1){
-	    	jQuery("#add_more_days").show();
-	    }
+	    if(set_next_val <= 7){ jQuery("#add_more_days").show();}
 	}
 </script>
 <style type="text/css">

@@ -30,35 +30,11 @@ function bkx_seat_boxes_metabox_callback($post)
 		$bkx_business_zip = crud_option_multisite("bkx_business_zip");
 		$bkx_business_country = crud_option_multisite("bkx_business_country");
 
-
-	$bkx_business_days = crud_option_multisite("bkx_business_days");
-	if(!is_array($bkx_business_days)){ $bkx_business_days = maybe_unserialize($bkx_business_days);}
-	$business_days =  array();
-	if(!empty($bkx_business_days) && sizeof($bkx_business_days) > 0)
-	    {
-	        $populate_business_days = array();
-	        foreach($bkx_business_days as $key => $obj_obusiness_days)
-	        {				
-	             $days_arr = $obj_obusiness_days['days'];
-	             $times_arr = $obj_obusiness_days['time'];
-	             if(!empty($days_arr)){
-	             		foreach ($days_arr as $day) {
-	             			$business_days[strtolower($day)] = $day;
-	             			$populate_business_days[strtolower($day)]['time_from'] = $times_arr['open'];
-	             			$populate_business_days[strtolower($day)]['time_till'] = $times_arr['close'];
-	             		}
-	             }  
-	        } 
-
-	        $res_seat_time_arr =  $populate_business_days;
-	        $temp_seat_days = $business_days;
-	    }
-
-    $seat_street = isset($business_address_1) ? esc_attr( $business_address_1.",".$business_address_2 ) : "";   
-    $seat_city = isset( $bkx_business_city ) ? esc_attr( $bkx_business_city ) : "";
-    $seat_state = isset( $bkx_business_state ) ? esc_attr( $bkx_business_state ) : "";
-    $seat_zip = isset( $bkx_business_zip ) ? esc_attr( $bkx_business_zip ) : "";
-    $seat_country = isset( $bkx_business_country ) ? esc_attr( $bkx_business_country ) : "";
+	    $seat_street = isset($business_address_1) ? esc_attr( $business_address_1.",".$business_address_2 ) : "";   
+	    $seat_city = isset( $bkx_business_city ) ? esc_attr( $bkx_business_city ) : "";
+	    $seat_state = isset( $bkx_business_state ) ? esc_attr( $bkx_business_state ) : "";
+	    $seat_zip = isset( $bkx_business_zip ) ? esc_attr( $bkx_business_zip ) : "";
+	    $seat_country = isset( $bkx_business_country ) ? esc_attr( $bkx_business_country ) : "";
 
 
     if(!empty($values) && !is_wp_error($values)){
@@ -104,16 +80,28 @@ function bkx_seat_boxes_metabox_callback($post)
     $bkx_user_auto = isset( $values['bkx_user_auto'] ) ? esc_attr( $values['bkx_user_auto'][0] ) : "Y";
     $seat_is_different_loc = isset( $values['seat_is_different_loc'] ) ? esc_attr( $values['seat_is_different_loc'][0] ) : "N";
     $seat_is_certain_day = isset($values['seat_is_certain_day']) ? esc_attr($values['seat_is_certain_day'][0]) : "Y";
+    $selected_days =  get_post_meta($post->ID, 'selected_days', true );
     }
 
-  
+    if(empty($selected_days)){
+    	$bkx_business_days = crud_option_multisite("bkx_business_days");
+    }else{
+    	$bkx_business_days = $selected_days;
+    }
+    $selected = !empty($bkx_business_days) ? sizeof($bkx_business_days)+1 : 2;
+    $add_more_status = ($selected >= 7) ? 'display:none' : 'display:block';
+	//if(!empty($bkx_business_days)) { $selected = sizeof($bkx_business_days)+1; }
+     
     custom_load_scripts(array('timepicker_implementation_1.js'));
     color_load_scripts(array('iris.min.js'));
-    custom_load_styles(array('basic-style.css','redmond/jquery-ui-timepicker.css','bkx-admin.css'));
-     
+    custom_load_styles(array('basic-style.css','redmond/jquery-ui-timepicker.css','bkx-admin.css')); 
     $display_location = ($seat_is_different_loc == "Y") ? 'display: block;' : 'display: none;';
     ?>
-
+    <style type="text/css">
+    .setting-bookingx .standard{width: 215px !important;}
+    .setting-bookingx .close{width: 10px !important;}
+    </style>
+    <input type="hidden" id="current_value" value="<?php echo $selected;?>">
 	<div class="error" id="error_list" style="display:none;"></div>
 	<p><label for="seat_is_different_loc"><strong><?php printf( esc_html__( 'Is %1$s at a different location ? ', 'bookingx' ), $alias_seat ); ?> :</strong></label></p>
     <p><input type="radio" name="seat_is_different_loc" value="Y" <?php if($seat_is_different_loc == "Y"){ echo "checked='checked'"; } ?> />Yes 
@@ -138,13 +126,13 @@ function bkx_seat_boxes_metabox_callback($post)
 
 	    <p><label for="seat_country"><?php esc_html_e( 'Country', 'bookingx' ); ?> :</label>
 	    <select name="seat_country">
-						<?php if(!empty($country)){
-								foreach ($country as $code => $country_name) {?>
-									 <option value="<?php echo $code;?>" <?php if($code == esc_attr( $seat_country )){ echo "selected";} ?>><?php echo $country_name;?></option>
-								<?php 
-								}
-							}?>
-						</select>
+		<?php if(!empty($country)){
+				foreach ($country as $code => $country_name) {?>
+					 <option value="<?php echo $code;?>" <?php if($code == esc_attr( $seat_country )){ echo "selected";} ?>><?php echo $country_name;?></option>
+				<?php 
+				}
+			}?>
+		</select>
 	    </p>
     </div>
  
@@ -233,68 +221,15 @@ function bkx_seat_boxes_metabox_callback($post)
 <p><?php esc_html_e( '(Note: selection of \'No\' indicates that it will be available 7 days a week, and 24 hours a day)', 'bookingx' ); ?></p>
     </div></p>
     <div id="certain_day">
-    <p><?php esc_html_e( 'If yes, Select days of the week :', 'bookingx' ); ?></p>
-	<div class="plugin-description">
-				<ul class="gfield_checkbox ul-timepicker" id="input_1_10">
-				<li class="gchoice_10_1">
-				<input name="seat_certain_day[]" type="checkbox" value="Sunday" id="id_choice_sunday" tabindex="22" <?php if(isset($temp_seat_days)&& ($temp_seat_days!="")){ if(in_array("Sunday",$temp_seat_days)){ echo "checked='checked'"; } } ?> >
-				<label for="choice_10_1"><?php esc_html_e( 'Sunday', 'bookingx' ); ?></label>
-					<?php esc_html_e( 'From', 'bookingx' ); ?>
-					<input type="text" class="add_seat_time_from" name="seat_time_from_sunday" id="id_seat_time_from_sunday" value="<?php if(isset($res_seat_time_arr['sunday']['time_from']) && ($res_seat_time_arr['sunday']['time_from']!='')){ echo $res_seat_time_arr['sunday']['time_from']; } ?>" />
-					<?php esc_html_e( 'Till', 'bookingx' ); ?>
-					<input type="text" class="add_seat_time_till" name="seat_time_till_sunday"  id="id_seat_time_till_sunday" value="<?php if(isset($res_seat_time_arr['sunday']['time_till']) && ($res_seat_time_arr['sunday']['time_till']!='')){ echo $res_seat_time_arr['sunday']['time_till']; } ?>" />
-				</li>
-				<li class="gchoice_10_2">
-				<input name="seat_certain_day[]" type="checkbox" value="Monday" id="id_choice_monday" tabindex="23" <?php if(isset($temp_seat_days)&& ($temp_seat_days!="")){ if(in_array("Monday",$temp_seat_days)){ echo "checked='checked'"; } } ?> >
-				<label for="choice_10_2"><?php esc_html_e( 'Monday', 'bookingx' ); ?></label>
-					<?php esc_html_e( 'From', 'bookingx' ); ?>
-					<input type="text" class="add_seat_time_from" name="seat_time_from_monday" id="id_seat_time_from_monday" value="<?php if(isset($res_seat_time_arr['monday']['time_from']) && ($res_seat_time_arr['monday']['time_from']!='')){ echo $res_seat_time_arr['monday']['time_from']; } ?>" />
-					<?php esc_html_e( 'Till', 'bookingx' ); ?>
-					<input type="text" class="add_seat_time_till" name="seat_time_till_monday"  id="id_seat_time_till_monday" value="<?php if(isset($res_seat_time_arr['monday']['time_till']) && ($res_seat_time_arr['monday']['time_till']!='')){ echo $res_seat_time_arr['monday']['time_till']; } ?>" />
-				</li>
-				<li class="gchoice_10_3">
-				<input name="seat_certain_day[]" type="checkbox" value="Tuesday" id="id_choice_tuesday" tabindex="24" <?php if(isset($temp_seat_days)&& ($temp_seat_days!="")){ if(in_array("Tuesday",$temp_seat_days)){ echo "checked='checked'"; } } ?>>
-				<label for="choice_10_3"><?php esc_html_e( 'Tuesday', 'bookingx' ); ?></label>
-					<?php esc_html_e( 'From', 'bookingx' ); ?>
-					<input type="text" name="seat_time_from_tuesday" id="id_seat_time_from_tuesday" value="<?php if(isset($res_seat_time_arr['tuesday']['time_from']) && ($res_seat_time_arr['tuesday']['time_from']!='')){ echo $res_seat_time_arr['tuesday']['time_from']; } ?>" />
-					<?php esc_html_e( 'Till', 'bookingx' ); ?>
-					<input type="text" name="seat_time_till_tuesday"  id="id_seat_time_till_tuesday" value="<?php if(isset($res_seat_time_arr['tuesday']['time_till']) && ($res_seat_time_arr['tuesday']['time_till']!='')){ echo $res_seat_time_arr['tuesday']['time_till']; } ?>" />
-				</li>
-				<li class="gchoice_10_4">
-				<input name="seat_certain_day[]" type="checkbox" value="Wednesday" id="id_choice_wednesday" tabindex="25" <?php if(isset($temp_seat_days)&& ($temp_seat_days!="")){ if(in_array("Wednesday",$temp_seat_days)){ echo "checked='checked'"; } } ?>>
-				<label for="choice_10_4"><?php esc_html_e( 'Wednesday', 'bookingx' ); ?></label>
-					<?php esc_html_e( 'From', 'bookingx' ); ?>
-					<input type="text" name="seat_time_from_wednesday" id="id_seat_time_from_wednesday" value="<?php if(isset($res_seat_time_arr['wednesday']['time_from']) && ($res_seat_time_arr['wednesday']['time_from']!='')){ echo $res_seat_time_arr['wednesday']['time_from']; } ?>" />
-					<?php esc_html_e( 'Till', 'bookingx' ); ?>
-					<input type="text" name="seat_time_till_wednesday"  id="id_seat_time_till_wednesday" value="<?php if(isset($res_seat_time_arr['wednesday']['time_till']) && ($res_seat_time_arr['wednesday']['time_till']!='')){ echo $res_seat_time_arr['wednesday']['time_till']; } ?>" />
-				</li>
-				<li class="gchoice_10_5">
-				<input name="seat_certain_day[]" type="checkbox" value="Thursday" id="id_choice_thursday" tabindex="26" <?php if(isset($temp_seat_days)&& ($temp_seat_days!="")){ if(in_array("Thursday",$temp_seat_days)){ echo "checked='checked'"; } } ?>>
-				<label for="choice_10_5"><?php esc_html_e( 'Thursday', 'bookingx' ); ?></label>
-					<?php esc_html_e( 'From', 'bookingx' ); ?>
-					<input type="text" name="seat_time_from_thursday" id="id_seat_time_from_thursday" value="<?php if(isset($res_seat_time_arr['thursday']['time_from']) && ($res_seat_time_arr['thursday']['time_from']!='')){ echo $res_seat_time_arr['thursday']['time_from']; } ?>" />
-					<?php esc_html_e( 'Till', 'bookingx' ); ?>
-					<input type="text" name="seat_time_till_thursday"  id="id_seat_time_till_thursday" value="<?php if(isset($res_seat_time_arr['thursday']['time_till']) && ($res_seat_time_arr['thursday']['time_till']!='')){ echo $res_seat_time_arr['thursday']['time_till']; } ?>" />
-				</li>
-				<li class="gchoice_10_6">
-				<input name="seat_certain_day[]" type="checkbox" value="Friday" id="id_choice_friday" tabindex="27" <?php if(isset($temp_seat_days)&& ($temp_seat_days!="")){ if(in_array("Friday",$temp_seat_days)){ echo "checked='checked'"; } } ?>>
-				<label for="choice_10_6"><?php esc_html_e( 'Friday', 'bookingx' ); ?></label>
-					<?php esc_html_e( 'From', 'bookingx' ); ?>
-					<input type="text" name="seat_time_from_friday" id="id_seat_time_from_friday" value="<?php if(isset($res_seat_time_arr['friday']['time_from']) && ($res_seat_time_arr['friday']['time_from']!='')){ echo $res_seat_time_arr['friday']['time_from']; } ?>" />
-					<?php esc_html_e( 'Till', 'bookingx' ); ?>
-					<input type="text" name="seat_time_till_friday"  id="id_seat_time_till_friday" value="<?php if(isset($res_seat_time_arr['friday']['time_till']) && ($res_seat_time_arr['friday']['time_till']!='')){ echo $res_seat_time_arr['friday']['time_till']; } ?>" />
-				</li>
-				<li class="gchoice_10_7">
-				<input name="seat_certain_day[]" type="checkbox" value="Saturday" id="id_choice_saturday" tabindex="28" <?php if(isset($temp_seat_days)&& ($temp_seat_days!="")){ if(in_array("Saturday",$temp_seat_days)){ echo "checked='checked'"; } } ?>>
-				<label for="choice_10_7"><?php esc_html_e( 'Saturday', 'bookingx' ); ?></label>
-					<?php esc_html_e( 'From', 'bookingx' ); ?>
-					<input type="text" name="seat_time_from_saturday" id="id_seat_time_from_saturday" value="<?php if(isset($res_seat_time_arr['saturday']['time_from']) && ($res_seat_time_arr['saturday']['time_from']!='')){ echo $res_seat_time_arr['thursday']['time_from']; } ?>" />
-					<?php esc_html_e( 'Till', 'bookingx' ); ?>
-					<input type="text" name="seat_time_till_saturday"  id="id_seat_time_till_saturday" value="<?php if(isset($res_seat_time_arr['saturday']['time_till']) && ($res_seat_time_arr['saturday']['time_till']!='')){ echo $res_seat_time_arr['saturday']['time_till']; } ?>" />
-				</li>
-				</ul>
-			</div>
+	    <ul class="setting-bookingx">
+	        <?php echo generate_days_section(7 , $bkx_business_days);?>
+			<li class="standard" id="add_more_days" style="<?php echo $add_more_status; ?>;">
+				<a href="javascript:add_more_days()" class='button-primary'> Add another set of hours</a>
+			</li> 
+	    </ul>
     </div>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
     <p><strong><?php esc_html_e( 'Payment Options', 'bookingx' ); ?></strong></p>
     <p><?php printf( esc_html__( 'Will the %1$sbooking require pre payment : ', 'bookingx' ),$alias_seat); ?></p>
     <div class="plugin-description">
@@ -433,6 +368,7 @@ function bkx_seat_boxes_metabox_callback($post)
         <input type="hidden" name="seat_alias" id="seat_alias" value="<?php echo $alias_seat; ?>">
 		
 <?php
+	require_once(PLUGIN_DIR_PATH.'admin/settings/setting_js.php');
 }
 
 add_action( 'save_post', 'save_bkx_seat_metaboxes',3,10 );
@@ -490,43 +426,39 @@ function save_bkx_seat_metaboxes( $post_id, $post, $update )
     {
             $seatCertainMonth = "";
     }
-    
-    $seatCertainDayTemp = '';
-    if(sizeof($seatCertainDay)>0)
-    {
-            $arr_seat_time = array();
-            foreach($seatCertainDay as $key=>$seat_temp)
-            {
-                    $arr_seat_time[$key]['day'] = strtolower($seat_temp);
-                    $arr_seat_time[$key]['time_from'] = $_POST['seat_time_from_'.strtolower($seat_temp)];
-                    $arr_seat_time[$key]['time_till'] = $_POST['seat_time_till_'.strtolower($seat_temp)];
-            }
-            foreach($seatCertainDay as $key=>$temp)
-            {
-                    $seatCertainDayTemp .=$temp.",";
-            }
-            $seatCertainDay = $seatCertainDayTemp;
-    }
-    else
-    {
-            $seatCertainDay = "";
-    }
-    
-    if(sizeof($arr_seat_time)>0)
-	    {
-	        $seat_days_time = array();
-	        foreach($arr_seat_time as $key => $temp_seat_days){				
-	                if($temp_seat_days['time_from']=="" || $temp_seat_days['time_till']==""){
-	                        $temp_seat_days['time_from'] = "12:00 AM";
-	                        $temp_seat_days['time_till'] = "12:00 PM";
-	                        $seat_days_time[] =$temp_seat_days;
-	                }else{
-	                    $seat_days_time[]=$temp_seat_days;
-	                }                      
-	        }
-	        $seat_days_time_data = $seat_days_time;
-	    }       
-     // Make sure your data is set before trying to save it
+    // Generate comma seperated value for weekdays 
+	$selected_days=array();
+	$seat_days_time_data = array();
+	for( $d = 1; $d <= 7; $d++ )
+	{
+		if(isset($_POST['days_'.$d]) && !empty($_POST['days_'.$d]))
+		{
+			$days_array =$_POST['days_'.$d];
+			if(!empty($days_array))
+			{
+				$seatCertainDay = array_unique($seatCertainDay);
+				$selected_days['selected_days_'.$d]['days'] =  $days_array;
+				foreach ($days_array as $days_week) {
+					$seatCertainDay[] = $days_week;
+					$seat_days_time_data[$d]['day'] = strtolower($days_week);					
+				}
+			}	
+		}
+		if(isset($_POST['opening_time_'.$d]) && !empty($_POST['opening_time_'.$d]) && !empty($_POST['days_'.$d]))
+		{
+			$selected_days['selected_days_'.$d]['time']['open'] = $_POST['opening_time_'.$d];
+			$seat_days_time_data[$d]['time_from'] = $_POST['opening_time_'.$d];
+		}
+		if(isset($_POST['closing_time_'.$d]) && !empty($_POST['closing_time_'.$d]) && !empty($_POST['days_'.$d]))
+		{
+			$selected_days['selected_days_'.$d]['time']['close'] = $_POST['closing_time_'.$d];
+			$seat_days_time_data[$d]['time_till'] = $_POST['closing_time_'.$d];
+		}
+	}
+	// Make sure your data is set before trying to save it
+	if(!empty($selected_days)){
+		update_post_meta( $post_id, 'selected_days',$selected_days );
+	}
     if( isset( $associate_with_user ) )
         update_post_meta( $post_id, 'associate_with_user',$associate_with_user );
 
@@ -564,7 +496,7 @@ function save_bkx_seat_metaboxes( $post_id, $post, $update )
         update_post_meta( $post_id, 'seat_is_certain_day', esc_attr( $_POST['seat_is_certain_day'] ) );
     
     if( isset( $seatCertainDay ) )
-        update_post_meta( $post_id, 'seat_days',  $seatCertainDay);
+       update_post_meta( $post_id, 'seat_days',  $seatCertainDay);
     
     if( isset( $seat_days_time_data ) )
         update_post_meta( $post_id, 'seat_days_time',$seat_days_time_data );
