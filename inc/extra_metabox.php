@@ -64,9 +64,10 @@ function bkx_extra_boxes_metabox_callback()
             Is <?php echo $addition_alias; ?> time in  days, hours & minutes:		
             <div class="plugin-description">
                     <select name="addition_time_option" id="id_addition_time_option" class="medium gfield_select" tabindex="4">				
-                    <option value="Months" <?php if($addition_time_option == "M"){ echo "selected='selected'"; } ?> >Months</option>
-                    <option value="Days" <?php if($addition_time_option == "D"){ echo "selected='selected'"; } ?>>Days</option>
+                   <!--  <option value="Months" <?php //if($addition_time_option == "M"){ echo "selected='selected'"; } ?> >Months</option> -->
                     <option value="Hour and Minutes" <?php if($addition_time_option == "H"){ echo "selected='selected'"; } ?>>Hour and Minutes</option>
+                    <!-- <option value="Days" <?php //if($addition_time_option == "D"){ echo "selected='selected'"; } ?>>Days</option> -->
+                   
                     </select>
             </div>
 	</div>
