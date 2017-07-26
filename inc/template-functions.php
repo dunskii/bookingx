@@ -140,9 +140,8 @@ function get_formatted_price($price)
 	$currency_option = (crud_option_multisite('currency_option') ? crud_option_multisite('currency_option') : 'AUD' );
 	if(!empty($price)) :
 		$currencyBlock = '<span class="currencyBlock"> 
-			<span itemprop="priceCurrency" content="'.$currency_option.'" style="color:#7BBD4D!important"> '.get_bookingx_currency_symbol( $currency_option ).'</span>
-			<span itemprop="price" content="'.$price.'" style="color:#7BBD4D!important">
-			'.$price.'</span>
+			<currency itemprop="priceCurrency price" content="'.$currency_option.''.$price.'" style="color:#7BBD4D!important"> '.get_bookingx_currency_symbol( $currency_option ).''.$price.'</currency>
+			 
 		</span>';
 	endif;
 
