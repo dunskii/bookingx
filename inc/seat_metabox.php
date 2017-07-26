@@ -215,21 +215,23 @@ function bkx_seat_boxes_metabox_callback($post)
 			 
     </div>
   <p><?php printf( esc_html__( 'Will %1$s be available at certain days only ', 'bookingx' ), $alias_seat ); ?></p>
-    <p><div class="plugin-description">
+   <div class="plugin-description">
 <input type="radio" name="seat_is_certain_day" value="Y" <?php if($seat_is_certain_day=="Y"){ echo "checked='checked'"; } ?> />Yes 
 <input type="radio" name="seat_is_certain_day" value="N" <?php if($seat_is_certain_day=="N"){ echo "checked='checked'"; } ?> />No
 <p><?php esc_html_e( '(Note: selection of \'No\' indicates that it will be available 7 days a week, and 24 hours a day)', 'bookingx' ); ?></p>
-    </div></p>
-    <div id="certain_day">
-	    <ul class="setting-bookingx">
-	        <?php echo generate_days_section(7 , $bkx_business_days);?>
-			<li class="standard" id="add_more_days" style="<?php echo $add_more_status; ?>;">
-				<a href="javascript:add_more_days()" class='button-primary'> Add another set of hours</a>
-			</li> 
-	    </ul>
+
+		<div id="certain_day">
+			    <ul class="setting-bookingx">
+			        <?php echo generate_days_section(7 , $bkx_business_days);?>
+					<li class="standard" id="add_more_days" style="<?php echo $add_more_status; ?>;">
+						<a href="javascript:add_more_days()" class='button-primary'> Add another set of hours</a>
+					</li> 
+			    </ul>
+		    </div>
     </div>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
+    <?php if($seat_is_certain_day=="Y") : ?>
+    <div class="spacer"><p>&nbsp;</p><p>&nbsp;</p></div>
+    <?php endif;?>
     <p><strong><?php esc_html_e( 'Payment Options', 'bookingx' ); ?></strong></p>
     <p><?php printf( esc_html__( 'Will the %1$sbooking require pre payment : ', 'bookingx' ),$alias_seat); ?></p>
     <div class="plugin-description">
@@ -273,11 +275,13 @@ function bkx_seat_boxes_metabox_callback($post)
     		$associate_with_username_obj = get_user_by('id', $associate_with_username);
     		if(!empty($associate_with_username_obj) && !is_wp_error($associate_with_username_obj)){    			 
     			echo 'This profile link to '.$associate_with_username_obj->data->display_name.'<a href="'.get_edit_user_link( $associate_with_username ).'" > view profile</a>';
+    			$mannual = 'display:none';
     		}
     		 
     		$associate_with_email = get_user_by('email', $associate_with_username);
     		if(!empty($associate_with_email) && !is_wp_error($associate_with_email)){    			 
     			echo 'This profile link to '.$associate_with_email->data->display_name.' <a href="'.get_edit_user_link( $associate_with_email->data->ID ).'" > view profile</a>';
+    			$mannual = 'display:none';
     		}
     	}
     	 
@@ -286,18 +290,11 @@ function bkx_seat_boxes_metabox_callback($post)
     		if(!empty($auto_user) && !is_wp_error($auto_user)){
     			$associate_with_username =  $values['seatEmail'];			 
     			echo 'This profile link to '.$auto_user->data->display_name.' <a href="'.get_edit_user_link( $auto_user->data->ID ).'"> view profile</a>';
+    			$mannual = 'display:none';
     		}
     	}
-
+    	$crete_user_auto_status = ($associate_with_user == 'Y') ? 'display:block' : 'display:none';
     ?>
-
-    <?php if(empty($associate_with_username)){  ?>
-    <p><?php printf( esc_html__( 'Create User automatically : ', 'bookingx' ));?></p>
-
-    <p><input type="radio" name="bkx_user_auto" id="id_bkx_user_auto_y" value="Y" <?php if($bkx_user_auto=="Y"){ echo "checked='checked'"; } ?> />Yes 
-        <input type="radio" name="bkx_user_auto" id="id_bkx_user_auto_n"  value="N" <?php if($bkx_user_auto=="N"){ echo "checked='checked'"; } ?>  <?php if(!isset($bkx_user_auto)){ echo "checked='checked'"; } ?>/>No
-    </p>
-    <?php if($bkx_user_auto=="N"){ $mannual = 'display:block;'; $associate_with_user = 'Y'; } else { $mannual = 'display:none;'; $associate_with_user = 'N'; }?>
     <div class="bkx_user_mannual" style="<?php echo $mannual; ?>" >
     <p><?php printf( esc_html__( 'Do you want to associate this %1$s with a user ? : ', 'bookingx' ),$alias_seat); ?></p>
     <select name="associate_with_user" id="selOpt">
@@ -306,23 +303,26 @@ function bkx_seat_boxes_metabox_callback($post)
 					<option value="Y" <?php if(isset($associate_with_user) && ($associate_with_user =='Y')){
 						echo "selected='selected'";} ?>><?php esc_html_e( 'YES', 'bookingx' ); ?></option>
     </select>
-    
+    <div class="crete_user_auto" id="crete_user_auto" style="<?php echo $crete_user_auto_status; ?>">
+	    <p><?php printf( esc_html__( 'Create User automatically : ', 'bookingx' ));?></p>
+
+	    <p><input type="radio" name="bkx_user_auto" id="id_bkx_user_auto_y" value="Y" <?php if($bkx_user_auto=="Y"){ echo "checked='checked'"; } ?> />Yes 
+	        <input type="radio" name="bkx_user_auto" id="id_bkx_user_auto_n"  value="N" <?php if($bkx_user_auto=="N"){ echo "checked='checked'"; } ?>  <?php if(!isset($bkx_user_auto)){ echo "checked='checked'"; } ?>/>No
+	    </p>
+    </div>
     <div class="active" id="selRoles" style="<?php if(isset($user_type) && ($user_type!='')){echo "display:table-row;";}else{echo "display:none";} ?>">
        <?php esc_html_e( 'Please select user type :', 'bookingx' ); ?> 
 			<div class="plugin-description">
 				<select id="role" name="associate_with_user_role">
 					<option value=""> <?php esc_html_e( 'Select Role', 'bookingx' ); ?></option>
-					<?php 
-					    global $wp_roles;
-					    $roles = $wp_roles->get_names(); // Below code will print the all list of roles.
-					   	unset($roles['administrator']);
-					    
-					    foreach($roles as $key => $role){   
-					    	echo $user_type;  
-					?>
-						<option value="<?php echo $key; ?>"
-						<?php if(isset($associate_with_user_role) && ($associate_with_user_role ==$key) ){echo "selected='selected'";} ?>
-						><?php echo $role; ?></option>
+					<?php 	global $wp_roles;
+					    	$roles = $wp_roles->get_names(); // Below code will print the all list of roles.
+					   		unset($roles['administrator']);
+					    	foreach($roles as $key => $role){   
+					    		echo $user_type;?>
+								<option value="<?php echo $key; ?>"
+								<?php if(isset($associate_with_user_role) && ($associate_with_user_role ==$key) ){echo "selected='selected'";} ?>><?php echo $role; ?>
+								</option>
 					<?php  } ?>
 				</select>
 			</div>			
@@ -338,7 +338,7 @@ function bkx_seat_boxes_metabox_callback($post)
 
     </div>
 
-    <?php } ?>
+   
     <p><strong><?php esc_html_e( 'Notification Details', 'bookingx' ); ?></strong></p>
     
     <p><?php esc_html_e( 'Phone :', 'bookingx' ); ?></p>
@@ -607,7 +607,6 @@ if($bkx_user_auto == 'N'){
 			            //echo "else: ". $user_id."<br>";;
 			        }
 		    }
-
 	}
 
 

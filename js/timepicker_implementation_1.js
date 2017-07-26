@@ -710,21 +710,6 @@ jQuery(document).ready(function(){
 	});
 	/********************end script for color picker*******************************/
 
-	jQuery("input[name=bkx_user_auto]").bind("change",function(event, ui){
-					
-			 var bkx_user_auto = jQuery(this).val();
-
-			 if(bkx_user_auto=="Y")
-				{
-					jQuery(".bkx_user_mannual").hide();
-				}
-
-				if(bkx_user_auto=="N")
-				{
-					jQuery(".bkx_user_mannual").show();
-				}
-		});
-
 
 	/*----------------------start script for checkbox select all-----------------------*/
 	jQuery("input[name=seat_certain_month_all]").bind("change",function(event, ui){
@@ -855,12 +840,14 @@ jQuery(document).ready(function(){
 
 	if(temp_certain_days=="Y")
 	{
-		jQuery("#certain_day").show();
+		jQuery("#certain_day").show(); 
+		jQuery(".spacer").show();
 	}
 
 	if(temp_certain_days=="N")
 	{
 		jQuery("#certain_day").hide();
+		jQuery(".spacer").hide();
 	}
 
 	jQuery("input[name=seat_is_certain_day]:radio").bind( "change", function(event, ui) {
@@ -868,10 +855,12 @@ jQuery(document).ready(function(){
 		if(jQuery(this).val()=="Y")
 		{
 			jQuery("#certain_day").show();
+			jQuery(".spacer").show();
 		}
 		if(jQuery(this).val()=="N")
 		{
 			jQuery("#certain_day").hide();
+			jQuery(".spacer").hide();
 		}
 		// Call function here
 	});
@@ -981,17 +970,46 @@ jQuery(document).ready(function(){
 	if(jQuery('#selOpt').val() == 'Y'){
 		jQuery('#selRoles').show();
 		jQuery('#selUsers').show();
+		jQuery('#crete_user_auto').show();
 	}
 	jQuery('#selOpt').on('change', function() {
   		// alert(jQuery(this).val() ); // or jQuery(this).val()
   		if(jQuery(this).val() == 'Y'){
-  			jQuery('#selRoles').show();
+  			jQuery('#crete_user_auto').show();
   		}
   		if(jQuery(this).val() == 'N'){
+  			jQuery('#crete_user_auto').hide();
+  			jQuery('#selUsers').hide();
   			jQuery('#selRoles').hide();
-  			jQuery('#selUsers').remove();
   		}
 	});
+	var bkx_user_auto = jQuery('input[name=bkx_user_auto]:checked').val();
+
+	if(bkx_user_auto  == 'Y')
+	{
+		jQuery('#selUsers').hide();
+  		jQuery('#selRoles').hide();
+	}
+	else
+	{
+		jQuery('#selRoles').show();
+	}
+
+
+	jQuery("input[name=bkx_user_auto]").bind("change",function(event, ui){
+					
+			 var bkx_user_auto = jQuery(this).val();
+
+			 if(bkx_user_auto=="Y")
+				{
+					jQuery('#selUsers').hide();
+  					jQuery('#selRoles').hide();
+				}
+				if(bkx_user_auto=="N")
+				{
+					jQuery('#selRoles').show();
+				}
+		});
 
 	jQuery('#role').on('change', function() {
   		// alert(jQuery(this).val() ); // or jQuery(this).val()
