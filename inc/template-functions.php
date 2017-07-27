@@ -201,10 +201,11 @@ function get_post_with_price_duration( $get_base_by_seat, $alias, $type = null)
 			if($type == 'seat'){
 				$ClassObj = new BkxBase( '', $base_id );
 				$post_type = $base_post->post_type;
-			}
-
-			if($type == 'base'){
+			}elseif($type == 'base'){
 				$ClassObj = new BkxBase( '', $base_id );
+				$post_type = $base_post->post_type;
+			}else
+			{
 				$post_type = $base_post->post_type;
 			}
 
@@ -237,9 +238,11 @@ function get_post_with_price_duration( $get_base_by_seat, $alias, $type = null)
  			if(!empty($base_id)):
 			$available_services .= '<li style="padding:8px;"><a href="'.get_permalink($base_id).'">'.$base_name.'</a> '.$base_service_time_text.' '.$currencyBlock.'<form style="float:right;" method="post" enctype="multipart/form-data" action="'.$booking_url.'">
 					 	<input type="hidden" name="type" value="'.$post_type.'" />
-				                <input type="hidden" name="id" value="'. $base_id.'" />
-					 	<button type="submit" class="small-button smallblue alt">'.sprintf( __('Book now','Bookingx')).'</button>
-				</form></li>';
+				                <input type="hidden" name="id" value="'. $base_id.'" />';
+				if($post_type != 'bkx_addition' ) :
+				$available_services .='<button type="submit" class="small-button smallblue alt">'.sprintf( __('Book now','Bookingx')).'</button>';
+				endif;
+			$available_services .='</form></li>';
 			endif;
 
 		}
