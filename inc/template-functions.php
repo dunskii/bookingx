@@ -139,10 +139,7 @@ function get_formatted_price($price)
 	$currencyBlock = '';
 	$currency_option = (crud_option_multisite('currency_option') ? crud_option_multisite('currency_option') : 'AUD' );
 	if(!empty($price)) :
-		$currencyBlock = '<span class="currencyBlock"> 
-			<currency itemprop="priceCurrency price" content="'.$currency_option.''.$price.'" style="color:#7BBD4D!important"> '.get_bookingx_currency_symbol( $currency_option ).''.$price.'</currency>
-			 
-		</span>';
+		$currencyBlock = '<span class="currencyBlock"><currency itemprop="priceCurrency price" content="'.$currency_option.''.$price.'" style="color:#7BBD4D!important"> '.get_bookingx_currency_symbol( $currency_option ).''.$price.'</currency></span>';
 	endif;
 
 	return $currencyBlock;
@@ -195,7 +192,7 @@ function get_post_with_price_duration( $get_base_by_seat, $alias, $type = null)
 	}
 
 	if(!empty($get_base_by_seat)){
-		$available_services .= '<h3>Availabel '.$alias.'</h3>';
+		$available_services .= '<h3>Available '.$alias.'</h3>';
 		$available_services .= '<ul>';
 		foreach ($get_base_by_seat as $key => $BaseObj) {
 			$base_post =  $BaseObj->post;
