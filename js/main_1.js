@@ -1,26 +1,20 @@
 jQuery(document).ready(function(){
-		/**********************start script for color picker******************************/
+/**********************start script for color picker******************************/
+	jQuery('#id_base_colour').iris({
+		width: 300,
+		hide: true,
+		palettes: true
+	});	
+	jQuery( "#id_base_colour").click(function() {
+    	jQuery('.id_base_colour').show();
+	});
 
-		/*jQuery('#id_base_color').ColorPicker({
-			onSubmit: function(hsb, hex, rgb, el) {
-				jQuery(el).val(hex);
-				jQuery(el).ColorPickerHide();
-			},
-			onBeforeShow: function () {
-				jQuery(this).ColorPickerSetColor(this.value);
-			}
-		})
-		.bind('keyup', function(){
-			jQuery(this).ColorPickerSetColor(this.value);
-		});*/
-		jQuery('#id_base_color').iris({
-			width: 300,
-			hide: true,
-			palettes: true
-		});
-
-
-		/********************end script for color picker*******************************/
+	jQuery( ".id_base_colour").mouseenter(function() {
+    	jQuery('.id_base_colour').show();
+	  }).mouseleave(function() {
+	    jQuery('.id_base_colour').hide();
+	});
+/********************end script for color picker*******************************/
 
 
 		 

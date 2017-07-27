@@ -81,6 +81,7 @@ function bkx_seat_boxes_metabox_callback($post)
     $seat_is_different_loc = isset( $values['seat_is_different_loc'] ) ? esc_attr( $values['seat_is_different_loc'][0] ) : "N";
     $seat_is_certain_day = isset($values['seat_is_certain_day']) ? esc_attr($values['seat_is_certain_day'][0]) : "Y";
     $selected_days =  get_post_meta($post->ID, 'selected_days', true );
+    $seat_colour = get_post_meta($post->ID, 'seat_colour', true );
     }
 
     if(empty($selected_days)){
@@ -337,8 +338,10 @@ function bkx_seat_boxes_metabox_callback($post)
     </div>
 
     </div>
+	<p><strong><?php esc_html_e( 'Colour', 'bookingx' ); ?></strong></p>
+	<p><?php printf( esc_html__( '%1$s Colour', 'bookingx' ),$alias_seat); ?></p>
+    <p><input type="text" name="seat_colour" id="id_seat_colour" value="<?php if(isset($seat_colour) && ($seat_colour!='')){ echo $seat_colour; } ?>" /></p>
 
-   
     <p><strong><?php esc_html_e( 'Notification Details', 'bookingx' ); ?></strong></p>
     
     <p><?php esc_html_e( 'Phone :', 'bookingx' ); ?></p>
@@ -400,6 +403,7 @@ function save_bkx_seat_metaboxes( $post_id, $post, $update )
     $seatIsIcal            = trim($_POST['seat_is_ical']);
     $seatIcalAddress       = trim($_POST['seat_ical_address']);
     $associate_with_user   = trim($_POST['associate_with_user']);
+    $seat_colour = trim($_POST['seat_colour']);
     $associate_with_user_role = trim($_POST['associate_with_user_role']);
     $associate_with_username = trim($_POST['associate_with_username']);
     $bkx_user_auto = trim($_POST['bkx_user_auto']);
@@ -458,6 +462,9 @@ function save_bkx_seat_metaboxes( $post_id, $post, $update )
 	// Make sure your data is set before trying to save it
 	if(!empty($selected_days)){
 		update_post_meta( $post_id, 'selected_days',$selected_days );
+	}
+	if(!empty($seat_colour)){
+		update_post_meta( $post_id, 'seat_colour',$seat_colour );
 	}
     if( isset( $associate_with_user ) )
         update_post_meta( $post_id, 'associate_with_user',$associate_with_user );

@@ -9,7 +9,7 @@ function add_bkx_extra_metaboxes()
 function bkx_extra_boxes_metabox_callback()
 {
     wp_nonce_field('bkx_extra_boxes_metabox','bkx_extra_boxes_metabox_nonce' );
-    //custom_load_scripts(array('jquery-1.7.1.js','jquery-ui.js'));
+    color_load_scripts(array('iris.min.js'));
     $addition_alias = crud_option_multisite('bkx_alias_addition');
     wp_enqueue_script("main_addition_script", plugins_url( "js/main_addition_1.js" , __DIR__ ),false, rand(1,9999999), true);
     $translation_array = array( 'plugin_url' => plugins_url( "" , __DIR__ ));
@@ -43,6 +43,7 @@ function bkx_extra_boxes_metabox_callback()
 
     $extra_selected_seats = maybe_unserialize($values['extra_selected_seats'][0]);
     $extra_selected_seats = maybe_unserialize($extra_selected_seats);
+    $extra_colour = isset( $values['extra_colour'] ) ? esc_attr( $values['extra_colour'][0] ) : "";  
 
     }
 
@@ -180,6 +181,9 @@ function bkx_extra_boxes_metabox_callback()
     </div>
 </div>
 
+<p><strong><?php esc_html_e( 'Colour', 'bookingx' ); ?></strong></p>
+<p><?php printf( esc_html__( '%1$s Colour', 'bookingx' ),$alias_seat); ?></p>
+<p><input type="text" name="extra_colour" id="id_extra_colour" value="<?php if(isset($extra_colour) && ($extra_colour!='')){ echo $extra_colour; } ?>" /></p>
 
 	<!--only for edit form  --> 
 	<div class="active" id="is_unavailable" >		
@@ -226,6 +230,7 @@ function save_bkx_addition_metaboxes( $post_id, $post, $update )
     $additionUnavailableTo        = trim($_POST['addition_unavailable_to']);   
     $extraSeatsValue = $_POST['addition_base'];
     $checked_seats = $_POST['seat_on_extra'];
+    $extra_colour = $_POST['extra_colour'];
         
     if (isset($_POST['addition_is_unavailable']) && ($_POST['addition_is_unavailable'] == "Yes")){
 	$additionIsUnavailable = 'Y';
@@ -260,7 +265,10 @@ function save_bkx_addition_metaboxes( $post_id, $post, $update )
     }
     if ($additionLocationDifferBase == "No") {
         $additionDifferBase = 'N';
-    }    
+    }
+
+    if(!empty($extra_colour))
+        update_post_meta( $post_id, 'extra_colour',$extra_colour );
                     
     if( isset($additionPrice ) )
         update_post_meta( $post_id, 'addition_price', $additionPrice );

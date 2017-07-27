@@ -1,4 +1,22 @@
 jQuery(document).ready(function(){
+
+	 
+/**********************start script for color picker******************************/
+	jQuery('#id_seat_colour').iris({
+		width: 300,
+		hide: true,
+		palettes: true
+	});	
+	jQuery( "#id_seat_colour").click(function() {
+    	jQuery('.id_seat_colour').show();
+	});
+
+	jQuery( ".id_seat_colour").mouseenter(function() {
+    	jQuery('.id_seat_colour').show();
+	  }).mouseleave(function() {
+	    jQuery('.id_seat_colour').hide();
+	});
+
 jQuery('#wpseo_meta').remove();
 	//diasable all timepicker if day checkbox is not checked
 	jQuery.each(jQuery("input[name='seat_certain_day[]']"), function(val) {

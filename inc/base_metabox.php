@@ -59,8 +59,9 @@ function bkx_base_boxes_metabox_callback($post)
     $res_seat_final = maybe_unserialize($values['base_selected_seats'][0]);
     $res_seat_final= maybe_unserialize($res_seat_final);
     $base_location_type = isset( $values['base_location_type'] ) ? esc_attr( $values['base_location_type'][0] ) : "";
-    
-    $base_seat_all = isset( $values['base_seat_all'] ) ? esc_attr( $values['base_seat_all'][0] ) : "";  
+    $base_seat_all = isset( $values['base_seat_all'] ) ? esc_attr( $values['base_seat_all'][0] ) : ""; 
+    $base_colour = get_post_meta($post->ID, 'base_colour', true );
+
     
     }
     $alias_seat = crud_option_multisite('bkx_alias_seat');
@@ -68,21 +69,15 @@ function bkx_base_boxes_metabox_callback($post)
     ?>
     <div class="error" id="error_list" style="display:none;"></div>
 
-	<div class="active" id="base_name">
-		
+	<div class="active" id="base_name">		
 		<?php printf( esc_html__( '%1$s  Price:', 'bookingx' ),  $base_alias ); ?>
-		
 			<div class="plugin-description">
 				<input name="base_price" type="text"  value="<?php if(isset($base_price) && $base_price!=''){echo $base_price;} ?>" id="id_base_price" >
 			</div>
-		
 	</div>
 
-	<div class="active" id="months_days_times">
-		
-                        <?php printf( esc_html__( 'Is %1$s  time in  days, hours or minutes :', 'bookingx' ),  $base_alias ); ?>
-		
-		
+	<div class="active" id="months_days_times">		
+    <?php printf( esc_html__( 'Is %1$s  time in  days, hours or minutes :', 'bookingx' ),  $base_alias ); ?>
 			<div class="plugin-description">
 				<select name="base_months_days_times" id="id_base_months_days_times" onchange="" class="medium gfield_select" tabindex="4">					
 					<option value=""><?php esc_html_e( 'Select Time Option', 'bookingx' ); ?></option>					
@@ -94,14 +89,10 @@ function bkx_base_boxes_metabox_callback($post)
 	</div>
 
 	<div class="active" id="months" style="display: none">
-		
-			
 		  <?php printf( esc_html__( 'Number of Months for %1$s   Time :', 'bookingx' ),  $base_alias ); ?>
-		
 			<div class="plugin-description">
 				<input name="base_months" type="text"  value="<?php if(isset($base_month)&&$base_month!=""){ echo $base_month; } ?>" id="id_base_months" >
 			</div>
-		
 	</div>
 	
     <div class="active" id="days" style="display: none">
@@ -289,9 +280,10 @@ function bkx_base_boxes_metabox_callback($post)
 	</div>
 
 	<!--only for edit form  -->
-	<?php
-	 
-	?>
+	<p><strong><?php esc_html_e( 'Colour', 'bookingx' ); ?></strong></p>
+	<p><?php printf( esc_html__( '%1$s Colour', 'bookingx' ),$alias_seat); ?></p>
+    <p><input type="text" name="base_colour" id="id_base_colour" value="<?php if(isset($base_colour) && ($base_colour!='')){ echo $base_colour; } ?>" /></p>
+
 	<div class="active" id="is_unavailable" >
 		
 			
@@ -413,6 +405,7 @@ function save_bkx_base_metaboxes( $post_id, $post, $update )
     $baseSeatsValue = $_POST['base_seats'];
     $base_extended_limit = $_POST['base_extended_limit'];
     $base_seat_all = $_POST['base_seat_all'];
+    $base_colour = $_POST['base_colour'];
 
 
               
@@ -478,6 +471,10 @@ function save_bkx_base_metaboxes( $post_id, $post, $update )
      // Make sure your data is set before trying to save it
     if( isset($basePrice ) )
         update_post_meta( $post_id, 'base_price', $basePrice );
+
+    if(!empty($base_colour))
+		update_post_meta( $post_id, 'base_colour',$base_colour );
+	
          
     if( isset( $baseTimeOption ) )
         update_post_meta( $post_id, 'base_time_option', $baseTimeOption );

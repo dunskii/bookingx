@@ -1,5 +1,21 @@
 jQuery(document).ready(function(){
 
+/**********************start script for color picker******************************/
+	jQuery('#id_extra_colour').iris({
+		width: 300,
+		hide: true,
+		palettes: true
+	});	
+	jQuery( "#id_extra_colour").click(function() {
+    	jQuery('.id_extra_colour').show();
+	});
+
+	jQuery( ".id_extra_colour").mouseenter(function() {
+    	jQuery('.id_extra_colour').show();
+	  }).mouseleave(function() {
+	    jQuery('.id_extra_colour').hide();
+	});
+	  
 	jQuery( "#id_addition_unavailable_from" ).datepicker({
 		onSelect: function(date){
 			jQuery( "#id_addition_unavailable_to" ).val('');
