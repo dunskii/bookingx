@@ -5,11 +5,11 @@
 add_action( 'init', 'bkx_create_seat_post_type' );
 function bkx_create_seat_post_type()
 {
-    $alias_seat = get_option( 'bkx_alias_seat', "Seat" );
+    $alias_seat = crud_option_multisite( 'bkx_alias_seat', "Seat" );
     $alias_seat = isset( $alias_seat ) && $alias_seat != '' ? $alias_seat : "Seat";
     // Set UI labels for Custom Post Type
     $labels     = array(
-         'name' => _x( $alias_seat, 'Post Type General Name', 'bookingx' ),
+        'name' => _x( $alias_seat, 'Post Type General Name', 'bookingx' ),
         'singular_name' => _x( $alias_seat, 'Post Type Singular Name', 'bookingx' ),
         'menu_name' => __( $alias_seat, 'bookingx' ),
         'all_items' => __( $alias_seat, 'bookingx' ),
@@ -33,6 +33,9 @@ function bkx_create_seat_post_type()
             'excerpt',
             'thumbnail' 
         ),
+        'rewrite' => array(
+                'slug' => sanitize_title($alias_seat)
+            ),
         'show_in_menu' => 'edit.php?post_type=bkx_booking' 
     ) );
 }
@@ -44,7 +47,7 @@ function bkx_create_seat_post_type()
 add_action( 'init', 'bkx_create_base_post_type' );
 function bkx_create_base_post_type()
 {
-    $alias_base = get_option( 'bkx_alias_base', "Base" );
+    $alias_base = crud_option_multisite( 'bkx_alias_base', "Base" );
     $alias_base = isset( $alias_base ) && $alias_base != '' ? $alias_base : "Base";
     // Set UI labels for Custom Post Type
     $labels     = array(
@@ -71,6 +74,9 @@ function bkx_create_base_post_type()
             'excerpt',
             'thumbnail' 
         ),
+        'rewrite' => array(
+                'slug' => sanitize_title($alias_base)
+        ),
         'show_in_menu' => 'edit.php?post_type=bkx_booking' 
     ) );
 }
@@ -82,7 +88,7 @@ function bkx_create_base_post_type()
 add_action( 'init', 'bkx_create_addition_post_type' );
 function bkx_create_addition_post_type()
 {
-    $alias_addition = get_option( 'bkx_alias_addition', "Addition" );
+    $alias_addition = crud_option_multisite( 'bkx_alias_addition', "Addition" );
     $alias_addition = isset( $alias_addition ) && $alias_addition != '' ? $alias_addition : "Addition";
     $labels         = array(
          'name' => _x( $alias_addition, 'Post Type General Name', 'bookingx' ),
@@ -107,6 +113,9 @@ function bkx_create_addition_post_type()
             'editor',
             'excerpt',
             'thumbnail' 
+        ),
+        'rewrite' => array(
+                'slug' => sanitize_title($alias_addition)
         ),
         'show_in_menu' => 'edit.php?post_type=bkx_booking' 
     ) );
@@ -411,7 +420,7 @@ function process_mail_by_status( $booking_id, $subject, $content, $template_id =
 
 		$message_body = str_replace("[fname]", $order_meta['first_name'], $message_body);
 		$message_body = str_replace('[lname]', $order_meta['last_name'], $message_body);
-		$message_body = str_replace('[total_price]', $currency.$order_meta['total_price'].' '.get_option( 'currency_option' ), $message_body);
+		$message_body = str_replace('[total_price]', $currency.$order_meta['total_price'].' '.crud_option_multisite( 'currency_option' ), $message_body);
 		$message_body = str_replace('[txn_id]', $transactionID, $message_body);
 		$message_body = str_replace('[order_id]', $order_meta['order_id'], $message_body);
 		$message_body = str_replace('[total_duration]', $order_meta['total_duration'], $message_body);
@@ -452,8 +461,8 @@ function process_mail_by_status( $booking_id, $subject, $content, $template_id =
 		
 		$message_body = str_replace('[location_of_booking]', $event_address, $message_body);
 
-        $message_body = str_replace('[amount_paid]', $currency.$amount_paid.' '.get_option( 'currency_option' ), $message_body);
-        $message_body = str_replace('[amount_pending]', $currency.$amount_pending.' '.get_option( 'currency_option' ), $message_body);
+        $message_body = str_replace('[amount_paid]', $currency.$amount_paid.' '.crud_option_multisite( 'currency_option' ), $message_body);
+        $message_body = str_replace('[amount_pending]', $currency.$amount_pending.' '.crud_option_multisite( 'currency_option' ), $message_body);
         $message_body = str_replace('[business_name]', $bkx_business_name, $message_body);
         $message_body = str_replace('[business_email]', $bkx_business_email, $message_body);
         $message_body = str_replace('[business_phone]', $bkx_business_phone, $message_body);
@@ -846,11 +855,11 @@ function bkx_add_meta_query( $query ) {
 function wp_get_timezone_string() {
  
     // if site timezone string exists, return it
-    if ( $timezone = get_option( 'timezone_string' ) )
+    if ( $timezone = crud_option_multisite( 'timezone_string' ) )
         return $timezone;
  
     // get UTC offset, if it isn't set then return UTC
-    if ( 0 === ( $utc_offset = get_option( 'gmt_offset', 0 ) ) )
+    if ( 0 === ( $utc_offset = crud_option_multisite( 'gmt_offset', 0 ) ) )
         return 'UTC';
  
     // adjust UTC offset from hours to seconds
@@ -886,7 +895,7 @@ function posts_request ($order ,$WP_Query ) {
     if($WP_Query->query['post_type'] == 'bkx_booking' && $listing_view == 'weekly') {
             $get_posts = $wpdb->get_results( $order, ARRAY_A );
             $BkxBooking = new BkxBooking();
-            date_default_timezone_set(get_option('timezone_string'));
+            date_default_timezone_set(crud_option_multisite('timezone_string'));
             
         if(!empty($get_posts)){
             $generate_json = '';
@@ -1125,7 +1134,7 @@ add_action( 'init', 'bookingx_url_rewrite_tag', 10, 0 );
 function bookingx_url_rewrite_rule()
 {
     flush_rewrite_rules();
-    $bkx_set_booking_page = get_option( 'bkx_set_booking_page' );
+    $bkx_set_booking_page = crud_option_multisite( 'bkx_set_booking_page' );
     if ( isset( $bkx_set_booking_page ) && $bkx_set_booking_page != '' ) {
         $page_obj  = get_post( $bkx_set_booking_page );
         $page_slug = $page_obj->post_name;
