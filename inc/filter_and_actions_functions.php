@@ -890,9 +890,9 @@ add_filter ('posts_request', 'posts_request', 2, 10);
 function posts_request ($order ,$WP_Query ) {
     global $wpdb; 
  
-   $listing_view = isset($_GET['listing_view'])? $_GET['listing_view']:'';
+    $listing_view = isset($_GET['listing_view'])? $_GET['listing_view']:'';
 
-    if($WP_Query->query['post_type'] == 'bkx_booking' && $listing_view == 'weekly') {
+    if($WP_Query->query['post_type'] == 'bkx_booking' && $listing_view == 'weekly' || $listing_view == 'monthly') {
             $get_posts = $wpdb->get_results( $order, ARRAY_A );
             $BkxBooking = new BkxBooking();
             date_default_timezone_set(crud_option_multisite('timezone_string'));
@@ -923,20 +923,20 @@ function posts_request ($order ,$WP_Query ) {
                 $end_date_obj   = new DateTime($booking_end_date);
 
                 $formatted_start_date = date_format($start_date_obj, 'Y-m-d')."T".date_format($start_date_obj, 'H:i:s');
-                $formatted_end_date = date_format($end_date_obj, 'Y-m-d')."T".date_format($end_date_obj, 'H:i:s');                
-                 $generate_info['title']  = $first_name.' '.$last_name.' - ( '.$service_name.')';
-                 $generate_info['start']  = $formatted_start_date;
-                 $generate_info['end']    = $formatted_end_date;
-                 $generate_info['backgroundColor']    = $seat_colour;
-
-                // $generate_info['url']    = str_replace("&amp;","&", get_edit_post_link( $posts['ID'] ));
+                $formatted_end_date = date_format($end_date_obj, 'Y-m-d')."T".date_format($end_date_obj, 'H:i:s');
+                if($listing_view == 'monthly'){
+                    $generate_info['title']  = $first_name.' '.$last_name;
+                    $generate_info['start']  = $formatted_start_date;
+                }else{
+                    $generate_info['title']  = $first_name.' '.$last_name.' - ( '.$service_name.')';
+                    $generate_info['start']  = $formatted_start_date;
+                    $generate_info['end']    = $formatted_end_date;
+                    $generate_info['backgroundColor']    = $seat_colour;
+                }   
                   $generate_info['url']    = admin_url('edit.php?post_type=bkx_booking&view='.$posts['ID'].'&bkx_name='.$first_name.' '.$last_name.'#post-'.$posts['ID']);
                  $generate_json .= json_encode($generate_info).',';         
             }
             $generate_json = rtrim($generate_json,",");
-
-         //  print_r($generate_info);
-
             crud_option_multisite('bkx_calendar_json_data', $generate_json, 'update');
         }
     }
