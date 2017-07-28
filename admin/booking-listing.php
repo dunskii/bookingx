@@ -130,7 +130,8 @@ function bkx_change_view_link( $permalink, $post ) {
     if( $post->post_type == 'bkx_booking' ) { 
          $orderObj   = new BkxBooking();
         $order_meta = $orderObj->get_order_meta_data( $post->ID );
-        $permalink = 'javascript:view_summary(\''.$post->ID.'\',\''.$order_meta[ 'first_name' ].' '.$order_meta[ 'last_name' ].'\')';
+
+$permalink = 'javascript:view_summary(\''.$post->ID.'\',\''.$order_meta[ 'first_name' ].' '.$order_meta[ 'last_name' ].'\')';
     }
     return $permalink;
 }
@@ -215,12 +216,18 @@ function draw_rectangle( id_temp, name )
         var main_bg  = '<?php echo crud_option_multisite("time_block_bg_color");?>';
         //alert("inside function call");
         jQuery.post('<?php echo plugins_url( "" , __DIR__ ); ?>/get_booking_details.php', { booking_record_id: id_temp }, function(data) {
+
         
         var temp_data = jQuery.parseJSON(data);
+        var colour_json = temp_data.colour;
         //console.log(temp_data);
         var temp_addition = temp_data.addition;
-        //console.log(temp_data.booking);
+       // console.log(temp_data.booking);
         var base_time_option = temp_data.booking;
+
+        main_bg     = colour_json.seat;
+        base_bg     = colour_json.base;
+        //extra_bg    = colour_json.seat;
  
         var counter = 0;
         var addition_time_arr = new Array();
@@ -320,9 +327,7 @@ function draw_rectangle( id_temp, name )
         var leftAddition = 0;
         var topAddition = 0;
         for(var x in temp_addition)
-        {   
-
-
+        {
             //creating divAddition
             var divAddition = document.createElement("div");
             divAddition.setAttribute("align","center");
@@ -334,6 +339,8 @@ function draw_rectangle( id_temp, name )
             //divAddition.style.background = extra_bg;
             divAddition.style.position = 'relative';
             divAddition.style.left = +baseWidth+'%';
+
+
             
             document.getElementById('seat_rect_'+id_temp).appendChild(divAddition);
 
@@ -385,12 +392,12 @@ function draw_rectangle( id_temp, name )
             divAddition.style.left = leftAddition+"px";
 
             divAddition.style.top = topAddition+"px";
-            var expected_color = getContrast50(extra_bg);
+            var expected_color = getContrast50(temp_addition[x].colour);
             divAddition.style.color = expected_color;
             divAddition.style.height = "50px";
             divAddition.style.width = currentWidthAddition+"%";
            // divAddition.style.width = "100%";
-            divAddition.style.background = extra_bg;            
+            divAddition.style.background = temp_addition[x].colour;            
             divAddition.innerHTML = temp_addition[x].addition_name+"<br>"+addition_time_display;
             
             document.getElementById("addition_container-"+id_temp+'-'+x).appendChild(divAddition);
@@ -400,8 +407,9 @@ function draw_rectangle( id_temp, name )
         }
     });
 }
-     function view_summary( post_id, name ){
+     function view_summary( post_id, name, colour_json ){
         
+        console.log(colour_json);
      	jQuery('.loader-'+ post_id).show();
      		var data = {
 	            'action': 'bkx_action_view_summary',
@@ -449,11 +457,10 @@ function draw_rectangle( id_temp, name )
                 jQuery( ".search_by_selected_date" ).datepicker(); 
             }  
         });
-
        
        var span_trash =  jQuery('.row-actions').find('span.trash').find('a');
-
-        jQuery(".listing_view").next('#post-query-submit').remove();
+ 
+        jQuery(".listing_view").nextAll('#post-query-submit').remove();
 
         jQuery( span_trash ).click(function() {
           if(confirm('Are you sure want to Cancel this booking?')){}

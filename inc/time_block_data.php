@@ -9,20 +9,30 @@
 		$time_block_bg_color = crud_option_multisite("time_block_bg_color");
 		$time_block_extra_color  = crud_option_multisite("time_block_extra_color");
 		$time_block_service_color = crud_option_multisite("time_block_service_color");
-
-
 		$full_address = $business_address_1.",".$bkx_business_city.",".$bkx_business_state.",".$bkx_business_zip.",".$bkx_business_country;
+		$base_id = get_post_meta($post->ID,'base_id',true );
+		$seat_id = get_post_meta($post->ID,'seat_id',true );
+		$addition_ids = get_post_meta($post->ID,'addition_ids',true );
+
+		$seat_colour = get_post_meta($seat_id, 'seat_colour', true );
+		$base_colour = get_post_meta($base_id, 'base_colour', true );
+		 
+		$seat_colour = empty($seat_colour) ? $time_block_bg_color : $seat_colour;
+		$base_colour = empty($base_colour) ? $time_block_service_color : $base_colour;
+		 
+		$extra_colour = empty($extra_colour) ? $time_block_extra_color : $extra_colour;
+
 
 		?>
 		<input type="hidden" id="address_val<?php echo $post->ID; ?>" value="<?php echo $full_address; ?>">
-		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWj_y315MvVm1l30ArFr0sh4tZjuK6I4w&sensor=false" ></script>
+		<!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWj_y315MvVm1l30ArFr0sh4tZjuK6I4w&sensor=false" ></script> -->
 		<script>
 		 
     	var id_temp = "<?php echo $post->ID; ?>";
 
     	setTimeout(function(){ 
-    		initialize(id_temp);
-		codeAddress(id_temp);
+    		//initialize(id_temp);
+		//codeAddress(id_temp);
 		draw_rectangle("<?php echo $post->ID; ?>", "<?php echo $order_meta['first_name']." ".$order_meta['last_name']; ?>");
 
     		  }, 500);
@@ -73,14 +83,14 @@ function getContrast50(hexcolor){
 
 function draw_rectangle(id_temp, name)
 {
-		var base_bg  = '<?php echo $time_block_service_color;?>';
+		var base_bg  = '<?php echo $base_colour;?>';
 		var extra_bg = '<?php echo $time_block_extra_color;?>';
-		var main_bg  = '<?php echo $time_block_bg_color;?>';
-		//alert("inside function call");
+		var main_bg  = '<?php echo $seat_colour;?>';
+		 
 		jQuery.post('<?php echo plugins_url( "" , __DIR__ ); ?>/get_booking_details.php', { booking_record_id: id_temp }, function(data) {
 		
 		var temp_data =	jQuery.parseJSON(data);
-		//console.log(temp_data);
+		 
 		var temp_addition = temp_data.addition;
 		//console.log(temp_data.booking);
 		var base_time_option = temp_data.booking;
@@ -119,13 +129,7 @@ function draw_rectangle(id_temp, name)
 				addition_minutes_arr[temp_addition[x].addition_id] = addition_minutes;
 				
 			}
-			//console.log("addition");
-			//console.log(base_time_minutes);
-			//console.log(addition_minutes_total);
-			/*end addition time calculation*/
-		//console.log(base_time_option.seat_name);
-		//for(x in base_time_option)
-		//{
+
 			jQuery(".seat_rectangle").html("");
 			jQuery("#seat_rect_"+id_temp).css('background-color', main_bg);
 			var divSeat = document.createElement("div");

@@ -892,17 +892,23 @@ function posts_request ($order ,$WP_Query ) {
             $generate_json = '';
             $generate_info = array();
 
-            foreach ($get_posts as $key => $posts ) {      
-                 $order_meta_data = $BkxBooking->get_order_meta_data($posts['ID']);
-                 $first_name = $order_meta_data['first_name'];
-                 $last_name = $order_meta_data['last_name'];
-                 $booking_date = $order_meta_data['booking_date'];
-                 $booking_start_date = $order_meta_data['booking_start_date'];
-                 $booking_end_date = $order_meta_data['booking_end_date'];
-                 $total_duration = $order_meta_data['total_duration'];
-                 $base_arr  = $order_meta_data['base_arr']['main_obj']->post;
-                 $service_name = $base_arr->post_title;
-                 $datetime = new DateTime( $datetime_string, new DateTimeZone( wp_get_timezone_string() ) );
+            foreach ($get_posts as $key => $posts ) {     
+                $time_block_bg_color = crud_option_multisite("time_block_bg_color"); 
+                $order_meta_data = $BkxBooking->get_order_meta_data($posts['ID']);
+                $first_name = $order_meta_data['first_name'];
+                $last_name = $order_meta_data['last_name'];
+                $booking_date = $order_meta_data['booking_date'];
+                $booking_start_date = $order_meta_data['booking_start_date'];
+                $booking_end_date = $order_meta_data['booking_end_date'];
+                $total_duration = $order_meta_data['total_duration'];
+                $base_arr  = $order_meta_data['base_arr']['main_obj']->post;
+                $service_name = $base_arr->post_title;
+                $datetime = new DateTime( $datetime_string, new DateTimeZone( wp_get_timezone_string() ) );
+
+                $seat_id = get_post_meta( $posts['ID'], 'seat_id', true );
+                $seat_colour = get_post_meta($seat_id, 'seat_colour', true );
+                $seat_colour = empty($seat_colour) ? $time_block_bg_color : $seat_colour;
+
 
                 $start_date_obj = new DateTime($booking_start_date);
                 $end_date_obj   = new DateTime($booking_end_date);
@@ -912,6 +918,7 @@ function posts_request ($order ,$WP_Query ) {
                  $generate_info['title']  = $first_name.' '.$last_name.' - ( '.$service_name.')';
                  $generate_info['start']  = $formatted_start_date;
                  $generate_info['end']    = $formatted_end_date;
+                 $generate_info['backgroundColor']    = $seat_colour;
 
                 // $generate_info['url']    = str_replace("&amp;","&", get_edit_post_link( $posts['ID'] ));
                   $generate_info['url']    = admin_url('edit.php?post_type=bkx_booking&view='.$posts['ID'].'&bkx_name='.$first_name.' '.$last_name.'#post-'.$posts['ID']);

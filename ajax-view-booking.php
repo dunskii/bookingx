@@ -100,7 +100,7 @@ function getContrast50(hexcolor){
 
 function draw_rectangle(id_temp, name)
 {
-		//alert("inside function call");
+		alert("inside function call");
 		jQuery.post('<?php echo plugins_url( "" , __FILE__ ); ?>/get_booking_details.php', { booking_record_id: id_temp }, function(data) {	
 		
 		var temp_data =	jQuery.parseJSON(data);
