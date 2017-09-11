@@ -136,6 +136,7 @@ class Bkx_Meta_Boxes {
 
 		 $extra_id = get_post_meta( $post->ID, 'addition_ids', true );
          $extra_id = rtrim( $extra_id, ",");
+         $booking_start_date = date('m/d/Y',strtotime($order_meta['booking_start_date']));
  
 			if(!empty($order_meta) ):
 					$translation_array = array('order_id' => $post->ID,
@@ -143,6 +144,7 @@ class Bkx_Meta_Boxes {
 												'base_id' => $order_meta['base_id'],
 												'extra_id' => !empty($extra_id) ? $extra_id : '0',
 												'extended' => $base_extended,
+												'booking_start_date' => $booking_start_date,
 												'action' => 'edit');
 			else:
 				$translation_array = array('order_id' => '',

@@ -281,7 +281,7 @@ function bkx_base_boxes_metabox_callback($post)
 
 	<!--only for edit form  -->
 	<p><strong><?php esc_html_e( 'Colour', 'bookingx' ); ?></strong></p>
-	<p><?php printf( esc_html__( '%1$s Colour', 'bookingx' ),$alias_seat); ?></p>
+	<p><?php printf( esc_html__( '%1$s Colour', 'bookingx' ),$base_alias); ?></p>
     <p><input type="text" name="base_colour" id="id_base_colour" value="<?php if(isset($base_colour) && ($base_colour!='')){ echo $base_colour; } ?>" /></p>
 
 	<div class="active" id="is_unavailable" >

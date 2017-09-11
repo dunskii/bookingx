@@ -146,7 +146,9 @@ function disableSpecificWeekDays(date) {
 		var biz_pub_days = url_obj.biz_pub_days;
 		var collect_disable_days = new Array();
 
-		console.log(booked_days);
+		var base_days 	= $('#id_base_days').val();
+
+		//console.log(booked_days);
 
 
 		if(booked_days === undefined || booked_days == 0 ){}
@@ -156,10 +158,12 @@ function disableSpecificWeekDays(date) {
 		else{for (var i = 0; i <= booked_days_arr.length; i++){collect_disable_days.push(booked_days_arr[i]);}}
 
 		if(biz_vac_days === undefined || biz_vac_days == '' ){}
-		else{ $('#id_booked_days').val('yes'); var biz_vac_arr = biz_vac_days.split(","); for (var i = 0; i <= biz_vac_arr.length; i++){collect_disable_days.push(biz_vac_arr[i]);}}
+		else{ //$('#id_booked_days').val('yes'); 
+				var biz_vac_arr = biz_vac_days.split(","); for (var i = 0; i <= biz_vac_arr.length; i++){collect_disable_days.push(biz_vac_arr[i]);}}
 
 		if(biz_pub_days === undefined || biz_pub_days == '' ){}
-		else{ $('#id_booked_days').val('yes'); var biz_pub_arr = biz_pub_days.split(",");  for (var i = 0; i <= biz_pub_arr.length; i++){collect_disable_days.push(biz_pub_arr[i]);}}
+		else{ //$('#id_booked_days').val('yes'); 
+				var biz_pub_arr = biz_pub_days.split(",");  for (var i = 0; i <= biz_pub_arr.length; i++){collect_disable_days.push(biz_pub_arr[i]);}}
 
 		//alert($("#id_days_availability").val());
 		var daysToDisable = new Array();
@@ -277,8 +281,8 @@ function disableSpecificWeekDays(date) {
 			}
 
 			var booked_days = $('#id_booked_days').val();
-
-			if(booked_days == 'yes'){
+			var base_days 	= $('#id_base_days').val();
+			if( booked_days == 'yes' && base_days != '' ) {
 				if(collect_disable_days === undefined || collect_disable_days==''){}
 				else
 				{
@@ -321,7 +325,6 @@ function change_timepicker_val( date, inst)
 	var disable_array = Array();
 	var error = Array();
 	var selected_dates = Array();
-
 	if( booked_days == 'yes' && base_days != '' )
 	{
 		for (var a = 0; a < base_days; a++)
@@ -398,7 +401,7 @@ function change_timepicker_val( date, inst)
 			$("#booking_details_value").html(booking_data);
 			$("#id_can_proceed").val(1);
 			$("#id_booking_multi_days").val(start_date +','+ end_date);
-			console.log(booked_days);
+			//console.log(booked_days);
 		}
 		
 	}
@@ -674,6 +677,9 @@ $(document).ready(function(){
 			
 			$.post(url_obj.plugin_url+'/get_base_on_seat.php', {baseid1: base_temp1, mob: 'no' }, function(data) {
 				var base_data = $.parseJSON(data);
+
+				//console.log(base_data.base_location_type);
+
 				if(base_data.base_location_type == 'FM' || base_data.base_location_type == 'Mobile')
 				{
 					//$('#field_4_18').show();
@@ -682,6 +688,12 @@ $(document).ready(function(){
 						$('#mobile_only').css('display', 'block');
 						$('#user_details').css('display', 'none');
 						$('#bkx_page_footer_details').css('display', 'none');
+
+				}
+				if(base_data.base_location_type == 'Fixed Location')
+				{
+					$('#mobile_only').css('display', 'none');
+					$('#user_details').css('display', 'block');
 
 				}
 				if(data!="error")
@@ -729,6 +741,8 @@ $(document).ready(function(){
 		
 
 		$('#id_base_selector').bind('change', function(){
+					$('#id_booked_days').val(''); 
+					$('#id_base_days').val('');
 			var base_temp = $(this).val();
 			$.post(url_obj.plugin_url+'/get_booked_days.php', { baseid: base_temp }, function(data) {
 				 var base_data = $.parseJSON(data);
@@ -1139,7 +1153,8 @@ function validate_form(source_val,destination_val)
 
 			});
 			var booked_days = $('#id_booked_days').val();
-			if( booked_days == 'yes' ) {
+			var base_days 	= $('#id_base_days').val();
+			if( booked_days == 'yes' && base_days != '' ) {
 				$("span#id_selected_date").html($("#id_datepicker").val());
 				if(booking_multi_days !=''){
 					var booking_multi_days = $("#id_booking_multi_days").val();

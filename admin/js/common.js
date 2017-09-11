@@ -347,14 +347,16 @@ function change_timepicker_val(date)
  */
 function displaySecondForm()
 {
+
 	//alert(jQuery("#id_booking_duration_insec").attr("display-date-picker"));
 	if(jQuery("#id_booking_duration_insec").attr("display-date-picker") == "1")
 	 {
 		jQuery( "#id_datepicker_extended" ).datepicker();
 		var today = new Date();
-		 var $today_date =jQuery.datepicker.formatDate('mm/dd/yy', new Date());
-		 jQuery('#id_datepicker').datepicker('setDate', $today_date);
-		jQuery( "#id_datepicker" ).datepicker({minDate: today,setDate: $today_date,beforeShowDay: disableSpecificWeekDays, onSelect: function(date){change_timepicker_val(date);}});
+		//var $today_date = jQuery.datepicker.formatDate('mm/dd/yy', new Date());
+		var booking_start_date = edit_order_data.booking_start_date;
+		jQuery('#id_datepicker').datepicker({'defaultDate' : booking_start_date });
+		jQuery( "#id_datepicker" ).datepicker({minDate: today,setDate: booking_start_date,beforeShowDay: disableSpecificWeekDays, onSelect: function(date){change_timepicker_val(date);}});
 	 }
 	 else
 	 {
@@ -369,6 +371,8 @@ jQuery(document).ready(function(){
 	if( get_width <= 650 ){
 		jQuery('#field_4_display_booking').css("width","auto");
 	}
+
+
 
 	jQuery( "#bkx_id_add_custom_note" ).on( "click", function() {
 		jQuery("#bkx_add_custom_note_loader").show();
@@ -403,16 +407,12 @@ jQuery(document).ready(function(){
 		}		
 	});
 
-	
 	var order_id = edit_order_data.order_id,
  	edit_seat_id = edit_order_data.seat_id,
  	edit_base_id = edit_order_data.base_id,
  	edit_extra_id = edit_order_data.extra_id;
 
  	//alert(edit_extra_id)
- 
-
-
 		jQuery(".fc-widget-content[data-date='20130105']").addClass("disabled-slot");
 		
 		jQuery("#time_options").change(function(){
@@ -1016,8 +1016,10 @@ function validate_form(source_val,destination_val)
 				jQuery("#id_total_duration").val(temp_data['time_output']);
 				jQuery("span#id_selected_addition").html(temp_data['addition_list']);
 			});
-			var $today_date =jQuery.datepicker.formatDate('mm/dd/yy', new Date());
-			change_timepicker_val($today_date);
+			var booking_start_date = edit_order_data.booking_start_date;
+			
+			//var $today_date =jQuery.datepicker.formatDate('mm/dd/yy', new Date());
+			change_timepicker_val(booking_start_date);
 		}
 		jQuery("span#id_selected_base").html(jQuery("#id_base_selector option:selected").text());
 	//jQuery("input.id_selected_base").val(jQuery("#id_base_selector option:selected").text());
