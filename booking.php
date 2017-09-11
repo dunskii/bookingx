@@ -273,12 +273,26 @@ function my_scripts_method()
 
         $booked_days = '';
         $BookedRecords = $BkxBooking->GetBookedRecordsByUser($search);
+         
         if(!empty($BookedRecords)){
             foreach ($BookedRecords as  $bookings) : 
-                $booked_days .=  $bookings['booking_date'].",";
+                $booking_multi_days = $bookings['booking_multi_days'];
+                $booking_multi_days_arr = explode(",", $booking_multi_days );
+                if(!empty($booking_multi_days_arr)){
+                    $booking_multi_days_range = getDatesFromRange( $booking_multi_days_arr[0], $booking_multi_days_arr[1], "m/d/Y");
+                    if(!empty($booking_multi_days_range)){
+                        foreach ($booking_multi_days_range as $multi_days) {
+                             $booked_days .=  $multi_days.",";
+                        }
+                    }
+                }
+                $booking_start_date = date('m/d/Y',strtotime($bookings['booking_start_date']));
+                $booked_days .=  $booking_start_date.",";
             endforeach;
             $booked_days = rtrim( $booked_days, ',');
         }else { $booked_days = 0;}
+        $booked_days_arr = explode(",", $booked_days);
+        $booked_days_filtered = implode(",", array_unique($booked_days_arr) );
 
         $bkx_biz_vac_sd = crud_option_multisite('bkx_biz_vac_sd');
         $bkx_biz_vac_ed = crud_option_multisite('bkx_biz_vac_ed');
@@ -286,16 +300,17 @@ function my_scripts_method()
         $bkx_biz_pub_holiday = crud_option_multisite('bkx_biz_pub_holiday');
         if(!empty($bkx_biz_pub_holiday)){
             $bkx_biz_pub_holiday = array_values($bkx_biz_pub_holiday);
-            $biz_pub_days = implode(",", $bkx_biz_pub_holiday);  
+            $biz_pub_days = implode(",", $bkx_biz_pub_holiday); 
         }
         $biz_vac_days = getDatesFromRange( $bkx_biz_vac_sd, $bkx_biz_vac_ed, "m/d/y");
         if(!empty($biz_vac_days)){ $biz_vac_days = implode(",", $biz_vac_days); }
+
 
         $translation_array = array(
              'plugin_url' => plugins_url( '', __FILE__ ),
              'admin_ajax' => admin_url('admin-ajax.php'),
              'base' => $base_alias,
-             'booked_days' => $booked_days,
+             'booked_days' => $booked_days_filtered,
              'biz_vac_days' => $biz_vac_days,
              'biz_pub_days' => $biz_pub_days
         );

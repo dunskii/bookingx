@@ -202,5 +202,5 @@ li {display:block;padding-top : 5px;}
   border: 0 !important;
   padding: 1px !important;
 }
-
+.booking_dates { position: relative;top: 115px;padding: 0 25px; }
 </style>

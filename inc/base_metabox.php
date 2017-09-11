@@ -81,7 +81,7 @@ function bkx_base_boxes_metabox_callback($post)
 			<div class="plugin-description">
 				<select name="base_months_days_times" id="id_base_months_days_times" onchange="" class="medium gfield_select" tabindex="4">					
 					<option value=""><?php esc_html_e( 'Select Time Option', 'bookingx' ); ?></option>					
-					<!-- <option value="Days" <?php //if($base_time_option == "D"){ echo "selected='selected'"; } ?>><?php //esc_html_e( 'Days', 'bookingx' ); ?></option> -->
+					<option value="Days" <?php if($base_time_option == "D"){ echo "selected='selected'"; } ?>><?php esc_html_e( 'Days', 'bookingx' ); ?></option>
 					<option value="HourMinutes" <?php if($base_time_option == "H"){ echo "selected='selected'"; } ?>><?php esc_html_e( 'Hour and Minutes', 'bookingx' ); ?></option>
 				</select>
 			</div>

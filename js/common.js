@@ -146,6 +146,8 @@ function disableSpecificWeekDays(date) {
 		var biz_pub_days = url_obj.biz_pub_days;
 		var collect_disable_days = new Array();
 
+		console.log(booked_days);
+
 
 		if(booked_days === undefined || booked_days == 0 ){}
 		else{ var booked_days_arr = booked_days.split(",");}
@@ -312,7 +314,7 @@ function disableSpecificWeekDays(date) {
 function change_timepicker_val( date, inst)
 {
 	var booked_days = $('#id_booked_days').val();
-	var base_days = $('#id_base_days').val();
+	var base_days = parseInt($('#id_base_days').val());
 	var option_val = $("#id_days_availability").val();
 	var generate_checked_dates = Array();
 	var generate_checked_days = Array();
@@ -320,11 +322,9 @@ function change_timepicker_val( date, inst)
 	var error = Array();
 	var selected_dates = Array();
 
-//	console.log(inst);
-
 	if( booked_days == 'yes' && base_days != '' )
 	{
-		for (var a = 0; a <= base_days.length; a++)
+		for (var a = 0; a < base_days; a++)
 		{
 			var dateObject = new Date(date);
 	        dateObject.setDate(dateObject.getDate()+a); 
@@ -335,9 +335,10 @@ function change_timepicker_val( date, inst)
 		    if (dd < 10) { dd = '0' + dd }
 		    if (mm < 10) { mm = '0' + mm }
 	     	var checked_date= mm + '/' + dd + '/' + yyyy;
-	        generate_checked_dates.push( checked_date );   
-		}
 
+	        generate_checked_dates.push( checked_date );    
+		}
+ 
 		$('#id_datepicker td.ui-datepicker-unselectable').each( function() {
 		
 		  	var find_unselectable = $.trim($(this).text());
@@ -353,70 +354,52 @@ function change_timepicker_val( date, inst)
 		     	disable_array.push(checked_date);
 			}		
 	});
-
+ 
 		if(disable_array === undefined || disable_array==''){}
 		else
 		{
-			for (var b = 0; b <= base_days.length; b++)
+			var booking_flag = 1;
+			for (var b = 0; b <= base_days; b++)
 			{
 				for (var i = 0; i <= disable_array.length; i++)
 				{
-					if( disable_array[i] == generate_checked_dates[b])
-					{
-						error.push('Please select other day to booking');
-					}
+					if(disable_array[i] === undefined || generate_checked_dates[b]=== undefined){}
 					else
 					{
-						selected_dates.push(generate_checked_dates[b]);
-						  
-
-					}	 
+						if(disable_array[i] == generate_checked_dates[b])
+						{
+							alert('Please select other day to booking');
+							booking_flag = 0;
+						}
+						else
+						{
+							selected_dates.push(generate_checked_dates[b]);
+						}	 
+					}
 				}
 			}
 		}
+		if( booking_flag == 1 )
+		{
+			//selected_dates = jQuery.unique( selected_dates );
+			//console.log(checked_date);
+			var start_date_obj 	= new Date(date);
+			start_date_obj.setDate(start_date_obj.getDate()); 
+	        var dd = start_date_obj.getDate();
+	    	var mm = start_date_obj.getMonth() + 1;//January is 0! 
+	    	var yyyy = start_date_obj.getFullYear();
+		    if (dd < 10) { dd = '0' + dd }
+		    if (mm < 10) { mm = '0' + mm }
 
-		selected_dates = jQuery.unique( selected_dates );
-		 
-
-
-		 
-
-		if( error == '' ){
-		 	selected_dates = jQuery.unique( selected_dates );
-
-		 	for (var b = 0; b <= selected_dates.length; b++)
-		 	{
-		 		$('#id_datepicker td').each( function() {
-				  	var find_selectable = $(this).andSelf();
-				  	var find_day = $(this).text();
-
-					if( find_day != '' && !isNaN(find_day) ){
-						var dateObject = new Date(date);
-				        dateObject.setDate(dateObject.getDate()); 
-				        var dd = find_day;
-				    	var mm = dateObject.getMonth() + 1;//January is 0! 
-				    	var yyyy = dateObject.getFullYear();
-					    if (dd < 10) { dd = '0' + dd }
-					    if (mm < 10) { mm = '0' + mm }
-				     	var checked_date = mm + '/' + dd + '/' + yyyy;
-
-				     	 if(checked_date == selected_dates[b])
-				     	 {
-				     	 	console.log(find_selectable);
-				     	 	console.log(find_selectable.addClass('divyang'));
-				     	 }
-					}		
-			});
-		 	 
-			}
-		 }
-
-		 
-		  
-		 
-
-		
-
+		    var start_date = mm + '/' + dd + '/' + yyyy;
+			var end_date 	= checked_date;
+			//console.log('Start Date == '+ start_date + ' == End Date == '+ end_date);
+			var booking_data = '<div class="booking_dates"><b> Booking Dates : </b> <p> Start Date :'+ start_date + ' To ' + end_date + '</p></div>';
+			$("#booking_details_value").html(booking_data);
+			$("#id_can_proceed").val(1);
+			$("#id_booking_multi_days").val(start_date +','+ end_date);
+			console.log(booked_days);
+		}
 		
 	}
 	else
@@ -479,7 +462,7 @@ function displaySecondForm()
 	if($("#id_booking_duration_insec").attr("display-date-picker") == "1")
 	 {
 		$( "#id_datepicker_extended" ).datepicker();
-		var today = new Date();
+		 var today = new Date();
 		 var $today_date =$.datepicker.formatDate('mm/dd/yy', new Date());
 		 $('#id_datepicker').datepicker('setDate', $today_date);
 		 $( "#id_datepicker" ).datepicker({minDate: today,setDate: $today_date,beforeShowDay: disableSpecificWeekDays, onSelect: function( date, inst){change_timepicker_val(date, inst);}});
@@ -1155,8 +1138,21 @@ function validate_form(source_val,destination_val)
 				//$("span#id_selected_base11").html(temp_data['mob_only']);
 
 			});
-			$(".booking_summary_date").html('<li> <b> Date / Time : </b>'+ $("#id_datepicker").val() +' at '+ $("#id_booking_time_from").val() +'</li>');
-			$("span#id_selected_date").html($("#id_datepicker").val());
+			var booked_days = $('#id_booked_days').val();
+			if( booked_days == 'yes' ) {
+				$("span#id_selected_date").html($("#id_datepicker").val());
+				if(booking_multi_days !=''){
+					var booking_multi_days = $("#id_booking_multi_days").val();
+					booking_multi_days = booking_multi_days.split(",");
+					var start_date 	= booking_multi_days[0];
+					var end_date 	= booking_multi_days[1];
+				}
+				$(".booking_summary_date").html('<li> <b> Date / Time : </b> '+ start_date +' To '+ end_date +'</li>');
+			}else{
+				$(".booking_summary_date").html('<li> <b> Date / Time : </b>'+ $("#id_datepicker").val() +' at '+ $("#id_booking_time_from").val() +'</li>');
+				$("span#id_selected_date").html($("#id_datepicker").val() + ' at ');
+			}
+			
 			//$("span#id_selected_time").html($("#input_4_11_2").val());
 			$("span#id_selected_time").html($("#id_booking_time_from").val());
 			$("span#id_selected_seat").html($("#myInputSeat option:selected").text());

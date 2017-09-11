@@ -194,6 +194,12 @@ function bookinbkx_shortcode_function($atts)
 		$total_price 	= number_format((float)$total_price, 2, '.', '');
 		$grand_total 	= number_format((float)$grand_total, 2, '.', '');
 	}
+	if(isset($_POST['booking_multi_days']) && !empty($_POST['booking_multi_days']))
+	{
+		$booking_multi_days = explode(",", $_POST['booking_multi_days']);
+		$booking_start_date = date('Y-m-d H:i:s', strtotime($booking_multi_days[0]));
+		$booking_end_date = date('Y-m-d H:i:s', strtotime($booking_multi_days[1]));
+	}
 
 		$arrData = array(
 		'seat_id' => $_POST['input_seat'],
@@ -224,10 +230,10 @@ function bookinbkx_shortcode_function($atts)
 		'addedtocalendar' => 0,
 		'booking_time_from' =>  $_POST['booking_time_from'],
 		'currency' => get_current_currency(),
-		'order_id' => $booking_id
+		'order_id' => $booking_id,
+		'booking_multi_days' => $_POST['booking_multi_days'],
+		'base_days' =>  $_POST['base_days'],
 	);
-			
-
  
  			$bookingObj->generate_order($arrData);
 
@@ -784,6 +790,7 @@ $temp .= get_loader().'
 			        <input type="hidden" name="booking_base" id="id_booking_seat" />
 			        <input type="hidden" name="booked_days" id="id_booked_days" />
 			        <input type="hidden" name="base_days" id="id_base_days" />
+			        <input type="hidden" name="booking_multi_days" id="id_booking_multi_days" />
 			        <input type="hidden" name="enable_cancel" id="id_enable_cancel_status" value="'.$enable_cancel.'" />
         <div id="bkx_progressbar_wrapper_4" class="bkx_progressbar_wrapper customer_booking_form_wrapper">
             
@@ -885,7 +892,7 @@ $temp .= get_loader().'
                         <ul class="bkx_fields top_label">
 						<li id="field_4_20" class="gfield  gsection"><h2 class="gsection_title">
 						'.sprintf(__('Please check your booking before continuing ','bookingx'), '').'</h2></li>
-						<li>'.sprintf(__('You are about to book the following on the ','bookingx'), '').' <span id="id_selected_date">dd/mm/yyyy</span> at <span id="id_selected_time">hh:mm</span><br>
+						<li>'.sprintf(__('You are about to book the following on the ','bookingx'), '').' <span id="id_selected_date">dd/mm/yyyy</span> <span id="id_selected_time">hh:mm</span><br>
 						<span class="booking_summary_data"></span>
 						<span class="booking_summary_date"></span>
 						<span class="booking_summary_cost"></span>
