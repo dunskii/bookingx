@@ -289,10 +289,15 @@ function getMinsSlot($mins)
 	$time_unavailable_color = ($time_unavailable_color) ? $time_unavailable_color : 'gray';
 
 	if($base_time_option == 'H') { ?>
+	<style type="text/css">
+	.booking-status-booked{ background-color:<?php echo $time_unavailable_color;?> ; }
+	.booking-status-open{ background-color:<?php echo $time_available_color;?> ; }
+	</style>
 			<p><label><?php echo sprintf(esc_html__('Booking of the day','bookingx'), '');?></label></p>
 			<div class="booking-status-div">
-				<div class="booking-status"><?php echo sprintf(esc_html__('Booked','bookingx'), '');?> <div style="background-color:<?php echo $time_unavailable_color;?>;"></div></div>
-				<div class="booking-status"><?php echo sprintf(esc_html__('Open','bookingx'), ''); ?> <div style="background-color:<?php echo $time_available_color;?>;"></div></div>
+				<div class="booking-status"><?php echo sprintf(esc_html__('Booked','bookingx'), '');?> <div class="booking-status-booked"></div></div>
+				<div class="booking-status"><?php echo sprintf(esc_html__('Open','bookingx'), ''); ?> 
+				<div class="booking-status-open"></div></div>
 			</div>
 			<br/>
 		<div id="date_time_display">

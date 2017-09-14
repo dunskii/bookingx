@@ -35,6 +35,7 @@
 
   $bkx_cal_month_bg_color = crud_option_multisite('bkx_cal_month_bg_color')!= '' ? crud_option_multisite('bkx_cal_month_bg_color') : '#875428'; //  Calendar Month title 
 	
+
  ?>
 <style type="text/css">
 .bookingx_display_calendar{
@@ -46,15 +47,18 @@
   float: left;
 }
 #booking_details_value{ padding: 0 5px; }
+
+<?php if ( ! is_admin() ) { ?>
 .bookingx_form_container{padding:10px;color:<?php echo $text_color; ?>;background-color: <?php echo  $bg_color;?> ;border: 2px solid <?php echo  $border_color;?>; } 
-#bkx_progressbar_wrapper_4 .ui-widget-header{
-		background:<?php echo $progressbar_color;?> !important;}
+#bkx_progressbar_wrapper_4 .ui-widget-header{ background:<?php echo $progressbar_color;?> !important;}
 #id_datepicker .ui-widget-content{ border: 1px solid <?php echo  $cal_border_color;?> !important; margin-top: 36px; }
 #id_datepicker .ui-state-default{background: <?php echo  $cal_day_color;?> !important; }
 
 #id_datepicker .ui-state-active{background: <?php echo  $cal_day_selected_color;?> !important}
  
 .ui-widget-header{background : <?php echo  $bkx_cal_month_bg_color;?> !important; color: <?php echo  $bkx_cal_month_title_color;?> !important;}
+<?php }?>
+
 .app_timetable_cell{
 	text-align: center;
 	width: 30%;

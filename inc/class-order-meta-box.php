@@ -107,8 +107,14 @@ class Bkx_Meta_Boxes {
 
 	public function bookingx_output( $post, $return_type = null )
 	{	
+		global $_wp_admin_css_colors; $admin_colors = $_wp_admin_css_colors;
+		$current_color = get_user_option( 'admin_color' );
+
 		$status_view = 0;
 		$status_view = $_REQUEST['view'];
+		$main_obj = $admin_colors[$current_color];
+		$colors = $admin_colors[$current_color]->colors;
+		$icon_colors = $admin_colors[$current_color]->icon_colors;
 		 
 		$orderObj =  new BkxBooking();
     	$order_meta = $orderObj->get_order_meta_data($post->ID);
@@ -126,9 +132,19 @@ class Bkx_Meta_Boxes {
 			.bkx-order_summary_full{background: #fff; min-height: 510px;}
 			.base_timeline{width: 204px;background: red; float: left;}
 			.seat_rectangle{font-size:12px;}
+			#bkx_progressbar_wrapper_4 .ui-widget-header { background: <?php echo $colors[0];?> !important;}
+			#id_datepicker .ui-widget-content {border: 1px solid #e5e5e5 !important;}
+			#id_datepicker .ui-state-default {background: #ffffff !important;}
+			#id_datepicker .ui-state-active { background: <?php echo $colors[1];?> !important;  }
+			.booking-status-booked{ background-color:<?php echo $colors[3];?> !important;}
+			.booking-status-open{ background-color:<?php echo $colors[1];?> !important; }
+			.free { background:<?php echo $colors[1];?> !important;}
+			.selected-slot{background:<?php echo $colors[2];?> !important;}
+			.full { background:<?php echo $colors[3];?> !important; }
+			.seat_rectangle { background-color:<?php echo $colors[1];?> !important;}
+			#div1 { background-color:<?php echo $colors[2];?> !important;}
 			</style>
 		 <?php
-
 		 if(empty($order_meta['seat_id'])){
 		  echo do_shortcode('[bookingform order_post_id='.$post->ID.']');
 		  return;
