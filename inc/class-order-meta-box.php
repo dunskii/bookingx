@@ -69,10 +69,11 @@ class Bkx_Meta_Boxes {
 		// Orders
 			$order_type_object = get_post_type_object( $this->post_type );
 
+			$order_id = get_post_meta( $post->ID, 'order_id', true);
 			add_meta_box( 'bkx-general-data', sprintf( __( '%s Data', 'bookingx' ), $order_type_object->labels->singular_name ), 'Bkx_Meta_Boxes::bookingx_output', $this->post_type, 'normal', 'high' );
-
-			add_meta_box( 'bkx-order_note', sprintf( __( '%s #%s Notes', 'bookingx' ), $order_type_object->labels->singular_name, $post->ID ), 'Bkx_Meta_Boxes::bookingx_note_output', $this->post_type, 'side', 'high' );
-
+			if(isset($order_id) && $order_id!= ''){
+				add_meta_box( 'bkx-order_note', sprintf( __( '%s #%s Notes', 'bookingx' ), $order_type_object->labels->singular_name, $post->ID ), 'Bkx_Meta_Boxes::bookingx_note_output', $this->post_type, 'side', 'high' );
+			}
 			add_meta_box( 'bkx-order_reassign', sprintf( __( '%s Reassign', 'bookingx' ), $order_type_object->labels->singular_name ), 'Bkx_Meta_Boxes::bookingx_reassign_output', $this->post_type, 'side' );
 		
 	}
