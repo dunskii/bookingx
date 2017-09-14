@@ -30,9 +30,22 @@
 
 	$time_unavailable_color = crud_option_multisite('bkx_time_unavailable_color');
 	$time_unavailable_color = ($time_unavailable_color) ? $time_unavailable_color : 'gray';
+
+  $bkx_cal_month_title_color = crud_option_multisite('bkx_cal_month_title_color')!= '' ? crud_option_multisite('bkx_cal_month_title_color') : '#222222'; //  Calendar Month title 
+
+  $bkx_cal_month_bg_color = crud_option_multisite('bkx_cal_month_bg_color')!= '' ? crud_option_multisite('bkx_cal_month_bg_color') : '#875428'; //  Calendar Month title 
 	
  ?>
 <style type="text/css">
+.bookingx_display_calendar{
+  width: 48%;
+  float: left;
+}
+#field_4_display_booking{
+  width: 48%;
+  float: left;
+}
+#booking_details_value{ padding: 0 5px; }
 .bookingx_form_container{padding:10px;color:<?php echo $text_color; ?>;background-color: <?php echo  $bg_color;?> ;border: 2px solid <?php echo  $border_color;?>; } 
 #bkx_progressbar_wrapper_4 .ui-widget-header{
 		background:<?php echo $progressbar_color;?> !important;}
@@ -41,14 +54,13 @@
 
 #id_datepicker .ui-state-active{background: <?php echo  $cal_day_selected_color;?> !important}
  
-.app_timetable_cell
-{
+.ui-widget-header{background : <?php echo  $bkx_cal_month_bg_color;?> !important; color: <?php echo  $bkx_cal_month_title_color;?> !important;}
+.app_timetable_cell{
 	text-align: center;
 	width: 30%;
 	border: none;
 	margin: 1px;
 	float: left;
-	
 }
 .free {cursor:pointer; background:<?php echo $time_available_color;?>;}
 .full { background:<?php echo $time_unavailable_color;?>; }

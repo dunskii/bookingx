@@ -50,10 +50,11 @@ function bookinbkx_shortcode_function($atts)
 			$last_name = $order_meta_data['last_name'];
 			$phone = $order_meta_data['phone'];
 			$email = $order_meta_data['email'];
+
+
         }
 
     }
-
 
 	//session_start();
 	require_once(PLUGIN_DIR_PATH.'booking_general_functions.php'); //when needed	
@@ -200,7 +201,6 @@ function bookinbkx_shortcode_function($atts)
 		$booking_start_date = date('Y-m-d H:i:s', strtotime($booking_multi_days[0]));
 		$booking_end_date = date('Y-m-d H:i:s', strtotime($booking_multi_days[1]));
 	}
-
 		$arrData = array(
 		'seat_id' => $_POST['input_seat'],
 		'base_id' => $_POST['input_base'],
@@ -806,13 +806,14 @@ $temp .= get_loader().'
 		
                     </div>
                     <div class="bkx_page_footer">
-                        <input type="button" id="bkx_next_button_4_7" class="button bkx_next_button" value="'.sprintf(esc_html__('Next','bookingx'), '').'" tabindex="7" onclick="jQuery(\'#bkx_target_page_number_4\').val(\'2\');validate_form(1,2);jQuery(\'html,body\').animate({ scrollTop: jQuery(\'#bkx_4\').offset().top -50 }, 500);">
+                        <input type="button" id="bkx_next_button_4_7" class="button bkx_next_button" value="'.sprintf(esc_html__('Next','bookingx'), '').'" tabindex="7" onclick="jQuery(\'#bkx_target_page_number_4\').val(\'2\');validate_form(1,2);">
                     </div>
                 </div>
                 <div id="bkx_page_4_2" class="bkx_page" style="display:none;">
 								
                     <div class="bkx_page_fields">
-                        <ul class="bkx_fields top_label"><li id="field_4_8" class="gfield  gsection"><h4 class="gsection_title">'.sprintf(__('Select a date and time for your booking','bookingx'), '').'</h4><div class="gsection_description" id="display_total_duration" style=""></div></li>
+                        <ul class="bkx_fields top_label"><li id="field_4_8" class="gfield  gsection">
+                        <h4 class="gsection_title select_date_n_time">'.sprintf(__('Select a date and time for your booking','bookingx'), '').'</h4><div class="gsection_description" id="display_total_duration" style=""></div></li>
                         <li id="field_4_10" class="gfield bookingx_display_calendar">
 						<div id="display_calendar_full"></div>
 						<label class="gfield_label" for="input_4_10">'.sprintf(__('Choose a date','bookingx'), '').'
@@ -824,7 +825,7 @@ $temp .= get_loader().'
 
                     <div class="bkx_page_footer" '.$want_to_disable.'>
                         <input type="button" id="bkx_previous_button_4_13" class="button bkx_previous_button" value="'.sprintf(__('Previous','bookingx'), '').'" tabindex="13" onclick="jQuery(\'#bkx_target_page_number_4\').val(\'1\');validate_form(2,1);jQuery(\'html,body\').animate({ scrollTop: jQuery(\'#bkx_4\').offset().top -50 }, 500);"> 
-						<input type="button" id="bkx_next_button_4_13" class="button bkx_next_button" value="'.sprintf(esc_html__('Next','bookingx'), '').'" tabindex="12" onclick="jQuery(\'#bkx_target_page_number_4\').val(\'3\');validate_form(2,3);jQuery(\'html,body\').animate({ scrollTop: jQuery(\'#bkx_4\').offset().top -50 }, 500); ">
+						<input type="button" id="bkx_next_button_4_13" class="button bkx_next_button" value="'.sprintf(esc_html__('Next','bookingx'), '').'" tabindex="12" onclick="jQuery(\'#bkx_target_page_number_4\').val(\'3\');validate_form(2,3); ">
                     </div>
                 </div>';
 
@@ -884,7 +885,7 @@ $temp .= get_loader().'
                     </div>
 
                     <div class="bkx_page_footer" id="bkx_page_footer_details" '.$want_to_disable.'>
-                        <input type="button" id="bkx_previous_button_4_19" class="button bkx_previous_button" value="'.sprintf(__('Previous ','bookingx'), '').'" tabindex="24" onclick="jQuery(\'#bkx_target_page_number_4\').val(\'2\');validate_form(3,2);jQuery(\'html,body\').animate({ scrollTop: jQuery(\'#bkx_4\').offset().top -50}, 500);"> <input type="button" id="bkx_next_button_4_19" class="button bkx_next_button" value="'.sprintf(__('Next ','bookingx'), '').'" tabindex="23" onclick="jQuery(\'#bkx_target_page_number_4\').val(\'4\');validate_form(3,4);jQuery(\'html,body\').animate({ scrollTop: jQuery(\'#bkx_4\').offset().top -50}, 500);">
+                        <input type="button" id="bkx_previous_button_4_19" class="button bkx_previous_button" value="'.sprintf(__('Previous ','bookingx'), '').'" tabindex="24" onclick="jQuery(\'#bkx_target_page_number_4\').val(\'2\');validate_form(3,2);"> <input type="button" id="bkx_next_button_4_19" class="button bkx_next_button" value="'.sprintf(__('Next ','bookingx'), '').'" tabindex="23" onclick="jQuery(\'#bkx_target_page_number_4\').val(\'4\');validate_form(3,4);">
                     </div>
                 </div>
                 <div id="bkx_page_4_4" class="bkx_page" style="display:none;">
@@ -901,7 +902,7 @@ $temp .= get_loader().'
 						</li>
                             </ul></div>
         <div class="bkx_page_footer top_label">
-		<input type="button" id="bkx_previous_button_4" class="button bkx_previous_button" value="'.sprintf(__('Previous','bookingx'), '').'" tabindex="25" onclick="validate_form(4,3);jQuery(\'html,body\').animate({ scrollTop: jQuery(\'#bkx_4\').offset().top -50}, 500);">';
+		<input type="button" id="bkx_previous_button_4" class="button bkx_previous_button" value="'.sprintf(__('Previous','bookingx'), '').'" tabindex="25" onclick="validate_form(4,3);">';
 						
         $temp.='<input type="submit" id="bkx_submit_button_4" class="button bkx_button" value="'.sprintf(__('Submit','bookingx'), '').'">';
 							

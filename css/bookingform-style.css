@@ -1,9 +1,4 @@
-.ui-widget-header
-{
-	color:red !important;
-}
-
- .ui-timepicker-container {
+.ui-timepicker-container {
     position: absolute;
     overflow: hidden;
 }

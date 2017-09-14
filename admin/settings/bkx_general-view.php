@@ -235,6 +235,20 @@
 				<input type="text" name="bkx_progressbar_color" id="id_bkx_progressbar_color" value="<?php echo crud_option_multisite('bkx_siteclient_css_progressbar_color'); ?>">
 			</td>
 		</tr>
+ 
+		<tr class="active">
+			<th scope="row"><label for="Calendar Month title color"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Add Calendar  Month title color' ); ?></label></th>
+			<td class="plugin-description">
+				<input type="text" name="bkx_cal_month_title_color" id="id_bkx_cal_month_title_color" value="<?php echo crud_option_multisite('bkx_cal_month_title_color'); ?>">
+			</td>
+		</tr>
+
+		<tr class="active">
+			<th scope="row"><label for="Calendar Month background color"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Add Calendar Month background color' ); ?></label></th>
+			<td class="plugin-description">
+				<input type="text" name="bkx_cal_month_bg_color" id="id_bkx_cal_month_bg_color" value="<?php echo crud_option_multisite('bkx_cal_month_bg_color'); ?>">
+			</td>
+		</tr>
 
 		<tr class="active">
 			<th scope="row"><label for="Calendar Border colour"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Add Calendar Border colour option' ); ?></label></th>

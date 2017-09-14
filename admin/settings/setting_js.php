@@ -215,7 +215,42 @@ jQuery('#id_bkx_time_block_service_color').iris({
 	    jQuery('.id_bkx_time_unavailable_color').hide();
 	});
 
+/**************************************************************************/
 
+jQuery('#id_bkx_cal_month_title_color').iris({
+		width: 300,
+		hide: true,
+		palettes: true,
+});
+jQuery( "#id_bkx_cal_month_title_color").click(function() {
+	jQuery('.id_bkx_cal_month_title_color').show();
+  });
+  	 
+/** Mouse out and color picker out */
+
+jQuery( ".id_bkx_cal_month_title_color").mouseenter(function() {
+	jQuery('.id_bkx_cal_month_title_color').show();
+	}).mouseleave(function() {
+	jQuery('.id_bkx_cal_month_title_color').hide();
+});
+
+/**********************************************************************/
+jQuery('#id_bkx_cal_month_bg_color').iris({
+		width: 300,
+		hide: true,
+		palettes: true,
+	});
+jQuery( "#id_bkx_cal_month_bg_color").click(function() {
+    jQuery('.id_bkx_cal_month_bg_color').show();
+});
+  	 
+/** Mouse out and color picker out */
+
+jQuery( ".id_bkx_cal_month_bg_color").mouseenter(function() {
+    jQuery('.id_bkx_cal_month_bg_color').show();
+}).mouseleave(function() {
+	jQuery('.id_bkx_cal_month_bg_color').hide();
+});
 
 	/********************end script for color picker*******************************/
 

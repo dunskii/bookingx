@@ -157,6 +157,9 @@ if(!empty($_POST))
 		crud_option_multisite("bkx_time_block_bg_color", $_POST['bkx_time_block_bg_color'],'update');
 		crud_option_multisite("bkx_time_block_extra_color", $_POST['bkx_time_block_extra_color'],'update');
 		crud_option_multisite("bkx_time_block_service_color", $_POST['bkx_time_block_service_color'],'update');
+		crud_option_multisite("bkx_cal_month_title_color", $_POST['bkx_cal_month_title_color'],'update');
+		crud_option_multisite("bkx_cal_month_bg_color", $_POST['bkx_cal_month_bg_color'],'update');
+
 
 		$_SESSION['success']='Styling updated successfully.';
 	}

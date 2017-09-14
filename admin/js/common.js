@@ -353,10 +353,14 @@ function displaySecondForm()
 	 {
 		jQuery( "#id_datepicker_extended" ).datepicker();
 		var today = new Date();
-		//var $today_date = jQuery.datepicker.formatDate('mm/dd/yy', new Date());
 		var booking_start_date = edit_order_data.booking_start_date;
-		jQuery('#id_datepicker').datepicker({'defaultDate' : booking_start_date });
-		jQuery( "#id_datepicker" ).datepicker({minDate: today,setDate: booking_start_date,beforeShowDay: disableSpecificWeekDays, onSelect: function(date){change_timepicker_val(date);}});
+		var $today_date = jQuery.datepicker.formatDate('mm/dd/yy', new Date());
+		jQuery('#id_datepicker').datepicker('setDate', booking_start_date);
+		jQuery( "#id_datepicker" ).datepicker({defaultDate: booking_start_date, minDate: today,setDate: booking_start_date,beforeShowDay: disableSpecificWeekDays, onSelect: function(date){change_timepicker_val(date);}});
+		//var booking_start_date = edit_order_data.booking_start_date;
+		//jQuery('#id_datepicker').datepicker({'defaultDate' : booking_start_date });
+		//jQuery( "#id_datepicker" ).datepicker({minDate: today,setDate: booking_start_date,beforeShowDay: disableSpecificWeekDays, onSelect: function(date){change_timepicker_val(date);}});
+
 	 }
 	 else
 	 {
@@ -371,8 +375,6 @@ jQuery(document).ready(function(){
 	if( get_width <= 650 ){
 		jQuery('#field_4_display_booking').css("width","auto");
 	}
-
-
 
 	jQuery( "#bkx_id_add_custom_note" ).on( "click", function() {
 		jQuery("#bkx_add_custom_note_loader").show();
@@ -412,6 +414,10 @@ jQuery(document).ready(function(){
  	edit_base_id = edit_order_data.base_id,
  	edit_extra_id = edit_order_data.extra_id;
 
+
+if(order_id!= ''){
+	jQuery(".select_date_n_time").hide();
+}
  	//alert(edit_extra_id)
 		jQuery(".fc-widget-content[data-date='20130105']").addClass("disabled-slot");
 		
@@ -960,7 +966,12 @@ function validate_form(source_val,destination_val)
 		jQuery( "#bkx_progressbar_wrapper_4" ).progressbar({
 			value: 25*destination_val
 		});
-		jQuery('h3.bkx_progressbar_title').html('Step '+destination_val+' of 4');
+		if(destination_val == 3){
+			jQuery('h3.bkx_progressbar_title').html('');
+		}else{
+			jQuery('h3.bkx_progressbar_title').html('Step '+destination_val+' of 4');
+		}
+		
 		//alert("writing html here");
 		//start code for getting selected seat,base and additions	
 
