@@ -517,22 +517,26 @@ function validate_form()
 		});
 	}
 
-	if(jQuery("#id_seat_street").val()=="")
+	if(jQuery("input[name=seat_is_different_loc]:radio:checked").val()=="Y")
 	{
-		error_list.push("Please enter street");
+		if(jQuery("#id_seat_street").val()=="")
+		{
+			error_list.push("Please enter street");
+		}
+		if(jQuery("#id_seat_city").val()=="")
+		{
+			error_list.push("Please enter city");
+		}
+		if(jQuery("#id_seat_state").val()=="")
+		{
+			error_list.push("Please enter state");
+		}
+		if(jQuery("#id_seat_postcode").val()=="")
+		{
+			error_list.push("Please enter zip/postal code");
+		}
 	}
-	if(jQuery("#id_seat_city").val()=="")
-	{
-		error_list.push("Please enter city");
-	}
-	if(jQuery("#id_seat_state").val()=="")
-	{
-		error_list.push("Please enter state");
-	}
-	if(jQuery("#id_seat_postcode").val()=="")
-	{
-		error_list.push("Please enter zip/postal code");
-	}
+	
 	
 	if(jQuery("input[name=seat_is_certain_time]:radio:checked").val()=="Y")
 	{
