@@ -327,13 +327,13 @@ function validate_form()
 		}
 	}
 
-	if($("input[name=seat_is_certain_day]:radio:checked").val()=="Y")
-	{
+	// if($("input[name=seat_is_certain_day]:radio:checked").val()=="Y")
+	// {
 		
-		$("input[name=seat_certain_day,type=checkbox]:checked").each(function(){
-			//alert($(this).val()+"value");
-		});
-	}
+	// 	$("input[name=seat_certain_day,type=checkbox]:checked").each(function(){
+	// 		//alert($(this).val()+"value");
+	// 	});
+	// }
 	
 	if($("#id_seat_email").val()=="" || $("#id_seat_email")==undefined)
 	{

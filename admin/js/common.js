@@ -18,7 +18,7 @@ var minDigitsInIPhoneNumber = 10;
  *	While Edit order below variable used 
  */
 
- 
+
 function isInteger(s)
 {   var i;
     for (i = 0; i < s.length; i++)
@@ -368,8 +368,24 @@ function displaySecondForm()
 		jQuery("#id_can_proceed").val(1);
 	 }
 }
+
+function KeyUpFun( cp_from, paste_here, seprater )
+{
+	jQuery("#"+cp_from).keyup(function () {
+      var paste_val = jQuery(this).val(); 
+      //if (typeof(paste_val) != undefined || typeof(paste_val) != '' || typeof(paste_val) != null){
+      if(paste_val == undefined){
+      	jQuery("#"+paste_here).text('');
+      }else{
+      	//jQuery("#"+paste_here).text('');
+      	jQuery("#"+paste_here).text(paste_val+seprater);
+      }
+    }).keyup();
+}
+
 /*--------------------------------------------------------------------------------------------------------*/
 jQuery(document).ready(function(){
+
 
 	var get_width = jQuery(".bookingx_form_container").parent().width();
 	if( get_width <= 650 ){
@@ -530,12 +546,15 @@ if(order_id!= ''){
                      if(seat_temp==""){
                             jQuery('#id_base_selector').attr('disabled',true);
                      }
+            
+			jQuery('#bkx_seat_name').html(edit_order_data.seat_alias+ ' name : ' +  jQuery(this).find('option:selected').text());
                    seat_to_base(seat_temp);                     
             });
                         
 		jQuery('#id_base_selector').bind('change', function(){
 			var base_temp1 = jQuery(this).val();
-			
+			jQuery('#bkx_extra_data').html('');
+			jQuery('#bkx_base_name').html(edit_order_data.base_alias+ ' name : ' + jQuery(this).find('option:selected').text());
 			jQuery.post(url_obj.plugin_url+'/get_base_on_seat.php', {baseid1: base_temp1, mob: 'no' }, function(data) {
 				if(data!="error")
 				{
@@ -552,7 +571,7 @@ if(order_id!= ''){
 					alert("Couldn't list bases");
 				}
 			});
-			
+	
 			jQuery("input[name=mobile_only_choice]:radio").change(function () {
 				jQuery('#user_details').css('display', 'block');
 				jQuery('#bkx_page_footer_details').css('display', 'block');
@@ -569,6 +588,8 @@ if(order_id!= ''){
 				jQuery('li#field_4_18').remove();
 
 			}
+
+
 						
 		});
 
@@ -688,6 +709,7 @@ function get_total_price(thisval)
 					//alert(jQuery(this).val());
 					if(jQuery(this).is(':checked')==true)
 					{
+						//console.log(jQuery(this).closest('label'));
 						addition_list.push(jQuery(this).val());
 					}
 					else
@@ -696,15 +718,28 @@ function get_total_price(thisval)
 					}
 				});
 			}
-	//console.log(addition_list);
+	 if(addition_list != '')
+	 {
+	 	var bkx_extra_data_op = '';
+	 	for (x in addition_list)
+			{
+				jQuery.post(url_obj.plugin_url+'/get_extra_data.php', { extra_id : addition_list[x]},
+					function(data) {
+								bkx_extra_data_op += ' '+ data + ',';
+								jQuery('#bkx_extra_data').html(bkx_extra_data_op);
+					});
+			}	
+	 }
 
 	var base_extended = 0;
-	if(edit_base_extended == ''){
+	if(edit_base_extended == '0'){
 			var x=document.getElementById("id_input_extended_time");
 			base_extended = x.value;
+			//alert(document.getElementById("id_input_extended_time").value);
 	}else{
 		base_extended = edit_base_extended;
 	}
+
 	// alert(base_extended);
 	var seat_temp = jQuery('#myInputSeat').val();
 
@@ -774,6 +809,8 @@ function base_to_addition(base_temp)
 		});
 
 }
+
+
 function seat_to_base(seat_temp)
 {
 
@@ -872,7 +909,6 @@ function validate_form(source_val,destination_val)
 
 	if(source_val==2 && destination_val == 3)
 	{
-
 		//alert(jQuery("#id_can_proceed").val());
 		if(jQuery("#id_can_proceed").val() == "0")
 		{
@@ -906,6 +942,15 @@ function validate_form(source_val,destination_val)
 	}
 	if(source_val==3 && destination_val == 4)
 	{
+			KeyUpFun('id_firstname','bkx_fname');
+			KeyUpFun('id_lastname','bkx_lname');
+			KeyUpFun('id_phonenumber','bkx_phone');
+			KeyUpFun('id_email','bkx_email');
+			KeyUpFun('id_street','bkx_address',', ');
+			KeyUpFun('id_city','bkx_address',', ');
+			KeyUpFun('id_state','bkx_address',', ');
+			KeyUpFun('id_postcode','bkx_address');
+
 		if(jQuery("#id_firstname").val()=="")
 		{
 			error_list.push("Please enter your first name");
@@ -1104,6 +1149,7 @@ jQuery('div.app_timetable_cell.free').bind('click', function() {
 	return false;
 });
 
+ 
 //on click of any time slot
 jQuery("div").on("click", "div.app_timetable_cell.free", function() {
     //alert("hii+++");
@@ -1113,6 +1159,12 @@ jQuery("div").on("click", "div.app_timetable_cell.free", function() {
 	var booking_duration = jQuery("#id_booking_duration_insec").val();
 	var seat_temp = jQuery('#myInputSeat').val();
 	var booking_date = jQuery("#id_input_date").val();
+
+	jQuery("#bkx_booking_date").html(booking_date);
+	jQuery("#bkx_booking_time").html(jQuery("#id_total_duration").val());
+	jQuery("#bkx_booking_status").html('Pending');
+	
+	jQuery("#bkx_booking_total").html(jQuery("#total_price").html());
 	//alert(booking_date);
 	jQuery.post(url_obj.plugin_url+'/check_ifit_canbe_booked.php', { seatid: seat_temp, start:start_time, bookingduration: booking_duration,bookingdate:  booking_date}, function(data) {
 		var temp_obj = jQuery.parseJSON(data);

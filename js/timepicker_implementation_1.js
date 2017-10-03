@@ -354,13 +354,6 @@ function ValidateEmail(mail)
 		}
 	}
 
-	if(jQuery("input[name=seat_is_certain_day]:radio:checked").val()=="Y")
-	{
-		
-		jQuery("input[name=seat_certain_day,type=checkbox]:checked").each(function(){
-			//alert(jQuery(this).val()+"value");
-		});
-	}
 	
 	if(jQuery("#id_seat_email").val()=="" || jQuery("#id_seat_email")==undefined)
 	{
@@ -565,13 +558,6 @@ function validate_form()
 		}
 	}
 
-	if(jQuery("input[name=seat_is_certain_day]:radio:checked").val()=="Y")
-	{
-		
-		jQuery("input[name=seat_certain_day,type=checkbox]:checked").each(function(){
-			//alert(jQuery(this).val()+"value");
-		});
-	}
 	
 	if(jQuery("#id_seat_email").val()=="" || jQuery("#id_seat_email")==undefined)
 	{

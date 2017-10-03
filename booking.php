@@ -355,8 +355,10 @@ function load_custom_wp_admin_style()
         'base_id' => '',
         'extra_id' => 0,
         'action' => 'add',
+        'extended' => 0,
         'admin_ajax' => admin_url('admin-ajax.php'),
     );
+
     $translation_array     = array(
          'plugin_url' => plugins_url( '', __FILE__ ),
         'base' => $base_alias,
