@@ -286,6 +286,8 @@ function validate_form()
 		error_list.push("Please enter seat location");
 	}
 	*/
+	console.log($("input[name=seat_is_different_loc]:radio:checked").val());
+	
 	if($("input[name=seat_is_different_loc]:radio:checked").val()=="Y")
 	{
 			if($("#id_seat_street").val()=="")

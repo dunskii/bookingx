@@ -313,22 +313,28 @@ function ValidateEmail(mail)
 		error_list.push("Please enter seat location");
 	}
 	*/
-	if(jQuery("#seat_street").val()=="")
+	
+
+	if(jQuery("input[name=seat_is_different_loc]:radio:checked").val()=="Y")
 	{
-		error_list.push("Please enter street");
+		if(jQuery("#seat_street").val()=="")
+		{
+			error_list.push("Please enter street");
+		}
+		if(jQuery("#seat_city").val()=="")
+		{
+			error_list.push("Please enter city");
+		}
+		if(jQuery("#seat_state").val()=="")
+		{
+			error_list.push("Please enter state");
+		}
+		if(jQuery("#seat_zip").val()=="")
+		{
+			error_list.push("Please enter zip/postal code");
+		}
 	}
-	if(jQuery("#seat_city").val()=="")
-	{
-		error_list.push("Please enter city");
-	}
-	if(jQuery("#seat_state").val()=="")
-	{
-		error_list.push("Please enter state");
-	}
-	if(jQuery("#seat_zip").val()=="")
-	{
-		error_list.push("Please enter zip/postal code");
-	}
+	
 	
 	if(jQuery("input[name=seat_is_certain_time]:radio:checked").val()=="Y")
 	{
@@ -516,7 +522,7 @@ function validate_form()
 
 		});
 	}
-
+ 
 	if(jQuery("input[name=seat_is_different_loc]:radio:checked").val()=="Y")
 	{
 		if(jQuery("#id_seat_street").val()=="")
