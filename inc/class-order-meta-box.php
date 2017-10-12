@@ -458,19 +458,26 @@ class Bkx_Meta_Boxes {
 						$wpdb->posts, 
 						array( 
 							'ping_status' => 'closed',
+							'post_status' => 'bkx-' . apply_filters( 'bkx_default_order_status', 'pending' ),
 							'post_password' => uniqid( 'order_' ),
 							'post_title' => sprintf( __( 'Order &ndash; %s', 'bookingx' ), strftime( _x( '%b %d, %Y @ %I:%M %p', 'Order date parsed by strftime', 'bookingx' ) ) ),			
 						), 
 						array( 'ID' => $post_id )
 					);
 	       	if(!is_wp_error($post_update)){
-	       		$order_id  = BkxBooking::generate_order($arrData);
+	       		BkxBooking::generate_order($arrData);
+
+	       		
+				$booking_data_live = $GLOBALS['bkx_booking_data'];
+				$order_id = $booking_data_live['meta_data']['order_id'];
+				
 	       		if(isset($order_id) && $order_id!='')
 	       		{
 	       			//send email that booking confirmed
-					$res = do_send_mail($order_id);
+					
 					$post_status = 'bkx-' . apply_filters( 'bkx_default_order_status', 'pending');
 					do_action( 'bkx_order_edit_status', $order_id, $post_status);
+					$res = do_send_mail($order_id);
 
 	       			$get_blog_id = get_current_blog_id();
 	       			$return = get_admin_url($get_blog_id,'edit.php?post_type=bkx_booking');

@@ -118,8 +118,7 @@ class BkxBooking {
             // Insert the booking into the database
             $order_id = wp_insert_post( $order_data );
         }
-        
-        
+ 
         if(empty($order_id))
             return;
 

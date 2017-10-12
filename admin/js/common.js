@@ -375,10 +375,10 @@ function KeyUpFun( cp_from, paste_here, seprater )
       var paste_val = jQuery(this).val(); 
       //if (typeof(paste_val) != undefined || typeof(paste_val) != '' || typeof(paste_val) != null){
       if(paste_val == undefined){
-      	jQuery("#"+paste_here).text('');
+      	//jQuery("#"+paste_here).text();
       }else{
-      	//jQuery("#"+paste_here).text('');
-      	jQuery("#"+paste_here).text(paste_val+seprater);
+      	if(seprater == 'a'){jQuery("#"+paste_here).append(paste_val+' , ');}else{ jQuery("#"+paste_here).text(paste_val); }
+      	
       }
     }).keyup();
 }
@@ -942,14 +942,14 @@ function validate_form(source_val,destination_val)
 	}
 	if(source_val==3 && destination_val == 4)
 	{
-			KeyUpFun('id_firstname','bkx_fname');
-			KeyUpFun('id_lastname','bkx_lname');
-			KeyUpFun('id_phonenumber','bkx_phone');
-			KeyUpFun('id_email','bkx_email');
-			KeyUpFun('id_street','bkx_address',', ');
-			KeyUpFun('id_city','bkx_address',', ');
-			KeyUpFun('id_state','bkx_address',', ');
-			KeyUpFun('id_postcode','bkx_address');
+			KeyUpFun('id_firstname','bkx_fname','');
+			KeyUpFun('id_lastname','bkx_lname','');
+			KeyUpFun('id_phonenumber','bkx_phone','');
+			KeyUpFun('id_email','bkx_email','');
+			KeyUpFun('id_street','bkx_address','a');
+			KeyUpFun('id_city','bkx_address','a');
+			KeyUpFun('id_state','bkx_address','a');
+			KeyUpFun('id_postcode','bkx_postcode','');
 
 		if(jQuery("#id_firstname").val()=="")
 		{
