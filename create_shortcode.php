@@ -29,7 +29,9 @@ function get_seat_list($by_base=NULL){
             'posts_per_page'   => -1,
             'post_type'        => 'bkx_seat',
             'post_status'      => 'publish',
-            'include'          => $base_selected_seats
+            'include'          => $base_selected_seats,
+            'order'			   => 'ASC',
+            'orderby'		   => 'title'
         );
         $get_seat_array = get_posts( $args );
         
@@ -58,6 +60,8 @@ function get_base_list(){
             'posts_per_page'   => -1,
             'post_type'        => 'bkx_base',
             'post_status'      => 'publish',
+            'order'			   => 'ASC',
+            'orderby'		   => 'title'
         );
         $get_base_array = get_posts( $args );
     
