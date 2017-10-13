@@ -153,12 +153,26 @@ class Bkx_Meta_Boxes {
 		 //  return;
 		 // }
 
-		 $extra_id = get_post_meta( $post->ID, 'addition_ids', true );
-         $extra_id = rtrim( $extra_id, ",");
-         $booking_start_date = date('m/d/Y',strtotime($order_meta['booking_start_date']));
-         $alias_seat = crud_option_multisite('bkx_alias_seat');
-         $alias_base = crud_option_multisite('bkx_alias_base');
-         $alias_extra = crud_option_multisite('bkx_alias_addition');
+		$extra_id = get_post_meta( $post->ID, 'addition_ids', true );
+		$extra_id = rtrim( $extra_id, ",");
+		$booking_start_date = date('m/d/Y',strtotime($order_meta['booking_start_date']));
+		$alias_seat = crud_option_multisite('bkx_alias_seat');
+		$alias_base = crud_option_multisite('bkx_alias_base');
+		$alias_extra = crud_option_multisite('bkx_alias_addition');
+
+        $seat_alias = crud_option_multisite('bkx_alias_seat');      
+    	$base_alias = crud_option_multisite('bkx_alias_base');
+    	$addition_alias = crud_option_multisite('bkx_alias_addition');
+    	$payment_status = get_post_meta($order_id,'payment_status',true);
+    	$payment_meta = get_post_meta($order_id,'payment_meta',true);
+    	 
+    	$payment_status = ($payment_status) ? $payment_status : 'Pending';
+		$seat_base_edit_mode = 1 ;
+		if($payment_status == 'Not Completed'){
+			$payment_status = 'Pending';
+			$seat_base_edit_mode = 0;
+		}	   
+
  
 			if(!empty($order_meta) ):
 					$translation_array = array('order_id' => $post->ID,
@@ -167,6 +181,7 @@ class Bkx_Meta_Boxes {
 												'extra_id' => !empty($extra_id) ? $extra_id : '0',
 												'extended' => $base_extended,
 												'booking_start_date' => $booking_start_date,
+												'seat_base_edit_mode' => $seat_base_edit_mode,
 												'action' => 'edit');
 			else:
 				$translation_array = array('order_id' => '',
@@ -177,22 +192,13 @@ class Bkx_Meta_Boxes {
 												'seat_alias' => $alias_seat,
 												'base_alias' => $alias_base,
 												'extra_alias' => $alias_extra,
+												'seat_base_edit_mode' => $seat_base_edit_mode,
 												'action' => 'add');
 			endif;
 			
 			wp_localize_script('common_script', 'edit_order_data', $translation_array);
 			
-			$seat_alias = crud_option_multisite('bkx_alias_seat');      
-	    	$base_alias = crud_option_multisite('bkx_alias_base');
-	    	$addition_alias = crud_option_multisite('bkx_alias_addition');
-	    	$payment_status = get_post_meta($order_id,'payment_status',true);
-	    	$payment_meta = get_post_meta($order_id,'payment_meta',true);
-	    	 
-	    	$payment_status = ($payment_status) ? $payment_status : 'Pending';
-			
-			if($payment_status == 'Not Completed'){
-				$payment_status = 'Pending';
-			}	    	
+			 	
 			//print_r($order_meta['extra_arr']);
 	    	$extra_data = sprintf( __('<p>%s service\'s :','Bookingx'),$addition_alias);
 	    	if(!empty($order_meta['extra_arr'])){

@@ -425,10 +425,12 @@ jQuery(document).ready(function(){
 		}		
 	});
 
-	var order_id = edit_order_data.order_id,
- 	edit_seat_id = edit_order_data.seat_id,
- 	edit_base_id = edit_order_data.base_id,
- 	edit_extra_id = edit_order_data.extra_id;
+		var order_id 	= edit_order_data.order_id,
+	 	edit_seat_id 	= edit_order_data.seat_id,
+	 	edit_base_id 	= edit_order_data.base_id,
+	 	edit_extra_id 	= edit_order_data.extra_id,
+	 	extended 		= edit_order_data.extended,
+ 	seat_base_edit_mode = edit_order_data.seat_base_edit_mode;
 
 
 if(order_id!= ''){
@@ -458,12 +460,14 @@ if(order_id!= ''){
 		});
 		 
  		jQuery('#id_selected_seat').val(edit_seat_id);
-		jQuery('#myInputSeat').val(edit_seat_id);
-		jQuery('#id_base_selector').val(edit_base_id);
-		if(edit_seat_id !='')
-		{
+ 		jQuery("#myInputSeat").val(edit_seat_id);
+ 		jQuery("#id_base_selector").val(edit_base_id);
+ 		jQuery('#myInputSeat option[value="'+edit_seat_id+'"]').attr('selected', true);
+ 		jQuery('#id_input_extended_time').val(extended);
+ 		
+		
+		if(edit_seat_id !='' && seat_base_edit_mode == 0){
 			get_total_price('');
-
 			jQuery('#bkx_target_page_number_4').val('2');
 			//jQuery('#id_base_selector').val(edit_base_id);
 			validate_form(1,2);
@@ -493,20 +497,23 @@ if(order_id!= ''){
 					//console.log(temp_obj);
 					var temp_option='<option value="">Select a '+url_obj.base+'</option>';
 					var base_obj = temp_obj['base_list'];
-
-					
+					var $selected = '';
 					//console.log(base_obj);
 					for(x in base_obj)
 					{
 						if(edit_base_id == base_obj[x]['base_id']){
-							var $selected = "Selected";
+							 temp_option += "<option value='"+base_obj[x]['base_id']+"' selected='selected'>"+base_obj[x]['base_name']+" - $"+base_obj[x]['base_price']+" - "+base_obj[x]['base_time']+"</option>";
+						}else
+						{
+							temp_option += "<option value='"+base_obj[x]['base_id']+"'>"+base_obj[x]['base_name']+" - $"+base_obj[x]['base_price']+" - "+base_obj[x]['base_time']+"</option>";
 						}
 
-						temp_option += "<option value='"+base_obj[x]['base_id']+"' "+$selected+">"+base_obj[x]['base_name']+" - $"+base_obj[x]['base_price']+" - "+base_obj[x]['base_time']+"</option>";						 
+						
 					}
 					/*  Updated By : Madhuri Rokade 
 						Reason : To check the Prepayment process
 					*/
+					jQuery('#id_base_selector option[value="'+edit_base_id+'"]').attr('selected', true);
 
 					if(temp_obj['seat_is_booking_prepayment']=='N')
 					{
@@ -868,7 +875,8 @@ function validate_form(source_val,destination_val)
 	var edit_base_id = 0;
  
  	edit_base_id = edit_order_data.base_id;
- 	edit_base_extended = edit_order_data.extended;
+ 	var edit_base_extended = edit_order_data.extended;
+ 	var seat_base_edit_mode = edit_order_data.seat_base_edit_mode;
 	 
 
 	if(source_val==1 && destination_val == 2)
