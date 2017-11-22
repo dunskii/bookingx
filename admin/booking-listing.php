@@ -148,14 +148,15 @@ function bkx_booking_bulk_admin_footer()
         max-width: 900px;
         margin: 0 auto;
         background: #fff;
-    padding: 20px;
-    }
+        padding: 20px;
+}
 .bkx-order_summary, .bkx-order_summary_full {
     background-color: #fefefe;
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
     margin : 3px;
+    position: relative;
 
 }
 .search_by_dates_section input {

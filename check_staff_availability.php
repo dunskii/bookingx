@@ -18,14 +18,21 @@ $start_date = $_POST['start_date'];
 $end_date = $_POST['end_date'];
 $booking_record_id = $_POST['booking_record_id'];
 $status['booking_record_id'] =$booking_record_id;
- 
+$BkxBookingObj = new BkxBooking('',$booking_record_id);
+$order_meta_data = $BkxBookingObj->get_order_meta_data( $booking_record_id );
+$old_seat_id = $order_meta_data['seat_id'];
+
 if($booking_record_id != '') :
     update_post_meta($booking_record_id,'seat_id',$seat_id);
     $order_meta_data = get_post_meta($booking_record_id,'order_meta_data',true);
 
     $base_id = get_post_meta($booking_record_id,'base_id',true);
-    $order_meta_data['seat_id'] = $seat_id;
+    $order_meta_data['seat_id'] = $seat_id; 
     update_post_meta($booking_record_id,'order_meta_data',$order_meta_data);
+    $alias_seat = crud_option_multisite('bkx_alias_seat');
+    $old_seat = get_the_title( $old_seat_id );
+    $new_seat = get_the_title( $seat_id );
+    $BkxBookingObj->add_order_note( sprintf( __( 'Successfully update %1$s from %2$s to %3$s.', 'bookingx' ), $alias_seat, $old_seat, $new_seat ), 0, $manual );
 
     $status['name'] = $order_meta_data['first_name'].' '.$order_meta_data['last_name'];
     

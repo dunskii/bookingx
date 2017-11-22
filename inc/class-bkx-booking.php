@@ -117,6 +117,10 @@ class BkxBooking {
             $order_data['post_parent']   = absint( $args['parent'] );
             // Insert the booking into the database
             $order_id = wp_insert_post( $order_data );
+
+            $BkxBookingObj = new BkxBooking('',$booking_record_id);
+            $order_id = "#".$order_id;
+            $BkxBookingObj->add_order_note( sprintf( __( 'Successfully Initial %1$s Order Created..', 'bookingx' ), $order_id), 0, $manual );
         }
  
         if(empty($order_id))
