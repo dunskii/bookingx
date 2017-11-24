@@ -114,6 +114,8 @@ class Bkx_Meta_Boxes {
 		$status_view = 0;
 		$status_view = $_REQUEST['view'];
 		$main_obj = $admin_colors[$current_color];
+		print_r($main_obj);
+
 		$colors = $admin_colors[$current_color]->colors;
 		$icon_colors = $admin_colors[$current_color]->icon_colors;
 		 
@@ -127,9 +129,16 @@ class Bkx_Meta_Boxes {
 		$order_type_object = get_post_type_object( $post->post_type );
 		wp_nonce_field( 'bookingx_save_data', 'bookingx_meta_nonce' );
 		$set_height = empty($order_meta['seat_id']) ? 'auto' : '510px';
+		if($main_obj->name == 'Default'){
+			$time_text = '#fff;';
+		}else
+		{
+			$time_text = 'inherit;';
+		}
 
 		//if($return_type == ''){ 
 ?>			<style type="text/css">
+			#date_time_display {color: <?php echo $time_text;?>}
 			#post-body-content, #titlediv { display:none }
 			.bkx-general_full { float: left;width: 32%;}
 			.bkx-order_summary_full{background: #fff; min-height: <?php echo $set_height; ?>;}
