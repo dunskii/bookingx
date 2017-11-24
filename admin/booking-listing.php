@@ -648,6 +648,7 @@ function generate_listing_view( $type )
       
     $defaultView = ($type) && $type == 'weekly' ?  'agendaWeek' : 'month';
     $bkx_calendar_json_data = crud_option_multisite('bkx_calendar_json_data');
+   // print_r($bkx_calendar_json_data);
     ?>
 
     jQuery(document).ready(function() {

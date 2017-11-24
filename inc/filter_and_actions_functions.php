@@ -927,6 +927,7 @@ function posts_request ($order ,$WP_Query ) {
                 if($listing_view == 'monthly'){
                     $generate_info['title']  = $first_name.' '.$last_name;
                     $generate_info['start']  = $formatted_start_date;
+                    $generate_info['backgroundColor']    = $seat_colour;
                 }else{
                     $generate_info['title']  = $first_name.' '.$last_name.' - ( '.$service_name.')';
                     $generate_info['start']  = $formatted_start_date;
