@@ -114,7 +114,6 @@ class Bkx_Meta_Boxes {
 		$status_view = 0;
 		$status_view = $_REQUEST['view'];
 		$main_obj = $admin_colors[$current_color];
-		print_r($main_obj);
 
 		$colors = $admin_colors[$current_color]->colors;
 		$icon_colors = $admin_colors[$current_color]->icon_colors;

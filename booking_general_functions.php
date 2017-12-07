@@ -199,8 +199,21 @@ function get_range($bookingdate,$seatid)
         $db_res_seat_time_arr = array();
 
                 $seat_days_time = maybe_unserialize($res_seat['seat_days_time'][0]);
-                $db_res_seat_time_arr= maybe_unserialize($seat_days_time);
-                //print_r($res_seat_time_arr);
+
+                $selected_days = get_post_meta($GetSeatObj->ID,'selected_days',true);
+
+                 if(!empty($selected_days)){
+					foreach ($selected_days as $key => $days_obj) {
+					 	$days_data = $days_obj['days'];
+					 	$time_data = $days_obj['time'];
+					 	foreach ($days_data as $key => $day) {
+					 		$days_ope[$day] = array('day'=> $day , 'time_from' => $time_data['open'], 'time_till' => $time_data['close']);
+					 	}
+					}
+				}
+                //$db_res_seat_time_arr= maybe_unserialize($seat_days_time);
+                $db_res_seat_time_arr= $days_ope;
+               // print_r($res_seat_time_arr);
             if(!empty($db_res_seat_time_arr)){
                 
                  foreach ($db_res_seat_time_arr as $day_db=>$time_data)

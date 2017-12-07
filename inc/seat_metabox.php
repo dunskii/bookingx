@@ -446,19 +446,30 @@ function save_bkx_seat_metaboxes( $post_id, $post, $update )
 					$seatCertainDay[] = $days_week;
 					$seat_days_time_data[$d]['day'] = strtolower($days_week);					
 				}
-			}	
+			}
 		}
 		if(isset($_POST['opening_time_'.$d]) && !empty($_POST['opening_time_'.$d]) && !empty($_POST['days_'.$d]))
 		{
 			$selected_days['selected_days_'.$d]['time']['open'] = $_POST['opening_time_'.$d];
-			$seat_days_time_data[$d]['time_from'] = $_POST['opening_time_'.$d];
+			$seat_days_time_data['selected_days_'.$d]['time_from'] = $_POST['opening_time_'.$d];
 		}
 		if(isset($_POST['closing_time_'.$d]) && !empty($_POST['closing_time_'.$d]) && !empty($_POST['days_'.$d]))
 		{
 			$selected_days['selected_days_'.$d]['time']['close'] = $_POST['closing_time_'.$d];
-			$seat_days_time_data[$d]['time_till'] = $_POST['closing_time_'.$d];
+			$seat_days_time_data['selected_days_'.$d]['time_till'] = $_POST['closing_time_'.$d];
 		}
 	}
+
+	if(!empty($selected_days)){
+		foreach ($selected_days as $key => $days_obj) {
+		 	$days_data = $days_obj['days'];
+		 	$time_data = $days_obj['time'];
+		 	foreach ($days_data as $key => $day) {
+		 		$days_ope[$day] = array('day'=> $day , 'time_from' => $time_data['open'], 'time_till' => $time_data['close']);
+		 	}
+		}
+	}
+
 	// Make sure your data is set before trying to save it
 	if(!empty($selected_days)){
 		update_post_meta( $post_id, 'selected_days',$selected_days );
@@ -506,7 +517,7 @@ function save_bkx_seat_metaboxes( $post_id, $post, $update )
        update_post_meta( $post_id, 'seat_days',  $seatCertainDay);
     
     if( isset( $seat_days_time_data ) )
-        update_post_meta( $post_id, 'seat_days_time',$seat_days_time_data );
+        update_post_meta( $post_id, 'seat_days_time',$days_ope );
     
     if( isset( $seatIsPrePayment ) )
         update_post_meta( $post_id, 'seatIsPrePayment',  $seatIsPrePayment);

@@ -268,6 +268,8 @@ function getMinsSlot($mins)
 
 	$bookingdate = $_POST['bookigndate'];
 	$range= get_range($bookingdate,$_POST['seatid']);
+
+	//print_r($range);
 	//$_SESSION['range_by_seat']=$range;
 	//start and end of hours of a day
 	$start = 0;
