@@ -303,7 +303,8 @@ function draw_rectangle( id_temp, name )
             var ratioBase = base_time_minutes/parseInt(addition_minutes_total+base_time_minutes);
             var ratioAddition = addition_minutes_total/parseInt(addition_minutes_total+base_time_minutes);
             var total_width = 100;
-            var baseWidth = ratioBase * total_width;
+            //var baseWidth = ratioBase * total_width;
+            var baseWidth = 40;
             var additionWidth = ratioAddition * total_width;
             var divTag = document.createElement("div");
             divTag.id = "div1";
@@ -325,7 +326,7 @@ function draw_rectangle( id_temp, name )
         addition_time_arr.sort(function(a,b){return b-a});
         //console.log("addition time array");
         var temp_width_factor = 340/addition_time_arr[0];
-        var leftAddition = 0;
+        var leftAddition = baseWidth;
         var topAddition = 0;
         for(var x in temp_addition)
         {
@@ -339,10 +340,22 @@ function draw_rectangle( id_temp, name )
             divAddition.style.float = "left";
             //divAddition.style.background = extra_bg;
             divAddition.style.position = 'relative';
-            divAddition.style.left = +baseWidth+'%';
 
-
-            
+            var add_overlap = temp_addition[x].addition_overlap;   
+        
+            if( x == 0 ) 
+            {
+                 divAddition.style.left = +baseWidth+'%';
+            }
+            else
+            {
+                if(add_overlap == 'Y'){
+                    divAddition.style.left = +baseWidth+'%';
+                }else{
+                    divAddition.style.left = +leftAddition+'%';
+                }
+            }
+           
             document.getElementById('seat_rect_'+id_temp).appendChild(divAddition);
 
             var addition_time = '';
@@ -382,15 +395,9 @@ function draw_rectangle( id_temp, name )
             divAddition.style.position = "";
             divAddition.style.float = "left";
             
-            var add_overlap = temp_addition[x].addition_overlap;            
-
-            if(add_overlap == 'Y'){
-                divAddition.style.left = "none";
-            }else{
-                divAddition.style.left = leftAddition+"px";
-            }
-            
             divAddition.style.left = leftAddition+"px";
+
+            currentWidthAddition = currentWidthAddition + 5;
 
             divAddition.style.top = topAddition+"px";
             var expected_color = getContrast50(temp_addition[x].colour);
@@ -402,8 +409,20 @@ function draw_rectangle( id_temp, name )
             divAddition.innerHTML = temp_addition[x].addition_name+"<br>"+addition_time_display;
             
             document.getElementById("addition_container-"+id_temp+'-'+x).appendChild(divAddition);
-            counter=counter+1;          
-            leftAddition = parseInt(leftAddition) + currentWidthAddition;
+            counter=counter+1;      
+            if( x == 0 ) 
+            {
+                 divAddition.style.left = +baseWidth+'%';
+                 leftAddition = parseInt(leftAddition) + currentWidthAddition;
+            }
+            else
+            {
+                if(add_overlap == 'Y'){
+                    
+                }else{
+                    leftAddition = parseInt(leftAddition) + currentWidthAddition;
+                }
+            }
             topAddition = parseInt(topAddition) + 50;
         }
     });
@@ -411,32 +430,32 @@ function draw_rectangle( id_temp, name )
      function view_summary( post_id, name, colour_json ){
         
         console.log(colour_json);
-     	jQuery('.loader-'+ post_id).show();
-     		var data = {
-	            'action': 'bkx_action_view_summary',
-	            'post_id': post_id
-	        };
+        jQuery('.loader-'+ post_id).show();
+            var data = {
+                'action': 'bkx_action_view_summary',
+                'post_id': post_id
+            };
 
         setTimeout(function(){  initialize(post_id); codeAddress(post_id);draw_rectangle(post_id, name); }, 500);
 
-	        jQuery.post(ajaxurl, data, function(response) {
+            jQuery.post(ajaxurl, data, function(response) {
 
-	        	jQuery('.loader-'+ post_id).hide();
-	        	jQuery('.close_booking-'+ post_id).show();
-	        	jQuery('.view_href_booking-'+ post_id).hide();
-	        	//jQuery('.view_summary-'+ post_id).html(response); 
+                jQuery('.loader-'+ post_id).hide();
+                jQuery('.close_booking-'+ post_id).show();
+                jQuery('.view_href_booking-'+ post_id).hide();
+                //jQuery('.view_summary-'+ post_id).html(response); 
                 var postobj = jQuery('#post-'+ post_id);
 
                 jQuery( "<tr class='view_summary view_summary-"+post_id+"'>"+response ).insertAfter( postobj).slideDown('slow');
       
-	        });
+            });
      }
 
      function close_booking(post_id) {
-     			jQuery('.close_booking-'+ post_id).hide();
-	        	jQuery('.view_href_booking-'+ post_id).show();
-	        	jQuery('.view_summary-'+ post_id).hide();
-	}
+                jQuery('.close_booking-'+ post_id).hide();
+                jQuery('.view_href_booking-'+ post_id).show();
+                jQuery('.view_summary-'+ post_id).hide();
+    }
 
     jQuery(function() {
 
@@ -495,20 +514,20 @@ function draw_rectangle( id_temp, name )
       });
 
      jQuery('.bkx_action_status').on('change', function() {
-     	if(confirm('Are you sure want to change status?')){
-     		var bkx_action_status = jQuery(this).val();
-	        var data = {
-	            'action': 'bkx_action_status',
-	            'status': bkx_action_status
-	        };
+        if(confirm('Are you sure want to change status?')){
+            var bkx_action_status = jQuery(this).val();
+            var data = {
+                'action': 'bkx_action_status',
+                'status': bkx_action_status
+            };
 
-	        // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
-	        jQuery.post(ajaxurl, data, function(response) {
-	             location.reload();
-	        });
-     	}else{
-     		return false;
-     	}
+            // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
+            jQuery.post(ajaxurl, data, function(response) {
+                 location.reload();
+            });
+        }else{
+            return false;
+        }
     });
      <?php
      $listing_view = isset($_GET['listing_view'])? $_GET['listing_view']:'';

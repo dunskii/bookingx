@@ -191,13 +191,18 @@ echo get_loader();
 
 if($get_order_status!='Cancelled'){
   ?>
-   <a href="<?php echo $booking_safe_link;?>"><?php echo __( 'Edit', 'bookingx' ) ?></a> | <a href="javascript:cancel_booking(<?php echo $futurebooking['booking_record_id'];?>,'n');" ><?php echo __( 'Cancel', 'bookingx' ) ?></a>
+   <a href="<?php echo $booking_safe_link;?>"><?php echo __( 'Edit', 'bookingx' ) ?></a> 
+   <?php if(crud_option_multisite('enable_cancel_booking')== 1 ) : ?>
+   | <a href="javascript:cancel_booking(<?php echo $futurebooking['booking_record_id'];?>,'n');" ><?php echo __( 'Cancel', 'bookingx' ) ?></a>
+ <?php endif;?>
     <span align="center" id="generate_pdf_data_spinner-<?php echo $futurebooking['booking_record_id'];?>" style="display:none;"><img src="<?php echo get_site_url();?>/bodikea-loader1.gif" /></span>
   <form id="cancel_process_booking_<?php echo $futurebooking['booking_record_id']; ?>_n" style="display: none;"   method="post">
     <textarea id="cancel_comment_<?php echo $futurebooking['booking_record_id'];?>_n" name="comment_is" style="width: 100%;height: 150px;"></textarea>
     <input type="hidden" name="_i_process" id="_i_process<?php echo $futurebooking['booking_record_id'];?>_n"  value="<?php echo $encrypted_booking_id;?>">
-    <input type="button" value="<?php echo __( 'Cancel Booking', 'bookingx' ) ?>" class="button" id="cancel_process_submit_<?php echo $futurebooking['booking_record_id']; ?>_n">
+    <input style="display: none;" type="button" value="<?php echo __( 'Cancel Booking', 'bookingx' ) ?>" class="button" id="cancel_process_submit_<?php echo $futurebooking['booking_record_id']; ?>_n">
+    <button class="button" id="i_agree_<?php echo $futurebooking['booking_record_id']; ?>_n"><?php echo __( 'I Agree', 'bookingx' ) ?></button>
     <input type="button" value="<?php echo __( 'Close', 'bookingx' ) ?>" class="button" id="cancel_<?php echo $futurebooking['booking_record_id'];?>_n">
+    <p><?php echo $cancellation_policy_link;?></p>
   </form>
   <?php
 }
@@ -365,7 +370,9 @@ jQuery(function() {
 
   var $hide_form_delete = jQuery('#delete_process_booking_'+$booking_id+'_'+$_type);
   var $cancel = jQuery('#cancel_'+$booking_id+'_'+$_type);
-  var $cancel_process_submit= jQuery('#cancel_process_submit_'+$booking_id+'_'+$_type);
+  var $cancel_process_submit = jQuery('#cancel_process_submit_'+$booking_id+'_'+$_type);
+  var $i_agree = jQuery('#i_agree_'+$booking_id+'_'+$_type);
+  
 
   var $cancel_show_form = jQuery('#cancel_process_booking_'+$booking_id+'_'+$_type);
 
@@ -383,6 +390,12 @@ jQuery(function() {
      {
        validate_booking($booking_id,$_type);
      }
+   });
+
+  $($i_agree).on( "click", function(event) {
+      event.preventDefault();
+      $cancel_process_submit.show();
+      $i_agree.hide();
    });
 }
 function validate_booking($booking_id,$_type)
