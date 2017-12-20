@@ -35,7 +35,7 @@ if(isset($booking_record_id) && $booking_record_id!='' && $mode == 'cancelled'):
     //Add note in comment for cancelled booking
     $BkxBookingObj->add_order_note( sprintf( __( 'Successfully update order from %1$s to %2$s.', 'bookingx' ), $old_status, $new_status ), 0, $manual );
 
-    $BkxBookingObj->add_order_note( sprintf( __( 'Customer note : %1$s', 'bookingx' ), $comment ), $is_cust, $manual );
+    $BkxBookingObj->add_order_note( sprintf( __( ' %1$s ', 'bookingx' ), $comment ), $is_cust, $manual );
 
     if ($update_order) :
        

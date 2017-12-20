@@ -140,11 +140,17 @@ echo get_loader();
                             <?php foreach ($GetFutureBookedRecords as  $futurebooking) :
                               $serviceObj = $futurebooking['base_arr']['main_obj'];
                               $get_order_status = $BookedRecords->get_order_status($futurebooking['booking_record_id']);
-                              //echo "<pre>";
+                             //echo "<pre>";
+
+                              $booking_note_data = get_comments( array('post_id'   => $futurebooking['booking_record_id'] ,'meta_key' => 'is_customer_note','meta_value' => 1 ,'number' => 1 ) );
+                              $reason_for_cancelled = $booking_note_data[0]->comment_content;
+                             // print_r($booking_note_data);
                               $cancelled_booking = '';
                               if($get_order_status =='Cancelled'){ 
                                 //$cancelled_booking =  '<p>Booking Status : '.$get_order_status.'</p>';
-                                $cancelled_booking =  sprintf( __( '<p>Booking Status :  %1$s </p>', 'bookingx' ), $get_order_status);
+                                $cancelled_booking =  sprintf( __( '<p> Booking Status :  %1$s </p>', 'bookingx' ), $get_order_status);
+
+                                $reason_for_cancelled_html = sprintf( __( '<p><b> Reason for cancellation :<b>  %1$s </p>', 'bookingx' ), $reason_for_cancelled);
                               }
                             ?>
                              <div class="card staffCard services" id="ack-booking-43">
@@ -174,6 +180,8 @@ echo get_loader();
             echo "<p><b> ".__( 'Location :', 'bookingx' )."</b> ".$full_address."</p>";
 
             echo '<p class="booking-'.$get_order_status.'"><b>'.__( 'Booking Status :', 'bookingx' ).''.$get_order_status.'</b></p>';
+            echo $reason_for_cancelled_html;
+
 
             $booking_edit_process_page_id = crud_option_multisite("booking_edit_process_page_id");
  

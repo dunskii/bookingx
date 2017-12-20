@@ -245,7 +245,7 @@ class BkxBooking {
         }
     }
 
-    public function add_order_note( $note, $is_customer_note = 0, $added_by_user = false, $order_id = null ) {
+    public function add_order_note( $note, $is_customer_note = 0, $added_by_user = false, $order_id = null, $comment_type =  'booking_note') {
 
         if ( is_user_logged_in() && $added_by_user ) {
             $user                 = get_user_by( 'id', get_current_user_id() );
@@ -266,7 +266,7 @@ class BkxBooking {
         $comment_author_url     = '';
         $comment_content        = $note;
         $comment_agent          = 'BookingX';
-        $comment_type           = 'booking_note';
+        $comment_type           = $comment_type;
         $comment_parent         = 0;
         $comment_approved       = 1;
         $commentdata            = apply_filters( 'bookingx_new_order_note_data', compact( 'comment_post_ID', 'comment_author', 'comment_author_email', 'comment_author_url', 'comment_content', 'comment_agent', 'comment_type', 'comment_parent', 'comment_approved' ), array( 'order_id' => $this->order_id, 'is_customer_note' => $is_customer_note ) );
