@@ -252,7 +252,6 @@ function getMinsSlot($mins)
 			endif;
 
 		}
-		
 		 
 		foreach($booking_slot_arr as $slot)
 		{
