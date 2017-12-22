@@ -98,6 +98,11 @@ class BkxBooking {
             $order_id = $post_data['order_id'];
         }
 
+        if(isset($post_data['update_order_slot']) && $post_data['update_order_slot']!='')
+        {
+            $order_id = $post_data['update_order_slot'];
+        }
+
         $reg_customer_crud_op = crud_option_multisite('reg_customer_crud_op'); 
         // If 1 means enable to create customer 
 
@@ -130,6 +135,8 @@ class BkxBooking {
         $post_data['post_status'] = $order_data['post_status'];
         $GLOBALS['bkx_booking_data'] = $post_data;
 
+       // print_r(expression)
+
         //Update order meta
         $BkxBooking = BkxBooking::generate_order_meta($post_data);
 
@@ -144,7 +151,7 @@ class BkxBooking {
 
         if(empty($order_id))
             return;
-
+ 
         if(!empty($post_data)){
 
             foreach ($post_data as $order_key => $order_val) {

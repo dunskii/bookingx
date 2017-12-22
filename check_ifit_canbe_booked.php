@@ -7,6 +7,7 @@ $start = $_POST['start'];
 $bookingduration = $_POST['bookingduration'];
 $bookingdate = $_POST['bookingdate'];
 $order_statuses = array('bkx-pending','bkx-ack','bkx-completed','bkx-missed');
+$update_order_slot = $_POST['update_order_slot'];
 if (isset($_POST['seatid']) && $_POST['seatid'] == 'any' && crud_option_multisite('enable_any_seat') == 1 && crud_option_multisite('select_default_seat') != ''):
 	$base_id = $_SESSION['_session_base_id'];
 //get current booking start time slot
@@ -44,16 +45,18 @@ if (isset($_POST['seatid']) && $_POST['seatid'] == 'any' && crud_option_multisit
 			$duration = ($objBooknig['booking_time'])/60;
 			$seatslots = intval($duration/15);
 			$_SESSION['_seatslots']=$seatslots;
-
+//print_r($objBooknig);
 			$booking_slot_range=array();
 			if($seatslots>1)
 			{
 				for($i=0; $i<$seatslots; $i++) {
 					$slot_id = $objBooknig['full_day'];
 					$booking_slot_range[] = $slot_id + $i;
+					$checked_booked_slots[] = array('slot_id'=> $objBooknig['full_day']+$i , 'order_id' => $objBooknig['booking_record_id']) ;
 				}
 			}else{
 				$booking_slot_range[] =	$slot_id;
+				$checked_booked_slots[] = array('slot_id'=> $objBooknig['full_day'] , 'order_id' => $objBooknig['booking_record_id']) ;
 			}
 			$booking_seat_id= $objBooknig['seat_id'];
 			$get_booked_range[$slot_id][$booking_seat_id] =$booking_slot_range;
@@ -68,7 +71,7 @@ if (isset($_POST['seatid']) && $_POST['seatid'] == 'any' && crud_option_multisit
 		}
 		//echo '<pre> $find_slot_value_in_booked_array : ' . print_r($find_slot_value_in_booked_array, true) . '</pre>';
 
-		//print_r($get_booked_range);
+		print_r($checked_booked_slots);
 
 		if(!empty($get_booked_range)):
 			$slot_id=$startingSlotNumber+1;
@@ -245,10 +248,9 @@ $startingSlotNumber = intval($hours_temp)*4+$counter;
 $oneDayBooking ;
 $res = 1;
 $numberOfSlotsToBeBooked = 0;
-if(in_array($startingSlotNumber,$arrTempExplode)) //return false if the start time exist in the booked slots
+if(in_array($startingSlotNumber,$arrTempExplode) && ($update_order_slot == 0 || $update_order_slot =='') ) //return false if the start time exist in the booked slots
 {
 	$res = 0;
-
 }
 else
 {
@@ -269,8 +271,9 @@ else
 		$arrBookingSlot = range($startingSlotNumber, $lastSlotNumber);
 		foreach($arrBookingSlot as $temp)
 		{
-			if(in_array($temp,$arrTempExplode))
+			if(in_array($temp,$arrTempExplode) && ($update_order_slot == 0 || $update_order_slot ==''))
 			{
+
 				$res = 0;
 				continue;
 			}

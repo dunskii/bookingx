@@ -1249,6 +1249,96 @@ jQuery("div").on("click", "div.app_timetable_cell.free", function() {
 	return false;
 });
 
+
+//on click of any time slot
+jQuery("div").on("click", "div.app_timetable_cell.full, div.app_timetable_cell.booking-status-new-selected", function() {
+    //alert("hii+++");
+	//get the clicked time
+	jQuery("#booking_details_value div").removeClass("booking-status-new-selected");
+	var start_time = jQuery(this).attr("id");
+	var booking_duration = jQuery("#id_booking_duration_insec").val();
+	var seat_temp = jQuery('#myInputSeat').val();
+	var booking_date = jQuery("#id_input_date").val();
+	var $selected_order_id = jQuery(this).attr('data-booking-id');
+
+	jQuery("#bkx_booking_date").html(booking_date);
+	jQuery("#bkx_booking_time").html(jQuery("#id_total_duration").val());
+	jQuery("#bkx_booking_status").html('Pending');
+	
+	jQuery("#bkx_booking_total").html(jQuery("#total_price").html());
+	//alert(booking_date);
+	jQuery.post(url_obj.plugin_url+'/check_ifit_canbe_booked.php', 
+		{ seatid: seat_temp, start:start_time, bookingduration: booking_duration,bookingdate:booking_date,update_order_slot:$selected_order_id}, 
+		function(data) {
+		var temp_obj = jQuery.parseJSON(data);
+		var result = temp_obj['result'];
+		var starting_slot = temp_obj['starting_slot'];
+		var $process ;
+
+		if(parseInt(result) == 1)
+		{
+			jQuery("#id_booking_time_from").val(start_time);
+			//jQuery("#id_display_success").html("You Can book this slot");
+			jQuery("#id_can_proceed").val(1);
+			var selected_start = starting_slot + 1;
+			var selected_end = starting_slot + temp_obj['no_of_slots']+1;
+
+			/**
+			 * Added functionality for Check Booking Dates and slot is Available or not
+			 * Also check if slot get out of Range on displayed time then restrict
+			 * By : Divyang Parekh
+			 * Date : 23-11-2015
+			 */
+
+			//Highlight Selected Time Slots
+			var good_ids = new Array();
+			for (var i = selected_start; i <= selected_end; i++)
+			{
+				good_ids.push(i);	  
+			}
+			//alert($process);
+			//console.log(good_ids);
+			if($process == 0)
+			{
+				//alert("You Cannot book this slot.");
+				//jQuery("#id_display_success").html("<span class='error_booking'>You Cannot book this slot</span>");
+				jQuery("#id_can_proceed").val(0);
+			}
+			else
+			{
+				for (var sel = 0; sel <= good_ids.length; sel++)
+				{
+					$order_id = jQuery("#booking_details_value ."+good_ids[sel]).attr('data-booking-id');
+					var $slot_datas = jQuery("#booking_details_value ."+good_ids[sel]).hasClass("notavailable");
+
+					if($slot_datas == false && ($selected_order_id == $order_id || $order_id == 0 || $order_id == undefined )){
+						jQuery("#booking_details_value ."+good_ids[sel]).addClass("booking-status-new-selected");
+						jQuery("#id_update_order_slot").val($order_id);
+						jQuery("#id_update_order_slot").val($selected_order_id);
+					}
+					else
+					{
+						jQuery("#booking_details_value div").removeClass("booking-status-new-selected");
+						jQuery("#id_can_proceed").val(0);
+						alert("You Cannot book this slot.");
+						return;
+					}
+					
+				}
+			}
+
+		}
+		else
+		{
+			//alert("You Cannot book this slot.");
+			//jQuery("#id_display_success").html("<span class='error_booking'>You Cannot book this slot</span>");
+			jQuery("#id_can_proceed").val(0);
+		}
+	});
+	
+	return false;
+});
+
 function view_book(bid){
 	
 			$.post('http://booking.php-dev.in/wp-content/plugins/yfbizbooking/ajax-view-booking.php', { bid: bid }, function(data) {

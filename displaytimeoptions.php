@@ -219,6 +219,9 @@ function getMinsSlot($mins)
 		//print_r($objBookigntime);
 		foreach($objBookigntime as $temp)
 		{
+
+			$wp_postobj = get_post( $temp['booking_record_id']);
+
 			/**
 			 * Updated By  : Divyang Parekh
 			 * For  : Add Any Seat functionality.*/
@@ -240,15 +243,17 @@ function getMinsSlot($mins)
 				if($seatslots>1){
 					for($i=0; $i<$seatslots+1; $i++){
 						$booking_slot_arr[] = $temp['full_day']+$i;
+						$checked_booked_slots[] = array('created_by'=> $wp_postobj->post_author,'slot_id'=> $temp['full_day']+$i , 'order_id' => $temp['booking_record_id']) ;
 					}
 				} else {
 					$booking_slot_arr[] = $temp['full_day'];
+					$checked_booked_slots[] = array('created_by'=> $wp_postobj->post_author,'slot_id'=> $temp['full_day'] , 'order_id' => $temp['booking_record_id']) ;
 				}
 			endif;
 
 		}
 		
-		//print_r($booking_slot_arr);
+		 
 		foreach($booking_slot_arr as $slot)
 		{
 			if($slot!="")
@@ -257,15 +262,22 @@ function getMinsSlot($mins)
 			}
 		}
 	}
-
-	
-
 	/*if (isset($_POST['seatid']) && $_POST['seatid'] == 'any' && $_SESSION['free_seat_id']!=''  && crud_option_multisite('enable_any_seat') == 1 && crud_option_multisite('select_default_seat') != ''):
 		$seatid = $_SESSION['free_seat_id'];
 	else:
 		$seatid = $_POST['seatid'];
 	endif;*/
 
+	function check_slot_order_id ( $slot_id, $checked_booked_slots){
+		 if(!empty($checked_booked_slots)){
+		 	foreach ($checked_booked_slots as $key => $slot_data) {
+		 		  if($slot_data['slot_id'] == $slot_id )
+		 		  {
+		 		  		return $slot_data;
+		 		  }
+		 	}
+		 }
+	}
 	$bookingdate = $_POST['bookigndate'];
 	$range= get_range($bookingdate,$_POST['seatid']);
 
@@ -290,18 +302,24 @@ function getMinsSlot($mins)
 	$time_unavailable_color = crud_option_multisite('bkx_time_unavailable_color');
 	$time_unavailable_color = ($time_unavailable_color) ? $time_unavailable_color : 'gray';
 
+	$bkx_time_new_selected = crud_option_multisite('bkx_time_new_selected');
+	$bkx_time_new_selected = ($bkx_time_new_selected) ? $bkx_time_new_selected : 'gray';
+
 	if($base_time_option == 'H') { ?>
 	<style type="text/css">
 	.booking-status-booked{ background-color:<?php echo $time_unavailable_color;?> ; }
 	.booking-status-open{ background-color:<?php echo $time_available_color;?> ; }
+	.booking-status-new-selected, .booking-status-selected{ background-color:<?php echo $bkx_time_new_selected;?>!important; }
 	</style>
-			<p><label><?php echo sprintf(esc_html__('Booking of the day','bookingx'), '');?></label></p>
-			<div class="booking-status-div">
-				<div class="booking-status"><?php echo sprintf(esc_html__('Booked','bookingx'), '');?> <div class="booking-status-booked"></div></div>
-				<div class="booking-status"><?php echo sprintf(esc_html__('Open','bookingx'), ''); ?> 
-				<div class="booking-status-open"></div></div>
-			</div>
-			<br/>
+	<p><label><?php echo sprintf(esc_html__('Booking of the day','bookingx'), '');?></label></p>
+	<div class="booking-status-div">
+		<div class="booking-status"><?php echo sprintf(esc_html__('Booked','bookingx'), '');?> <div class="booking-status-booked"></div></div>
+		<div class="booking-status"><?php echo sprintf(esc_html__('Open','bookingx'), ''); ?> 
+		<div class="booking-status-open"></div></div>
+		<div class="booking-status"><?php echo sprintf(esc_html__('New Selected','bookingx'), ''); ?> 
+		<div class="booking-status-selected"></div></div>
+	</div>
+	<br/>
 		<div id="date_time_display">
 			<?php
 			/**
@@ -327,8 +345,12 @@ function getMinsSlot($mins)
 							$empty = 'full';
 						}
 					}
+					$order_data = check_slot_order_id($counter,$checked_booked_slots);
+					$order_id = isset($order_data['order_id'])  && $order_data['order_id']!='' ? $order_data['order_id'] : 0;
+					$created_by = isset($order_data['created_by'])  && $order_data['created_by']!='' ? $order_data['created_by'] : 0;
+					
 					?>
-					<div class="<?php echo $counter; ?>-is-<?php echo $empty; ?> app_timetable_cell <?php echo $counter; ?> <?php echo $empty; ?> <?php echo $_POST['bookigndate'].'-'.$counter; ?>" id="<?php echo secs2hours( $ccs ); ?>" data-slotnumber="<?php echo $_POST['bookigndate'].'-'.$counter; ?>">
+					<div data-booking-id="<?php echo $order_id; ?>" data-user-id="<?php echo $created_by; ?>" class="<?php echo $counter; ?>-is-<?php echo $empty; ?> app_timetable_cell <?php echo $counter; ?> <?php echo $empty; ?> <?php echo $_POST['bookigndate'].'-'.$counter; ?>" id="<?php echo secs2hours( $ccs ); ?>" data-slotnumber="<?php echo $_POST['bookigndate'].'-'.$counter; ?>">
 					<input type="hidden" value="<?php echo secs2hours( $ccs ); ?>" />
 					<?php
 						echo secs2hours($ccs);
@@ -351,4 +373,3 @@ function getMinsSlot($mins)
 var loader = jQuery('.bookingx-loader');
 loader.hide();
 </script>
-

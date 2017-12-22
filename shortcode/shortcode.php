@@ -233,6 +233,7 @@ function bookinbkx_shortcode_function($atts)
 		'order_id' => $booking_id,
 		'booking_multi_days' => $_POST['booking_multi_days'],
 		'base_days' =>  $_POST['base_days'],
+		'update_order_slot' => $_POST['update_order_slot']
 	);
  
  			$bookingObj->generate_order($arrData);
@@ -569,8 +570,6 @@ function bookinbkx_shortcode_function($atts)
 												'payment_status' => $httpParsedResponseAr["PAYMENTSTATUS"],
 												'pay_amt' => $totalamount );
 
-					
-
 					$BkxBooking = new BkxBooking('',$order_id);
 					$BkxBooking->update_payment_meta($final_payment_meta);	
 					$BkxBooking->update_status('ack');	
@@ -791,6 +790,7 @@ $temp .= get_loader().'
 			        <input type="hidden" name="booked_days" id="id_booked_days" />
 			        <input type="hidden" name="base_days" id="id_base_days" />
 			        <input type="hidden" name="booking_multi_days" id="id_booking_multi_days" />
+			        <input type="hidden" name="update_order_slot" id="id_update_order_slot" />
 			        <input type="hidden" name="enable_cancel" id="id_enable_cancel_status" value="'.$enable_cancel.'" />
         <div id="bkx_progressbar_wrapper_4" class="bkx_progressbar_wrapper customer_booking_form_wrapper">
             

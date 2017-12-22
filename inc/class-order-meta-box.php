@@ -151,7 +151,7 @@ class Bkx_Meta_Boxes {
 			.booking-status-open{ background-color:<?php echo $colors[1];?> !important; }
 			.free { background:<?php echo $colors[1];?> !important;}
 			.selected-slot{background:<?php echo $colors[2];?> !important;}
-			.full { background:<?php echo $colors[3];?> !important; }
+			.full { background:<?php echo $colors[3];?> !important;cursor: pointer; }
 			.seat_rectangle { background-color:<?php echo $colors[1];?> !important;}
 			#div1 { background-color:<?php echo $colors[2];?> !important;}
 			</style>
@@ -416,7 +416,7 @@ class Bkx_Meta_Boxes {
 
 	public function save_meta_boxes($post_id, $post)
 	{
-		global $wpdb;
+		global $wpdb,$current_user;
 
 		$curr_date = date("Y-m-d H:i:s");	        
 		if (isset($_POST) && $_POST['is_submit_4'] == 1) 
@@ -465,7 +465,8 @@ class Bkx_Meta_Boxes {
 				'addedtocalendar' => 0,
 				'booking_time_from' =>  $_POST['booking_time_from'],
 				'currency' => get_current_currency(),
-				'order_id' => $post_id
+				'order_id' => $post_id,
+				'update_order_slot' => $_POST['update_order_slot']
 			);
 
 	       $post_update =  $wpdb->update( 
