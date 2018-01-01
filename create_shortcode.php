@@ -35,7 +35,7 @@ function get_seat_list($by_base=NULL){
         );
         $get_seat_array = get_posts( $args );
         
-	    $arr_seat = '';
+	    $arr_seat = array();
         if(!empty($get_seat_array) && !is_wp_error($get_seat_array))
         {
            foreach($get_seat_array as $key=>$value)
@@ -65,7 +65,7 @@ function get_base_list(){
         );
         $get_base_array = get_posts( $args );
     
-	$arr_base = '';
+	$arr_base = array();
         if(!empty($get_base_array) && !is_wp_error($get_base_array))
         {
            foreach($get_base_array as $key=>$value)

@@ -44,7 +44,7 @@ else
 	 *	Reason For : Any Seat Functionality
 	 *	Date : 4-11-2015
 	 */
-	$arr_base = '';
+	$arr_base = array();
 	if($term =='any' && get_option('enable_any_seat')==1):
 		$args = array(
                         'posts_per_page'   => -1,
