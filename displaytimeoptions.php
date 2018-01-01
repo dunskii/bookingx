@@ -250,9 +250,7 @@ function getMinsSlot($mins)
 					$checked_booked_slots[] = array('created_by'=> $wp_postobj->post_author,'slot_id'=> $temp['full_day'] , 'order_id' => $temp['booking_record_id']) ;
 				}
 			endif;
-
 		}
-		 
 		foreach($booking_slot_arr as $slot)
 		{
 			if($slot!="")

@@ -179,7 +179,8 @@ function validate_base_form_bkp(baseidval)
 	}
 	//seat selected validation for atleast one 
 	var true_flag = false;
-	$.each(jQuery("input[name='base_seats[]']"), function(val) {
+	
+	jQuery.each(jQuery("input[name='base_seats[]']"), function(val) {
 		if(this.checked==true)
 		{
 			true_flag = true;
@@ -187,7 +188,7 @@ function validate_base_form_bkp(baseidval)
 	});
 	if(true_flag==false)
 	{
-		error_list.push("Please select atleast one "+seat_alias+" you have not selected any");
+		error_list.push("Please select atleast one "+base_alias+" you have not selected any");
 	}
 
 	if(jQuery('#id_base_price').val()=="")
@@ -288,8 +289,4 @@ function validate_base_form_bkp(baseidval)
                         jQuery(this).find('.spinner').removeClass('is-active');
 			return false;
 		}
-	 
-
 });
-
-

@@ -18,7 +18,7 @@ function bkx_base_boxes_metabox_callback($post)
     $seat_alias = crud_option_multisite('bkx_alias_seat');
     $base_alias = crud_option_multisite('bkx_alias_base');
     wp_enqueue_script("main_script", plugins_url( "js/main_1.js" , __DIR__ ),false, rand(1,9999999), true);
-    $translation_array = array( 'plugin_url' => plugins_url( "" , __DIR__ ), 'seat_alias' => $seat_alias , 'base_alias' => $seat_alias);
+    $translation_array = array( 'plugin_url' => plugins_url( "" , __DIR__ ), 'seat_alias' => $seat_alias , 'base_alias' => $base_alias);
     wp_localize_script( 'main_script', 'url_obj', $translation_array );
 
     $base_alias = crud_option_multisite('bkx_alias_base');
@@ -566,4 +566,3 @@ function bkx_base_columns_content($column_name, $post_ID) {
         echo '[bookingx base-id="'.$post_ID.'" description="yes" image="yes" extra-info="no"]';
     }
 }
- 
