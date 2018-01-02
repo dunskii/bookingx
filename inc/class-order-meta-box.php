@@ -127,7 +127,8 @@ class Bkx_Meta_Boxes {
     	//print_r($order_meta );
 		$order_type_object = get_post_type_object( $post->post_type );
 		wp_nonce_field( 'bookingx_save_data', 'bookingx_meta_nonce' );
-		$set_height = empty($order_meta['seat_id']) ? 'auto' : '510px';
+		//$set_height = empty($order_meta['seat_id']) ? 'auto' : '510px';
+		$set_height = empty($order_meta['seat_id']) ? 'auto' : 'auto';
 		if($main_obj->name == 'Default'){
 			$time_text = '#fff;';
 		}else
@@ -264,8 +265,8 @@ class Bkx_Meta_Boxes {
 		$order_summary .= sprintf('<div style="clear:left;">&nbsp;</div>','Bookingx');
 		
 		 if(!empty($order_meta['seat_id'])){
-		 	$order_summary .='<div class="bkx-general_full" style="width: 100%;"><div id="seat_rect_'.$post->ID.'" class="seat_rectangle" style="padding: 5px;min-height: 150px;height:auto;width: 100%;border:1px solid #62A636;float:left">
-			</div></div>';
+		 // 	$order_summary .='<div class="bkx-general_full" style="width: 100%;"><div id="seat_rect_'.$post->ID.'" class="seat_rectangle" style="padding: 5px;min-height: 150px;height:auto;width: 100%;border:1px solid #62A636;float:left">
+			// </div></div>';
 		 } 
 		
 
@@ -275,7 +276,7 @@ class Bkx_Meta_Boxes {
  		return $order_summary;
  		}
 		echo $order_summary;
-		include_once(PLUGIN_DIR_PATH.'/inc/time_block_data.php');
+		//include_once(PLUGIN_DIR_PATH.'/inc/time_block_data.php');
 		echo '<div style="clear:left;">&nbsp;</div>';
 		echo do_shortcode('[bookingform order_post_id='.$post->ID.']');
 
