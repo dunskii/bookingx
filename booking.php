@@ -28,9 +28,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-session_start();
-//define( 'WP_MEMORY_LIMIT', '512M' );
+function is_session_started()
+{
+    if ( php_sapi_name() !== 'cli' ) {
+        if ( version_compare(phpversion(), '5.4.0', '>=') ) {
+            return session_status() === PHP_SESSION_ACTIVE ? TRUE : FALSE;
+        } else {
+            return session_id() === '' ? FALSE : TRUE;
+        }
+    }
+    return FALSE;
+}
+if ( is_session_started() === FALSE ) { session_start(); }
+define( 'WP_MEMORY_LIMIT', '512M' );
 //session_start();
 //include shord code file
 
