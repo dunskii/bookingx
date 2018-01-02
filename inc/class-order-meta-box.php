@@ -215,10 +215,10 @@ class Bkx_Meta_Boxes {
 	    			$extra_data .=  sprintf(__('&nbsp;<a href="%s" target="_blank">%s</a>&nbsp;','Bookingx'),$extra_arr['permalink'],$extra_arr['title'],$extra_arr['title']);
 	    		}	
 	    	}
-
+	    if(isset($order_meta['seat_id']) && $order_meta['seat_id']!=''){
+	    	
 		$order_summary = sprintf('<div class="bkx-order_summary_full">','Bookingx');
 		$order_summary .= sprintf( __('<h3>Booking #%d details</h3>','Bookingx'),$post->ID);
-
 		$order_summary .= sprintf('<div class="bkx-general_full">','Bookingx');
 		//$order_summary .= sprintf( __('<h4>Customer Information</h4>','Bookingx'));
 		$order_summary .= sprintf( __('<p>Full Name : <span id="bkx_fname"> %s </span><span id="bkx_lname"> %s </span></p>','Bookingx'),$order_meta['first_name'],$order_meta['last_name']);
@@ -272,6 +272,7 @@ class Bkx_Meta_Boxes {
 
 		$order_summary .= sprintf('</div>','Bookingx');
 
+		}
  		if($return_type == 'ajax'){
  		return $order_summary;
  		}
