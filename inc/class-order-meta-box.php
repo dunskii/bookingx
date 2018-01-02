@@ -146,12 +146,12 @@ class Bkx_Meta_Boxes {
 			#bkx_progressbar_wrapper_4 .ui-widget-header { background: <?php echo $colors[0];?> !important;}
 			#id_datepicker .ui-widget-content {border: 1px solid #e5e5e5 !important;}
 			#id_datepicker .ui-state-default {background: #ffffff !important;}
-			#id_datepicker .ui-state-active { background: <?php echo $colors[1];?> !important;  }
+			#id_datepicker .ui-state-active { background: <?php echo $colors[1];?> !important; color: <?php echo $time_text;?>; }
 			.booking-status-booked{ background-color:<?php echo $colors[3];?> !important;}
 			.booking-status-open{ background-color:<?php echo $colors[1];?> !important; }
 			.free { background:<?php echo $colors[1];?> !important;}
 			.selected-slot{background:<?php echo $colors[2];?> !important;}
-			.full { background:<?php echo $colors[3];?> !important;cursor: pointer; }
+			.full { background:<?php echo $colors[3];?> !important; }
 			.seat_rectangle { background-color:<?php echo $colors[1];?> !important;}
 			#div1 { background-color:<?php echo $colors[2];?> !important;}
 			</style>

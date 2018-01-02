@@ -313,8 +313,8 @@ function getMinsSlot($mins)
 		<div class="booking-status"><?php echo sprintf(esc_html__('Booked','bookingx'), '');?> <div class="booking-status-booked"></div></div>
 		<div class="booking-status"><?php echo sprintf(esc_html__('Open','bookingx'), ''); ?> 
 		<div class="booking-status-open"></div></div>
-		<div class="booking-status"><?php echo sprintf(esc_html__('New Selected','bookingx'), ''); ?> 
-		<div class="booking-status-selected"></div></div>
+		<!-- <div class="booking-status"><?php //echo sprintf(esc_html__('New Selected','bookingx'), ''); ?> 
+		<div class="booking-status-selected"></div></div> -->
 	</div>
 	<br/>
 		<div id="date_time_display">

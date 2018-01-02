@@ -678,7 +678,7 @@ $(document).ready(function(){
 			$.post(url_obj.plugin_url+'/get_base_on_seat.php', {baseid1: base_temp1, mob: 'no' }, function(data) {
 				var base_data = $.parseJSON(data);
 
-				//console.log(base_data.base_location_type);
+				console.log(base_data.base_location_type);
 
 				if(base_data.base_location_type == 'FM' || base_data.base_location_type == 'Mobile')
 				{
@@ -694,6 +694,7 @@ $(document).ready(function(){
 				{
 					$('#mobile_only').css('display', 'none');
 					$('#user_details').css('display', 'block');
+					$('#field_4_18').hide();
 
 				}
 				if(data!="error")
@@ -1021,9 +1022,26 @@ function validate_form(source_val,destination_val)
 				error_list.push(temp_err);
 			}
 		}
-		if($("#id_postcode").val()== "")
+
+		var selected_radio = $("input[name='mobile_only_choice']:checked").val();
+		if(selected_radio == "YES" )
 		{
-			//error_list.push("Please enter your post code");
+			if($("#id_street").val()== "")
+			{
+				error_list.push("Please enter your Street.");
+			}
+			if($("#id_city").val()== "")
+			{
+				error_list.push("Please enter your City.");
+			}
+			if($("#id_state").val()== "")
+			{
+				error_list.push("Please enter your State / Province / Region.");
+			}
+			if($("#id_postcode").val()== "")
+			{
+				error_list.push("Please enter your Zip / Postal Code.");
+			}
 		}
 
 		if ($("#id_terms").is(":checked")) {}

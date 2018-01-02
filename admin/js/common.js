@@ -563,6 +563,27 @@ if(order_id!= ''){
 			jQuery('#bkx_extra_data').html('');
 			jQuery('#bkx_base_name').html(edit_order_data.base_alias+ ' name : ' + jQuery(this).find('option:selected').text());
 			jQuery.post(url_obj.plugin_url+'/get_base_on_seat.php', {baseid1: base_temp1, mob: 'no' }, function(data) {
+
+				var base_data = jQuery.parseJSON(data);
+
+				if(base_data.base_location_type == 'FM' || base_data.base_location_type == 'Mobile')
+				{
+					//$('#field_4_18').show();
+					//$('#mobile_only').css('display', 'block');
+						jQuery('#field_4_18').hide();
+						jQuery('#mobile_only').css('display', 'block');
+						jQuery('#user_details').css('display', 'none');
+						jQuery('#bkx_page_footer_details').css('display', 'none');
+
+				}
+				if(base_data.base_location_type == 'Fixed Location')
+				{
+					jQuery('#mobile_only').css('display', 'none');
+					jQuery('#user_details').css('display', 'block');
+					jQuery('#field_4_18').hide();
+
+				}
+
 				if(data!="error")
 				{
 					if(data == 'N')
@@ -990,9 +1011,25 @@ function validate_form(source_val,destination_val)
 				error_list.push(temp_err);
 			}
 		}
-		if(jQuery("#id_postcode").val()== "")
+		var selected_radio = jQuery("input[name='mobile_only_choice']:checked").val();
+		if(selected_radio == "YES" )
 		{
-			//error_list.push("Please enter your post code");
+			if(jQuery("#id_street").val()== "")
+			{
+				error_list.push("Please enter your Street.");
+			}
+			if(jQuery("#id_city").val()== "")
+			{
+				error_list.push("Please enter your City.");
+			}
+			if(jQuery("#id_state").val()== "")
+			{
+				error_list.push("Please enter your State / Province / Region.");
+			}
+			if(jQuery("#id_postcode").val()== "")
+			{
+				error_list.push("Please enter your Zip / Postal Code.");
+			}
 		}
 
 	}
@@ -1251,7 +1288,7 @@ jQuery("div").on("click", "div.app_timetable_cell.free", function() {
 
 
 //on click of any time slot
-jQuery("div").on("click", "div.app_timetable_cell.full, div.app_timetable_cell.booking-status-new-selected", function() {
+/*jQuery("div").on("click", "div.app_timetable_cell.full, div.app_timetable_cell.booking-status-new-selected", function() {
     //alert("hii+++");
 	//get the clicked time
 	jQuery("#booking_details_value div").removeClass("booking-status-new-selected");
@@ -1283,12 +1320,12 @@ jQuery("div").on("click", "div.app_timetable_cell.full, div.app_timetable_cell.b
 			var selected_start = starting_slot + 1;
 			var selected_end = starting_slot + temp_obj['no_of_slots']+1;
 
-			/**
+			*
 			 * Added functionality for Check Booking Dates and slot is Available or not
 			 * Also check if slot get out of Range on displayed time then restrict
 			 * By : Divyang Parekh
 			 * Date : 23-11-2015
-			 */
+			 
 
 			//Highlight Selected Time Slots
 			var good_ids = new Array();
@@ -1337,7 +1374,7 @@ jQuery("div").on("click", "div.app_timetable_cell.full, div.app_timetable_cell.b
 	});
 	
 	return false;
-});
+});*/
 
 function view_book(bid){
 	
