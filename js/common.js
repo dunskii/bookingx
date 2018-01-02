@@ -678,16 +678,21 @@ $(document).ready(function(){
 			$.post(url_obj.plugin_url+'/get_base_on_seat.php', {baseid1: base_temp1, mob: 'no' }, function(data) {
 				var base_data = $.parseJSON(data);
 
-				console.log(base_data.base_location_type);
+				$('#base_location_type').val(base_data.base_location_type);
 
-				if(base_data.base_location_type == 'FM' || base_data.base_location_type == 'Mobile')
+				if(base_data.base_location_type == 'FM' )
 				{
-					//$('#field_4_18').show();
-					//$('#mobile_only').css('display', 'block');
 						$('#field_4_18').hide();
 						$('#mobile_only').css('display', 'block');
 						$('#user_details').css('display', 'none');
 						$('#bkx_page_footer_details').css('display', 'none');
+				}
+
+				if(base_data.base_location_type == 'Mobile')
+				{
+					$('#mobile_only').css('display', 'none');
+					$('#user_details').css('display', 'block');
+					$('#field_4_18').show();
 
 				}
 				if(base_data.base_location_type == 'Fixed Location')
@@ -1024,7 +1029,9 @@ function validate_form(source_val,destination_val)
 		}
 
 		var selected_radio = $("input[name='mobile_only_choice']:checked").val();
-		if(selected_radio == "YES" )
+		var base_location_type = $("#base_location_type").val();
+
+		if(selected_radio == "YES" || base_location_type == "Mobile"  )
 		{
 			if($("#id_street").val()== "")
 			{

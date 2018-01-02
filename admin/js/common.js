@@ -567,8 +567,9 @@ if(order_id!= ''){
 				var base_data = jQuery.parseJSON(data);
 
 				//console.log(base_data);
+				jQuery('#base_location_type').val(base_data.base_location_type);
 
-				if(base_data.base_location_type == 'FM' || base_data.base_location_type == 'Mobile')
+				if(base_data.base_location_type == 'FM')
 				{
 					//$('#field_4_18').show();
 					//$('#mobile_only').css('display', 'block');
@@ -576,8 +577,16 @@ if(order_id!= ''){
 						jQuery('#mobile_only').css('display', 'block');
 						jQuery('#user_details').css('display', 'none');
 						jQuery('#bkx_page_footer_details').css('display', 'none');
+				}
+
+				if(base_data.base_location_type == 'Mobile')
+				{
+					jQuery('#mobile_only').css('display', 'none');
+					jQuery('#user_details').css('display', 'block');
+					jQuery('#field_4_18').show();
 
 				}
+
 				if(base_data.base_location_type == 'Fixed Location')
 				{
 					jQuery('#mobile_only').css('display', 'none');
@@ -1014,7 +1023,9 @@ function validate_form(source_val,destination_val)
 			}
 		}
 		var selected_radio = jQuery("input[name='mobile_only_choice']:checked").val();
-		if(selected_radio == "YES" )
+		var base_location_type = jQuery("#base_location_type").val();
+
+		if(selected_radio == "YES" || base_location_type == "Mobile"  )
 		{
 			if(jQuery("#id_street").val()== "")
 			{

@@ -788,6 +788,7 @@ $temp .= get_loader().'
 			        <input type="hidden" name="booking_seat" id="id_booking_seat" />
 			        <input type="hidden" name="booking_base" id="id_booking_seat" />
 			        <input type="hidden" name="booked_days" id="id_booked_days" />
+			        <input type="hidden" name="base_location_type" id="base_location_type" />
 			        <input type="hidden" name="base_days" id="id_base_days" />
 			        <input type="hidden" name="booking_multi_days" id="id_booking_multi_days" />
 			        <input type="hidden" name="update_order_slot" id="id_update_order_slot" />
