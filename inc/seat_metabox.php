@@ -440,7 +440,9 @@ function save_bkx_seat_metaboxes( $post_id, $post, $update )
 			$days_array =$_POST['days_'.$d];
 			if(!empty($days_array))
 			{
-				$seatCertainDay = array_unique($seatCertainDay);
+				if(!empty($seatCertainDay)){
+					$seatCertainDay = array_unique($seatCertainDay);
+				}
 				$selected_days['selected_days_'.$d]['days'] =  $days_array;
 				foreach ($days_array as $days_week) {
 					$seatCertainDay[] = $days_week;

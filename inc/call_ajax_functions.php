@@ -17,9 +17,10 @@ add_action( 'wp_ajax_check_seat_exixts', 'prefix_ajax_check_seat_exixts' );
 add_action( 'wp_ajax_nopriv_check_seat_exixts', 'prefix_ajax_check_seat_exixts' );
 function prefix_ajax_check_seat_exixts()
 {
-    $current_blog_id = get_current_blog_id();
-    switch_to_blog( $current_blog_id );
-    
+    if ( is_multisite() ) { 
+        $current_blog_id = get_current_blog_id();
+        switch_to_blog( $current_blog_id );
+    }
     $seatEmail = $_POST[ 'email' ];
     $user_id   = username_exists( $seatEmail );
     if ( !$user_id && email_exists( $seatEmail ) == false ) {
