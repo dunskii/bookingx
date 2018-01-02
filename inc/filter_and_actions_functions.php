@@ -1156,16 +1156,18 @@ function bkx_list_table_views_filter( array $view ) {
         $current_user = wp_get_current_user();
         $bkx_seat_role = crud_option_multisite('bkx_seat_role');
         $current_role = $current_user->roles[0];
+        $current_seat_id = $current_user->ID;
+        
 
-        if( $bkx_seat_role == $current_role) {
+        if( $bkx_seat_role == $current_role && $current_seat_id != '' ) {
 
             unset($view );
             $add_class = '';
 
-            $current_seat_id = $current_user->ID;
             $seat_post_id = get_user_meta( $current_seat_id, 'seat_post_id', true ); 
-            
-            $querystr = "
+            if(isset($seat_post_id) && $seat_post_id!=''){
+
+                $querystr = "
                 SELECT $wpdb->posts.post_status, COUNT( * ) AS num_posts
                 FROM $wpdb->posts, $wpdb->postmeta
                 WHERE $wpdb->posts.ID = $wpdb->postmeta.post_id 
@@ -1197,12 +1199,16 @@ function bkx_list_table_views_filter( array $view ) {
 
              $view['all'] = '<a '.$all_class.' href="edit.php?post_type=bkx_booking"> All <span class="count">('.$total_post.')</span></a>';
 
-            if(!empty($status_counts)){
-                foreach ($status_counts as $key => $status) {
-                if($query_request == $key){ $add_class = 'class="current"';}else{ $add_class = ""; }  
-                    $view[$key] = '<a '.$add_class.' href="edit.php?post_status='.$key.'&post_type=bkx_booking">'.$status[0]['label'].' <span class="count">('.$status[0]['count'].')</span></a>';   
-                }
-            }    
+                if(!empty($status_counts)){
+                    foreach ($status_counts as $key => $status) {
+                    if($query_request == $key){ $add_class = 'class="current"';}else{ $add_class = ""; }  
+                        $view[$key] = '<a '.$add_class.' href="edit.php?post_status='.$key.'&post_type=bkx_booking">'.$status[0]['label'].' <span class="count">('.$status[0]['count'].')</span></a>';   
+                    }
+                } 
+            }
+            
+
+               
         }
     }
     return $view;
