@@ -566,6 +566,8 @@ if(order_id!= ''){
 
 				var base_data = jQuery.parseJSON(data);
 
+				console.log(base_data);
+
 				if(base_data.base_location_type == 'FM' || base_data.base_location_type == 'Mobile')
 				{
 					//$('#field_4_18').show();
