@@ -129,7 +129,8 @@ class Bkx_Meta_Boxes {
 		wp_nonce_field( 'bookingx_save_data', 'bookingx_meta_nonce' );
 		//$set_height = empty($order_meta['seat_id']) ? 'auto' : '510px';
 		$set_height = empty($order_meta['seat_id']) ? 'auto' : 'auto';
-		if($main_obj->name == 'Default'){
+ 
+		if($main_obj->name == 'Default' || $main_obj->name == 'Coffee' || $main_obj->name == 'Midnight' || $main_obj->name =='Ectoplasm'){
 			$time_text = '#fff;';
 		}else
 		{
@@ -216,7 +217,7 @@ class Bkx_Meta_Boxes {
 	    		}	
 	    	}
 	    if(isset($order_meta['seat_id']) && $order_meta['seat_id']!=''){
-	    	
+
 		$order_summary = sprintf('<div class="bkx-order_summary_full">','Bookingx');
 		$order_summary .= sprintf( __('<h3>Booking #%d details</h3>','Bookingx'),$post->ID);
 		$order_summary .= sprintf('<div class="bkx-general_full">','Bookingx');
