@@ -323,7 +323,7 @@ if(isset($baseid))
         );
         $objListAddition = get_posts( $args );
 
-		$str_addition_name = "<ul>";
+		$str_addition_name = "";
 		foreach( $objListAddition as $extra ){
            // $booking_summary .= '<li>'.$SeatObj->post_title.'</li>';  
             $objextra = get_post_custom( $extra->ID );
@@ -369,12 +369,12 @@ if(isset($baseid))
 				$objAddition[$extra->ID]['addition_time_display'] = sprintf( __( '%1$s Months', 'bookingx' ), $objextra['addition_months'][0]);
 			}
 			//$str_addition_name .= "<li>".$extra->post_title." - $".$objextra['addition_price'][0]." - ".$extra_hours_display."</li>";
-			$str_addition_name .= sprintf( __( '<li> %1$s - %2$s%3$s - %4$s </li>', 'bookingx' ),$extra->post_title,get_current_currency(),$objextra['addition_price'][0],$extra_hours_display);
+			$str_addition_name .= sprintf( __( '%1$s - %2$s%3$s - %4$s , ', 'bookingx' ),$extra->post_title,get_current_currency(),$objextra['addition_price'][0],$extra_hours_display);
 		}
 		//$booking_summary .= '</ul>';
-		$str_addition_name.="</ul>";
+		$str_addition_name = rtrim($str_addition_name, ", ");
 
-		$booking_summary .= '<li><b>'.sprintf( __( '%1$s', 'bookingx' ), $addition_alias).' : </b></li><li>'.$str_addition_name.'</li>';
+		$booking_summary .= '<li><b>'.sprintf( __( '%1$s', 'bookingx' ), $addition_alias).' : </b> '.$str_addition_name.'</li>';
 		
 	}
 	$counter = 0;

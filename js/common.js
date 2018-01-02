@@ -467,6 +467,7 @@ function displaySecondForm()
 		$( "#id_datepicker_extended" ).datepicker();
 		 var today = new Date();
 		 var $today_date =$.datepicker.formatDate('mm/dd/yy', new Date());
+		 $('#id_input_date').val($today_date);
 		 $('#id_datepicker').datepicker('setDate', $today_date);
 		 $( "#id_datepicker" ).datepicker({minDate: today,setDate: $today_date,beforeShowDay: disableSpecificWeekDays, onSelect: function( date, inst){change_timepicker_val(date, inst);}});
 	 }

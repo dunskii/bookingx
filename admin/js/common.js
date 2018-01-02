@@ -356,6 +356,10 @@ function displaySecondForm()
 		var booking_start_date = edit_order_data.booking_start_date;
 		var $today_date = jQuery.datepicker.formatDate('mm/dd/yy', new Date());
 		jQuery('#id_datepicker').datepicker('setDate', booking_start_date);
+		if(edit_order_data.order_id == ''){
+			jQuery('#id_input_date').val($today_date);
+		}
+		
 		jQuery( "#id_datepicker" ).datepicker({defaultDate: booking_start_date, minDate: today,setDate: booking_start_date,beforeShowDay: disableSpecificWeekDays, onSelect: function(date){change_timepicker_val(date);}});
 		//var booking_start_date = edit_order_data.booking_start_date;
 		//jQuery('#id_datepicker').datepicker({'defaultDate' : booking_start_date });
