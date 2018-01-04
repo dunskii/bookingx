@@ -20,6 +20,8 @@ function bkx_extra_boxes_metabox_callback()
 	'posts_per_page'   => -1,
 	'post_type'        => 'bkx_base',
 	'post_status'      => 'publish',
+    'meta_key'         => 'base_is_allow_addition',
+    'meta_value'       => 'Y',
     );
     $get_base_array = get_posts( $args );
     $values = get_post_custom( $post->ID );
@@ -116,7 +118,7 @@ function bkx_extra_boxes_metabox_callback()
 	</div>	
 
 	<div class="active" id="base_name">
-            This <?php echo $addition_alias; ?> is available to the following <?php echo $base_alias; ?>s :		
+            This <?php echo $addition_alias; ?> is available to the following <?php echo $base_alias; ?>'s :		
             <div class="plugin-description">
             <ul class="gfield_checkbox" id="input_2_9">
             <li class="gchoice_9_1">
