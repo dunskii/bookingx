@@ -2,6 +2,7 @@
 require_once('../../../wp-load.php');
 require_once('booking_general_functions.php');
 global $wpdb;
+
 $base_alias = crud_option_multisite("bkx_alias_base");
 /**
  * Converts number of seconds to hours:mins acc to the WP time format setting
@@ -298,23 +299,21 @@ function getMinsSlot($mins)
 
 	$time_unavailable_color = crud_option_multisite('bkx_time_unavailable_color');
 	$time_unavailable_color = ($time_unavailable_color) ? $time_unavailable_color : 'gray';
-
 	$bkx_time_new_selected = crud_option_multisite('bkx_time_new_selected');
-	$bkx_time_new_selected = ($bkx_time_new_selected) ? $bkx_time_new_selected : 'gray';
 
 	if($base_time_option == 'H') { ?>
 	<style type="text/css">
 	.booking-status-booked{ background-color:<?php echo $time_unavailable_color;?> ; }
 	.booking-status-open{ background-color:<?php echo $time_available_color;?> ; }
-	.booking-status-new-selected, .booking-status-selected{ background-color:<?php echo $bkx_time_new_selected;?>!important; }
+	.booking-status-current{ background-color:<?php echo $time_selected_color;?>; }
 	</style>
 	<p><label><?php echo sprintf(esc_html__('Booking of the day','bookingx'), '');?></label></p>
 	<div class="booking-status-div">
 		<div class="booking-status"><?php echo sprintf(esc_html__('Booked','bookingx'), '');?> <div class="booking-status-booked"></div></div>
 		<div class="booking-status"><?php echo sprintf(esc_html__('Open','bookingx'), ''); ?> 
 		<div class="booking-status-open"></div></div>
-		<!-- <div class="booking-status"><?php //echo sprintf(esc_html__('New Selected','bookingx'), ''); ?> 
-		<div class="booking-status-selected"></div></div> -->
+		<div class="booking-status"><?php echo sprintf(esc_html__('Current','bookingx'), ''); ?> 
+		<div class="booking-status-current"></div></div>
 	</div>
 	<br/>
 		<div id="date_time_display">

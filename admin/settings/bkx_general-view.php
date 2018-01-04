@@ -265,7 +265,7 @@
 		</tr>
 
 		<tr class="active">
-			<th scope="row"><label for="Calendar day selected colour"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Add Calendar day selected colour option' ); ?></label></th>
+			<th scope="row"><label for="Calendar day selected colour"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Add Current Selcted colour' ); ?></label></th>
 			<td class="plugin-description">
 				<input type="text" name="bkx_cal_day_selected_color" id="id_bkx_cal_day_selected_color" value="<?php echo crud_option_multisite('bkx_siteclient_css_cal_day_selected_color'); ?>">
 			</td>
@@ -292,12 +292,12 @@
 			</td>
 		</tr>
 
-		<tr class="active"> 
-			<th scope="row"><label for="Add New Selected colour"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Add New Selcted colour' ); ?></label></th>
+		<!-- <tr class="active"> 
+			<th scope="row"><label for="Add New Selected colour"><?php //printf( esc_html__( '%1$s', 'bookingx' ),  'Add Current Selcted colour' ); ?></label></th>
 			<td class="plugin-description">
-				<input type="text" name="bkx_time_new_selected" id="id_bkx_time_new_selected" value="<?php echo crud_option_multisite('bkx_time_new_selected'); ?>">
+				<input type="text" name="bkx_time_new_selected" id="id_bkx_time_new_selected" value="<?php //echo crud_option_multisite('bkx_time_new_selected'); ?>">
 			</td>
-		</tr>
+		</tr> -->
 
 		<tr class="active">
 			<th scope="row"><label for="Time Block BG colour"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Time Block BG colour' ); ?></label></th>

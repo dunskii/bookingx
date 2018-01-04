@@ -156,6 +156,7 @@ class Bkx_Meta_Boxes {
 			.full { background:<?php echo $colors[3];?> !important; }
 			.seat_rectangle { background-color:<?php echo $colors[1];?> !important;}
 			#div1 { background-color:<?php echo $colors[2];?> !important;}
+			.booking-status-current{ background-color:<?php echo $colors[2];?>!important; }
 			</style>
 		 <?php
 		 // if(empty($order_meta['seat_id'])){
