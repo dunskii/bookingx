@@ -456,6 +456,8 @@ function bookinbkx_shortcode_function($atts)
 					$BkxBookingUpdateStatus->update_status('pending');
 					$BkxBookingObj = $BkxBookingUpdateStatus->get_order_meta_data($order_id);
 
+					
+
 					//send email that booking confirmed
 					//$res = do_send_mail($order_id);					 
 					

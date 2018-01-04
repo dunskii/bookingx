@@ -423,7 +423,7 @@ class Bkx_Meta_Boxes {
 		global $wpdb,$current_user;
 
 		$curr_date = date("Y-m-d H:i:s");	        
-		if (isset($_POST) && $_POST['is_submit_4'] == 1) 
+		if (isset($_POST) && $_POST['is_submit_4'] == 1 && is_admin()) 
 		{
 			$strTableName = 'bkx_booking_record';
 

@@ -123,11 +123,11 @@ class BkxBooking {
             // Insert the booking into the database
             $order_id = wp_insert_post( $order_data );
 
-            $BkxBookingObj = new BkxBooking('',$booking_record_id);
-            $order_id = "#".$order_id;
-            $BkxBookingObj->add_order_note( sprintf( __( 'Successfully Initial %1$s Order Created..', 'bookingx' ), $order_id), 0, $manual );
+            $BkxBookingObj = new BkxBooking('',$order_id);
+             
+            $BkxBookingObj->add_order_note( sprintf( __( 'Successfully Initial %1$s Order Created..', 'bookingx' ), "#".$order_id), 0, $manual );
         }
- 
+
         if(empty($order_id))
             return;
 
@@ -180,7 +180,7 @@ class BkxBooking {
 
         //send email that booking confirmed
         do_action( 'bkx_order_edit_status', $order_id, $post_data['post_status'] );
-         
+            
         return $GLOBALS['bkx_booking_data'];
     }
 
