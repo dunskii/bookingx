@@ -253,8 +253,11 @@ class Bkx_Meta_Boxes {
     	if(!empty($order_meta['extra_arr'])){
     		foreach ($order_meta['extra_arr'] as $key => $extra_arr) {
     			$extra_data .=  sprintf(__('&nbsp;<a href="%s" target="_blank">%s</a>&nbsp;','Bookingx'),$extra_arr['permalink'],$extra_arr['title'],$extra_arr['title']);
-    		}
-    		
+    		}	
+    	}
+    	else
+    	{
+    		$extra_data .= sprintf('&nbsp;None','Bookingx');
     	}
     	$extra_data .='</span>';
 	    $order_summary .= sprintf('<div class="bkx-general_full">','Bookingx');

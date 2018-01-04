@@ -84,8 +84,9 @@ function bookinbkx_shortcode_function($atts)
 	$PayPalApiUsername = crud_option_multisite('bkx_api_paypal_username'); //PayPal API Username
 	$PayPalApiPassword = crud_option_multisite('bkx_api_paypal_password'); //Paypal API password
 	$PayPalApiSignature = crud_option_multisite('bkx_api_paypal_signature'); //Paypal API Signature
+	$currency_option = crud_option_multisite('currency_option');
 
-	$PayPalCurrencyCode = 'USD'; //Paypal Currency Code
+	$PayPalCurrencyCode = isset($currency_option) ? $currency_option : 'USD'; //Paypal Currency Code
 	$PayPalReturnURL = $permalink; //Point to process.php page
 	$PayPalCancelURL = $permalink; //Cancel URL if user clicks cancel
 
@@ -456,7 +457,7 @@ function bookinbkx_shortcode_function($atts)
 					$BkxBookingUpdateStatus->update_status('pending');
 					$BkxBookingObj = $BkxBookingUpdateStatus->get_order_meta_data($order_id);
 
-					
+
 
 					//send email that booking confirmed
 					//$res = do_send_mail($order_id);					 
@@ -571,7 +572,7 @@ function bookinbkx_shortcode_function($atts)
 
 					$BkxBooking = new BkxBooking('',$order_id);
 					$BkxBooking->update_payment_meta($final_payment_meta);	
-					$BkxBooking->update_status('ack');	
+					//$BkxBooking->update_status('ack');	
 					$BkxBookingObj = $BkxBooking->get_order_meta_data($order_id);
 
 					$BkxBooking->add_order_note( sprintf( __( 'Payment has been via Paypal done successfully', 'bookingx' ), ''), 0, $manual, $order_id);
@@ -600,20 +601,32 @@ function bookinbkx_shortcode_function($atts)
 						$base_is_location_fixed  = get_post_meta($base_id,'base_is_location_fixed',true);
 						$loc_fixed = ($base_is_location_fixed != '') ? $base_is_location_fixed : '';
 
+						$loc_add = "&nbsp;  <span id='id_totalling'>" . $BkxBookingObj['first_name'] . " " . $BkxBookingObj['last_name'] . "</span><br/>";
 
 						if ($loc_fixed == 'N') {
-
-							$loc_add = "&nbsp;  <span id='id_totalling'>" . $BkxBookingObj['first_name'] . " " . $BkxBookingObj['last_name'] . "</span><br/>";
-							$loc_add .= "street: <span id='id_totalling'>" . $BkxBookingObj['street'] . " </span><br/>";
-							$loc_add .= "City: <span id='id_totalling'>" . $BkxBookingObj['city'] . " </span><br/>";
-							$loc_add .= "State: <span id='id_totalling'>" . $BkxBookingObj['state'] . " - " . $BkxBookingObj['postcode'] . " </span>";
+							
+							if(isset($BkxBookingObj['street'])){
+								$loc_add .= "street: <span id='id_totalling'>" . $BkxBookingObj['street'] . " </span><br/>";
+							}
+							if(isset($BkxBookingObj['city'])){$loc_add .= "City: <span id='id_totalling'>" . $BkxBookingObj['city'] . " </span><br/>";
+							}
+							if(isset($BkxBookingObj['state'])){
+								$loc_add .= "State: <span id='id_totalling'>" . $BkxBookingObj['state'] . " - " . $BkxBookingObj['postcode'] . " </span>";
+							}
 
 						} else {
 
-							$loc_add = "<br/>street: <span id='id_totalling'>" . $seat_personal_info['seat_street'] . " </span><br/>";
-							$loc_add .= "City: <span id='id_totalling'>" .$seat_personal_info['seat_city'] . " </span><br/>";
-							$loc_add .= "State: <span id='id_totalling'>" .$seat_personal_info['seat_state'] . " - " . $seat_personal_info['seat_zip'] . " </span><br/>";
-							$loc_add .= "Country: <span id='id_totalling'>" .$seat_personal_info['seat_country'] . " </span>";
+							if(isset($seat_personal_info['seat_street'])){
+								$loc_add = "<br/>street: <span id='id_totalling'>" . $seat_personal_info['seat_street'] . " </span><br/>";
+							}
+							if(isset($seat_personal_info['seat_city'])){$loc_add .= "City: <span id='id_totalling'>" .$seat_personal_info['seat_city'] . " </span><br/>";
+							}
+							if(isset($seat_personal_info['seat_state'])){
+								$loc_add .= "State: <span id='id_totalling'>" .$seat_personal_info['seat_state'] . " - " . $seat_personal_info['seat_zip'] . " </span><br/>";
+							}
+							if(isset($seat_personal_info['seat_country'])){
+								$loc_add .= "Country: <span id='id_totalling'>" .$seat_personal_info['seat_country'] . " </span>";
+							}
 						}
 
 						$addition_name = explode(",", $addition_ids);								
