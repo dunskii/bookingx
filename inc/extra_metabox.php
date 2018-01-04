@@ -11,6 +11,7 @@ function bkx_extra_boxes_metabox_callback()
     wp_nonce_field('bkx_extra_boxes_metabox','bkx_extra_boxes_metabox_nonce' );
     color_load_scripts(array('iris.min.js'));
     $addition_alias = crud_option_multisite('bkx_alias_addition');
+    $base_alias = crud_option_multisite('bkx_alias_base');
     wp_enqueue_script("main_addition_script", plugins_url( "js/main_addition_1.js" , __DIR__ ),false, rand(1,9999999), true);
     $translation_array = array( 'plugin_url' => plugins_url( "" , __DIR__ ));
     wp_localize_script( 'main_addition_script', 'url_obj', $translation_array );
