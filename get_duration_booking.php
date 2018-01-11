@@ -471,6 +471,14 @@ if(!empty($total_price)){
 		$total_price 	= number_format((float)$total_price, 2, '.', '');
 		$grand_total 	= number_format((float)$grand_total, 2, '.', '');
 	}
+	else
+	{
+		$total_tax 		= 0;
+		$tax_rate 		= '';
+		$grand_total 	= $total_price;
+		$tax_name 		= " ";
+		$total_price 	= $total_price;
+	}
 }
 
 

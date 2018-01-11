@@ -1031,6 +1031,7 @@ function validate_form(source_val,destination_val)
 
 		var selected_radio = $("input[name='mobile_only_choice']:checked").val();
 		var base_location_type = $("#base_location_type").val();
+		var enable_cancel_status = $("#id_enable_cancel_status").val();
 
 		if(selected_radio == "YES" || base_location_type == "Mobile"  )
 		{
@@ -1062,10 +1063,13 @@ function validate_form(source_val,destination_val)
 	        error_list.push("Please checked our privacy policy.");
 	    }
 
-	    if ($("#id_cancellation").is(":checked")) {}
-	    else {
-	        error_list.push("Please checked our cancellation policy.");
+	    if(enable_cancel_status == 1 ){
+	    	if ($("#id_cancellation").is(":checked")) {}
+		    else {
+		        error_list.push("Please checked our cancellation policy.");
+		    }
 	    }
+	    
 	    
 	}
 	

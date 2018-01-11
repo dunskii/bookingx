@@ -725,7 +725,7 @@ function bookinbkx_shortcode_function($atts)
 			} else {
 				echo '<div style="color:red"><b>Error : </b>' . urldecode($httpParsedResponseAr["L_LONGMESSAGE0"]) . '</div>';
 				echo '<pre>';
-				print_r($httpParsedResponseAr);
+				//print_r($httpParsedResponseAr);
 				echo '</pre>';
 			}
 		}

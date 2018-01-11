@@ -1253,9 +1253,8 @@ function bkx_cal_total_tax ( $total_price )
     $bkx_prices_include_tax = crud_option_multisite("bkx_prices_include_tax");
      
 
-    if(empty( $bkx_tax_rate ) || empty( $total_price ) || !is_numeric( $total_price ) || !is_numeric( $bkx_tax_rate ))
+    if(empty( $bkx_tax_rate ) || $bkx_tax_rate < 0 || empty( $total_price ) || !is_numeric( $total_price ) || !is_numeric( $bkx_tax_rate ))
         return;
-
     $total_tax = array();
     $total_tax_is = 0 ;
     $include_tax = '' ;
@@ -1266,13 +1265,11 @@ function bkx_cal_total_tax ( $total_price )
     if( $bkx_prices_include_tax == 1 ){ //Yes, I will enter prices inclusive of tax 
         $total_price = $total_price - $total_tax_is;
         $include_tax = 'minus';
-
     }
     if( $bkx_prices_include_tax == 0 ){ //No, I will enter prices exclusive of tax
         $total_price = $total_price ;
         $include_tax = 'plus';
     }
-
     $grand_total = $total_price + $total_tax_is;
     $total_tax_is = number_format((float)$total_tax_is, 2, '.', '');
     $total_price = number_format((float)$total_price, 2, '.', '');
