@@ -324,8 +324,8 @@ function my_scripts_method()
 
         $bkx_biz_vac_sd = crud_option_multisite('bkx_biz_vac_sd');
         $bkx_biz_vac_ed = crud_option_multisite('bkx_biz_vac_ed');
-
         $bkx_biz_pub_holiday = crud_option_multisite('bkx_biz_pub_holiday');
+        $biz_pub_days = ''; 
         if(!empty($bkx_biz_pub_holiday)){
             $bkx_biz_pub_holiday = array_values($bkx_biz_pub_holiday);
             $biz_pub_days = implode(",", $bkx_biz_pub_holiday); 
