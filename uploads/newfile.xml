@@ -1,111 +1,106 @@
 <?xml version="1.0"?>
 <Root>
   <SeatPosts>
-    <Seat id="283">
+    <Seat id="15">
       <Name>Resource 1</Name>
-      <Description>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</Description>
+      <Description>Resource 1</Description>
       <Postmeta>
-        <seat_street>123 Military Rd</seat_street>
-        <seat_city>Mosman</seat_city>
-        <seat_state>NSW</seat_state>
-        <seat_zip>2088</seat_zip>
-        <seat_country>Australia</seat_country>
+        <seat_colour>#dd3333</seat_colour>
+        <associate_with_user>Y</associate_with_user>
+        <associate_with_user_role/>
+        <associate_with_username/>
+        <seat_street>,</seat_street>
+        <seat_city/>
+        <seat_state/>
+        <seat_zip/>
+        <seat_country>AF</seat_country>
         <seat_is_certain_month>N</seat_is_certain_month>
         <seat_months/>
-        <seat_is_certain_day>Y</seat_is_certain_day>
-        <seat_days>Monday,Tuesday,Wednesday,Thursday,Friday,</seat_days>
-        <seat_days_time>a:5:{i:0;a:3:{s:3:"day";s:6:"monday";s:9:"time_from";s:8:"09:00 AM";s:9:"time_till";s:8:"05:00 PM";}i:1;a:3:{s:3:"day";s:7:"tuesday";s:9:"time_from";s:8:"09:00 AM";s:9:"time_till";s:8:"05:00 PM";}i:2;a:3:{s:3:"day";s:9:"wednesday";s:9:"time_from";s:8:"09:00 AM";s:9:"time_till";s:8:"05:00 PM";}i:3;a:3:{s:3:"day";s:8:"thursday";s:9:"time_from";s:8:"09:00 AM";s:9:"time_till";s:8:"05:00 PM";}i:4;a:3:{s:3:"day";s:6:"friday";s:9:"time_from";s:8:"09:00 AM";s:9:"time_till";s:8:"05:00 PM";}}</seat_days_time>
+        <seat_is_certain_day>N</seat_is_certain_day>
+        <seat_days_time/>
         <seatIsPrePayment>N</seatIsPrePayment>
-        <seat_payment_type>D</seat_payment_type>
-        <seat_payment_option>P</seat_payment_option>
+        <seat_payment_type>FP</seat_payment_type>
+        <seat_payment_option>FA</seat_payment_option>
         <seat_amount/>
-        <seat_percentage>25</seat_percentage>
-        <seatPhone>0403885899</seatPhone>
-        <seatEmail>dunskii@gmail.com</seatEmail>
-        <seatIsAlternateEmail>Yes</seatIsAlternateEmail>
-        <seatAlternateEmail>dunskii@hotmail.com</seatAlternateEmail>
-        <seatIsIcal>Yes</seatIsIcal>
-        <seatIcalAddress>dunskii.com_g1pujjeeg73jerkop076kcm3ms@group.calendar.google.com</seatIcalAddress>
-        <seat_wp_user_id>2</seat_wp_user_id>
-        <_thumbnail_id>41</_thumbnail_id>
-        <associate_with_user>Y</associate_with_user>
-        <associate_with_user_role>resource</associate_with_user_role>
-        <associate_with_username>dunskii@gmail.com</associate_with_username>
+        <seat_percentage/>
+        <seatPhone>454545455454</seatPhone>
+        <seatEmail>v1@gmail.com</seatEmail>
+        <seatIsAlternateEmail/>
+        <seatAlternateEmail/>
+        <seatIsIcal/>
+        <seatIcalAddress/>
+        <bkx_user_auto>Y</bkx_user_auto>
+        <seat_is_different_loc>N</seat_is_different_loc>
       </Postmeta>
     </Seat>
   </SeatPosts>
   <BasePosts>
-    <Base id="284">
+    <Base id="16">
       <Name>Service 1</Name>
-      <Description>Lorem ipsum dolor sit amet, ne vis veniam facete blandit, audire tibique sit at, dicam postulant maluisset vis ei. Dolor argumentum cum no, no soluta temporibus ius, vel cu decore regione meliore. Nec fabulas facilis eu.</Description>
+      <Description>Service 1</Description>
       <Postmeta>
-        <_thumbnail_id>43</_thumbnail_id>
-        <base_price>100</base_price>
+        <base_price>150</base_price>
+        <base_colour>#eeee22</base_colour>
         <base_time_option>H</base_time_option>
         <base_month/>
         <base_day/>
         <base_hours>1</base_hours>
-        <base_minutes>00</base_minutes>
-        <base_seats/>
-        <base_is_location_fixed>N</base_is_location_fixed>
-        <base_is_mobile_only>Y</base_is_mobile_only>
+        <base_minutes>30</base_minutes>
+        <base_seats>All</base_seats>
+        <base_is_location_fixed>Y</base_is_location_fixed>
+        <base_is_mobile_only>N</base_is_mobile_only>
         <base_is_location_differ_seat>N</base_is_location_differ_seat>
         <base_city/>
         <base_street/>
         <base_state/>
         <base_postcode/>
         <base_is_allow_addition>Y</base_is_allow_addition>
-        <base_is_extended>Y</base_is_extended>
-        <base_is_unavailable>Y</base_is_unavailable>
+        <base_is_extended>N</base_is_extended>
+        <base_is_unavailable>N</base_is_unavailable>
         <base_unavailable_from/>
         <base_unavailable_till/>
-        <base_selected_seats>a:1:{i:0;s:2:"40";}</base_selected_seats>
+        <base_selected_seats>a:1:{i:0;s:2:"15";}</base_selected_seats>
+        <base_location_type>Fixed Location</base_location_type>
+        <base_seat_all>All</base_seat_all>
       </Postmeta>
     </Base>
   </BasePosts>
-  <ExtraPosts>
-    <Extra id="286">
-      <Name>Extras 1</Name>
-      <Description>Lorem ipsum dolor sit amet, ne vis veniam facete blandit, audire tibique sit at,</Description>
+  <BookingPosts>
+    <Booking id="17">
+      <Name>Protected: Order - Jan 16, 2018 @ 08:33 AM</Name>
+      <Description/>
+      <post_status>bkx-pending</post_status>
+      <comment_status>open</comment_status>
+      <ping_status>closed</ping_status>
+      <post_date>2018-01-16 08:33:23</post_date>
+      <post_date_gmt>2018-01-16 08:33:23</post_date_gmt>
       <Postmeta>
-        <_thumbnail_id>45</_thumbnail_id>
-        <addition_price>25</addition_price>
-        <addition_time_option>H</addition_time_option>
-        <addition_months/>
-        <addition_days/>
-        <addition_hours>0</addition_hours>
-        <addition_minutes>30</addition_minutes>
-        <addition_overlap>N</addition_overlap>
-        <addition_bases/>
-        <addition_differ_seat/>
-        <addition_differ_base/>
-        <addition_is_unavailable>Y</addition_is_unavailable>
-        <addition_unavailable_from>02/22/2017</addition_unavailable_from>
-        <addition_unavailable_to>02/25/2017</addition_unavailable_to>
-        <extra_selected_base>a:1:{i:0;s:2:"42";}</extra_selected_base>
+        <seat_id>15</seat_id>
+        <base_id>16</base_id>
+        <first_name>Andrew</first_name>
+        <last_name>Dunne</last_name>
+        <phone>5656256655</phone>
+        <email>dparekh4@gmail.com</email>
+        <include_tax>plus</include_tax>
+        <total_duration>1.5 Hours</total_duration>
+        <payment_method>cash</payment_method>
+        <payment_status>Not Completed</payment_status>
+        <created_date>2018-01-16 08:33:23</created_date>
+        <created_by>1</created_by>
+        <booking_date>01/23/2018</booking_date>
+        <booking_time>5400</booking_time>
+        <booking_start_date>2018-01-23 10:30:00</booking_start_date>
+        <booking_end_date>2018-01-23 12:00:00</booking_end_date>
+        <booking_time_from>10:30</booking_time_from>
+        <order_id>17</order_id>
+        <post_status>bkx-pending</post_status>
+        <order_meta_data>a:33:{s:7:"seat_id";s:2:"15";s:7:"base_id";s:2:"16";s:12:"addition_ids";s:0:"";s:10:"first_name";s:6:"Andrew";s:9:"last_name";s:5:"Dunne";s:5:"phone";s:10:"5656256655";s:5:"email";s:18:"dparekh4@gmail.com";s:6:"street";s:0:"";s:4:"city";s:0:"";s:5:"state";s:0:"";s:8:"postcode";s:0:"";s:11:"total_price";N;s:9:"total_tax";i:0;s:8:"tax_rate";N;s:11:"include_tax";s:4:"plus";s:14:"total_duration";s:9:"1.5 Hours";s:14:"payment_method";s:4:"cash";s:14:"payment_status";s:13:"Not Completed";s:12:"created_date";s:19:"2018-01-16 08:33:23";s:10:"created_by";i:1;s:12:"booking_date";s:10:"01/23/2018";s:12:"booking_time";s:4:"5400";s:18:"extended_base_time";s:0:"";s:18:"booking_start_date";s:19:"2018-01-23 10:30:00";s:16:"booking_end_date";s:19:"2018-01-23 12:00:00";s:15:"addedtocalendar";i:0;s:17:"booking_time_from";s:5:"10:30";s:8:"currency";s:0:"";s:8:"order_id";i:17;s:18:"booking_multi_days";s:0:"";s:9:"base_days";s:0:"";s:17:"update_order_slot";s:0:"";s:11:"post_status";s:11:"bkx-pending";}</order_meta_data>
+        <bookingTimeRecord>a:1:{i:0;a:6:{s:17:"booking_record_id";i:17;s:12:"booking_date";s:10:"01/23/2018";s:17:"booking_time_from";s:5:"10:30";s:17:"booking_time_till";s:0:"";s:8:"full_day";s:21:"43,44,45,46,47,48,49,";s:12:"created_date";s:19:"2018-01-16 08:33:23";}}</bookingTimeRecord>
+        <last_updated_date>2018-01-16 08:33:24</last_updated_date>
+        <updated_by>1</updated_by>
       </Postmeta>
-    </Extra>
-    <Extra id="285">
-      <Name>Extra 2</Name>
-      <Description>Extra 2</Description>
-      <Postmeta>
-        <addition_price>50</addition_price>
-        <addition_time_option>H</addition_time_option>
-        <addition_months/>
-        <addition_days/>
-        <addition_hours>1</addition_hours>
-        <addition_minutes>00</addition_minutes>
-        <addition_overlap>Y</addition_overlap>
-        <addition_bases>All</addition_bases>
-        <addition_differ_seat/>
-        <addition_differ_base/>
-        <addition_is_unavailable/>
-        <addition_unavailable_from/>
-        <addition_unavailable_to/>
-        <extra_selected_base>a:1:{i:0;s:2:"42";}</extra_selected_base>
-      </Postmeta>
-    </Extra>
-  </ExtraPosts>
+    </Booking>
+  </BookingPosts>
   <Settings>
     <bkx_google_calendar_id/>
     <bkx_api_paypal_paypalmode/>
@@ -113,51 +108,51 @@
     <bkx_api_paypal_password/>
     <bkx_api_paypal_signature/>
     <bkx_api_google_map_key/>
-    <enable_cancel_booking>1</enable_cancel_booking>
-    <enable_any_seat>1</enable_any_seat>
-    <cancellation_policy_page_id>38</cancellation_policy_page_id>
-    <currency_option>AUD</currency_option>
-    <reg_customer_crud_op>1</reg_customer_crud_op>
-    <bkx_seat_role>resource</bkx_seat_role>
-    <bkx_set_booking_page>2</bkx_set_booking_page>
-    <bkx_alias_seat/>
-    <bkx_alias_base/>
-    <bkx_alias_addition/>
-    <bkx_alias_notification/>
+    <enable_cancel_booking/>
+    <enable_any_seat/>
+    <cancellation_policy_page_id/>
+    <currency_option/>
+    <reg_customer_crud_op/>
+    <bkx_seat_role/>
+    <bkx_set_booking_page>3</bkx_set_booking_page>
+    <bkx_alias_seat>Resource</bkx_alias_seat>
+    <bkx_alias_base>Service</bkx_alias_base>
+    <bkx_alias_addition>Extra</bkx_alias_addition>
+    <bkx_alias_notification>Notification</bkx_alias_notification>
     <bkx_client_id/>
     <bkx_client_secret/>
-    <bkx_tempalate_thankyou>105</bkx_tempalate_thankyou>
-    <bkx_tempalate_pending>106</bkx_tempalate_pending>
-    <bkx_tempalate_sucess>107</bkx_tempalate_sucess>
-    <bkx_term_cond_page>50</bkx_term_cond_page>
-    <bkx_privacy_policy_page>50</bkx_privacy_policy_page>
-    <enable_editor>1</enable_editor>
-    <notice_time_extended_text_alias>How many hours would you like?</notice_time_extended_text_alias>
+    <bkx_tempalate_thankyou>7</bkx_tempalate_thankyou>
+    <bkx_tempalate_pending/>
+    <bkx_tempalate_sucess>13</bkx_tempalate_sucess>
+    <bkx_term_cond_page/>
+    <bkx_privacy_policy_page/>
+    <enable_editor/>
+    <notice_time_extended_text_alias/>
     <label_of_step1/>
     <bkx_siteuser_canedit_seat/>
     <bkx_siteclient_canedit_css/>
-    <bkx_siteclient_css_text_color>#4c4542</bkx_siteclient_css_text_color>
-    <bkx_siteclient_css_background_color>#eeeff0</bkx_siteclient_css_background_color>
-    <bkx_siteclient_css_border_color>#896ca7</bkx_siteclient_css_border_color>
-    <bkx_siteclient_css_progressbar_color>#8c64a9</bkx_siteclient_css_progressbar_color>
+    <bkx_siteclient_css_text_color>#40120a</bkx_siteclient_css_text_color>
+    <bkx_siteclient_css_background_color>#f0e8e7</bkx_siteclient_css_background_color>
+    <bkx_siteclient_css_border_color>#1f191f</bkx_siteclient_css_border_color>
+    <bkx_siteclient_css_progressbar_color>#875428</bkx_siteclient_css_progressbar_color>
     <bkx_siteclient_css_cal_border_color/>
     <bkx_siteclient_css_cal_day_color/>
     <bkx_siteclient_css_cal_day_selected_color/>
-    <time_available_color>#85b661</time_available_color>
-    <time_selected_color>#cf3939</time_selected_color>
-    <time_unavailable_color>#433b3b</time_unavailable_color>
-    <time_block_bg_color>#c96d6d</time_block_bg_color>
-    <time_block_extra_color>#8349ce</time_block_extra_color>
-    <time_block_service_color>#71ad46</time_block_service_color>
-    <bkx_business_name>Booking X Staging</bkx_business_name>
-    <bkx_business_email>test@bookingx.com</bkx_business_email>
-    <bkx_business_phone>1234567890</bkx_business_phone>
+    <time_available_color/>
+    <time_selected_color/>
+    <time_unavailable_color/>
+    <time_block_bg_color/>
+    <time_block_extra_color/>
+    <time_block_service_color/>
+    <bkx_business_name>Divyang</bkx_business_name>
+    <bkx_business_email>divyang@dunskii.com</bkx_business_email>
+    <bkx_business_phone>454545454545</bkx_business_phone>
     <bkx_business_address_1>123 Military Rd</bkx_business_address_1>
     <bkx_business_address_2/>
     <bkx_business_city>Mosman</bkx_business_city>
     <bkx_business_state>NSW</bkx_business_state>
     <bkx_business_zip>2088</bkx_business_zip>
     <bkx_business_country>AU</bkx_business_country>
-    <bkx_business_days>a:4:{s:15:"selected_days_1";a:2:{s:4:"days";a:2:{i:0;s:6:"Sunday";i:1;s:6:"Monday";}s:4:"time";a:2:{s:4:"open";s:8:"10:00 AM";s:5:"close";s:7:"5:00 PM";}}s:15:"selected_days_2";a:2:{s:4:"days";a:1:{i:0;s:6:"Monday";}s:4:"time";a:2:{s:4:"open";s:7:"8:00 AM";s:5:"close";s:7:"5:00 PM";}}s:15:"selected_days_3";a:2:{s:4:"days";a:3:{i:0;s:7:"Tuesday";i:1;s:9:"Wednesday";i:2;s:8:"Thursday";}s:4:"time";a:2:{s:4:"open";s:8:"10:00 AM";s:5:"close";s:7:"4:00 PM";}}s:15:"selected_days_4";a:2:{s:4:"days";a:1:{i:0;s:6:"Friday";}s:4:"time";a:2:{s:4:"open";s:8:"10:00 AM";s:5:"close";s:7:"5:00 PM";}}}</bkx_business_days>
+    <bkx_business_days>a:1:{s:15:"selected_days_1";a:2:{s:4:"days";a:7:{i:0;s:6:"Sunday";i:1;s:6:"Monday";i:2;s:7:"Tuesday";i:3;s:9:"Wednesday";i:4;s:8:"Thursday";i:5;s:6:"Friday";i:6;s:8:"Saturday";}s:4:"time";a:2:{s:4:"open";s:8:"10:00 AM";s:5:"close";s:7:"5:00 PM";}}}</bkx_business_days>
   </Settings>
 </Root>

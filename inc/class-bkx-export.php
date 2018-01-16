@@ -55,12 +55,13 @@ class BkxExport {
 		$this->xmlobj->formatOutput = true;
 
 		$cur_date = date("Y-m-d_H:i:s");
+		
 		$content = $this->xmlobj->saveXML();
 
 		$newfile_name = plugin_dir_path( __DIR__ )."uploads/newfile.xml";
 		unlink($newfile_name);
 
-		$file_handle = fopen($newfile_name, "w") or die("Unable to open file!");
+		$file_handle = fopen($newfile_name, "w") or die("Please allow file permission to generate file on booking/uploads Directory.");
 		fwrite($file_handle,$content);
 
 		header('Content-Disposition: attachment; filename="bookingx-'.$cur_date.'.xml"');
@@ -70,12 +71,11 @@ class BkxExport {
 
 	public function get_settings(){
 
-		$calender_id_google = crud_option_multisite('bkx_google_calendar_id');
-		$temp_paypalmode = crud_option_multisite('bkx_api_paypal_paypalmode');
- 		$temp_username = crud_option_multisite('bkx_api_paypal_username');
-		$temp_password = crud_option_multisite('bkx_api_paypal_password'); 
-		$temp_signature = crud_option_multisite('bkx_api_paypal_signature');
-		$temp_gmap_key = crud_option_multisite('bkx_api_google_map_key');
+		$bkx_api_paypal_paypalmode = crud_option_multisite('bkx_api_paypal_paypalmode');
+ 		$bkx_api_paypal_username = crud_option_multisite('bkx_api_paypal_username');
+		$bkx_api_paypal_password = crud_option_multisite('bkx_api_paypal_password'); 
+		$bkx_api_paypal_signature = crud_option_multisite('bkx_api_paypal_signature');
+		$bkx_api_google_map_key = crud_option_multisite('bkx_api_google_map_key');
 		$enable_cancel_booking = crud_option_multisite('enable_cancel_booking');
 		$enable_any_seat = crud_option_multisite('enable_any_seat');
 		$cancellation_policy_page_id = crud_option_multisite('cancellation_policy_page_id');
@@ -83,14 +83,14 @@ class BkxExport {
 		$reg_customer_crud_op  = crud_option_multisite('reg_customer_crud_op');
 		$bkx_seat_role = crud_option_multisite('bkx_seat_role');
 		$bkx_set_booking_page = crud_option_multisite('bkx_set_booking_page');
-		$temp_seat = crud_option_multisite('bkx_alias_seat');
-		$temp_base = crud_option_multisite('bkx_alias_base');
-		$temp_addition = crud_option_multisite('bkx_alias_addition');
-		$temp_notification = crud_option_multisite('bkx_alias_notification');
-		$temp_client_id = crud_option_multisite('bkx_client_id');
-		$temp_client_secret = crud_option_multisite('bkx_client_secret');
-		$temp_redirect_uri = crud_option_multisite('bkx_redirect_uri');
-		$temp_client_id = crud_option_multisite('bkx_google_calendar_id');
+		$bkx_alias_seat = crud_option_multisite('bkx_alias_seat');
+		$bkx_alias_base = crud_option_multisite('bkx_alias_base');
+		$bkx_alias_addition = crud_option_multisite('bkx_alias_addition');
+		$bkx_alias_notification = crud_option_multisite('bkx_alias_notification');
+		$bkx_client_id = crud_option_multisite('bkx_client_id');
+		$bkx_client_secret = crud_option_multisite('bkx_client_secret');
+		$bkx_redirect_uri = crud_option_multisite('bkx_redirect_uri');
+		$bkx_google_calendar_id = crud_option_multisite('bkx_google_calendar_id');
 		$bkx_tempalate_thankyou = crud_option_multisite("bkx_tempalate_thankyou");
 		$bkx_tempalate_pending = crud_option_multisite("bkx_tempalate_pending");
 		$bkx_tempalate_sucess = crud_option_multisite("bkx_tempalate_sucess");	
@@ -108,12 +108,22 @@ class BkxExport {
 		$bkx_siteclient_css_cal_border_color = crud_option_multisite("bkx_siteclient_css_cal_border_color");
 		$bkx_siteclient_css_cal_day_color = crud_option_multisite("bkx_siteclient_css_cal_day_color");
 		$bkx_siteclient_css_cal_day_selected_color = crud_option_multisite("bkx_siteclient_css_cal_day_selected_color");
-		$time_available_color = crud_option_multisite("time_available_color");
-		$time_selected_color = crud_option_multisite("time_selected_color");
-		$time_unavailable_color = crud_option_multisite("time_unavailable_color");
-		$time_block_bg_color = crud_option_multisite("time_block_bg_color");
+		$time_available_color = crud_option_multisite("bkx_time_available_color");
+		$time_selected_color = crud_option_multisite("bkx_time_selected_color");
+		$time_unavailable_color = crud_option_multisite("bkx_time_unavailable_color");
+		$time_block_bg_color = crud_option_multisite("bkx_time_block_bg_color");
 		$time_block_extra_color = crud_option_multisite("time_block_extra_color");
 		$time_block_service_color = crud_option_multisite("time_block_service_color");
+		$time_block_extra_color = crud_option_multisite("bkx_time_block_extra_color");
+
+		$bkx_time_block_service_color = crud_option_multisite("bkx_time_block_service_color");
+		$bkx_cal_month_title_color = crud_option_multisite("bkx_cal_month_title_color");
+		$bkx_cal_month_bg_color = crud_option_multisite("bkx_cal_month_bg_color");
+		$bkx_time_new_selected = crud_option_multisite("bkx_time_new_selected");
+
+		$bkx_tax_rate = crud_option_multisite("bkx_tax_rate");
+		$bkx_tax_name = crud_option_multisite("bkx_tax_name");
+		$bkx_prices_include_tax = crud_option_multisite("bkx_prices_include_tax");
 		$bkx_business_name = crud_option_multisite("bkx_business_name");
 		$bkx_business_email = crud_option_multisite("bkx_business_email");
 		$bkx_business_phone = crud_option_multisite("bkx_business_phone");		
@@ -124,7 +134,6 @@ class BkxExport {
 		$bkx_business_zip = crud_option_multisite("bkx_business_zip");
 		$bkx_business_country = crud_option_multisite("bkx_business_country");
 		$bkx_business_days = maybe_serialize(crud_option_multisite("bkx_business_days"));
-		 
 
 		$settingTag = $this->parent_root->appendChild($this->xmlobj->createElement('Settings'));
 
@@ -164,12 +173,17 @@ class BkxExport {
 		$settingTag->appendChild($this->xmlobj->createElement("bkx_siteclient_css_cal_border_color", $bkx_siteclient_css_cal_border_color));
 		$settingTag->appendChild($this->xmlobj->createElement("bkx_siteclient_css_cal_day_color", $bkx_siteclient_css_cal_day_color));
 		$settingTag->appendChild($this->xmlobj->createElement("bkx_siteclient_css_cal_day_selected_color", $bkx_siteclient_css_cal_day_selected_color));
-		$settingTag->appendChild($this->xmlobj->createElement("time_available_color", $time_available_color));
-		$settingTag->appendChild($this->xmlobj->createElement("time_selected_color", $time_selected_color));
-		$settingTag->appendChild($this->xmlobj->createElement("time_unavailable_color", $time_unavailable_color));
-		$settingTag->appendChild($this->xmlobj->createElement("time_block_bg_color", $time_block_bg_color));
-		$settingTag->appendChild($this->xmlobj->createElement("time_block_extra_color", $time_block_extra_color));
-		$settingTag->appendChild($this->xmlobj->createElement("time_block_service_color", $time_block_service_color));
+		$settingTag->appendChild($this->xmlobj->createElement("bkx_time_available_color", $time_available_color));
+		$settingTag->appendChild($this->xmlobj->createElement("bkx_time_selected_color", $time_selected_color));
+		$settingTag->appendChild($this->xmlobj->createElement("bkx_time_unavailable_color", $time_unavailable_color));
+		$settingTag->appendChild($this->xmlobj->createElement("bkx_time_block_bg_color", $time_block_bg_color));
+		$settingTag->appendChild($this->xmlobj->createElement("bkx_time_block_extra_color", $time_block_extra_color));
+		$settingTag->appendChild($this->xmlobj->createElement("bkx_time_block_service_color", $time_block_service_color));
+		$settingTag->appendChild($this->xmlobj->createElement("bkx_time_block_service_color", $bkx_time_block_service_color));
+		$settingTag->appendChild($this->xmlobj->createElement("bkx_cal_month_title_color", $bkx_cal_month_title_color));
+		$settingTag->appendChild($this->xmlobj->createElement("bkx_cal_month_bg_color", $bkx_cal_month_bg_color));
+		$settingTag->appendChild($this->xmlobj->createElement("bkx_time_new_selected", $bkx_time_new_selected));
+
 		$settingTag->appendChild($this->xmlobj->createElement("bkx_business_name", $bkx_business_name));
 		$settingTag->appendChild($this->xmlobj->createElement("bkx_business_email", $bkx_business_email));
 		$settingTag->appendChild($this->xmlobj->createElement("bkx_business_phone", $bkx_business_phone));
@@ -177,12 +191,13 @@ class BkxExport {
 		$settingTag->appendChild($this->xmlobj->createElement("bkx_business_address_2", $bkx_business_address_2));
 		$settingTag->appendChild($this->xmlobj->createElement("bkx_business_city", $bkx_business_city));
 		$settingTag->appendChild($this->xmlobj->createElement("bkx_business_state", $bkx_business_state));
- 
 		$settingTag->appendChild($this->xmlobj->createElement("bkx_business_zip", $bkx_business_zip));
 		$settingTag->appendChild($this->xmlobj->createElement("bkx_business_country", $bkx_business_country));
-		//$bkx_business_days = maybe_unserialize($bkx_business_days);
 		$settingTag->appendChild($this->xmlobj->createElement("bkx_business_days", $bkx_business_days));
- 
+
+		$settingTag->appendChild($this->xmlobj->createElement("bkx_tax_rate", $bkx_tax_rate));
+		$settingTag->appendChild($this->xmlobj->createElement("bkx_tax_name", $bkx_tax_name));
+		$settingTag->appendChild($this->xmlobj->createElement("bkx_prices_include_tax", $bkx_prices_include_tax));
 
 	}
 

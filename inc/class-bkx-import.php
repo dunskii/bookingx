@@ -61,7 +61,7 @@ class BkxImport
 					$bkx_base 		= $this->generate_post( $BasePosts, 'bkx_base' );
 					$bkx_addition 	= $this->generate_post( $ExtraPosts, 'bkx_addition' );
 					$generate_setting = $this->generate_setting($Settings);
-					//$bkx_booking 	= $this->generate_post( $BookingPosts, 'bkx_booking' );
+					$bkx_booking 	= $this->generate_post( $BookingPosts, 'bkx_booking' );
 
 					unlink($this->target_file);
 					$_SESSION['success'] =  'File imported successfully..';
