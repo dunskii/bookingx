@@ -123,21 +123,33 @@ class BkxImport
 						// Generate Post Meta
 			 	  		$postmetaObj = $posts->Postmeta;
 
+			 	  		// Generate Comment 
+						if($type == 'bkx_booking' && !empty($posts->CommentData))
+			 	  		{
+				 	  		$commentObj = json_decode($posts->CommentData);
+				 	  		$BkxBookingObj = new BkxBooking('',$post_id);
+				 	  		if(!empty($commentObj) && !empty($post_id)){
+				 	  			foreach ($commentObj as $key => $comment_arr) {				 	  				
+				 	  				$BkxBookingObj->add_order_note( $comment_arr->comment_content , 0, $manual );
+					 	  		}
+				 	  		}
+			 	  		}
+
 			 	  		if(!empty($postmetaObj) && !empty($post_id)){
-			 	  		//if(!empty($postmetaObj)){
 			 	  			foreach ($postmetaObj as $postmeta_arr) {
 
 		 	  					if(!empty($postmeta_arr))
 		 	  					{
-		 	  						//print_r($postmeta_arr);
 		 	  						foreach ($postmeta_arr as $key => $postmeta) {	 
-		 	  							//echo $key."==".reset($postmeta)."<br>";
 		 	  							$postmeta_data = maybe_unserialize(reset($postmeta));
 		 	  							update_post_meta( $post_id, $key, $postmeta_data);		  
 				 	  				}
 		 	  					}
 				 	  		}
-			 	  		}			
+			 	  		}
+
+
+
 			 		}
 
 			 	}

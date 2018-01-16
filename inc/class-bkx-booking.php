@@ -391,6 +391,18 @@ class BkxBooking {
 
     }
 
+    public function get_booking_notes_for_export( $order_id ){
+
+        global $wpdb;
+
+        if(empty($order_id))
+            return;
+        $booking_note_data = get_comments( array(
+            'post_id'   => $order_id,
+        ) );
+        if(!empty($booking_note_data) && !is_wp_error($booking_note_data)){ return $booking_note_data; } 
+    }
+
     public function GetBookedRecords($search=null)
     {
         global $wpdb;

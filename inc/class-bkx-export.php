@@ -236,6 +236,15 @@ class BkxExport {
 						$PostTag->appendChild($this->xmlobj->createElement("ping_status", $post->ping_status));
 						$PostTag->appendChild($this->xmlobj->createElement("post_date", $post->post_date));
 						$PostTag->appendChild($this->xmlobj->createElement("post_date_gmt", $post->post_date_gmt));
+
+				        $orderObj =  new BkxBooking();
+				        $booking_note_data = $orderObj->get_booking_notes_for_export($post->ID);
+				        $booking_note_data_json = json_encode($booking_note_data);
+
+				        if(!empty($booking_note_data) && !is_wp_error($booking_note_data)){
+				            $commentdata = $PostTag->appendChild($this->xmlobj->createElement("CommentData", $booking_note_data_json));
+				            
+				        }
 					}
 
 				    if(!empty($metas) && !is_wp_error($metas)){ 
