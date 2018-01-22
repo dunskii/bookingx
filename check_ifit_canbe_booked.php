@@ -194,8 +194,6 @@ if (isset($_POST['seatid']) && $_POST['seatid'] == 'any' && crud_option_multisit
 		}
 	endif;
 
-	/*$bookingtimeQuery = "SELECT * FROM bkx_booking_record br inner join bkx_booking_time bt on bt.booking_record_id = br.booking_record_id WHERE br.payment_status = 'Completed' AND br.seat_id = ".trim($free_seat_id)." ".$add_base_clause." AND bt.booking_date = '".trim($bookingdate)."'";*/
-
 	$_SESSION['free_seat_id'] = $free_seat_id;
 	$search = array('bookigndate' => $bookingdate , 'seat_id' => $free_seat_id 
 		,'status' => $order_statuses,'free_seat_id'=> $free_seat_id ,'display'=>1);
@@ -314,9 +312,6 @@ else
 				if($numberOfSlotsRemaining > 0) //to prevent slot to be negative
 				{
 					$nextDate = date('m/d/Y', strtotime("+$i day", strtotime($bookingdate)));
-
-					/*$bookingtimeQueryNext = "SELECT * FROM `bkx_booking_record` inner join bkx_booking_time on bkx_booking_time.booking_record_id = bkx_booking_record.booking_record_id WHERE  payment_status = 'Completed' AND seat_id = ".trim($seatid)." AND bkx_booking_time.booking_date = '".trim($nextDate)."'";
-					$resBookingTimeNext = $wpdb->get_results($bookingtimeQueryNext);*/
 
 					$search = array('bookigndate' => $nextDate , 'seat_id' => $_POST['seatid'] ,'display'=>1);
 					$BkxBooking =  new BkxBooking();

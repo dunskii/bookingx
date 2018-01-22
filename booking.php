@@ -52,7 +52,6 @@ require_once( 'paypal.class.php' ); //when needed
 require_once( 'httprequest.php' ); //when needed
 require_once( 'create_shortcode.php' ); //when needed
 require_once( 'shortcode/shortcode.php' );
-require_once( 'paypal.class.php' );
 require_once( 'inc/class-bkx-seat.php' );
 require_once( 'inc/class-bkx-base.php' );
 require_once( 'inc/class-bkx-extra.php' );
@@ -69,7 +68,6 @@ require_once( 'git-updater/BFIGitHubPluginUploader.php' );
 
 require_once( 'my_account_bx.php' );
 require_once( 'my_login_bx.php' );
-require_once( 'booking_widget.php' );
 
 define( 'PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
 define( 'PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
@@ -128,11 +126,14 @@ function booking_admin_actions()
 }
 add_action( 'admin_menu', 'booking_admin_actions' );
 
-add_filter('plugin_action_links', 'bkx_plugin_action_links', 10, 2);
-function bkx_plugin_action_links( $links, $file ) {
-        $links[ ] = '<a href="edit.php?post_type=bkx_booking&page=bkx-setting">' . __( 'Settings', 'bookingx' ) . '</a>';  
+function bkx_plugin_add_settings_link( $links ) {
+    $settings_link = '<a href="edit.php?post_type=bkx_booking&page=bkx-setting">' . __( 'Settings' ) . '</a>';
+    array_push( $links, $settings_link );
     return $links;
 }
+$plugin = plugin_basename( __FILE__ );
+add_filter( "plugin_action_links_$plugin", 'bkx_plugin_add_settings_link' );
+
 /**
  *function to create all tables in database while installation of plugin
  *@access public
@@ -404,62 +405,3 @@ function load_custom_wp_admin_style()
     
 }
 add_action( 'admin_enqueue_scripts', 'load_custom_wp_admin_style' );
-
-function manage_google_calendar()
-{
-    require_once plugin_dir_path( __FILE__ ) . 'google-api-php-client/src/Google_Client.php';
-    require_once plugin_dir_path( __FILE__ ) . 'google-api-php-client/src/contrib/Google_CalendarService.php';
-    // session_start();
-    
-    $client = new Google_Client();
-    $client->setApplicationName( "Google Calendar PHP Starter Application" );
-    
-    $client->setClientId( '935351891856-0ru57ev8q13ugp3v73co8kf6inun34kp.apps.googleusercontent.com' );
-    $client->setClientSecret( '8ZbDiWPCAlrDFGGC4TSIU_SX' );
-    $client->setRedirectUri( 'http://booking.php-dev.in/wp-content/plugins/yfbizbooking/google-api-php-client/examples/calendar/simple.php' );
-    //$client->setDeveloperKey('AIzaSyAbZ5lr4XKSYPGGPGHvjByfLg8u5JnDRxE');
-    
-    $cal = new Google_CalendarService( $client );
-    if ( isset( $_GET[ 'logout' ] ) ) {
-        unset( $_SESSION[ 'token' ] );
-    }
-    
-    if ( isset( $_GET[ 'code' ] ) ) {
-        $client->authenticate( $_GET[ 'code' ] );
-        $_SESSION[ 'token' ] = $client->getAccessToken();
-        header( 'Location: http://' . $_SERVER[ 'HTTP_HOST' ] . $_SERVER[ 'PHP_SELF' ] );
-    }
-    
-    if ( isset( $_SESSION[ 'token' ] ) ) {
-        $client->setAccessToken( $_SESSION[ 'token' ] );
-    }
-    
-    if ( $client->getAccessToken() ) {
-        $calList = $cal->calendarList->listCalendarList();
-        print "<h1>Calendar List</h1><pre>" . print_r( $calList, true ) . "</pre>";
-        
-        $event = new Google_Event();
-        $event->setSummary( 'Appointment' );
-        $event->setLocation( 'Somewhere' );
-        $start = new Google_EventDateTime();
-        $start->setDateTime( '2013-06-25T16:44:37+05:30' );
-        $event->setStart( $start );
-        $end = new Google_EventDateTime();
-        $end->setDateTime( '2013-06-26T16:44:37+05:30' );
-        $event->setEnd( $end );
-        
-        $event->attendees = $attendees;
-        $createdEvent     = $cal->events->insert( 'primary', $event );
-        echo "Event Created";
-        print_r( $createdEvent );
-        echo $createdEvent->getId();
-        
-        
-        $_SESSION[ 'token' ] = $client->getAccessToken();
-    } else {
-        $authUrl = $client->createAuthUrl();
-        print "<a class='login' href='$authUrl'>Connect Me!</a>";
-    }
-}
-
-

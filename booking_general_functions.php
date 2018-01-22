@@ -3,7 +3,7 @@
 /**
  *This Function includes/loads the scripts in footer
  *@access public
- * author: jiten
+ * author: Divyang Parekh
  */
 function custom_load_scripts($scripts = array()) {
  
@@ -17,7 +17,7 @@ function custom_load_scripts($scripts = array()) {
 /**
  *This Function includes/loads the scripts for color picker in footer
  *@access public
- * author: jiten
+ * author: Divyang Parekh
  */
 function color_load_scripts($scripts = array()) {
   
@@ -32,7 +32,7 @@ function color_load_scripts($scripts = array()) {
 /**
  *This Function includes/loads the CSS files in footer
  *@access public
- * author: jiten
+ * author: Divyang Parekh
  */
 function custom_load_styles($styles = array()) {
     foreach($styles as $style){
@@ -49,10 +49,7 @@ function reassign_available_emp_list($seat_id,$start_date,$end_date,$service_id)
 {
 	$return = array();
 	global $wpdb;
-	$BkxBaseObj = new BkxBase('',$service_id);
-
-	// $get_employees = $wpdb->get_results("SELECT s.seat_id,s.seat_name FROM bkx_seat_base sb INNER JOIN  bkx_seat s ON sb.seat_id = s.seat_id WHERE sb.base_id = {$service_id} AND sb.seat_id != {$seat_id}");
- 	
+	$BkxBaseObj = new BkxBase('',$service_id); 	
 	$get_employees = $BkxBaseObj->get_seat_by_base();
 	$key_rm = array_search($seat_id, $get_employees);
 	if($key_rm !== false){ unset($get_employees[$key_rm]);}
@@ -62,19 +59,6 @@ function reassign_available_emp_list($seat_id,$start_date,$end_date,$service_id)
 	if(!empty($get_employees))
 	{
 		foreach($get_employees as $get_employee):
-
-
-			/*$employee_have_booking = $wpdb->get_var("SELECT booking_record_id FROM bkx_booking_record WHERE seat_id = {$get_employee->seat_id} AND  (order_status != 'cancelled' OR order_status != 'pending')  
-				AND (
-
-				'{$start_date}' BETWEEN booking_start_date AND booking_end_date 
-
-				OR '{$end_date}' BETWEEN booking_start_date AND booking_end_date 
-
-				OR ('{$start_date}' <= booking_start_date AND '{$end_date}' >= booking_end_date))");*/
-
-
-
 			$args = array(
             'post_type'  => 'bkx_booking',
             'post_status'=> $status,
@@ -194,8 +178,6 @@ function get_range($bookingdate,$seatid)
         $GetSeatObj = get_post($seatid);
         $res_seat = get_post_custom( $GetSeatObj->ID );
         
-//	$seat_time_query = "SELECT * FROM bkx_seat_time WHERE seat_id = ".trim($seatid)." AND day = '".trim($day_name)."'";
-//	$res_seat_time = $wpdb->get_results($seat_time_query);
         $db_res_seat_time_arr = array();
 
                 $seat_days_time = maybe_unserialize($res_seat['seat_days_time'][0]);

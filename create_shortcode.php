@@ -65,7 +65,7 @@ function get_base_list(){
         );
         $get_base_array = get_posts( $args );
     
-	$arr_base = array();
+		$arr_base = array();
         if(!empty($get_base_array) && !is_wp_error($get_base_array))
         {
            foreach($get_base_array as $key=>$value)
@@ -188,16 +188,6 @@ function bookingTimeRecord($insertedid,$bookingdate,$bookingtime,$bookingduratio
 	return $bookingTime;
 }
 
-
-/**
- *This Function for testing the reuqest post data after form submit
- *@access public
- *@return Void
- */
-function submit_form()
-{
-	echo "<pre>";print_r($_POST);
-}
 /**
  *This Function calls and processes paypal API
  *@access public

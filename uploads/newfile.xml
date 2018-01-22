@@ -74,6 +74,7 @@
       <ping_status>closed</ping_status>
       <post_date>2018-01-16 08:33:23</post_date>
       <post_date_gmt>2018-01-16 08:33:23</post_date_gmt>
+      <CommentData>[{"comment_ID":"3","comment_post_ID":"17","comment_author":"BookingX","comment_author_email":"","comment_author_url":"","comment_author_IP":"","comment_date":"2018-01-16 08:33:24","comment_date_gmt":"2018-01-16 08:33:24","comment_content":"Booking has been successfully created..","comment_karma":"0","comment_approved":"1","comment_agent":"BookingX","comment_type":"booking_note","comment_parent":"0","user_id":"0"},{"comment_ID":"2","comment_post_ID":"17","comment_author":"BookingX","comment_author_email":"","comment_author_url":"","comment_author_IP":"","comment_date":"2018-01-16 08:33:23","comment_date_gmt":"2018-01-16 08:33:23","comment_content":"Successfully Initial #17 Order Created..","comment_karma":"0","comment_approved":"1","comment_agent":"BookingX","comment_type":"booking_note","comment_parent":"0","user_id":"0"}]</CommentData>
       <Postmeta>
         <seat_id>15</seat_id>
         <base_id>16</base_id>
@@ -138,12 +139,16 @@
     <bkx_siteclient_css_cal_border_color/>
     <bkx_siteclient_css_cal_day_color/>
     <bkx_siteclient_css_cal_day_selected_color/>
-    <time_available_color/>
-    <time_selected_color/>
-    <time_unavailable_color/>
-    <time_block_bg_color/>
-    <time_block_extra_color/>
-    <time_block_service_color/>
+    <bkx_time_available_color/>
+    <bkx_time_selected_color/>
+    <bkx_time_unavailable_color/>
+    <bkx_time_block_bg_color/>
+    <bkx_time_block_extra_color/>
+    <bkx_time_block_service_color/>
+    <bkx_time_block_service_color/>
+    <bkx_cal_month_title_color/>
+    <bkx_cal_month_bg_color/>
+    <bkx_time_new_selected/>
     <bkx_business_name>Divyang</bkx_business_name>
     <bkx_business_email>divyang@dunskii.com</bkx_business_email>
     <bkx_business_phone>454545454545</bkx_business_phone>
@@ -154,5 +159,8 @@
     <bkx_business_zip>2088</bkx_business_zip>
     <bkx_business_country>AU</bkx_business_country>
     <bkx_business_days>a:1:{s:15:"selected_days_1";a:2:{s:4:"days";a:7:{i:0;s:6:"Sunday";i:1;s:6:"Monday";i:2;s:7:"Tuesday";i:3;s:9:"Wednesday";i:4;s:8:"Thursday";i:5;s:6:"Friday";i:6;s:8:"Saturday";}s:4:"time";a:2:{s:4:"open";s:8:"10:00 AM";s:5:"close";s:7:"5:00 PM";}}}</bkx_business_days>
+    <bkx_tax_rate/>
+    <bkx_tax_name/>
+    <bkx_prices_include_tax/>
   </Settings>
 </Root>

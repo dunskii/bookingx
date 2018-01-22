@@ -1,7 +1,7 @@
 <?php
 require_once('../../../wp-load.php');
 /**
- * Created by Indianic.
+ * Created by Divyang Parekh
  * User: Divyang Parekh
  * Date: 16/11/15
  * Time: 2:55 PM

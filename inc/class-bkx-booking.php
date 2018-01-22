@@ -2,7 +2,7 @@
 /**
  * Description of BkxBooking
  *
- * @author indianic
+ * @author Divyang Parekh
  */
 class BkxBooking {
 

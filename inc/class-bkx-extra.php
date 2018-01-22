@@ -2,7 +2,7 @@
 /**
  * Description of Class Bkx_Seat
  * Get All seat information
- * @author indianic
+ * @author Divyang Parekh
  */
 class BkxExtra {
 

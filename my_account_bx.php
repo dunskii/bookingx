@@ -1,6 +1,6 @@
 <?php
 /**
- * Created by IndiaNic.
+ * Created by Divyang Parekh
  * User: Divyang Parekh
  * Date: 3/11/15
  * Time: 12:21 PM

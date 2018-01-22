@@ -113,10 +113,7 @@ function getMinsSlot($mins)
 			//print_r($objBookigntime);
 			//$objBookigntime = $BkxBooking->get_order_time_data('',$search);
 		
-			/*$objBookigntime = $wpdb->get_results('SELECT * FROM bkx_booking_time inner join bkx_booking_record on bkx_booking_record.booking_record_id =  bkx_booking_time.booking_record_id WHERE  payment_status = "Completed" AND bkx_booking_time.booking_date = "' . trim($bookigndate) . '" AND  seat_id  IN (SELECT seat_id FROM bkx_seat_base where base_id ='.$service_id.')');*/
 			
-			//echo '<pre>' . print_r($get_order_time_data, true) . '</pre>';
-
 			$BkxBase = new BkxBase('',$service_id);
 			$seat_by_base = $BkxBase->get_seat_by_base();
 
