@@ -71,7 +71,7 @@ if (isset($_POST['seatid']) && $_POST['seatid'] == 'any' && crud_option_multisit
 		}
 		//echo '<pre> $find_slot_value_in_booked_array : ' . print_r($find_slot_value_in_booked_array, true) . '</pre>';
 
-		print_r($checked_booked_slots);
+		//print_r($checked_booked_slots);
 
 		if(!empty($get_booked_range)):
 			$slot_id=$startingSlotNumber+1;

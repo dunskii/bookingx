@@ -1285,3 +1285,301 @@ function bkx_cal_total_tax ( $total_price )
     }
      return $total_tax;
 }
+
+function secs2hours( $secs ) {
+    $min = (int)($secs / 60);
+    $hours = "00";
+    if ( $min < 60 )
+        $hours_min = $hours . ":" . $min;
+    else {
+        $hours = (int)($min / 60);
+        if ( $hours < 10 )
+            $hours = "0" . $hours;
+        $mins = $min - $hours * 60;
+        if ( $mins < 10 )
+            $mins = "0" . $mins;
+        $hours_min = $hours . ":" . $mins;
+    }
+    //if ( $this->time_format )
+    $hours_min = date( 'H:i', strtotime( $hours_min . ":00" ) );
+
+    return $hours_min;
+}
+
+function getDayName($day)
+{
+    if($day ==0)
+    {
+        $day_name = sprintf( __( 'Sunday', 'bookingx' ), '');
+    }
+    else if($day == 1)
+    {
+        $day_name = sprintf( __( 'Monday', 'bookingx' ), '');
+    }
+    else if($day == 2)
+    {
+        $day_name = sprintf( __( 'Tuesday', 'bookingx' ), '');
+    }
+    else if($day == 3)
+    {
+        $day_name = sprintf( __( 'Wednesday', 'bookingx' ), '');
+    }
+    else if($day == 4)
+    {
+        $day_name = sprintf( __( 'Thursday', 'bookingx' ), '');
+    }
+    else if($day == 5)
+    {
+        $day_name = sprintf( __( 'Friday', 'bookingx' ), '');
+    }
+    else if($day == 6)
+    {
+        $day_name = sprintf( __( 'Saturday', 'bookingx' ), '');
+    }
+    return $day_name;
+}
+
+function getMinsSlot($mins)
+{
+    if(intval($mins) == 0 )
+    {
+        $slot = 1;
+    }
+    else if(intval($mins) == 15 )
+    {
+        $slot = 2;
+    }
+    else if(intval($mins) == 30 )
+    {
+        $slot = 3;
+    }
+    else if(intval($mins) == 45 )
+    {
+        $slot = 4;
+    }
+    return $slot;
+}
+function check_slot_order_id ( $slot_id, $checked_booked_slots){
+
+     if(!empty($checked_booked_slots)){
+        foreach ($checked_booked_slots as $key => $slot_data) {
+              if($slot_data['slot_id'] == $slot_id )
+              {
+                    return $slot_data;
+              }
+        }
+     }
+}
+
+function get_no_of_days($month)
+{
+    $no_of_days = 0;
+        
+    return $no_of_days;
+}
+
+function group_nums($array) { 
+   $ret  = array(); 
+   $temp = array(); 
+   foreach($array as $val) { 
+      if(next($array) == ($val + 1)) 
+         $temp[] = $val; 
+      else 
+         if(count($temp) > 0) { 
+            $temp[] = $val; 
+            $ret[]  = $temp[0].':'.end($temp); 
+            $temp   = array(); 
+         } 
+         else 
+            $ret[] = $val; 
+   } 
+   return $ret; 
+}
+
+/**
+*getDaysNumber method 
+*This method returns array of numbers equivalent to days array
+*
+*@params array $arr
+*@return array 
+*/
+function getDaysNumber($arr)
+{
+    $arrNumber = array();
+    foreach($arr as $day)
+    {
+        $day = strtolower($day);
+        if($day == "sunday")
+        {
+            array_push($arrNumber, 7);
+        }
+        elseif($day == "monday")
+        {
+            array_push($arrNumber, 1);
+        }
+        elseif($day == "tuesday")
+        {
+            array_push($arrNumber, 2);
+        }
+        elseif($day == "wednesday")
+        {
+            array_push($arrNumber, 3);
+        }
+        elseif($day == "thursday")
+        {
+            array_push($arrNumber, 4);
+        }
+        elseif($day == "friday")
+        {
+            array_push($arrNumber, 5);
+        }
+        elseif($day == "saturday")
+        {
+            array_push($arrNumber, 6);
+        }
+    }
+    return ($arrNumber);
+
+}
+
+/**
+*checkIfSeatCanBeBooked method 
+*This method checks wether the selected seat can be booked based on the total duration of base and addition selected
+*
+*@params string $seatid, integer $totalduration
+*@return boolean 
+*/
+function checkIfSeatCanBeBooked($seatid, $totalduration)
+{
+    global $wpdb;
+    //$res_seat = $wpdb->get_results("SELECT * FROM bkx_seat WHERE seat_id = ".trim($seatid)."");
+ 
+        $GetSeatObj = get_post($seatid);
+        $res_seat = get_post_custom( $GetSeatObj->ID );
+        $seat_is_certain_day = $values['seat_is_certain_day'][0];
+    if(isset($seat_is_certain_day) && $seat_is_certain_day == "Y")
+    {
+        //$res_seat_time = $wpdb->get_results("SELECT * FROM bkx_seat_time WHERE seat_id = ".trim($seatid)."");
+        $res_seat_time_arr = array();
+                
+                $seat_days_time = maybe_unserialize($values['seat_days_time'][0]);
+                $res_seat_time= maybe_unserialize($seat_days_time);
+        //print_r($res_seat_time);
+        foreach($res_seat_time as $temp)
+        {
+            $res_seat_time_arr[strtolower($temp->day)]['time_from'] = $temp->time_from;                 
+            $res_seat_time_arr[strtolower($temp->day)]['time_till'] = $temp->time_till;
+        }
+        $days = 0 ;
+        if($totalduration > (24*60*60))
+        {
+            $days = $totalduration/(24*60*60);
+        }
+        $days_mod = $totalduration%(24*60*60);
+        if($days_mod > 0)
+        {
+            $days = $days + 1;
+        }
+        //print_r($res_seat_time_arr);
+        $arrDays = array();
+        foreach($res_seat_time_arr as $key=>$val)
+        {
+            array_push($arrDays, $key);
+        }
+        
+        $arrDays = getDaysNumber($arrDays);
+        //print_r($arrDays);
+        //sort days array 
+        sort($arrDays,SORT_NUMERIC);
+        $nums = $arrDays;
+        $arrSorted = group_nums($nums);
+        $arrNew = array();
+        //print_r($arrSorted); 
+        $newArryGrouped = array();
+        $arrGrouped = array();
+        $newArryGroupedLength = array();
+        $temp_max = 0;
+        $temp_max_arr = array();
+        foreach($arrSorted as $temp)
+        {
+            if(substr_count($temp,':')>0)
+            {
+                //array_push($newArryGrouped,$temp);
+                $tempArryGrouped['value'] = $temp; 
+                $arrExploded = explode(':',$temp);
+                $arrNumbers = range($arrExploded[0],$arrExploded[1]);
+                $tempArryGrouped['length'] = sizeof($arrNumbers);
+                //$temp_max = sizeof($arrNumbers);
+                if(sizeof($arrNumbers)>$temp_max)
+                {
+                    $temp_max = sizeof($arrNumbers);
+                    $temp_max_arr['value'] = $temp;
+                    $temp_max_arr['length'] = sizeof($arrNumbers);
+                }
+                array_push($newArryGrouped, $tempArryGrouped);
+
+                $arrGrouped[sizeof($arrNumbers)][] = $temp;
+                //array_push($newArryGroupedLength, sizeof($arrNumbers));
+            }
+        }
+
+        if(sizeof($arrGrouped)>0)
+        {
+            $counter_temp==0;
+            $counter_temp_arr = array();
+            foreach($arrGrouped as $key=>$temp)
+            {
+                if($key>$counter_temp)
+                {
+                    $counter_temp = $key;
+                    $counter_temp_arr = $temp;
+                }
+            }
+            //print_r($counter_temp_arr);
+            $finalValues = array();
+            $counter = 0;
+            foreach($counter_temp_arr as $temp)
+            {
+                $tempExplode = explode(':',$temp);
+                $tempValues = range($tempExplode[0],$tempExplode[1]);
+                if($counter==0)
+                {
+                    $finalValues = $tempValues;
+                }
+                if(in_array(1,$tempValues) || in_array(7,$tempValues))
+                {
+                    $finalValues = $tempValues;
+                }
+                $counter = $counter + 1;
+            }
+            $arrNew = $finalValues;
+        }
+        else
+        {
+            if(in_array(1,$arrSorted) && in_array(7,$arrSorted))
+            {
+                $arrNew = array(1,7);           
+            }
+            else
+            {
+                $arrNew = array(end($arrSorted));
+            }
+        }
+        //now checks the size of $arrNew 
+        $lengthDays = sizeof($arrNew);
+    }
+    else
+    {
+        $lengthDays = 7;
+        return 1;
+    }
+    //if($days > 7 && $lengthDays)
+    if($lengthDays < $days)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+}
