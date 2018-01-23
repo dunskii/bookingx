@@ -1,5 +1,6 @@
-
-<?php if(!empty($current_submenu_active) && $current_submenu_active == 'paypal_express') :?>
+<?php 
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if(!empty($current_submenu_active) && $current_submenu_active == 'paypal_express') :?>
 <!---Start Paypal settings settings-->
 <h3> <?php printf( esc_html__( '%1$s', 'bookingx' ),  $bkx_general_submenu_label ); ?> </h3>
 <a href="https://developer.paypal.com/docs/classic/api/apiCredentials/" target="_blank">Click here</a> to create your paypal account and get API Credentials.

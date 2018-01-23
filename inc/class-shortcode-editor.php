@@ -1,4 +1,5 @@
 <?php
+ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 class Shortcode_Tinymce
 {
     var $enable_editor; // return 1 == enable or 0 == disable editor shortcode

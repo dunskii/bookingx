@@ -1,4 +1,5 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 if(!function_exists('bkx_setting_tabs'))
 {
@@ -67,23 +68,23 @@ function generate_days_section($set = 7 ,$selected = array())
 			       if(in_array('Friday', $days)){ $fri_selected = 'selected="selected"';}
 			       if(in_array('Saturday', $days)){ $sat_selected = 'selected="selected"';}
 
-				$generate_html .= '<option value="Sunday" '.$sun_selected.'>Sunday</option>
-									<option value="Monday" '.$mon_selected.'>Monday</option>
-									<option value="Tuesday" '.$tue_selected.'>Tuesday</option>
-									<option value="Wednesday" '.$wed_selected.'>Wednesday</option>
-									<option value="Thursday" '.$thu_selected.'>Thursday</option>
-									<option value="Friday" '.$fri_selected.'>Friday</option>
-									<option value="Saturday" '.$sat_selected.'>Saturday</option>';
+				$generate_html .= '<option value="Sunday" '.esc_html($sun_selected).'>Sunday</option>
+									<option value="Monday" '.esc_html($mon_selected).'>Monday</option>
+									<option value="Tuesday" '.esc_html($tue_selected).'>Tuesday</option>
+									<option value="Wednesday" '.esc_html($wed_selected).'>Wednesday</option>
+									<option value="Thursday" '.esc_html($thu_selected).'>Thursday</option>
+									<option value="Friday" '.esc_html($fri_selected).'>Friday</option>
+									<option value="Saturday" '.esc_html($sat_selected).'>Saturday</option>';
 
 				$generate_html .='</select>
 				</li>
 
 				<li class="standard"><label for="opening time" class="lable">Open </label>
-				<input name="opening_time_'.$gen.'" id="id_opening_time_'.$gen.'" type="text" value="'.$time['open'].'">
+				<input name="opening_time_'.$gen.'" id="id_opening_time_'.$gen.'" type="text" value="'.esc_html($time['open']).'">
 				</li>
 
 				<li class="standard"><label for="closing time" class="lable">Close </label>
-				<input name="closing_time_'.$gen.'" id="id_closing_time_'.$gen.'" type="text" value="'.$time['close'].'">
+				<input name="closing_time_'.$gen.'" id="id_closing_time_'.$gen.'" type="text" value="'.esc_html($time['close']).'">
 				</li>';
 			if( $gen > 1){
 				$generate_html .='<li class="standard close" style="width:100px;"><label for="opening time" class="lable">&nbsp; </label><a class="business_hour_close" href="javascript:remove_more_days('.$gen.');">X</a></li>';

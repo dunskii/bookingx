@@ -93,8 +93,8 @@ function getMinsSlot($mins)
 		 *    Reason For : Any Seat Functionality
 		 *    Date : 4-11-2015
 		 */
-		$service_id = $_POST['service_id'];
-		$bookigndate = $_POST['bookigndate'];
+		$service_id = sanitize_text_field($_POST['service_id']);
+		$bookigndate = sanitize_text_field($_POST['bookigndate']);
 		$_SESSION['_session_base_id'] = $service_id;
 
 		if (isset($_POST['seatid']) && $_POST['seatid'] == 'any' && $service_id !='' && crud_option_multisite('enable_any_seat') == 1 && crud_option_multisite('select_default_seat') != ''):
@@ -182,7 +182,7 @@ function getMinsSlot($mins)
 			$search = array('bookigndate' => $bookigndate,
 				'service_id'=>$service_id ,
 				'status' => $order_statuses,
-				'seat_id' => $_POST['seatid'] ,'display'=> 1);
+				'seat_id' => sanitize_text_field($_POST['seatid']) ,'display'=> 1);
 			$BkxBooking =  new BkxBooking();
 			$objBookigntime = $BkxBooking->GetBookedRecords($search);
 
@@ -195,7 +195,7 @@ function getMinsSlot($mins)
 		endif;
 	}
 
-	$BkxBase = new BkxBase('', $_POST['service_id'] );
+	$BkxBase = new BkxBase('', sanitize_text_field($_POST['service_id']) );
 	$base_meta_data = $BkxBase->meta_data;
  
 	$base_time_option = $base_meta_data['base_time_option'][0];
@@ -223,7 +223,7 @@ function getMinsSlot($mins)
 			/**
 			 * Updated By  : Divyang Parekh
 			 * For  : Add Any Seat functionality.*/
-			if(crud_option_multisite('enable_any_seat') == 1 && crud_option_multisite('select_default_seat')!= '' && $_POST['seatid'] == 'any'):
+			if(crud_option_multisite('enable_any_seat') == 1 && crud_option_multisite('select_default_seat')!= '' && sanitize_text_field($_POST['seatid']) == 'any'):
 
 				if(!empty($slots_are_booked)):
 					$booking_slot_arr= $slots_are_booked;
@@ -257,11 +257,6 @@ function getMinsSlot($mins)
 			}
 		}
 	}
-	/*if (isset($_POST['seatid']) && $_POST['seatid'] == 'any' && $_SESSION['free_seat_id']!=''  && crud_option_multisite('enable_any_seat') == 1 && crud_option_multisite('select_default_seat') != ''):
-		$seatid = $_SESSION['free_seat_id'];
-	else:
-		$seatid = $_POST['seatid'];
-	endif;*/
 
 	function check_slot_order_id ( $slot_id, $checked_booked_slots){
 		 if(!empty($checked_booked_slots)){
@@ -273,8 +268,8 @@ function getMinsSlot($mins)
 		 	}
 		 }
 	}
-	$bookingdate = $_POST['bookigndate'];
-	$range= get_range($bookingdate,$_POST['seatid']);
+	$bookingdate = sanitize_text_field($_POST['bookigndate']);
+	$range= get_range($bookingdate,sanitize_text_field($_POST['seatid']));
 
 	//print_r($range);
 	//$_SESSION['range_by_seat']=$range;
@@ -343,7 +338,7 @@ function getMinsSlot($mins)
 					$created_by = isset($order_data['created_by'])  && $order_data['created_by']!='' ? $order_data['created_by'] : 0;
 					
 					?>
-					<div data-booking-id="<?php echo $order_id; ?>" data-user-id="<?php echo $created_by; ?>" class="<?php echo $counter; ?>-is-<?php echo $empty; ?> app_timetable_cell <?php echo $counter; ?> <?php echo $empty; ?> <?php echo $_POST['bookigndate'].'-'.$counter; ?>" id="<?php echo secs2hours( $ccs ); ?>" data-slotnumber="<?php echo $_POST['bookigndate'].'-'.$counter; ?>">
+					<div data-booking-id="<?php echo $order_id; ?>" data-user-id="<?php echo $created_by; ?>" class="<?php echo $counter; ?>-is-<?php echo $empty; ?> app_timetable_cell <?php echo $counter; ?> <?php echo $empty; ?> <?php echo sanitize_text_field($_POST['bookigndate']).'-'.$counter; ?>" id="<?php echo secs2hours( $ccs ); ?>" data-slotnumber="<?php echo sanitize_text_field($_POST['bookigndate']).'-'.$counter; ?>">
 					<input type="hidden" value="<?php echo secs2hours( $ccs ); ?>" />
 					<?php
 						echo secs2hours($ccs);

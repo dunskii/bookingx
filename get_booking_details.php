@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once('../../../wp-load.php');
-$id = $_POST['booking_record_id'];
+$id = sanitize_text_field($_POST['booking_record_id']);
 $BkxBooking = new BkxBooking();
 $get_order = $BkxBooking->get_order_meta_data($id);
 

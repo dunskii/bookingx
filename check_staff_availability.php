@@ -12,11 +12,11 @@ require_once('../../../wp-load.php');
 global $wpdb;
 
 require_once('booking_general_functions.php');
-$seat_id = $_POST['seat_id'];
-$base_id = $_POST['base_id'];
-$start_date = $_POST['start_date'];
-$end_date = $_POST['end_date'];
-$booking_record_id = $_POST['booking_record_id'];
+$seat_id = sanitize_text_field( $_POST['seat_id'] );
+$base_id = sanitize_text_field( $_POST['base_id'] );
+$start_date = sanitize_text_field( $_POST['start_date'] );
+$end_date = sanitize_text_field( $_POST['end_date'] );
+$booking_record_id = sanitize_text_field( $_POST['booking_record_id'] );
 $status['booking_record_id'] =$booking_record_id;
 $BkxBookingObj = new BkxBooking('',$booking_record_id);
 $order_meta_data = $BkxBookingObj->get_order_meta_data( $booking_record_id );

@@ -3,11 +3,11 @@ require_once('../../../wp-load.php');
 session_start();
 
 global $wpdb;
-$start = $_POST['start'];
-$bookingduration = $_POST['bookingduration'];
-$bookingdate = $_POST['bookingdate'];
+$start = sanitize_text_field( $_POST['start'] );
+$bookingduration = sanitize_text_field( $_POST['bookingduration'] );
+$bookingdate = sanitize_text_field( $_POST['bookingdate'] );
 $order_statuses = array('bkx-pending','bkx-ack','bkx-completed','bkx-missed');
-$update_order_slot = $_POST['update_order_slot'];
+$update_order_slot = sanitize_text_field( $_POST['update_order_slot'] );
 if (isset($_POST['seatid']) && $_POST['seatid'] == 'any' && crud_option_multisite('enable_any_seat') == 1 && crud_option_multisite('select_default_seat') != ''):
 	$base_id = $_SESSION['_session_base_id'];
 //get current booking start time slot
@@ -201,8 +201,8 @@ if (isset($_POST['seatid']) && $_POST['seatid'] == 'any' && crud_option_multisit
 	$resBookingTime = $BkxBooking->GetBookedRecords($search);
 
 else:
-	$seatid = $_POST['seatid'];
-	$search = array('bookigndate' => $bookingdate ,'status' => $order_statuses, 'seat_id' => $_POST['seatid'] ,'display'=>1);
+	$seatid = sanitize_text_field( $_POST['seatid'] );
+	$search = array('bookigndate' => $bookingdate ,'status' => $order_statuses, 'seat_id' => sanitize_text_field( $_POST['seatid'] ) ,'display'=>1);
 	$BkxBooking =  new BkxBooking();
 	$resBookingTime = $BkxBooking->GetBookedRecords($search);	
 endif;
@@ -313,7 +313,7 @@ else
 				{
 					$nextDate = date('m/d/Y', strtotime("+$i day", strtotime($bookingdate)));
 
-					$search = array('bookigndate' => $nextDate , 'seat_id' => $_POST['seatid'] ,'display'=>1);
+					$search = array('bookigndate' => $nextDate , 'seat_id' => sanitize_text_field( $_POST['seatid'] ),'display'=>1);
 					$BkxBooking =  new BkxBooking();
 					$resBookingTimeNext = $BkxBooking->get_order_time_data('',$search);	
 

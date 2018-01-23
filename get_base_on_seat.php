@@ -3,25 +3,22 @@ require_once('../../../wp-load.php');
 global $wpdb;
 $term = '';
 if(isset($_POST['seatid'])){
- 	$term = $_POST['seatid'];
+ 	$term = sanitize_text_field($_POST['seatid']);
 }
 if(isset($_POST['loc'])){	
-	$_SESSION["baseid"] = $baseid = $_POST['baseid'];
+	$_SESSION["baseid"] = $baseid = sanitize_text_field($_POST['baseid']);
         $BaseObj = get_post($baseid);
         if(!empty($BaseObj) && !is_wp_error($BaseObj))
         {
             $BaseMetaObj = get_post_custom( $BaseObj->ID ); 
             $base_is_location_fixed = isset( $BaseMetaObj['base_is_location_fixed'] ) ? esc_attr( $BaseMetaObj['base_is_location_fixed'][0] ) : "";
-            //print_r($base_is_location_fixed);
+             
         }
-	//$query = "SELECT base_is_location_fixed FROM bkx_base WHERE base_id = ".trim($baseid); 
-	//$objListSeat= $wpdb->get_results($query);
-	//print_r($objListSeat[0]->base_is_location_fixed);
+ 
 
 }elseif(isset($_POST['mob'])){
 
-	   $baseid1 = $_POST['baseid1'];
-       
+	    $baseid1 = sanitize_text_field($_POST['baseid1']);
         $BaseObj = get_post($baseid1);
         if(!empty($BaseObj) && !is_wp_error($BaseObj))
         {
@@ -33,9 +30,7 @@ if(isset($_POST['loc'])){
 
             //print_r($base_is_mobile_only);
         }
-//	$query_mob = "SELECT base_is_mobile_only FROM bkx_base WHERE base_id = ".trim($baseid1); 
-//	$objListMob= $wpdb->get_results($query_mob);
-//	print_r($objListMob[0]->base_is_mobile_only);
+ 
 }
 else 
 {
@@ -66,7 +61,7 @@ else
                                                 )
                                         )
                 );
-		//$query = "SELECT bkx_seat_base.base_id,bkx_base.base_name,bkx_base.base_price,bkx_base.base_time_option,bkx_base.base_month,bkx_base.base_day,bkx_base.base_hours, bkx_base.base_minutes FROM `bkx_seat_base` INNER JOIN bkx_base ON bkx_base.base_id = bkx_seat_base.base_id " .$where_clause;
+		 
 	endif;
         if(isset($term) && $term!='')
         {

@@ -1,4 +1,5 @@
 <?php
+ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 /**
  * 
  * @global type $wpdb
@@ -54,7 +55,7 @@ function bookinbkx_shortcode_function($atts)
     }
 
 	//session_start();
-	require_once(PLUGIN_DIR_PATH.'booking_general_functions.php'); //when needed	
+	require_once(BKX_PLUGIN_DIR_PATH.'booking_general_functions.php'); //when needed	
 
 	$get_current_blog_id = get_current_blog_id();
    
@@ -64,12 +65,12 @@ function bookinbkx_shortcode_function($atts)
     
     $type_id = get_query_var( 'bookingx_type_id', 1 );
 
-    $type_id= isset($type_id) && $type_id!=1 ? $type_id : $_POST['id'];
+    $type_id= isset($type_id) && $type_id!=1 ? $type_id : sanitize_text_field ($_POST['id']);
     
-    if (isset($type) && $type!='' && ($type == 'seat' || $_POST['type']=='bkx_seat')){ $selected_seat = $type_id;}
+    if (isset($type) && $type!='' && ($type == 'seat' || sanitize_text_field ($_POST['type']) =='bkx_seat')){ $selected_seat = $type_id;}
     else { $selected_seat ='zero';}
 
-    if(isset($type) && $type!='' && $type == 'base' || $_POST['type']=='bkx_base'){ $by_base = $type_id; }
+    if(isset($type) && $type!='' && $type == 'base' || sanitize_text_field ($_POST['type']) =='bkx_base'){ $by_base = $type_id; }
 
 	$option_for_link = crud_option_multisite('my_plugin_page_id');
 	$permalink = get_permalink($option_for_link);
@@ -132,7 +133,7 @@ function bookinbkx_shortcode_function($atts)
 	 */
 	//echo $free_seat_id;
 	//die;
-	if (isset($_POST['input_seat']) && $_POST['input_seat'] == 'any' && $_SESSION['free_seat_id'] != '' && $enable_any_seat == 1 && $_enable_any_seat_id != ''):
+	if (isset($_POST['input_seat']) && sanitize_text_field ($_POST['input_seat']) == 'any' && $_SESSION['free_seat_id'] != '' && $enable_any_seat == 1 && $_enable_any_seat_id != ''):
 		$_POST['input_seat'] = $_SESSION['free_seat_id'];
 	endif;
 
@@ -147,7 +148,7 @@ function bookinbkx_shortcode_function($atts)
 	}
 	$curr_date = date("Y-m-d H:i:s");
  
-	if (isset($_POST) && $_POST['is_submit_4'] == 1 && sizeof($_POST) > 0 && $_SESSION['dup_order_prevent'] == '') {
+	if (isset($_POST) && sanitize_text_field ($_POST['is_submit_4']) == 1 && sizeof($_POST) > 0 && $_SESSION['dup_order_prevent'] == '') {
 		$strTableName = 'bkx_booking_record';
 		
 		$strAdditionName = '';
@@ -157,21 +158,21 @@ function bookinbkx_shortcode_function($atts)
 				$strAdditionName .= $value . ",";
 			}
 		}
-		$booking_start_date = date("Y-m-d H:i:s", strtotime($_POST['input_date'] . " " . $_POST['booking_time_from']));
-		$booking_end_date = date("Y-m-d H:i:s", strtotime($_POST['input_date'] . " " . $_POST['booking_time_from']) + $_POST['booking_duration_insec']);
+		$booking_start_date = date("Y-m-d H:i:s", strtotime(sanitize_text_field ($_POST['input_date']) . " " . sanitize_text_field ($_POST['booking_time_from'])));
+		$booking_end_date = date("Y-m-d H:i:s", strtotime(sanitize_text_field ($_POST['input_date']) . " " . sanitize_text_field ($_POST['booking_time_from']) ) + sanitize_text_field ($_POST['booking_duration_insec']) );
 		if (!empty($_POST['flag_stop_redirect'])) {
 			$payment_method = 'cash';
 		} else {
 			$payment_method = 'paypal';
 		}
 
-		$booking_set_array = array('seat_id' => $_POST['input_seat'], 'base_id' => $_POST['input_base'],'extra_id'=>$strAdditionName);
+		$booking_set_array = array('seat_id' => sanitize_text_field ($_POST['input_seat']), 'base_id' => sanitize_text_field ($_POST['input_base']),'extra_id'=>$strAdditionName);
 
 		$bookingObj = new BkxBooking(); // Create Booking object
 
  	$total_tax = 0;
 	$total_price = 0;
-	$total_price 	= bkx_cal_total_price( $_POST['input_base'], $_POST['input_extended_time'] , $strAdditionName );
+	$total_price 	= bkx_cal_total_price( sanitize_text_field ($_POST['input_base']), sanitize_text_field ($_POST['input_extended_time']) , $strAdditionName );
 	$bkx_cal_total_tax = bkx_cal_total_tax ( $total_price );
 	$bkx_prices_include_tax = crud_option_multisite("bkx_prices_include_tax");
 
@@ -200,38 +201,38 @@ function bookinbkx_shortcode_function($atts)
 		$booking_end_date = date('Y-m-d H:i:s', strtotime($booking_multi_days[1]));
 	}
 		$arrData = array(
-		'seat_id' => $_POST['input_seat'],
-		'base_id' => $_POST['input_base'],
+		'seat_id' => sanitize_text_field ($_POST['input_seat'] ),
+		'base_id' => sanitize_text_field ($_POST['input_base'] ),
 		'addition_ids' => $strAdditionName,
-		'first_name' => $_POST['input_firstname'],
-		'last_name' => $_POST['input_lastname'],
-		'phone' => $_POST['input_phonenumber'],
-		'email' => $_POST['input_email'],
-		'street' => $_POST['input_street'],
-		'city' => $_POST['input_city'],
-		'state' => $_POST['input_state'],
-		'postcode' => $_POST['input_postcode'],
+		'first_name' => sanitize_text_field ($_POST['input_firstname'] ),
+		'last_name' => sanitize_text_field ($_POST['input_lastname'] ),
+		'phone' => sanitize_text_field ($_POST['input_phonenumber'] ),
+		'email' => sanitize_text_field ($_POST['input_email'] ),
+		'street' => sanitize_text_field ($_POST['input_street'] ),
+		'city' => sanitize_text_field ($_POST['input_city'] ),
+		'state' => sanitize_text_field ($_POST['input_state'] ),
+		'postcode' => sanitize_text_field ($_POST['input_postcode'] ),
 		'total_price' => $grand_total,
 		'total_tax'	=> $total_tax,
 		'tax_rate'	=> $tax_rate ,
 		'include_tax' => $include_tax,
-		'total_duration' => str_replace('"', "", $_POST['total_duration']),
+		'total_duration' => str_replace('"', "", sanitize_text_field ($_POST['total_duration']) ),
 		'payment_method' => $payment_method,
 		'payment_status' => 'Not Completed',
 		'created_date' => $curr_date,
 		'created_by' => $current_user->ID,
-		'booking_date' => $_POST['input_date'],
-		'booking_time' => $_POST['booking_duration_insec'],
-		'extended_base_time' => $_POST['input_extended_time'],
+		'booking_date' => sanitize_text_field ($_POST['input_date'] ),
+		'booking_time' => sanitize_text_field ($_POST['booking_duration_insec'] ),
+		'extended_base_time' => sanitize_text_field ($_POST['input_extended_time'] ),
 		'booking_start_date' => $booking_start_date,
 		'booking_end_date' => $booking_end_date,
 		'addedtocalendar' => 0,
-		'booking_time_from' =>  $_POST['booking_time_from'],
+		'booking_time_from' =>  sanitize_text_field ($_POST['booking_time_from'] ),
 		'currency' => get_current_currency(),
 		'order_id' => $booking_id,
-		'booking_multi_days' => $_POST['booking_multi_days'],
-		'base_days' =>  $_POST['base_days'],
-		'update_order_slot' => $_POST['update_order_slot']
+		'booking_multi_days' => sanitize_text_field ($_POST['booking_multi_days'] ),
+		'base_days' =>  sanitize_text_field ($_POST['base_days'] ),
+		'update_order_slot' => sanitize_text_field ($_POST['update_order_slot'] )
 	);
  
  			$bookingObj->generate_order($arrData);
@@ -242,8 +243,8 @@ function bookinbkx_shortcode_function($atts)
 			$order_id = $booking_data_live['meta_data']['order_id'];
 
 			//echo "<pre>";
-			$BkxSeatObj = new BkxSeat('',$_POST['input_seat']);
-			$BkxBaseObj = new BkxBase('',$_POST['input_base']);
+			$BkxSeatObj = new BkxSeat('', sanitize_text_field ($_POST['input_seat']) );
+			$BkxBaseObj = new BkxBase('', sanitize_text_field ($_POST['input_base']) );
 			$seat_payment_info = $BkxSeatObj->seat_payment_info;
 
 			$seat_deposite = $seat_payment_info['D'];
@@ -265,11 +266,11 @@ function bookinbkx_shortcode_function($atts)
 
 			if(isset($order_id) && $order_id!='') {
 
-				$_SESSION['total_duration'] = $_POST['total_duration'];
-				$_SESSION['input_date'] = $_POST['input_date'];
-				$_SESSION['booking_time_from'] = $_POST['booking_time_from'];
+				$_SESSION['total_duration'] = sanitize_text_field ($_POST['total_duration'] );
+				$_SESSION['input_date'] = sanitize_text_field ($_POST['input_date']);
+				$_SESSION['booking_time_from'] = sanitize_text_field ($_POST['booking_time_from']);
 				$_SESSION['tot_price_val'] = $grand_total;
-				$_SESSION['booking_duration_insec'] = $_POST['booking_duration_insec'];
+				$_SESSION['booking_duration_insec'] = sanitize_text_field ($_POST['booking_duration_insec']);
 				
 
 				if ($PayPalApiUsername != "" && $PayPalApiPassword != "" && $PayPalApiSignature != "" && $booking_id == '') //if paypal credentials are set in the meta value options
@@ -341,7 +342,7 @@ function bookinbkx_shortcode_function($atts)
 							$base_price = ($BkxBaseObj->get_price() != '') ? get_current_currency() . $BkxBaseObj->get_price() : '';
 
 							$base_minutes = $BkxBaseObj->get_sevice_time_data();
-							$base_is_location_fixed  = get_post_meta($_POST['input_base'],'base_is_location_fixed',true);
+							$base_is_location_fixed  = get_post_meta(sanitize_text_field ($_POST['input_base']),'base_is_location_fixed',true);
 							$loc_fixed = ($base_is_location_fixed != '') ? $base_is_location_fixed : '';
 
 
@@ -379,7 +380,7 @@ function bookinbkx_shortcode_function($atts)
 
 						$base_addc = '' . $base_name . '';
 						$tot_price_val = "Total Cost: $" . $grand_total;
-						$total_duration = $_POST["total_duration"];	
+						$total_duration = sanitize_text_field ($_POST["total_duration"]);	
 
 						 
 						$bookingdet = '<div><div class="bkx_page_fields">
@@ -391,7 +392,7 @@ function bookinbkx_shortcode_function($atts)
 						  <br/>
 						  <span id="id_selected_seat"> Event : ' . $seat_name . ' - ' . $base_name . ' ' . $sel_add . ' </span>
 						  <br>
-						  Time:  <span id="id_totalling">' . $_POST["input_date"] . ' ' . $_POST["booking_time_from"] . '</span>
+						  Time:  <span id="id_totalling">' . sanitize_text_field ($_POST["input_date"]) . ' ' . sanitize_text_field ($_POST["booking_time_from"]) . '</span>
 						  <br>Duration - <span id="id_estimated_time">' . $total_duration . ' </span>(estimated)
 						  <br/><span id="id_totalling">' . $tot_price_val . '</span>
 						  <br/><br/>Address:  <span id="id_totalling"><p>' . $loc_add . '</p></span>
@@ -412,11 +413,11 @@ function bookinbkx_shortcode_function($atts)
 				{
 
 
-					$ItemPrice = $_SESSION['itemprice'];
-					$ItemTotalPrice = $_SESSION['totalamount'];
-					$ItemName = $_SESSION['itemName'];
-					$ItemNumber = $_SESSION['itemNo'];
-					$ItemQTY = $_SESSION['itemQTY'];				
+					$ItemPrice = sanitize_text_field ($_SESSION['itemprice']);
+					$ItemTotalPrice = sanitize_text_field ($_SESSION['totalamount']);
+					$ItemName = sanitize_text_field ($_SESSION['itemName']);
+					$ItemNumber = sanitize_text_field ($_SESSION['itemNo']);
+					$ItemQTY = sanitize_text_field ($_SESSION['itemQTY']);				
 
 					$start_date = $booking_data_live['booking_start_date'];
 					$end_date = $booking_data_live['booking_end_date'];
@@ -448,8 +449,8 @@ function bookinbkx_shortcode_function($atts)
 
 
 					$ed_fnl_dt = $ed_dt1 . "Z";
-					$BkxSeatObj = new BkxSeat('',$_POST['input_seat']);
-					$BkxBaseObj = new BkxBase('',$_POST['input_base']);
+					$BkxSeatObj = new BkxSeat('', sanitize_text_field ($_POST['input_seat']) );
+					$BkxBaseObj = new BkxBase('', sanitize_text_field ($_POST['input_base']) );
 					$seat_payment_info = $BkxSeatObj->seat_payment_info;
 
 					// Updated By : Madhuri Rokade
@@ -470,7 +471,7 @@ function bookinbkx_shortcode_function($atts)
 
 					$base_addc = '' . $base_name . '';
 					$tot_price_val = "Total Cost: $" . $grand_total;
-					$total_duration = $_POST["total_duration"];					
+					$total_duration = sanitize_text_field ($_POST["total_duration"] );					
 					$bkDet = str_replace(" ", "+",$seat_name) . "," . str_replace(" ", "+",$base_addc) . "," . str_replace(" ", "+",$sel_add) . " %0a" . $tot_price_val;
 
 
@@ -499,15 +500,15 @@ function bookinbkx_shortcode_function($atts)
  
 			//we will be using these two variables to execute the "DoExpressCheckoutPayment"
 			//Note: we haven't received any payment yet.
-			$token = $_GET["token"];
-			$playerid = $_GET["PayerID"];
+			$token = sanitize_text_field($_GET["token"]);
+			$playerid = sanitize_text_field($_GET["PayerID"]);
 
 			//get session variables
-			$ItemPrice = $_SESSION['itemprice'];
-			$ItemTotalPrice = $_SESSION['totalamount'];
-			$ItemName = $_SESSION['itemName'];
-			$ItemNumber = $order_id =  $_SESSION['itemNo'];
-			$ItemQTY = $_SESSION['itemQTY'];
+			$ItemPrice = sanitize_text_field ($_SESSION['itemprice']);
+			$ItemTotalPrice = sanitize_text_field ($_SESSION['totalamount']);
+			$ItemName = sanitize_text_field ($_SESSION['itemName']);
+			$ItemNumber = $order_id =  sanitize_text_field ($_SESSION['itemNo']);
+			$ItemQTY = sanitize_text_field ($_SESSION['itemQTY']);
 
 			$padata = '&TOKEN=' . urlencode($token) .
 				'&PAYERID=' . urlencode($playerid) .
@@ -563,8 +564,8 @@ function bookinbkx_shortcode_function($atts)
 					$payment_data = json_encode($httpParsedResponseAr);
 					 					
 					$final_payment_meta = array('order_id' => $order_id,
-												'token' => $_GET["token"],
-												'PayerID' => $_GET["PayerID"],
+												'token' => sanitize_text_field ($_GET["token"]),
+												'PayerID' => sanitize_text_field ($_GET["PayerID"]),
 												'transactionID' => $transactionID,
 												'payment_data' => $payment_data,
 												'payment_status' => $httpParsedResponseAr["PAYMENTSTATUS"],
@@ -581,7 +582,7 @@ function bookinbkx_shortcode_function($atts)
 					//$res = do_send_mail($order_id);				
 
 					if (isset($_SESSION['baseid'])) {
-						$base_id = $_SESSION['baseid'];
+						$base_id = sanitize_text_field ($_SESSION['baseid']);
 						$seat_id = $BkxBookingObj['seat_id'];
 						$addition_ids = $BkxBookingObj['addition_ids'];
 
@@ -647,11 +648,11 @@ function bookinbkx_shortcode_function($atts)
 							}							 
 						}
 
-						$base_addc = $_SESSION['itemName'];
-						$paidAmt = $_SESSION['totalamount'];
-						$tot_price_val = $_SESSION['tot_price_val'];
-						$total_duration = $_SESSION['total_duration'];
-						//$bkDet = $seat_name . "\n" . $base_addc . "\n" . $sel_add . "\n" . $tot_price_val;
+						$base_addc = sanitize_text_field ($_SESSION['itemName']);
+						$paidAmt = sanitize_text_field ($_SESSION['totalamount']);
+						$tot_price_val = sanitize_text_field ($_SESSION['tot_price_val']);
+						$total_duration = sanitize_text_field ($_SESSION['total_duration']);
+						 
 
 						/*
                          * code to display confirmation message
@@ -734,7 +735,7 @@ function bookinbkx_shortcode_function($atts)
 		}
 	//}
 
-	if($_GET['token']!='' && $_GET['PayerID']=='')
+	if(sanitize_text_field ($_GET['token'])!='' && sanitize_text_field ($_GET['PayerID'])=='')
 	{
 		echo $message_error = "<span style='color: red;margin: 0 0 0 25%;'>Payment and booking was cancelled via PayPal</span>";
 	}
@@ -746,13 +747,13 @@ function bookinbkx_shortcode_function($atts)
 	$label_of_step1 = sprintf(esc_html__('%1$s','bookingx'), $label_of_step1 );
 
 	if(!empty($bkx_term_cond_page) && !is_wp_error(get_post($bkx_term_cond_page))){
-			$terms_page = ' <a href="javascript:get_content_by_page_id('.trim($bkx_term_cond_page).',\'terms_page\')">click here</a>
+			$terms_page = ' <a href="javascript:get_content_by_page_id('.sanitize_text_field($bkx_term_cond_page).',\'terms_page\')">click here</a>
 			<div id="terms_page" class="terms_page" title="Basic dialog"></div>';
 	}
 
 	$privacy_page = '';
 	if(!empty($bkx_privacy_policy_page) && !is_wp_error(get_post($bkx_privacy_policy_page))){
-			$privacy_page = ' <a href="javascript:get_content_by_page_id('.trim($bkx_privacy_policy_page).',\'privacy_policy_page\')">click here</a><div id="privacy_policy_page" class="privacy_policy_page" title="Basic dialog"></div>';
+			$privacy_page = ' <a href="javascript:get_content_by_page_id('.sanitize_text_field($bkx_privacy_policy_page).',\'privacy_policy_page\')">click here</a><div id="privacy_policy_page" class="privacy_policy_page" title="Basic dialog"></div>';
 	}
 
 	if(crud_option_multisite('enable_cancel_booking')==1 && is_user_logged_in()):
@@ -771,7 +772,7 @@ if(crud_option_multisite('enable_cancel_booking')== 1 ) :
 	$cancellation_policy_page_id = crud_option_multisite('cancellation_policy_page_id');
  if(!empty($cancellation_policy_page_id) && !is_wp_error(get_post($cancellation_policy_page_id))){
 
- 	$cancellation_policy_page = '<li id="field_4_17" class="gfield"><div class="ginput_container bkx-checkbox"><input name="input_cancellation" id="id_cancellation" type="checkbox" value="yes" class="medium" tabindex="17"></div><label>'.sprintf( esc_html__('Do you agree with our cancellation policy? ','bookingx') ,'').' <a href="javascript:get_content_by_page_id('.trim($cancellation_policy_page_id).',\'cancellation_policy_page\')">'.sprintf(esc_html__('click here ','bookingx'),'').'</a><div id="cancellation_policy_page" class="cancellation_policy_page" title=""></div></label></li>';
+ 	$cancellation_policy_page = '<li id="field_4_17" class="gfield"><div class="ginput_container bkx-checkbox"><input name="input_cancellation" id="id_cancellation" type="checkbox" value="yes" class="medium" tabindex="17"></div><label>'.sprintf( esc_html__('Do you agree with our cancellation policy? ','bookingx') ,'').' <a href="javascript:get_content_by_page_id('.sanitize_text_field($cancellation_policy_page_id).',\'cancellation_policy_page\')">'.sprintf(esc_html__('click here ','bookingx'),'').'</a><div id="cancellation_policy_page" class="cancellation_policy_page" title=""></div></label></li>';
  	$enable_cancel = 1;
  }
 endif;
@@ -927,7 +928,7 @@ $temp .= get_loader().'
         </div>
     </div></div>
  </form>';
- require_once(PLUGIN_DIR_PATH.'css/generate_css.php');
+ require_once(BKX_PLUGIN_DIR_PATH.'css/generate_css.php');
  $container_start = ' <div class="bookingx_form_container"> ';
  $container_end = ' </div> ';
 	// $booking_data_live = $GLOBALS['bkx_booking_data'];
@@ -1020,7 +1021,7 @@ function generate_seat_data($data){
     $per_page    = isset( $data['per-page'] ) ? esc_attr( $data['per-page'] ) : -1;
 
     if(isset($seat_id) && $seat_id!='' && $seat_id!='all'){$in_array = explode(',',$seat_id);}
-    require_once PLUGIN_DIR_PATH.'templates/archive.php';  
+    require_once BKX_PLUGIN_DIR_PATH.'templates/archive.php';  
 }
 
 function generate_base_data($data){
@@ -1036,7 +1037,7 @@ function generate_base_data($data){
     $per_page    = isset( $data['per-page'] ) ? esc_attr( $data['per-page'] ) : -1;
     
     if(isset($base_id) && $base_id!='' && $base_id!='all'){$in_array = explode(',',$base_id);}
-    require_once PLUGIN_DIR_PATH.'templates/archive.php'; 
+    require_once BKX_PLUGIN_DIR_PATH.'templates/archive.php'; 
 }
 
 function generate_addition_data($data){
@@ -1052,14 +1053,14 @@ function generate_addition_data($data){
     $per_page    = isset( $data['per-page'] ) ? esc_attr( $data['per-page'] ) : -1;
     
     if(isset($extra_id) && $extra_id!='' && $extra_id!='all'){$in_array = explode(',',$extra_id);}
-    require_once PLUGIN_DIR_PATH.'templates/archive.php'; 
+    require_once BKX_PLUGIN_DIR_PATH.'templates/archive.php'; 
 }
 
 function get_custom_post_type_template($single_template) {
      global $post;
     
      if ($post->post_type == 'bkx_seat' || $post->post_type =='bkx_base' || $post->post_type =='bkx_addition') {
-          $single_template = PLUGIN_DIR_PATH . 'templates/single-'.$post->post_type.'.php';
+          $single_template = BKX_PLUGIN_DIR_PATH . 'templates/single-'.$post->post_type.'.php';
      }
      return $single_template;
 }

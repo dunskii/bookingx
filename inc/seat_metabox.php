@@ -1,4 +1,5 @@
 <?php
+ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 add_action( 'add_meta_boxes', 'add_bkx_seat_metaboxes' );
 function add_bkx_seat_metaboxes()
 {
@@ -371,7 +372,7 @@ function bkx_seat_boxes_metabox_callback($post)
         <input type="hidden" name="seat_alias" id="seat_alias" value="<?php echo $alias_seat; ?>">
 		
 <?php
-	require_once(PLUGIN_DIR_PATH.'admin/settings/setting_js.php');
+	require_once(BKX_PLUGIN_DIR_PATH.'admin/settings/setting_js.php');
 }
 
 add_action( 'save_post', 'save_bkx_seat_metaboxes',3,10 );
@@ -389,25 +390,25 @@ function save_bkx_seat_metaboxes( $post_id, $post, $update )
         $current_blog_id = get_current_blog_id();
         switch_to_blog( $current_blog_id );
     }
-    $seatCertainMonth      = $_POST['seat_certain_month'];
-    $seatCertainDay        = $_POST['seat_certain_day'];
-    $seatIsPrePayment      = trim($_POST['seat_is_pre_payment']);
-    $seatDepositFull       = trim($_POST['seat_deposit_full']);
-    $seatPaymentOption     = trim($_POST['seat_payment_option']);
-    $seat_amount           = trim($_POST['seat_amount']);
-    $seat_percentage       = trim($_POST['seat_percentage']);
-    $seatPhone             = trim($_POST['seat_phone']);
-    $seatEmail             = trim($_POST['seat_email']);
-    $seatIsAlternateEmail  = trim($_POST['seat_is_alternate_email']);
-    $seatAlternateEmail    = trim($_POST['seat_alternate_email']);
-    $seatIsIcal            = trim($_POST['seat_is_ical']);
-    $seatIcalAddress       = trim($_POST['seat_ical_address']);
-    $associate_with_user   = trim($_POST['associate_with_user']);
-    $seat_colour = trim($_POST['seat_colour']);
-    $associate_with_user_role = trim($_POST['associate_with_user_role']);
-    $associate_with_username = trim($_POST['associate_with_username']);
-    $bkx_user_auto = trim($_POST['bkx_user_auto']);
-    $seat_is_different_loc = trim($_POST['seat_is_different_loc']);
+    $seatCertainMonth      = sanitize_text_field($_POST['seat_certain_month']);
+    $seatCertainDay        = sanitize_text_field($_POST['seat_certain_day']);
+    $seatIsPrePayment      = sanitize_text_field($_POST['seat_is_pre_payment']);
+    $seatDepositFull       = sanitize_text_field($_POST['seat_deposit_full']);
+    $seatPaymentOption     = sanitize_text_field($_POST['seat_payment_option']);
+    $seat_amount           = sanitize_text_field($_POST['seat_amount']);
+    $seat_percentage       = sanitize_text_field($_POST['seat_percentage']);
+    $seatPhone             = sanitize_text_field($_POST['seat_phone']);
+    $seatEmail             = sanitize_text_field($_POST['seat_email']);
+    $seatIsAlternateEmail  = sanitize_text_field($_POST['seat_is_alternate_email']);
+    $seatAlternateEmail    = sanitize_text_field($_POST['seat_alternate_email']);
+    $seatIsIcal            = sanitize_text_field($_POST['seat_is_ical']);
+    $seatIcalAddress       = sanitize_text_field($_POST['seat_ical_address']);
+    $associate_with_user   = sanitize_text_field($_POST['associate_with_user']);
+    $seat_colour = sanitize_text_field($_POST['seat_colour']);
+    $associate_with_user_role = sanitize_text_field($_POST['associate_with_user_role']);
+    $associate_with_username = sanitize_text_field($_POST['associate_with_username']);
+    $bkx_user_auto = sanitize_text_field($_POST['bkx_user_auto']);
+    $seat_is_different_loc = sanitize_text_field($_POST['seat_is_different_loc']);
     
     if($seatDepositFull=="Deposit"){ $tempDepositFull = "D";}
 	else if($seatDepositFull=="Full Payment"){$tempDepositFull = "FP";}
@@ -437,7 +438,7 @@ function save_bkx_seat_metaboxes( $post_id, $post, $update )
 	{
 		if(isset($_POST['days_'.$d]) && !empty($_POST['days_'.$d]))
 		{
-			$days_array =$_POST['days_'.$d];
+			$days_array = sanitize_text_field ($_POST['days_'.$d]);
 			if(!empty($days_array))
 			{
 				if(!empty($seatCertainDay)){
@@ -452,13 +453,13 @@ function save_bkx_seat_metaboxes( $post_id, $post, $update )
 		}
 		if(isset($_POST['opening_time_'.$d]) && !empty($_POST['opening_time_'.$d]) && !empty($_POST['days_'.$d]))
 		{
-			$selected_days['selected_days_'.$d]['time']['open'] = $_POST['opening_time_'.$d];
-			$seat_days_time_data['selected_days_'.$d]['time_from'] = $_POST['opening_time_'.$d];
+			$selected_days['selected_days_'.$d]['time']['open'] = sanitize_text_field ($_POST['opening_time_'.$d]);
+			$seat_days_time_data['selected_days_'.$d]['time_from'] = sanitize_text_field ($_POST['opening_time_'.$d]);
 		}
 		if(isset($_POST['closing_time_'.$d]) && !empty($_POST['closing_time_'.$d]) && !empty($_POST['days_'.$d]))
 		{
-			$selected_days['selected_days_'.$d]['time']['close'] = $_POST['closing_time_'.$d];
-			$seat_days_time_data['selected_days_'.$d]['time_till'] = $_POST['closing_time_'.$d];
+			$selected_days['selected_days_'.$d]['time']['close'] = sanitize_text_field ($_POST['closing_time_'.$d]);
+			$seat_days_time_data['selected_days_'.$d]['time_till'] = sanitize_text_field ($_POST['closing_time_'.$d]);
 		}
 	}
 
@@ -635,9 +636,9 @@ if($bkx_user_auto == 'N'){
         {
             $userdata = array(
                     'ID' => $bkx_user_id,
-                    'first_name'    =>  $_POST['post_title'],
+                    'first_name'    =>  sanitize_text_field ($_POST['post_title']),
                     'role'          =>  $role ,
-                    'display_name'  => $_POST['post_title'],                
+                    'display_name'  => sanitize_text_field ($_POST['post_title']),                
             );
 
             $bkx_user_id = wp_update_user( $userdata);

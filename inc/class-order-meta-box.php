@@ -291,7 +291,6 @@ class Bkx_Meta_Boxes {
  		return $order_summary;
  		}
 		echo $order_summary;
-		//include_once(PLUGIN_DIR_PATH.'/inc/time_block_data.php');
 		echo '<div style="clear:left;">&nbsp;</div>';
 		echo do_shortcode('[bookingform order_post_id='.$post->ID.']');
 
@@ -453,36 +452,36 @@ class Bkx_Meta_Boxes {
 				$payment_method = 'paypal';
 			}
 
-			$booking_set_array = array('seat_id' => $_POST['input_seat'], 'base_id' => $_POST['input_base'],'extra_id'=>$strAdditionName);
+			$booking_set_array = array('seat_id' => sanitize_text_field($_POST['input_seat']), 'base_id' => sanitize_text_field($_POST['input_base']),'extra_id'=>$strAdditionName);
 			
 			$arrData = array(
-				'seat_id' => $_POST['input_seat'],
-				'base_id' => $_POST['input_base'],
+				'seat_id' => sanitize_text_field($_POST['input_seat']),
+				'base_id' => sanitize_text_field($_POST['input_base']),
 				'addition_ids' => $strAdditionName,
-				'first_name' => $_POST['input_firstname'],
-				'last_name' => $_POST['input_lastname'],
-				'phone' => $_POST['input_phonenumber'],
-				'email' => $_POST['input_email'],
-				'street' => $_POST['input_street'],
-				'city' => $_POST['input_city'],
-				'state' => $_POST['input_state'],
-				'postcode' => $_POST['input_postcode'],
-				'total_price' => $_POST['tot_price_val'],
-				'total_duration' => str_replace('"', "", $_POST['total_duration']),
+				'first_name' => sanitize_text_field($_POST['input_firstname']),
+				'last_name' => sanitize_text_field($_POST['input_lastname']),
+				'phone' => sanitize_text_field($_POST['input_phonenumber']),
+				'email' => sanitize_text_field($_POST['input_email']),
+				'street' => sanitize_text_field($_POST['input_street']),
+				'city' => sanitize_text_field($_POST['input_city']),
+				'state' => sanitize_text_field($_POST['input_state']),
+				'postcode' => sanitize_text_field($_POST['input_postcode']),
+				'total_price' => sanitize_text_field($_POST['tot_price_val']),
+				'total_duration' => str_replace('"', "", sanitize_text_field($_POST['total_duration'])),
 				'payment_method' => $payment_method,
 				'payment_status' => 'Not Completed',
 				'created_date' => $curr_date,
 				'created_by' => $current_user->ID,
-				'booking_date' => $_POST['input_date'],
-				'booking_time' => $_POST['booking_duration_insec'],
-				'extended_base_time' => $_POST['input_extended_time'],
+				'booking_date' => sanitize_text_field($_POST['input_date']),
+				'booking_time' => sanitize_text_field($_POST['booking_duration_insec']),
+				'extended_base_time' => sanitize_text_field($_POST['input_extended_time']),
 				'booking_start_date' => $booking_start_date,
 				'booking_end_date' => $booking_end_date,
 				'addedtocalendar' => 0,
-				'booking_time_from' =>  $_POST['booking_time_from'],
+				'booking_time_from' =>  sanitize_text_field($_POST['booking_time_from']),
 				'currency' => get_current_currency(),
 				'order_id' => $post_id,
-				'update_order_slot' => $_POST['update_order_slot']
+				'update_order_slot' => sanitize_text_field($_POST['update_order_slot'])
 			);
 
 	       $post_update =  $wpdb->update( 

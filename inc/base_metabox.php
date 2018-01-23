@@ -1,4 +1,5 @@
 <?php
+ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 add_action( 'add_meta_boxes', 'add_bkx_base_metaboxes' );
 function add_bkx_base_metaboxes()
 {
@@ -10,9 +11,8 @@ function bkx_base_boxes_metabox_callback($post)
 {
     wp_nonce_field('bkx_base_boxes_metabox','bkx_base_boxes_metabox_nonce' );
     //load custom scripts & styles
-    //custom_load_scripts(array('jquery-1.7.1.js'));
+  
     color_load_scripts(array('iris.min.js'));
-    //wp_enqueue_style( 'jquery-ui', '//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css' );
     custom_load_styles(array('basic-style.css'));
     //register and access the script handle in main.js
     $seat_alias = crud_option_multisite('bkx_alias_seat');
@@ -383,29 +383,29 @@ function save_bkx_base_metaboxes( $post_id, $post, $update )
     
     if($post->post_type!='bkx_base')  return;
    
-    $basePrice			=	trim($_POST['base_price']);
-	$baseMonthDaysTime =	trim($_POST['base_months_days_times']);
-	$baseMonths		=	trim($_POST['base_months']);
-	$baseDays		=	trim($_POST['base_days']);
-	$baseHoursMinutes		=	trim($_POST['base_hours_minutes']);
-	$baseMinutes		=	trim($_POST['base_minutes']);
-	$baseExtended	=	trim($_POST['base_extended']);
-	$baseLocationType	=	trim($_POST['base_location_type']);
-	$baselocationmobile	=	trim($_POST['base_location_mobile']);
-	$baseLocationDifferSeat	=	trim($_POST['base_location_differ_seat']);
-	$baseStreet	=	trim($_POST['base_street']);
-	$baseCity	=	trim($_POST['base_city']);
-	$baseState	=	trim($_POST['base_state']);
-	$basePostcode	=	trim($_POST['base_postcode']);
-	$baseAllowAddition	=	trim($_POST['base_allow_addition']);
-	$baseSeatAll	=	trim($_POST['base_seat_all']);
-	$base_is_unavailable = trim($_POST['base_is_unavailable']);
-	$base_unavailable_from = trim($_POST['base_unavailable_from']);
-	$base_unavailable_till = trim($_POST['base_unavailable_till']);
-    $baseSeatsValue = $_POST['base_seats'];
-    $base_extended_limit = $_POST['base_extended_limit'];
-    $base_seat_all = $_POST['base_seat_all'];
-    $base_colour = $_POST['base_colour'];
+    $basePrice			=	sanitize_text_field($_POST['base_price']);
+	$baseMonthDaysTime =	sanitize_text_field($_POST['base_months_days_times']);
+	$baseMonths		=	sanitize_text_field($_POST['base_months']);
+	$baseDays		=	sanitize_text_field($_POST['base_days']);
+	$baseHoursMinutes		=	sanitize_text_field($_POST['base_hours_minutes']);
+	$baseMinutes		=	sanitize_text_field($_POST['base_minutes']);
+	$baseExtended	=	sanitize_text_field($_POST['base_extended']);
+	$baseLocationType	=	sanitize_text_field($_POST['base_location_type']);
+	$baselocationmobile	=	sanitize_text_field($_POST['base_location_mobile']);
+	$baseLocationDifferSeat	=	sanitize_text_field($_POST['base_location_differ_seat']);
+	$baseStreet	=	sanitize_text_field($_POST['base_street']);
+	$baseCity	=	sanitize_text_field($_POST['base_city']);
+	$baseState	=	sanitize_text_field($_POST['base_state']);
+	$basePostcode	=	sanitize_text_field($_POST['base_postcode']);
+	$baseAllowAddition	=	sanitize_text_field($_POST['base_allow_addition']);
+	$baseSeatAll	=	sanitize_text_field($_POST['base_seat_all']);
+	$base_is_unavailable = sanitize_text_field($_POST['base_is_unavailable']);
+	$base_unavailable_from = sanitize_text_field($_POST['base_unavailable_from']);
+	$base_unavailable_till = sanitize_text_field($_POST['base_unavailable_till']);
+    $baseSeatsValue = sanitize_text_field($_POST['base_seats']);
+    $base_extended_limit = sanitize_text_field($_POST['base_extended_limit']);
+    $base_seat_all = sanitize_text_field($_POST['base_seat_all']);
+    $base_colour = sanitize_text_field($_POST['base_colour']);
 
 
               

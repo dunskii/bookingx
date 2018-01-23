@@ -1,5 +1,6 @@
-<script type="text/javascript" src="<?php echo PLUGIN_DIR_URL.'js/sol.js' ?>"></script>
-<link rel='stylesheet' id='sol-css'  href='<?php echo PLUGIN_DIR_URL.'css/sol.css?ver='.rand(1,99999).'' ?>' type='text/css' media='all' />
+<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
+<script type="text/javascript" src="<?php echo esc_js(BKX_PLUGIN_DIR_URL.'js/sol.js'); ?>"></script>
+<link rel='stylesheet' id='sol-css'  href='<?php echo esc_url(BKX_PLUGIN_DIR_URL.'css/sol.css?ver='.rand(1,99999).''); ?>' type='text/css' media='all' />
 <script type="text/javascript">
 function generate_xml()
 {

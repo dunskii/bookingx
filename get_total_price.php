@@ -9,7 +9,7 @@ $base_price = 0;
 $addition_price = 0;
 if(isset($_POST['seatid']))
 {
-    $seat = $_POST['seatid'];
+    $seat = sanitize_text_field($_POST['seatid']);
     $objSeat = get_post($seat);
         if(!empty($objSeat) && !is_wp_error($objSeat))
         {
@@ -23,7 +23,7 @@ if(isset($_POST['seatid']))
              }
         }
 }
-$total_price = bkx_cal_total_price( $_POST['baseid'], $_POST['extended'] , $_POST['additionid'] );
+$total_price = bkx_cal_total_price( sanitize_text_field($_POST['baseid']), sanitize_text_field($_POST['extended']) , sanitize_text_field($_POST['additionid']) );
 
 if($booking_require_prepayment=="Y"){
      

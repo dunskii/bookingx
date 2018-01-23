@@ -12,10 +12,10 @@ if ( !($current_user instanceof WP_User) )
 
 $roles = $current_user->roles;
 $data = $current_user->data;
-$booking_record_id = $_POST['booking_record_id'];
-$mode = $_POST['mode'];
+$booking_record_id = sanitize_text_field( $_POST['booking_record_id'] );
+$mode = sanitize_text_field( $_POST['mode'] );
 $is_cust = 0;
-$comment = $_POST['comment'];
+$comment = sanitize_text_field( $_POST['comment'] );
 if(!empty($comment )) { $is_cust = 1;}
 $current_user_id = $current_user->ID;
 $date = date("Y-m-d H:i:s");

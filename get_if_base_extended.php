@@ -6,7 +6,7 @@ $term = '';
 $base_extended = 'N';
 if(isset($_POST['baseid']) && $_POST['baseid']!='')
 {
-	$term = $_POST['baseid'];
+	$term = sanitize_text_field($_POST['baseid']);
         $BaseObj = get_post($term);
         if(!empty($BaseObj) && !is_wp_error($BaseObj))
         {

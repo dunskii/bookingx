@@ -1,5 +1,5 @@
 <?php
-
+ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 add_filter( 'manage_bkx_booking_posts_columns', 'bkx_booking_columns' , 99, 2 );
 
 function bkx_booking_columns( $existing_columns )
@@ -238,8 +238,8 @@ function codeAddress(counter) {
 
     jQuery(function() {
 
-        var bkx_view_id = '<?php echo $_GET["view"]; ?>';
-        var bkx_view_name = '<?php echo $_GET["bkx_name"]; ?>';
+        var bkx_view_id = '<?php echo sanitize_text_field($_GET["view"]); ?>';
+        var bkx_view_name = '<?php echo sanitize_text_field($_GET["bkx_name"]); ?>';
         if( bkx_view_id  )
         {
             jQuery('#post-'+ bkx_view_id).focus();
@@ -309,7 +309,7 @@ function codeAddress(counter) {
         }
     });
      <?php
-     $listing_view = isset($_GET['listing_view'])? $_GET['listing_view']:'';
+     $listing_view = isset($_GET['listing_view'])? sanitize_text_field($_GET['listing_view']):'';
      if($listing_view == 'weekly' || $listing_view == 'monthly'){ 
          generate_listing_view($listing_view);
         ?>
@@ -341,7 +341,7 @@ function bkx_booking_search_by_dates( $post_type, $which){
             'This Month' => 'this_month',
             'Select a Date' => 'choose_date'
         );
-        $search_by_dates = isset($_GET['search_by_dates'])? $_GET['search_by_dates']:'';
+        $search_by_dates = isset($_GET['search_by_dates'])? sanitize_text_field($_GET['search_by_dates']):'';
  
         if($search_by_dates == 'choose_date'){
            $search_by_dates = '';
@@ -390,7 +390,7 @@ if ('bkx_booking' == $post_type){
         <select name="seat_view" class="seat_view">
         <option> Select <?php echo $alias_seat;?> </option>
         <?php
-            $seat_view = isset($_GET['seat_view'])? $_GET['seat_view']:'';
+            $seat_view = isset($_GET['seat_view'])? sanitize_text_field($_GET['seat_view']):'';
             foreach ($seat_obj as $seat_id => $seat_name) {
                 printf
                     ('<option value="%s"%s>%s</option>',
@@ -424,7 +424,7 @@ function bkx_booking_listing_view( $post_type, $which){
 
         <select name="listing_view" class="listing_view">
         <?php
-            $listing_view = isset($_GET['listing_view'])? $_GET['listing_view']:'';
+            $listing_view = isset($_GET['listing_view'])? sanitize_text_field($_GET['listing_view']):'';
             foreach ($values as $label => $value) {
                 printf
                     ('<option value="%s"%s>%s</option>',

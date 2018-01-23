@@ -3,10 +3,10 @@ session_start();
 require_once('../../../wp-load.php');
 global $wpdb;
 $term = '';
-$seat_id = $_POST['seat_id'];
+$seat_id = sanitize_text_field($_POST['seat_id']);
 if(isset($_POST['baseid']))
 {
-    $term = $_POST['baseid'];
+    $term = sanitize_text_field($_POST['baseid']);
     
     $args = array(
                         'posts_per_page'   => -1,
@@ -52,9 +52,6 @@ if(!empty($get_extra_array) && !is_wp_error($get_extra_array))
 
             $extra_selected_seats = maybe_unserialize($values['extra_selected_seats'][0]);
             $extra_selected_seats = maybe_unserialize($extra_selected_seats);
-
-
-
             }
 
             if( !empty($extra_selected_seats) && in_array($seat_id, $extra_selected_seats)){

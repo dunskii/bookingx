@@ -1,5 +1,5 @@
 <?php
-
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 /**
  *This Function includes/loads the scripts in footer
  *@access public
@@ -279,7 +279,7 @@ function bkx_get_template($template_name,$template_path = '')
 {
     if(isset($template_name) && $template_name!='')
     {
-        $plugin_path = PLUGIN_DIR_PATH;
+        $plugin_path = BKX_PLUGIN_DIR_PATH;
         $file_path = $plugin_path.''.$template_name;
         if ( ! file_exists( $file_path ) ) {
           return;  
@@ -322,7 +322,7 @@ add_action( 'the_post', 'wc_setup_bkx_post_data' );
 
 function bkx_placeholder_img_src($size='service-thumb')
 {
-    return apply_filters( 'bkx_placeholder_img_src',PLUGIN_DIR_URL. 'images/placeholder.png' );
+    return apply_filters( 'bkx_placeholder_img_src',BKX_PLUGIN_DIR_URL. 'images/placeholder.png' );
 }
 
 function bkx_placeholder_img($size='service-thumb')
@@ -965,10 +965,10 @@ function crud_option_multisite($option_name,$option_val=null,$type='get')
 
 	switch ($type) {
 		case 'add':
-			$arg = (is_multisite()) ? array($get_current_blog_id,$option_name,$option_val) : array($option_name,$option_val);
+			$arg = (is_multisite()) ? array($get_current_blog_id,$option_name,$option_val) : array($option_name,sanitize_text_field($option_val));
 			break;
 		case 'update':
-			$arg = (is_multisite()) ? array($get_current_blog_id,$option_name,$option_val) : array($option_name,$option_val);
+			$arg = (is_multisite()) ? array($get_current_blog_id,$option_name,$option_val) : array($option_name,sanitize_text_field($option_val));
 			break;
 		case 'get':
 			$arg = (is_multisite()) ? array($get_current_blog_id,$option_name) : array($option_name);

@@ -491,7 +491,7 @@ if(order_id!= ''){
                    jQuery('#id_base_selector').attr('disabled',true);
             }                     
                    
-		 jQuery.post(url_obj.plugin_url+'/get_base_on_seat.php', { seatid: seat_temp }, function(data) {
+		 jQuery.post(url_obj.bkx_ajax_url, { seatid: seat_temp , action : 'get_base_on_seat' }, function(data) {
 
 				if(data!="error")
 				{

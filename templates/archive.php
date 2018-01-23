@@ -1,4 +1,5 @@
 <?php 
+ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 global $wp_query,$wpdb;
 $query = new WP_Query( array( 'post_type' => $post_type ,'posts_per_page'=> $per_page,'post__in'=>$in_array));
 if(!empty($in_array) && sizeof($in_array) == 1)

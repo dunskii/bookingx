@@ -10,7 +10,7 @@
  *  Domain Path: /i18n/languages/
  *  License:     GPL v3
  */
-
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 /**
  * BookingX
  * Copyright (C) 2007-2017, BookingX
@@ -28,7 +28,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-function is_session_started()
+function is_bkx_session_started()
 {
     if ( php_sapi_name() !== 'cli' ) {
         if ( version_compare(phpversion(), '5.4.0', '>=') ) {
@@ -39,8 +39,7 @@ function is_session_started()
     }
     return FALSE;
 }
-if ( is_session_started() === FALSE ) { session_start(); }
-define( 'WP_MEMORY_LIMIT', '512M' );
+if ( is_bkx_session_started() === FALSE ) { session_start(); }
 //session_start();
 //include shord code file
 
@@ -64,13 +63,13 @@ require_once( 'inc/class-order-meta-box.php' );
 require_once( 'inc/class-bkx-export.php' );
 require_once( 'inc/class-bkx-import.php' );
 require_once( 'admin/booking-listing.php' );
-require_once( 'git-updater/BFIGitHubPluginUploader.php' );
+require_once( 'git-updater/bkx-git-updater.php' );
 
 require_once( 'my_account_bx.php' );
 require_once( 'my_login_bx.php' );
 
-define( 'PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
-define( 'PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
+define( 'BKX_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
+define( 'BKX_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
 wp_cache_flush();
 
 add_action( 'init', 'do_output_buffer' );
@@ -78,7 +77,7 @@ function do_output_buffer(){
     ob_start(); 
 }
 if ( is_admin() ) {
-    new BFIGitHubPluginUpdater( __FILE__, 'dunskii', "BookingX" );
+    new BKXGitHubPluginUpdater( __FILE__, 'dunskii', "BookingX" );
 }
 
 function bkx_clean( $var )
@@ -120,11 +119,11 @@ function register_pp_shortcodes()
  *@param 
  *@return void
  */
-function booking_admin_actions()
+function bkx_admin_actions()
 {
     add_submenu_page( 'edit.php?post_type=bkx_booking', __( 'Settings', 'bookingx' ), __( 'Settings', 'bookingx' ), 'manage_options', 'bkx-setting', 'bkx_setting_page_callback' );
 }
-add_action( 'admin_menu', 'booking_admin_actions' );
+add_action( 'admin_menu', 'bkx_admin_actions' );
 
 function bkx_plugin_add_settings_link( $links ) {
     $settings_link = '<a href="edit.php?post_type=bkx_booking&page=bkx-setting">' . __( 'Settings' ) . '</a>';
@@ -140,17 +139,13 @@ add_filter( "plugin_action_links_$plugin", 'bkx_plugin_add_settings_link' );
  *@param 
  *@return void
  */
-function create_booking_tables()
+function bkx_create_base_builtup()
 {
     /*@ruchira 
     While implementation of image upload to  directory.
     make the plugin directory writable by system before installation of plugin    
     */
     $plugin_dir = plugin_dir_path( __FILE__ );
-    // if ( !is_writable( $plugin_dir ) ) {
-    //     echo $plugin_dir . " is not writable, make it writable";
-    //     die();
-    // }
 
     crud_option_multisite("bkx_alias_seat", 'Resource', 'update');
     crud_option_multisite("bkx_alias_base", 'Service', 'update');
@@ -229,29 +224,23 @@ add_action( 'wp_print_scripts', 'wpdocs_dequeue_script', 100 );
  *@param 
  *@return void
  */
-function remove_booking_tables()
-{
-    flush_rewrite_rules();
-}
-add_action( 'widgets_init', create_function( '', 'register_widget( "booking_widget" );' ) );
-register_activation_hook( __FILE__, 'create_booking_tables' );
-//register_deactivation_hook( __FILE__, 'remove_booking_tables' );
-
-
+ 
+ 
+register_activation_hook( __FILE__, 'bkx_create_base_builtup' );
+ 
 //Set default role for  $alias_seat and give permission.
 add_role( 'resource', __( 'Resource' ), 
     array( 'read' => true, 'edit_posts' => true, 'delete_posts' =>false ) );
 
 require_once 'inc/metabox.php';
 
-function my_scripts_method()
+function bkx_scripts_init()
 {
     $base_alias = get_option( "bkx_alias_base", "Base" );
     
     wp_enqueue_script( "jquery-1-9-1-min", plugins_url( "js/jquery-1.9.1.min.js", __FILE__ ), false, null, true );
     wp_enqueue_script( "jquery-ui", plugins_url( "js/jquery-ui.js", __FILE__ ), false, null, true );
-   // wp_enqueue_script( "jquery-fullcalendar-min", plugins_url( "js/fullcalendar/fullcalendar.min.js", __FILE__ ), false, null, true );
-    wp_enqueue_script( "jquery-once", plugins_url( "js/jquery.once.js", __FILE__ ), false, null, true );
+     wp_enqueue_script( "jquery-once", plugins_url( "js/jquery.once.js", __FILE__ ), false, null, true );
     wp_enqueue_script( "jquery-timepicker", plugins_url( "js/jquery.timePicker.js", __FILE__ ), false, null, true );
 
     $booking_edit_process_page_id = crud_option_multisite("booking_edit_process_page_id");
@@ -282,6 +271,7 @@ function my_scripts_method()
         wp_enqueue_script( "edit_booking_common_script", plugins_url( "js/edit_booking_common_script.js", __FILE__ ), false, rand(1,99999), true );
         $translation_array = array(
                                 'plugin_url' => plugins_url( '', __FILE__ ),
+                                'bkx_ajax_url' => admin_url( 'admin-ajax.php' ),
                                 'base' => $base_alias,
                                 'order_id' => $booking_id,
                                 'seat_id' => $seat_id,
@@ -337,6 +327,7 @@ function my_scripts_method()
 
         $translation_array = array(
              'plugin_url' => plugins_url( '', __FILE__ ),
+             'bkx_ajax_url' => admin_url( 'admin-ajax.php' ),
              'admin_ajax' => admin_url('admin-ajax.php'),
              'base' => $base_alias,
              'booked_days' => $booked_days_filtered,
@@ -348,13 +339,11 @@ function my_scripts_method()
     }
 
     wp_enqueue_style( 'bookingform-css', plugins_url( 'css/bookingform-style.css', __FILE__ ), false, false );
-    // wp_enqueue_style( 'fullcalendar-css', plugins_url( 'css/fullcalendar.css', __FILE__ ), false, false );
-    // wp_enqueue_style( 'fullcalendar-print-css', plugins_url( 'css/fullcalendar.print.css', __FILE__ ), false, false );
     wp_enqueue_style( 'bookingform-css', plugins_url( 'css/bookingform-style.css', __FILE__ ), false, false );
     wp_enqueue_style( 'jquery-ui-css', plugins_url( 'css/jquery-ui.css', __FILE__ ), false, false );
-    wp_enqueue_style( 'bodikea-upgrade', PLUGIN_DIR_URL.'css/bodikea-upgrade.css', '', rand(1,999999) );
+    wp_enqueue_style( 'bkx-upgrade', BKX_PLUGIN_DIR_URL.'css/bkx-upgrade.css', '', rand(1,999999) );
 }
-add_action( 'wp_enqueue_scripts', 'my_scripts_method' );
+add_action( 'wp_enqueue_scripts', 'bkx_scripts_init' );
 
 
 function load_custom_wp_admin_style()
@@ -367,9 +356,6 @@ function load_custom_wp_admin_style()
     if(!empty($get_allowed) && !empty($post_type) && in_array($post_type, $get_allowed))
     {
         wp_enqueue_script( "jquery-ui","https://code.jquery.com/ui/1.12.1/jquery-ui.js", false, null, true );
-
-   // wp_enqueue_script( "jquery-1-9-1-min", plugins_url( "js/jquery-1.9.1.min.js", __FILE__ ), false, null, true );
-    //wp_enqueue_script( "jquery-ui", plugins_url( "js/jquery-ui.js", __FILE__ ), false, null, true );
     wp_enqueue_script( "jquery-fullcalendar-moment", plugins_url( "js/fullcalendar/lib/moment.min.js", __FILE__ ), false, rand(1,9999999), true );
     wp_enqueue_script( "jquery-fullcalendar-min", plugins_url( "js/fullcalendar/fullcalendar.min.js", __FILE__ ), false, rand(1,9999999), true );
 
@@ -390,6 +376,7 @@ function load_custom_wp_admin_style()
 
     $translation_array     = array(
          'plugin_url' => plugins_url( '', __FILE__ ),
+         'bkx_ajax_url' => admin_url( 'admin-ajax.php' ),
         'base' => $base_alias,
         'admin_ajax' => admin_url('admin-ajax.php'),
     );
@@ -399,9 +386,7 @@ function load_custom_wp_admin_style()
 
     wp_enqueue_style( 'bookingform-css', plugins_url( 'css/bookingform-style.css', __FILE__ ), false, false );
     wp_enqueue_style( 'fullcalendar-css', plugins_url( 'css/fullcalendar.min.css', __FILE__ ), false, false );
-    // wp_enqueue_style( 'fullcalendar-print-css', plugins_url( 'css/fullcalendar.print.min.css', __FILE__ ), false, rand(1,9999999) );
     wp_enqueue_style( 'bookingform-css', plugins_url( 'css/bookingform-style.css', __FILE__ ), false, false );
     wp_enqueue_style( 'jquery-ui-css', plugins_url( 'css/jquery-ui.css', __FILE__ ), false, false );
-    
 }
-add_action( 'admin_enqueue_scripts', 'load_custom_wp_admin_style' );
+add_action( 'admin_enqueue_scripts', 'bkx_load_custom_wp_admin_style' );

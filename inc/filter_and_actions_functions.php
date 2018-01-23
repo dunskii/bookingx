@@ -1,4 +1,5 @@
 <?php
+ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 /**
  * Create Seat Post Type
  */
@@ -690,17 +691,17 @@ function plugin_settings_link( $links )
     return $links;
 }
 //to display display notices to admin users to drag booking widget to the area of yours choice
-add_action( 'admin_notices', 'my_admin_notice' );
-function my_admin_notice()
-{
-    global $pagenow;
-    $flag_widget = is_active_widget( false, false, 'booking_widget' );
-    if ( !$flag_widget ) {
-        echo '<div class="updated">
-             <p>Drag Booking Widget to activate booking form for your site users.</p>
-         </div>';
-    }
-}
+// add_action( 'admin_notices', 'my_admin_notice' );
+// function my_admin_notice()
+// {
+//     global $pagenow;
+//     $flag_widget = is_active_widget( false, false, 'booking_widget' );
+//     if ( !$flag_widget ) {
+//         echo '<div class="updated">
+//              <p>Drag Booking Widget to activate booking form for your site users.</p>
+//          </div>';
+//     }
+// }
 
 
 add_filter('query_vars', 'bkx_query_vars');
@@ -890,7 +891,7 @@ add_filter ('posts_request', 'posts_request', 2, 10);
 function posts_request ($order ,$WP_Query ) {
     global $wpdb; 
  
-    $listing_view = isset($_GET['listing_view'])? $_GET['listing_view']:'';
+    $listing_view = isset($_GET['listing_view'])? sanitize_text_field($_GET['listing_view']):'';
 
     if($WP_Query->query['post_type'] == 'bkx_booking' && $listing_view == 'weekly' || $listing_view == 'monthly') {
             $get_posts = $wpdb->get_results( $order, ARRAY_A );

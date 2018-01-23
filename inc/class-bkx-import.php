@@ -1,4 +1,5 @@
 <?php
+ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 /**
 * Bookingx Import tool real xml file only supported which export by Bookingx.
 */

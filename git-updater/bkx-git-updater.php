@@ -1,6 +1,6 @@
 <?php
-
-class BFIGitHubPluginUpdater {
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+class BKXGitHubPluginUpdater {
 
     private $slug; // plugin slug
     private $pluginData; // plugin data

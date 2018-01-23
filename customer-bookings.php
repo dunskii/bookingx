@@ -1,13 +1,13 @@
 <?php 
  
-wp_enqueue_style( 'bodikea-css', PLUGIN_DIR_URL.'css/bookingx-style.css', '', rand(1,999999) );
-wp_enqueue_style( 'shortcodes', PLUGIN_DIR_URL.'css/shortcodes.css', false, false );
-wp_enqueue_style( 'shortcodes_responsive', PLUGIN_DIR_URL.'css/shortcodes_responsive.css', false, false );
-wp_enqueue_script( "et-shortcodes-js", PLUGIN_DIR_URL."js/et_shortcodes_frontend.dev.js?ver=".rand(1,999999), false, rand(1,99999), false ); 
+wp_enqueue_style( 'bodikea-css', BKX_PLUGIN_DIR_URL.'css/bookingx-style.css', '', rand(1,999999) );
+wp_enqueue_style( 'shortcodes', BKX_PLUGIN_DIR_URL.'css/shortcodes.css', false, false );
+wp_enqueue_style( 'shortcodes_responsive', BKX_PLUGIN_DIR_URL.'css/shortcodes_responsive.css', false, false );
+wp_enqueue_script( "et-shortcodes-js", BKX_PLUGIN_DIR_URL."js/et_shortcodes_frontend.dev.js?ver=".rand(1,999999), false, rand(1,99999), false ); 
 wp_localize_script( 'et-shortcodes-js', 'bkx_shortcodes_strings', array( 'previous' => __( 'Previous', 'Bookingx' ), 'next' => __( 'Next', 'Bookingx' ) ) );
 
 
-require_once(PLUGIN_DIR_PATH.'css/generate_css.php');
+require_once(BKX_PLUGIN_DIR_PATH.'css/generate_css.php');
 
 
 $current_user = wp_get_current_user();
@@ -88,16 +88,16 @@ endif;
 //End Divyang Parekh
 if(!empty($_POST['_i_process']) && isset($_POST['_i_process']) && !empty($_POST['comment_is'])){
 
-  $encrypted_booking_id = $_POST['_i_process'];
+  $encrypted_booking_id = sanitize_text_field( $_POST['_i_process'] );
   //Booking Variables
   $decoded_booking_data= base64_decode($encrypted_booking_id);
   $decoded_booking_data_arr=  explode("|",$decoded_booking_data);
   $decoded_booking_id= $decoded_booking_data_arr[0];
-  $comment_is = $_POST['comment_is'];
+  $comment_is = sanitize_text_field( $_POST['comment_is']);
  ?>
 <script>
 $booking_id = '<?php echo $decoded_booking_id; ?>';
-$comment = '<?php echo $_POST['comment_is'];?>';
+$comment = '<?php echo sanitize_text_field( $_POST['comment_is']);?>';
 jQuery.post('<?php echo plugins_url( "" , __FILE__ ); ?>/cancel_booking.php', { booking_record_id: $booking_id, mode:'cancelled', comment : $comment }, function(data) {
 location.href = '<?php echo get_permalink($my_account_id);?>';
 });

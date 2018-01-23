@@ -1,4 +1,5 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 add_action( 'add_meta_boxes', 'add_bkx_extra_metaboxes' );
 function add_bkx_extra_metaboxes()
 {
@@ -218,22 +219,22 @@ function save_bkx_addition_metaboxes( $post_id, $post, $update )
     
     if($post->post_type!='bkx_addition')  return;
     
-    $additionPrice                =	trim($_POST['addition_price']);
-    $additionMonthDaysTime        =	trim($_POST['addition_time_option']);
-    $additionMonths               =	trim($_POST['addition_months']);
-    $additionDays                 =	trim($_POST['addition_days']);
-    $additionHoursMinutes         =	trim($_POST['addition_hours_minutes']);
-    $additionMinutes              =	trim($_POST['addition_minutes']);
-    $additionOverlap              =	trim($_POST['addition_overlap']);
-    $additionBaseAll              =	trim($_POST['addition_base_all']);	
+    $additionPrice                =	sanitize_text_field($_POST['addition_price']);
+    $additionMonthDaysTime        =	sanitize_text_field($_POST['addition_time_option']);
+    $additionMonths               =	sanitize_text_field($_POST['addition_months']);
+    $additionDays                 =	sanitize_text_field($_POST['addition_days']);
+    $additionHoursMinutes         =	sanitize_text_field($_POST['addition_hours_minutes']);
+    $additionMinutes              =	sanitize_text_field($_POST['addition_minutes']);
+    $additionOverlap              =	sanitize_text_field($_POST['addition_overlap']);
+    $additionBaseAll              =	sanitize_text_field($_POST['addition_base_all']);	
     $additionLocationDifferSeat   = 'N';
     $additionLocationDifferBase   = 'N';
-    $additionIsUnavailable        = trim($_POST['addition_is_unavailable']);
-    $additionUnavailableFrom      = trim($_POST['addition_unavailable_from']);
-    $additionUnavailableTo        = trim($_POST['addition_unavailable_to']);   
-    $extraSeatsValue = $_POST['addition_base'];
-    $checked_seats = $_POST['seat_on_extra'];
-    $extra_colour = $_POST['extra_colour'];
+    $additionIsUnavailable        = sanitize_text_field($_POST['addition_is_unavailable']);
+    $additionUnavailableFrom      = sanitize_text_field($_POST['addition_unavailable_from']);
+    $additionUnavailableTo        = sanitize_text_field($_POST['addition_unavailable_to']);   
+    $extraSeatsValue = sanitize_text_field($_POST['addition_base']);  
+    $checked_seats = sanitize_text_field($_POST['seat_on_extra']);  
+    $extra_colour = sanitize_text_field($_POST['extra_colour']);
         
     if (isset($_POST['addition_is_unavailable']) && ($_POST['addition_is_unavailable'] == "Yes")){
 	$additionIsUnavailable = 'Y';

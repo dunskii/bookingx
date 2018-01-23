@@ -1,7 +1,7 @@
 <?php
 require_once('../../../wp-load.php');
 
-$extra_id = $_POST['extra_id'];
+$extra_id = sanitize_text_field($_POST['extra_id']);
 $BkxExtra  = new BkxExtra('', $extra_id);
  
 $post_title = $BkxExtra->post->post_title;

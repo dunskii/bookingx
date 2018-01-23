@@ -35,7 +35,7 @@ $country = get_wp_country();
 $bkx_setting_tabs = bkx_setting_tabs();
 if(!empty($bkx_setting_tabs))
 {
-	$current_main_tab = isset($_GET['bkx_tab']) ? $_GET['bkx_tab']:'bkx_general';
+	$current_main_tab = isset($_GET['bkx_tab']) ? sanitize_text_field($_GET['bkx_tab']):'bkx_general';
 
 	$bkx_setting_tabs_html = '';
 	$bkx_setting_tabs_html .= '<h2 class="nav-tab-wrapper">';
@@ -51,7 +51,7 @@ echo $bkx_setting_tabs_html;
 
 if(!empty($current_main_tab))
 {
-	$current_setting_tab_path = PLUGIN_DIR_PATH.'admin/settings/'.$current_main_tab.'-view.php';
+	$current_setting_tab_path = BKX_PLUGIN_DIR_PATH.'admin/settings/'.$current_main_tab.'-view.php';
 	if ( ! file_exists( $current_setting_tab_path ) ) {
         return;  
     }
@@ -62,7 +62,7 @@ if(!empty($current_main_tab))
 	if(!empty($bkx_general_submenu)){
 
 		$default_active = $bkx_setting_tabs[$current_main_tab]['default'];
-		$current_submenu_active = isset($_GET['section']) ? $_GET['section']: $default_active;
+		$current_submenu_active = isset($_GET['section']) ? sanitize_text_field($_GET['section']): $default_active;
 
 		$bkx_general_submenu_html = '';
 		$bkx_general_submenu_html .= '<ul class="subsubsub">';
@@ -91,9 +91,9 @@ if(!empty($current_main_tab))
 		$bkx_general_submenu_label = $bkx_submenu_active_label[1];
 	}
 
-	require_once(PLUGIN_DIR_PATH.'admin/settings/settings_save.php');
-	require_once(PLUGIN_DIR_PATH.'admin/settings/'.$current_main_tab.'-view.php');
-	require_once(PLUGIN_DIR_PATH.'admin/settings/setting_js.php');
+	require_once(BKX_PLUGIN_DIR_PATH.'admin/settings/settings_save.php');
+	require_once(BKX_PLUGIN_DIR_PATH.'admin/settings/'.$current_main_tab.'-view.php');
+	require_once(BKX_PLUGIN_DIR_PATH.'admin/settings/setting_js.php');
 }
 ?>                 
 </div><!-- WRAP ENDS -->

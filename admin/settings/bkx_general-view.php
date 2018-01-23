@@ -1,4 +1,6 @@
-<?php if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
+<?php 
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 <!---Alias settings-->
 <h3> <?php printf( esc_html__( '%1$s', 'bookingx' ),  $bkx_general_submenu_label ); ?> </h3>
 <form name="form_alias" id="id_form_alias" method="post">
@@ -396,7 +398,7 @@
 <!-- This is for export button   -->
 <div>
 <h3> <?php printf( esc_html__( '%1$s', 'bookingx' ),  'Export XML' ); ?> </h3>
-<form name="xml_export" method="post" action="<?php echo PLUGIN_DIR_URL; ?>generate_xml.php">
+<form name="xml_export" method="post" action="<?php echo BKX_PLUGIN_DIR_URL; ?>generate_xml.php">
 		<table class="widefat" style="margin-top:20px;">
 			<tr class="active">
 			<input type="hidden" id="id_addition_list" name="addition_list" value="">
@@ -413,7 +415,7 @@
 <!--Start Import Functionality --> 
 <div>		
 <h3> <?php printf( esc_html__( '%1$s', 'bookingx' ),  'Import XML' ); ?> </h3>
-<form name="xml_export" method="post" action="<?php echo PLUGIN_DIR_URL; ?>importXML.php" enctype="multipart/form-data">
+<form name="xml_export" method="post" action="<?php echo BKX_PLUGIN_DIR_URL; ?>importXML.php" enctype="multipart/form-data">
 <table class="widefat" style="margin-top:20px;">
 			<tr class="active">
 			<td>

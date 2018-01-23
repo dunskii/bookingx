@@ -555,8 +555,7 @@ $(document).ready(function(){
                     if(seat_temp==""){
                            $('#id_base_selector').attr('disabled',true);
                     }
-		 $.post(url_obj.plugin_url+'/get_base_on_seat.php', { seatid: seat_temp }, function(data) {
-
+		 $.post(url_obj.bkx_ajax_url, { seatid: seat_temp , action : 'bkx_get_base_on_seat' }, function(data) {
 				if(data!="error")
 				{
 					//alert(data);
@@ -619,7 +618,7 @@ $(document).ready(function(){
                                      }
 
 
-                                     $.post(url_obj.plugin_url+'/get_base_on_seat.php', { seatid: seat_temp }, function(data) {
+                                    $.post(url_obj.bkx_ajax_url, { seatid: seat_temp , action : 'bkx_get_base_on_seat' }, function(data) {
 
                                                     if(data!="error")
                                                     {
@@ -675,8 +674,7 @@ $(document).ready(function(){
 
 		$('#id_base_selector').bind('change', function(){
 			var base_temp1 = $(this).val();
-			
-			$.post(url_obj.plugin_url+'/get_base_on_seat.php', {baseid1: base_temp1, mob: 'no' }, function(data) {
+			$.post(url_obj.bkx_ajax_url, { baseid1: base_temp1, mob: 'no'  , action : 'bkx_get_base_on_seat' }, function(data) {
 				var base_data = $.parseJSON(data);
 
 				$('#base_location_type').val(base_data.base_location_type);

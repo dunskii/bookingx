@@ -3,7 +3,7 @@ require_once('../../../wp-load.php');
 global $wpdb;
 
 $BkxBooking = new BkxBooking();
-$baseid = $_POST['baseid'];
+$baseid = sanitize_text_field($_POST['baseid']);
 
 $BaseMetaObj = get_post_custom($baseid ); 
 $base_time_option = $BaseMetaObj['base_time_option'][0];

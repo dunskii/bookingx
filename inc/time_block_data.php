@@ -1,4 +1,5 @@
 <?php
+ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 		$business_address_1 = crud_option_multisite("bkx_business_address_1");
 		$business_address_2 = crud_option_multisite("bkx_business_address_2");

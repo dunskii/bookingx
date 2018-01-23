@@ -1,4 +1,5 @@
  <?php
+  if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
  	$text_color = crud_option_multisite('bkx_siteclient_css_text_color');
  	$text_color = ($text_color) ? $text_color : '#000';
 

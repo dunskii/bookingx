@@ -1,4 +1,6 @@
-<?php if(!empty($current_submenu_active) && $current_submenu_active == 'biz_info') :?>
+<?php 
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if(!empty($current_submenu_active) && $current_submenu_active == 'biz_info') :?>
 <h3> <?php printf( esc_html__( '%1$s', 'bookingx' ),  $bkx_general_submenu_label ); ?> </h3>
 <form name="form_alias" id="id_form_alias" method="post">
 <table cellspacing="0" class="widefat " style="margin-top:20px;">

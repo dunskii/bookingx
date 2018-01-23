@@ -1,5 +1,5 @@
 <?php
-
+ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 /** Single Page ********************************************************/
 
 if ( ! function_exists( 'bookingx_show_post_images' ) ) {

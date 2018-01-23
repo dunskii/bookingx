@@ -1,4 +1,5 @@
 <?php
+ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 $plugin_dir = plugin_dir_path( __DIR__ );
 require_once($plugin_dir.'booking_general_functions.php');
 

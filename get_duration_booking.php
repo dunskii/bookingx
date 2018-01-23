@@ -8,13 +8,13 @@ $seat_alias = crud_option_multisite("bkx_alias_seat");
 $base_alias = crud_option_multisite("bkx_alias_base");
 $addition_alias = crud_option_multisite('bkx_alias_addition');
 
-$baseid 	= $_POST['baseid'];
-$additionid = $_POST['additionid'];
+$baseid 	= sanitize_text_field($_POST['baseid']);
+$additionid = sanitize_text_field($_POST['additionid']);
 
 if (isset($_POST['seatid']) && $_POST['seatid'] == 'any' && $_SESSION['free_seat_id']!=''  && crud_option_multisite('enable_any_seat') == 1 && crud_option_multisite('select_default_seat') != ''):
 	$mobonlyobj = $_SESSION['free_seat_id'];
 else:
-	$mobonlyobj = $_POST['seatid'];
+	$mobonlyobj = sanitize_text_field($_POST['seatid']);
 endif;
 
 $booking_summary = '<ul>';
@@ -319,7 +319,7 @@ if(isset($baseid))
             'posts_per_page'   => -1,
             'post_type'        => 'bkx_addition',
             'post_status'      => 'publish',
-            'include'          => $_POST['additionid']
+            'include'          => sanitize_text_field($_POST['additionid'])
         );
         $objListAddition = get_posts( $args );
 
@@ -394,7 +394,7 @@ if(isset($baseid))
 	//total duration booked in seconds
 	$total_duration_seconds = $total_addition_time_insec + $total_base_time_insec;
     //check if can be booked 
-	$seatid = $_POST['seatid'];
+	$seatid = sanitize_text_field($_POST['seatid']);
 	$result = checkIfSeatCanBeBooked($seatid, $total_duration_seconds); //if allowed to select time option
 
 	$counter = $counter + $base_time;
@@ -456,7 +456,7 @@ if(isset($baseid))
 }
 $total_tax = 0;
 $total_price = 0;
-$total_price 	= bkx_cal_total_price( $baseid, $_POST['extended'] , $additionid );
+$total_price 	= bkx_cal_total_price( $baseid, sanitize_text_field($_POST['extended']) , $additionid );
 
 if(!empty($total_price)){
 	$bkx_cal_total_tax 		= bkx_cal_total_tax( $total_price );
