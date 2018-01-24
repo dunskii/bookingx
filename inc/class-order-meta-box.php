@@ -179,10 +179,9 @@ class Bkx_Meta_Boxes {
     	$check_total_payment = $payment_meta['pay_amt'];
 
     	$payment_status = ($payment_status) ? $payment_status : 'Pending';
-		$seat_base_edit_mode = 1 ;
-		if($payment_status == 'Not Completed'){
-			$payment_status = 'Pending';
-			$seat_base_edit_mode = 0;
+		$seat_base_edit_mode = 0 ;
+		if($payment_status == 'Completed'){
+			$seat_base_edit_mode = 1;
 		}	   
 
 		if(isset($check_total_payment) && $check_total_payment !='' && $check_total_payment != 0){
