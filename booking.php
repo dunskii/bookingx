@@ -346,7 +346,7 @@ function bkx_scripts_init()
 add_action( 'wp_enqueue_scripts', 'bkx_scripts_init' );
 
 
-function load_custom_wp_admin_style()
+function bkx_load_custom_wp_admin_style()
 {
     $screen = get_current_screen();
 

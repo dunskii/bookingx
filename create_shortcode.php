@@ -1,5 +1,4 @@
 <?php
-//require_once($_SERVER['DOCUMENT_ROOT'].'/wp-load.php');
 /**
  *This Function generates list of seats
  *@access public
@@ -229,7 +228,7 @@ function do_paypal_api_call($seat_name,$total_price,$item_number,$quantity,$arrP
 
 		//We need to execute the "SetExpressCheckOut" method to obtain paypal token
 		
-		$paypal= new MyPayPal();
+		$paypal= new BkxPayPalGateway();
 		$httpParsedResponseAr = $paypal->PPHttpPost('SetExpressCheckout', $padata, $PayPalApiUsername, $PayPalApiPassword, $PayPalApiSignature, $PayPalMode);
 		
 		//Respond according to message we receive from Paypal

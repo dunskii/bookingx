@@ -2,18 +2,7 @@
 <script type="text/javascript" src="<?php echo esc_js(BKX_PLUGIN_DIR_URL.'js/sol.js'); ?>"></script>
 <link rel='stylesheet' id='sol-css'  href='<?php echo esc_url(BKX_PLUGIN_DIR_URL.'css/sol.css?ver='.rand(1,99999).''); ?>' type='text/css' media='all' />
 <script type="text/javascript">
-function generate_xml()
-{
-	//alert("xml generation");
-	var values = new Array();
-	jQuery.each(jQuery("input[name='post[]']:checked"), function() {
-	  values.push(jQuery(this).val());
-	});
-	
-	//console.log(values);
-	jQuery("#id_addition_list").val(values);
-	document.forms["xml_export"].submit();
-} 
+ 
 jQuery(document).ready(function(){
 	/**********************start script for color picker******************************/
 var ajax_url = '<?php echo admin_url( 'admin-ajax.php' ); ?>';

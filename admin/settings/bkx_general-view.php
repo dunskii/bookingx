@@ -398,14 +398,14 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 <!-- This is for export button   -->
 <div>
 <h3> <?php printf( esc_html__( '%1$s', 'bookingx' ),  'Export XML' ); ?> </h3>
-<form name="xml_export" method="post" action="<?php echo BKX_PLUGIN_DIR_URL; ?>generate_xml.php">
+<form name="xml_export" method="post" action="">
 		<table class="widefat" style="margin-top:20px;">
 			<tr class="active">
 			<input type="hidden" id="id_addition_list" name="addition_list" value="">
 			<input type="hidden" id="id_type" name="type" value="all">
 			</tr>
 		</table>
-		<p class="submit"><input type="button" value="Export xml" class='button-primary' name="export_xml" onclick="generate_xml();" ></p>
+		<p class="submit"><input type="submit" value="Export xml" class='button-primary' name="export_xml"></p>
 		</form>
 </div>
 <!--  End export functionality -->
@@ -415,7 +415,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 <!--Start Import Functionality --> 
 <div>		
 <h3> <?php printf( esc_html__( '%1$s', 'bookingx' ),  'Import XML' ); ?> </h3>
-<form name="xml_export" method="post" action="<?php echo BKX_PLUGIN_DIR_URL; ?>importXML.php" enctype="multipart/form-data">
+<form name="xml_export" method="post" action="" enctype="multipart/form-data">
 <table class="widefat" style="margin-top:20px;">
 			<tr class="active">
 			<td>
@@ -429,3 +429,15 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 </div>
 <!--End Import Functionality-->
 <?php endif; ?>
+
+
+<?php
+if(isset($_POST['export_xml']) && sanitize_text_field($_POST['export_xml']) == "Export xml") :
+    $BkxExportObj = new BkxExport();
+    $BkxExportObj->export_now();
+endif;
+
+if(isset($_POST['import_xml']) && sanitize_text_field($_POST['import_xml']) == "Import Xml") :
+    $BkxImport = new BkxImport();
+	$import_now = $BkxImport->import_now($_FILES,$_POST);
+endif;

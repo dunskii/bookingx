@@ -1,15 +1,12 @@
 <?php 
- 
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 wp_enqueue_style( 'bodikea-css', BKX_PLUGIN_DIR_URL.'css/bookingx-style.css', '', rand(1,999999) );
 wp_enqueue_style( 'shortcodes', BKX_PLUGIN_DIR_URL.'css/shortcodes.css', false, false );
 wp_enqueue_style( 'shortcodes_responsive', BKX_PLUGIN_DIR_URL.'css/shortcodes_responsive.css', false, false );
 wp_enqueue_script( "et-shortcodes-js", BKX_PLUGIN_DIR_URL."js/et_shortcodes_frontend.dev.js?ver=".rand(1,999999), false, rand(1,99999), false ); 
 wp_localize_script( 'et-shortcodes-js', 'bkx_shortcodes_strings', array( 'previous' => __( 'Previous', 'Bookingx' ), 'next' => __( 'Next', 'Bookingx' ) ) );
 
-
 require_once(BKX_PLUGIN_DIR_PATH.'css/generate_css.php');
-
-
 $current_user = wp_get_current_user();
 $bkx_seat_role = crud_option_multisite('bkx_seat_role');
 
@@ -87,7 +84,6 @@ if(crud_option_multisite('enable_cancel_booking')== 1
 endif;
 //End Divyang Parekh
 if(!empty($_POST['_i_process']) && isset($_POST['_i_process']) && !empty($_POST['comment_is'])){
-
   $encrypted_booking_id = sanitize_text_field( $_POST['_i_process'] );
   //Booking Variables
   $decoded_booking_data= base64_decode($encrypted_booking_id);
@@ -95,14 +91,18 @@ if(!empty($_POST['_i_process']) && isset($_POST['_i_process']) && !empty($_POST[
   $decoded_booking_id= $decoded_booking_data_arr[0];
   $comment_is = sanitize_text_field( $_POST['comment_is']);
  ?>
-<script>
-$booking_id = '<?php echo $decoded_booking_id; ?>';
-$comment = '<?php echo sanitize_text_field( $_POST['comment_is']);?>';
-jQuery.post('<?php echo plugins_url( "" , __FILE__ ); ?>/cancel_booking.php', { booking_record_id: $booking_id, mode:'cancelled', comment : $comment }, function(data) {
-location.href = '<?php echo get_permalink($my_account_id);?>';
-});
+<script type="text/javascript">
+  jQuery(function() {
+    $booking_id = '<?php echo $decoded_booking_id; ?>';
+    $comment = '<?php echo sanitize_text_field( $_POST['comment_is']);?>';
+    jQuery.post('<?php echo admin_url( 'admin-ajax.php' ); ?>', { action : 'bkx_cancel_booking', booking_record_id: $booking_id, mode:'cancelled', comment : $comment }, function(data) {
+       location.href = '<?php echo get_permalink($my_account_id);?>';
+    });
+  });
+
 </script>
  <?php  
+ die;
 }
 
 $search['search_date'] = date('Y-m-d');
@@ -146,6 +146,7 @@ echo get_loader();
                               $reason_for_cancelled = $booking_note_data[0]->comment_content;
                              // print_r($booking_note_data);
                               $cancelled_booking = '';
+                              $reason_for_cancelled_html = '';
                               if($get_order_status =='Cancelled'){ 
                                 //$cancelled_booking =  '<p>Booking Status : '.$get_order_status.'</p>';
                                 $cancelled_booking =  sprintf( __( '<p> Booking Status :  %1$s </p>', 'bookingx' ), $get_order_status);
@@ -380,12 +381,7 @@ jQuery(function() {
   var $cancel = jQuery('#cancel_'+$booking_id+'_'+$_type);
   var $cancel_process_submit = jQuery('#cancel_process_submit_'+$booking_id+'_'+$_type);
   var $i_agree = jQuery('#i_agree_'+$booking_id+'_'+$_type);
-  
-
   var $cancel_show_form = jQuery('#cancel_process_booking_'+$booking_id+'_'+$_type);
-
-
-
   $cancel_show_form.toggle();
   $hide_form_delete.hide("slow",function(){ });
 

@@ -261,11 +261,7 @@ function disableSpecificWeekDays(date) {
 						
 						var temp_date = zeroPad(date.getMonth()+1, 2)+"/"+zeroPad(date.getDate(),2)+"/"+date.getFullYear();
 						var classname = '';
-						/*jQuery.post(edit_booking_obj.plugin_url+'/if_date_booked.php',{'bookigndate':temp_date}, function(data) {
-							///jQuery("#booking_details_value").html(data);
-							//alert(data);
-							classname = data;
-						 });*/
+						 
 						return [true];
 						
 					}
@@ -315,7 +311,11 @@ function change_timepicker_val(date)
 	{
 		base_id = jQuery('#id_base_selector').val();
 	}
-	jQuery.post(edit_booking_obj.plugin_url+'/displaytimeoptions.php',{'bookigndate':date,service_id:base_id,'seatid': jQuery('#myInputSeat').val()}, function(data) {
+	jQuery.post(edit_booking_obj.bkx_ajax_url,{
+				action : 'bkx_displaytime_options',
+				bookigndate:date,
+				service_id:base_id,
+				seatid: jQuery('#myInputSeat').val()}, function(data) {
 		jQuery("#booking_details_value").html(data);
 	 });
 
@@ -401,7 +401,7 @@ jQuery(document).ready(function(){
 			base_temp = mob_only = edit_base_id;
 		}	
 
-		jQuery.post(edit_booking_obj.plugin_url+'/get_duration_booking.php', { seatid : seat_temp, baseid: base_temp,additionid : addition_list}, 	function(data) {
+		jQuery.post(edit_booking_obj.bkx_ajax_url, { action : 'bkx_get_duration_booking', seatid : seat_temp, baseid: base_temp,additionid : addition_list}, 	function(data) {
 				var temp_data = jQuery.parseJSON(data);
 				jQuery("#id_estimated_time").html(temp_data['time_output']);
 				jQuery("#id_total_duration").val(temp_data['time_output']);
@@ -469,7 +469,7 @@ jQuery(document).ready(function(){
                    jQuery('#id_base_selector').attr('disabled',true);
             }                     
                    
-		 jQuery.post(edit_booking_obj.plugin_url+'/get_base_on_seat.php', { seatid: seat_temp }, function(data) {
+		 jQuery.post(edit_booking_obj.bkx_ajax_url, { action : 'bkx_get_base_on_seat' , seatid: seat_temp }, function(data) {
 
 				if(data!="error")
 				{
@@ -538,7 +538,7 @@ jQuery(document).ready(function(){
 		jQuery('#id_base_selector').bind('change', function(){
 			var base_temp1 = jQuery(this).val();
 			
-			jQuery.post(edit_booking_obj.plugin_url+'/get_base_on_seat.php', {baseid1: base_temp1, mob: 'no' }, function(data) {
+			jQuery.post(edit_booking_obj.bkx_ajax_url, { action : 'bkx_get_base_on_seat' , baseid1: base_temp1, mob: 'no' }, function(data) {
 				if(data!="error")
 				{
 					if(data == 'N')
@@ -579,7 +579,7 @@ jQuery(document).ready(function(){
 		jQuery('#id_base_selector').bind('change', function(){
 			var base_temp = jQuery(this).val();
 			
-			jQuery.post(edit_booking_obj.plugin_url+'/get_base_on_seat.php', {baseid: base_temp, loc: 'fixed' }, function(data) {
+			jQuery.post(edit_booking_obj.bkx_ajax_url, { action : 'bkx_get_base_on_seat' ,baseid: base_temp, loc: 'fixed' }, function(data) {
 				if(data!="error")
 				{
 					if(data == 'Y')
@@ -806,7 +806,7 @@ function get_total_price(thisval)
 	//alert(base_extended);
 	var seat_temp = jQuery('#myInputSeat').val();
 loader.show();
-	jQuery.post(edit_booking_obj.plugin_url+'/get_total_price.php', { seatid : seat_temp, baseid: base_temp,additionid : addition_list,extended : base_extended}, 	function(data) {
+	jQuery.post(edit_booking_obj.bkx_ajax_url, { action: 'bkx_get_total_price', seatid : seat_temp, baseid: base_temp,additionid : addition_list,extended : base_extended}, 	function(data) {
 		jQuery('h4 span#total_price').html(data['total_price']);
 		jQuery('#hidden_total_price').val(data['total_price']);
 		jQuery('#deposit_price').val(data['deposit_price']);
@@ -832,7 +832,7 @@ function base_to_addition(base_temp)
 		}
 		else
 		{
-			jQuery.post(edit_booking_obj.plugin_url+'/get_if_base_extended.php', { baseid: base_temp }, function(data) {
+			jQuery.post(edit_booking_obj.bkx_ajax_url , { baseid: base_temp, action : 'bkx_get_if_base_extended' }, function(data) {
 			
 				if(data=="Y")
 				{
@@ -847,7 +847,7 @@ function base_to_addition(base_temp)
 			});
 		}
 		get_total_price('');
-		jQuery.post(edit_booking_obj.plugin_url+'/get_addition_on_base.php', { baseid: base_temp }, function(data) {
+		jQuery.post(edit_booking_obj.bkx_ajax_url, { action : 'bkx_get_addition_on_base', baseid: base_temp }, function(data) {
 			
 			var temp_obj = jQuery.parseJSON(data);
 				//console.log(temp_obj[0].addition_alies);
@@ -873,7 +873,7 @@ function base_to_addition(base_temp)
 function seat_to_base(seat_temp)
 {
 
-	jQuery.post(edit_booking_obj.plugin_url+'/get_base_on_seat.php', { seatid: seat_temp }, function(data) {
+	jQuery.post(edit_booking_obj.bkx_ajax_url, { seatid: seat_temp , action : 'bkx_get_base_on_seat' }, function(data) {
 
         if(data!="error")
         {
@@ -1130,7 +1130,7 @@ function validate_form(source_val,destination_val)
 			//end code for getting selected seat, base and addition
 
 			
-			jQuery.post(edit_booking_obj.plugin_url+'/get_duration_booking.php', { seatid : seat_temp, baseid: base_temp,additionid : addition_list}, 	function(data) {
+			jQuery.post(edit_booking_obj.bkx_ajax_url, { action : 'bkx_get_duration_booking',seatid : seat_temp, baseid: base_temp,additionid : addition_list}, 	function(data) {
 				//alert(data);
 				var temp_data = jQuery.parseJSON(data);
 				//alert(temp_data);console.log(temp_data);
@@ -1162,7 +1162,7 @@ function validate_form(source_val,destination_val)
 			var input_extended = document.getElementById("id_input_extended_time");
 			base_extended = input_extended.value;
  				
-			jQuery.post(url_obj.plugin_url+'/get_duration_booking.php', { seatid : seat_temp, baseid: base_temp, extended : base_extended, additionid : addition_list}, 	function(data) {
+			jQuery.post(edit_booking_obj.bkx_ajax_url, { action : 'bkx_get_duration_booking', seatid : seat_temp, baseid: base_temp, extended : base_extended, additionid : addition_list}, 	function(data) {
 				var temp_data = jQuery.parseJSON(data);
 				jQuery("#id_estimated_time").html(temp_data['time_output']);
 				var currency = temp_data['currency'];
@@ -1222,7 +1222,7 @@ jQuery("div").on("click", "div.app_timetable_cell.free", function() {
 	var booking_date = jQuery("#id_input_date").val();
 
 	//alert(booking_date);
-	jQuery.post(edit_booking_obj.plugin_url+'/check_ifit_canbe_booked.php', { seatid: seat_temp, start:start_time, bookingduration: booking_duration,bookingdate:  booking_date}, function(data) {
+	jQuery.post(edit_booking_obj.bkx_ajax_url, { action: 'bkx_check_ifit_canbe_booked', seatid: seat_temp, start:start_time, bookingduration: booking_duration,bookingdate:  booking_date}, function(data) {
 		var temp_obj = jQuery.parseJSON(data);
 		var result = temp_obj['result'];
 		var starting_slot = temp_obj['starting_slot'];
@@ -1329,7 +1329,7 @@ function check_staff_availability(seat_id,start_time,durations,booking_date,book
 	var durations     = durations;
 	var booking_record_id = booking_record_id;
 
-	jQuery.post(edit_booking_obj.plugin_url+"/check_staff_availability.php",{seat_id: seat_id, start:start_time, bookingduration: durations,bookingdate:  booking_date ,booking_record_id : booking_record_id}, function(data) {
+	jQuery.post(edit_booking_obj.bkx_ajax_url,{ action: 'bkx_check_staff_availability', seat_id: seat_id, start:start_time, bookingduration: durations,bookingdate:  booking_date ,booking_record_id : booking_record_id}, function(data) {
 
 		var temp_obj = jQuery.parseJSON(data);
 		var result = temp_obj['data'];
@@ -1352,7 +1352,8 @@ function check_slot_is_available(seat_temp,start_time,booking_duration,booking_d
 	loader.show();
 
 	if(booking_date!='') {
-		jQuery.post(edit_booking_obj.plugin_url + '/check_ifit_canbe_booked.php', {
+		jQuery.post(edit_booking_obj.bkx_ajax_url, { 
+			action: 'bkx_check_ifit_canbe_booked',
 			seatid: seat_temp,
 			start: start_time,
 			bookingduration: booking_duration,

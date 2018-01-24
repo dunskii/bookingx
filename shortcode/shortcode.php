@@ -517,7 +517,7 @@ function bookinbkx_shortcode_function($atts)
 				'&CURRENCYCODE=' . urlencode($PayPalCurrencyCode);
 
 			//We need to execute the "DoExpressCheckoutPayment" at this point to Receive payment from user.
-			$paypal = new MyPayPal();
+			$paypal = new BkxPayPalGateway();
 			$httpParsedResponseAr = $paypal->PPHttpPost('DoExpressCheckoutPayment', 
 				$padata, $PayPalApiUsername, $PayPalApiPassword, $PayPalApiSignature, $PayPalMode);
 			// echo "<pre>ddddddd";print_r($httpParsedResponseAr);
@@ -550,7 +550,7 @@ function bookinbkx_shortcode_function($atts)
 
 				$transactionID = urlencode($httpParsedResponseAr["TRANSACTIONID"]);
 				$nvpStr = "&TRANSACTIONID=" . $transactionID;
-				$paypal = new MyPayPal();
+				$paypal = new BkxPayPalGateway();
 				$httpParsedResponseAr = $paypal->PPHttpPost('GetTransactionDetails', $nvpStr, $PayPalApiUsername, $PayPalApiPassword, $PayPalApiSignature, $PayPalMode);
 
 
@@ -572,11 +572,19 @@ function bookinbkx_shortcode_function($atts)
 												'pay_amt' => $totalamount );
 
 					$BkxBooking = new BkxBooking('',$order_id);
-					$BkxBooking->update_payment_meta($final_payment_meta);	
+					if(isset($order_id) && $order_id != ''){
+						$payment_status = get_post_meta($order_id,'payment_status',true);
+    					$payment_meta = get_post_meta($order_id,'payment_meta',true);
+					}
+
+					if(isset($payment_status) && $payment_status != 'completed'){
+						$BkxBooking->update_payment_meta($final_payment_meta);
+						$BkxBooking->add_order_note( sprintf( __( 'Payment has been done via Paypal successfully', 'bookingx' ), ''), 0, $manual, $order_id);
+    				}
 					//$BkxBooking->update_status('ack');	
 					$BkxBookingObj = $BkxBooking->get_order_meta_data($order_id);
 
-					$BkxBooking->add_order_note( sprintf( __( 'Payment has been via Paypal done successfully', 'bookingx' ), ''), 0, $manual, $order_id);
+					
 
 					//send email that booking confirmed
 					//$res = do_send_mail($order_id);				

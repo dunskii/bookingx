@@ -174,11 +174,10 @@ class Bkx_Meta_Boxes {
         $seat_alias = crud_option_multisite('bkx_alias_seat');      
     	$base_alias = crud_option_multisite('bkx_alias_base');
     	$addition_alias = crud_option_multisite('bkx_alias_addition');
-    	$payment_status = get_post_meta($order_id,'payment_status',true);
     	$payment_meta = get_post_meta($order_id,'payment_meta',true);
+    	$payment_status = $payment_meta['payment_status'];
     	$check_total_payment = $payment_meta['pay_amt'];
 
-    	
     	$payment_status = ($payment_status) ? $payment_status : 'Pending';
 		$seat_base_edit_mode = 1 ;
 		if($payment_status == 'Not Completed'){
@@ -244,7 +243,7 @@ class Bkx_Meta_Boxes {
 		$order_summary .= sprintf(__('<p>Total : %s<span id="bkx_booking_total">%s </span> </p> </p>','Bookingx'),get_current_currency(),$order_meta['total_price']);
  
 			$order_summary .= sprintf(__('<p id="bkx_payment_status">Payment : %s </p>','Bookingx'),$payment_status); 
-			if($payment_status == 'completed'){
+			if($payment_status == 'Completed'){
 				$order_summary .= sprintf(__('<p>Token : %s </p>','Bookingx'),$payment_meta['token']);
 				$order_summary .= sprintf(__('<p>PayerID Id : %s </p>','Bookingx'),$payment_meta['PayerID']); 
 				$order_summary .= sprintf(__('<p>Transaction Id : %s </p>','Bookingx'),$payment_meta['transactionID']);

@@ -1,5 +1,5 @@
 <?php
-class MyPayPal {
+class BkxPayPalGateway {
     	
 	function PPHttpPost($methodName_, $nvpStr_, $PayPalApiUsername, $PayPalApiPassword, $PayPalApiSignature, $PayPalMode) {
 			// Set up your API credentials, PayPal end point, and API version.
