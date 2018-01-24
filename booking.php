@@ -162,16 +162,10 @@ function bkx_create_base_builtup()
     /* do nothing */
     
     flush_rewrite_rules();
-    
-    // the menu entry...
-   // bkx_crud_option_multisite("my_plugin_page_title", $the_page_title, 'update');
-    // the slug...
-  //  bkx_crud_option_multisite("my_plugin_page_name", $the_page_name, 'update');
 
     $the_login_page   = get_page_by_title( "Login Here" );
     $the_account_page = get_page_by_title( "My Account" );
 
-      
     /**Added By : Divyang Parekh
      * Date : 3-11-2015
      * For : Create Page For Login and Customer Booking List

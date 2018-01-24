@@ -398,11 +398,11 @@ function save_bkx_base_metaboxes( $post_id, $post, $update )
 	$baseState	=	sanitize_text_field($_POST['base_state']);
 	$basePostcode	=	sanitize_text_field($_POST['base_postcode']);
 	$baseAllowAddition	=	sanitize_text_field($_POST['base_allow_addition']);
-	$baseSeatAll	=	sanitize_text_field($_POST['base_seat_all']);
+	$baseSeatAll	=	$_POST['base_seat_all'];
 	$base_is_unavailable = sanitize_text_field($_POST['base_is_unavailable']);
 	$base_unavailable_from = sanitize_text_field($_POST['base_unavailable_from']);
 	$base_unavailable_till = sanitize_text_field($_POST['base_unavailable_till']);
-    $baseSeatsValue = sanitize_text_field($_POST['base_seats']);
+	$baseSeatsValue = array_map( 'sanitize_text_field', wp_unslash( $_POST['base_seats'] ) );
     $base_extended_limit = sanitize_text_field($_POST['base_extended_limit']);
     $base_seat_all = sanitize_text_field($_POST['base_seat_all']);
     $base_colour = sanitize_text_field($_POST['base_colour']);
