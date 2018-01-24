@@ -19,7 +19,7 @@ class Shortcode_Tinymce
      */
     public function bkx_shortcode_button()
     {
-        $enable_editor = crud_option_multisite('enable_editor');
+        $enable_editor = bkx_crud_option_multisite('enable_editor');
         $this->enable_editor = $enable_editor;
          
         if( current_user_can('edit_posts') &&  current_user_can('edit_pages') && 

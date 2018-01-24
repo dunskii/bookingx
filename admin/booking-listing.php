@@ -5,9 +5,9 @@ add_filter( 'manage_bkx_booking_posts_columns', 'bkx_booking_columns' , 99, 2 );
 function bkx_booking_columns( $existing_columns )
 {
     
-    $seat_alias     = crud_option_multisite( 'bkx_alias_seat' );
-    $base_alias     = crud_option_multisite( 'bkx_alias_base' );
-    $addition_alias = crud_option_multisite( 'bkx_alias_addition' );
+    $seat_alias     = bkx_crud_option_multisite( 'bkx_alias_seat' );
+    $base_alias     = bkx_crud_option_multisite( 'bkx_alias_base' );
+    $addition_alias = bkx_crud_option_multisite( 'bkx_alias_addition' );
     unset($existing_columns);
     $columns                    = array();
     $columns[ 'cb' ]            = '<input type="checkbox" />';
@@ -85,12 +85,12 @@ function render_bkx_booking_columns( $column )
              $missed    = ($order_status == 'missed') ? "selected" : '';
              $cancelled = ($order_status == 'cancelled') ? "selected" : '';
 
-            $business_address_1 = crud_option_multisite("bkx_business_address_1");
-            $business_address_2 = crud_option_multisite("bkx_business_address_2");
-            $bkx_business_city = crud_option_multisite("bkx_business_city");
-            $bkx_business_state = crud_option_multisite("bkx_business_state");
-            $bkx_business_zip = crud_option_multisite("bkx_business_zip");
-            $bkx_business_country = crud_option_multisite("bkx_business_country");
+            $business_address_1 = bkx_crud_option_multisite("bkx_business_address_1");
+            $business_address_2 = bkx_crud_option_multisite("bkx_business_address_2");
+            $bkx_business_city = bkx_crud_option_multisite("bkx_business_city");
+            $bkx_business_state = bkx_crud_option_multisite("bkx_business_state");
+            $bkx_business_zip = bkx_crud_option_multisite("bkx_business_zip");
+            $bkx_business_country = bkx_crud_option_multisite("bkx_business_country");
 
             $full_address = $business_address_1.",".$bkx_business_city.",".$bkx_business_state.",".$bkx_business_zip.",".$bkx_business_country;
             echo '<input type="hidden" id="post_ids" value="'.$post_json.'">';
@@ -378,7 +378,7 @@ if ('bkx_booking' == $post_type){
     'post_status'      => 'publish',
     );
     $get_seat_array = get_posts( $args );
-    $alias_seat = crud_option_multisite('bkx_alias_seat');
+    $alias_seat = bkx_crud_option_multisite('bkx_alias_seat');
     if(!empty($get_seat_array)){
 
         foreach ($get_seat_array as $key => $seat_data) {
@@ -445,7 +445,7 @@ function generate_listing_view( $type )
     if($type == 'weekly' || $type == 'monthly' ){ 
       
     $defaultView = ($type) && $type == 'weekly' ?  'agendaWeek' : 'month';
-    $bkx_calendar_json_data = crud_option_multisite('bkx_calendar_json_data');
+    $bkx_calendar_json_data = bkx_crud_option_multisite('bkx_calendar_json_data');
    // print_r($bkx_calendar_json_data);
     ?>
 

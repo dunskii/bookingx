@@ -3,7 +3,7 @@
 add_action( 'add_meta_boxes', 'add_bkx_base_metaboxes' );
 function add_bkx_base_metaboxes()
 {
-    $alias_seat = crud_option_multisite('bkx_alias_base');
+    $alias_seat = bkx_crud_option_multisite('bkx_alias_base');
     add_meta_box('bkx_base_boxes',__("$alias_seat Details", 'bookingx'),'bkx_base_boxes_metabox_callback','bkx_base','normal','high');
 }
 
@@ -15,14 +15,14 @@ function bkx_base_boxes_metabox_callback($post)
     color_load_scripts(array('iris.min.js'));
     custom_load_styles(array('basic-style.css'));
     //register and access the script handle in main.js
-    $seat_alias = crud_option_multisite('bkx_alias_seat');
-    $base_alias = crud_option_multisite('bkx_alias_base');
+    $seat_alias = bkx_crud_option_multisite('bkx_alias_seat');
+    $base_alias = bkx_crud_option_multisite('bkx_alias_base');
     wp_enqueue_script("main_script", plugins_url( "js/main_1.js" , __DIR__ ),false, rand(1,9999999), true);
     $translation_array = array( 'plugin_url' => plugins_url( "" , __DIR__ ), 'seat_alias' => $seat_alias , 'base_alias' => $base_alias);
     wp_localize_script( 'main_script', 'url_obj', $translation_array );
 
-    $base_alias = crud_option_multisite('bkx_alias_base');
-    $addition_alias = crud_option_multisite('bkx_alias_addition');
+    $base_alias = bkx_crud_option_multisite('bkx_alias_base');
+    $addition_alias = bkx_crud_option_multisite('bkx_alias_addition');
 
     
     //Get Seat post Array
@@ -64,7 +64,7 @@ function bkx_base_boxes_metabox_callback($post)
 
     
     }
-    $alias_seat = crud_option_multisite('bkx_alias_seat');
+    $alias_seat = bkx_crud_option_multisite('bkx_alias_seat');
     //print_r($values);
     ?>
     <div class="error" id="error_list" style="display:none;"></div>

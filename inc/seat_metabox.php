@@ -3,7 +3,7 @@
 add_action( 'add_meta_boxes', 'add_bkx_seat_metaboxes' );
 function add_bkx_seat_metaboxes()
 {
-    $alias_seat = crud_option_multisite('bkx_alias_seat');
+    $alias_seat = bkx_crud_option_multisite('bkx_alias_seat');
     add_meta_box('bkx_seat_boxes',__("$alias_seat Details", 'bookingx'),'bkx_seat_boxes_metabox_callback','bkx_seat','normal','high');
 }
 
@@ -17,19 +17,19 @@ function bkx_seat_boxes_metabox_callback($post)
 {   
     wp_nonce_field('bkx_seat_boxes_metabox','bkx_seat_boxes_metabox_nonce' );
      
-        $alias_seat = crud_option_multisite('bkx_alias_seat');
+        $alias_seat = bkx_crud_option_multisite('bkx_alias_seat');
         $bkx_user_auto = 'Y';
         $seat_is_certain_day = "Y";
     
     	$country = get_wp_country();
 
     	$values = get_post_custom( $post->ID );
-		$business_address_1 = crud_option_multisite("bkx_business_address_1");
-		$business_address_2 = crud_option_multisite("bkx_business_address_2");
-		$bkx_business_city = crud_option_multisite("bkx_business_city");
-		$bkx_business_state = crud_option_multisite("bkx_business_state");
-		$bkx_business_zip = crud_option_multisite("bkx_business_zip");
-		$bkx_business_country = crud_option_multisite("bkx_business_country");
+		$business_address_1 = bkx_crud_option_multisite("bkx_business_address_1");
+		$business_address_2 = bkx_crud_option_multisite("bkx_business_address_2");
+		$bkx_business_city = bkx_crud_option_multisite("bkx_business_city");
+		$bkx_business_state = bkx_crud_option_multisite("bkx_business_state");
+		$bkx_business_zip = bkx_crud_option_multisite("bkx_business_zip");
+		$bkx_business_country = bkx_crud_option_multisite("bkx_business_country");
 
 	    $seat_street = isset($business_address_1) ? esc_attr( $business_address_1.",".$business_address_2 ) : "";   
 	    $seat_city = isset( $bkx_business_city ) ? esc_attr( $bkx_business_city ) : "";
@@ -86,7 +86,7 @@ function bkx_seat_boxes_metabox_callback($post)
     }
 
     if(empty($selected_days)){
-    	$bkx_business_days = crud_option_multisite("bkx_business_days");
+    	$bkx_business_days = bkx_crud_option_multisite("bkx_business_days");
     }else{
     	$bkx_business_days = $selected_days;
     }
@@ -566,7 +566,7 @@ function save_bkx_seat_metaboxes( $post_id, $post, $update )
      * Create New User and Role as Resource by default or Get by get_option('bkx_seat_role');
      */
     
-    $bkx_seat_role = crud_option_multisite('bkx_seat_role');
+    $bkx_seat_role = bkx_crud_option_multisite('bkx_seat_role');
    
     if(isset($bkx_seat_role) && $bkx_seat_role!=''){
         $role = $bkx_seat_role;
@@ -722,7 +722,7 @@ add_action('manage_bkx_seat_posts_custom_column', 'bkx_seat_columns_content', 10
  * @return string
  */
 function bkx_seat_columns_head($defaults) {
-	$enable_any_seat  = crud_option_multisite('enable_any_seat');
+	$enable_any_seat  = bkx_crud_option_multisite('enable_any_seat');
 	if(isset($enable_any_seat) && $enable_any_seat == 1) :
 	$defaults['any_seat'] = '<span class="any_seat tips" data-tip="' . esc_attr__( 'Set as any Seat', 'bookingx' ) . '">' . esc_attr__( 'Set as any seat', 'bookingx' ) . '</span>';
 	endif;
@@ -736,10 +736,10 @@ function bkx_seat_columns_head($defaults) {
  * @param type $post_ID
  */
 function bkx_seat_columns_content($column_name, $post_ID) {
-	$enable_any_seat  = crud_option_multisite('enable_any_seat');
+	$enable_any_seat  = bkx_crud_option_multisite('enable_any_seat');
 	if($column_name == 'any_seat' && isset($enable_any_seat) && $enable_any_seat == 1) :
 		$_enable_any_seat_id = 0;
-		$_enable_any_seat_id = crud_option_multisite('select_default_seat');
+		$_enable_any_seat_id = bkx_crud_option_multisite('select_default_seat');
 
  $url = wp_nonce_url( admin_url( 'admin-ajax.php?action=bookingx_set_as_any_seat&seat_id=' . $post_ID ), 'bookingx-seat-as-any' );
 				echo '<a href="' . esc_url( $url ) . '" title="'. __( 'Set as any Seat', 'bookingx' ) . '">';

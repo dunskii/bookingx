@@ -104,7 +104,7 @@ class BkxBooking {
             $order_id = $post_data['update_order_slot'];
         }
 
-        $reg_customer_crud_op = crud_option_multisite('reg_customer_crud_op'); 
+        $reg_customer_crud_op = bkx_crud_option_multisite('reg_customer_crud_op'); 
         // If 1 means enable to create customer 
 
         if(isset($reg_customer_crud_op) == 1 && !is_user_logged_in()) :
@@ -204,7 +204,7 @@ class BkxBooking {
             );
             $user_id = wp_update_user( $userdata);
         }
-        $my_account_page = crud_option_multisite('my_plugin_page_id');
+        $my_account_page = bkx_crud_option_multisite('my_plugin_page_id');
         $account_url = isset($my_account_page) && $my_account_page!='' ? get_permalink($my_account_page) : get_site_url();
         $subject = "BookingX | Congratulation! Your Account created Successfully";
         $data_html ='';
@@ -458,7 +458,7 @@ class BkxBooking {
     public function GetBookedRecordsByUser($search=null)
     {
         global $wpdb;
-        $bkx_seat_role = crud_option_multisite('bkx_seat_role');
+        $bkx_seat_role = bkx_crud_option_multisite('bkx_seat_role');
 
         $status  = array('bkx-pending','bkx-ack','bkx-missed','bkx-completed','bkx-cancelled');
         $user_id = (empty($search['user_id'])) ? '' : $search['user_id'];

@@ -41,7 +41,7 @@ class BkxSeat {
                 }
                 
                 
-                $alias_seat = crud_option_multisite('bkx_alias_seat');
+                $alias_seat = bkx_crud_option_multisite('bkx_alias_seat');
                
                 $this->alias = $alias_seat;
                 $this->post = $bkx_post;

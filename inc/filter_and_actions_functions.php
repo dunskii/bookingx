@@ -6,7 +6,7 @@
 add_action( 'init', 'bkx_create_seat_post_type' );
 function bkx_create_seat_post_type()
 {
-    $alias_seat = crud_option_multisite( 'bkx_alias_seat', "Seat" );
+    $alias_seat = bkx_crud_option_multisite( 'bkx_alias_seat', "Seat" );
     $alias_seat = isset( $alias_seat ) && $alias_seat != '' ? $alias_seat : "Seat";
     // Set UI labels for Custom Post Type
     $labels     = array(
@@ -48,7 +48,7 @@ function bkx_create_seat_post_type()
 add_action( 'init', 'bkx_create_base_post_type' );
 function bkx_create_base_post_type()
 {
-    $alias_base = crud_option_multisite( 'bkx_alias_base', "Base" );
+    $alias_base = bkx_crud_option_multisite( 'bkx_alias_base', "Base" );
     $alias_base = isset( $alias_base ) && $alias_base != '' ? $alias_base : "Base";
     // Set UI labels for Custom Post Type
     $labels     = array(
@@ -89,7 +89,7 @@ function bkx_create_base_post_type()
 add_action( 'init', 'bkx_create_addition_post_type' );
 function bkx_create_addition_post_type()
 {
-    $alias_addition = crud_option_multisite( 'bkx_alias_addition', "Addition" );
+    $alias_addition = bkx_crud_option_multisite( 'bkx_alias_addition', "Addition" );
     $alias_addition = isset( $alias_addition ) && $alias_addition != '' ? $alias_addition : "Addition";
     $labels         = array(
          'name' => _x( $alias_addition, 'Post Type General Name', 'bookingx' ),
@@ -263,7 +263,7 @@ function bkx_order_edit_status( $booking_id, $status ) {
  	
      switch ($status) {
      		case 'ack':
-     			$template_id = crud_option_multisite('bkx_tempalate_status_ack');
+     			$template_id = bkx_crud_option_multisite('bkx_tempalate_status_ack');
                 $page_obj = get_post($template_id);
                 $subject = $page_obj->post_title;
                 if(empty($subject)){
@@ -279,7 +279,7 @@ function bkx_order_edit_status( $booking_id, $status ) {
                     $subject = 'Thanks you for your booking hope you had a great expeince';
                 }
      			$subject = apply_filters( 'bkx_order_subject_for_completed', $subject);
-     			$template_id = crud_option_multisite('bkx_tempalate_status_complete');
+     			$template_id = bkx_crud_option_multisite('bkx_tempalate_status_complete');
      			process_mail_by_status( $booking_id, $subject, $content, $template_id );
      			break;
      		case 'missed':
@@ -290,7 +290,7 @@ function bkx_order_edit_status( $booking_id, $status ) {
                 }
 
      			$subject = apply_filters( 'bkx_order_subject_for_missed', $subject);
-     			$template_id = crud_option_multisite('bkx_tempalate_status_missed');
+     			$template_id = bkx_crud_option_multisite('bkx_tempalate_status_missed');
      			process_mail_by_status( $booking_id, $subject, $content, $template_id );
      			break;
      		case 'cancelled':
@@ -301,11 +301,11 @@ function bkx_order_edit_status( $booking_id, $status ) {
                 }
 
      			$subject = apply_filters( 'bkx_order_subject_for_cancelled', $subject);
-     			$template_id = crud_option_multisite('bkx_tempalate_status_cancelled');
+     			$template_id = bkx_crud_option_multisite('bkx_tempalate_status_cancelled');
      			process_mail_by_status( $booking_id, $subject, $content, $template_id );
      			break;
      		default:
-     			$template_id = crud_option_multisite('bkx_tempalate_status_pending');
+     			$template_id = bkx_crud_option_multisite('bkx_tempalate_status_pending');
                 $page_obj = get_post($template_id);
                 $subject = $page_obj->post_title;
                 if(empty($subject)){
@@ -337,15 +337,15 @@ function process_mail_by_status( $booking_id, $subject, $content, $template_id =
 
         $amount_pending         = 0;
         $amount_paid            = 0;
- 	    $bkx_business_name      = crud_option_multisite("bkx_business_name");
-        $bkx_business_phone     = crud_option_multisite("bkx_business_phone");
-        $bkx_business_email     = crud_option_multisite("bkx_business_email");
-        $business_address_1     = crud_option_multisite("bkx_business_address_1");
-        $business_address_2     = crud_option_multisite("bkx_business_address_2");
-        $bkx_business_city      = crud_option_multisite("bkx_business_city");
-        $bkx_business_state     = crud_option_multisite("bkx_business_state");
-        $bkx_business_zip       = crud_option_multisite("bkx_business_zip");
-        $bkx_business_country   = crud_option_multisite("bkx_business_country");
+ 	    $bkx_business_name      = bkx_crud_option_multisite("bkx_business_name");
+        $bkx_business_phone     = bkx_crud_option_multisite("bkx_business_phone");
+        $bkx_business_email     = bkx_crud_option_multisite("bkx_business_email");
+        $business_address_1     = bkx_crud_option_multisite("bkx_business_address_1");
+        $business_address_2     = bkx_crud_option_multisite("bkx_business_address_2");
+        $bkx_business_city      = bkx_crud_option_multisite("bkx_business_city");
+        $bkx_business_state     = bkx_crud_option_multisite("bkx_business_state");
+        $bkx_business_zip       = bkx_crud_option_multisite("bkx_business_zip");
+        $bkx_business_country   = bkx_crud_option_multisite("bkx_business_country");
 
 
 		$bookingObj = new BkxBooking();
@@ -421,7 +421,7 @@ function process_mail_by_status( $booking_id, $subject, $content, $template_id =
 
 		$message_body = str_replace("[fname]", $order_meta['first_name'], $message_body);
 		$message_body = str_replace('[lname]', $order_meta['last_name'], $message_body);
-		$message_body = str_replace('[total_price]', $currency.$order_meta['total_price'].' '.crud_option_multisite( 'currency_option' ), $message_body);
+		$message_body = str_replace('[total_price]', $currency.$order_meta['total_price'].' '.bkx_crud_option_multisite( 'currency_option' ), $message_body);
 		$message_body = str_replace('[txn_id]', $transactionID, $message_body);
 		$message_body = str_replace('[order_id]', $order_meta['order_id'], $message_body);
 		$message_body = str_replace('[total_duration]', $order_meta['total_duration'], $message_body);
@@ -437,7 +437,7 @@ function process_mail_by_status( $booking_id, $subject, $content, $template_id =
 		$pay_amt = $currency.$pay_amt;
 		$bal =$currency.$bal;
 		
-		$message_body = str_replace('[total_price]', $total_price.' '.crud_option_multisite( 'currency_option' ), $message_body);
+		$message_body = str_replace('[total_price]', $total_price.' '.bkx_crud_option_multisite( 'currency_option' ), $message_body);
 	 
  
 		$message_body = str_replace('[siteurl]', site_url(), $message_body);
@@ -462,8 +462,8 @@ function process_mail_by_status( $booking_id, $subject, $content, $template_id =
 		
 		$message_body = str_replace('[location_of_booking]', $event_address, $message_body);
 
-        $message_body = str_replace('[amount_paid]', $currency.$amount_paid.' '.crud_option_multisite( 'currency_option' ), $message_body);
-        $message_body = str_replace('[amount_pending]', $currency.$amount_pending.' '.crud_option_multisite( 'currency_option' ), $message_body);
+        $message_body = str_replace('[amount_paid]', $currency.$amount_paid.' '.bkx_crud_option_multisite( 'currency_option' ), $message_body);
+        $message_body = str_replace('[amount_pending]', $currency.$amount_pending.' '.bkx_crud_option_multisite( 'currency_option' ), $message_body);
         $message_body = str_replace('[business_name]', $bkx_business_name, $message_body);
         $message_body = str_replace('[business_email]', $bkx_business_email, $message_body);
         $message_body = str_replace('[business_phone]', $bkx_business_phone, $message_body);
@@ -477,14 +477,14 @@ function process_mail_by_status( $booking_id, $subject, $content, $template_id =
 //Create default Template Pages Function
 function bkx_create_default_template()
 {
-    $thank_you_page_id       = crud_option_multisite('bkx_tempalate_thankyou'); 
-    $payment_pending_page_id = crud_option_multisite('bkx_tempalate_pending');
-    $payment_success_page_id = crud_option_multisite('bkx_tempalate_sucess');
-    $bkx_tempalate_status_pending = crud_option_multisite("bkx_tempalate_status_pending");
-    $bkx_tempalate_status_ack = crud_option_multisite("bkx_tempalate_status_ack");
-    $bkx_tempalate_status_complete = crud_option_multisite("bkx_tempalate_status_complete");
-    $bkx_tempalate_status_missed = crud_option_multisite("bkx_tempalate_status_missed");
-    $bkx_tempalate_status_cancelled = crud_option_multisite("bkx_tempalate_status_cancelled");
+    $thank_you_page_id       = bkx_crud_option_multisite('bkx_tempalate_thankyou'); 
+    $payment_pending_page_id = bkx_crud_option_multisite('bkx_tempalate_pending');
+    $payment_success_page_id = bkx_crud_option_multisite('bkx_tempalate_sucess');
+    $bkx_tempalate_status_pending = bkx_crud_option_multisite("bkx_tempalate_status_pending");
+    $bkx_tempalate_status_ack = bkx_crud_option_multisite("bkx_tempalate_status_ack");
+    $bkx_tempalate_status_complete = bkx_crud_option_multisite("bkx_tempalate_status_complete");
+    $bkx_tempalate_status_missed = bkx_crud_option_multisite("bkx_tempalate_status_missed");
+    $bkx_tempalate_status_cancelled = bkx_crud_option_multisite("bkx_tempalate_status_cancelled");
 
 
 
@@ -538,9 +538,9 @@ You can rebook <a href="http://booking-x.com">here</a>.';
 
     $bkx_tempalate_status_pending_page      = get_page_by_title('Email Template | Status Pending');
     $bkx_tempalate_status_ack_page          = get_page_by_title('Email Template | Status Acknowledge');
-    $bkx_tempalate_status_complete_page     = crud_option_multisite("Email Template | Status Complete");
-    $bkx_tempalate_status_missed_page       = crud_option_multisite("Email Template | Status Missed");
-    $bkx_tempalate_status_cancelled_page    = crud_option_multisite("Email Template | Status Cancelled");
+    $bkx_tempalate_status_complete_page     = bkx_crud_option_multisite("Email Template | Status Complete");
+    $bkx_tempalate_status_missed_page       = bkx_crud_option_multisite("Email Template | Status Missed");
+    $bkx_tempalate_status_cancelled_page    = bkx_crud_option_multisite("Email Template | Status Cancelled");
 
     if ( !$thank_you_page ){
          
@@ -555,7 +555,7 @@ You can rebook <a href="http://booking-x.com">here</a>.';
         // Insert the post into the database
        $thank_you_page_id = wp_insert_post( $tpl_t );
        
-       crud_option_multisite("bkx_tempalate_thankyou", $thank_you_page_id,'update');
+       bkx_crud_option_multisite("bkx_tempalate_thankyou", $thank_you_page_id,'update');
     }
  
     if ( empty($bkx_tempalate_status_pending) &&  !$bkx_tempalate_status_pending_page ){
@@ -570,7 +570,7 @@ You can rebook <a href="http://booking-x.com">here</a>.';
         // Insert the post into the database
         $payment_pending_page_id = wp_insert_post( $tpl_p );
 
-        crud_option_multisite("bkx_tempalate_status_pending", $payment_pending_page_id,'update');
+        bkx_crud_option_multisite("bkx_tempalate_status_pending", $payment_pending_page_id,'update');
     }
 
     if ( empty($bkx_tempalate_status_ack) && !$bkx_tempalate_status_ack_page ){
@@ -585,7 +585,7 @@ You can rebook <a href="http://booking-x.com">here</a>.';
         // Insert the post into the database
         $payment_pending_page_id = wp_insert_post( $tpl_p );
 
-        crud_option_multisite("bkx_tempalate_status_ack", $payment_pending_page_id,'update');
+        bkx_crud_option_multisite("bkx_tempalate_status_ack", $payment_pending_page_id,'update');
     }
 
     if ( empty($bkx_tempalate_status_complete) && !$bkx_tempalate_status_complete_page ){
@@ -600,7 +600,7 @@ You can rebook <a href="http://booking-x.com">here</a>.';
         // Insert the post into the database
         $payment_pending_page_id = wp_insert_post( $tpl_p );
 
-        crud_option_multisite("bkx_tempalate_status_complete", $payment_pending_page_id,'update');
+        bkx_crud_option_multisite("bkx_tempalate_status_complete", $payment_pending_page_id,'update');
     }
 
     if ( empty($bkx_tempalate_status_missed) && !$bkx_tempalate_status_missed_page ){
@@ -615,7 +615,7 @@ You can rebook <a href="http://booking-x.com">here</a>.';
         // Insert the post into the database
         $payment_pending_page_id = wp_insert_post( $tpl_p );
 
-        crud_option_multisite("bkx_tempalate_status_missed", $payment_pending_page_id,'update');
+        bkx_crud_option_multisite("bkx_tempalate_status_missed", $payment_pending_page_id,'update');
     }
 
     if ( empty($bkx_tempalate_status_cancelled) && !$bkx_tempalate_status_cancelled_page ){
@@ -630,7 +630,7 @@ You can rebook <a href="http://booking-x.com">here</a>.';
         // Insert the post into the database
         $payment_pending_page_id = wp_insert_post( $tpl_p );
 
-        crud_option_multisite("bkx_tempalate_status_cancelled", $payment_pending_page_id,'update');
+        bkx_crud_option_multisite("bkx_tempalate_status_cancelled", $payment_pending_page_id,'update');
     }
  
     if ( !$payment_success ){
@@ -645,7 +645,7 @@ You can rebook <a href="http://booking-x.com">here</a>.';
         // Insert the post into the database
         $payment_success_page_id = wp_insert_post( $tpl_s );
 
-        crud_option_multisite("bkx_tempalate_sucess", $payment_success_page_id,'update');
+        bkx_crud_option_multisite("bkx_tempalate_sucess", $payment_success_page_id,'update');
     }
 
     if ( !$booking_edit_process ){
@@ -660,7 +660,7 @@ You can rebook <a href="http://booking-x.com">here</a>.';
         // Insert the post into the database
         $booking_edit_process_page_id = wp_insert_post( $tpl_s );
 
-        crud_option_multisite("booking_edit_process_page_id", $booking_edit_process_page_id,'update');
+        bkx_crud_option_multisite("booking_edit_process_page_id", $booking_edit_process_page_id,'update');
     }
 
  
@@ -676,7 +676,7 @@ You can rebook <a href="http://booking-x.com">here</a>.';
         $_p[ 'post_category' ]  = array(1); // the default 'Uncatrgorised'
         // Insert the post into the database
         $booking_page_id = wp_insert_post( $_p );
-        crud_option_multisite("bkx_set_booking_page", $booking_page_id, 'update');
+        bkx_crud_option_multisite("bkx_set_booking_page", $booking_page_id, 'update');
     endif;
 
 }
@@ -721,7 +721,7 @@ function bkx_add_meta_query( $query ) {
 
     if ( is_user_logged_in()) {
         $current_user = wp_get_current_user();
-        $bkx_seat_role = crud_option_multisite('bkx_seat_role');
+        $bkx_seat_role = bkx_crud_option_multisite('bkx_seat_role');
         $current_role = $current_user->roles[0];
 
         if( $bkx_seat_role == $current_role) {
@@ -856,11 +856,11 @@ function bkx_add_meta_query( $query ) {
 function wp_get_timezone_string() {
  
     // if site timezone string exists, return it
-    if ( $timezone = crud_option_multisite( 'timezone_string' ) )
+    if ( $timezone = bkx_crud_option_multisite( 'timezone_string' ) )
         return $timezone;
  
     // get UTC offset, if it isn't set then return UTC
-    if ( 0 === ( $utc_offset = crud_option_multisite( 'gmt_offset', 0 ) ) )
+    if ( 0 === ( $utc_offset = bkx_crud_option_multisite( 'gmt_offset', 0 ) ) )
         return 'UTC';
  
     // adjust UTC offset from hours to seconds
@@ -896,14 +896,14 @@ function posts_request ($order ,$WP_Query ) {
     if($WP_Query->query['post_type'] == 'bkx_booking' && $listing_view == 'weekly' || $listing_view == 'monthly') {
             $get_posts = $wpdb->get_results( $order, ARRAY_A );
             $BkxBooking = new BkxBooking();
-            date_default_timezone_set(crud_option_multisite('timezone_string'));
+            date_default_timezone_set(bkx_crud_option_multisite('timezone_string'));
             
         if(!empty($get_posts)){
             $generate_json = '';
             $generate_info = array();
 
             foreach ($get_posts as $key => $posts ) {     
-                $time_block_bg_color = crud_option_multisite("time_block_bg_color"); 
+                $time_block_bg_color = bkx_crud_option_multisite("time_block_bg_color"); 
                 $order_meta_data = $BkxBooking->get_order_meta_data($posts['ID']);
                 $first_name = $order_meta_data['first_name'];
                 $last_name = $order_meta_data['last_name'];
@@ -939,7 +939,7 @@ function posts_request ($order ,$WP_Query ) {
                  $generate_json .= json_encode($generate_info).',';         
             }
             $generate_json = rtrim($generate_json,",");
-            crud_option_multisite('bkx_calendar_json_data', $generate_json, 'update');
+            bkx_crud_option_multisite('bkx_calendar_json_data', $generate_json, 'update');
         }
     }
 
@@ -1136,7 +1136,7 @@ add_action( 'init', 'bookingx_url_rewrite_tag', 10, 0 );
 function bookingx_url_rewrite_rule()
 {
     flush_rewrite_rules();
-    $bkx_set_booking_page = crud_option_multisite( 'bkx_set_booking_page' );
+    $bkx_set_booking_page = bkx_crud_option_multisite( 'bkx_set_booking_page' );
     if ( isset( $bkx_set_booking_page ) && $bkx_set_booking_page != '' ) {
         $page_obj  = get_post( $bkx_set_booking_page );
         $page_slug = $page_obj->post_name;
@@ -1155,7 +1155,7 @@ function bkx_list_table_views_filter( array $view ) {
     
        if ( is_user_logged_in()) {
         $current_user = wp_get_current_user();
-        $bkx_seat_role = crud_option_multisite('bkx_seat_role');
+        $bkx_seat_role = bkx_crud_option_multisite('bkx_seat_role');
         $current_role = $current_user->roles[0];
         $current_seat_id = $current_user->ID;
         
@@ -1249,9 +1249,9 @@ function bkx_cal_total_price( $base_id, $base_extended = null , $extra_id = null
 
 function bkx_cal_total_tax ( $total_price )
 {
-    $bkx_tax_rate = crud_option_multisite("bkx_tax_rate");
-    $bkx_tax_name = crud_option_multisite("bkx_tax_name");
-    $bkx_prices_include_tax = crud_option_multisite("bkx_prices_include_tax");
+    $bkx_tax_rate = bkx_crud_option_multisite("bkx_tax_rate");
+    $bkx_tax_name = bkx_crud_option_multisite("bkx_tax_name");
+    $bkx_prices_include_tax = bkx_crud_option_multisite("bkx_prices_include_tax");
      
 
     if(empty( $bkx_tax_rate ) || $bkx_tax_rate < 0 || empty( $total_price ) || !is_numeric( $total_price ) || !is_numeric( $bkx_tax_rate ))

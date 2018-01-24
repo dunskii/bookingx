@@ -1,40 +1,40 @@
  <?php
   if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
- 	$text_color = crud_option_multisite('bkx_siteclient_css_text_color');
+ 	$text_color = bkx_crud_option_multisite('bkx_siteclient_css_text_color');
  	$text_color = ($text_color) ? $text_color : '#000';
 
-	$bg_color = crud_option_multisite('bkx_siteclient_css_background_color');
+	$bg_color = bkx_crud_option_multisite('bkx_siteclient_css_background_color');
 	$bg_color = ($bg_color) ? $bg_color : '#ffffff';
 
-	$border_color = crud_option_multisite('bkx_siteclient_css_border_color');
+	$border_color = bkx_crud_option_multisite('bkx_siteclient_css_border_color');
 	$border_color = ($border_color) ? $border_color : '#ffffff';
 
-	$progressbar_color = crud_option_multisite('bkx_siteclient_css_progressbar_color');
+	$progressbar_color = bkx_crud_option_multisite('bkx_siteclient_css_progressbar_color');
 	$progressbar_color = ($progressbar_color) ? $progressbar_color : '';
 
 
-	$cal_border_color = crud_option_multisite('bkx_siteclient_css_cal_border_color');
+	$cal_border_color = bkx_crud_option_multisite('bkx_siteclient_css_cal_border_color');
 	$cal_border_color = ($cal_border_color) ? $cal_border_color : '';
 
-	$cal_day_color = crud_option_multisite('bkx_siteclient_css_cal_day_color');
+	$cal_day_color = bkx_crud_option_multisite('bkx_siteclient_css_cal_day_color');
 	$cal_day_color = ($cal_day_color) ? $cal_day_color : '';
 
-	$cal_day_selected_color = crud_option_multisite('bkx_siteclient_css_cal_day_selected_color');
+	$cal_day_selected_color = bkx_crud_option_multisite('bkx_siteclient_css_cal_day_selected_color');
 	$cal_day_selected_color = ($cal_day_selected_color) ? $cal_day_selected_color : '#73ad3a';
 
 
-	$time_available_color = crud_option_multisite('bkx_time_available_color');
+	$time_available_color = bkx_crud_option_multisite('bkx_time_available_color');
 	$time_available_color = ($time_available_color) ? $time_available_color : '#368200';
 
-	$time_selected_color = crud_option_multisite('bkx_time_selected_color');
+	$time_selected_color = bkx_crud_option_multisite('bkx_time_selected_color');
 	$time_selected_color = ($time_selected_color) ? $time_selected_color : '#e64754';
 
-	$time_unavailable_color = crud_option_multisite('bkx_time_unavailable_color');
+	$time_unavailable_color = bkx_crud_option_multisite('bkx_time_unavailable_color');
 	$time_unavailable_color = ($time_unavailable_color) ? $time_unavailable_color : 'gray';
 
-  $bkx_cal_month_title_color = crud_option_multisite('bkx_cal_month_title_color')!= '' ? crud_option_multisite('bkx_cal_month_title_color') : '#222222'; //  Calendar Month title 
+  $bkx_cal_month_title_color = bkx_crud_option_multisite('bkx_cal_month_title_color')!= '' ? bkx_crud_option_multisite('bkx_cal_month_title_color') : '#222222'; //  Calendar Month title 
 
-  $bkx_cal_month_bg_color = crud_option_multisite('bkx_cal_month_bg_color')!= '' ? crud_option_multisite('bkx_cal_month_bg_color') : '#875428'; //  Calendar Month title 
+  $bkx_cal_month_bg_color = bkx_crud_option_multisite('bkx_cal_month_bg_color')!= '' ? bkx_crud_option_multisite('bkx_cal_month_bg_color') : '#875428'; //  Calendar Month title 
 	
 
  ?>

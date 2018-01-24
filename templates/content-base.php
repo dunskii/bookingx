@@ -3,9 +3,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 global $bkx_base;
-$alias_base = crud_option_multisite('bkx_alias_base');
-$alias_extra = crud_option_multisite('bkx_alias_addition');
-$alias_seat = crud_option_multisite('bkx_alias_seat');
+$alias_base = bkx_crud_option_multisite('bkx_alias_base');
+$alias_extra = bkx_crud_option_multisite('bkx_alias_addition');
+$alias_seat = bkx_crud_option_multisite('bkx_alias_seat');
 
 
 $booking_url = $bkx_base->booking_page_url;

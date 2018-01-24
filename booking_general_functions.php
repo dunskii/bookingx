@@ -959,7 +959,7 @@ function get_current_currency()
 /**
 *	For get_option() update_option() and add_option() for compatible for multisite
 */
-function crud_option_multisite($option_name,$option_val=null,$type='get')
+function bkx_crud_option_multisite($option_name,$option_val=null,$type='get')
 {
 	$get_current_blog_id = get_current_blog_id();
 

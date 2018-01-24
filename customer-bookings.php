@@ -8,20 +8,20 @@ wp_localize_script( 'et-shortcodes-js', 'bkx_shortcodes_strings', array( 'previo
 
 require_once(BKX_PLUGIN_DIR_PATH.'css/generate_css.php');
 $current_user = wp_get_current_user();
-$bkx_seat_role = crud_option_multisite('bkx_seat_role');
+$bkx_seat_role = bkx_crud_option_multisite('bkx_seat_role');
 
 $account_page = get_page_by_title( "My Account" );
 $my_account_id = $account_page->ID;
 
-    $seat_alias = crud_option_multisite('bkx_alias_seat');      
-    $base_alias = crud_option_multisite('bkx_alias_base');
-    $addition_alias = crud_option_multisite('bkx_alias_addition');
-    $business_address_1 = crud_option_multisite("bkx_business_address_1");
-    $business_address_2 = crud_option_multisite("bkx_business_address_2");
-    $bkx_business_city = crud_option_multisite("bkx_business_city");
-    $bkx_business_state = crud_option_multisite("bkx_business_state");
-    $bkx_business_zip = crud_option_multisite("bkx_business_zip");
-    $bkx_business_country = crud_option_multisite("bkx_business_country");
+    $seat_alias = bkx_crud_option_multisite('bkx_alias_seat');      
+    $base_alias = bkx_crud_option_multisite('bkx_alias_base');
+    $addition_alias = bkx_crud_option_multisite('bkx_alias_addition');
+    $business_address_1 = bkx_crud_option_multisite("bkx_business_address_1");
+    $business_address_2 = bkx_crud_option_multisite("bkx_business_address_2");
+    $bkx_business_city = bkx_crud_option_multisite("bkx_business_city");
+    $bkx_business_state = bkx_crud_option_multisite("bkx_business_state");
+    $bkx_business_zip = bkx_crud_option_multisite("bkx_business_zip");
+    $bkx_business_country = bkx_crud_option_multisite("bkx_business_country");
 
     $full_address = $business_address_1.",".$bkx_business_city.",".$bkx_business_state.",".$bkx_business_zip.",".$bkx_business_country;
   
@@ -63,8 +63,8 @@ else
  * Created By : Divyang Parekh
  * Add Functionality for Cancel Booking
  */
-if(crud_option_multisite('enable_cancel_booking')== 1 
-  && crud_option_multisite('reg_customer_crud_op') == 1) :
+if(bkx_crud_option_multisite('enable_cancel_booking')== 1 
+  && bkx_crud_option_multisite('reg_customer_crud_op') == 1) :
 
   $cancel_booking_text = sprintf( __( 'Delete Booking', 'bookingx' ), '');
   $complete_booking_text = sprintf( __( 'Complete Booking', 'bookingx' ), '');
@@ -184,7 +184,7 @@ echo get_loader();
             echo $reason_for_cancelled_html;
 
 
-            $booking_edit_process_page_id = crud_option_multisite("booking_edit_process_page_id");
+            $booking_edit_process_page_id = bkx_crud_option_multisite("booking_edit_process_page_id");
  
             if(!empty($booking_edit_process_page_id)){
                 $seat_id = $futurebooking['seat_id'];
@@ -201,7 +201,7 @@ echo get_loader();
 if($get_order_status!='Cancelled'){
   ?>
    <a href="<?php echo $booking_safe_link;?>"><?php echo __( 'Edit', 'bookingx' ) ?></a> 
-   <?php if(crud_option_multisite('enable_cancel_booking')== 1 ) : ?>
+   <?php if(bkx_crud_option_multisite('enable_cancel_booking')== 1 ) : ?>
    | <a href="javascript:cancel_booking(<?php echo $futurebooking['booking_record_id'];?>,'n');" ><?php echo __( 'Cancel', 'bookingx' ) ?></a>
  <?php endif;?>
     <span align="center" id="generate_pdf_data_spinner-<?php echo $futurebooking['booking_record_id'];?>" style="display:none;"><img src="<?php echo get_site_url();?>/bodikea-loader1.gif" /></span>

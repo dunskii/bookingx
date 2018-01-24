@@ -5,8 +5,8 @@ global $wpdb;
 
 $screen = get_current_screen();
 
-$temp_option = crud_option_multisite('bkx_siteuser_canedit_seat');
-$temp_css = crud_option_multisite('bkx_siteclient_canedit_css');
+$temp_option = bkx_crud_option_multisite('bkx_siteuser_canedit_seat');
+$temp_css = bkx_crud_option_multisite('bkx_siteclient_canedit_css');
 color_load_scripts(array('iris.min.js?asas'));
 ?>
 <div class="wrap">
@@ -29,7 +29,7 @@ color_load_scripts(array('iris.min.js?asas'));
 ?>
 <?php
 
-$bkx_prices_include_tax = crud_option_multisite('bkx_prices_include_tax');
+$bkx_prices_include_tax = bkx_crud_option_multisite('bkx_prices_include_tax');
 $bkx_prices_include_tax = ($bkx_prices_include_tax) ? $bkx_prices_include_tax : 0 ;
 $country = get_wp_country();
 

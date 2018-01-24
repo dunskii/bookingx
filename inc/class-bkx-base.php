@@ -346,7 +346,7 @@ class BkxBase {
     public function get_booking_url()
         {
              
-            $bkx_set_booking_page = crud_option_multisite('bkx_set_booking_page');
+            $bkx_set_booking_page = bkx_crud_option_multisite('bkx_set_booking_page');
             if ( get_option('permalink_structure') ) 
             {
                 $booking_url = esc_url(user_trailingslashit(get_permalink($bkx_set_booking_page).''.$this->url_arg_name.'/'.get_the_ID()));   

@@ -167,13 +167,13 @@ class Bkx_Meta_Boxes {
 		$extra_id = get_post_meta( $post->ID, 'addition_ids', true );
 		$extra_id = rtrim( $extra_id, ",");
 		$booking_start_date = date('m/d/Y',strtotime($order_meta['booking_start_date']));
-		$alias_seat = crud_option_multisite('bkx_alias_seat');
-		$alias_base = crud_option_multisite('bkx_alias_base');
-		$alias_extra = crud_option_multisite('bkx_alias_addition');
+		$alias_seat = bkx_crud_option_multisite('bkx_alias_seat');
+		$alias_base = bkx_crud_option_multisite('bkx_alias_base');
+		$alias_extra = bkx_crud_option_multisite('bkx_alias_addition');
 
-        $seat_alias = crud_option_multisite('bkx_alias_seat');      
-    	$base_alias = crud_option_multisite('bkx_alias_base');
-    	$addition_alias = crud_option_multisite('bkx_alias_addition');
+        $seat_alias = bkx_crud_option_multisite('bkx_alias_seat');      
+    	$base_alias = bkx_crud_option_multisite('bkx_alias_base');
+    	$addition_alias = bkx_crud_option_multisite('bkx_alias_addition');
     	$payment_meta = get_post_meta($order_id,'payment_meta',true);
     	$payment_status = $payment_meta['payment_status'];
     	$check_total_payment = $payment_meta['pay_amt'];
@@ -338,9 +338,9 @@ class Bkx_Meta_Boxes {
 
 		}		
 	});});</script>';
-		$seat_alias = crud_option_multisite('bkx_alias_seat');      
-    	$base_alias = crud_option_multisite('bkx_alias_base');
-    	$addition_alias = crud_option_multisite('bkx_alias_addition');
+		$seat_alias = bkx_crud_option_multisite('bkx_alias_seat');      
+    	$base_alias = bkx_crud_option_multisite('bkx_alias_base');
+    	$addition_alias = bkx_crud_option_multisite('bkx_alias_addition');
 
 		$order_summary 	= sprintf('<div class="bkx-order_summary">','Bookingx');
 		$order_summary .= sprintf( __('<h3>Booking #%d Notes</h3>','Bookingx'),$post->ID);
@@ -363,7 +363,7 @@ class Bkx_Meta_Boxes {
 
 	public function bookingx_reassign_output( $post, $return_type = null  )
 	{
-		$seat_alias = crud_option_multisite('bkx_alias_seat'); 
+		$seat_alias = bkx_crud_option_multisite('bkx_alias_seat'); 
 
 		$orderObj =  new BkxBooking();
 		$order_meta = $orderObj->get_order_meta_data($post->ID);

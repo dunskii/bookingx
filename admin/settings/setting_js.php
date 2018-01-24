@@ -305,7 +305,7 @@ jQuery( ".id_bkx_time_new_selected").mouseenter(function() {
 });
  
 jQuery( document ).ready(function() {
-		<?php if(crud_option_multisite('enable_cancel_booking')==1):?>
+		<?php if(bkx_crud_option_multisite('enable_cancel_booking')==1):?>
 		jQuery("#page_drop_down_cancel_booking").show();
 		<?php else:?>
 		jQuery("#page_drop_down_cancel_booking").hide();

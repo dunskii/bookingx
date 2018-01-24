@@ -63,7 +63,7 @@ function bookingx_set_as_any_seat_callback() {
 			$seat_id = absint(sanitize_text_field($_GET['seat_id']) );
 
 			if ( 'bkx_seat' === get_post_type( $seat_id ) ) {
-				crud_option_multisite('select_default_seat',$seat_id,'update');
+				bkx_crud_option_multisite('select_default_seat',$seat_id,'update');
 			}
 		wp_safe_redirect( wp_get_referer() ? remove_query_arg( array( 'trashed', 'untrashed', 'deleted', 'ids' ), wp_get_referer() ) : admin_url( 'edit.php?post_type=bkx_seat' ) );
 		wp_die();
@@ -616,14 +616,14 @@ add_action( 'wp_ajax_nopriv_bkx_get_total_price', 'bkx_get_total_price_callback'
 function bkx_get_duration_booking_callback()
 {
     $booking_customer_note = 'zero';
-    $seat_alias = crud_option_multisite("bkx_alias_seat");
-    $base_alias = crud_option_multisite("bkx_alias_base");
-    $addition_alias = crud_option_multisite('bkx_alias_addition');
+    $seat_alias = bkx_crud_option_multisite("bkx_alias_seat");
+    $base_alias = bkx_crud_option_multisite("bkx_alias_base");
+    $addition_alias = bkx_crud_option_multisite('bkx_alias_addition');
 
     $baseid     = sanitize_text_field($_POST['baseid']);
     $additionid = sanitize_text_field($_POST['additionid']);
 
-    if (isset($_POST['seatid']) && $_POST['seatid'] == 'any' && $_SESSION['free_seat_id']!=''  && crud_option_multisite('enable_any_seat') == 1 && crud_option_multisite('select_default_seat') != ''):
+    if (isset($_POST['seatid']) && $_POST['seatid'] == 'any' && $_SESSION['free_seat_id']!=''  && bkx_crud_option_multisite('enable_any_seat') == 1 && bkx_crud_option_multisite('select_default_seat') != ''):
         $mobonlyobj = $_SESSION['free_seat_id'];
     else:
         $mobonlyobj = sanitize_text_field($_POST['seatid']);
@@ -919,7 +919,7 @@ function bkx_check_ifit_canbe_booked_callback()
     $bookingdate = sanitize_text_field( $_POST['bookingdate'] );
     $order_statuses = array('bkx-pending','bkx-ack','bkx-completed','bkx-missed');
     $update_order_slot = sanitize_text_field( $_POST['update_order_slot'] );
-    if (isset($_POST['seatid']) && $_POST['seatid'] == 'any' && crud_option_multisite('enable_any_seat') == 1 && crud_option_multisite('select_default_seat') != ''):
+    if (isset($_POST['seatid']) && $_POST['seatid'] == 'any' && bkx_crud_option_multisite('enable_any_seat') == 1 && bkx_crud_option_multisite('select_default_seat') != ''):
         $base_id = $_SESSION['_session_base_id'];
     //get current booking start time slot
         $bookinghour = explode(':',$start);
@@ -943,7 +943,7 @@ function bkx_check_ifit_canbe_booked_callback()
         }
         $startingSlotNumber = intval($hours_temp)*4+$counter;
 
-        $_enable_any_seat_selected_id = (int)crud_option_multisite('select_default_seat'); // Default Seat id
+        $_enable_any_seat_selected_id = (int)bkx_crud_option_multisite('select_default_seat'); // Default Seat id
         $search = array('bookigndate' => $bookingdate,'service_id'=>$base_id , 'seat_id' => 'any' , 'status' => $order_statuses,'display'=> 1);
         $BkxBooking =  new BkxBooking();
         $objBookigntime = $BkxBooking->GetBookedRecords($search);
@@ -1306,7 +1306,7 @@ function bkx_check_staff_availability_callback()
         $base_id = get_post_meta($booking_record_id,'base_id',true);
         $order_meta_data['seat_id'] = $seat_id; 
         update_post_meta($booking_record_id,'order_meta_data',$order_meta_data);
-        $alias_seat = crud_option_multisite('bkx_alias_seat');
+        $alias_seat = bkx_crud_option_multisite('bkx_alias_seat');
         $old_seat = get_the_title( $old_seat_id );
         $new_seat = get_the_title( $seat_id );
         $BkxBookingObj->add_order_note( sprintf( __( 'Successfully update %1$s from %2$s to %3$s.', 'bookingx' ), $alias_seat, $old_seat, $new_seat ), 0, $manual );
@@ -1341,7 +1341,7 @@ function bkx_displaytime_options_callback()
 {
     require_once(BKX_PLUGIN_DIR_PATH.'booking_general_functions.php');
 
-    $base_alias = crud_option_multisite("bkx_alias_base");
+    $base_alias = bkx_crud_option_multisite("bkx_alias_base");
     $bookigndate = '';
     $full_day = '';
     $order_statuses = array('bkx-pending','bkx-ack','bkx-completed','bkx-missed');
@@ -1357,10 +1357,10 @@ function bkx_displaytime_options_callback()
         $bookigndate = sanitize_text_field($_POST['bookigndate']);
         $_SESSION['_session_base_id'] = $service_id;
 
-        if (isset($_POST['seatid']) && $_POST['seatid'] == 'any' && $service_id !='' && crud_option_multisite('enable_any_seat') == 1 && crud_option_multisite('select_default_seat') != ''):
+        if (isset($_POST['seatid']) && $_POST['seatid'] == 'any' && $service_id !='' && bkx_crud_option_multisite('enable_any_seat') == 1 && bkx_crud_option_multisite('select_default_seat') != ''):
 
 
-            $_enable_any_seat_selected_id = (int)crud_option_multisite('select_default_seat'); // Default Seat id
+            $_enable_any_seat_selected_id = (int)bkx_crud_option_multisite('select_default_seat'); // Default Seat id
  
             $search = array('bookigndate' => $bookigndate,
                 'service_id'=>$service_id ,
@@ -1483,7 +1483,7 @@ function bkx_displaytime_options_callback()
             /**
              * Updated By  : Divyang Parekh
              * For  : Add Any Seat functionality.*/
-            if(crud_option_multisite('enable_any_seat') == 1 && crud_option_multisite('select_default_seat')!= '' && sanitize_text_field($_POST['seatid']) == 'any'):
+            if(bkx_crud_option_multisite('enable_any_seat') == 1 && bkx_crud_option_multisite('select_default_seat')!= '' && sanitize_text_field($_POST['seatid']) == 'any'):
 
                 if(!empty($slots_are_booked)):
                     $booking_slot_arr= $slots_are_booked;
@@ -1533,15 +1533,15 @@ function bkx_displaytime_options_callback()
     $step = 15 * 60; // Timestamp increase interval to one cell ahead
     $counter = 1;
 
-    $time_available_color = crud_option_multisite('bkx_time_available_color');
+    $time_available_color = bkx_crud_option_multisite('bkx_time_available_color');
     $time_available_color = ($time_available_color) ? $time_available_color : '#368200';
 
-    $time_selected_color = crud_option_multisite('bkx_time_selected_color');
+    $time_selected_color = bkx_crud_option_multisite('bkx_time_selected_color');
     $time_selected_color = ($time_selected_color) ? $time_selected_color : '#e64754';
 
-    $time_unavailable_color = crud_option_multisite('bkx_time_unavailable_color');
+    $time_unavailable_color = bkx_crud_option_multisite('bkx_time_unavailable_color');
     $time_unavailable_color = ($time_unavailable_color) ? $time_unavailable_color : 'gray';
-    $bkx_time_new_selected = crud_option_multisite('bkx_time_new_selected');
+    $bkx_time_new_selected = bkx_crud_option_multisite('bkx_time_new_selected');
 
     if($base_time_option == 'H') { ?>
     <style type="text/css">

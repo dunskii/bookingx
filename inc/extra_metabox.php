@@ -3,7 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 add_action( 'add_meta_boxes', 'add_bkx_extra_metaboxes' );
 function add_bkx_extra_metaboxes()
 {
-    $alias_addition = crud_option_multisite('bkx_alias_addition');
+    $alias_addition = bkx_crud_option_multisite('bkx_alias_addition');
     add_meta_box('bkx_base_boxes',__(ucwords($alias_addition)." Details", 'bookingx'),'bkx_extra_boxes_metabox_callback','bkx_addition','normal','high');
 }
 
@@ -11,8 +11,8 @@ function bkx_extra_boxes_metabox_callback()
 {
     wp_nonce_field('bkx_extra_boxes_metabox','bkx_extra_boxes_metabox_nonce' );
     color_load_scripts(array('iris.min.js'));
-    $addition_alias = crud_option_multisite('bkx_alias_addition');
-    $base_alias = crud_option_multisite('bkx_alias_base');
+    $addition_alias = bkx_crud_option_multisite('bkx_alias_addition');
+    $base_alias = bkx_crud_option_multisite('bkx_alias_base');
     wp_enqueue_script("main_addition_script", plugins_url( "js/main_addition_1.js" , __DIR__ ),false, rand(1,9999999), true);
     $translation_array = array( 'plugin_url' => plugins_url( "" , __DIR__ ));
     wp_localize_script( 'main_addition_script', 'url_obj', $translation_array );
@@ -28,7 +28,7 @@ function bkx_extra_boxes_metabox_callback()
     $get_base_array = get_posts( $args );
     $values = get_post_custom( $post->ID );
 
-    $alias_seat = crud_option_multisite('bkx_alias_seat');
+    $alias_seat = bkx_crud_option_multisite('bkx_alias_seat');
     
     if(!empty($values) && !is_wp_error($values)){
     $addition_price = isset( $values['addition_price'] ) ? esc_attr( $values['addition_price'][0] ) : "";   

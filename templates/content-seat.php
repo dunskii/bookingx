@@ -12,8 +12,8 @@ $get_base_by_seat = $BaseObj->get_base_by_seat( get_the_ID() );
 $BkxExtraObj = new BkxExtra();
 $get_extra_by_seat = $BkxExtraObj->get_extra_by_seat( $get_base_by_seat );
 
-$alias_base = crud_option_multisite('bkx_alias_base');
-$alias_extra = crud_option_multisite('bkx_alias_addition');
+$alias_base = bkx_crud_option_multisite('bkx_alias_base');
+$alias_extra = bkx_crud_option_multisite('bkx_alias_addition');
 $available_services = get_post_with_price_duration( $get_base_by_seat, $alias_base );
 $available_extras = get_post_with_price_duration( $get_extra_by_seat, $alias_extra );
 

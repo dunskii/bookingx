@@ -28,7 +28,7 @@ function bookinbkx_shortcode_function($atts)
 		$email = $order_meta_data['email'];
 	}
 
-	$booking_edit_process_page_id = crud_option_multisite("booking_edit_process_page_id");
+	$booking_edit_process_page_id = bkx_crud_option_multisite("booking_edit_process_page_id");
 
 	if(get_the_ID() == $booking_edit_process_page_id){
 
@@ -72,20 +72,20 @@ function bookinbkx_shortcode_function($atts)
 
     if(isset($type) && $type!='' && $type == 'base' || sanitize_text_field ($_POST['type']) =='bkx_base'){ $by_base = $type_id; }
 
-	$option_for_link = crud_option_multisite('my_plugin_page_id');
+	$option_for_link = bkx_crud_option_multisite('my_plugin_page_id');
 	$permalink = get_permalink($option_for_link);
-	$seat_alias = crud_option_multisite("bkx_alias_seat");
-	$base_alias = crud_option_multisite("bkx_alias_base");
-	$addition_alias = crud_option_multisite('bkx_alias_addition');
-	$_enable_any_seat_id = crud_option_multisite('select_default_seat');
-	$enable_any_seat  = crud_option_multisite('enable_any_seat');
+	$seat_alias = bkx_crud_option_multisite("bkx_alias_seat");
+	$base_alias = bkx_crud_option_multisite("bkx_alias_base");
+	$addition_alias = bkx_crud_option_multisite('bkx_alias_addition');
+	$_enable_any_seat_id = bkx_crud_option_multisite('select_default_seat');
+	$enable_any_seat  = bkx_crud_option_multisite('enable_any_seat');
 
 	//set paypal configuration here
-	$PayPalMode = crud_option_multisite('bkx_api_paypal_paypalmode'); // sandbox or live
-	$PayPalApiUsername = crud_option_multisite('bkx_api_paypal_username'); //PayPal API Username
-	$PayPalApiPassword = crud_option_multisite('bkx_api_paypal_password'); //Paypal API password
-	$PayPalApiSignature = crud_option_multisite('bkx_api_paypal_signature'); //Paypal API Signature
-	$currency_option = crud_option_multisite('currency_option');
+	$PayPalMode = bkx_crud_option_multisite('bkx_api_paypal_paypalmode'); // sandbox or live
+	$PayPalApiUsername = bkx_crud_option_multisite('bkx_api_paypal_username'); //PayPal API Username
+	$PayPalApiPassword = bkx_crud_option_multisite('bkx_api_paypal_password'); //Paypal API password
+	$PayPalApiSignature = bkx_crud_option_multisite('bkx_api_paypal_signature'); //Paypal API Signature
+	$currency_option = bkx_crud_option_multisite('currency_option');
 
 	$PayPalCurrencyCode = isset($currency_option) ? $currency_option : 'USD'; //Paypal Currency Code
 	$PayPalReturnURL = $permalink; //Point to process.php page
@@ -100,12 +100,12 @@ function bookinbkx_shortcode_function($atts)
 	$arrPaypal["PayPalReturnURL"] = $PayPalReturnURL;
 	$arrPaypal["PayPalCancelURL"] = $PayPalCancelURL;
 
-	$business_address_1 = crud_option_multisite("bkx_business_address_1");
-	$business_address_2 = crud_option_multisite("bkx_business_address_2");
-	$bkx_business_city = crud_option_multisite("bkx_business_city");
-	$bkx_business_state = crud_option_multisite("bkx_business_state");
-	$bkx_business_zip = crud_option_multisite("bkx_business_zip");
-	$bkx_business_country = crud_option_multisite("bkx_business_country");
+	$business_address_1 = bkx_crud_option_multisite("bkx_business_address_1");
+	$business_address_2 = bkx_crud_option_multisite("bkx_business_address_2");
+	$bkx_business_city = bkx_crud_option_multisite("bkx_business_city");
+	$bkx_business_state = bkx_crud_option_multisite("bkx_business_state");
+	$bkx_business_zip = bkx_crud_option_multisite("bkx_business_zip");
+	$bkx_business_country = bkx_crud_option_multisite("bkx_business_country");
 
 	$event_address = str_replace(" ", "+" , $business_address_1).",".str_replace(" ", "+" , $business_address_2).",".str_replace(" ", "+" , $bkx_business_city).",".str_replace(" ", "+" , $bkx_business_state).",".str_replace(" ", "+" , $bkx_business_zip).",".str_replace(" ", "+" , $bkx_business_country);
 
@@ -174,7 +174,7 @@ function bookinbkx_shortcode_function($atts)
 	$total_price = 0;
 	$total_price 	= bkx_cal_total_price( sanitize_text_field ($_POST['input_base']), sanitize_text_field ($_POST['input_extended_time']) , $strAdditionName );
 	$bkx_cal_total_tax = bkx_cal_total_tax ( $total_price );
-	$bkx_prices_include_tax = crud_option_multisite("bkx_prices_include_tax");
+	$bkx_prices_include_tax = bkx_crud_option_multisite("bkx_prices_include_tax");
 
 	if( $bkx_prices_include_tax == 1 ){ //Yes, I will enter prices inclusive of tax 
         $include_tax = 'minus';
@@ -749,9 +749,9 @@ function bookinbkx_shortcode_function($atts)
 	}
 
 
-	$bkx_term_cond_page = crud_option_multisite('bkx_term_cond_page');
-	$bkx_privacy_policy_page = crud_option_multisite('bkx_privacy_policy_page');
-	$label_of_step1 =  (!empty(crud_option_multisite("label_of_step1"))) ? crud_option_multisite("label_of_step1") : 'Please select what you would like to book';
+	$bkx_term_cond_page = bkx_crud_option_multisite('bkx_term_cond_page');
+	$bkx_privacy_policy_page = bkx_crud_option_multisite('bkx_privacy_policy_page');
+	$label_of_step1 =  (!empty(bkx_crud_option_multisite("label_of_step1"))) ? bkx_crud_option_multisite("label_of_step1") : 'Please select what you would like to book';
 	$label_of_step1 = sprintf(esc_html__('%1$s','bookingx'), $label_of_step1 );
 
 	if(!empty($bkx_term_cond_page) && !is_wp_error(get_post($bkx_term_cond_page))){
@@ -764,7 +764,7 @@ function bookinbkx_shortcode_function($atts)
 			$privacy_page = ' <a href="javascript:get_content_by_page_id('.sanitize_text_field($bkx_privacy_policy_page).',\'privacy_policy_page\')">click here</a><div id="privacy_policy_page" class="privacy_policy_page" title="Basic dialog"></div>';
 	}
 
-	if(crud_option_multisite('enable_cancel_booking')==1 && is_user_logged_in()):
+	if(bkx_crud_option_multisite('enable_cancel_booking')==1 && is_user_logged_in()):
 		$the_account_page = get_page_by_title("My Account");
 		$the_account_page_id= $the_account_page->ID;
 		if($the_account_page_id!=''):$the_account_page_link = get_permalink($the_account_page_id);endif;
@@ -774,10 +774,10 @@ function bookinbkx_shortcode_function($atts)
  * Created By : Divyang Parekh
  * Add Functionality for Cancel Booking
  */
-//&& crud_option_multisite('reg_customer_crud_op') == 1
+//&& bkx_crud_option_multisite('reg_customer_crud_op') == 1
 $enable_cancel = 0;
-if(crud_option_multisite('enable_cancel_booking')== 1 ) :
-	$cancellation_policy_page_id = crud_option_multisite('cancellation_policy_page_id');
+if(bkx_crud_option_multisite('enable_cancel_booking')== 1 ) :
+	$cancellation_policy_page_id = bkx_crud_option_multisite('cancellation_policy_page_id');
  if(!empty($cancellation_policy_page_id) && !is_wp_error(get_post($cancellation_policy_page_id))){
 
  	$cancellation_policy_page = '<li id="field_4_17" class="gfield"><div class="ginput_container bkx-checkbox"><input name="input_cancellation" id="id_cancellation" type="checkbox" value="yes" class="medium" tabindex="17"></div><label>'.sprintf( esc_html__('Do you agree with our cancellation policy? ','bookingx') ,'').' <a href="javascript:get_content_by_page_id('.sanitize_text_field($cancellation_policy_page_id).',\'cancellation_policy_page\')">'.sprintf(esc_html__('click here ','bookingx'),'').'</a><div id="cancellation_policy_page" class="cancellation_policy_page" title=""></div></label></li>';
@@ -823,7 +823,7 @@ $temp .= get_loader().'
                             <ul id="bkx_fields_4" class="bkx_fields top_label description_below"><li id="field_4_6" class="gfield  gsection"><h4 class="gsection_title">'.$label_of_step1.'</h4></li><li id="field_4_1" class="gfield"><label class="gfield_label" for="input_4_1">
                             '.sprintf(esc_html__('Select a %1$s','bookingx'), $seat_alias).'</label><div class="ginput_container"><input type="hidden" name="seat_name" id="id_seat_name" value=""><select name="input_seat" id="myInputSeat" class="medium gfield_select" tabindex="1">'.$option.'</select><input type="hidden" name="time_availability" id="id_time_availability" value=""><input type="hidden" name="time_availability_certain_from" id="id_time_availability_certain_from" value=""><input type="hidden" name="time_availability_certain_till" id="id_time_availability_certain_till" value=""><input type="hidden" name="days_availability" id="id_days_availability" value=""><input type="hidden" name="days_availability_certain" id="id_days_availability_certain" value=""><input type="hidden" name="months_availability" id="id_months_availability" value=""><input type="hidden" name="months_availability_certain" id="id_months_availability_certain" value=""><input type="hidden" name="total_duration" id="id_total_duration" value="" /><input type="hidden" id="seat_is_booking_prepayment" name="seat_is_booking_prepayment" value="" /><input type="hidden" id="deposit_price" name="deposit_price" value="" /></div> </li><li id="field_4_4" class="gfield"><label class="gfield_label" for="input_4_4">
                             	'.sprintf(esc_html__('Select a %1$s','bookingx'), $base_alias).'</label><div class="ginput_container"><select name="input_base" id="id_base_selector" class="medium gfield_select" tabindex="2" disabled><option value="">
-                            	'.sprintf(esc_html__('Select a %1$s','bookingx'), $base_alias).'</option></select></div></li><li id="extended_time" class="gfield" style="display:none;"><label class="gfield_label" for="input_4_9">'.crud_option_multisite('notice_time_extended_text_alias').'</label><div class="ginput_container"><input name="input_extended_time" id="id_input_extended_time" type="text" class="medium" tabindex="3"><input type="button" name="clear_extended_time" id="id_clear_extended_time" value="X" ></div></li><li id="field_4_5" class="gfield"><div class="ginput_container"><ul class="addition_checkbox" id="id_addition_checkbox"></ul></div></li><li id="field_4_12" class="gfield  gsection"><h4 class="gsection_title" id="total_price_container">
+                            	'.sprintf(esc_html__('Select a %1$s','bookingx'), $base_alias).'</option></select></div></li><li id="extended_time" class="gfield" style="display:none;"><label class="gfield_label" for="input_4_9">'.bkx_crud_option_multisite('notice_time_extended_text_alias').'</label><div class="ginput_container"><input name="input_extended_time" id="id_input_extended_time" type="text" class="medium" tabindex="3"><input type="button" name="clear_extended_time" id="id_clear_extended_time" value="X" ></div></li><li id="field_4_5" class="gfield"><div class="ginput_container"><ul class="addition_checkbox" id="id_addition_checkbox"></ul></div></li><li id="field_4_12" class="gfield  gsection"><h4 class="gsection_title" id="total_price_container">
                             		'.sprintf( __( 'The total is - %s<span id="total_price"></span>  %s', 'bookingx' ), $currency, get_option( 'currency_option' ) ).'
                             		</h4> </li></ul>
 		

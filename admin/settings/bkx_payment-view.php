@@ -12,8 +12,8 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'paypal_express
 			<th scope="row"><label for="Paypal Mode">Paypal Mode</label></th>
 			<td class="plugin-description">
 				<div class="plugin-description">
-					<input type="radio" name="paypalmode" id="id_modesandbox" value="sandbox" <?php if(crud_option_multisite('bkx_api_paypal_paypalmode')=="sandbox") echo "checked"; ?>>Sandbox </br>
-					<input type="radio" name="paypalmode" id="id_modelive" value="live" <?php if(crud_option_multisite('bkx_api_paypal_paypalmode')=="live") echo "checked"; ?>> Live
+					<input type="radio" name="paypalmode" id="id_modesandbox" value="sandbox" <?php if(bkx_crud_option_multisite('bkx_api_paypal_paypalmode')=="sandbox") echo "checked"; ?>>Sandbox </br>
+					<input type="radio" name="paypalmode" id="id_modelive" value="live" <?php if(bkx_crud_option_multisite('bkx_api_paypal_paypalmode')=="live") echo "checked"; ?>> Live
 				</div>
 			</td>
 		</tr>
@@ -21,7 +21,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'paypal_express
 			<th scope="row"><label for="API username">API username</label></th>
 			<td class="plugin-description">
 				<div class="plugin-description">
-					<input type="text" name="username" id="id_username" value="<?php echo crud_option_multisite('bkx_api_paypal_username'); ?>">
+					<input type="text" name="username" id="id_username" value="<?php echo bkx_crud_option_multisite('bkx_api_paypal_username'); ?>">
 				</div>
 			</td>
 		</tr>
@@ -29,7 +29,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'paypal_express
 			<th scope="row"><label for="API password">API password</label></th>
 			<td class="plugin-description">
 				<div class="plugin-description">
-					<input type="text" name="password" id="id_password" value="<?php echo crud_option_multisite('bkx_api_paypal_password'); ?>">
+					<input type="text" name="password" id="id_password" value="<?php echo bkx_crud_option_multisite('bkx_api_paypal_password'); ?>">
 				</div>
 			</td>
 		</tr>
@@ -37,7 +37,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'paypal_express
 			<th scope="row"><label for="API signature">API signature</label></th>
 			<td class="plugin-description">
 				<div class="plugin-description">
-					<input type="text" name="signature" id="id_signature" value="<?php echo crud_option_multisite('bkx_api_paypal_signature'); ?>">
+					<input type="text" name="signature" id="id_signature" value="<?php echo bkx_crud_option_multisite('bkx_api_paypal_signature'); ?>">
 				</div>
 			</td>
 		</tr>
@@ -66,7 +66,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'paypal_express
 			<th scope="row"><label for="Tax Rate">Tax rate in ( % ) </label></th>
 			<td class="plugin-description">
 				<div class="plugin-description">
-					<input type="number" min="0" name="bkx_tax_rate" id="id_bkx_tax_rate" value="<?php echo crud_option_multisite('bkx_tax_rate'); ?>">
+					<input type="number" min="0" name="bkx_tax_rate" id="id_bkx_tax_rate" value="<?php echo bkx_crud_option_multisite('bkx_tax_rate'); ?>">
 				</div>
 			</td>
 		</tr>
@@ -75,7 +75,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'paypal_express
 			<th scope="row"><label for="Tax name">Tax name </label></th>
 			<td class="plugin-description">
 				<div class="plugin-description">
-					<input type="text" name="bkx_tax_name" id="id_bkx_tax_name" value="<?php echo crud_option_multisite('bkx_tax_name'); ?>">
+					<input type="text" name="bkx_tax_name" id="id_bkx_tax_name" value="<?php echo bkx_crud_option_multisite('bkx_tax_name'); ?>">
 				</div>
 			</td>
 		</tr>
@@ -114,7 +114,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'paypal_express
 							<?php
 								$currency_code_options = get_bookingx_currencies();
 								foreach ( $currency_code_options as $code => $name ) {
-									$currency_option = crud_option_multisite('currency_option');
+									$currency_option = bkx_crud_option_multisite('currency_option');
 									if($currency_option == $code) $cur_selected = "selected"; else $cur_selected = '';
 									echo '<option value="'.$code.'" '.$cur_selected.' >'.$name . ' (' . get_bookingx_currency_symbol( $code ) . ')'.'</option>';
 								}

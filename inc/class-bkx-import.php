@@ -79,7 +79,7 @@ class BkxImport
 			foreach ($xml_data as $value) {
 			  	foreach ($value as $key => $setting) {
 			  		$setting = maybe_unserialize(reset($setting));
-			  		crud_option_multisite($key, $setting, 'update');
+			  		bkx_crud_option_multisite($key, $setting, 'update');
 				}
 			}
 		}

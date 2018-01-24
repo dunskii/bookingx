@@ -147,14 +147,14 @@ function bkx_create_base_builtup()
     */
     $plugin_dir = plugin_dir_path( __FILE__ );
 
-    crud_option_multisite("bkx_alias_seat", 'Resource', 'update');
-    crud_option_multisite("bkx_alias_base", 'Service', 'update');
-    crud_option_multisite("bkx_alias_addition", 'Extra', 'update');
-    crud_option_multisite("bkx_alias_notification", 'Notification', 'update');
-    crud_option_multisite("bkx_siteclient_css_text_color", '#40120a', 'update');
-    crud_option_multisite("bkx_siteclient_css_background_color", '#f0e8e7', 'update');
-    crud_option_multisite("bkx_siteclient_css_border_color", '#1f191f', 'update');
-    crud_option_multisite("bkx_siteclient_css_progressbar_color", '#875428', 'update');
+    bkx_crud_option_multisite("bkx_alias_seat", 'Resource', 'update');
+    bkx_crud_option_multisite("bkx_alias_base", 'Service', 'update');
+    bkx_crud_option_multisite("bkx_alias_addition", 'Extra', 'update');
+    bkx_crud_option_multisite("bkx_alias_notification", 'Notification', 'update');
+    bkx_crud_option_multisite("bkx_siteclient_css_text_color", '#40120a', 'update');
+    bkx_crud_option_multisite("bkx_siteclient_css_background_color", '#f0e8e7', 'update');
+    bkx_crud_option_multisite("bkx_siteclient_css_border_color", '#1f191f', 'update');
+    bkx_crud_option_multisite("bkx_siteclient_css_progressbar_color", '#875428', 'update');
     
     global $wpdb;
     require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
@@ -163,9 +163,9 @@ function bkx_create_base_builtup()
     flush_rewrite_rules();
     
     // the menu entry...
-   // crud_option_multisite("my_plugin_page_title", $the_page_title, 'update');
+   // bkx_crud_option_multisite("my_plugin_page_title", $the_page_title, 'update');
     // the slug...
-  //  crud_option_multisite("my_plugin_page_name", $the_page_name, 'update');
+  //  bkx_crud_option_multisite("my_plugin_page_name", $the_page_name, 'update');
 
     $the_login_page   = get_page_by_title( "Login Here" );
     $the_account_page = get_page_by_title( "My Account" );
@@ -209,7 +209,7 @@ function bkx_create_base_builtup()
         $_my_account_page_id = wp_insert_post( $_my_account );
     endif;
     
-    crud_option_multisite("my_plugin_page_id", $the_page_id, 'update');
+    bkx_crud_option_multisite("my_plugin_page_id", $the_page_id, 'update');
 }
 
 function wpdocs_dequeue_script() {
@@ -243,7 +243,7 @@ function bkx_scripts_init()
      wp_enqueue_script( "jquery-once", plugins_url( "js/jquery.once.js", __FILE__ ), false, null, true );
     wp_enqueue_script( "jquery-timepicker", plugins_url( "js/jquery.timePicker.js", __FILE__ ), false, null, true );
 
-    $booking_edit_process_page_id = crud_option_multisite("booking_edit_process_page_id");
+    $booking_edit_process_page_id = bkx_crud_option_multisite("booking_edit_process_page_id");
     if(get_the_ID() == $booking_edit_process_page_id){
 
         $nonce = $_REQUEST['_wpnonce'];
@@ -313,9 +313,9 @@ function bkx_scripts_init()
         $booked_days_arr = explode(",", $booked_days);
         $booked_days_filtered = implode(",", array_unique($booked_days_arr) );
 
-        $bkx_biz_vac_sd = crud_option_multisite('bkx_biz_vac_sd');
-        $bkx_biz_vac_ed = crud_option_multisite('bkx_biz_vac_ed');
-        $bkx_biz_pub_holiday = crud_option_multisite('bkx_biz_pub_holiday');
+        $bkx_biz_vac_sd = bkx_crud_option_multisite('bkx_biz_vac_sd');
+        $bkx_biz_vac_ed = bkx_crud_option_multisite('bkx_biz_vac_ed');
+        $bkx_biz_pub_holiday = bkx_crud_option_multisite('bkx_biz_pub_holiday');
         $biz_pub_days = ''; 
         if(!empty($bkx_biz_pub_holiday)){
             $bkx_biz_pub_holiday = array_values($bkx_biz_pub_holiday);

@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 global $bkx_seat,$bkx_base,$bkx_addition;
 $duration_text = $currencyBlock = '';
-$currency_option = (crud_option_multisite('currency_option') ? crud_option_multisite('currency_option') : 'AUD' );
+$currency_option = (bkx_crud_option_multisite('currency_option') ? bkx_crud_option_multisite('currency_option') : 'AUD' );
 
 if(!empty($bkx_seat)){
 	$type= $bkx_seat->bkx_post_type;
