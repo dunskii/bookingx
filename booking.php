@@ -65,8 +65,8 @@ require_once( 'inc/class-bkx-import.php' );
 require_once( 'admin/booking-listing.php' );
 require_once( 'git-updater/bkx-git-updater.php' );
 
-require_once( 'my_account_bx.php' );
-require_once( 'my_login_bx.php' );
+require_once( 'bkx_my_account_view.php' );
+require_once( 'bkx_login_view.php' );
 
 define( 'BKX_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
 define( 'BKX_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
@@ -178,7 +178,7 @@ function bkx_create_base_builtup()
     if ( !$the_login_page ):
         $_login                     = array();
         $_login[ 'post_title' ]     = 'Login Here';
-        $_login[ 'post_content' ]   = "[login_customer_bx]";
+        $_login[ 'post_content' ]   = "[bkx_login_view]";
         $_login[ 'post_status' ]    = 'Publish';
         $_login[ 'public' ]         = true;
         $_login[ 'post_type' ]      = 'page';
@@ -195,7 +195,7 @@ function bkx_create_base_builtup()
     if ( !$the_account_page ):
         $_my_account                     = array();
         $_my_account[ 'post_title' ]     = 'My Account';
-        $_my_account[ 'post_content' ]   = "[my_account_bx]";
+        $_my_account[ 'post_content' ]   = "[bkx_my_account_view]";
         $_my_account[ 'post_status' ]    = 'Publish';
         $_my_account[ 'public' ]         = true;
         $_my_account[ 'post_type' ]      = 'page';

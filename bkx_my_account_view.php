@@ -17,4 +17,4 @@ function my_account_bx()
    endif;
 
 }
-add_shortcode('my_account_bx', 'my_account_bx');
+add_shortcode('my_account_bx', 'bkx_my_account_view');

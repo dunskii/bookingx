@@ -6,7 +6,7 @@
  * Time: 12:21 PM
  */
 
-function login_customer_bx()
+function bkx_login_view()
 {
     ob_start();
 
@@ -32,4 +32,4 @@ function login_customer_bx()
       return  wp_login_form($args);
       
 }
-add_shortcode('login_customer_bx', 'login_customer_bx');
+add_shortcode('bkx_login_view', 'bkx_login_view');
