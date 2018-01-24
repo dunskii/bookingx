@@ -70,6 +70,7 @@ require_once( 'bkx_login_view.php' );
 
 define( 'BKX_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
 define( 'BKX_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
+define( 'BKX_PLUGIN_VER', 0.5 );
 wp_cache_flush();
 
 add_action( 'init', 'do_output_buffer' );
@@ -240,7 +241,7 @@ function bkx_scripts_init()
     
     wp_enqueue_script( "jquery-1-9-1-min", plugins_url( "js/jquery-1.9.1.min.js", __FILE__ ), false, null, true );
     wp_enqueue_script( "jquery-ui", plugins_url( "js/jquery-ui.js", __FILE__ ), false, null, true );
-     wp_enqueue_script( "jquery-once", plugins_url( "js/jquery.once.js", __FILE__ ), false, null, true );
+    wp_enqueue_script( "jquery-once", plugins_url( "js/jquery.once.js", __FILE__ ), false, null, true );
     wp_enqueue_script( "jquery-timepicker", plugins_url( "js/jquery.timePicker.js", __FILE__ ), false, null, true );
 
     $booking_edit_process_page_id = bkx_crud_option_multisite("booking_edit_process_page_id");
@@ -268,7 +269,7 @@ function bkx_scripts_init()
 
         wp_deregister_script('et-shortcodes-js');
 
-        wp_enqueue_script( "edit_booking_common_script", plugins_url( "js/edit_booking_common_script.js", __FILE__ ), false, rand(1,99999), true );
+        wp_enqueue_script( "edit_booking_common_script", plugins_url( "js/edit_booking_common_script.js", __FILE__ ), false, BKX_PLUGIN_VER, true );
         $translation_array = array(
                                 'plugin_url' => plugins_url( '', __FILE__ ),
                                 'bkx_ajax_url' => admin_url( 'admin-ajax.php' ),
@@ -284,7 +285,7 @@ function bkx_scripts_init()
 
     }else{
 
-        wp_enqueue_script( "common_script", plugins_url( "js/common.js?ver=".rand(1,999999), __FILE__ ), false, rand(1,99999), true );
+        wp_enqueue_script( "common_script", plugins_url( "js/common.js?ver=".BKX_PLUGIN_VER , __FILE__ ), false, BKX_PLUGIN_VER, true );
          $BkxBooking = new BkxBooking();
 
         $search['search_by'] = 'future';
@@ -341,7 +342,7 @@ function bkx_scripts_init()
     wp_enqueue_style( 'bookingform-css', plugins_url( 'css/bookingform-style.css', __FILE__ ), false, false );
     wp_enqueue_style( 'bookingform-css', plugins_url( 'css/bookingform-style.css', __FILE__ ), false, false );
     wp_enqueue_style( 'jquery-ui-css', plugins_url( 'css/jquery-ui.css', __FILE__ ), false, false );
-    wp_enqueue_style( 'bkx-upgrade', BKX_PLUGIN_DIR_URL.'css/bkx-upgrade.css', '', rand(1,999999) );
+    wp_enqueue_style( 'bkx-upgrade', BKX_PLUGIN_DIR_URL.'css/bkx-upgrade.css', '', BKX_PLUGIN_VER );
 }
 add_action( 'wp_enqueue_scripts', 'bkx_scripts_init' );
 
@@ -356,13 +357,11 @@ function bkx_load_custom_wp_admin_style()
     if(!empty($get_allowed) && !empty($post_type) && in_array($post_type, $get_allowed))
     {
         wp_enqueue_script( "jquery-ui","https://code.jquery.com/ui/1.12.1/jquery-ui.js", false, null, true );
-    wp_enqueue_script( "jquery-fullcalendar-moment", plugins_url( "js/fullcalendar/lib/moment.min.js", __FILE__ ), false, rand(1,9999999), true );
-    wp_enqueue_script( "jquery-fullcalendar-min", plugins_url( "js/fullcalendar/fullcalendar.min.js", __FILE__ ), false, rand(1,9999999), true );
-
-    wp_enqueue_script( "jquery-once", plugins_url( "js/jquery.once.js", __FILE__ ), false, null, true );
-    wp_enqueue_script( "jquery-timepicker", '//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js', false, null, true );
-    
-    wp_enqueue_script( "common_script", plugins_url( "admin/js/common.js", __FILE__ ), false, rand(1,9999999), true );
+        wp_enqueue_script( "jquery-fullcalendar-moment", plugins_url( "js/fullcalendar/lib/moment.min.js", __FILE__ ), false, BKX_PLUGIN_VER, true );
+        wp_enqueue_script( "jquery-fullcalendar-min", plugins_url( "js/fullcalendar/fullcalendar.min.js", __FILE__ ), false, BKX_PLUGIN_VER, true );
+        wp_enqueue_script( "jquery-once", plugins_url( "js/jquery.once.js", __FILE__ ), false, null, true );
+        wp_enqueue_script( "jquery-timepicker", '//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js', false, null, true );
+        wp_enqueue_script( "common_script", plugins_url( "admin/js/common.js", __FILE__ ), false, BKX_PLUGIN_VER , true );
 
     $edit_order_data_array = array(
          'order_id' => '',
@@ -383,7 +382,6 @@ function bkx_load_custom_wp_admin_style()
     wp_localize_script( 'common_script', 'url_obj', $translation_array );
     wp_localize_script( 'common_script', 'edit_order_data', $edit_order_data_array );  
     }
-
     wp_enqueue_style( 'bookingform-css', plugins_url( 'css/bookingform-style.css', __FILE__ ), false, false );
     wp_enqueue_style( 'fullcalendar-css', plugins_url( 'css/fullcalendar.min.css', __FILE__ ), false, false );
     wp_enqueue_style( 'bookingform-css', plugins_url( 'css/bookingform-style.css', __FILE__ ), false, false );
