@@ -130,8 +130,8 @@ class BkxExport {
 		$bkx_term_cond_page = bkx_crud_option_multisite("bkx_term_cond_page");
 		$bkx_privacy_policy_page = bkx_crud_option_multisite("bkx_privacy_policy_page");
 		$enable_editor = bkx_crud_option_multisite("enable_editor");
-		$notice_time_extended_text_alias = bkx_crud_option_multisite("notice_time_extended_text_alias");
-		$label_of_step1= bkx_crud_option_multisite("label_of_step1");
+		$bkx_notice_time_extended_text_alias = bkx_crud_option_multisite("bkx_notice_time_extended_text_alias");
+		$bkx_label_of_step1= bkx_crud_option_multisite("bkx_label_of_step1");
 		$temp_option = bkx_crud_option_multisite('bkx_siteuser_canedit_seat');
 		$can_edit_css = bkx_crud_option_multisite("bkx_siteclient_canedit_css");
 		$bkx_siteclient_css_text_color = bkx_crud_option_multisite("bkx_siteclient_css_text_color");
@@ -195,8 +195,8 @@ class BkxExport {
 		$settingTag->appendChild($this->xmlobj->createElement("bkx_term_cond_page", $bkx_term_cond_page));		
 		$settingTag->appendChild($this->xmlobj->createElement("bkx_privacy_policy_page", $bkx_privacy_policy_page));
 		$settingTag->appendChild($this->xmlobj->createElement("enable_editor", $enable_editor));
-		$settingTag->appendChild($this->xmlobj->createElement("notice_time_extended_text_alias", $notice_time_extended_text_alias));
-		$settingTag->appendChild($this->xmlobj->createElement("label_of_step1", $label_of_step1));
+		$settingTag->appendChild($this->xmlobj->createElement("bkx_notice_time_extended_text_alias", $bkx_notice_time_extended_text_alias));
+		$settingTag->appendChild($this->xmlobj->createElement("bkx_label_of_step1", $bkx_label_of_step1));
 		//$settingTag->appendChild($this->xmlobj->createElement("bkx_siteuser_canedit_seat", $bkx_siteuser_canedit_seat));
 		//$settingTag->appendChild($this->xmlobj->createElement("bkx_siteclient_canedit_css", $bkx_siteclient_canedit_css));
 		$settingTag->appendChild($this->xmlobj->createElement("bkx_siteclient_css_text_color", $bkx_siteclient_css_text_color));

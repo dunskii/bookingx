@@ -938,6 +938,9 @@ function bkx_sanitize_text_or_array_field($array_or_string)
 function bkx_crud_option_multisite($option_name, $option_val = null, $type = 'get')
 {
     $get_current_blog_id = get_current_blog_id();
+    if(is_multisite()){
+        switch_to_blog($get_current_blog_id);
+    }
     switch ($type) {
         case 'add':
             $arg = (is_multisite()) ? array($get_current_blog_id, $option_name, $option_val) : array($option_name, $option_val);

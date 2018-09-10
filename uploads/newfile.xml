@@ -2264,8 +2264,8 @@
     <bkx_term_cond_page/>
     <bkx_privacy_policy_page/>
     <enable_editor/>
-    <notice_time_extended_text_alias>Notification12</notice_time_extended_text_alias>
-    <label_of_step1>Notification11</label_of_step1>
+    <bkx_notice_time_extended_text_alias>Notification12</bkx_notice_time_extended_text_alias>
+    <bkx_label_of_step1>Notification11</bkx_label_of_step1>
     <bkx_siteclient_css_text_color>#40120a</bkx_siteclient_css_text_color>
     <bkx_siteclient_css_background_color>#f0e8e7</bkx_siteclient_css_background_color>
     <bkx_siteclient_css_border_color>#1f191f</bkx_siteclient_css_border_color>

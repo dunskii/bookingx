@@ -24,6 +24,8 @@ function generate_while_multisite_creating($blog_id, $user_id, $domain, $path, $
     add_blog_option( $blog_id, 'bkx_alias_base', 'Service');
     add_blog_option( $blog_id, 'bkx_alias_addition', 'Extra');
     add_blog_option( $blog_id, 'bkx_alias_notification', 'Notification');
+    add_blog_option( $blog_id, 'bkx_notice_time_extended_text_alias', 'How many times you want to extend this service?');
+    add_blog_option( $blog_id, 'bkx_label_of_step1', 'Please select what you would like to book');
 
     add_blog_option( $blog_id, "bkx_siteclient_css_text_color", '40120a');
     add_blog_option( $blog_id, "bkx_siteclient_css_background_color", 'f0e8e7');

@@ -5,11 +5,29 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
  */
 $plugin = plugin_basename(__FILE__);
 
+function bkx_create_base_builtup(){
+
+    bkx_crud_option_multisite( 'bkx_alias_seat', 'Resource','update');
+    bkx_crud_option_multisite( 'bkx_alias_base', 'Service','update');
+    bkx_crud_option_multisite( 'bkx_alias_addition', 'Extra','update');
+    bkx_crud_option_multisite( 'bkx_alias_notification', 'Notification','update');
+    bkx_crud_option_multisite( 'bkx_notice_time_extended_text_alias', 'How many times you want to extend this service?','update');
+    bkx_crud_option_multisite( 'bkx_label_of_step1', 'Please select what you would like to book','update');
+}
+
 add_action('init', 'bkx_create_seat_post_type');
 function bkx_create_seat_post_type()
 {
-    $alias_seat = bkx_crud_option_multisite('bkx_alias_seat', "Seat");
-    $alias_seat = isset($alias_seat) && $alias_seat != '' ? $alias_seat : "Seat";
+    bkx_crud_option_multisite('bkx_alias_seat') == "" ? bkx_crud_option_multisite( 'bkx_alias_seat', 'Resource','update') : '';
+    bkx_crud_option_multisite('bkx_alias_base') == "" ? bkx_crud_option_multisite( 'bkx_alias_base', 'Service','update') : '';
+    bkx_crud_option_multisite('bkx_alias_addition') == "" ? bkx_crud_option_multisite( 'bkx_alias_addition', 'Extra','update') : '';
+    bkx_crud_option_multisite('bkx_alias_notification') == "" ? bkx_crud_option_multisite( 'bkx_alias_notification', 'Notification','update') : '';
+    bkx_crud_option_multisite('bkx_notice_time_extended_text_alias') == "" ? bkx_crud_option_multisite( 'bkx_notice_time_extended_text_alias', 'How many times you want to extend this service?','update') : '';
+    bkx_crud_option_multisite('bkx_label_of_step1') == "" ? bkx_crud_option_multisite( 'bkx_label_of_step1', 'Please select what you would like to book','update') : '';
+
+
+    $alias_seat = bkx_crud_option_multisite('bkx_alias_seat');
+    $alias_seat = isset($alias_seat) && $alias_seat != '' ? $alias_seat : "Resource";
     // Set UI labels for Custom Post Type
     $labels = array(
         'name' => _x($alias_seat, 'Post Type General Name', 'bookingx'),
@@ -50,8 +68,8 @@ function bkx_create_seat_post_type()
 add_action('init', 'bkx_create_base_post_type');
 function bkx_create_base_post_type()
 {
-    $alias_base = bkx_crud_option_multisite('bkx_alias_base', "Base");
-    $alias_base = isset($alias_base) && $alias_base != '' ? $alias_base : "Base";
+    $alias_base = bkx_crud_option_multisite('bkx_alias_base', "Service");
+    $alias_base = isset($alias_base) && $alias_base != '' ? $alias_base : "Service";
     // Set UI labels for Custom Post Type
     $labels = array(
         'name' => _x($alias_base, 'Post Type General Name', 'bookingx'),
@@ -91,8 +109,8 @@ function bkx_create_base_post_type()
 add_action('init', 'bkx_create_addition_post_type');
 function bkx_create_addition_post_type()
 {
-    $alias_addition = bkx_crud_option_multisite('bkx_alias_addition', "Addition");
-    $alias_addition = isset($alias_addition) && $alias_addition != '' ? $alias_addition : "Addition";
+    $alias_addition = bkx_crud_option_multisite('bkx_alias_addition', "Extra");
+    $alias_addition = isset($alias_addition) && $alias_addition != '' ? $alias_addition : "Extra";
     $labels = array(
         'name' => _x($alias_addition, 'Post Type General Name', 'bookingx'),
         'singular_name' => _x($alias_addition, 'Post Type Singular Name', 'bookingx'),

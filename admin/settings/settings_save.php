@@ -58,8 +58,8 @@ if(!empty($_POST))
 		bkx_crud_option_multisite("bkx_alias_base", sanitize_text_field($_POST['base_alias']),'update');
 		bkx_crud_option_multisite("bkx_alias_addition", sanitize_text_field($_POST['addition_alias']),'update');
 		bkx_crud_option_multisite("bkx_alias_notification", sanitize_text_field($_POST['notification_alias']),'update');
-		bkx_crud_option_multisite("notice_time_extended_text_alias", sanitize_text_field($_POST['notice_time_extended_text_alias']),'update');
-		bkx_crud_option_multisite("label_of_step1", sanitize_text_field($_POST['label_of_step1']),'update');
+		bkx_crud_option_multisite("bkx_notice_time_extended_text_alias", sanitize_text_field($_POST['bkx_notice_time_extended_text_alias']),'update');
+		bkx_crud_option_multisite("bkx_label_of_step1", sanitize_text_field($_POST['bkx_label_of_step1']),'update');
 
 		$_SESSION['bkx_success']= esc_html('Alias updated successfully.');
 	}
