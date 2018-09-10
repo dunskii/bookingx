@@ -1,10 +1,10 @@
 <?php
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 /**
- *  Plugin Name: BookingX
+ *  Plugin Name: Booking X
  *  Plugin URI: https://booking-x.com/
  *  Description: BookingX is a booking and appointments plugin for WordPress
- *  Version: 0.5.18.09.07
+ *  Version: 0.5.18.09.10
  *  Author: Dunskii Web Services
  *  Author URI: https://dunskii.com
  *  Text Domain: bookingx
@@ -30,6 +30,6 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
  */
 define('BKX_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__));
 define('BKX_PLUGIN_DIR_URL', plugin_dir_url(__FILE__));
-define('BKX_PLUGIN_VER', '0.5.18.09.07');
+define('BKX_PLUGIN_VER', '0.5.18.09.10');
 require_once dirname(__FILE__) . '/BkxAutoload.php';
 register_activation_hook(__FILE__, 'bkx_create_base_builtup');
