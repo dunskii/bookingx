@@ -1,8 +1,41 @@
 <?php
  if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
+/**
+ * @return array
+ */
+function bkx_booking_columns_data()
+{
+    $seat_alias     = bkx_crud_option_multisite( 'bkx_alias_seat' );
+    $base_alias     = bkx_crud_option_multisite( 'bkx_alias_base' );
+    $addition_alias = bkx_crud_option_multisite( 'bkx_alias_addition' );
+    
+    $columns                    = array();
+    $columns[ 'cb' ]            = '<input type="checkbox" />';
+    $columns[ 'order_status' ]  = '<span class="status_head tips" data-tip="' . esc_attr__( 'Status', 'bookingx' ) . '">' . esc_attr__( 'Current Status', 'bookingx' ) . '</span>';
+    $columns[ 'booking_date' ]  = __( 'Date', 'bookingx' );
+    $columns[ 'booking_time' ]  = __( 'Time', 'bookingx' );
+    $columns[ 'duration' ]      = __( 'Duration', 'bookingx' );
+    $columns[ 'client_name' ]   = __( 'Name', 'bookingx' );
+    $columns[ 'client_phone' ]  = __( 'Phone', 'bookingx' );
+    $columns[ 'seat' ]          = __( $seat_alias, 'bookingx' );
+    $columns[ 'service' ]       = __( $base_alias, 'bookingx' );
+    $columns[ 'extra' ]         = __( '# of ' . $addition_alias, 'bookingx' );
+    $columns[ 'order_total' ]   = __( 'Total', 'bookingx' );
+    $columns[ 'order_actions' ] = __( 'Actions', 'bookingx' );
+    $columns[ 'order_view' ]    = __( 'View', 'bookingx' );
+
+    $columns = apply_filters( 'bkx_dashboard_booking_columns', $columns );
+
+    return $columns;
+}
 add_filter( 'manage_bkx_booking_posts_columns', 'bkx_booking_columns' , 99, 2 );
 
-function bkx_booking_columns( $existing_columns )
+/**
+ * @param $existing_columns
+ * @return array
+ */
+function bkx_booking_columns($existing_columns )
 {
     
     $seat_alias     = bkx_crud_option_multisite( 'bkx_alias_seat' );
@@ -24,18 +57,33 @@ function bkx_booking_columns( $existing_columns )
     $columns[ 'order_actions' ] = __( 'Actions', 'bookingx' );
     $columns[ 'order_view' ]    = __( 'View', 'bookingx' );
 
+    // Dashboard Column manage to show data ( Fetch Data from Other Setting Tab)
+    $bkx_dashboard_column_selected = bkx_crud_option_multisite("bkx_dashboard_column");
+    
+    $bkx_booking_columns_data = bkx_booking_columns_data();
+    if(!empty($bkx_booking_columns_data)){
+        foreach ($bkx_booking_columns_data as $key => $booking_columns) {
+            if ( $key != "cb" && !empty($bkx_dashboard_column_selected) && !in_array($key, $bkx_dashboard_column_selected) )
+            {
+                unset($columns[$key]);
+            }         
+        }
+    }
+    $columns = apply_filters( 'bkx_dashboard_booking_columns', $columns );
+
     return $columns;
 }
 
 add_action( 'manage_bkx_booking_posts_custom_column', 'render_bkx_booking_columns' );
-function render_bkx_booking_columns( $column )
+/**
+ * @param $column
+ */
+function render_bkx_booking_columns($column )
 {
     global $post, $wpdb;
 
     $orderObj   = new BkxBooking();
     $order_meta = $orderObj->get_order_meta_data( $post->ID );
-
-    //print_r($order_meta);
     switch ( $column ) {
         case 'order_status':
             $order_status = $orderObj->get_order_status( $post->ID );
@@ -67,14 +115,15 @@ function render_bkx_booking_columns( $column )
             printf( __( '%s', 'bookingx' ),$base_arr[ 'title' ] );
             break;
         case 'extra':
-            $extra_arr = $order_meta[ 'extra_arr' ];
-            echo sizeof($extra_arr);
+            if(isset($order_meta[ 'extra_arr' ]) && $order_meta[ 'extra_arr' ] !=""){
+                $extra_arr = $order_meta[ 'extra_arr' ];
+                echo sizeof($extra_arr);
+            }
             break;
         case 'order_total':
-            $currency    = isset( $order_meta[ 'currency' ] ) && $order_meta[ 'currency' ] != '' ? $order_meta[ 'currency' ] : get_current_currency();
+            $currency    = isset( $order_meta[ 'currency' ] ) && $order_meta[ 'currency' ] != '' ? $order_meta[ 'currency' ] : bkx_get_current_currency();
             $total_price = $order_meta[ 'total_price' ];
-            //echo sprintf( __( '<a href="#" title="%s(%s)">%s%d</a>', 'bookingx' ), get_option( 'currency_option' ), $currency, $currency, $total_price );
-            echo sprintf( __( '%s%d %s', 'bookingx' ), $currency, $total_price, get_option( 'currency_option' ) );
+             echo sprintf( __( '%s%d %s', 'bookingx' ), $currency, $total_price, get_option( 'currency_option' ) );
             break;
         case 'order_actions':
              $order_status = strtolower($orderObj->get_order_status( $post->ID ) );
@@ -92,8 +141,10 @@ function render_bkx_booking_columns( $column )
             $bkx_business_zip = bkx_crud_option_multisite("bkx_business_zip");
             $bkx_business_country = bkx_crud_option_multisite("bkx_business_country");
 
-            $full_address = $business_address_1.",".$bkx_business_city.",".$bkx_business_state.",".$bkx_business_zip.",".$bkx_business_country;
-            echo '<input type="hidden" id="post_ids" value="'.$post_json.'">';
+            $full_address = "{$business_address_1},{$business_address_2},{$bkx_business_city},{$bkx_business_state},{$bkx_business_zip},{$bkx_business_country}";
+            if(isset($post_json)){
+                echo '<input type="hidden" id="post_ids" value="'.$post_json.'">';
+            }
             echo '<input type="hidden" id="address_val'.$post->ID.'" value="'.$full_address.'">';
             $status_dropdown = '';
             $status_dropdown .= '<select name="bkx-action" class="bkx_action_status" style="width:91px;" id="bulk-action-selector-top">';
@@ -121,12 +172,16 @@ echo sprintf( __( '<span class="view_href_booking-'.$post->ID.'"><a href="%s" ti
 echo sprintf( __( '<span class="close_booking-'.$post->ID.'" style="display:none;"><a href="%s" title="%s" style="padding: 0 5px;">%s</a></span>', 'bookingx' ), 'javascript:close_booking(\''.$post->ID.'\')','Close', 'Close' );
 
 echo '<div class="loader-'.$post->ID.'" style="display:none;"> Please wait..</div>';
-           // echo '<div class="view_summary-'.$post->ID.' view_summary"></div>';
             break;
     }
 }
 
-function bkx_change_view_link( $permalink, $post ) {
+/**
+ * @param $permalink
+ * @param $post
+ * @return string
+ */
+function bkx_change_view_link($permalink, $post ) {
     if( $post->post_type == 'bkx_booking' ) { 
          $orderObj   = new BkxBooking();
         $order_meta = $orderObj->get_order_meta_data( $post->ID );
@@ -138,74 +193,47 @@ $permalink = 'javascript:view_summary(\''.$post->ID.'\',\''.$order_meta[ 'first_
 add_filter('post_type_link',"bkx_change_view_link",10,2);
 
 add_action( 'admin_footer', 'bkx_booking_bulk_admin_footer', 10 );
+/**
+ *
+ */
 function bkx_booking_bulk_admin_footer()
 {
     global $post_type;
 
     if ( 'bkx_booking' == $post_type ) {
-        echo '<style> #order_actions { width: 80px; }
-#calendar {
-        max-width: 900px;
-        margin: 0 auto;
-        background: #fff;
-        padding: 20px;
-}
-.bkx-order_summary, .bkx-order_summary_full {
-    background-color: #fefefe;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #888;
-    margin : 3px;
-    position: relative;
-
-}
-.search_by_dates_section input {
-    width: 93px;
-    margin-right: 5px;
-}
+        echo '<style> 
+        .column-order_status{ display:block !important;}
+                #order_actions { width: 80px; }
+        #calendar {
+                max-width: 900px;
+                margin: 0 auto;
+                background: #fff;
+                padding: 20px;
+        }
+        .bkx-order_summary, .bkx-order_summary_full {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            margin : 3px;
+            position: relative;
+        
+        }
+        .search_by_dates_section input {
+            width: 93px;
+            margin-right: 5px;
+        }
 </style>';
-?>
-
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWj_y315MvVm1l30ArFr0sh4tZjuK6I4w&sensor=false" ></script>
-<script type="text/javascript">
-function initialize(counter) {
-    geocoder = new google.maps.Geocoder();
-    //var latlng = new google.maps.LatLng(-34.397, 150.644);
-    //var address = "A/5,Paradise,Godrej Hill,KalYan,Maharashtra,421301";
-    var address = document.getElementById("address_val"+counter).value;
-
-    geocoder.geocode( { 'address': address}, function(results, status) {
-    
-      if (status == google.maps.GeocoderStatus.OK) {
-            var latlng = new google.maps.LatLng(results[0].geometry.location.Ya,results[0].geometry.location.Za);
-            var mapOptions = {
-              zoom: 12,
-              center: latlng,
-              mapTypeId: google.maps.MapTypeId.ROADMAP
-            }
-            map = new google.maps.Map(document.getElementById("map_canvas_"+counter), mapOptions);
-      } else {
-       alert("Geocode was not successful for the following reason: " + status);
-      }
-    });
+$bkx_view_id = "";
+$bkx_view_name = "";
+if(isset($_GET["view"])){
+    $bkx_view_id = sanitize_text_field($_GET["view"]);
 }
-
-function codeAddress(counter) {
-    var address = document.getElementById("address_val"+counter).value;
-    //address = "A/5,Paradise,Godrej Hill,KalYan,Maharashtra,421301";
-    geocoder.geocode( { 'address': address}, function(results, status) {
-      if (status == google.maps.GeocoderStatus.OK) {
-        map.setCenter(results[0].geometry.location);
-        var marker = new google.maps.Marker({
-            map: map,
-            position: results[0].geometry.location
-        });
-      } else {
-        //alert("Geocode was not successful for the following reason: " + status);
-      }
-    });
-  }
- 
+if(isset($_GET["bkx_name"])){
+    $bkx_view_name = sanitize_text_field($_GET["bkx_view_name"]);
+}
+?>
+<script type="text/javascript">
      function view_summary( post_id, name, colour_json ){
         
         console.log(colour_json);
@@ -214,39 +242,29 @@ function codeAddress(counter) {
                 'action': 'bkx_action_view_summary',
                 'post_id': post_id
             };
-
         setTimeout(function(){  initialize(post_id); codeAddress(post_id);draw_rectangle(post_id, name); }, 500);
-
             jQuery.post(ajaxurl, data, function(response) {
 
                 jQuery('.loader-'+ post_id).hide();
                 jQuery('.close_booking-'+ post_id).show();
                 jQuery('.view_href_booking-'+ post_id).hide();
-                //jQuery('.view_summary-'+ post_id).html(response); 
                 var postobj = jQuery('#post-'+ post_id);
-
                 jQuery( "<tr class='view_summary view_summary-"+post_id+"'>"+response ).insertAfter( postobj).slideDown('slow');
-      
             });
      }
-
      function close_booking(post_id) {
                 jQuery('.close_booking-'+ post_id).hide();
                 jQuery('.view_href_booking-'+ post_id).show();
                 jQuery('.view_summary-'+ post_id).hide();
     }
-
     jQuery(function() {
-
-        var bkx_view_id = '<?php echo sanitize_text_field($_GET["view"]); ?>';
-        var bkx_view_name = '<?php echo sanitize_text_field($_GET["bkx_name"]); ?>';
+        var bkx_view_id = '<?php $bkx_view_id; ?>';
+        var bkx_view_name = '<?php echo $bkx_view_name; ?>';
         if( bkx_view_id  )
         {
             jQuery('#post-'+ bkx_view_id).focus();
             view_summary( bkx_view_id, bkx_view_name );
         }
-
-       
         jQuery('.search_by_dates').on('change', function() {
             var search_by_dates = jQuery(this).val();
             if(search_by_dates == 'choose_date'){
@@ -256,11 +274,8 @@ function codeAddress(counter) {
                 jQuery( ".search_by_selected_date" ).datepicker(); 
             }  
         });
-       
        var span_trash =  jQuery('.row-actions').find('span.trash').find('a');
- 
         jQuery(".listing_view").nextAll('#post-query-submit').remove();
-
         jQuery( span_trash ).click(function() {
           if(confirm('Are you sure want to Cancel this booking?')){}
           else{ return false;}
@@ -268,7 +283,6 @@ function codeAddress(counter) {
 
         jQuery('.row-actions').find('span.trash').find('a').text('Cancel');
         jQuery('.row-actions').find('span.edit').find('a').text('Reschedule');
-
         jQuery('<option>').val('mark_pending').text('<?php _e( 'Pending', 'bookingx' );?>').appendTo('select[name="action"]');
 
         jQuery('<option>').val('mark_ack').text('<?php _e( 'Acknowledged', 'bookingx' );?>').appendTo('select[name="action"]');
@@ -311,23 +325,23 @@ function codeAddress(counter) {
      <?php
      $listing_view = isset($_GET['listing_view'])? sanitize_text_field($_GET['listing_view']):'';
      if($listing_view == 'weekly' || $listing_view == 'monthly'){ 
-         generate_listing_view($listing_view);
+         bkx_generate_listing_view($listing_view);
         ?>
         jQuery("<div class='weekly-data' id='calendar'></div>").insertBefore( ".wp-list-table" ).slideDown('slow');
         jQuery(".wp-list-table").hide();
-        
     <?php } ?>
       </script>
       <?php
        
     }
 }
-
 add_filter('months_dropdown_results', '__return_empty_array');
-
 add_action( 'restrict_manage_posts', 'bkx_booking_search_by_dates', 2, 10 );
-function bkx_booking_search_by_dates( $post_type, $which){
-
+/**
+ * @param $post_type
+ * @param $which
+ */
+function bkx_booking_search_by_dates($post_type, $which){
     //only add filter to post type you want
     if ('bkx_booking' == $post_type){
         //change this to the list of values you want to show
@@ -346,7 +360,6 @@ function bkx_booking_search_by_dates( $post_type, $which){
         if($search_by_dates == 'choose_date'){
            $search_by_dates = '';
         }
-
         ?>
         <div class="search_by_dates_section" style="float: left;">
             <select name="search_by_dates" class="search_by_dates">
@@ -362,20 +375,23 @@ function bkx_booking_search_by_dates( $post_type, $which){
             ?>
             </select>
         </div>
-        <!-- <input type="text" name="search_by_selected_date" placeholder="Select a date" class="search_by_selected_date" style="<?php //echo $display; ?>"> -->
-        <input type="submit" name="filter_action" style="float: left;" id="post-query-submit" class="button" value="Filter">     
+         <input type="submit" name="filter_action" style="float: left;" id="post-query-submit" class="button" value="Filter">
         <?php    
     }
 }
 add_action( 'restrict_manage_posts', 'bkx_booking_seat_view', 2, 10 );
-function bkx_booking_seat_view( $post_type, $which){
-
+/**
+ * @param $post_type
+ * @param $which
+ */
+function bkx_booking_seat_view($post_type, $which){
 if ('bkx_booking' == $post_type){
 
     $args = array(
     'posts_per_page'   => -1,
     'post_type'        => 'bkx_seat',
     'post_status'      => 'publish',
+    'suppress_filters' => false
     );
     $get_seat_array = get_posts( $args );
     $alias_seat = bkx_crud_option_multisite('bkx_alias_seat');
@@ -403,15 +419,15 @@ if ('bkx_booking' == $post_type){
         </select>
         <input type="submit" name="filter_action" style="float: left;" class="button seat_view" value="view"> 
         <?php endif; 
-
     }
-
-
 }
 
 add_action( 'restrict_manage_posts', 'bkx_booking_listing_view', 2, 10 );
-function bkx_booking_listing_view( $post_type, $which){
-
+/**
+ * @param $post_type
+ * @param $which
+ */
+function bkx_booking_listing_view($post_type, $which){
     //only add filter to post type you want
     if ('bkx_booking' == $post_type){
         
@@ -420,8 +436,7 @@ function bkx_booking_listing_view( $post_type, $which){
             'Weekly' => 'weekly',
             'Monthly' => 'monthly'
             );
-        ?>       
-
+        ?>
         <select name="listing_view" class="listing_view">
         <?php
             $listing_view = isset($_GET['listing_view'])? sanitize_text_field($_GET['listing_view']):'';
@@ -440,15 +455,16 @@ function bkx_booking_listing_view( $post_type, $which){
     }
 }
 
-function generate_listing_view( $type )
+/**
+ * @param $type
+ */
+function bkx_generate_listing_view($type )
 {
-    if($type == 'weekly' || $type == 'monthly' ){ 
+    if($type == 'weekly' || $type == 'monthly' ){
       
     $defaultView = ($type) && $type == 'weekly' ?  'agendaWeek' : 'month';
     $bkx_calendar_json_data = bkx_crud_option_multisite('bkx_calendar_json_data');
-   // print_r($bkx_calendar_json_data);
     ?>
-
     jQuery(document).ready(function() {
          
         jQuery('#calendar').fullCalendar({
@@ -464,7 +480,6 @@ function generate_listing_view( $type )
             eventLimit: true, // allow "more" link when too many events
             events: [<?php echo $bkx_calendar_json_data; ?>]
         });
-        
     });
     <?php
     }

@@ -1,9 +1,30 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
-<script type="text/javascript" src="<?php echo esc_js(BKX_PLUGIN_DIR_URL.'js/sol.js'); ?>"></script>
-<link rel='stylesheet' id='sol-css'  href='<?php echo esc_url(BKX_PLUGIN_DIR_URL.'css/sol.css?ver='.rand(1,99999).''); ?>' type='text/css' media='all' />
+<script type="text/javascript" src="<?php echo esc_js(BKX_PLUGIN_DIR_URL.'frontend/js/sol.js'); ?>"></script>
+<link rel='stylesheet' id='sol-css'  href='<?php echo esc_url(BKX_PLUGIN_DIR_URL.'css/sol.css?ver='.BKX_PLUGIN_VER.''); ?>' type='text/css' media='all' />
 <script type="text/javascript">
  
 jQuery(document).ready(function(){
+
+jQuery('.bkx-dashboard-column-all').on('click',function(){
+        if(this.checked){
+            jQuery('.bkx-dashboard-column').each(function(){
+                this.checked = true;
+            });
+        }else{
+             jQuery('.bkx-dashboard-column').each(function(){
+                this.checked = false;
+            });
+        }
+    });
+    
+    jQuery('.bkx-dashboard-column').on('click',function(){
+        if(jQuery('.bkx-dashboard-column:checked').length == jQuery('.bkx-dashboard-column').length){
+            jQuery('.bkx-dashboard-column-all').prop('checked',true);
+        }else{
+            jQuery('.bkx-dashboard-column-all').prop('checked',false);
+        }
+    });
+
 	/**********************start script for color picker******************************/
 var ajax_url = '<?php echo admin_url( 'admin-ajax.php' ); ?>';
 	jQuery('#id_bkx_text_color').iris({
@@ -318,6 +339,8 @@ jQuery( document ).ready(function() {
 				jQuery("#page_drop_down_cancel_booking").show();
 			}
 		});
+		jQuery( "#id_biz_vac_sd" ).datepicker({ dateFormat: "dd/mm/yy" });
+		 
 		jQuery('#id_enable_cancel_booking_no').click(function ()
 		{
 			var $id_enable_cancel_booking = jQuery("#id_enable_cancel_booking_no").val();
@@ -328,8 +351,8 @@ jQuery( document ).ready(function() {
 		});
 
 		jQuery( "#id_biz_vac_sd" ).datepicker({onSelect: function(date){jQuery( "#id_biz_vac_ed" ).val('');jQuery( "#id_biz_vac_ed" ).datepicker( "option", "minDate", date );}});
-		jQuery( "#id_biz_vac_ed" ).datepicker();
-		jQuery( "#id_biz_ph_1").datepicker();
+		jQuery( "#id_biz_vac_ed" ).datepicker({ dateFormat: "dd/mm/yy" });;
+		jQuery( "#id_biz_ph_1").datepicker({ dateFormat: "dd/mm/yy" });;
 		
 	});
 
@@ -340,7 +363,8 @@ jQuery( document ).ready(function() {
 	    set_next_val++;
 	    jQuery('#temp_pu_h_cnt').val(set_next_val);
 		jQuery( ".bkx_more_pub_holiday" ).after('<input type="text" name="biz_ph[]" id="id_clone_ph_'+set_next_val+'"><div class="clear"></div>');
-		jQuery( "#id_clone_ph_"+set_next_val).datepicker();
+		jQuery( "#id_clone_ph_"+set_next_val).datepicker({ dateFormat: "dd/mm/yy" });
+
 
 	}
 
@@ -356,9 +380,11 @@ jQuery( document ).ready(function() {
 
 	function remove_more_days(val)
 	{
+		jQuery("#remove_biz_days").val(jQuery("#remove_biz_days").val()+val+',');
 		var now_value = jQuery('#current_value').val();
 		var set_next_val = now_value - 1;
 	    var current_value = val;
+	    jQuery( "#business_days_"+current_value).css('visibility', 'hidden');
 	    jQuery( ".day_section_"+current_value).hide(); 
 	    jQuery('#current_value').val(set_next_val);
 	    if(set_next_val <= 7){ jQuery("#add_more_days").show();}

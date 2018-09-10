@@ -1,5 +1,9 @@
 <?php 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+$bkx_export_file_name = BKX_PLUGIN_DIR_PATH."uploads/newfile.xml";
+$seat_alias = bkx_crud_option_multisite("bkx_alias_seat");
+$base_alias = bkx_crud_option_multisite("bkx_alias_base");
+$addition_alias = bkx_crud_option_multisite('bkx_alias_addition');
 if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 <!---Alias settings-->
 <h3> <?php printf( esc_html__( '%1$s', 'bookingx' ),  $bkx_general_submenu_label ); ?> </h3>
@@ -185,7 +189,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 		</tr>
 
 		<tr class="active">
-			<th scope="row"><label for="enable_editor"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Display/hide booking x shortcode icon on visual editor and text editor?' ); ?></label></th>
+			<th scope="row"><label for="enable_editor"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Display Booking X shortcode icon on visual editor and text editor?' ); ?></label></th>
 			 
 			<td class="plugin-description">
 					<div class="plugin-description">
@@ -335,7 +339,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 
 
 <?php if(!empty($current_submenu_active) && $current_submenu_active == 'other_settings') :?>
-<!---Other settings--><!--Created By : Divyang Parekh ; Date : 2-11-2015 -->
+<!---Other settings--><!--Created By : Divyang Parekh ; -->
 <h3> <?php printf( esc_html__( '%1$s', 'bookingx' ),  $bkx_general_submenu_label ); ?> </h3>
 <form name="form_other_setting" id="id_other_setting" method="post">
 	<table cellspacing="0" class="widefat" style="margin-top:20px;">
@@ -382,6 +386,32 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 		</tr>
 
 		<tr class="active">
+			<th scope="row"><label for="dashboard column's bookings"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Dashboard Column\'s' ); ?></label></th>
+
+				<td class="plugin-description">
+				<div class="plugin-description">
+					<input type="checkbox" class="bkx-dashboard-column-all"> Select All <br />
+			 <?php 
+			 $bkx_dashboard_column_selected = bkx_crud_option_multisite("bkx_dashboard_column");
+
+			 $bkx_dashboard_column_html = "";
+			 $bkx_booking_columns = bkx_booking_columns_data();
+			 if(!empty($bkx_booking_columns)){
+		 		foreach ($bkx_booking_columns as $key => $booking_columns) {
+	 			 	if($key != "cb")
+	 			 	{
+	 			 		$bkx_booking_column_checked = ( !empty($bkx_dashboard_column_selected) && in_array($key, $bkx_dashboard_column_selected) ? " checked='checked' " : '');
+	 			 		$bkx_dashboard_column_html .= '<input type="checkbox" class="bkx-dashboard-column" name="bkx_dashboard_column[]" value="'.$key.'" '.$bkx_booking_column_checked.'>'.$booking_columns.'<br />';
+	 			 	}
+		 		}
+			 }
+			 echo $bkx_dashboard_column_html;
+			 ?>
+				</div>
+			</td>
+		</tr>
+
+		<tr class="active">
 			<td class="plugin-title" colspan="2" style="border-style: none;padding: 10px 200px;">
 			</td>
 		</tr>
@@ -398,6 +428,9 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 <!-- This is for export button   -->
 <div>
 <h3> <?php printf( esc_html__( '%1$s', 'bookingx' ),  'Export XML' ); ?> </h3>
+<?php $bkx_export_enable = is_writable($bkx_export_file_name) ? "" : "disabled";
+if(!is_writable($bkx_export_file_name)) { echo "<strong> Please allow file permission to generate file on ".BKX_PLUGIN_DIR_PATH."uploads Directory.</strong>";}
+?>
 <form name="xml_export" method="post" action="">
 		<table class="widefat" style="margin-top:20px;">
 			<tr class="active">
@@ -405,13 +438,10 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 			<input type="hidden" id="id_type" name="type" value="all">
 			</tr>
 		</table>
-		<p class="submit"><input type="submit" value="Export xml" class='button-primary' name="export_xml"></p>
+		<p class="submit"><input type="submit" value="Export xml" <?php echo $bkx_export_enable;?> class='button-primary' name="export_xml"></p>
 		</form>
 </div>
 <!--  End export functionality -->
-
-
-
 <!--Start Import Functionality --> 
 <div>		
 <h3> <?php printf( esc_html__( '%1$s', 'bookingx' ),  'Import XML' ); ?> </h3>
@@ -419,7 +449,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 <table class="widefat" style="margin-top:20px;">
 			<tr class="active">
 			<td>
-				<div><input type="checkbox" name="truncate_records" ><small><?php printf( esc_html__( '%1$s', 'bookingx' ),  '(Check to delete all previous value)' ); ?></small></div>
+				<div><input type="checkbox" name="truncate_records" ><small><?php printf( esc_html__( '( %1$s %2$s\'s , %3$s\'s , %4$s\'s , Booking data and All Setting\'s  )', 'bookingx' ),  'Check to delete all existing',$seat_alias,$base_alias,$addition_alias); ?></small></div>
 				<input type="file" name="import_file" >
 			</td>
 			</tr>
@@ -429,14 +459,13 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 </div>
 <!--End Import Functionality-->
 <?php endif; ?>
-
-
 <?php
 if(isset($_POST['export_xml']) && sanitize_text_field($_POST['export_xml']) == "Export xml") :
+    ob_clean();
     $BkxExportObj = new BkxExport();
     $BkxExportObj->export_now();
+    die;
 endif;
-
 if(isset($_POST['import_xml']) && sanitize_text_field($_POST['import_xml']) == "Import Xml") :
     $BkxImport = new BkxImport();
 	$import_now = $BkxImport->import_now($_FILES,$_POST);

@@ -10,7 +10,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'biz_info') :?>
 			<th scope="row"><label for="business name">Business name</label></th>
 			<td class="plugin-description">
 				<div class="plugin-description">
-					<input type="text" name="business_name" id="business_name" value="<?php echo bkx_crud_option_multisite('bkx_business_name'); ?>">
+					<input type="text" name="bkx_business_name" id="bkx_business_name" value="<?php echo bkx_crud_option_multisite('bkx_business_name'); ?>">
 				</div>
 			</td>
 		</tr>
@@ -19,7 +19,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'biz_info') :?>
 			<th scope="row"><label for="business email">Business Email</label></th>
 			<td class="plugin-description">
 				<div class="plugin-description">
-					<input type="text" name="business_email" id="business_email" value="<?php echo bkx_crud_option_multisite('bkx_business_email'); ?>">
+					<input type="text" name="bkx_business_email" id="bkx_business_email" value="<?php echo bkx_crud_option_multisite('bkx_business_email'); ?>">
 				</div>
 			</td>
 		</tr>
@@ -28,7 +28,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'biz_info') :?>
 			<th scope="row"><label for="business phone">Business Phone</label></th>
 			<td class="plugin-description">
 				<div class="plugin-description">
-					<input type="text" name="business_phone" id="business_phone" value="<?php echo bkx_crud_option_multisite('bkx_business_phone'); ?>">
+					<input type="text" name="bkx_business_phone" id="bkx_business_phone" value="<?php echo bkx_crud_option_multisite('bkx_business_phone'); ?>">
 				</div>
 			</td>
 		</tr>
@@ -37,7 +37,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'biz_info') :?>
 		<th scope="row"><label for="Address line 1">Address line 1</label></th>
 			<td class="plugin-description">
 				<div class="plugin-description">
-					<input type="text" name="business_address_1" id="business_address_1" value="<?php echo bkx_crud_option_multisite('bkx_business_address_1'); ?>">
+					<input type="text" name="bkx_business_address_1" id="bkx_business_address_1" value="<?php echo bkx_crud_option_multisite('bkx_business_address_1'); ?>">
 				</div>
 			</td>
 		</tr>
@@ -46,7 +46,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'biz_info') :?>
 			 
 			<td class="plugin-description">
 				<div class="plugin-description">
-					<input type="text" name="business_address_2" id="business_address_2" value="<?php echo bkx_crud_option_multisite('bkx_business_address_2'); ?>">
+					<input type="text" name="bkx_business_address_2" id="bkx_business_address_2" value="<?php echo bkx_crud_option_multisite('bkx_business_address_2'); ?>">
 				</div>
 			</td>
 		</tr>
@@ -56,7 +56,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'biz_info') :?>
 			<th scope="row"><label for="City">City</label></th>
 			<td class="plugin-description">
 				<div class="plugin-description">
-					<input type="text" name="business_city" id="business_city" value="<?php echo bkx_crud_option_multisite('bkx_business_city'); ?>">
+					<input type="text" name="bkx_business_city" id="bkx_business_city" value="<?php echo bkx_crud_option_multisite('bkx_business_city'); ?>">
 				</div>
 			</td>
 		</tr>
@@ -64,7 +64,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'biz_info') :?>
 			<th scope="row"><label for="state">State</label></th>
 			<td class="plugin-description">
 				<div class="plugin-description">
-					<input type="text" name="business_state" id="business_state" value="<?php echo bkx_crud_option_multisite('bkx_business_state'); ?>">
+					<input type="text" name="bkx_business_state" id="bkx_business_state" value="<?php echo bkx_crud_option_multisite('bkx_business_state'); ?>">
 				</div>
 			</td>
 		</tr>
@@ -74,7 +74,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'biz_info') :?>
 			 
 			<td class="plugin-description">
 				<div class="plugin-description">
-					<input type="text" name="business_zip" id="business_zip" value="<?php echo bkx_crud_option_multisite('bkx_business_zip'); ?>">
+					<input type="text" name="bkx_business_zip" id="bkx_business_zip" value="<?php echo bkx_crud_option_multisite('bkx_business_zip'); ?>">
 				</div>
 			</td>
 		</tr>
@@ -83,7 +83,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'biz_info') :?>
 			<th scope="row"><label for="Country">Country</label></th>
 			<td class="plugin-description">
 				<div class="plugin-description">
-				<select name="business_country">
+				<select name="bkx_business_country">
 					<?php if(!empty($country)){
 							foreach ($country as $code => $country_name) {?>
 								 <option value="<?php echo $code;?>" <?php if($code == bkx_crud_option_multisite('bkx_business_country')){ echo "selected";} ?>><?php echo $country_name;?></option>
@@ -98,7 +98,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'biz_info') :?>
  	
 	</tbody>
 </table>
-<p class="submit"><input type="submit" onclick="" class='button-primary' name="save_business" id="id_save_business" value="Save Changes" /></p>
+<p class="submit"><input type="submit" onclick="" class='button-primary' name="bkx_save_business" id="id_save_business" value="Save Changes" /></p>
 </form>
 <?php endif; ?>
 
@@ -108,30 +108,35 @@ $bkx_business_days = bkx_crud_option_multisite("bkx_business_days");
 if(!is_array($bkx_business_days)){ $bkx_business_days = maybe_unserialize($bkx_business_days);}
 $selected = !empty($bkx_business_days) ? sizeof($bkx_business_days)+1 : 2;
 $add_more_status = ($selected >= 7) ? 'display:none' : 'display:block';
- 
 $bkx_biz_pub_holiday = bkx_crud_option_multisite('bkx_biz_pub_holiday');
 $temp_pu_h_cnt = !empty($bkx_biz_pub_holiday) ? sizeof($bkx_biz_pub_holiday) : 1;
-$bkx_biz_pub_holiday = array_values($bkx_biz_pub_holiday);
-
+$bkx_biz_pub_holiday_data = '';
+if(!empty($bkx_biz_pub_holiday) && is_array($bkx_biz_pub_holiday))
+{
+   $bkx_biz_pub_holiday = array_values($bkx_biz_pub_holiday);
+   $bkx_biz_pub_holiday_data = $bkx_biz_pub_holiday[0];
+}
 ?>
 <h3> <?php printf( esc_html__( '%1$s', 'bookingx' ),  $bkx_general_submenu_label ); ?> </h3>
-<form name="form_alias" id="id_form_alias" method="post">
+<form name="bkx_form_alias" id="id_form_alias" method="post">
 	<input type="hidden" name="days_operation_flag" value="1">
-	<input type="hidden" id="current_value" value="<?php echo $selected;?>">
+	<input type="hidden" id="current_value" name="current_value_index" value="<?php echo $selected;?>">
 	<input type="hidden" id="temp_pu_h_cnt" value="<?php echo $temp_pu_h_cnt;?>">
 	<ul class="setting-bookingx">
-        <?php echo generate_days_section(7 , $bkx_business_days);?>
+        <?php echo bkx_generate_days_section(7 , $bkx_business_days);?>
 		<li class="standard" id="add_more_days" style="<?php echo $add_more_status; ?>;">
 		<a href="javascript:add_more_days()" class='button-primary'> Add another set of hours</a>
 		</li> 
     </ul>
 	<div class="clear"></div>
     <h3> Business Vacation </h3>
+    <label for="business start date" class="lable"> <b> Start date </b> </label>
     <input type="text" name="bkx_biz_vac_sd" id="id_biz_vac_sd"  value="<?php echo bkx_crud_option_multisite('bkx_biz_vac_sd'); ?>">
+    <label for="business end date" class="lable"> <b> End date </b> </label>
     <input type="text" name="bkx_biz_vac_ed" id="id_biz_vac_ed"  value="<?php echo bkx_crud_option_multisite('bkx_biz_vac_ed'); ?>">
     <div class="clear"></div>
     <h3> Public Holidays </h3>
-    <input type="text" name="biz_ph[]" id="id_biz_ph_1" value="<?php echo $bkx_biz_pub_holiday[0];?>">
+    <input type="text" name="biz_ph[]" id="id_biz_ph_1" value="<?php echo $bkx_biz_pub_holiday_data;?>">
     <a href="javascript:add_more_ph()" class='button-primary'> Add more </a>
     <div class="clear"></div>
     <?php
@@ -142,21 +147,18 @@ $bkx_biz_pub_holiday = array_values($bkx_biz_pub_holiday);
     			 	$key = $key + 1;
     			 	echo '<input type="text" name="biz_ph[]" id="id_clone_ph_'.$key.'" value="'.$pub_holiday.'"><div class="clear"></div>';
     			 	echo '<script type="text/javascript">jQuery( document ).ready(function() {
-    			 		jQuery( "#id_clone_ph_'.$key.'").datepicker();
+    			 		jQuery( "#id_clone_ph_'.$key.'" ).datepicker({ dateFormat: "dd/mm/yy" });
     			 	});</script>';
     			 }    			  
     		}
     	}
     ?>
-    
     <div class="bkx_more_pub_holiday"></div>
     <div class="clear"></div>
     <p class="submit"><input type="submit" onclick="" class='button-primary' name="save_days_ope" id="id_save_days_ope" value="Save Changes" /></p>
 </form>
 <?php endif; ?>
-
 <div class="clear"></div>
-
 <?php if(!empty($current_submenu_active) && $current_submenu_active == 'user_opt') :?>
 <h3> <?php printf( esc_html__( '%1$s', 'bookingx' ),  'Site User Option' ); ?> </h3>
 <form name="form_siteuser" id="id_form_siteuser" method="post">
@@ -165,9 +167,7 @@ $bkx_biz_pub_holiday = array_values($bkx_biz_pub_holiday);
 		<input type="hidden" name="siteuser_flag" value="1">
 		<tr class="active">
 			<th scope="row"><label for="modify seat owner">Can site user add/edit their own seat</label></th>
-			 
 			<td class="plugin-description">
-				
 					<select name="can_edit_seat" id="id_can_edit_seat">
 						<option value="Y" <?php if($temp_option=="Y"){echo "selected";} ?> >Yes</option>
 						<option value="N" <?php if($temp_option=="N" || $temp_option == "default"){echo "selected";} ?> >No</option>
@@ -183,7 +183,6 @@ $bkx_biz_pub_holiday = array_values($bkx_biz_pub_holiday);
 </table>
 <p class="submit"><input type="submit" onclick="" class='button-primary' name="save_siteuser" id="id_save_siteuser" value="Save Changes" /></p>
 </form>
-
 <?php
 $alias_seat = bkx_crud_option_multisite('bkx_alias_seat'); 
 $bkx_seat_role = bkx_crud_option_multisite('bkx_seat_role');

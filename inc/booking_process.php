@@ -1,5 +1,5 @@
 <?php
- if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
 /* 
  * Booking Process
  * Payment Gateway : Paypal | Stripe
@@ -33,13 +33,12 @@ $arrPaypal["PayPalCancelURL"] = $PayPalCancelURL;
 
 // Create post object
 $order_post_array = array(
-  'post_title'    => wp_strip_all_tags( $_POST['post_title'] ),
-  'post_content'  => sanitize_text_field($_POST['post_content']),
-  'post_status'   => 'publish',
-  'post_author'   => 1,
-  'post_category' => array( 8,39 )
+    'post_title' => wp_strip_all_tags($_POST['post_title']),
+    'post_content' => sanitize_text_field($_POST['post_content']),
+    'post_status' => 'publish',
+    'post_author' => 1,
+    'post_category' => array(8, 39)
 );
- 
 // Insert the post into the database
-wp_insert_post( $my_post );
+wp_insert_post($my_post);
 
