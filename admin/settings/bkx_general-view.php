@@ -171,7 +171,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 			<td class="plugin-description">
 				<div class="plugin-description">
 				<?php $bkx_term_cond_page = bkx_crud_option_multisite('bkx_term_cond_page');
-                          $args = array('selected'=> $bkx_term_cond_page,'name'=> 'bkx_term_cond_page');
+                          $args = array('show_option_none' => 'Select Terms & conditions Page', 'selected'=> $bkx_term_cond_page,'name'=> 'bkx_term_cond_page');
                           wp_dropdown_pages($args); ?>					 
 				</div>
 			</td>
@@ -182,7 +182,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 			<td class="plugin-description">
 				<div class="plugin-description">
 				<?php $bkx_privacy_policy_page = bkx_crud_option_multisite('bkx_privacy_policy_page');
-                          $args = array('selected'=> $bkx_privacy_policy_page,'name'=> 'bkx_privacy_policy_page');
+                          $args = array('show_option_none' => 'Select Privacy Policy Page', 'selected'=> $bkx_privacy_policy_page,'name'=> 'bkx_privacy_policy_page');
                           wp_dropdown_pages($args); ?>					 
 				</div>
 			</td>
