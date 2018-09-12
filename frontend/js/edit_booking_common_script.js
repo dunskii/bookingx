@@ -77,7 +77,7 @@ function ValidateForm(){
 	var Phone=document.frmSample.txtPhone
 	
 	if ((Phone.value==null)||(Phone.value=="")){
-		alert("Please Enter your Phone Number")
+		alert(edit_booking_obj.string_enter_phone)
 		Phone.focus()
 		return false
 	}
@@ -324,7 +324,7 @@ function bkx_change_timepicker_val(date)
 	jQuery("#id_display_success").html("");
 	jQuery("#id_can_proceed").val(0);
 
-	jQuery("#time_options").html("<option>Select a time</option>");
+	jQuery("#time_options").html("<option>"+edit_booking_obj.string_selecte_a_time+"</option>");
 	var myTime=new Array("12:00AM","12:30AM","01:00AM", "01:30AM");
 	var option_text = "";
 	for(temp in myTime)
@@ -368,7 +368,7 @@ function bkx_displaySecondForm()
 	 }
 	 else
 	 {
-		jQuery("#id_display_success").html("You Can Diretly Contact Administrator and proceed with booking payment");
+		jQuery("#id_display_success").html(edit_booking_obj.string_contact_administrator);
 		jQuery("#id_can_proceed").val(1);
 	 }
 }
@@ -478,7 +478,7 @@ jQuery(document).ready(function($){
 					//alert('<?php echo __("Error-login") ?>'); 
 					var temp_obj = jQuery.parseJSON(data);
 					//console.log(temp_obj);
-					var temp_option='<option value="">Select a '+edit_booking_obj.base+'</option>';
+					var temp_option='<option value="">'+edit_booking_obj.select_a_text+' '+edit_booking_obj.base+'</option>';
 					var base_obj = temp_obj['base_list'];
 
 					
@@ -668,37 +668,37 @@ jQuery(document).ready(function($){
 		{
 			if(jQuery("#id_datepicker").val()=="")
 			{
-				error_list.push("Please choose a date");
+				error_list.push(edit_booking_obj.string_choose_date);
 			}
 			if(jQuery("#base_extended_calender").is(":visible"))
 			{
 				if(jQuery("#id_datepicker_extended").val()=="")
 				{
-					error_list.push("Please choose end date");		
+					error_list.push(edit_booking_obj.string_choose_enddate);		
 
 				}
 			}
 			if(jQuery("#time_options").val()=="")
 			{
-				error_list.push("Please choose time");		
+				error_list.push(edit_booking_obj.string_choose_time);		
 			}
 			if(jQuery("#id_can_proceed").val()==0)
 			{
-				error_list.push("Please select appropriate date time");		
+				error_list.push(edit_booking_obj.string_select_appropriate_date_time);		
 			}
 		}
 
 		if(jQuery("#id_firstname").val()=="")
 		{
-			error_list.push("Please enter your first name");
+			error_list.push(edit_booking_obj.string_first_name;
 		}
 		if(jQuery("#id_lastname").val()=="")
 		{
-			error_list.push("Please enter your last name");
+			error_list.push(edit_booking_obj.string_last_name);
 		}
 		if(jQuery("#id_phonenumber").val()=="")
 		{
-			error_list.push("Please enter your phone");
+			error_list.push(edit_booking_obj.string_enter_phone);
 		}
 		else
 		{
@@ -709,7 +709,7 @@ jQuery(document).ready(function($){
 		}
 		if(jQuery("#id_email").val()=="")
 		{
-			error_list.push("Please enter your email");
+			error_list.push(edit_booking_obj.string_enter_email);
 		}
 		else
 		{
@@ -721,7 +721,7 @@ jQuery(document).ready(function($){
 		}
 		if(jQuery("#id_postcode").val()== "")
 		{
-			error_list.push("Please enter your post code");
+			error_list.push(edit_booking_obj.string_enter_zip);
 		}
 
 
@@ -740,21 +740,14 @@ jQuery(document).ready(function($){
 		}
 		else
 		{
-			if(confirm('Do you want to continue update booking?')){
+			if(confirm(edit_booking_obj.string_do_you_want_to_cont)){
 				jQuery( "#bkx_4" ).submit();
 			}else{
 				return false;
 			}
 		}
-
-	 
-		
 	});
 
-
-
-
-	
      });//close document.ready function 
 
 function bkx_get_total_price(thisval)
@@ -855,7 +848,7 @@ function bkx_base_to_addition(base_temp)
 				//console.log(temp_obj[0].addition_alies);
 			var temp_option='';
 			if(temp_obj){
-			temp_option='<label class="gchoice_5_2_1 gfield_label ">Select '+temp_obj[0].addition_alies+' you require</label>';
+			temp_option='<label class="gchoice_5_2_1 gfield_label ">'+edit_booking_obj.select_a_text+' '+temp_obj[0].addition_alies+' '+edit_booking_obj.string_you_require+'</label>';
 			}
 			for (x in temp_obj)
 			{
@@ -917,7 +910,7 @@ function bkx_seat_to_base(seat_temp)
         }
         else
         {	
-                alert("Couldn't list bases");
+                alert(edit_booking_obj.string_list_not_found);
         }
     });
 }
@@ -937,12 +930,12 @@ function bkx_validate_form(source_val,destination_val)
 
 		if(jQuery('#myInputSeat').val()=="")
 		{
-			error_list.push("Please select a seat");
+			error_list.push(edit_booking_obj.string_select_a_seat);
 		}
 		 
 		if(jQuery('#id_base_selector').val()=="" && edit_base_id == 0)
 		{
-			error_list.push("Please select a base");
+			error_list.push(edit_booking_obj.string_select_a_base);
 		}
 		if(jQuery("#extended_time").is(":visible"))
 		{
@@ -950,7 +943,7 @@ function bkx_validate_form(source_val,destination_val)
 						
 			if(extended_time== "" || extended_time== undefined)
 			{
-				error_list.push("Please enter extended base time");
+				error_list.push(edit_booking_obj.string_extend_base);
 			}
 		}
 		//alert(jQuery('.addition_name_class').length);
@@ -975,13 +968,13 @@ function bkx_validate_form(source_val,destination_val)
 		{
 			if(jQuery("#id_datepicker").val()=="")
 			{
-				error_list.push("Please choose a date");
+				error_list.push(edit_booking_obj.string_choose_date);
 			}
 			if(jQuery("#base_extended_calender").is(":visible"))
 			{
 				if(jQuery("#id_datepicker_extended").val()=="")
 				{
-					error_list.push("Please choose end date");		
+					error_list.push(edit_booking_obj.string_choose_enddate);		
 
 				}
 			}
@@ -991,11 +984,11 @@ function bkx_validate_form(source_val,destination_val)
 			}*/
 			if(jQuery("#time_options").val()=="")
 			{
-				error_list.push("Please choose time");		
+				error_list.push(edit_booking_obj.string_choose_time);		
 			}
 			if(jQuery("#id_can_proceed").val()==0)
 			{
-				error_list.push("Please select appropriate date time");		
+				error_list.push(edit_booking_obj.string_select_appropriate_date_time);		
 			}
 		}
 
@@ -1008,37 +1001,37 @@ function bkx_validate_form(source_val,destination_val)
 		{
 			if(jQuery("#id_datepicker").val()=="")
 			{
-				error_list.push("Please choose a date");
+				error_list.push(edit_booking_obj.string_choose_date);
 			}
 			if(jQuery("#base_extended_calender").is(":visible"))
 			{
 				if(jQuery("#id_datepicker_extended").val()=="")
 				{
-					error_list.push("Please choose end date");		
+					error_list.push(edit_booking_obj.string_choose_enddate);		
 
 				}
 			}
 			if(jQuery("#time_options").val()=="")
 			{
-				error_list.push("Please choose time");		
+				error_list.push(edit_booking_obj.string_choose_time);		
 			}
 			if(jQuery("#id_can_proceed").val()==0)
 			{
-				error_list.push("Please select appropriate date time");		
+				error_list.push(edit_booking_obj.string_select_appropriate_date_time);		
 			}
 		}
 
 		if(jQuery("#id_firstname").val()=="")
 		{
-			error_list.push("Please enter your first name");
+			error_list.push(edit_booking_obj.string_first_name);
 		}
 		if(jQuery("#id_lastname").val()=="")
 		{
-			error_list.push("Please enter your last name");
+			error_list.push(edit_booking_obj.string_last_name);
 		}
 		if(jQuery("#id_phonenumber").val()=="")
 		{
-			error_list.push("Please enter your phone");
+			error_list.push(edit_booking_obj.string_enter_phone);
 		}
 		else
 		{
@@ -1049,7 +1042,7 @@ function bkx_validate_form(source_val,destination_val)
 		}
 		if(jQuery("#id_email").val()=="")
 		{
-			error_list.push("Please enter your email");
+			error_list.push(edit_booking_obj.string_enter_email);
 		}
 		else
 		{
@@ -1061,7 +1054,7 @@ function bkx_validate_form(source_val,destination_val)
 		}
 		if(jQuery("#id_postcode").val()== "")
 		{
-			error_list.push("Please enter your post code");
+			error_list.push(edit_booking_obj.string_enter_zip);
 		}
 
 	}
@@ -1089,7 +1082,7 @@ function bkx_validate_form(source_val,destination_val)
 		jQuery( "#bkx_progressbar_wrapper_4" ).progressbar({
 			value: 25*destination_val
 		});
-		jQuery('h3.bkx_progressbar_title').html('Step '+destination_val+' of 4');
+		jQuery('h3.bkx_progressbar_title').html(edit_booking_obj.step_text+' '+destination_val+' '+edit_booking_obj.step_text_of+' 4');
 		//alert("writing html here");
 		//start code for getting selected seat,base and additions	
 
@@ -1171,15 +1164,15 @@ function bkx_validate_form(source_val,destination_val)
 				jQuery("#id_total_duration").val(temp_data['time_output']);
 				// $("span#id_selected_addition").html(temp_data['addition_list']);
 				jQuery(".booking_summary_data").html(temp_data['booked_summary']);
-				jQuery(".booking_summary_cost").html('<li> <b> Total Cost : </b>'+temp_data['currency'] + ' '+ temp_data['total_price'] +'</li>');
-				jQuery(".booking_summary_grand_total").html('<li> <b> Total Tax ('+ temp_data['tax_rate'] +'% '+ temp_data['tax_name'] +' ): </b>'+temp_data['currency'] + ' ' + temp_data['total_tax'] +'</li><li> <b> Grand Total : </b>'+temp_data['currency'] + ' '+ temp_data['grand_total'] +'</li>');
+				jQuery(".booking_summary_cost").html('<li> <b> '+url_obj.total_cost+' : </b>'+temp_data['currency'] + ' '+ temp_data['total_price'] +'</li>');
+				jQuery(".booking_summary_grand_total").html('<li> <b> '+url_obj.total_tax+' ('+ temp_data['tax_rate'] +'% '+ temp_data['tax_name'] +' ): </b>'+temp_data['currency'] + ' ' + temp_data['total_tax'] +'</li><li> <b> '+url_obj.grand_total+' : </b>'+temp_data['currency'] + ' '+ temp_data['grand_total'] +'</li>');
 
 				if(temp_data['booking_customer_note']!= 'zero'){
-				jQuery(".booking_customer_note").html('<li> <b> Note : </b>'+ temp_data['booking_customer_note'] +'</li>');
+				jQuery(".booking_customer_note").html('<li> <b> '+url_obj.tonote+' : </b>'+ temp_data['booking_customer_note'] +'</li>');
 				}
 			});
 
-			jQuery(".booking_summary_date").html('<li> <b> Date / Time : </b>'+ jQuery("#id_datepicker").val() +' at '+ jQuery("#id_booking_time_from").val() +'</li>');
+			jQuery(".booking_summary_date").html('<li> <b> '+url_obj.date_time+' : </b>'+ jQuery("#id_datepicker").val() +' at '+ jQuery("#id_booking_time_from").val() +'</li>');
 			jQuery("span#id_selected_date").html(jQuery("#id_datepicker").val());
 			//jQuery("span#id_selected_time").html(jQuery("#input_4_11_2").val());
 			jQuery("span#id_selected_time").html(jQuery("#id_booking_time_from").val());
@@ -1203,7 +1196,7 @@ function bkx_validate_form(source_val,destination_val)
       {  
         return (true)  
       }  
-        var error = "You have entered an invalid email address!"; 
+        var error = edit_booking_obj.string_invalid_email; 
         return (error);  
     }  
 
@@ -1337,11 +1330,11 @@ function check_staff_availability(seat_id,start_time,durations,booking_date,book
 		var result = temp_obj['data'];
 		if(parseInt(result) == 1)
 		{
-			alert('Booking Successfully Reassign.');
+			alert(edit_booking_obj.string_success_reassign);
 			window.location.reload();
 		}
 		else{
-			alert('Sorry ! Something went wrong , Please try again.');
+			alert(edit_booking_obj.string_something_went);
 		}
 	});
 

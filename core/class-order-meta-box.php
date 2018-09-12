@@ -222,6 +222,14 @@ class Bkx_Meta_Boxes {
 												'booked_days' => $booked_days_filtered,
 									            'biz_vac_days' => $biz_vac_days,
 									            'biz_pub_days' => $biz_pub_days,
+									            'step_text' => sprintf(__('%s','bookingx'), 'Step'),
+									            'step_text_of' => sprintf(__('%s','bookingx'), 'of'),
+									            'select_a_text'     => sprintf(__('%s','bookingx'), 'Select a'),
+									            'total_cost'     => sprintf(__('%s','bookingx'), 'Total Cost'),
+									            'total_tax'     => sprintf(__('%s','bookingx'), 'Total Tax'),
+									            'note'     => sprintf(__('%s','bookingx'), 'Note'),
+									            'date_time'     => sprintf(__('%s','bookingx'), 'Date / Time'),
+									            'grand_total'     => sprintf(__('%s','bookingx'), 'Grand Total'),
 												'action' => 'edit');
 			else:
 				$translation_array = array('order_id' => '',
@@ -236,10 +244,19 @@ class Bkx_Meta_Boxes {
 												'booked_days' => $booked_days_filtered,
 									            'biz_vac_days' => $biz_vac_days,
 									            'biz_pub_days' => $biz_pub_days,
+									            'step_text' => sprintf(__('%s','bookingx'), 'Step'),
+									            'step_text_of' => sprintf(__('%s','bookingx'), 'of'),
+									            'select_a_text'     => sprintf(__('%s','bookingx'), 'Select a'),
+									            'total_cost'     => sprintf(__('%s','bookingx'), 'Total Cost'),
+									            'total_tax'     => sprintf(__('%s','bookingx'), 'Total Tax'),
+									            'note'     => sprintf(__('%s','bookingx'), 'Note'),
+									            'date_time'     => sprintf(__('%s','bookingx'), 'Date / Time'),
+									            'grand_total'     => sprintf(__('%s','bookingx'), 'Grand Total'),
 												'action' => 'add');
 			endif;
-			
-			wp_localize_script('common_script', 'edit_order_data', $translation_array);
+			$validation_array = bkx_localize_string_text();
+        	$wp_localize_array = array_merge($translation_array,$validation_array);
+			wp_localize_script('common_script', 'edit_order_data', $wp_localize_array);
 			
 			 	
 			//print_r($order_meta['extra_arr']);
