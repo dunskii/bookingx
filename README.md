@@ -40,7 +40,7 @@ You can add you regions tax settings by going to BookingX -> Payment -> Tax Sett
 You can set your countries currency by going to BookingX -> Settings -> Payment -> Currency
 
 
-## Once you have confired your basic settings you will need to add at least 1 resource and 1 services
+## Once you have confirmed your basic settings you will need to add at least 1 resource and 1 services
 
 #Add A Resrouce
 To add a resource go to BookingX -> Resource (This label will differ depending on what you set it as in your Alias settings)
