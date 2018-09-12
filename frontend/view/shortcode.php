@@ -474,12 +474,12 @@ function bookinbkx_shortcode_function($atts)
 					$bkDet = str_replace(" ", "+",$seat_name) . "," . str_replace(" ", "+",$base_addc) . "," . str_replace(" ", "+",$sel_add) . " %0a" . $tot_price_val;
 					$bkx_form_flag = "display:none;";
 
-				    echo "<h2>Your booking is successful.</h2><br/><span>You can add this booking to your google calendar 
+				    echo "<h2> ".sprintf(__('%s','bookingx'), 'Your booking is successful.')."</h2><br/><span>".sprintf(__('%s','bookingx'), 'You can add this booking to your google calendar.')." 
                         <a href='https://www.google.com/calendar/render?action=TEMPLATE&text=" . $base_name . "&dates=" . $fnl_dt . "/" . $ed_fnl_dt . "&details=" . $bkDet . "&location=" . $event_address . "&sf=true&output=xml' target='_blank'> here</a>
 					</span>";
 				}
 			} else {
-				echo "There was some error";
+				echo sprintf(__('%s','bookingx'), 'There was some error.');
 			}
 		//endif; /// Check Duplicate end
 	}
@@ -786,7 +786,7 @@ $temp .= bkx_get_loader().'
 <form method="post" enctype="multipart/form-data" id="bkx_4" action="">
  <!-- Updated By :Divyang Parekh
 		Reason : To set the Booking Link to see Customer Own booking. -->             
-        <h3 class="bkx_progressbar_title">Step 1 of 4</h3>
+        <h3 class="bkx_progressbar_title">'.sprintf(esc_html__('%1$s','bookingx'), 'Step 1 of 4').'</h3>
 			       	<input type="hidden" value="" name="flag_stop_redirect" id="flag_stop_redirect" />
 			        <input type="hidden" value="'.$selected_seat.'" name="selected_seat" id="id_selected_seat" />
 			        <input type="hidden" name="booking_extra_ids" id="id_booking_extra_ids" />
@@ -825,22 +825,15 @@ $temp .= bkx_get_loader().'
 						<label class="gfield_label" for="input_4_10">'.sprintf(__('Choose a date','bookingx'), '').'
 						</label><div class="ginput_container"><input type="hidden" name="input_date" value="" id="id_input_date"><div  id="id_datepicker" type="text" value="" class="" tabindex="8"> </div> </div><input type="hidden" id="gforms_calendar_icon_input_4_10" class="bkx_hidden" value="http://yfbiz.net.au/wp-content/plugins/gravityforms/images/calendar.png">
 
-</li><li id="field_4_display_booking" style=""><div id="booking_details_value"></div></li><!--<li id="field_4_11" class="gfield"><label class="gfield_label" for="input_4_11">Choose a Time</label>--><div class="clear-multi"><div class="gfield_time_minute ginput_container"><!--<input type="select" maxlength="2" name="input_timevalue" id="input_4_11_2" value="" tabindex="10" readonly="readonly">--><!--<select id="time_options"></select>--></div></div><br/><div id="id_display_success" class="display_success"></div><input type="hidden" value="0" name="can_proceed" id="id_can_proceed"><input type="hidden" name="booking_time_from" id="id_booking_time_from" value=""><input type="hidden" name="booking_duration_insec" id="id_booking_duration_insec" value="0"><!-- </li> --></ul>
-						
+</li><li id="field_4_display_booking" style=""><div id="booking_details_value"></div></li><!--<li id="field_4_11" class="gfield"><label class="gfield_label" for="input_4_11">Choose a Time</label>--><div class="clear-multi"><div class="gfield_time_minute ginput_container"><!--<input type="select" maxlength="2" name="input_timevalue" id="input_4_11_2" value="" tabindex="10" readonly="readonly">--><!--<select id="time_options"></select>--></div></div><br/><div id="id_display_success" class="display_success"></div><input type="hidden" value="0" name="can_proceed" id="id_can_proceed"><input type="hidden" name="booking_time_from" id="id_booking_time_from" value=""><input type="hidden" name="booking_duration_insec" id="id_booking_duration_insec" value="0"><!-- </li> --></ul>	
                     </div>
-
                     <div class="bkx_page_footer" '.$want_to_disable.'>
                         <input type="button" id="bkx_previous_button_4_13" class="button bkx_previous_button" value="'.sprintf(__('Previous','bookingx'), '').'" tabindex="13" onclick="jQuery(\'#bkx_target_page_number_4\').val(\'1\');bkx_validate_form(2,1);jQuery(\'html,body\').animate({ scrollTop: jQuery(\'#bkx_4\').offset().top -50 }, 500);"> 
 						<input type="button" id="bkx_next_button_4_13" class="button bkx_next_button" value="'.sprintf(esc_html__('Next','bookingx'), '').'" tabindex="12" onclick="jQuery(\'#bkx_target_page_number_4\').val(\'3\');bkx_validate_form(2,3); ">
                     </div>
                 </div>';
-
-				
 				global $bid;
-				
-
                 $temp.= '<div id="bkx_page_4_3" class="bkx_page" '.$bkx_display.' >
-
 					<span id="mobile_only" style="display:none; font-size:18px;" >The service you have chosen is can be done at our place or yours, would you like us to come to you?<br>
 						<input id="mobile_yes" type="radio" value="YES" name="mobile_only_choice"><label class="gfield_label" for="mobile_yes">'.sprintf(__('YES','bookingx'), '').'</label>  <input id="mobile_no" type="radio" value="NO" name="mobile_only_choice"><label class="gfield_label" for="mobile_no">'.sprintf(__('NO','bookingx'), '').'</label></span>
 						<div class="bkx_page_fields">
@@ -848,8 +841,8 @@ $temp .= bkx_get_loader().'
 						
 						<div id="user_details">
 							<li id="field_4_14" class="gfield  gsection">
-							<h2 class="gsection_title">Add your details</h2>';
-							$temp .= '</li><li id="field_4_15" class="gfield"><label class="gfield_label" for="input_4_15_3">Name</label><div class="ginput_complex ginput_container" id="input_4_15"><span id="input_4_15_3_container" class="ginput_left">
+							<h2 class="gsection_title">'.sprintf(__('%1$s','bookingx'), 'Add your details').'</h2>';
+							$temp .= '</li><li id="field_4_15" class="gfield"><label class="gfield_label" for="input_4_15_3">'.sprintf(__('%s','bookingx'), 'Name').'</label><div class="ginput_complex ginput_container" id="input_4_15"><span id="input_4_15_3_container" class="ginput_left">
 							<label for="input_4_15_3">'.sprintf(__('First:','bookingx'), '').' </label>
 							<input type="text" name="input_firstname" id="id_firstname" value="'.$first_name.'" tabindex="14"></span><span id="input_4_15_6_container" class="ginput_right">
 							
