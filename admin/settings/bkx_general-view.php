@@ -387,26 +387,32 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 
 		<tr class="active">
 			<th scope="row"><label for="dashboard column's bookings"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Dashboard Column\'s' ); ?></label></th>
-
 				<td class="plugin-description">
 				<div class="plugin-description">
-					<input type="checkbox" class="bkx-dashboard-column-all"> Select All <br />
-			 <?php 
-			 $bkx_dashboard_column_selected = bkx_crud_option_multisite("bkx_dashboard_column");
-
-			 $bkx_dashboard_column_html = "";
-			 $bkx_booking_columns = bkx_booking_columns_data();
-			 if(!empty($bkx_booking_columns)){
-		 		foreach ($bkx_booking_columns as $key => $booking_columns) {
-	 			 	if($key != "cb")
-	 			 	{
-	 			 		$bkx_booking_column_checked = ( !empty($bkx_dashboard_column_selected) && in_array($key, $bkx_dashboard_column_selected) ? " checked='checked' " : '');
-	 			 		$bkx_dashboard_column_html .= '<input type="checkbox" class="bkx-dashboard-column" name="bkx_dashboard_column[]" value="'.$key.'" '.$bkx_booking_column_checked.'>'.$booking_columns.'<br />';
-	 			 	}
-		 		}
-			 }
-			 echo $bkx_dashboard_column_html;
-			 ?>
+				<?php
+				$bkx_dashboard_column_selected = bkx_crud_option_multisite("bkx_dashboard_column");
+				if(empty($bkx_dashboard_column_selected)){
+					$bkx_dashboard_column_selected = bkx_booking_columns_data();
+				}	
+				$bkx_dashboard_column_html = "";
+				$bkx_booking_columns = bkx_booking_columns_data();
+				if(!empty($bkx_booking_columns)){
+					foreach ($bkx_booking_columns as $key => $booking_columns) {
+					 	if($key != "cb")
+					 	{
+					 		$bkx_booking_column_checked = ( !empty($bkx_dashboard_column_selected) && in_array($key, $bkx_dashboard_column_selected) ? " checked='checked' " : '');
+					 		$bkx_dashboard_column_html .= '<input type="checkbox" class="bkx-dashboard-column" name="bkx_dashboard_column[]" value="'.$key.'" '.$bkx_booking_column_checked.'>'.$booking_columns.'<br />';
+					 	}
+					}
+				}
+				$count_bkx_dashboard_column_selected = sizeof( $bkx_dashboard_column_selected );
+				$count_bkx_booking_columns = sizeof( $bkx_booking_columns )-1;
+				if( $count_bkx_dashboard_column_selected ==  $count_bkx_booking_columns ){
+			 		$column_checked ="checked";
+			 	}
+				?>
+				<input type="checkbox" class="bkx-dashboard-column-all" <?php echo $column_checked; ?>> Select All <br />
+				<?php echo $bkx_dashboard_column_html;?>
 				</div>
 			</td>
 		</tr>
@@ -422,7 +428,6 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 </form>
 <!---End Other settings-->
 <?php endif; ?>
-
 
 <?php if(!empty($current_submenu_active) && $current_submenu_active == 'exim') :?>
 <!-- This is for export button   -->
