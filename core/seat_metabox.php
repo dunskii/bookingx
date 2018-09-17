@@ -324,6 +324,7 @@ function bkx_seat_boxes_metabox_callback($post)
                     <a href="javascript:add_more_days()" class='button-primary'> Add another set of hours</a>
                 </li>
             </ul>
+            <div class="spacer"><p>&nbsp;</p></div>
         </div>
     </div>
     <?php if ($seat_is_certain_day == "Y") : ?>
