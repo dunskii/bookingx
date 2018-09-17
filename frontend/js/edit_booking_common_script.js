@@ -297,23 +297,28 @@ function bkx_change_timepicker_val(date)
 {
 	var edit_base_id,base_id;
 	edit_base_id = edit_booking_obj.base_id;
+	seat_id = edit_booking_obj.seat_id;
+	order_id = edit_booking_obj.order_id;
+
 	jQuery("#booking_details_value").css("display","block");
 
 	jQuery("#booking_details_value").html("<img src='"+edit_booking_obj.plugin_url+"/images/loading.gif' width='200px;'>");
 	//jQuery("#booking_details_value").html("hello");
 	jQuery("#id_input_date").val(date);
 	//get time display options
-	if(edit_base_id!='')
-	{
+	if(edit_base_id!=''){
 		base_id = edit_base_id;
+		seat_id = edit_booking_obj.seat_id;
 	}
 	else
 	{
 		base_id = jQuery('#id_base_selector').val();
+		seat_id = jQuery('#myInputSeat').val();
 	}
 	jQuery.post(edit_booking_obj.bkx_ajax_url,{
 				action : 'bkx_displaytime_options',
 				bookigndate:date,
+				order_id: order_id,
 				service_id:base_id,
 				seatid: jQuery('#myInputSeat').val()}, function(data) {
 		jQuery("#booking_details_value").html(data);

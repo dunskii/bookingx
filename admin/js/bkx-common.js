@@ -336,6 +336,8 @@ function bkx_change_timepicker_val(date)
 	//	alert(date);
 	var edit_base_id,base_id;
 	edit_base_id = edit_order_data.base_id;
+	seat_id = edit_order_data.seat_id;
+	order_id = edit_order_data.order_id;
 	jQuery("#booking_details_value").css("display","block");
 	jQuery("#booking_details_value").html("<img src='"+url_obj.plugin_url+"/images/loading.gif' width='200px;'>");
 	//jQuery("#booking_details_value").html("hello");
@@ -351,7 +353,8 @@ function bkx_change_timepicker_val(date)
 				action : 'bkx_displaytime_options',
 				bookigndate:date,
 				service_id:base_id,
-				seatid: jQuery('#myInputSeat').val()
+				order_id: order_id,
+				seatid: seat_id
 	}, function(data) {
 		jQuery("#booking_details_value").html(data);
 	 });

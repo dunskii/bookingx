@@ -90,13 +90,13 @@ class Bkx_Meta_Boxes {
 		//$set_height = empty($order_meta['seat_id']) ? 'auto' : '510px';
 		$set_height = empty($order_meta['seat_id']) ? 'auto' : 'auto';
  
-		if($main_obj->name == 'Default' || $main_obj->name == 'Coffee' || $main_obj->name == 'Midnight' || $main_obj->name =='Ectoplasm'){
+		if($main_obj->name == 'Default' || $main_obj->name == 'Coffee' || $main_obj->name == 'Midnight' || $main_obj->name =='Ectoplasm')
+		{
 			$time_text = '#fff;';
 		}else
 		{
 			$time_text = 'inherit;';
 		}
-
 		//if($return_type == ''){ 
 ?>			<style type="text/css">
 			#date_time_display {color: <?php echo $time_text;?>}
@@ -109,14 +109,21 @@ class Bkx_Meta_Boxes {
 			#id_datepicker .ui-widget-content {border: 1px solid #e5e5e5 !important;}
 			#id_datepicker .ui-state-default {background: #ffffff !important;}
 			#id_datepicker .ui-state-active { background: <?php echo $colors[1];?> !important; color: <?php echo $time_text;?>; }
+			.booking-status-new{ background-color: <?php echo $colors[2];?>!important; background-image: -webkit-linear-gradient(45deg, <?php echo $colors[2];?> 50%, <?php echo $colors[3];?> 51%)!important;}
 			.booking-status-booked{ background-color:<?php echo $colors[3];?> !important;}
 			.booking-status-open{ background-color:<?php echo $colors[1];?> !important; }
 			.free { background:<?php echo $colors[1];?> !important;}
-			.selected-slot{background:<?php echo $colors[2];?> !important;}
+			
 			.full { background:<?php echo $colors[3];?> !important; }
 			.seat_rectangle { background-color:<?php echo $colors[1];?> !important;}
 			#div1 { background-color:<?php echo $colors[2];?> !important;}
 			.booking-status-current{ background-color:<?php echo $colors[2];?>!important; }
+			<?php 
+			if(isset($order_meta['order_id']) && $order_meta['order_id']!=""){ ?>
+				.selected-slot{background-color: <?php echo $colors[2];?>!important; background-image: -webkit-linear-gradient(83deg, <?php echo $colors[2];?> 48%, <?php echo $colors[3];?> 53%)!important;}
+			<?php }else{ ?>
+				.selected-slot{background:<?php echo $colors[2];?> !important;}
+			<?php }?>
 			</style>
 		 <?php
 		 // if(empty($order_meta['seat_id'])){

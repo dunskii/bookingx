@@ -542,7 +542,7 @@ class BkxBooking {
         $BkxBase = new BkxBase('',$service_id);
         $seat_by_base = $BkxBase->get_seat_by_base();
         $seat_id = ($search['seat_id'] == 'any') ? $seat_by_base : $search['seat_id'];
-
+        
         $args = array(
             'post_type'  => $this->post_type,
             'post_status' => $status,
