@@ -1312,6 +1312,7 @@ function bkx_displaytime_options_callback()
     $bookigndate = '';
     $full_day = '';
     $order_statuses = array('bkx-pending', 'bkx-ack', 'bkx-completed', 'bkx-missed', 'bkx-ack');
+    $current_order_id = isset($_POST['order_id']) && $_POST['order_id']!="" ? $_POST['order_id'] : 0;
 
     if (isset($_POST['bookigndate'])) {
         /**
@@ -1474,15 +1475,23 @@ function bkx_displaytime_options_callback()
 
     if ($base_time_option == 'H') { ?>
         <style type="text/css">
+            <?php if(isset($current_order_id) && $$current_order_id!= 0){ ?>
             .booking-status-booked {
                 background-color: <?php echo $time_unavailable_color;?>;
             }
-
+            <?php }else{?>
+            .booking-status-booked {
+                background-color: <?php echo $time_unavailable_color;?>;
+            }
+            <?php } ?>
             .booking-status-open {
                 background-color: <?php echo $time_available_color;?>;
             }
 
             .booking-status-current {
+                background-color: <?php echo $time_selected_color;?>;
+            }
+            .booking-status-new {
                 background-color: <?php echo $time_selected_color;?>;
             }
         </style>
@@ -1494,9 +1503,15 @@ function bkx_displaytime_options_callback()
             <div class="booking-status"><?php echo sprintf(esc_html__('Open', 'bookingx'), ''); ?>
                 <div class="booking-status-open"></div>
             </div>
+        <?php if(isset($current_order_id) && $current_order_id!= 0){ ?>
+            <div class="booking-status"><?php echo sprintf(esc_html__('New', 'bookingx'), ''); ?>
+                <div class="booking-status-new"></div>
+            </div>
+        <?php }else{?>
             <div class="booking-status"><?php echo sprintf(esc_html__('Current', 'bookingx'), ''); ?>
                 <div class="booking-status-current"></div>
             </div>
+        <?php } ?>
         </div>
         <br/>
         <div id="date_time_display">
