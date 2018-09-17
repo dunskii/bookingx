@@ -782,6 +782,7 @@ jQuery(document).ready(function(){
   		// alert(jQuery(this).val() ); // or jQuery(this).val()
   		if(jQuery(this).val() == 'Y'){
   			jQuery('#crete_user_auto').show();
+  			jQuery('#selRoles').show();
   		}
   		if(jQuery(this).val() == 'N'){
   			jQuery('#crete_user_auto').hide();
@@ -790,7 +791,6 @@ jQuery(document).ready(function(){
   		}
 	});
 	var bkx_user_auto = jQuery('input[name=bkx_user_auto]:checked').val();
-	
 
 	if(bkx_user_auto  == 'Y')
 	{

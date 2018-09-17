@@ -429,6 +429,7 @@ function bkx_seat_boxes_metabox_callback($post)
         }
     }
     $crete_user_auto_status = ($associate_with_user == 'Y') ? 'display:block;' : 'display:none;';
+    $user_type_showhide     = ($bkx_user_auto == 'N') ? 'display:block;' : 'display:none;';
     ?>
     <div class="bkx_user_mannual" style="<?php echo $mannual; ?>">
         <p><?php printf(esc_html__('Do you want to associate this %1$s with a user ? : ', 'bookingx'), $alias_seat); ?></p>
@@ -456,7 +457,7 @@ function bkx_seat_boxes_metabox_callback($post)
                 }?> />No
             </p>
         </div>
-
+         
         <div class="active" id="selRoles" style="<?php echo $crete_user_auto_status; ?>">
             <?php esc_html_e('Please select user type :', 'bookingx'); ?>
             <div class="plugin-description">
@@ -476,6 +477,7 @@ function bkx_seat_boxes_metabox_callback($post)
                 </select>
             </div>
         </div>
+        
 
         <div class="active" id="selUsers" style="<?php if (isset($user_name) && ($user_name != '')) {
             echo "display:table-row;";
