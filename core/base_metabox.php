@@ -118,7 +118,7 @@ function bkx_base_boxes_metabox_callback($post)
         <?php printf(esc_html__('%1$s  Time In Hours and Minutes :', 'bookingx'), $base_alias); ?>
 
         <div class="plugin-description">
-            <input name="base_hours_minutes" type="text" value="<?php if (!isset($base_hours)) {
+            <input name="base_hours_minutes" size="1" type="text" value="<?php if (!isset($base_hours)) {
                 echo 0;
             }
             if (isset($base_hours) && $base_hours != "") {
