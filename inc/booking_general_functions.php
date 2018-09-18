@@ -1441,3 +1441,42 @@ function generate_array_from_meta( $metadata )
         return array_map('maybe_unserialize', $metadata);
     }  
 }
+
+function bkx_localize_string_text(){
+    $seat_alias = bkx_crud_option_multisite("bkx_alias_seat");
+    $base_alias = bkx_crud_option_multisite("bkx_alias_base");
+    $extra_alias = bkx_crud_option_multisite('bkx_alias_addition');
+$validation_js_array = array(   'string_enter_phone'=> sprintf(__('%s','bookingx'), 'Please Enter your Phone Number'),
+                                        'string_enter_other_day'=> sprintf(__('%s','bookingx'), 'Please select other day to booking'),
+                                        'string_booking_dates'=> sprintf(__('%s','bookingx'), 'Booking Dates'),
+                                        'string_selecte_a_time'=> sprintf(__('%s','bookingx'), 'Select a time'),
+                                        'string_contact_administrator'=> sprintf(__('%s','bookingx'), 'You Can Diretly Contact Administrator and proceed with booking payment'),
+                                        'string_list_not_found'=> sprintf(__('%s %s','bookingx'), 'Couldn\'t list', $base_alias),
+                                        'string_select_a_seat'=> sprintf(__('%s %s','bookingx'), 'Please select a',$seat_alias),
+                                        'string_select_a_base'=> sprintf(__('%s %s','bookingx'), 'Please select a',$base_alias),
+                                        'string_extend_base'=> sprintf(__('%s %s %s','bookingx'), 'Please enter extended',$base_alias,'time'),
+                                        'string_choose_date'=> sprintf(__('%s','bookingx'), 'Please choose a date'),
+                                        'string_choose_enddate'=> sprintf(__('%s','bookingx'), 'Please choose a end date'),
+                                        'string_choose_time'=> sprintf(__('%s','bookingx'), 'Please choose time'),
+                                        'string_select_appropriate_date_time'=> sprintf(__('%s','bookingx'), 'Please select appropriate date time'),
+                                        'string_first_name'=> sprintf(__('%s','bookingx'), 'Please enter your first name'),
+                                        'string_last_name'=> sprintf(__('%s','bookingx'), 'Please enter your last name'),
+                                        'string_enter_phone'=> sprintf(__('%s','bookingx'), 'Please enter your phone'),
+                                        'string_enter_email'=> sprintf(__('%s','bookingx'), 'Please enter your email'),
+                                        'string_enter_street'=> sprintf(__('%s','bookingx'), 'Please enter your Street.'),
+                                        'string_enter_city'=> sprintf(__('%s','bookingx'), 'Please enter your City.'),
+                                        'string_enter_state'=> sprintf(__('%s','bookingx'), 'Please enter your State / Province / Region'),
+                                        'string_enter_zip'=> sprintf(__('%s','bookingx'), 'Please enter your Zip / Postal Code.'),
+                                        'string_checked_terms'=> sprintf(__('%s','bookingx'), 'Please checked our terms & condtion.'),
+                                        'string_checked_privacy'=> sprintf(__('%s','bookingx'), 'Please checked our privacy policy.'),
+                                        'string_checked_cancelltion'=> sprintf(__('%s','bookingx'), 'Please checked our cancellation policy.'),
+                                        'string_invalid_email'=> sprintf(__('%s','bookingx'), 'You have entered an invalid email address!'),
+                                        'string_success_reassign'=> sprintf(__('%s','bookingx'), 'Booking Successfully Reassign.'),
+                                        'string_reassign_booking'=> sprintf(__('%s','bookingx'), 'Reassign Booking'),
+                                        'string_do_you_want_to_cont'=> sprintf(__('%s','bookingx'), 'Do you want to continue update booking?'),
+                                        'string_something_went' => sprintf(__('%s','bookingx'), 'Sorry ! Something went wrong , Please try again.'),
+                                        'string_you_require' => sprintf(__('%s','bookingx'), 'you require')    
+                            );
+
+    return apply_filters('bkx_localized_validation_js_array', $validation_js_array);
+}

@@ -527,7 +527,7 @@ if(order_id!= ''){
 				if(data!="error")
 				{
  					var temp_obj = jQuery.parseJSON(data);
- 					var temp_option='<option value="">Select a '+url_obj.base+'</option>';
+ 					var temp_option='<option value="">'+url_obj.select_a_text+' '+url_obj.base+'</option>';
 					var base_obj = temp_obj['base_list'];
 					var $selected = '';
  					for(x in base_obj)
@@ -815,7 +815,7 @@ function bkx_base_to_addition(base_temp)
 			var temp_obj = jQuery.parseJSON(data);
  			var temp_option='';
 			if(temp_obj){
-			temp_option='<label class="gchoice_5_2_1 gfield_label ">Select '+temp_obj[0].addition_alies+' you require</label>';
+			temp_option='<label class="gchoice_5_2_1 gfield_label ">'+url_obj.select_a_text+' '+temp_obj[0].addition_alies+' '+url_obj.string_you_require+'</label>';
 			}
 			for (x in temp_obj)
 			{
@@ -835,7 +835,7 @@ function bkx_base_to_addition(base_temp)
         if(data!="error")
         {
                  var temp_obj = jQuery.parseJSON(data);
-                 var temp_option='<option value="">Select a '+url_obj.base+'</option>';
+                 var temp_option='<option value="">'+url_obj.select_a_text+' '+url_obj.base+'</option>';
                 var base_obj = temp_obj['base_list'];
                  for(x in base_obj)
                 {
@@ -1029,7 +1029,7 @@ function bkx_validate_form(source_val,destination_val)
 		if(destination_val == 3){
 			jQuery('h3.bkx_progressbar_title').html('');
 		}else{
-			jQuery('h3.bkx_progressbar_title').html('Step '+destination_val+' of 4');
+			jQuery('h3.bkx_progressbar_title').html(url_obj.step_text+' '+destination_val+' '+url_obj.step_text_of+' 4');
 		}
 		
  		var edit_extra_arr = 0 ;
@@ -1099,14 +1099,14 @@ function bkx_validate_form(source_val,destination_val)
 				var currency = temp_data['currency'];
 				jQuery("#id_total_duration").val(temp_data['time_output']);
  				jQuery(".booking_summary_data").html(temp_data['booked_summary']);
-				jQuery(".booking_summary_cost").html('<li> <b> Total Cost : </b>'+temp_data['currency'] + ' '+ temp_data['total_price'] +'</li>');
-				jQuery(".booking_summary_grand_total").html('<li> <b> Total Tax ('+ temp_data['tax_rate'] +'% '+ temp_data['tax_name'] +' ): </b>'+temp_data['currency'] + ' ' + temp_data['total_tax'] +'</li><li> <b> Grand Total : </b>'+temp_data['currency'] + ' '+ temp_data['grand_total'] +'</li>');
+				jQuery(".booking_summary_cost").html('<li> <b> '+url_obj.total_cost+' : </b>'+temp_data['currency'] + ' '+ temp_data['total_price'] +'</li>');
+				jQuery(".booking_summary_grand_total").html('<li> <b> '+url_obj.total_tax+' ('+ temp_data['tax_rate'] +'% '+ temp_data['tax_name'] +' ): </b>'+temp_data['currency'] + ' ' + temp_data['total_tax'] +'</li><li> <b> '+url_obj.grand_total+' : </b>'+temp_data['currency'] + ' '+ temp_data['grand_total'] +'</li>');
 
 				if(temp_data['booking_customer_note']!= 'zero'){
-				jQuery(".booking_customer_note").html('<li> <b> Note : </b>'+ temp_data['booking_customer_note'] +'</li>');
+				jQuery(".booking_customer_note").html('<li> <b> '+url_obj.note+' : </b>'+ temp_data['booking_customer_note'] +'</li>');
 				}
 			});
- 			jQuery(".booking_summary_date").html('<li> <b> Date / Time : </b>'+ jQuery("#id_datepicker").val() +' at '+ jQuery("#id_booking_time_from").val() +'</li>');
+ 			jQuery(".booking_summary_date").html('<li> <b> '+url_obj.date_time+' : </b>'+ jQuery("#id_datepicker").val() +' at '+ jQuery("#id_booking_time_from").val() +'</li>');
 			jQuery("span#id_selected_date").html(jQuery("#id_datepicker").val());
  			jQuery("span#id_selected_time").html(jQuery("#id_booking_time_from").val());
 			jQuery("span#id_selected_seat").html(jQuery("#myInputSeat option:selected").text());

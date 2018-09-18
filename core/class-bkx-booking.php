@@ -133,7 +133,7 @@ class BkxBooking {
             $order_data['post_status']   = 'bkx-' . apply_filters( 'bkx_default_order_status', 'pending' );
             $order_data['ping_status']   = 'closed';
             $order_data['post_password'] = uniqid( 'order_' );
-            $order_data['post_title']    = sprintf( __( 'Order &ndash; %s', 'bkx' ), strftime( _x( '%b %d, %Y @ %I:%M %p', 'Order date parsed by strftime', 'bookingx' ) ) );
+            $order_data['post_title']    = sprintf( __( 'Order &ndash; %s', 'bookingx' ), strftime( _x( '%b %d, %Y @ %I:%M %p', 'Order date parsed by strftime', 'bookingx' ) ) );
 
             // Insert the booking into the database
             $order_id = wp_insert_post( $order_data );

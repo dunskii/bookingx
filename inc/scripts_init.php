@@ -1,7 +1,9 @@
 <?php
 function bkx_scripts_init()
 {
-    $base_alias = get_option("bkx_alias_base", "Base");
+    $seat_alias = bkx_crud_option_multisite("bkx_alias_seat");
+    $base_alias = bkx_crud_option_multisite("bkx_alias_base");
+    $extra_alias = bkx_crud_option_multisite('bkx_alias_addition');
     wp_enqueue_script('jquery');
     wp_enqueue_script('jquery-ui-core');
     wp_enqueue_script('jquery-ui-progressbar');
@@ -39,6 +41,7 @@ function bkx_scripts_init()
         wp_deregister_script('et-shortcodes-js');
 
         wp_enqueue_script("edit_booking_common_script", BKX_PLUGIN_DIR_URL . "frontend/js/edit_booking_common_script.js", false, BKX_PLUGIN_VER, true);
+
         $translation_array = array(
             'plugin_url' => BKX_PLUGIN_DIR_URL,
             'bkx_ajax_url' => admin_url('admin-ajax.php'),
@@ -49,8 +52,18 @@ function bkx_scripts_init()
             'extra_id' => !empty($extra_id) ? $extra_id : '0',
             'extended' => $base_extended,
             'return_page_id' => $return_page_id,
+            'step_text' => sprintf(__('%s','bookingx'), 'Step'),
+            'step_text_of' => sprintf(__('%s','bookingx'), 'of'),
+            'select_a_text'     => sprintf(__('%s','bookingx'), 'Select a'),
+            'total_cost'     => sprintf(__('%s','bookingx'), 'Total Cost'),
+            'total_tax'     => sprintf(__('%s','bookingx'), 'Total Tax'),
+            'note'     => sprintf(__('%s','bookingx'), 'Note'),
+            'date_time'     => sprintf(__('%s','bookingx'), 'Date / Time'),
+            'grand_total'     => sprintf(__('%s','bookingx'), 'Grand Total'),
             'action' => 'edit');
-        wp_localize_script('edit_booking_common_script', 'edit_booking_obj', $translation_array);
+        $validation_array = bkx_localize_string_text();
+        $wp_localize_array = array_merge($translation_array,$validation_array);
+        wp_localize_script('edit_booking_common_script', 'edit_booking_obj', $wp_localize_array);
 
     } else {
 
@@ -109,6 +122,7 @@ function bkx_scripts_init()
                 $biz_vac_days = implode(",", $biz_vac_days);
             }
         }
+
         $translation_array = array(
             'plugin_url' => BKX_PLUGIN_DIR_URL,
             'bkx_ajax_url' => admin_url('admin-ajax.php'),
@@ -116,9 +130,19 @@ function bkx_scripts_init()
             'base' => $base_alias,
             'booked_days' => $booked_days_filtered,
             'biz_vac_days' => $biz_vac_days,
-            'biz_pub_days' => $biz_pub_days
+            'biz_pub_days' => $biz_pub_days,
+            'step_text' => sprintf(__('%s','bookingx'), 'Step'),
+            'step_text_of' => sprintf(__('%s','bookingx'), 'of'),
+            'select_a_text'     => sprintf(__('%s','bookingx'), 'Select a'),
+            'total_cost'     => sprintf(__('%s','bookingx'), 'Total Cost'),
+            'total_tax'     => sprintf(__('%s','bookingx'), 'Total Tax'),
+            'note'     => sprintf(__('%s','bookingx'), 'Note'),
+            'date_time'     => sprintf(__('%s','bookingx'), 'Date / Time'),
+            'grand_total'     => sprintf(__('%s','bookingx'), 'Grand Total')
         );
-        wp_localize_script('common_script', 'url_obj', $translation_array);
+        $validation_array = bkx_localize_string_text();
+        $wp_localize_array = array_merge($translation_array,$validation_array);
+        wp_localize_script('common_script', 'url_obj', $wp_localize_array);
 
     }
     wp_enqueue_style('bookingform-css', BKX_PLUGIN_DIR_URL . 'css/bookingform-style.css', false, false);
@@ -156,6 +180,14 @@ function bkx_load_custom_wp_admin_style()
             'action' => 'add',
             'extended' => 0,
             'admin_ajax' => admin_url('admin-ajax.php'),
+            'step_text' => sprintf(__('%s','bookingx'), 'Step'),
+            'step_text_of' => sprintf(__('%s','bookingx'), 'of'),
+            'select_a_text'     => sprintf(__('%s','bookingx'), 'Select a'),
+            'total_cost'     => sprintf(__('%s','bookingx'), 'Total Cost'),
+            'total_tax'     => sprintf(__('%s','bookingx'), 'Total Tax'),
+            'note'     => sprintf(__('%s','bookingx'), 'Note'),
+            'date_time'     => sprintf(__('%s','bookingx'), 'Date / Time'),
+            'grand_total'     => sprintf(__('%s','bookingx'), 'Grand Total')
         );
 
         $translation_array = array(
@@ -163,9 +195,21 @@ function bkx_load_custom_wp_admin_style()
             'bkx_ajax_url' => admin_url('admin-ajax.php'),
             'base' => $base_alias,
             'admin_ajax' => admin_url('admin-ajax.php'),
+            'step_text' => sprintf(__('%s','bookingx'), 'Step'),
+            'step_text_of' => sprintf(__('%s','bookingx'), 'of'),
+            'select_a_text'     => sprintf(__('%s','bookingx'), 'Select a'),
+            'total_cost'     => sprintf(__('%s','bookingx'), 'Total Cost'),
+            'total_tax'     => sprintf(__('%s','bookingx'), 'Total Tax'),
+            'note'     => sprintf(__('%s','bookingx'), 'Note'),
+            'date_time'     => sprintf(__('%s','bookingx'), 'Date / Time'),
+            'grand_total'     => sprintf(__('%s','bookingx'), 'Grand Total'),
+            bkx_localize_string_text()
         );
-        wp_localize_script('common_script', 'url_obj', $translation_array);
-        wp_localize_script('common_script', 'edit_order_data', $edit_order_data_array);
+        $validation_array = bkx_localize_string_text();
+        $wp_localize_array_1 = array_merge($translation_array,$validation_array);
+        $wp_localize_array_2 = array_merge($edit_order_data_array,$validation_array);
+        wp_localize_script('common_script', 'url_obj', $wp_localize_array_1);
+        wp_localize_script('common_script', 'edit_order_data', $wp_localize_array_2);
     }
     wp_enqueue_style('fullcalendar-css', BKX_PLUGIN_DIR_URL . 'css/fullcalendar.min.css', false, false);
     wp_enqueue_style('bookingform-css', BKX_PLUGIN_DIR_URL . 'css/bookingform-style.css', false, false);

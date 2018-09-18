@@ -418,7 +418,7 @@ jQuery( document ).ready(function() {
 	    font-weight: 600;
 	    font-size : 14px;
 	    color: #555;
-	    padding: 8px 10px;
+	    padding: 3px 5px;
 	    float: left;
  
 	}

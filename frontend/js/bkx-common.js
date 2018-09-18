@@ -72,7 +72,7 @@ function ValidateForm(){
 	var Phone=document.frmSample.txtPhone
 	
 	if ((Phone.value==null)||(Phone.value=="")){
-		alert("Please Enter your Phone Number")
+		alert(url_obj.string_enter_phone)
 		Phone.focus()
 		return false
 	}
@@ -378,7 +378,7 @@ function bkx_change_timepicker_val( date, inst)
 					{
 						if(disable_array[i] == generate_checked_dates[b])
 						{
-							alert('Please select other day to booking');
+							alert(url_obj.string_enter_other_day);
 							booking_flag = 0;
 						}
 						else
@@ -404,7 +404,7 @@ function bkx_change_timepicker_val( date, inst)
 		    var start_date = mm + '/' + dd + '/' + yyyy;
 			var end_date 	= checked_date;
 			//console.log('Start Date == '+ start_date + ' == End Date == '+ end_date);
-			var booking_data = '<div class="booking_dates"><b> Booking Dates : </b> <p> Start Date :'+ start_date + ' To ' + end_date + '</p></div>';
+			var booking_data = '<div class="booking_dates"><b> '+url_obj.string_booking_dates+' : </b> <p> Start Date :'+ start_date + ' To ' + end_date + '</p></div>';
 			$("#booking_details_value").html(booking_data);
 			$("#id_can_proceed").val(1);
 			$("#id_booking_multi_days").val(start_date +','+ end_date);
@@ -434,7 +434,7 @@ function bkx_change_timepicker_val( date, inst)
 			$("#id_display_success").html("");
 			$("#id_can_proceed").val(0);
 
-			$("#time_options").html("<option>Select a time</option>");
+			$("#time_options").html("<option>"+url_obj.string_selecte_a_time+"</option>");
 			var myTime=new Array("12:00AM","12:30AM","01:00AM", "01:30AM");
 			var option_text = "";
 			for(temp in myTime)
@@ -485,7 +485,7 @@ function bkx_displaySecondForm()
 	 }
 	 else
 	 {
-		$("#id_display_success").html("You Can Diretly Contact Administrator and proceed with booking payment");
+		$("#id_display_success").html(url_obj.string_contact_administrator);
 		$("#id_can_proceed").val(1);
 	 }
 	  
@@ -567,14 +567,14 @@ jQuery(document).ready(function($){
                     if(seat_temp==""){
                            $('#id_base_selector').attr('disabled',true);
                     }
-		 $.post(url_obj.bkx_ajax_url, { seatid: seat_temp , action : 'bkx_get_base_on_seat' }, function(data) {
+				 $.post(url_obj.bkx_ajax_url, { seatid: seat_temp , action : 'bkx_get_base_on_seat' }, function(data) {
 				if(data!="error")
 				{
 					//alert(data);
 					//alert('<?php echo __("Error-login") ?>'); 
 					var temp_obj = $.parseJSON(data);
 					//console.log(temp_obj);
-					var temp_option='<option value="">Select a '+url_obj.base+'</option>';
+					var temp_option='<option value="">'+url_obj.select_a_text+' '+url_obj.base+'</option>';
 					var base_obj = temp_obj['base_list'];
 					//console.log(base_obj);
 					for(x in base_obj)
@@ -638,7 +638,7 @@ jQuery(document).ready(function($){
                                                             //alert('<?php echo __("Error-login") ?>'); 
                                                             var temp_obj = $.parseJSON(data);
                                                             //console.log(temp_obj);
-                                                            var temp_option='<option value="">Select a '+url_obj.base+'</option>';
+                                                            var temp_option='<option value="">'+url_obj.select_a_text+' '+url_obj.base+'</option>';
                                                             var base_obj = temp_obj['base_list'];
                                                             //console.log(base_obj);
                                                             for(x in base_obj)
@@ -675,7 +675,7 @@ jQuery(document).ready(function($){
                                                     }
                                                     else
                                                     {	
-                                                            alert("Something went wrong..");
+                                                            alert(url_obj.string_something_went);
                                                     }
 
                                                     loader.hide();
@@ -725,7 +725,7 @@ jQuery(document).ready(function($){
 				}
 				else
 				{	
-					alert("Couldn't list bases");
+					alert(url_obj.string_list_not_found);
 				}
 			});
 
@@ -736,26 +736,10 @@ jQuery(document).ready(function($){
 				$('li#field_4_18').hide();
 			
 			var selected_radio = $("input[name='mobile_only_choice']:checked").val();
-			if(selected_radio == "YES" )
-			{
-				$('li#field_4_18').show();
-				// var x = $('ul#4_form_user_details');
-				// x.append('<li id="field_4_18" class="gfield"><label class="gfield_label" for="input_4_18_1">Address</label><div class="ginput_complex ginput_container" id="input_4_18"><span class="ginput_full" id="input_4_18_1_container"><input type="text" name="input_street" id="id_street" value="" tabindex="18"><label for="input_4_18_1" id="input_4_18_1_label">Street</label></span><br><span class="ginput_left" id="input_4_18_3_container"><input type="text" name="input_city" id="id_city" value="" tabindex="19"><label for="input_4_18_3" id="input_4_18.3_label">City</label></span><br><span class="ginput_right" id="input_4_18_4_container"><input type="text" name="input_state" id="id_state" value="" tabindex="21"><label for="input_4_18_4" id="input_4_18_4_label">State / Province / Region</label></span><br><span class="ginput_left" id="input_4_18_5_container"><input type="text" name="input_postcode" id="id_postcode" value="" tabindex="22"><label for="input_4_18_5" id="input_4_18_5_label">Zip / Postal Code</label></span><input type="hidden" class="bkx_hidden" name="input_18.6" id="input_4_18_6" value=""></div></li>');
-				
-			}
-			else 
-			{
-				$('li#field_4_18').hide();
-
-			}
-						
+			if(selected_radio == "YES" ) { $('li#field_4_18').show(); } else  { $('li#field_4_18').hide(); }	
 		});
 
 		});
-
-		
-
-		
 
 		$('#id_base_selector').bind('change', function(){
 					$('#id_booked_days').val(''); 
@@ -782,7 +766,7 @@ jQuery(document).ready(function($){
 				}
 				else
 				{	
-					alert("Couldn't list bases");
+					alert(url_obj.string_list_not_found);
 				}
 			});
 
@@ -865,7 +849,7 @@ jQuery(document).ready(function($){
 				//console.log(temp_obj[0].addition_alies);
 			var temp_option='';
 			if(temp_obj){
-			temp_option='<label class="gchoice_5_2_1 gfield_label ">Select '+temp_obj[0].addition_alies+' you require</label>';
+			temp_option='<label class="gchoice_5_2_1 gfield_label ">'+url_obj.select_a_text+' '+temp_obj[0].addition_alies+' '+url_obj.string_you_require+'</label>';
 			}
 			for (x in temp_obj)
 			{
@@ -941,11 +925,11 @@ function bkx_validate_form(source_val,destination_val)
 		var addition_list =  new Array();
 		if($('#myInputSeat').val()=="")
 		{
-			error_list.push("Please select a seat");
+			error_list.push(url_obj.string_select_a_seat);
 		}
 		if($('#id_base_selector').val()=="")
 		{
-			error_list.push("Please select a base");
+			error_list.push(url_obj.string_select_a_base);
 		}
 		if($("#extended_time").is(":visible"))
 		{
@@ -953,7 +937,7 @@ function bkx_validate_form(source_val,destination_val)
 						
 			if(extended_time== "" || extended_time== undefined)
 			{
-				error_list.push("Please enter extended base time");
+				error_list.push(url_obj.string_extend_base);
 			}
 		}
 		//alert($('.addition_name_class').length);
@@ -982,13 +966,13 @@ function bkx_validate_form(source_val,destination_val)
 		{
 			if($("#id_datepicker").val()=="")
 			{
-				error_list.push("Please choose a date");
+				error_list.push(url_obj.string_choose_date);
 			}
 			if($("#base_extended_calender").is(":visible"))
 			{
 				if($("#id_datepicker_extended").val()=="")
 				{
-					error_list.push("Please choose end date");		
+					error_list.push(url_obj.string_choose_enddate);		
 
 				}
 			}
@@ -998,11 +982,11 @@ function bkx_validate_form(source_val,destination_val)
 			}*/
 			if($("#time_options").val()=="")
 			{
-				error_list.push("Please choose time");		
+				error_list.push(url_obj.string_choose_time);		
 			}
 			if($("#id_can_proceed").val()==0)
 			{
-				error_list.push("Please select appropriate date time");		
+				error_list.push(url_obj.string_select_appropriate_date_time);		
 			}
 		}
 
@@ -1012,15 +996,15 @@ function bkx_validate_form(source_val,destination_val)
 	{
 		if($("#id_firstname").val()=="")
 		{
-			error_list.push("Please enter your first name");
+			error_list.push(url_obj.string_first_name);
 		}
 		if($("#id_lastname").val()=="")
 		{
-			error_list.push("Please enter your last name");
+			error_list.push(url_obj.string_last_name);
 		}
 		if($("#id_phonenumber").val()=="")
 		{
-			error_list.push("Please enter your phone");
+			error_list.push(url_obj.string_enter_phone);
 		}
 		else
 		{
@@ -1031,7 +1015,7 @@ function bkx_validate_form(source_val,destination_val)
 		}
 		if($("#id_email").val()=="")
 		{
-			error_list.push("Please enter your email");
+			error_list.push(url_obj.string_enter_email);
 		}
 		else
 		{
@@ -1050,36 +1034,36 @@ function bkx_validate_form(source_val,destination_val)
 		{
 			if($("#id_street").val()== "")
 			{
-				error_list.push("Please enter your Street.");
+				error_list.push(url_obj.string_enter_street);
 			}
 			if($("#id_city").val()== "")
 			{
-				error_list.push("Please enter your City.");
+				error_list.push(url_obj.string_enter_city);
 			}
 			if($("#id_state").val()== "")
 			{
-				error_list.push("Please enter your State / Province / Region.");
+				error_list.push(url_obj.string_enter_state);
 			}
 			if($("#id_postcode").val()== "")
 			{
-				error_list.push("Please enter your Zip / Postal Code.");
+				error_list.push(url_obj.string_enter_zip);
 			}
 		}
 
 		if ($("#id_terms").is(":checked")) {}
 	    else {
-	        error_list.push("Please checked our terms & condtion.");
+	        error_list.push(url_obj.string_checked_terms);
 	    }
 
 	    if ($("#id_privacy").is(":checked")) {}
 	    else {
-	        error_list.push("Please checked our privacy policy.");
+	        error_list.push(url_obj.string_checked_privacy);
 	    }
 
 	    if(enable_cancel_status == 1 ){
 	    	if ($("#id_cancellation").is(":checked")) {}
 		    else {
-		        error_list.push("Please checked our cancellation policy.");
+		        error_list.push(url_obj.string_checked_cancelltion);
 		    }
 	    }
 	    
@@ -1110,7 +1094,7 @@ function bkx_validate_form(source_val,destination_val)
 		$( "#bkx_progressbar_wrapper_4" ).progressbar({
 			value: 25*destination_val
 		});
-		$('h3.bkx_progressbar_title').html('Step '+destination_val+' of 4');
+		$('h3.bkx_progressbar_title').html(url_obj.step_text+' '+destination_val+' '+url_obj.step_text_of+' 4');
 		//alert("writing html here");
 		//start code for getting selected seat,base and additions			
 			var addition_list = new Array();
@@ -1186,11 +1170,11 @@ function bkx_validate_form(source_val,destination_val)
 				$("#id_total_duration").val(temp_data['time_output']);
 				// $("span#id_selected_addition").html(temp_data['addition_list']);
 				$(".booking_summary_data").html(temp_data['booked_summary']);
-				$(".booking_summary_cost").html('<li> <b> Total Cost : </b>'+temp_data['currency'] + ' '+ temp_data['total_price'] +'</li>');
-				$(".booking_summary_grand_total").html('<li> <b> Total Tax ('+ temp_data['tax_rate'] +'% '+ temp_data['tax_name'] +' ): </b>'+temp_data['currency'] + ' ' + temp_data['total_tax'] +'</li><li> <b> Grand Total : </b>'+temp_data['currency'] + ' '+ temp_data['grand_total'] +'</li>');
+				$(".booking_summary_cost").html('<li> <b> '+url_obj.total_cost+' : </b>'+temp_data['currency'] + ' '+ temp_data['total_price'] +'</li>');
+				$(".booking_summary_grand_total").html('<li> <b> '+url_obj.total_tax+' ('+ temp_data['tax_rate'] +'% '+ temp_data['tax_name'] +' ): </b>'+temp_data['currency'] + ' ' + temp_data['total_tax'] +'</li><li> <b> '+url_obj.grand_total+' : </b>'+temp_data['currency'] + ' '+ temp_data['grand_total'] +'</li>');
 				 
 				if(temp_data['booking_customer_note']!= 'zero'){
-				$(".booking_customer_note").html('<li> <b> Note : </b>'+ temp_data['booking_customer_note'] +'</li>');
+				$(".booking_customer_note").html('<li> <b> '+url_obj.note+' : </b>'+ temp_data['booking_customer_note'] +'</li>');
 				}
 				//$("span#id_selected_base11").html(temp_data['mob_only']);
 
@@ -1205,9 +1189,9 @@ function bkx_validate_form(source_val,destination_val)
 					var start_date 	= booking_multi_days[0];
 					var end_date 	= booking_multi_days[1];
 				}
-				$(".booking_summary_date").html('<li> <b> Date / Time : </b> '+ start_date +' To '+ end_date +'</li>');
+				$(".booking_summary_date").html('<li> <b> '+url_obj.date_time+' : </b> '+ start_date +' To '+ end_date +'</li>');
 			}else{
-				$(".booking_summary_date").html('<li> <b> Date / Time : </b>'+ $("#id_datepicker").val() +' at '+ $("#id_booking_time_from").val() +'</li>');
+				$(".booking_summary_date").html('<li> <b> '+url_obj.date_time+' : </b>'+ $("#id_datepicker").val() +' at '+ $("#id_booking_time_from").val() +'</li>');
 				$("span#id_selected_date").html($("#id_datepicker").val() + ' at ');
 			}
 			
@@ -1242,7 +1226,7 @@ function bkx_validate_form(source_val,destination_val)
       {  
         return (true)  
       }  
-        var error = "You have entered an invalid email address!"; 
+        var error = url_obj.string_invalid_email; 
         return (error);  
     }  
 
@@ -1369,13 +1353,13 @@ function check_staff_availability(seat_id,start_time,durations,booking_date,book
 
 				jQuery('#reassign_msg').addClass('updated');
 				jQuery('#reassign_msg').show();
-				jQuery('#reassign_msg').html('<b>Successfully Reassign.</b>');
+				jQuery('#reassign_msg').html('<b>'+string_success_reassign+'</b>');
 				$("#reassign_msg").fadeOut(3000,function(){jQuery('#reassign_msg').removeClass('updated');});
 
 				draw_rectangle(booking_record_id,name);
 				if(result_staff.length)
 				{
-					var temp_option='<option value="">Reassign Booking: </option>';
+					var temp_option='<option value=""> '+string_reassign_booking+' : </option>';
 					for(x in result_staff)
 					{
 						temp_option += "<option value='"+result_staff[x]['seat_id']+"'>"+result_staff[x]['name']+"</option>";
@@ -1384,7 +1368,7 @@ function check_staff_availability(seat_id,start_time,durations,booking_date,book
 				}
 			}
 			else{
-				alert('Sorry ! Something went wrong , Please try again.');
+				alert(url_obj.string_something_went);
 			}
 	});
 
