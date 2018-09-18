@@ -80,24 +80,24 @@ class BkxBooking {
     public function get_calculate_total()
     {
 
-    	$total = 0;
-    	$base_price = 0;
-    	$extra_price = 0;
+        $total = 0;
+        $base_price = 0;
+        $extra_price = 0;
 
-    	/** Get Base price */
-    	$BkxBase = $this->BkxBase;
-    	$base_price = $BkxBase->get_price();
+        /** Get Base price */
+        $BkxBase = $this->BkxBase;
+        $base_price = $BkxBase->get_price();
 
-    	/** Get Extra service price if selected multiple then calculate base on selection */
-    	$BkxExtra = $this->BkxExtra;
-    	if(!empty($BkxExtra)){
-    		foreach ($BkxExtra as $key => $ExtraObj) {
-    			$extra_price += $ExtraObj->get_price();
-    		}
-    	}
+        /** Get Extra service price if selected multiple then calculate base on selection */
+        $BkxExtra = $this->BkxExtra;
+        if(!empty($BkxExtra)){
+            foreach ($BkxExtra as $key => $ExtraObj) {
+                $extra_price += $ExtraObj->get_price();
+            }
+        }
 
-    	$total = $base_price + $extra_price;
-    	return apply_filters( 'bkx_booking_calculate_total', $total, $this );
+        $total = $base_price + $extra_price;
+        return apply_filters( 'bkx_booking_calculate_total', $total, $this );
     }
 
     /**
