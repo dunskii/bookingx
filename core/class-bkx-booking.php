@@ -106,6 +106,8 @@ class BkxBooking {
      */
     public function generate_order($post_data = null, $order_id = null)
     {
+
+ 
         if(empty($post_data))
             return;
 
@@ -537,6 +539,7 @@ class BkxBooking {
         global $wpdb;
 
         $date = $search['bookigndate'];
+
         $service_id = $search['service_id'];
         $status = (empty($search['status'])) ? 'bkx-pending' : $search['status'];
         $BkxBase = new BkxBase('',$service_id);
@@ -547,10 +550,18 @@ class BkxBooking {
             'post_type'  => $this->post_type,
             'post_status' => $status,
             'meta_query' => array(
-                array(
-                    'key'     => 'booking_date',
-                    'value'   => date('F j, Y',strtotime($date)),
-                    'compare' => '=',
+                'relation' => 'AND',
+                array('relation' => 'OR',
+                    array(
+                        'key'     => 'booking_date',
+                        'value'   => date('F j, Y',strtotime($date)),
+                        'compare' => '=',
+                    ),
+                    array(
+                        'key'     => 'booking_date',
+                        'value'   => date('m/d/Y',strtotime($date)),
+                        'compare' => '=',
+                    )
                 ),
                 array(
                     'key' => 'seat_id',

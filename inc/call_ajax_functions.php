@@ -943,7 +943,9 @@ function bkx_check_ifit_canbe_booked_callback()
     $bookingduration = sanitize_text_field($_POST['bookingduration']);
     $bookingdate = sanitize_text_field($_POST['bookingdate']);
     $order_statuses = array('bkx-pending', 'bkx-ack', 'bkx-completed', 'bkx-missed');
-    $update_order_slot = sanitize_text_field($_POST['update_order_slot']);
+    $update_order_slot  = sanitize_text_field($_POST['update_order_slot']);
+    $selected_order_id  = sanitize_text_field($_POST['selected_order_id']);
+    $current_order_id   = sanitize_text_field($_POST['order_id']);
     if (isset($_POST['seatid']) && $_POST['seatid'] == 'any' && bkx_crud_option_multisite('enable_any_seat') == 1 && bkx_crud_option_multisite('select_default_seat') != ''):
         $base_id = $_SESSION['_session_base_id'];
         //get current booking start time slot
@@ -1111,17 +1113,26 @@ function bkx_check_ifit_canbe_booked_callback()
         $resBookingTime = $BkxBooking->GetBookedRecords($search);
     endif;
 
+
     $bookingSlot = "";
     $arrTempExplode = array();
     $resBookingTime = apply_filters('bkx_customise_check_booking_data', $resBookingTime);
 
+    $order_id_by_date = array();
     if (!empty($resBookingTime)) {
         foreach ($resBookingTime as $temp) {
-            $bookingSlot .= $temp['full_day'];
+            $order_id_by_date[] = $temp['booking_record_id'];
+            if(isset($current_order_id) && $current_order_id!="" && $current_order_id != $temp['booking_record_id']){
+                $bookingSlot .= $temp['full_day'];
+            }
+            
         }
         $arrTempExplode = explode(',', $bookingSlot);
         $arrTempExplode = array_unique($arrTempExplode);
     }
+
+    // print_r($arrTempExplode);
+    // print_r($resBookingTime);
     //get current booking start time slot
     $bookinghour = explode(':', $start);
     $hours_temp = $bookinghour[0];
@@ -1235,6 +1246,9 @@ function bkx_check_ifit_canbe_booked_callback()
     $arr_output['no_of_slots'] = $numberOfSlotsToBeBooked;
     $arr_output['starting_slot'] = $startingSlotNumber;
     $arr_output['booking_date'] = $bookingdate;
+    $arr_output['order_id_by_date'] = $order_id_by_date;
+    $arr_output['selected_order_id'] = $selected_order_id;
+    $arr_output['current_order_id'] = $current_order_id;
     $output = json_encode($arr_output);
     echo $output;
     wp_die();
@@ -1388,6 +1402,7 @@ function bkx_displaytime_options_callback()
                 'status' => $order_statuses,
                 'seat_id' => sanitize_text_field($_POST['seatid']), 'display' => 1);
             $BkxBooking = new BkxBooking();
+            
             $objBookigntime = $BkxBooking->GetBookedRecords($search);
             if (!empty($objBookigntime)) {
                 $full_day = $objBookigntime[0]->full_day;
@@ -1503,15 +1518,15 @@ function bkx_displaytime_options_callback()
             <div class="booking-status"><?php echo sprintf(esc_html__('Open', 'bookingx'), ''); ?>
                 <div class="booking-status-open"></div>
             </div>
-        <?php if(isset($current_order_id) && $current_order_id!= 0){ ?>
-            <div class="booking-status"><?php echo sprintf(esc_html__('New', 'bookingx'), ''); ?>
-                <div class="booking-status-new"></div>
-            </div>
-        <?php }else{?>
             <div class="booking-status"><?php echo sprintf(esc_html__('Current', 'bookingx'), ''); ?>
                 <div class="booking-status-current"></div>
             </div>
-        <?php } ?>
+            <?php if(isset($current_order_id) && $current_order_id!= 0){ ?>
+            <div class="booking-status"><?php echo sprintf(esc_html__('New', 'bookingx'), ''); ?>
+                <div class="booking-status-new"></div>
+            </div>
+            <?php } ?>
+  
         </div>
         <br/>
         <div id="date_time_display">
