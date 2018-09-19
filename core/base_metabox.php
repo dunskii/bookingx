@@ -45,7 +45,7 @@ function bkx_base_boxes_metabox_callback($post)
     $base_time_option = isset($values['base_time_option']) ? esc_attr($values['base_time_option'][0]) : "";
     $base_month = isset($values['base_month']) ? esc_attr($values['base_month'][0]) : "";
     $base_day = isset($values['base_day']) ? esc_attr($values['base_day'][0]) : "";
-    $base_hours = isset($values['base_hours']) ? esc_attr($values['base_hours'][0]) : "";
+    $base_hours = isset($values['base_hours']) ? esc_attr($values['base_hours'][0]) : 0;
     $base_extended_limit = isset($values['base_extended_limit']) ? esc_attr($values['base_extended_limit'][0]) : "";
 
     $base_minutes = isset($values['base_minutes']) ? esc_attr($values['base_minutes'][0]) : "";
@@ -116,14 +116,9 @@ function bkx_base_boxes_metabox_callback($post)
     </div>
     <div class="active" id="hours_minutes" style="display: none">
         <?php printf(esc_html__('%1$s  Time In Hours and Minutes :', 'bookingx'), $base_alias); ?>
-
+        
         <div class="plugin-description">
-            <input name="base_hours_minutes" size="1" type="text" value="<?php if (!isset($base_hours)) {
-                echo 0;
-            }
-            if (isset($base_hours) && $base_hours != "") {
-                echo $base_hours;
-            } ?>" id="id_base_hours_minutes">
+            <input name="base_hours_minutes" size="1" type="text" value="<?php printf(esc_html__('%1$s', 'bookingx'), $base_hours); ?>" id="id_base_hours_minutes">
             <?php
             if (isset($base_minutes)) {
                 $baseMinute = $base_minutes;
@@ -148,7 +143,7 @@ function bkx_base_boxes_metabox_callback($post)
 
     </div>
     <div class="active" id="extended">
-        <?php printf(esc_html__('Can %1$s  time be extended :', 'bookingx'), $base_alias); ?>
+        <?php printf(esc_html__('Can %1$s time be extended :', 'bookingx'), $base_alias); ?>
         <div class="plugin-description">
             <ul class="gfield_radio" id="input_2_15">
                 <li class="gchoice_15_0"><?php //echo $base_is_extended;
