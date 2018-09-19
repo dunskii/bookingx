@@ -51,7 +51,7 @@ function bkx_base_boxes_metabox_callback($post)
     $base_minutes = isset($values['base_minutes']) ? esc_attr($values['base_minutes'][0]) : "";
     $base_is_extended = isset($values['base_is_extended']) ? esc_attr($values['base_is_extended'][0]) : "N";
     $base_is_location_fixed = isset($values['base_is_location_fixed']) ? esc_attr($values['base_is_location_fixed'][0]) : "";
-    $base_is_mobile_only = isset($values['base_is_mobile_only']) ? esc_attr($values['base_is_mobile_only'][0]) : "";
+    $base_is_mobile_only = isset($values['base_is_mobile_only']) ? esc_attr($values['base_is_mobile_only'][0]) : "N";
     $base_is_location_differ_seat = isset($values['base_is_location_differ_seat']) ? esc_attr($values['base_is_location_differ_seat'][0]) : "N";
     $base_street = isset($values['base_street']) ? esc_attr($values['base_street'][0]) : "";
     $base_city = isset($values['base_city']) ? esc_attr($values['base_city'][0]) : "";
@@ -249,7 +249,7 @@ function bkx_base_boxes_metabox_callback($post)
         </div>
     </div>
     <div class="active" id="mobile_only">
-        <?php esc_html_e('Is this base/resource a mobile only option? :', 'bookingx'); ?>
+        <?php printf(esc_html__('Is this %1$s a mobile only option ? ', 'bookingx'), $alias_seat); ?>
         <div class="plugin-description">
             <ul class="gfield_radio" id="input_2_mob_only">
                 <li class="gchoice_mob_only1">
