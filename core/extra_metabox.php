@@ -218,11 +218,9 @@ function bkx_extra_boxes_metabox_callback($post)
     </div>
 
     <p><strong><?php esc_html_e('Colour', 'bookingx'); ?></strong></p>
-    <p><?php printf(esc_html__('%1$s Colour', 'bookingx'), $alias_seat); ?></p>
+    <p><?php printf(esc_html__('%1$s Colour', 'bookingx'), $addition_alias); ?></p>
     <p><input type="text" name="extra_colour" id="id_extra_colour"
-              value="<?php if (isset($extra_colour) && ($extra_colour != '')) {
-                  echo $extra_colour;
-              } ?>"/></p>
+              value="<?php printf(esc_html__('%1$s', 'bookingx'), $extra_colour);?>"/></p>
 
     <!--only for edit form  -->
     <div class="active" id="is_unavailable">
