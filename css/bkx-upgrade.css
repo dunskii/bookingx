@@ -1809,8 +1809,7 @@ a.bigblue:hover {
         width: 100%;
     }
 
-}  
+}
+.available-services li, .available-extras li {padding:8px;margin-bottom: 12px;}
  
  
-
-
