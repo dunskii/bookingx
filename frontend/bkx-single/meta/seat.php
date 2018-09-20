@@ -41,11 +41,11 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
         //echo sprintf('<li><label>%s Availability : </label></li>',$bkx_seat->alias);
 
         if(!empty($seat_available_months)):
-        echo sprintf('<li><div class="months"><label>%s :</label><span> %s</span></li>','Months',implode(", ",$seat_available_months));
+        echo sprintf('<li><div class="months"><label>%s : %s </label> </li>','Months',implode(", ",$seat_available_months));
         endif;
 
         if(!empty($seat_available_days)):
-        echo sprintf('<li><div class="days"><label>%s :</label>%s</li>','<strong>Days of operations</strong>',$days);
+        echo sprintf('<li><div class="days"><label>%s : %s </label></li>','<strong>Days of operations</strong>',$days);
         endif;
 
         if(!empty($seat_payment_info)):
