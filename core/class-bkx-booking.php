@@ -387,9 +387,9 @@ class BkxBooking {
               'post_status' => 'publish',
               'numberposts' => 1
             );
-            if(!empty(get_posts($args) && !is_wp_error(get_posts($args)))){
-                $bkx_seat_posts = get_posts($args);
-                $bkx_seat_post = reset($bkx_seat_posts);
+            $seat_obj = get_posts($args);
+            if( !empty($seat_obj) && !is_wp_error($seat_obj) ){
+                $bkx_seat_post = reset($seat_obj);
                 if(!empty($bkx_seat_post)){
                    $seat_id = $bkx_seat_post->ID;
                    update_post_meta( $order_id, 'seat_id', $seat_id );
@@ -405,9 +405,9 @@ class BkxBooking {
               'post_status' => 'publish',
                'numberposts' => 1
             );
-            if(!empty(get_posts($args) && !is_wp_error(get_posts($args)))){
-                $bkx_base_posts = get_posts($args);
-                $bkx_base_post = reset($bkx_base_posts);
+            $base_obj = get_posts($args);
+            if( !empty($base_obj) && !is_wp_error($base_obj) ){
+                $bkx_base_post = reset($base_obj);
                 if(!empty($bkx_base_post)){
                     $base_id = $bkx_base_post->ID; 
                     update_post_meta( $order_id, 'base_id', $base_id );
@@ -427,9 +427,9 @@ class BkxBooking {
                       'numberposts' => 1
                     );
 
-                    if(!empty(get_posts($args) && !is_wp_error(get_posts($args)))){
-                        $bkx_addition_posts = get_posts($args);
-                        $bkx_addition_post = reset($bkx_addition_posts);
+                    $addition_obj = get_posts($args);
+                    if( !empty($addition_obj) && !is_wp_error($addition_obj) ){
+                        $bkx_addition_post = reset($addition_obj);
                         if(!empty($bkx_addition_post) && !is_wp_error($bkx_addition_post)){
                             $addiion_post_id = $bkx_addition_post->ID;
                             $addition_slug_data[] = $addiion_post_id;
