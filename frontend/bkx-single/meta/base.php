@@ -19,8 +19,9 @@
     echo sprintf('<li><h3>%s</h3></li>',__('Additional Information : ', 'bookingx'));
     if(!empty($DurationHMObj)):
         $hours  = isset($DurationHMObj['hours']) && $DurationHMObj['hours'] > 0 && $DurationHMObj['hours']!='' ? $DurationHMObj['hours'].' Hours ' : '';
-        $mins   = isset($DurationHMObj['minutes'])  && $DurationHMObj['minutes'] > 0 && $DurationHMObj['minutes']!='' ? $DurationHMObj['minutes'].' Minutes' : '';
-        $duration_text = $hours.' and '.$mins;
+        $hours  = isset($DurationHMObj['hours']) && $DurationHMObj['hours'] < 2 && $DurationHMObj['hours']!='' ? $DurationHMObj['hours'].' Hour ' : $hours;
+        $mins   = isset($DurationHMObj['minutes'])  && $DurationHMObj['minutes'] > 0 && $DurationHMObj['minutes']!='' ? " and {$DurationHMObj['minutes']} Minutes " : '';
+        $duration_text = "{$hours} {$mins}";
     endif;
 
     if(!empty($DurationDObj)):
