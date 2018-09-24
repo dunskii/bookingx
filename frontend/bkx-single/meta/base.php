@@ -1,9 +1,14 @@
 <?php
     if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
     global $bkx_base;
+    $bkx_alias_base = bkx_crud_option_multisite('bkx_alias_base');
     ?>
     <ul class="additional-info">
     <?php
+    $meta_data = $bkx_base->meta_data;
+
+    $base_location_type = isset($meta_data['base_location_type'][0]) ? esc_attr($meta_data['base_location_type'][0]) : "Fixed Location";
+    
     $Duration = $bkx_base->get_service_time();
     if((isset($Duration['H']))){
         $DurationHMObj = $Duration['H'];
@@ -29,13 +34,17 @@
 
     echo sprintf('<li><div class="durations"><label>%s :</label><span> %s</span></li>','Duration ',$duration_text);
 
-    echo sprintf('<li><div class="extended"><label>%s :</label><span> %s</span></li>','Can Service time be extended?',$extended_label);
+    echo sprintf(__('<li><div class="extended"><label>%2$s Time Extended :</label><span> %1$s</span></li>', 'bookingx'), $extended_label , $bkx_alias_base);
 
     $fixed_mobile = $bkx_base->get_service_fixed_mobile();
 
     $fixedObj   = $fixed_mobile['fixed'];
     $mobileObj  = $fixed_mobile['mobile'];
 
-    echo sprintf('<li><div class="fixed-mobile"><label>%s :</label><span> %s</span></li>','Is this Service in a fixed location or mobile?',$extended_label);
+    if ($base_location_type == "FM")
+    {
+        $base_location_type = "Fixed & Mobile";
+    }
+    echo sprintf(__('<li><div class="fixed-mobile"><label>%2$s Location :</label><span> %1$s</span></li>', 'bookingx'), $base_location_type , $bkx_alias_base);
     ?>
     </ul>
