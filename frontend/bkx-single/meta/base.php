@@ -45,6 +45,7 @@
     {
         $base_location_type = "Fixed & Mobile";
     }
-    echo sprintf(__('<li><div class="fixed-mobile"><label>%2$s Location :</label><span> %1$s</span></li>', 'bookingx'), $base_location_type , $bkx_alias_base);
+
+    echo sprintf(__('<li><div class="fixed-mobile"><label>This is a %1$s %2$s </label></li>', 'bookingx'), $base_location_type , $bkx_alias_base);
     ?>
     </ul>
