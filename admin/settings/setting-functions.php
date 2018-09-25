@@ -1,6 +1,6 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
-ob_start();
+
 if(!function_exists('bkx_setting_tabs'))
 {
     /**
@@ -126,4 +126,25 @@ function bkx_generate_days_section($set = 7 , $selected = array())
             $generate_html .='<div class="clear"></div></div>';
     }
 	return $generate_html;
+}
+
+function bkx_admin_success_message ( $key = null) {
+	$admin_success_msg = array(	'FIS'=> 	sprintf(__('%s','bookingx')	, 'File Imported successfully.'),
+								'PAU'=> 	sprintf(__('%s','bookingx')	, 'PayPal API Settings updated successfully.'),
+								'GAI'=> 	sprintf(__('%s','bookingx')	, 'Google Map API Settings updated successfully.'),
+								'OSE'=> 	sprintf(__('%s','bookingx')	, 'Other Settings updated successfully.'),
+								'COU'=> 	sprintf(__('%s','bookingx')	, 'Currency Settings updated successfully.'),
+								'RAU'=> 	sprintf(__('%s','bookingx')	, 'Role Assignment Settings updated successfully.'),
+								'ALU'=> 	sprintf(__('%s','bookingx')	, 'Alias Settings updated successfully.'),
+								'GCD'=> 	sprintf(__('%s','bookingx')	, 'Google Calendar Settings updated successfully.'),
+								'CSU'=> 	sprintf(__('%s','bookingx')	, 'Content Setting updated successfully.'),
+								'OSU'=> 	sprintf(__('%s','bookingx')	, 'Option Settings updated successfully.'),
+								'STU'=> 	sprintf(__('%s','bookingx')	, 'Styling Settings updated successfully.'),
+								'BIU'=> 	sprintf(__('%s','bookingx')	, 'Business Information Settings updated successfully.'),
+								'TSU'=> 	sprintf(__('%s','bookingx')	, 'Tax Settings updated successfully.'),
+								'DOP'=> 	sprintf(__('%s','bookingx')	, 'Days of Operations Settings updated successfully.'),
+							);
+	$admin_success_msg = apply_filters('bkx_admin_success_message', $admin_success_msg);
+
+	return $admin_success_msg[$key];
 }

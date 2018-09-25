@@ -14,15 +14,14 @@ $temp_css = bkx_crud_option_multisite('bkx_siteclient_canedit_css');
 	/*
 	 *  Print the error or success messages if any while processing.
 	*/	
-	if(isset($_SESSION['bkx_success']) && $_SESSION['bkx_success'] != '')
+
+	if(isset($_REQUEST['bkx_success']) && $_REQUEST['bkx_success'] != '')
 	{
-		echo '<div class="updated"><p><strong>'.$_SESSION['bkx_success'].'</strong></p></div>';
-		$_SESSION['bkx_success']	=	'';
+		echo '<div class="updated"><p><strong>'.bkx_admin_success_message($_REQUEST['bkx_success']).'</strong></p></div>';
 	}
-	else if(isset($_SESSION['bkx_error']) && $_SESSION['bkx_error'] != '')
+	else if(isset($_REQUEST['bkx_error']) && $_REQUEST['bkx_error'] != '')
 	{
 		echo '<div class="error"><p><strong>'.$_SESSION['bkx_error'].'</strong></p></div>';
-		$_SESSION['bkx_error']	=	'';
 	}
 
 $bkx_prices_include_tax = bkx_crud_option_multisite('bkx_prices_include_tax');
