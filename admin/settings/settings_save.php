@@ -1,5 +1,5 @@
 <?php
- if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 if(!empty($_POST))
 {
 	if(isset($_POST['api_flag']) && ($_POST['api_flag']==1))
@@ -9,7 +9,9 @@ if(!empty($_POST))
 		bkx_crud_option_multisite("bkx_api_paypal_password", sanitize_text_field($_POST['password']), 'update');
 		bkx_crud_option_multisite("bkx_api_paypal_signature", sanitize_text_field($_POST['signature']), 'update');
 
-		$_SESSION['bkx_success'] = esc_html('PayPal API updated successfully.');
+ 		$redirect = add_query_arg( array( 'bkx_success' =>  'PAU' ), $_SERVER['HTTP_REFERER'] );
+		wp_safe_redirect( $redirect );
+		wp_die();
 		
 	}
 
@@ -18,7 +20,9 @@ if(!empty($_POST))
 		$temp_gmap_key = bkx_crud_option_multisite('bkx_api_google_map_key');
 		bkx_crud_option_multisite("bkx_api_google_map_key", sanitize_text_field($_POST['gmap_key']), 'update');
 
-		$_SESSION['bkx_success']= esc_html('Google Map API updated successfully.');
+		$redirect = add_query_arg( array( 'bkx_success' =>  'GAI' ), $_SERVER['HTTP_REFERER'] );
+		wp_safe_redirect( $redirect );
+		wp_die();
 	}
 
 	if(isset($_POST['other_setting_flag']) && ($_POST['other_setting_flag']==1))
@@ -32,14 +36,19 @@ if(!empty($_POST))
 		if(!empty($bkx_dashboard_column)){
 			bkx_crud_option_multisite("bkx_dashboard_column", $bkx_dashboard_column,'update');
 		}
-		$_SESSION['bkx_success']='Other Setting updated successfully.';
+
+ 		$redirect = add_query_arg( array( 'bkx_success' =>  'OSE' ), $_SERVER['HTTP_REFERER'] );
+		wp_safe_redirect( $redirect );
+		wp_die();
 	}
 
 	if(isset($_POST['payment_option_flag']) && ($_POST['payment_option_flag']==1))
 	{
  		bkx_crud_option_multisite("currency_option", sanitize_text_field($_POST['currency_option']),'update');
 
-		$_SESSION['bkx_success']= esc_html('Currency option updated successfully.');
+ 		$redirect = add_query_arg( array( 'bkx_success' =>  'COU' ), $_SERVER['HTTP_REFERER'] );
+		wp_safe_redirect( $redirect );
+		wp_die();
 	}
 
         
@@ -47,7 +56,9 @@ if(!empty($_POST))
 	{
  		bkx_crud_option_multisite("bkx_seat_role", sanitize_text_field($_POST['bkx_seat_role']),'update');
 
-		$_SESSION['bkx_success']= esc_html('Role Assignment Setting updated successfully.');
+ 		$redirect = add_query_arg( array( 'bkx_success' =>  'RAU' ), $_SERVER['HTTP_REFERER'] );
+		wp_safe_redirect( $redirect );
+		wp_die();
 	}
     
      
@@ -61,7 +72,9 @@ if(!empty($_POST))
 		bkx_crud_option_multisite("bkx_notice_time_extended_text_alias", sanitize_text_field($_POST['bkx_notice_time_extended_text_alias']),'update');
 		bkx_crud_option_multisite("bkx_label_of_step1", sanitize_text_field($_POST['bkx_label_of_step1']),'update');
 
-		$_SESSION['bkx_success']= esc_html('Alias updated successfully.');
+ 		$redirect = add_query_arg( array( 'bkx_success' =>  'ALU' ), $_SERVER['HTTP_REFERER'] );
+		wp_safe_redirect( $redirect );
+		wp_die();
 	}
 
 
@@ -71,12 +84,18 @@ if(!empty($_POST))
 		bkx_crud_option_multisite("bkx_client_secret", sanitize_text_field($_POST['client_secret']),'update');
 		bkx_crud_option_multisite("bkx_redirect_uri", sanitize_text_field($_POST['redirect_uri']),'update');
 
-		$_SESSION['bkx_success']= esc_html('Google Calendar Details updated successfully.');
+ 		$redirect = add_query_arg( array( 'bkx_success' =>  'GCD' ), $_SERVER['HTTP_REFERER'] );
+		wp_safe_redirect( $redirect );
+		wp_die();
 	}
 
 	if(isset($_POST['google_calendar_id_flag']) && ($_POST['google_calendar_id_flag']==1))
 	{
 		bkx_crud_option_multisite("bkx_google_calendar_id", sanitize_text_field($_POST['calendar_id']),'update');
+
+		$redirect = add_query_arg( array( 'bkx_success' =>  '' ), $_SERVER['HTTP_REFERER'] );
+		wp_safe_redirect( $redirect );
+		wp_die();
 	}
 
 	if(isset($_POST['template_flag']) && ($_POST['template_flag']==1))
@@ -112,8 +131,9 @@ if(!empty($_POST))
                 }
         }
 
-
-		$_SESSION['bkx_success']= esc_html('Content Setting updated successfully.');
+		$redirect = add_query_arg( array( 'bkx_success' =>  'CSU' ), $_SERVER['HTTP_REFERER'] );
+		wp_safe_redirect( $redirect );
+		wp_die();
 		
 	}
 	
@@ -122,7 +142,9 @@ if(!empty($_POST))
  		bkx_crud_option_multisite("bkx_siteuser_canedit_seat", sanitize_text_field($_POST['can_edit_seat']),'update');
 		bkx_crud_option_multisite("bkx_siteclient_canedit_css", sanitize_text_field($_POST['can_edit_css']),'update');
 
-		$_SESSION['bkx_success']= esc_html('Option updated successfully.');
+		$redirect = add_query_arg( array( 'bkx_success' =>  'OSU' ), $_SERVER['HTTP_REFERER'] );
+		wp_safe_redirect( $redirect );
+		wp_die();
 	}
 	//@ruchira 8/1/2013 options for css customization 
 	if(isset($_POST['sitecss_flag']) && ($_POST['sitecss_flag']==1))
@@ -144,7 +166,10 @@ if(!empty($_POST))
 		bkx_crud_option_multisite("bkx_cal_month_title_color", sanitize_text_field($_POST['bkx_cal_month_title_color']),'update');
 		bkx_crud_option_multisite("bkx_cal_month_bg_color", sanitize_text_field($_POST['bkx_cal_month_bg_color']),'update');
 		bkx_crud_option_multisite("bkx_time_new_selected", sanitize_text_field($_POST['bkx_time_new_selected']),'update');
-		$_SESSION['bkx_success']= esc_html('Styling updated successfully.');
+
+		$redirect = add_query_arg( array( 'bkx_success' =>  'STU' ), $_SERVER['HTTP_REFERER'] );
+		wp_safe_redirect( $redirect );
+		wp_die();
 	}
 
 	if(isset($_POST['business_flag']) && ($_POST['business_flag']==1))
@@ -160,7 +185,9 @@ if(!empty($_POST))
 		bkx_crud_option_multisite("bkx_business_zip", sanitize_text_field($_POST['bkx_business_zip']),'update');
 		bkx_crud_option_multisite("bkx_business_country", sanitize_text_field($_POST['bkx_business_country']),'update');
 
-		$_SESSION['bkx_success']= esc_html('Business Information updated successfully.');
+ 		$redirect = add_query_arg( array( 'bkx_success' =>  'BIU' ), $_SERVER['HTTP_REFERER'] );
+		wp_safe_redirect( $redirect );
+		wp_die();
 	}
 
 	if(isset($_POST['days_operation_flag']) && ($_POST['days_operation_flag']==1))
@@ -197,6 +224,10 @@ if(!empty($_POST))
 		bkx_crud_option_multisite("bkx_biz_vac_ed", sanitize_text_field($_POST['bkx_biz_vac_ed']),'update');
 		bkx_crud_option_multisite("bkx_biz_pub_holiday", $biz_ph,'update');
 
+		$redirect = add_query_arg( array( 'bkx_success' =>  'DOP' ), $_SERVER['HTTP_REFERER'] );
+		wp_safe_redirect( $redirect );
+		wp_die();
+
 	}
 
 	if(isset($_POST['tax_option_flag']) && ($_POST['tax_option_flag']==1))
@@ -209,5 +240,9 @@ if(!empty($_POST))
 		bkx_crud_option_multisite("bkx_prices_include_tax", sanitize_text_field($_POST['bkx_prices_include_tax']),'update');
 
 		$_SESSION['bkx_success']= esc_html('Tax settings updated successfully.');
+
+		$redirect = add_query_arg( array( 'bkx_success' =>  'TSU' ), $_SERVER['HTTP_REFERER'] );
+		wp_safe_redirect( $redirect );
+		wp_die();
 	}
 }

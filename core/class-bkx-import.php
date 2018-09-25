@@ -85,9 +85,9 @@ class BkxImport
 					$bkx_users 		= $this->generate_bkx_users( $BkxUsers );
 
 					unlink($this->target_file);
-					$_SESSION['bkx_success'] =  'File imported successfully..';
-					wp_safe_redirect( $_SERVER['HTTP_REFERER'] );
-					exit;
+					$redirect = add_query_arg( array( 'bkx_success' => 'FIS' ), $_SERVER['HTTP_REFERER'] );
+					wp_safe_redirect( $redirect );
+					wp_die();
 				}
 		}	
 	}
