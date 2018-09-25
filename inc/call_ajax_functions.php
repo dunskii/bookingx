@@ -284,6 +284,17 @@ function bkx_cust_setting_callback()
 add_action('wp_ajax_bkx_cust_setting', 'bkx_cust_setting_callback');
 add_action('wp_ajax_nopriv_bkx_cust_setting', 'bkx_cust_setting_callback');
 
+function bkx_get_base_obj_by_id(){
+    if( isset($_POST['base_id']) && $_POST['base_id']!="" && $_POST['base_id']!= 0 ){
+        //$BaseObj    = get_post( $_POST['base_id'] );
+        $BaseMeta   = get_post_meta( $_POST['base_id'] );
+        echo json_encode($BaseMeta);
+    }
+    wp_die();
+}
+add_action('wp_ajax_bkx_get_base_obj_by_id', 'bkx_get_base_obj_by_id');
+add_action('wp_ajax_nopriv_bkx_get_base_obj_by_id', 'bkx_get_base_obj_by_id');
+
 //bkx_get_base_on_seat
 /**
  *
@@ -455,6 +466,7 @@ function bkx_get_base_on_seat_callback()
                     $base_is_unavailable = isset($values['base_is_unavailable']) ? esc_attr($values['base_is_unavailable'][0]) : "";
                     $base_unavailable_from = isset($values['base_unavailable_from']) ? esc_attr($values['base_unavailable_from'][0]) : "";
                     $base_unavailable_till = isset($values['base_unavailable_till']) ? esc_attr($values['base_unavailable_till'][0]) : "";
+                    $base_location_type = isset($values['base_location_type']) ? esc_attr($values['base_location_type'][0]) : "Fixed Location";
                     $res_seat_final = maybe_unserialize($values['base_selected_seats'][0]);
                     $res_seat_final = maybe_unserialize($res_seat_final);
                 }
@@ -473,6 +485,7 @@ function bkx_get_base_on_seat_callback()
                 $arr_base['base_list'][$counter]['base_name'] = $base_name;
                 $arr_base['base_list'][$counter]['base_price'] = $base_price;
                 $arr_base['base_list'][$counter]['base_time'] = $base_time;
+                $arr_base['base_list'][$counter]['base_location_type'] = $base_location_type;
                 $counter++;
             }
         }
@@ -525,7 +538,7 @@ function bkx_get_if_base_extended_callback()
         if (!empty($BaseObj) && !is_wp_error($BaseObj)) {
             $BaseMetaObj = get_post_custom($BaseObj->ID);
             $base_time_option = $BaseMetaObj['base_time_option'][0];
-            $base_extended = isset($BaseMetaObj['base_is_extended']) ? esc_attr($BaseMetaObj['base_is_extended'][0]) : "";
+            $base_extended = isset($BaseMetaObj['base_is_extended']) ? esc_attr($BaseMetaObj['base_is_extended'][0]) : "N";
             if ($base_time_option == "H") {
                 echo $base_extended;
             }

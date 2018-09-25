@@ -769,51 +769,8 @@ jQuery(document).ready(function($){
 					alert(url_obj.string_list_not_found);
 				}
 			});
-
-			
 		});
-	
-	var availableTags = 
-		[
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9",
-            "10"
-        ];
-        $( "#id_input_extended_time" ).autocomplete({
-            source: availableTags,
-	    minLength: 0,
-	    change: function( event, ui ) {
-			//if($(this).val()!="")
-			{
-				$("#id_clear_extended_time").css('visibility','visible');
-				//alert(event);
-				bkx_get_total_price('');
-			}		
-		}
-        }).focus(function(){
-           	if (this.value == "")
-                {
-                    $(this).autocomplete("search");
-                }
-		//$(this).trigger('keydown.autocomplete');
-        });
 
-	
-	//$("#id_clear_extended_time").css('position','relative');
-	$("#id_clear_extended_time").css('left','0px');
-	$("#id_clear_extended_time").click(function(){
-		$( "#id_input_extended_time" ).val('');
-		$("#id_clear_extended_time").css('visibility','hidden');
-		bkx_get_total_price('');
-	});
-	$("#id_clear_extended_time").css('visibility','hidden');
 
 	$('#id_base_selector').bind('change', function(){
 		var base_temp = $(this).val();
@@ -826,19 +783,44 @@ jQuery(document).ready(function($){
 		else
 		{
 			$('#extended_time').hide();
-			$.post(url_obj.bkx_ajax_url , { baseid: base_temp, action : 'bkx_get_if_base_extended' }, function(data) {
-			
-				if(data=="Y")
-				{
-					$('#extended_time').show();
-					$('#base_extended_calender').show();
+			 
+			$.post(url_obj.bkx_ajax_url, {base_id: base_temp, action : 'bkx_get_base_obj_by_id' }, function( base_data ) {
+				var base_data_obj = $.parseJSON( base_data );
+				var base_extended_limit = ( base_data_obj.base_extended_limit[0] ? base_data_obj.base_extended_limit[0] : 0 );
+				var base_time_option 	= base_data_obj.base_time_option[0];
+				var base_is_extended 	= ( base_data_obj.base_is_extended[0] ? base_data_obj.base_is_extended[0] : "N" );
+
+				if(base_is_extended == "Y"){$('#extended_time').show();$('#base_extended_calender').show();}
+				else if(base_is_extended == 'N'){$('#extended_time').hide();$('#base_extended_calender').hide();}
+
+				if( base_extended_limit != 0 ){
+					var extended_start = 1;
+					var extended_end = base_extended_limit;
+					var extended_start_arr = [];
+					while( extended_start <= base_extended_limit){
+					  	extended_start_arr.push(""+ extended_start++ +"" );
+					}
 				}
-				else if(data == 'N')
-				{
-					$('#extended_time').hide();
-					$('#base_extended_calender').hide();
+		        $( "#id_input_extended_time" ).autocomplete({
+		            source: extended_start_arr,
+			    minLength: 0,
+			    change: function( event, ui ) {
+					//if($(this).val()!="")
+					{
+						$("#id_clear_extended_time").css('visibility','visible');
+						//alert(event);
+						bkx_get_total_price('');
+					}		
 				}
+		        }).focus(function(){
+		           	if (this.value == "")
+		                {
+		                    $(this).autocomplete("search");
+		                }
+				//$(this).trigger('keydown.autocomplete');
+		        });
 			});
+
 		}
 		bkx_get_total_price('');
 
@@ -860,19 +842,18 @@ jQuery(document).ready(function($){
 			$('#id_addition_checkbox').html(temp_option);
 			
 		});
-		
-		
 	});
-
-	/*$("input[type='checkbox',name='input_addition']").bind("click", function(event, ui) {
-		alert('change detected');
-	 });
+	/**
+		Extent Base Functionality
 	*/
-	
-	/*$(":checkbox").bind("click",function(event, ui){
-		alert('clicked');
-		
-	});*/
+	//$("#id_clear_extended_time").css('position','relative');
+	$("#id_clear_extended_time").css('left','0px');
+	$("#id_clear_extended_time").click(function(){
+		$( "#id_input_extended_time" ).val('');
+		$("#id_clear_extended_time").css('visibility','hidden');
+		bkx_get_total_price('');
+	});
+	$("#id_clear_extended_time").css('visibility','hidden');
 	
     });//close document.ready function 
 

@@ -40,6 +40,7 @@ function bkx_base_boxes_metabox_callback($post)
 
     $values = get_post_custom($post->ID);
 
+
     //if(!empty($values) && !is_wp_error($values)){
     $base_price = isset($values['base_price']) ? esc_attr($values['base_price'][0]) : "";
     $base_time_option = isset($values['base_time_option']) ? esc_attr($values['base_time_option'][0]) : "";
