@@ -1277,8 +1277,6 @@ add_action('wp_ajax_nopriv_bkx_check_ifit_canbe_booked', 'bkx_check_ifit_canbe_b
  */
 function bkx_check_staff_availability_callback()
 {
-    require_once(BKX_PLUGIN_DIR_PATH . 'booking_general_functions.php');
-
     $seat_id = sanitize_text_field($_POST['seat_id']);
     $base_id = sanitize_text_field($_POST['base_id']);
     $start_date = sanitize_text_field($_POST['start_date']);
@@ -1300,9 +1298,7 @@ function bkx_check_staff_availability_callback()
         $old_seat = get_the_title($old_seat_id);
         $new_seat = get_the_title($seat_id);
         $BkxBookingObj->add_order_note(sprintf(__('Successfully update %1$s from %2$s to %3$s.', 'bookingx'), $alias_seat, $old_seat, $new_seat), 0, $manual);
-
         $status['name'] = $order_meta_data['first_name'] . ' ' . $order_meta_data['last_name'];
-
         $status['data'] = 1;
     else:
         $status['data'] = 4;
@@ -1325,7 +1321,6 @@ function bkx_check_staff_availability_callback()
 
 add_action('wp_ajax_bkx_check_staff_availability', 'bkx_check_staff_availability_callback');
 add_action('wp_ajax_nopriv_bkx_check_staff_availability', 'bkx_check_staff_availability_callback');
-
 
 //bkx_displaytime_options
 /**
