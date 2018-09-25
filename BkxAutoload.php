@@ -2,7 +2,7 @@
 /**
  * Includes for all generated classes files
  * @author BookingX
- * @version 0.5.18.09.20
+ * @version 0.5-beta
  */
 
 require_once('admin/settings/setting-functions.php');
