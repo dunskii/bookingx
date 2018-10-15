@@ -27,6 +27,8 @@ function bkx_create_seat_post_type()
 
 
     $alias_seat = bkx_crud_option_multisite('bkx_alias_seat');
+    $bkx_alias_base = bkx_crud_option_multisite('bkx_alias_base');
+    $bkx_alias_addition = bkx_crud_option_multisite('bkx_alias_addition');
     $alias_seat = isset($alias_seat) && $alias_seat != '' ? $alias_seat : "Resource";
     // Set UI labels for Custom Post Type
     $labels = array(
@@ -52,13 +54,45 @@ function bkx_create_seat_post_type()
             'title',
             'editor',
             'excerpt',
-            'thumbnail'
+            'thumbnail',
+
         ),
         'rewrite' => array(
             'slug' => sanitize_title($alias_seat)
         ),
         'show_in_menu' => 'edit.php?post_type=bkx_booking'
-    ));
+    )); 
+    $bkx_seat_taxonomy_status = bkx_crud_option_multisite( 'bkx_seat_taxonomy_status' );  
+
+
+    if( isset($bkx_seat_taxonomy_status) && $bkx_seat_taxonomy_status == 1 ){
+        // Category 
+        $labels = array(
+            'name'              => __( $alias_seat.' Category' , 'bookingx' ),
+            'singular_name'     => __( $alias_seat .' Category', 'bookingx' ),
+            'search_items'      => __( 'Search '.ucwords($alias_seat) .' Category'  , 'bookingx' ),
+            'all_items'         => __( 'All '.ucwords($alias_seat) .' Category'  , 'bookingx' ),
+            'parent_item'       => __( 'Parent '.ucwords($alias_seat) .' Category' , 'bookingx' ),
+            'parent_item_colon' => __( 'Parent '.ucwords($alias_seat) .' Category', 'bookingx' ),
+            'edit_item'         => __( 'Edit '.ucwords($alias_seat) .' Category' , 'bookingx' ),
+            'update_item'       => __( 'Update '.ucwords($alias_seat) .' Category'  , 'bookingx' ),
+            'add_new_item'      => __( 'Add New '.ucwords($alias_seat) .' Category'  , 'bookingx' ),
+            'new_item_name'     => __( 'New Category Name', 'bookingx' ),
+            'menu_name'         => __( 'Categories', 'bookingx' ),
+        );
+
+        register_taxonomy( 'bkx_seat_cat', array( 'bkx_seat' ), array(
+            'hierarchical'      => true,
+            'labels'            => $labels,
+            'show_ui'           => true,
+            'show_admin_column' => true,
+            'query_var'         => true,
+            'show_in_menu'      => true,
+            'rewrite'       => array(
+                'slug' => 'bkx-seat-category'
+            )
+        ) );
+    } 
 }
 
 /**
@@ -68,19 +102,19 @@ function bkx_create_seat_post_type()
 add_action('init', 'bkx_create_base_post_type');
 function bkx_create_base_post_type()
 {
-    $alias_base = bkx_crud_option_multisite('bkx_alias_base', "Service");
-    $alias_base = isset($alias_base) && $alias_base != '' ? $alias_base : "Service";
+    $bkx_alias_base = bkx_crud_option_multisite('bkx_alias_base');
+    $bkx_alias_base = isset($bkx_alias_base) && $bkx_alias_base != '' ? $bkx_alias_base : "Service";
     // Set UI labels for Custom Post Type
     $labels = array(
-        'name' => _x($alias_base, 'Post Type General Name', 'bookingx'),
-        'singular_name' => _x($alias_base, 'Post Type Singular Name', 'bookingx'),
-        'menu_name' => __($alias_base, 'bookingx'),
-        'all_items' => __($alias_base, 'bookingx'),
+        'name' => _x($bkx_alias_base, 'Post Type General Name', 'bookingx'),
+        'singular_name' => _x($bkx_alias_base, 'Post Type Singular Name', 'bookingx'),
+        'menu_name' => __($bkx_alias_base, 'bookingx'),
+        'all_items' => __($bkx_alias_base, 'bookingx'),
         'view_item' => __("View $alias_base", 'bookingx'),
-        'add_new_item' => __("Add New Service", 'bookingx'),
-        'add_new' => __("Add New Service", 'bookingx'),
-        'edit_item' => __("Edit Service", 'bookingx'),
-        'update_item' => __("Update Service", 'bookingx'),
+        'add_new_item' => __("Add New $alias_base", 'bookingx'),
+        'add_new' => __("Add New $alias_base", 'bookingx'),
+        'edit_item' => __("Edit $alias_base", 'bookingx'),
+        'update_item' => __("Update $alias_base", 'bookingx'),
         'search_items' => __("Search $alias_base", 'bookingx'),
         'not_found' => __('Not Found', 'bookingx'),
         'not_found_in_trash' => __('Not found in Trash', 'bookingx')
@@ -96,10 +130,35 @@ function bkx_create_base_post_type()
             'thumbnail'
         ),
         'rewrite' => array(
-            'slug' => sanitize_title($alias_base)
+            'slug' => sanitize_title($bkx_alias_base)
         ),
         'show_in_menu' => 'edit.php?post_type=bkx_booking'
     ));
+    $bkx_base_taxonomy_status = bkx_crud_option_multisite( 'bkx_base_taxonomy_status' );  
+
+    if( isset($bkx_base_taxonomy_status) && $bkx_base_taxonomy_status == 1 ){
+        // Category 
+        $labels = array(
+            'name'              => __( $bkx_alias_base .' Category' , 'bookingx' ),
+            'singular_name'     => __( $bkx_alias_base .' Category', 'bookingx' ),
+            'search_items'      => __( 'Search '.ucwords($bkx_alias_base) .' Category'  , 'bookingx' ),
+            'all_items'         => __( 'All '.ucwords($bkx_alias_base) .' Category' , 'bookingx' ),
+            'parent_item'       => __( 'Parent '.ucwords($bkx_alias_base).' Category'  , 'bookingx' ),
+            'parent_item_colon' => __( 'Parent '.ucwords($bkx_alias_base).' Category'  , 'bookingx' ),
+            'edit_item'         => __( 'Edit '.ucwords($bkx_alias_base).' Category'  , 'bookingx' ),
+            'update_item'       => __( 'Update '.ucwords($bkx_alias_base) .' Category' , 'bookingx' ),
+            'add_new_item'      => __( 'Add New '.ucwords($bkx_alias_base).' Category'  , 'bookingx' ),
+            'new_item_name'     => __( 'New '.ucwords($bkx_alias_base).' Category Name', 'bookingx' ),
+            'menu_name'         => __( 'Categories', 'bookingx' ),
+        );
+        register_taxonomy( 'bkx_base_cat', array( 'bkx_base' ), array(
+            'hierarchical'      => true,
+            'labels'            => $labels,
+            'show_ui'           => true,
+            'show_admin_column' => true,
+            'query_var'         => true,
+        ) );
+    }
 }
 
 /**
@@ -109,13 +168,16 @@ function bkx_create_base_post_type()
 add_action('init', 'bkx_create_addition_post_type');
 function bkx_create_addition_post_type()
 {
-    $alias_addition = bkx_crud_option_multisite('bkx_alias_addition', "Extra");
-    $alias_addition = isset($alias_addition) && $alias_addition != '' ? $alias_addition : "Extra";
+    $bkx_alias_addition = bkx_crud_option_multisite('bkx_alias_addition');
+    $bkx_alias_addition = isset($bkx_alias_addition) && $bkx_alias_addition != '' ? $bkx_alias_addition : "Extra";
+    $bkx_addition_taxonomy_status = bkx_crud_option_multisite( 'bkx_addition_taxonomy_status' );
+
+
     $labels = array(
-        'name' => _x($alias_addition, 'Post Type General Name', 'bookingx'),
-        'singular_name' => _x($alias_addition, 'Post Type Singular Name', 'bookingx'),
-        'menu_name' => __($alias_addition, 'bookingx'),
-        'all_items' => __($alias_addition, 'bookingx'),
+        'name' => _x($bkx_alias_addition, 'Post Type General Name', 'bookingx'),
+        'singular_name' => _x($bkx_alias_addition, 'Post Type Singular Name', 'bookingx'),
+        'menu_name' => __($bkx_alias_addition, 'bookingx'),
+        'all_items' => __($bkx_alias_addition, 'bookingx'),
         'view_item' => __("View $alias_addition", 'bookingx'),
         'add_new_item' => __("Add New Extra", 'bookingx'),
         'add_new' => __("Add New Extra", 'bookingx'),
@@ -136,10 +198,35 @@ function bkx_create_addition_post_type()
             'thumbnail'
         ),
         'rewrite' => array(
-            'slug' => sanitize_title($alias_addition)
+            'slug' => sanitize_title($bkx_alias_addition)
         ),
         'show_in_menu' => 'edit.php?post_type=bkx_booking'
     ));
+
+     if( isset($bkx_addition_taxonomy_status) && $bkx_addition_taxonomy_status == 1 ){
+        // Category 
+        $labels = array(
+            'name'              => __( $bkx_alias_addition .' Category', 'bookingx' ),
+            'singular_name'     => __( $bkx_alias_addition .' Category', 'bookingx' ),
+            'search_items'      => __( 'Search '.ucwords($bkx_alias_addition).' Category'  , 'bookingx' ),
+            'all_items'         => __( 'All '.ucwords($bkx_alias_addition).' Category'  , 'bookingx' ),
+            'parent_item'       => __( 'Parent '.ucwords($bkx_alias_addition).' Category'  , 'bookingx' ),
+            'parent_item_colon' => __( 'Parent '.ucwords($bkx_alias_addition).' Category' , 'bookingx' ),
+            'edit_item'         => __( 'Edit '.ucwords($bkx_alias_addition).' Category'  , 'bookingx' ),
+            'update_item'       => __( 'Update '.ucwords($bkx_alias_addition).' Category'  , 'bookingx' ),
+            'add_new_item'      => __( 'Add New '.ucwords($bkx_alias_addition).' Category'  , 'bookingx' ),
+            'new_item_name'     => __( 'New '.ucwords($bkx_alias_addition).' Category Name', 'bookingx' ),
+            'menu_name'         => __( 'Categories', 'bookingx' ),
+        );
+
+        register_taxonomy( 'bkx_addition_cat', array( 'bkx_addition' ), array(
+            'hierarchical'      => true,
+            'labels'            => $labels,
+            'show_ui'           => true,
+            'show_admin_column' => true,
+            'query_var'         => true,
+        ) );
+    }
 }
 
 /**
@@ -1509,10 +1596,88 @@ function bkx_checkIfSeatCanBeBooked($seatid, $totalduration)
 
 function bkx_admin_actions()
 {
+    $alias_seat = bkx_crud_option_multisite('bkx_alias_seat');
+    $bkx_alias_base = bkx_crud_option_multisite('bkx_alias_base');
+    $bkx_alias_addition = bkx_crud_option_multisite('bkx_alias_addition');
+    $bkx_seat_taxonomy_status = bkx_crud_option_multisite( 'bkx_seat_taxonomy_status' ); 
+    $bkx_base_taxonomy_status = bkx_crud_option_multisite( 'bkx_base_taxonomy_status' );
+    $bkx_addition_taxonomy_status = bkx_crud_option_multisite( 'bkx_addition_taxonomy_status' );
+
     add_submenu_page('edit.php?post_type=bkx_booking', __('Settings', 'bookingx'), __('Settings', 'bookingx'), 'manage_options', 'bkx-setting', 'bkx_setting_page_callback');
+
+    if( isset($bkx_seat_taxonomy_status) && $bkx_seat_taxonomy_status == 1 ){
+        add_submenu_page('edit.php?post_type=bkx_booking', __("$alias_seat Category", 'bookingx'), __("$alias_seat Category", 'bookingx'), 'manage_options', 'edit-tags.php?taxonomy=bkx_seat_cat&post_type=bkx_seat');
+    }
+
+    if( isset($bkx_base_taxonomy_status) && $bkx_base_taxonomy_status == 1 ){
+        add_submenu_page('edit.php?post_type=bkx_booking', __("$bkx_alias_base Category", 'bookingx'), __("$bkx_alias_base Category", 'bookingx'), 'manage_options', 'edit-tags.php?taxonomy=bkx_base_cat&post_type=bkx_base');
+    }
+
+    if( isset($bkx_addition_taxonomy_status) && $bkx_addition_taxonomy_status == 1 ){
+        add_submenu_page('edit.php?post_type=bkx_booking', __("$bkx_alias_addition Category", 'bookingx'), __("$bkx_alias_addition Category", 'bookingx'), 'manage_options', 'edit-tags.php?taxonomy=bkx_addition_cat&post_type=bkx_addition');
+    }
+}
+add_action('admin_menu', 'bkx_admin_actions');
+
+add_filter( 'custom_menu_order', 'bkx_reorder_admin_menu_pages' );
+
+function bkx_reorder_admin_menu_pages( $menu_ord ) 
+{
+    global $submenu;
+
+    // Enable the next line to see all menu orders
+    //echo '<pre>'.print_r($submenu ,true).'</pre>';
+    $arr = array();
+    $find_submenu = array();
+    if(!empty($submenu['edit.php?post_type=bkx_booking'])){
+        $submenu_obj = $submenu['edit.php?post_type=bkx_booking'];
+        foreach ($submenu_obj as $key => $submenu_data) {
+            //find Seat Post type Key
+            if($submenu_data[2] =='edit.php?post_type=bkx_seat')
+            {
+                $find_submenu['bkx_seat_post_type'] = $key;
+            }
+            if($submenu_data[2] ==  'edit-tags.php?taxonomy=bkx_seat_cat&post_type=bkx_seat')
+            {
+                $find_submenu['bkx_seat_category'] = $key;
+            }
+
+            if($submenu_data[2] =='edit.php?post_type=bkx_base')
+            {
+                $find_submenu['bkx_base_post_type'] = $key;
+            }
+            if($submenu_data[2] ==  'edit-tags.php?taxonomy=bkx_base_cat&post_type=bkx_base')
+            {
+                $find_submenu['bkx_base_category'] = $key;
+            }
+
+            if($submenu_data[2] =='edit.php?post_type=bkx_addition')
+            {
+                $find_submenu['bkx_addition_post_type'] = $key;
+            }
+            if($submenu_data[2] ==  'edit-tags.php?taxonomy=bkx_addition_cat&post_type=bkx_addition')
+            {
+                $find_submenu['bkx_addition_category'] = $key;
+            }
+
+
+        }
+    }
+
+    
+    $arr[] = $submenu['edit.php?post_type=bkx_booking'][5];     //my original order was 5,10,15,16,17,18
+    $arr[] = $submenu['edit.php?post_type=bkx_booking'][11];
+    $arr[] = $submenu['edit.php?post_type=bkx_booking'][$find_submenu['bkx_seat_category']];
+    $arr[] = $submenu['edit.php?post_type=bkx_booking'][12];
+    $arr[] = $submenu['edit.php?post_type=bkx_booking'][$find_submenu['bkx_base_category']];
+    $arr[] = $submenu['edit.php?post_type=bkx_booking'][13];
+    $arr[] = $submenu['edit.php?post_type=bkx_booking'][$find_submenu['bkx_addition_category']];
+    $arr[] = $submenu['edit.php?post_type=bkx_booking'][14];
+    $submenu['edit.php?post_type=bkx_booking'] = $arr;
+
+    return $menu_ord;
 }
 
-add_action('admin_menu', 'bkx_admin_actions');
 
 function bkx_plugin_add_settings_link($links)
 {

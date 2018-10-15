@@ -916,7 +916,7 @@ function bkx_get_duration_booking_callback()
     if (!empty($get_total_time_of_services) && $get_total_time_of_services != 0) {
         $bkx_total_time_of_services_formatted = bkx_total_time_of_services_formatted($get_total_time_of_services);
     }
-    //$booking_summary .= '<li><b>Total Time  : </b>'.$output_time.'</li></ul>';
+    
     $booking_summary .= sprintf(__('<li><b> Total Time : </b> %1$s </li></ul>', 'bookingx'), $bkx_total_time_of_services_formatted);
 
     $currency = bkx_get_current_currency();
