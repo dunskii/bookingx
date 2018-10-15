@@ -79,6 +79,43 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 <table cellspacing="0" class="widefat" style="margin-top:20px;">
 	<tbody>
 		<input type="hidden" name="template_flag" value="1">
+
+		<tr class="active">
+			<th scope="row"><label for="Enable $seat_alias Taxonomy"><?php printf( esc_html__( '%1$s', 'bookingx' ),  "Enable $seat_alias Taxonomy" ); ?></label></th>
+			 
+			<td class="plugin-description">
+					<div class="plugin-description">
+						<input type="radio" name="bkx_seat_taxonomy_status" id="id_enable_seat_taxonomy_yes" value="1" <?php if( bkx_crud_option_multisite('bkx_seat_taxonomy_status') == 1 ) echo "checked"; ?>><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Yes'  ); ?></br>
+						<input type="radio" name="bkx_seat_taxonomy_status" id="id_enable_seat_taxonomy_no" value="0" <?php if(bkx_crud_option_multisite('bkx_seat_taxonomy_status') == 0 ) echo "checked"; ?>>
+						<?php printf( esc_html__( '%1$s', 'bookingx' ),  'No'  ); ?> 
+					</div>
+			</td>
+		</tr>
+
+		<tr class="active">
+			<th scope="row"><label for="Enable $base_alias Taxonomy"><?php printf( esc_html__( '%1$s', 'bookingx' ),  "Enable $base_alias Taxonomy" ); ?></label></th>
+			 
+			<td class="plugin-description">
+					<div class="plugin-description">
+						<input type="radio" name="bkx_base_taxonomy_status" id="id_enable_base_taxonomy_yes" value="1" <?php if( bkx_crud_option_multisite('bkx_base_taxonomy_status') == 1 ) echo "checked"; ?>><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Yes'  ); ?></br>
+						<input type="radio" name="bkx_base_taxonomy_status" id="id_enable_base_taxonomy_no" value="0" <?php if(bkx_crud_option_multisite('bkx_base_taxonomy_status') == 0 ) echo "checked"; ?>>
+						<?php printf( esc_html__( '%1$s', 'bookingx' ),  'No'  ); ?> 
+					</div>
+			</td>
+		</tr>
+
+		<tr class="active">
+			<th scope="row"><label for="Enable $addition_alias Taxonomy"><?php printf( esc_html__( '%1$s', 'bookingx' ),  "Enable $addition_alias Taxonomy" ); ?></label></th>
+			 
+			<td class="plugin-description">
+					<div class="plugin-description">
+						<input type="radio" name="bkx_addition_taxonomy_status" id="id_bkx_addition_taxonomy_status_yes" value="1" <?php if( bkx_crud_option_multisite('bkx_addition_taxonomy_status') == 1 ) echo "checked"; ?>><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Yes'  ); ?></br>
+						<input type="radio" name="bkx_addition_taxonomy_status" id="id_bkx_addition_taxonomy_status_no" value="0" <?php if(bkx_crud_option_multisite('bkx_addition_taxonomy_status') == 0 ) echo "checked"; ?>>
+						<?php printf( esc_html__( '%1$s', 'bookingx' ),  'No'  ); ?> 
+					</div>
+			</td>
+		</tr>
+
 		 <tr class="active">
             	<th scope="row"><label for="Set Booking Page"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Set Booking Page' ); ?></label></th>
                     
@@ -99,12 +136,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
                                 );
                          wp_dropdown_pages($args); ?> Shortcode  : [bookingform]
                     </td>
-                    
-                    <tr class="active">
-				<td class="plugin-title" colspan="2" style="border-style: none;padding: 10px 200px;">
-					
-				</td>
-			</tr>
+        </tr>
 
 		<tr class="active">
 			<th scope="row"><label for="Status Pending (default)"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Status Pending (default)' ); ?> </label></th>

@@ -100,6 +100,10 @@ if(!empty($_POST))
 
 	if(isset($_POST['template_flag']) && ($_POST['template_flag']==1))
 	{
+		bkx_crud_option_multisite("bkx_seat_taxonomy_status", sanitize_text_field($_POST['bkx_seat_taxonomy_status']),'update');
+		bkx_crud_option_multisite("bkx_base_taxonomy_status", sanitize_text_field($_POST['bkx_base_taxonomy_status']),'update');
+		bkx_crud_option_multisite("bkx_addition_taxonomy_status", sanitize_text_field($_POST['bkx_addition_taxonomy_status']),'update');
+
 		bkx_crud_option_multisite("bkx_tempalate_status_pending", sanitize_text_field($_POST['status_pending']),'update');
 		bkx_crud_option_multisite("bkx_tempalate_status_ack", sanitize_text_field($_POST['status_ack']),'update');
 		bkx_crud_option_multisite("bkx_tempalate_status_complete", sanitize_text_field($_POST['status_complete']),'update');
@@ -132,8 +136,7 @@ if(!empty($_POST))
         }
 
 		$redirect = add_query_arg( array( 'bkx_success' =>  'CSU' ), $_SERVER['HTTP_REFERER'] );
-		wp_safe_redirect( $redirect );
-		wp_die();
+		wp_redirect( $redirect ); wp_die();
 		
 	}
 	
