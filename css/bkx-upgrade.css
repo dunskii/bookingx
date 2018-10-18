@@ -1042,13 +1042,6 @@ span.entry-view-section-break-bodikea {
     font-weight: 400
 }
 
-.filter-wrapper {
-    background: #434443;
-    margin-top: 10px;
-    height: 47px;
-    margin-bottom: 30px
-}
-
 .nav-bar-filter,
 .service-menu {
     margin: 0;
@@ -1434,14 +1427,6 @@ ul.nav-bar-filter li.active {
     width: 1080px;
     margin: 0 auto;
     z-index: 9
-}
-
-.filter-wrapper.fixed {
-    position: fixed;
-    top: 193px;
-    width: 1060px;
-    margin: 0 auto;
-    z-index: 9999
 }
 
 .hedding {
