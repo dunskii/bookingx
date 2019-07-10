@@ -3,20 +3,8 @@
  * Booking Form Step 2
  */
 defined( 'ABSPATH' ) || exit;?>
-<div class="step-2 bkx-form-deactivate" data-active="2">
+<div class="step-2 bkx-form-deactivate default" data-active="2" data-booking-style="default">
     <div class="user-detail">
-        <dl>
-            <dt>Staff name :</dt>
-            <dd>Resource 1</dd>
-        </dl>
-        <dl>
-            <dt>Service name :</dt>
-            <dd>Service QA 2018 - (1 Hour)</dd>
-        </dl>
-        <dl>
-            <dt>Total Time :</dt>
-            <dd>1 hour 15 minutes</dd>
-        </dl>
     </div>
     <div class="row px-lg-5 py-3">
         <div class="col-lg-5 col-md-6">
@@ -38,60 +26,6 @@ defined( 'ABSPATH' ) || exit;?>
             </div>
             <div class="select-time">
                 <table class="table table-bordered booking-slots" data-total_slots="0" data-starting_slot="0" data-date="">
-                    <tr>
-                        <td><a href="javascript:void(0);">0.00</a></td>
-                        <td><a href="javascript:void(0);">0.00</a></td>
-                        <td><a href="javascript:void(0);">0.00</a></td>
-                        <td><a href="javascript:void(0);">0.00</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="javascript:void(0);">0.00</a></td>
-                        <td><a href="javascript:void(0);">0.00</a></td>
-                        <td><a href="javascript:void(0);" class="selected">0.00</a></td>
-                        <td><a href="javascript:void(0);" class="selected">0.00</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="javascript:void(0);" class="selected">0.00</a></td>
-                        <td><a href="javascript:void(0);" class="selected">0.00</a></td>
-                        <td><a href="javascript:void(0);" class="selected">0.00</a></td>
-                        <td><a href="javascript:void(0);" class="selected">0.00</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="javascript:void(0);">0.00</a></td>
-                        <td><a href="javascript:void(0);">0.00</a></td>
-                        <td><a href="javascript:void(0);">0.00</a></td>
-                        <td><a href="javascript:void(0);">0.00</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="javascript:void(0);">0.00</a></td>
-                        <td><a href="javascript:void(0);">0.00</a></td>
-                        <td><a href="javascript:void(0);">0.00</a></td>
-                        <td><a href="javascript:void(0);">0.00</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="javascript:void(0);">0.00</a></td>
-                        <td><a href="javascript:void(0);">0.00</a></td>
-                        <td><a href="javascript:void(0);">0.00</a></td>
-                        <td><a href="javascript:void(0);">0.00</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="javascript:void(0);">0.00</a></td>
-                        <td><a href="javascript:void(0);">0.00</a></td>
-                        <td><a href="javascript:void(0);">0.00</a></td>
-                        <td><a href="javascript:void(0);">0.00</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="javascript:void(0);">0.00</a></td>
-                        <td><a href="javascript:void(0);">0.00</a></td>
-                        <td><a href="javascript:void(0);">0.00</a></td>
-                        <td><a href="javascript:void(0);">0.00</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="javascript:void(0);" class="disabled">0.00</a></td>
-                        <td><a href="javascript:void(0);" class="disabled">0.00</a></td>
-                        <td><a href="javascript:void(0);" class="disabled">0.00</a></td>
-                        <td><a href="javascript:void(0);" class="disabled">0.00</a></td>
-                    </tr>
                 </table>
             </div>
         </div>

@@ -9,6 +9,10 @@ class BkxBase {
      * @var mixed|void
      */
     public $alias;
+    /**
+     * @var string
+     */
+    public $post_title;
 
     /**
      * @var array
@@ -88,18 +92,24 @@ class BkxBase {
             switch_to_blog($blog_id);
         endif;
 
+
+        //Load Global Variables
+        $BkxBookingFormShortCode = new BkxBookingFormShortCode();
+        $this->load_global = $BkxBookingFormShortCode->load_global_variables();
+
         if (!empty($bkx_post->post_type)) {
             $this->bkx_post_type = $bkx_post->post_type;
         }
 
         if (!empty($bkx_post)) {
+            $this->id = $bkx_post->ID;
             $post_id = $bkx_post->ID;
         }
-
         if (isset($post_id) && $post_id != '') {
-            $post_id = $post_id;
+            $this->id = $post_id;
             $bkx_post = get_post($post_id);
         }
+        //echo '<pre>',print_r($bkx_post,1),'</pre>';die;
         $alias_base = bkx_crud_option_multisite('bkx_alias_base', "default");
         $this->alias = $alias_base;
         $this->post = $bkx_post;
@@ -112,11 +122,9 @@ class BkxBase {
         $this->get_service_unavailable = $this->get_service_unavailable();
         $this->booking_url = $this->get_booking_url();
         $this->booking_page_url = $this->get_booking_page_url();
+        $this->post_title = $this->get_title();
         $this->id = $post_id;
 
-        //Load Global Variables
-        $BkxBookingFormShortCode = new BkxBookingFormShortCode();
-        $this->load_global = $BkxBookingFormShortCode->load_global_variables();
 
          if(is_multisite()):
              restore_current_blog();
@@ -133,11 +141,12 @@ class BkxBase {
             switch_to_blog($blog_id);
         endif;
         $base_lists = $this->get_base_by_seat( $seat_id );
+
         if(!empty($base_lists)){
             $base_html = sprintf( __( '<option> Select %s </option>', 'bookingx' ), esc_html( $this->load_global->base ) );
             foreach ( $base_lists as $base_data ){
                 $base       = $base_data->post;
-                $base_name  = $base->post_title;
+                $base_name  = $base_data->post_title;
                 $base_id    = $base->ID;
                 $base_price         = get_post_meta( $base_id, 'base_price', true );
                 $base_time_option   = get_post_meta( $base_id, 'base_time_option', true );
@@ -146,7 +155,7 @@ class BkxBase {
                 $base_hours         = isset($base_time_option) && $base_time_option == "H" && $base_hours > 0 ? "{$base_hours} Hour": "" ;
                 $base_minutes       = get_post_meta( $base_id, 'base_minutes', true );
                 $base_hours         .=  isset($base_hours) && isset($base_minutes) && $base_minutes > 0 ? " {$base_minutes} Minutes" : "";
-                $base_html .= sprintf( __( '<option value="%d"> %s - %s%s%d - %s</option>', 'bookingx' ), $base_id, esc_html( $base_name ) ,$this->load_global->currency_name, $this->load_global->currency_sym, $base_price, $base_hours );
+                $base_html .= sprintf( __( '<option value="%d"> %s </option>', 'bookingx' ), $base_id, esc_html( $base_name ) );
             }
         }else{
             $base_html = esc_html("NORF");
@@ -164,46 +173,59 @@ class BkxBase {
      *
      * @return string
      */
-    public function get_title() {
-        if(empty($this->post))
+    public function get_title( ) {
+        $post_id =  $this->id;
+        if(empty($post_id))
             return;
-
-        $post_id            = $this->post->ID;
+        $bkx_post = get_post($post_id);
         $base_price         = get_post_meta( $post_id, 'base_price', true );
-        $base_time = $this->get_time();
-        $base_title = "{$this->post->post_title} - {$this->load_global->currency_name}{$this->load_global->currency_sym}{$base_price} - {$base_time['formatted']}";
-        return apply_filters( 'bkx_addition_title', $base_title, $this );
+        $base_time = $this->get_time( $post_id );
 
+        $base_title = "{$bkx_post->post_title} - {$this->load_global->currency_name}{$this->load_global->currency_sym}{$base_price} - {$base_time['formatted']}";
+        return apply_filters( 'bkx_addition_title', $base_title );
     }
 
-    public function get_time(){
-        $post_id            = $this->post->ID;
-        $base_time_option   = get_post_meta( $post_id, 'base_time_option', true );
-        $base_day           = get_post_meta( $post_id, 'base_day', true );
-        $base_months        = get_post_meta( $post_id, 'months', true );
+    public function get_time( $post_id = null ){
 
+        $post_id =  isset($post_id) ? $post_id : $this->id;
+
+        if(empty($post_id))
+            return;
+
+        $base_time_option   = get_post_meta( $post_id, 'base_time_option', true );
         $base_time = 0;
         if ($base_time_option == "H") {
             $base_hours         = get_post_meta( $post_id, 'base_hours', true );
             $base_minutes       = get_post_meta( $post_id, 'base_minutes', true );
-            $base_hours         = isset($base_time_option) && $base_time_option == "H" && ($base_hours > 0 && $base_hours <= 23) ? $base_hours: 0 ;
+            $base_hours         = isset($base_time_option) && $base_time_option == "H" && ( $base_hours > 0 && $base_hours <= 23 ) ? $base_hours: 0 ;
             $base_minutes       = isset($base_minutes) && $base_minutes > 0 ? $base_minutes : 0;
 
             $total_base_duration = ($base_hours * 60) + $base_minutes;
             $base_time          =  $total_base_duration;
             $base['formatted']  = bkx_total_time_of_services_formatted( $total_base_duration );
             $base['type']       = $base_time_option;
-        } else if ($base_time_option == "D" ) {
-            $base['formatted']  = sprintf(__('%1$s Days', 'bookingx'), $base_day);
+        }
+
+        if ($base_time_option == "D" ) {
+            $base_day           = get_post_meta( $post_id, 'base_day', true );
+            if(isset($base_day) && $base_day > 0 && $base_day < 2 ){
+                $base['formatted']  = sprintf(__('%1$s Day', 'bookingx'), $base_day);
+            }
+            if(isset($base_day) && $base_day > 0 && $base_day > 1 ){
+                $base['formatted']  = sprintf(__('%1$s Days', 'bookingx'), $base_day);
+            }
             $base_time          = $base_day * 24;
             $base['type']       = $base_time_option;
-        } else if ($base_time_option == "M") {
+        }
+
+        if ($base_time_option == "M") {
+            $base_months        = get_post_meta( $post_id, 'months', true );
             $base['formatted']  = sprintf(__('%1$s Months', 'bookingx'), $base_months);
             $base_time          = $base_months * 24 * 30;
             $base['type']       = $base_time_option;
         }
         $base['in_sec']     = $base_time * 60 ;
-        return apply_filters( 'bkx_addition_time', $base, $this );
+        return apply_filters( 'bkx_addition_time', $base );
     }
 
     /**
@@ -212,7 +234,7 @@ class BkxBase {
      */
     public function get_description() {
         $post_content = $this->post->post_content;
-        return apply_filters('bkx_base_description', $post_content, $this);
+        return apply_filters('bkx_base_description', $post_content);
     }
 
     /**
@@ -221,7 +243,7 @@ class BkxBase {
      */
     public function get_excerpts() {
         $post_excerpt = $this->post->post_excerpt;
-        return apply_filters('bkx_base_price', $post_excerpt, $this);
+        return apply_filters('bkx_base_price', $post_excerpt);
     }
 
     /**
@@ -422,6 +444,7 @@ class BkxBase {
         }
 
         $baseresult = new WP_Query($args);
+
         $BaseData = array();
         if ($baseresult->have_posts()) :
             while ($baseresult->have_posts()) : $baseresult->the_post();

@@ -243,27 +243,24 @@ function bkx_search_label( $query ){
     return wc_clean( wp_unslash( $_GET['s'] ) ); // WPCS: input var ok, sanitization ok.
 }
 
-function bkx_query_vars($qv){
+function bkx_query_vars( $qv ){
     $qv[] = 'search_by_dates';
     $qv[] = 'search_by_selected_date';
     $qv[] = 'seat_view';
     $qv[] = 'bkx_booking_search';
-
     return $qv;
 }
 
 add_action( 'pre_get_posts', 'bkx_add_meta_query');
 function bkx_add_meta_query( $query ){
     global $pagenow;
-
-    $seat_view = isset($query->query_vars['seat_view']) ? $query->query_vars['seat_view'] : '';
-    $search_by_dates = isset($query->query_vars['search_by_dates']) ? $query->query_vars['search_by_dates'] : '';
-    $search_by_selected_date = isset($query->query_vars['search_by_selected_date']) ? $query->query_vars['search_by_selected_date'] : '';
-    $search_by_selected_date = date('Y-m-d', strtotime($search_by_selected_date));
-
-    if(isset($pagenow) && $pagenow != 'edit.php'){
+    if ( isset($pagenow) && $pagenow != 'edit.php'  || $query->query_vars['post_type'] != 'bkx_booking') {
         return;
     }
+    $seat_view                  = isset($query->query_vars['seat_view']) ? $query->query_vars['seat_view'] : '';
+    $search_by_dates            = isset($query->query_vars['search_by_dates']) ? $query->query_vars['search_by_dates'] : '';
+    $search_by_selected_date    = isset($query->query_vars['search_by_selected_date']) ? $query->query_vars['search_by_selected_date'] : '';
+    $search_by_selected_date    = date('Y-m-d', strtotime($search_by_selected_date));
 
     if ( is_user_logged_in() ) {
         $current_user = wp_get_current_user();
@@ -282,9 +279,7 @@ function bkx_add_meta_query( $query ){
             $query->set('meta_query', $search_by_seat_post_meta);
         }
     }
-
     if ( isset($seat_view) && $seat_view > 0 ) {
-        echo $seat_view;
         $seat_view_query = array(
             array(
                 'key' => 'seat_id',
@@ -294,7 +289,6 @@ function bkx_add_meta_query( $query ){
         );
         $query->set('meta_query', $seat_view_query);
     }
-
     switch ($search_by_dates) {
         case 'today':
             $search_by_dates_meta = array(
@@ -318,7 +312,6 @@ function bkx_add_meta_query( $query ){
         case 'this_week':
             $monday = date('Y-m-d', strtotime('monday this week'));
             $sunday = date('Y-m-d', strtotime('sunday this week'));
-
             $search_by_dates_meta = array(
                 array(
                     'key' => 'booking_date',
@@ -339,10 +332,8 @@ function bkx_add_meta_query( $query ){
             );
             break;
         case 'this_month':
-
             $monday = date('Y-m-01');
             $sunday = date('Y-m-t');
-
             $search_by_dates_meta = array(
                 array(
                     'relation' => 'OR',
@@ -372,7 +363,6 @@ function bkx_add_meta_query( $query ){
             # code...
             break;
     }
-
     if (isset($query->query_vars['search_by_dates'])) {
         if (!empty($query->query_vars['search_by_dates'])) {
             $meta_query[] = $search_by_dates_meta;
@@ -380,20 +370,16 @@ function bkx_add_meta_query( $query ){
             $query->set('meta_query', $meta_query);
         }
     }
-
 }
 
 add_action('parse_query', 'bkx_booking_search_custom_fields');
 function bkx_booking_search_custom_fields( $wp ){
     global $pagenow;
-
     if ('edit.php' != $pagenow || empty($wp->query_vars['s']) || $wp->query_vars['post_type'] != 'bkx_booking') {
         return;
     }
-
     $order = new BkxBooking();
     $post_ids = $order->order_search($wp->query_vars['s']);
-
     if (!empty($wp->query_vars['s'])) {
         // Remove "s" - we don't want to search order name.
         unset($wp->query_vars['s']);
@@ -414,9 +400,7 @@ function bkx_booking_bulk_actions($actions){
 
 add_filter('post_row_actions', 'bkx_row_actions', 2, 100);
 function bkx_row_actions($actions, $post){
-    if (in_array($post->post_type, array(
-        'bkx_booking'
-    ))) {
+    if ( in_array( $post->post_type, array('bkx_booking') ) ) {
         if (isset($actions['inline hide-if-no-js'])) {
             unset($actions['inline hide-if-no-js']);
         }

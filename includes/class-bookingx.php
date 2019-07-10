@@ -207,7 +207,9 @@ class Bookingx {
         /**
          *  BKX Admin Files
          */
+        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/settings/settings_save.php';
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/settings/setting-functions.php';
+
 		$this->loader = new Bookingx_Loader();
 	}
 
@@ -296,5 +298,4 @@ class Bookingx {
 	public function get_version() {
 		return $this->version;
 	}
-
 }

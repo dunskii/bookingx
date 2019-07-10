@@ -7,30 +7,6 @@ defined( 'ABSPATH' ) || exit; ?>
     <div class="check-text">Please check your booking before proceeding:</div>
     <div class="user-detail bkx-booking-summary bg-gray px-3 py-4">
         <div class="row">
-            <div class="col-sm-6">
-                <dl>
-                    <dt>Staff name :</dt>
-                    <dd>Resource 1</dd>
-                </dl>
-                <dl>
-                    <dt>Service name : </dt>
-                    <dd>Service QA 2018 - (1 Hour)</dd>
-                </dl>
-                <dl>
-                    <dt>Total Time :</dt>
-                    <dd>1 hour 15 minutes</dd>
-                </dl>
-            </div>
-            <div class="col-sm-6">
-                <dl>
-                    <dt>Date :</dt>
-                    <dd>September 27, 2018</dd>
-                </dl>
-                <dl>
-                    <dt>Time : </dt>
-                    <dd>9:30 - 10:45</dd>
-                </dl>
-            </div>
         </div>
     </div>
     <div class="bkx-payment-method user-detail bg-white px-3 py-4"></div>

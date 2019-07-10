@@ -30,17 +30,14 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
 
             if( !empty($post) && $post->post_type != 'bkx_base')
                 return;
+
             $seat_alias = bkx_crud_option_multisite('bkx_alias_seat');
             $base_alias = bkx_crud_option_multisite('bkx_alias_base');
             wp_enqueue_script('iris');
-            wp_enqueue_script('jquery-ui-datepicker');
             wp_register_script("bkx-base-validate", BKX_PLUGIN_DIR_URL."public/js/admin/bkx-base-validate.js",false, BKX_PLUGIN_VER, true);
             $translation_array = array('plugin_url' => BKX_PLUGIN_DIR_URL, 'seat_alias' => $seat_alias, 'base_alias' => $base_alias);
             wp_localize_script('bkx-base-validate', 'base_obj', $translation_array);
             wp_enqueue_script( 'bkx-base-validate' );
-            $wp_scripts = wp_scripts();
-            wp_enqueue_style('bkx-admin-ui-css', '//ajax.googleapis.com/ajax/libs/jqueryui/' . $wp_scripts->registered['jquery-ui-core']->ver . '/themes/smoothness/jquery-ui.css',
-                false, BKX_PLUGIN_VER, false);
         }
 
         public function add_bkx_base_metaboxes() {
@@ -92,6 +89,7 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
             $base_colour = get_post_meta($post->ID, 'base_colour', true);
             //}
             $alias_seat = bkx_crud_option_multisite('bkx_alias_seat');
+
             ?>
             <div class="error" id="error_list" style="display:none;"></div>
 
@@ -113,9 +111,11 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
                         <option value="HourMinutes" <?php if ($base_time_option == "H") {
                             echo "selected='selected'";
                         } ?>><?php esc_html_e('Hour and Minutes', 'bookingx'); ?></option>
+                        <option value="Days" <?php if ($base_time_option == "D") {
+                            echo "selected='selected'";
+                        } ?>><?php esc_html_e('Days', 'bookingx'); ?></option>
                     </select>
                 </div>
-
             </div>
 
             <div class="active" id="months" style="display: none">
@@ -367,7 +367,7 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
             <div class="active" id="unavailable_from">
                 <?php printf(esc_html__('%1$s   Unavailable From :', 'bookingx'), $base_alias); ?>
                 <div class="plugin-description">
-                    <input type="text" name="base_unavailable_from" id="id_base_unavailable_from"
+                    <input type="text" autocomplete="off" name="base_unavailable_from" id="id_base_unavailable_from"
                            value="<?php if (isset($base_unavailable_from)) {
                                echo $base_unavailable_from;
                            } ?>">
@@ -376,7 +376,7 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
             <div class="active" id="unavailable_till">
                 <?php printf(esc_html__('%1$s  Unavailable Till :', 'bookingx'), $base_alias); ?>
                 <div class="plugin-description">
-                    <input type="text" name="base_unavailable_till" id="id_base_unavailable_till"
+                    <input autocomplete="off" type="text" name="base_unavailable_till" id="id_base_unavailable_till"
                            value="<?php if (isset($base_unavailable_till)) {
                                echo $base_unavailable_till;
                            } ?>">

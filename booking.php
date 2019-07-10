@@ -31,17 +31,18 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
 define('BKX_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__));
 define('BKX_PLUGIN_DIR_URL', plugin_dir_url(__FILE__));
 define('BKX_PLUGIN_PUBLIC_URL', BKX_PLUGIN_DIR_URL."public");
-define('BKX_PLUGIN_VER', '0.6.0-beta');
+//define('BKX_PLUGIN_VER', '0.6.0-beta');
+define('BKX_PLUGIN_VER', rand(1,999999999999999999));
 
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-bookingx-activator.php
  */
 
-
 function activate_bookingx() {
     require_once plugin_dir_path( __FILE__ ) . 'includes/class-bookingx-activator.php';
-    Bookingx_Activator::activate();
+    $Bookingx_Activator = new Bookingx_Activator();
+    $Bookingx_Activator->activate();
 }
 
 register_activation_hook( __FILE__, 'activate_bookingx' );

@@ -244,6 +244,7 @@ function bkx_get_template($template_name, $template_path = '') {
  * @return post object
  */
 function bkx_setup_post_data( $post ){
+
     if(is_multisite()):
         $blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
         switch_to_blog($blog_id);
@@ -383,6 +384,7 @@ function bkx_get_loader(){
 function bkx_getDatesFromRange($start, $end, $format = 'm/d/Y'){
     if (empty($start) && empty($end))
         return;
+    $range = array();
     $start  = strtotime ($start) ;
     $end    = date('Y-m-d', strtotime("+1 day", strtotime($end)));
     $new['first']   =   date('Y-m-d', $start ) ;
@@ -391,9 +393,9 @@ function bkx_getDatesFromRange($start, $end, $format = 'm/d/Y'){
     $date_interval = DateInterval::createFromDateString($interval);
     $periods = new DatePeriod(new DateTime($new['first']), $date_interval, new DateTime($new['last'])) ;
     foreach ($periods as $period) {
-        $array[] = $period->format($format);
+        $range[] = $period->format($format);
     }
-    return $array;
+    return $range;
 }
 
 function bkx_clean($var){
@@ -413,7 +415,7 @@ function bkx_get_order_statuses(){
         'bkx-cancelled' => _x('Cancelled', 'Order status', 'bookingx'),
         'bkx-failed' => _x('Failed', 'Order status', 'bookingx')
     );
-    return apply_filters('bkx_order_statuses', $order_statuses);
+    //return apply_filters('bkx_order_statuses', $order_statuses);
 }
 
 function bkx_setting_page_callback(){
@@ -463,6 +465,7 @@ function bkx_localize_string_text(){
         'string_choose_enddate'=> sprintf(__('%s.','bookingx'), 'Please choose a end date'),
         'string_choose_time'=> sprintf(__('%s.','bookingx'), 'Please choose time'),
         'string_select_date_time'=> sprintf(__('%s','bookingx'), 'Please select date and time.'),
+        'bkx_validate_day_select'=> sprintf(__('%s','bookingx'), 'Please select valid dates.'),
         'bkx_first_name'=> sprintf(__('%s.','bookingx'), 'Please enter your first name'),
         'bkx_last_name'=> sprintf(__('%s.','bookingx'), 'Please enter your last name'),
         'bkx_phone_number'=> sprintf(__('%s.','bookingx'), 'Please enter phone number'),
@@ -489,20 +492,31 @@ function bkx_localize_string_text(){
  * @return string
  * @throws Exception
  */
-function bkx_total_time_of_services_formatted($get_total_time_of_services = 0){
+function bkx_total_time_of_services_formatted( $get_total_time_of_services = 0 , $type = "H" ){
 
     if (!empty($get_total_time_of_services) && $get_total_time_of_services != 0) {
         $minutes = $get_total_time_of_services;
-        $zero = new DateTime('@0');
-        $offset = new DateTime('@' . $minutes * 60);
-        $diff = $zero->diff($offset);
-        // echo '<pre>', print_r($diff, 1), '</pre>';
-        if ($minutes > 60) {
-            $total_time_of_services_formatted = " ({$diff->format('%h Hours %i Minutes')})";
-        } elseif ($minutes == 60) {
-            $total_time_of_services_formatted = " ({$diff->format('%h Hour')})";
-        } else {
-            $total_time_of_services_formatted = " ({$diff->format('%i Minutes')})";
+
+        if($type == "H"){
+            $zero = new DateTime('@0');
+            $offset = new DateTime('@' . $minutes * 60);
+            $diff = $zero->diff($offset);
+            if ($minutes > 60) {
+                $total_time_of_services_formatted = " ({$diff->format('%h Hours %i Minutes')})";
+            } elseif ($minutes == 60) {
+                $total_time_of_services_formatted = " ({$diff->format('%h Hour')})";
+            } else {
+                $total_time_of_services_formatted = " ({$diff->format('%i Minutes')})";
+            }
+        }
+        if($type == "D"){
+            $base_day = $minutes / 24;
+            if(isset($base_day) && $base_day > 0 && $base_day < 2 ){
+                $total_time_of_services_formatted  = sprintf(__('%1$s Day', 'bookingx'), $base_day);
+            }
+            if(isset($base_day) && $base_day > 0 && $base_day > 1 ){
+                $total_time_of_services_formatted  = sprintf(__('%1$s Days', 'bookingx'), $base_day);
+            }
         }
     }
 
