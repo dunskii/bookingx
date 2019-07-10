@@ -151,6 +151,7 @@ class BkxPaymentCore {
 
 			$BkxBaseObj = new BkxBase('',$base_id);
 			$base_name = $BkxBaseObj->get_title();
+			$base_time = $BkxBaseObj->get_time($base_id);
 			$BkxSeatObj = new BkxSeat('',$seat_id);
             $seat_address = $BkxSeatObj->seat_personal_info;
             $business_address['street']  = bkx_crud_option_multisite("bkx_business_address_1");
@@ -185,7 +186,23 @@ class BkxPaymentCore {
 			if(isset($order_id)){
                 $base_name = str_replace('(', '', $base_name );
                 $base_name = str_replace(')', '', $base_name );
-
+                $date_format = "";
+                $end_time = date('H:i', strtotime($booking_meta_data['booking_end_date']));
+                $base_time_option   = get_post_meta( $order_id, 'base_time_option', true );
+                if(isset( $base_time_option ) && $base_time_option == "D"){
+                    $days_selected           = get_post_meta( $order_id, 'booking_multi_days', true );
+                    if(!empty($days_selected)){
+                        $last_key               = sizeof($days_selected) - 1;
+                        $start_date             = date('F d, Y',strtotime($days_selected[0]));
+                        $end_date               = date('F d, Y',strtotime($days_selected[$last_key]));
+                        $date_format            =  "{$start_date} To {$end_date}";
+                        $booking_duration       = $base_time['formatted'];
+                    }
+                }else{
+                    $date_format      =  date('F d, Y', strtotime($booking_meta_data['booking_date']));
+                    $booking_duration = str_replace('(', '', $booking_meta_data['total_duration'] );
+                    $booking_duration = str_replace(')', '', $booking_duration );
+                }
 				$payment_success_html .= '<div class="row"><div class="col-sm-12"><dl> <dt style="font-weight: bold;"> Details of your booking are as follow : </dt></dl></div></div>';
                 $payment_success_html .= "<div class=\"row\"><div class=\"col-sm-6\">";
                 $payment_success_html .= "<dl> <dt> {$seat_alias}</dt> :  <dd>{$seat_name}</dd></dl>";
@@ -194,13 +211,12 @@ class BkxPaymentCore {
                     $payment_success_html .= "<dl> <dt> {$addition_alias} </dt> :  <dd>{$extra_data}</dd></dl>";
                 }
                 $payment_success_html .= "</div>";
-                $booking_duration = str_replace('(', '', $booking_meta_data['total_duration'] );
-                $booking_duration = str_replace(')', '', $booking_duration );
-                $end_time = date('H:i', strtotime($booking_meta_data['booking_end_date']));
-                $booking_date = date('F d, Y', strtotime($booking_meta_data['booking_date']));
+
                 $payment_success_html .= "<div class=\"col-sm-6\">";
-                $payment_success_html .= "<dl> <dt> Date </dt> : <dd>  {$booking_date} </dd></dl>";
-                $payment_success_html .= "<dl> <dt> Time </dt> : <dd>  {$booking_meta_data['booking_time_from']} - {$end_time} </dd></dl>";
+                $payment_success_html .= "<dl> <dt> Date </dt> : <dd>  {$date_format} </dd></dl>";
+                if(isset( $base_time_option ) && $base_time_option == "H"){
+                    $payment_success_html .= "<dl> <dt> Time </dt> : <dd>  {$booking_meta_data['booking_time_from']} - {$end_time} </dd></dl>";
+                }
                 $payment_success_html .= "<dl> <dt> Duration </dt> :  <dd> {$booking_duration}  </dd></dl>";
                 $payment_success_html .= "</div></div>";
 

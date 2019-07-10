@@ -168,6 +168,9 @@ class CalendarYvv {
 					$('.calendar-day').find('.on-click-selected').each(function (index, value) {
 						$(this).removeClass('on-click-selected');
 					});
+                    $('.calendar-day').find('.day-click-selected').each(function (index, value) {
+                        $(this).removeClass('day-click-selected');
+                    });
 					$(e.target).addClass('on-click-selected');
 					clas_e.currentSelected = daySelec;
 					clas_e.funcPer(clas_e)

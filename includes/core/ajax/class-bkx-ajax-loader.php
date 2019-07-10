@@ -65,7 +65,7 @@ class Bkx_Ajax_Loader
         }
     }
 
-    /**
+    /**get_step_2_details
      * Hook in methods - uses WordPress ajax handlers (admin-ajax).
      */
     public static function add_ajax_events() {
@@ -125,8 +125,17 @@ class Bkx_Ajax_Loader
                     $service_extended_html .= sprintf( __( '<option value="%d"> %d </option>', 'bookingx' ), $e, $e );
                 }
             }
-            $result['extra_html']   = $extra_html;
-            $result['extended']     = $service_extended_html;
+            $bkx_booking_style = bkx_crud_option_multisite('bkx_booking_style');
+            $booking_style = ( ( !isset($bkx_booking_style) || $bkx_booking_style == "" ) ? "default" : $bkx_booking_style);
+            $base_time_option   = get_post_meta( $base_id, 'base_time_option', true );
+            $base_day           = get_post_meta( $base_id, 'base_day', true );
+            if(isset($base_time_option) && $base_time_option == 'D' && isset($base_day) && $base_day > 0 ){
+                $booking_style = "default";
+            }
+            $result['extra_html']       = $extra_html;
+            $result['extended']         = $service_extended_html;
+            $result['booking_style']    = $booking_style;
+            $result['time_option']      = $base_time_option;
             echo json_encode($result);
         }
         wp_die();
@@ -158,7 +167,8 @@ class Bkx_Ajax_Loader
             $args['is_admin']     = isset($_POST['is_admin']) ? sanitize_text_field( wp_unslash( $_POST['is_admin'] ) ) : false;
             $args['booking_date'] = sanitize_text_field( wp_unslash( $_POST['booking_date'] ) );
             $args['booking_time'] = sanitize_text_field( wp_unslash( $_POST['booking_time'] ) );
-
+            $args['time_option'] = sanitize_text_field( wp_unslash( $_POST['time_option'] ) );
+            $args['days_selected'] = wp_unslash( $_POST['booking_multi_days'] );
             $BkxBooking = new BkxBooking();
             echo $BkxBooking->get_step_3_booking_form_details( $args );
         }
@@ -211,6 +221,7 @@ class Bkx_Ajax_Loader
         $end_date =  date('Y-m-d', strtotime( $operation_type ));
         $args['booking_date'] = sanitize_text_field( wp_unslash( $_POST['booking_date'] ) );
         $get_date_range = bkx_getDatesFromRange( $args['booking_date'],$end_date, 'Y-m-d' ); //2019-6-3
+       // echo '<pre>',print_r($get_date_range,1),'</pre>';die;
         if(isset($args['type']) && $args['type'] != "" ){
             if( $args['type'] == 'next'  ){
                 $operation_type =  "+4 day" ;
@@ -236,9 +247,7 @@ class Bkx_Ajax_Loader
                 $BkxBooking->display_availability_slots_html( $args );
                 $availability_slots = ob_get_contents();
                 ob_end_clean();
-                $availability_slots_body .= '<div class="item"><div class="select-time">
-                        <table class="table table-bordered booking-slots '.$range.'" data-total_slots="0" data-starting_slot="0" data-date="'.$range.'">'.$availability_slots.'</table></div></div>';
-
+                $availability_slots_body .= '<div class="item"><div class="select-time"><table class="table table-bordered booking-slots '.$range.'" data-total_slots="0" data-starting_slot="0" data-date="'.$range.'">'.$availability_slots.'</table></div></div>';
             }
         }
         echo $availability_slots_body;
@@ -253,6 +262,33 @@ class Bkx_Ajax_Loader
             $args['extra_ids'] = array_map( 'absint', (array) isset( $_POST['extra_id'] ) ? wp_unslash( $_POST['extra_id'] ) : array() );
         }
         $args['booking_date'] = sanitize_text_field( wp_unslash( $_POST['booking_date'] ) );
+        //$bkx_booking_style = bkx_crud_option_multisite('bkx_booking_style');
+        //$booking_style = ( ( !isset($bkx_booking_style) || $bkx_booking_style == "" ) ? "default" : $bkx_booking_style);
+        $base_time_option   = get_post_meta( $args['base_id'], 'base_time_option', true );
+        $base_day           = get_post_meta( $args['base_id'], 'base_day', true );
+        $allowed[] = 0;
+        $availability_slot_flag = true;
+        if( isset($base_time_option) && $base_time_option == 'D' && isset($base_day) && $base_day > 0 ){
+            $start_date = $args['booking_date'];
+            $base_day = ($base_day > 1) ? ($base_day - 1) : 0;
+            $end_date =  date('Y-m-d', strtotime($start_date. " + {$base_day} days"));
+            $get_date_range = bkx_getDatesFromRange( $start_date, $end_date, 'Y-m-d' ); //2019-6-3
+            $availability   = $BkxBooking->get_booking_form_calendar_availability($args);
+            if(!empty($get_date_range) && $availability_slot_flag == true){
+                $allowed = array();
+                foreach ($get_date_range as $date ){
+                    $args['booking_date'] = $date;
+                    if(!empty($availability['unavailable_days']) && in_array( date("m/d/Y", strtotime( $date ) ), $availability['unavailable_days'])){
+                        $already_booked = array(0);
+                    }else{
+                        $already_booked = $BkxBooking->GetBookedRecords( $args );
+                    }
+                    $allowed[] = empty($already_booked) ? 1 : 0 ;
+                }
+            }
+            $args['days_range'] = bkx_getDatesFromRange( $start_date, $end_date, 'Y-m-j' ); //2019-6-3;
+        }
+        $args['allowed_day_book'] = $allowed;
         echo $availability_slots =  $BkxBooking->display_availability_slots_html( $args );
         //echo '<pre>', print_r($availability_slots, 1), '</pre>';
         wp_die();
@@ -305,23 +341,28 @@ class Bkx_Ajax_Loader
     }
 
     public static function book_now(){
+
         check_ajax_referer( 'book-now', 'security' );
         $Bkxbooking = new BkxBooking();
         $booking = array();
+
         $booking['meta_data']['redirect_to'] = "";
         $args['seat_id']        = sanitize_text_field( wp_unslash( $_POST['seat_id'] ) );
         $args['base_id']        = sanitize_text_field( wp_unslash( $_POST['base_id'] ) );
         $args['extra_ids']      = sanitize_text_field( wp_unslash( $_POST['extra_id'] ) );
         $args['service_extend'] = sanitize_text_field( wp_unslash( $_POST['service_extend'] ) );
-        $args['date'] = sanitize_text_field( wp_unslash( $_POST['date'] ) );
-        $args['slot'] = sanitize_text_field( wp_unslash( $_POST['starting_slot'] ) );
-        $args['time'] = sanitize_text_field( wp_unslash( $_POST['booking_time'] ) );
+        $args['date']           = sanitize_text_field( wp_unslash( $_POST['date'] ) );
+        $args['slot']           = sanitize_text_field( wp_unslash( $_POST['starting_slot'] ) );
+        $args['time']           = sanitize_text_field( wp_unslash( $_POST['booking_time'] ) );
+        $args['time_option']    = sanitize_text_field( wp_unslash( $_POST['time_option'] ) );
+        $args['booking_multi_days']  = wp_unslash( $_POST['booking_multi_days'] );
+        //echo '<pre>',print_r($args,1),'</pre>';die;
         $get_verify_slot = json_decode( $Bkxbooking->get_verify_slot( $args, false ) );
-        if(!empty($get_verify_slot) && $get_verify_slot->result == 1 ){
+        if(!empty($get_verify_slot) && $get_verify_slot->result == 1 ||  !empty($args['booking_multi_days'])){
             $booking = $Bkxbooking->generate_order($_POST);
             $pos = strpos($booking['meta_data']['last_page_url'], "post-new.php");
             if ($pos !== false) {
-                $booking['meta_data']['redirect_to'] = get_edit_post_link($booking['meta_data']['order_id'],'&');
+                $booking['meta_data']['redirect_to'] = get_edit_post_link( $booking['meta_data']['order_id'],'&' );
             }
         }
         echo ( !empty($booking['meta_data']['order_id']) ? json_encode($booking) : "NORF" );

@@ -48,10 +48,8 @@ class Bookingx_Admin {
 	 * @param      string    $version    The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
-
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-
 	}
 
     public function bkx_create_seat_post_type(){
@@ -353,8 +351,9 @@ class Bookingx_Admin {
 		 * class.
 		 */
 
-		//wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/bookingx-admin.css', array(), $this->version, 'all' );
-
+        $wp_scripts = wp_scripts();
+        wp_enqueue_style('bkx-admin-ui-css', '//ajax.googleapis.com/ajax/libs/jqueryui/' . $wp_scripts->registered['jquery-ui-core']->ver . '/themes/smoothness/jquery-ui.css',
+            false, BKX_PLUGIN_VER, false);
 	}
 
 	/**
@@ -375,12 +374,11 @@ class Bookingx_Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
-		//wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/bookingx-admin.js', array( 'jquery' ), $this->version, false );
+        wp_enqueue_script('jquery-ui-datepicker');
 
 	}
 
-    function bkx_booking_columns($existing_columns )
+    function bkx_booking_columns( $existing_columns )
     {
         $seat_alias     = bkx_crud_option_multisite( 'bkx_alias_seat' );
         $base_alias     = bkx_crud_option_multisite( 'bkx_alias_base' );
@@ -452,20 +450,44 @@ class Bookingx_Admin {
 
         $orderObj   = new BkxBooking();
         $order_meta = $orderObj->get_order_meta_data( $post->ID );
+        $base_id = $order_meta['base_id'];
+        $BkxBaseObj = new BkxBase('',$base_id);
+        $base_time = $BkxBaseObj->get_time( $base_id );
+        $base_time_option   = get_post_meta( $post->ID, 'base_time_option', true );
+        $base_time_option   = ( isset($base_time_option) && $base_time_option != "" )  ?  $base_time_option : "H";
+        $total_time = "-";
+        $date_format = bkx_crud_option_multisite( 'date_format' );
+        if( isset( $base_time_option ) && $base_time_option == "H"){
+            $total_time =  sprintf( __( '%s', 'bookingx' ), date( 'h:i A', strtotime( $order_meta[ 'booking_start_date' ] ) ), date( 'h:i A ', strtotime( $order_meta[ 'booking_end_date' ] ) ) );
+            //$duration   = sprintf( __( '%s', 'bookingx' ), $order_meta['total_duration'] );
+            $booking_duration = str_replace('(', '', $order_meta['total_duration'] );
+            $booking_duration = str_replace(')', '', $booking_duration );
+            $duration   = sprintf( __( '%s', 'bookingx' ), $booking_duration );
+            $date_data = sprintf( __( '%s', 'bookingx' ), date( $date_format, strtotime( $order_meta[ 'booking_date' ] ) ) );
+        }else{
+            $days_selected           = get_post_meta( $post->ID, 'booking_multi_days', true );
+            if(!empty($days_selected)){
+                $last_key           = sizeof($days_selected) - 1;
+                $start_date         = date('F d, Y',strtotime($days_selected[0]));
+                $end_date           = date('F d, Y',strtotime($days_selected[$last_key]));
+                $date_data          =  "{$start_date} To {$end_date}";
+                $duration   = sprintf( __( '%s', 'bookingx' ), $base_time['formatted'] );
+            }
+
+        }
         switch ( $column ) {
             case 'order_status':
                 $order_status = $orderObj->get_order_status( $post->ID );
                 echo sprintf( __( '%s', 'bookingx' ), $order_status );
                 break;
             case 'booking_date':
-                $date_format = bkx_crud_option_multisite( 'date_format' );
-                echo sprintf( __( '%s', 'bookingx' ), date( $date_format, strtotime( $order_meta[ 'booking_date' ] ) ) );
+                echo sprintf( __( '%s', 'bookingx' ), $date_data );
                 break;
             case 'booking_time':
-                echo sprintf( __( '%s', 'bookingx' ), date( 'h:i A', strtotime( $order_meta[ 'booking_start_date' ] ) ), date( 'h:i A ', strtotime( $order_meta[ 'booking_end_date' ] ) ) );
+                echo "{$total_time}";
                 break;
             case 'duration':
-                echo sprintf( __( '%s', 'bookingx' ), $order_meta['total_duration'] );
+                echo $duration;
                 break;
             case 'client_name':
                 echo sprintf( __( '%s %s', 'bookingx' ), $order_meta[ 'first_name' ], $order_meta[ 'last_name' ] );

@@ -198,10 +198,7 @@ class BkxBooking {
         $args['base_id']        = $post_data['base_id'];
         $args['extra_ids']      = $post_data['extra_id'];
         $args['service_extend'] = $post_data['service_extend'];
-
-
         $total_time = $this->booking_form_generate_total_time($args) ;
-
         $total_time_formatted = bkx_total_time_of_services_formatted($total_time['in_sec'] / 60);
         $booking_start_date  = date("Y-m-d H:i:s", strtotime(sanitize_text_field ($post_data['date']) . " " . sanitize_text_field ($post_data['booking_time'])));
         $booking_end_date    = date("Y-m-d H:i:s", strtotime(sanitize_text_field ($post_data['date']) . " " . sanitize_text_field ($post_data['booking_time']) ) + sanitize_text_field ($total_time['in_sec']) );
@@ -217,7 +214,6 @@ class BkxBooking {
             $booking_start_date     = date("Y-m-d H:i:s", strtotime(sanitize_text_field ($post_data['input_date']) . " " . sanitize_text_field ($post_data['booking_time_from'])));
             $booking_end_date       = date("Y-m-d H:i:s", strtotime(sanitize_text_field ($post_data['input_date']) . " " . sanitize_text_field ($post_data['booking_time_from']) ) + sanitize_text_field ($post_data['booking_duration_insec']) );
         }
-
         $generate_total    = $this->booking_form_generate_total( $args );
         $total_price = $generate_total['total_price'];
         $bkx_cal_total_tax = bkx_cal_total_tax ( $total_price );
@@ -229,6 +225,12 @@ class BkxBooking {
         }
         if( $bkx_prices_include_tax == 0 ){ //No, I will enter prices exclusive of tax
             $include_tax = 'plus';
+        }
+
+        if(isset($_POST['booking_multi_days']) && !empty($post_data['booking_multi_days'])) {
+            $booking_multi_days = explode(",", $post_data['booking_multi_days']);
+            $booking_start_date = date('Y-m-d H:i:s', strtotime($booking_multi_days[0]));
+            $booking_end_date = date('Y-m-d H:i:s', strtotime($booking_multi_days[1]));
         }
 
         if(!empty($bkx_cal_total_tax)){
@@ -286,6 +288,7 @@ class BkxBooking {
                 'booking_start_date'    =>  $booking_start_date,
                 'booking_end_date'      =>  $booking_end_date,
                 'booking_time_from'     =>  sanitize_text_field ($booking_time_from ),
+                'booking_multi_days'    => ( isset($post_data['booking_multi_days'] ) ? sanitize_text_field ($post_data['booking_multi_days'] ) : "" ),
                 'updated_by'            =>  $current_user->ID,
                 'updated_time'          =>  $curr_date,
                 'bkx_return_page_url'   =>  $return_url
@@ -325,6 +328,8 @@ class BkxBooking {
         $total_price = 0;
         $extended_time = isset($post_data['input_extended_time']) ? sanitize_text_field ($post_data['input_extended_time']) : "";
         //$total_price    = bkx_cal_total_price( sanitize_text_field ($post_data['base_id']), $extended_time , implode(",",$post_data['extra_id']) );
+
+        //echo '<pre>',print_r($post_data,1),'</pre>';die;
         $generate_total    = $this->booking_form_generate_total( $args );
         $total_price = $generate_total['total_price'];
         $bkx_cal_total_tax = bkx_cal_total_tax ( $total_price );
@@ -353,11 +358,13 @@ class BkxBooking {
             $total_price    = number_format((float)$total_price, 2, '.', '');
             $grand_total    = number_format((float)$total_price, 2, '.', '');
         }
-
+        $base_time_option   = get_post_meta( $args['base_id'], 'base_time_option', true );
         if(isset($_POST['booking_multi_days']) && !empty($post_data['booking_multi_days'])) {
-            $booking_multi_days = explode(",", $post_data['booking_multi_days']);
+            $booking_multi_days = wp_unslash( $post_data['booking_multi_days'] );
             $booking_start_date = date('Y-m-d H:i:s', strtotime($booking_multi_days[0]));
             $booking_end_date = date('Y-m-d H:i:s', strtotime($booking_multi_days[1]));
+            $base_days  = get_post_meta( $post_data['base_id'], 'base_day', true);
+            $post_data['date'] = date('Y-m-d', strtotime($booking_multi_days[0]));
         }
 
         $arrData = array(
@@ -393,8 +400,9 @@ class BkxBooking {
             'currency' => bkx_get_current_currency(),
             'currency_option' => bkx_crud_option_multisite( 'currency_option' ),
             'order_id' => isset($booking_id) ? $booking_id : "",
-            'booking_multi_days' => ( isset($post_data['booking_multi_days'] ) ? sanitize_text_field ($post_data['booking_multi_days'] ) : "" ),
-            'base_days' =>  ( isset($post_data['base_days'] ) ? sanitize_text_field ($post_data['base_days'] ) : "" ),
+            'base_time_option' => ( isset($base_time_option ) ? sanitize_text_field ( $base_time_option ) : "" ),
+            'booking_multi_days' => ( isset( $booking_multi_days ) ? $booking_multi_days : "" ),
+            'base_days' =>  ( isset($base_days ) ? sanitize_text_field ( $base_days ) : "" ),
             'update_order_slot' => ( isset($post_data['update_order_slot'] ) ? sanitize_text_field ($post_data['update_order_slot'] ) : "" )
         );
         return apply_filters( 'bkx_booking_collection_posts', $arrData );
@@ -444,9 +452,11 @@ class BkxBooking {
 
         $seat_obj   = get_post( $seat_id );
         $BkxBase = new BkxBase("", $base_id );
+        $base_time_option   = get_post_meta( $base_id, 'base_time_option', true );
 
         $total_time = $this->booking_form_generate_total_time($args) ; // In Sec
-        $total_time_formatted = bkx_total_time_of_services_formatted($total_time['in_sec'] / 60);
+        $total_time_in_sec = $total_time['in_sec'] / 60 ;
+        $total_time_formatted = bkx_total_time_of_services_formatted( $total_time_in_sec , $base_time_option );
         $extra_data = "";
 
         if( isset($args['extra_ids']) && !empty($args['extra_ids'])) {
@@ -489,14 +499,26 @@ class BkxBooking {
         $base_id                = $args['base_id'];
         $service_extend         = $args['service_extend'];
         $booking_date           = $args['booking_date']; //September 27, 2018
-        $date_format            = date('F d, Y',strtotime($booking_date));
-        $booking_time           = !empty($args['booking_time']) ? explode("|", $args['booking_time']) : array();
 
+        if(isset($args['time_option']) && $args['time_option'] == "D"){
+            $days_selected = $args['days_selected'];
+            $date_format = "";
+            if(!empty($days_selected)){
+                $last_key = sizeof($days_selected) - 1;
+                $start_date             = date('F d, Y',strtotime($days_selected[0]));
+                $end_date               = date('F d, Y',strtotime($days_selected[$last_key]));
+                $date_format            =  "{$start_date} To {$end_date}";
+            }
+        }else{
+            $date_format            = date('F d, Y',strtotime($booking_date));
+        }
+        $booking_time           = !empty($args['booking_time']) ? explode("|", $args['booking_time']) : array();
+        $base_time_option   = get_post_meta( $base_id, 'base_time_option', true );
         $seat_obj   = get_post( $seat_id );
         $BkxBase = new BkxBase("", $base_id );
-
         $total_time = $this->booking_form_generate_total_time($args) ; // In Sec
-        $total_time_formatted = bkx_total_time_of_services_formatted($total_time['in_sec'] / 60);
+        $total_time_in_sec = $total_time['in_sec'] / 60 ;
+        $total_time_formatted = bkx_total_time_of_services_formatted( $total_time_in_sec , $base_time_option );
         $extra_data = $dl_class = "";
         $dl_class =  ( ( isset($args['is_admin']) && $args['is_admin'] == true ) ? "admin" : "" );
         if( isset($args['extra_ids']) && !empty($args['extra_ids'])) {
@@ -675,8 +697,44 @@ class BkxBooking {
             }
         }
         $availability['extra']['unavailable']   = $extra_unavailable;
-        $availability['unavailable_days']       = $this->get_all_unavailable_days( $availability );
-
+        $base_time_option   = get_post_meta( $base_id, 'base_time_option', true );
+        $base_day           = get_post_meta( $base_id, 'base_day', true );
+        $booked_days = array();
+        $days_selected = array();
+        if(isset($base_time_option) && $base_time_option == 'D' && isset($base_day) && $base_day > 0 ){
+            $search['by'] = 'future';
+            $search['seat_id'] = $seat_id;
+            $search['booking_date'] = date('Y-m-d');
+            $booked_data = $this->GetBookedRecords( $search );
+            //echo '<pre>',print_r($booked_data,1),'</pre>';
+            if(!empty($booked_data)){
+                foreach ($booked_data as $booking ){
+                    $booking_id = $booking['booking_record_id'];
+                    $base_time_option   = get_post_meta( $booking_id, 'base_time_option', true );
+                    $base_time_option   = ( isset($base_time_option) && $base_time_option != "" )  ?  $base_time_option : "H";
+                    if(isset($base_time_option) && $base_time_option == 'D'){
+                        $days_booked = get_post_meta( $booking_id, 'booking_multi_days', true );
+                        if(!empty($days_booked)){
+                            $last_key = sizeof($days_booked) - 1;
+                            $start_date             = date('F d, Y',strtotime($days_booked[0]));
+                            $end_date               = date('F d, Y',strtotime($days_booked[$last_key]));
+                            $days_selected = bkx_getDatesFromRange( $start_date, $end_date, 'm/d/Y' );
+                        }
+                    }
+                    $date = new DateTime($booking['booking_date']);
+                    $now = new DateTime();
+                    if( $date >= $now ){
+                        $booked_days[] = date('m/d/Y', strtotime($booking['booking_date']));
+                    }
+                    $booked_days = array_merge( $booked_days, $days_selected);
+                }
+                $booked_days = array_unique($booked_days);
+            }
+        }
+        //echo '<pre>',print_r($booked_days,1),'</pre>';
+        $unavailable_days = $this->get_all_unavailable_days( $availability );
+        $availability['unavailable_days']       = array_merge( $unavailable_days, $booked_days );
+        //echo '<pre>',print_r($availability,1),'</pre>';
         return $availability;
     }
 
@@ -710,6 +768,7 @@ class BkxBooking {
             $blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
             switch_to_blog($blog_id);
         endif;
+
         $booking_default_date   = date("d/m/Y");
         $args['booking_date']   = isset($args['booking_date']) ? $args['booking_date'] : $booking_default_date;
         $selected_date  = date("m/d/Y", strtotime( $args['booking_date'] ) );
@@ -725,7 +784,6 @@ class BkxBooking {
         $base_alias             = bkx_crud_option_multisite("bkx_alias_base");
         $order_statuses         = array('bkx-pending', 'bkx-ack', 'bkx-completed', 'bkx-missed', 'bkx-ack');
         $current_order_id       = isset($_POST['order_id']) && $_POST['order_id']!="" ? $_POST['order_id'] : 0;
-
         $checked_booked_slots   = array();
 
         if (isset($args['booking_date'])) {
@@ -896,6 +954,7 @@ class BkxBooking {
         $args['booking_date'] = sanitize_text_field($args['date']);
         $booking_duration   = $this->booking_form_generate_total_time( $args ) ; // In Sec
         $availability_slots = $this->get_display_availability_slots( $args );
+
         $range_total        = sizeof($availability_slots['range']);
         $booking_duration   = $booking_duration['in_sec'];
         $booking_date       = sanitize_text_field($args['date']);
@@ -1080,6 +1139,9 @@ class BkxBooking {
         $arrTempExplode = array();
         $resBookingTime = apply_filters('bkx_customise_check_booking_data', $resBookingTime);
         $order_id_by_date = array();
+        $base_id              = sanitize_text_field($args['base_id']);
+        $base_time_option   = get_post_meta( $base_id, 'base_time_option', true );
+        $base_day           = get_post_meta( $base_id, 'base_day', true );
 
         if (!empty($resBookingTime)) {
             foreach ($resBookingTime as $temp) {
@@ -1110,23 +1172,38 @@ class BkxBooking {
             }
         }
         $startingSlotNumber = intval($hours_temp) * 4 + $counter;
-        $oneDayBooking = 0;
+
         $res = 1;
         $numberOfSlotsToBeBooked = 0;
 
-        if (in_array($startingSlotNumber, $arrTempExplode) && ($update_order_slot == 0 || $update_order_slot == '')) //return false if the start time exist in the booked slots
-        {
+
+        /**
+         * Return false if the start time exist in the booked slots
+         */
+        if (in_array($startingSlotNumber, $arrTempExplode) && ($update_order_slot == 0 || $update_order_slot == '')) {
             $res = 0;
         } else {
             $bookingDurationMinutes = ($booking_duration / 60);
             $numberOfSlotsToBeBooked = ($bookingDurationMinutes / 15);
             $lastSlotNumber = $startingSlotNumber + $numberOfSlotsToBeBooked;
-            if ($lastSlotNumber <= $range_total) {
-                $oneDayBooking = 1;
-            } else {
-                $oneDayBooking = 0;
+
+            if(isset($base_time_option) && $base_time_option == 'D' && isset($base_day) && $base_day > 0 )
+            {
+                $booking_duration = ( $range_total * $base_day * 15 );
+                $numberOfSlotsToBeBooked = ($booking_duration / 15);
+                $lastSlotNumber = $startingSlotNumber + $numberOfSlotsToBeBooked;
+                //echo " STart Slot :$startingSlotNumber AND  BD : $booking_duration AND NSBOOKED : $numberOfSlotsToBeBooked LAst slot : $lastSlotNumber";
             }
-            if ($oneDayBooking == 1) {
+
+             if(isset($base_time_option) && $base_time_option == 'D' && isset($base_day) && $base_day > 0 && $base_day < 2){
+                 $oneDayBooking = 1; ////for Single Day booking
+             }
+
+             if(isset($base_time_option) && $base_time_option == 'D' && isset($base_day) && $base_day > 0 && $base_day > 1){
+                $oneDayBooking = 0; //for Multi Day booking
+             }
+
+            if ( isset($oneDayBooking) && $oneDayBooking == 1 ) {
                 $arrBookingSlot = range($startingSlotNumber, $lastSlotNumber);
                 foreach ($arrBookingSlot as $temp) {
                     if (in_array($temp, $arrTempExplode) && ($update_order_slot == 0 || $update_order_slot == '')) {
@@ -1134,14 +1211,12 @@ class BkxBooking {
                         continue;
                     }
                 }
-            } else //for multi day booking
-            {
+            } else {
                 //first check for current day only
                 $lastSlotNumberTemp = $range_total;
                 $bookedInCurrentDay = ($range_total - $startingSlotNumber);
                 $numberOfSlotsRemaining = ($numberOfSlotsToBeBooked - $bookedInCurrentDay);
                 //for current day slots
-
                 $arrBookingSlot = range($startingSlotNumber, $lastSlotNumberTemp);
                 foreach ($arrBookingSlot as $temp) {
                     if (in_array($temp, $arrTempExplode)) {
@@ -1203,9 +1278,9 @@ class BkxBooking {
                 }
             }
         }
-
-
+        //echo $startingSlotNumber;
         $get_require_free_range = range( $startingSlotNumber,$lastSlotNumber );
+        //echo '<pre>',print_r($availability_slots,1),'</pre>';die;
         if(!empty($get_require_free_range)){
             foreach ($get_require_free_range as $req_slot ){
                 $res = ( in_array($req_slot, $availability_slots['booked_slots']) ) ? 0 : 1;
@@ -1230,14 +1305,33 @@ class BkxBooking {
     }
 
     public function display_availability_slots_html( $args ){
-        $availability_slots  = $this->get_display_availability_slots( $args );
+        $base_time_option   = get_post_meta( $args['base_id'], 'base_time_option', true );
+        $base_day           = get_post_meta( $args['base_id'], 'base_day', true );
+        $availability_slots = "";
+        $results = "";
+        $error = "";
+        if( isset($base_time_option) && $base_time_option == 'D' && isset($base_day) && $base_day > 0  ){
+            if( in_array(0, $args['allowed_day_book']) ){
+                $availability_slots = "None";
+            }else{
+                $results  = $args['days_range'];
+            }
+        }else{
+            $args['allowed_day_book'][] = 0;
+            $availability_slots  = $this->get_display_availability_slots( $args );
+        }
         $day_style_header = "";
-        if($this->load_global->booking_style == 'day_style'){
+
+        if($this->load_global->booking_style == 'day_style' && in_array(0, $args['allowed_day_book'])){
             $day_style_header = '<thead><tr><th colspan="4">'.date('F d, Y, l', strtotime($args['booking_date'])).'</th></tr></thead>';
         }
         if($availability_slots == "None"){
-            $results = "<tr><td><a href=\"javascript:void(0);\" class=\"disabled\">{$this->load_global->disable_slots_note}</a></td></tr>";
-        }else{
+            $results = "<tr><td colspan=\"4\"><a href=\"javascript:void(0);\" class=\"disabled\">{$this->load_global->disable_slots_note}</a></td></tr>";
+            if( isset($base_time_option) && $base_time_option == 'D' && isset($base_day) && $base_day > 0  ){
+                $error = $results;
+            }
+
+        }else if (!empty($availability_slots)){
             $step           = 15 * 60; // Timestamp increase interval to one cell ahead
             $counter        = 1;
             $first          = $availability_slots['first'];
@@ -1245,8 +1339,6 @@ class BkxBooking {
             $range          = $availability_slots['range'];
             $booked_slots   = $availability_slots['booked_slots'];
             $booked_slots_in_details  = $availability_slots['booked_slots_in_details'];
-
-            $results = "";
             $columns = 4;
 
             for ($cell_start = $first; $cell_start < $last; $cell_start = $cell_start + $step ) {
@@ -1262,7 +1354,13 @@ class BkxBooking {
                 $counter = $counter + 1;
             }
         }
-        echo $day_style_header.$results;
+        if( isset($base_time_option) && $base_time_option == 'D' && isset($base_day) && $base_day > 0  ){
+            $results = isset( $error ) && $error != "" ? "" : $results;
+            echo  $results = json_encode( array( 'data' => $results , 'error' => $error) );
+        }else{
+            echo $day_style_header.$results;
+        }
+
     }
 
     public function booking_form_generate_total_formatted($selected_ids ){
@@ -1295,15 +1393,12 @@ class BkxBooking {
     public function generate_order( $form_post_data, $order_id = null, $send_mail = true ) {
         if(empty($form_post_data))
             return;
-
         global $bkx_booking_data,$wpdb, $current_user;
-
         if( isset($form_post_data['order_id']) && $form_post_data['order_id'] != "" && $form_post_data['order_id'] != 0  ){
             $post_data = $this->UpdateBookingData($form_post_data['order_id'], $form_post_data );
         }else{
             $post_data = $this->CreateBookingData($form_post_data);
         }
-
         if(is_multisite()):
             $blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
             switch_to_blog($blog_id);
@@ -1330,6 +1425,9 @@ class BkxBooking {
         endif;
 
         $order_data['post_status']   =  'bkx-' . apply_filters( 'bkx_default_order_status', 'pending' );
+
+        //echo '<pre>',print_r($post_data,1),'</pre>';die;
+
         if( !isset($order_id) || $order_id == '' || $order_id == 0 )
         {
             $order_data['post_type']     = $this->post_type;
@@ -1876,7 +1974,6 @@ class BkxBooking {
         }
         if(isset($search['by']) && $search['by'] =='this_month' ){
             $args['meta_query'] = array();
-
             $args['meta_query'][] = array(
                 'relation' => 'AND',
                 array(
@@ -1904,7 +2001,7 @@ class BkxBooking {
                 ),
             );
         }
-        if(isset($seat_id) && $seat_id != " "){
+        if(isset($seat_id) && $seat_id != "" && $seat_id > 0){
             $args['meta_query'][] = array(
                 'key' => 'seat_id',
                 'value'   => $seat_id,
