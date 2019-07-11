@@ -18,11 +18,6 @@ $status = ( (isset($order_id) && $order_id != "") ? true : false ) ; ?>
                         <?php bkx_get_template('booking-form/steps/step-1.php');?>
                         <?php bkx_get_template('booking-form/steps/step-2.php');?>
                         <?php bkx_get_template('booking-form/steps/step-2b.php');?>
-                        <?php
-//                        $bkx_booking_style = bkx_crud_option_multisite('bkx_booking_style');
-//                            ( ( $bkx_booking_style == "" || $bkx_booking_style == 'default' ) ?
-//                            bkx_get_template('booking-form/steps/step-2.php') :
-//                            bkx_get_template('booking-form/steps/step-2b.php')  ); ?>
                         <?php bkx_get_template('booking-form/steps/step-3.php');?>
                         <?php bkx_get_template('booking-form/steps/step-4.php');?>
                     <?php endif;?>
