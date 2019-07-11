@@ -4,7 +4,7 @@ $bkx_export_file_name = BKX_PLUGIN_DIR_PATH."public/uploads/newfile.xml";
 $seat_alias = bkx_crud_option_multisite("bkx_alias_seat");
 $base_alias = bkx_crud_option_multisite("bkx_alias_base");
 $addition_alias = bkx_crud_option_multisite('bkx_alias_addition');
-$Bookingx_Admin = new Bookingx_Admin(  );
+$Bookingx_Admin = new Bookingx_Admin();
 if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 <!---Alias settings-->
 <h3> <?php printf( esc_html__( '%1$s', 'bookingx' ),  $bkx_general_submenu_label ); ?> </h3>
