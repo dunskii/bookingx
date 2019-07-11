@@ -4,7 +4,7 @@
  * Fired during plugin activation
  *
  * @link       https://dunskii.com
- * @since      0.6.0-beta
+ * @since      0.6.1-beta
  *
  * @package    Bookingx
  * @subpackage Bookingx/includes
@@ -15,7 +15,7 @@
  *
  * This class defines all code necessary to run during the plugin's activation.
  *
- * @since      0.6.0-beta
+ * @since      0.6.1-beta
  * @package    Bookingx
  * @subpackage Bookingx/includes
  * @author     Dunskii Web Services <divyang@dunskii.com>
@@ -27,7 +27,7 @@ class Bookingx_Activator {
 	 *
 	 * Long Description.
 	 *
-	 * @since    0.6.0-beta
+	 * @since    0.6.1-beta
 	 */
 	public function activate() {
         add_action( 'init', array( $this,'bkx_basic_set_up' ) );
