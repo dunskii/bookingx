@@ -268,9 +268,14 @@ class Bookingx {
         $this->loader->add_action( 'restrict_manage_posts', $plugin_admin, 'bkx_booking_search_by_dates', 2, 10 );
         $this->loader->add_action( 'restrict_manage_posts', $plugin_admin, 'bkx_booking_seat_view' , 2, 10 );
         $this->loader->add_action( 'restrict_manage_posts', $plugin_admin, 'bkx_booking_listing_view' , 2, 10 );
+        $this->loader->add_action( 'parse_query', $plugin_admin, 'bkx_booking_search_custom_fields' );
+        $this->loader->add_action( 'pre_get_posts', $plugin_admin, 'bkx_add_meta_query' );
+        $this->loader->add_action( 'init', $plugin_admin, 'export_now' );
+        $this->loader->add_action( 'init', $plugin_admin, 'import_now' );
 
         $this->loader->add_filter( 'manage_bkx_booking_posts_columns', $plugin_admin, 'bkx_booking_columns',  99, 2 );
         $this->loader->add_filter( 'post_type_link', $plugin_admin, 'bkx_change_view_link',  10, 2 );
+        $this->loader->add_filter( 'bulk_actions-edit-bkx_booking', $plugin_admin, 'bkx_booking_bulk_actions' );
     }
 
     /**

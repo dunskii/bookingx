@@ -47,7 +47,7 @@ class Bookingx_Admin {
 	 * @param      string    $plugin_name       The name of this plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
+	public function __construct( $plugin_name = null , $version = null) {
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
 	}
@@ -64,8 +64,6 @@ class Bookingx_Admin {
             bkx_crud_option_multisite("bkx_booking_style", "default",'update');
         }
         $alias_seat = bkx_crud_option_multisite('bkx_alias_seat');
-        $bkx_alias_base = bkx_crud_option_multisite('bkx_alias_base');
-        $bkx_alias_addition = bkx_crud_option_multisite('bkx_alias_addition');
         $alias_seat = isset($alias_seat) && $alias_seat != '' ? $alias_seat : "Resource";
         // Set UI labels for Custom Post Type
         $labels = array(
@@ -275,6 +273,150 @@ class Bookingx_Admin {
         }
     }
 
+    function bkx_booking_search_custom_fields( $wp ){
+        global $pagenow;
+        if ('edit.php' != $pagenow || empty($wp->query_vars['s']) || $wp->query_vars['post_type'] != 'bkx_booking') {
+            return;
+        }
+        $order = new BkxBooking();
+        $post_ids = $order->order_search($wp->query_vars['s']);
+        if (!empty($wp->query_vars['s'])) {
+            // Remove "s" - we don't want to search order name.
+            unset($wp->query_vars['s']);
+            // so we know we're doing this.
+            $wp->query_vars['bkx_booking_search'] = true;
+            // Search by found posts.
+            $wp->query_vars['post__in'] = $post_ids;
+        }
+    }
+
+    function bkx_add_meta_query( $query ){
+        global $pagenow;
+        if ( isset($pagenow) && $pagenow != 'edit.php'  || $query->query_vars['post_type'] != 'bkx_booking') {
+            return;
+        }
+        $seat_view                  = isset($query->query_vars['seat_view']) ? $query->query_vars['seat_view'] : '';
+        $search_by_dates            = isset($query->query_vars['search_by_dates']) ? $query->query_vars['search_by_dates'] : '';
+        $search_by_selected_date    = isset($query->query_vars['search_by_selected_date']) ? $query->query_vars['search_by_selected_date'] : '';
+        $search_by_selected_date    = date('Y-m-d', strtotime($search_by_selected_date));
+
+        if ( is_user_logged_in() ) {
+            $current_user = wp_get_current_user();
+            $bkx_seat_role = bkx_crud_option_multisite('bkx_seat_role');
+            $current_role = $current_user->roles[0];
+            if ($bkx_seat_role == $current_role) {
+                $current_seat_id = $current_user->ID;
+                $seat_post_id = get_user_meta($current_seat_id, 'seat_post_id', true);
+                $search_by_seat_post_meta = array(
+                    array(
+                        'key' => 'seat_id',
+                        'value' => $seat_post_id,
+                        'compare' => '=',
+                    ),
+                );
+                $query->set('meta_query', $search_by_seat_post_meta);
+            }
+        }
+        if ( isset($seat_view) && $seat_view > 0 ) {
+            $seat_view_query = array(
+                array(
+                    'key' => 'seat_id',
+                    'value' => $seat_view,
+                    'compare' => '=',
+                ),
+            );
+            $query->set('meta_query', $seat_view_query);
+        }
+        switch ($search_by_dates) {
+            case 'today':
+                $search_by_dates_meta = array(
+                    array(
+                        'key' => 'booking_date',
+                        'value' => date('Y-m-d'),
+                        'compare' => '=',
+                    ),
+                );
+                break;
+            case 'tomorrow':
+                $tomorrow = date("Y-m-d", strtotime("+1 day"));
+                $search_by_dates_meta = array(
+                    array(
+                        'key' => 'booking_date',
+                        'value' => $tomorrow,
+                        'compare' => '=',
+                    ),
+                );
+                break;
+            case 'this_week':
+                $monday = date('Y-m-d', strtotime('monday this week'));
+                $sunday = date('Y-m-d', strtotime('sunday this week'));
+                $search_by_dates_meta = array(
+                    array(
+                        'key' => 'booking_date',
+                        'value' => array($monday, $sunday),
+                        'compare' => 'BETWEEN',
+                    ),
+                );
+                break;
+            case 'next_week':
+                $monday = date('Y-m-d', strtotime('monday next week'));
+                $sunday = date('Y-m-d', strtotime('sunday next week'));
+                $search_by_dates_meta = array(
+                    array(
+                        'key' => 'booking_date',
+                        'value' => array($monday, $sunday),
+                        'compare' => 'BETWEEN',
+                    ),
+                );
+                break;
+            case 'this_month':
+                $monday = date('Y-m-01');
+                $sunday = date('Y-m-t');
+                $search_by_dates_meta = array(
+                    array(
+                        'relation' => 'OR',
+                        array(
+                            'key' => 'booking_date',
+                            'value' => array($monday, $sunday),
+                            'compare' => 'BETWEEN',
+                        ),
+                        array(
+                            'key' => 'booking_date',
+                            'value' => array( date('Y-n-1'), $sunday),
+                            'compare' => 'BETWEEN',
+                        ),
+                    )
+                );
+                break;
+            case 'choose_date':
+                $search_by_dates_meta = array(
+                    array(
+                        'key' => 'booking_date',
+                        'value' => $search_by_selected_date,
+                        'compare' => '=',
+                    ),
+                );
+                break;
+            default:
+                # code...
+                break;
+        }
+        if (isset($query->query_vars['search_by_dates'])) {
+            if (!empty($query->query_vars['search_by_dates'])) {
+                $meta_query[] = $search_by_dates_meta;
+                $meta_query[] = $seat_view_query;
+                $query->set('meta_query', $meta_query);
+            }
+        }
+    }
+
+    function bkx_booking_bulk_actions($actions){
+        if (isset($actions['edit'])) {
+            unset($actions['edit']);
+        }
+        return $actions;
+    }
+
     function register_bookingx_post_status() {
         $order_statuses = apply_filters('bookingx_register_bkx_booking_post_statuses', array(
             'bkx-pending' => array(
@@ -377,6 +519,21 @@ class Bookingx_Admin {
         wp_enqueue_script('jquery-ui-datepicker');
 
 	}
+
+	public function export_now(){
+	    if(isset($_POST['export_xml']) && sanitize_text_field($_POST['export_xml']) == "Export xml") :
+            $BkxExportObj = new BkxExport();
+            $BkxExportObj->export_now();
+            die;
+        endif;
+    }
+
+    public function import_now(){
+        if(isset($_POST['import_xml']) && sanitize_text_field($_POST['import_xml']) == "Import Xml") :
+            $BkxImport = new BkxImport();
+            $BkxImport->import_now($_FILES,$_POST);
+        endif;
+    }
 
     function bkx_booking_columns( $existing_columns )
     {
@@ -860,5 +1017,4 @@ class Bookingx_Admin {
             <?php }
         }
     }
-
 }

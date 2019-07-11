@@ -14,6 +14,15 @@ jQuery( function( $ ) {
         return (_arr.length > 0) ? _arr : 'None';
     };
 
+    var IsJsonString = function (str) {
+        try {
+            JSON.parse(str);
+        } catch (e) {
+            return false;
+        }
+        return true;
+    };
+
     var GetCurrentStep = function () {
         var current_obj = $(".bkx-booking-form").find(".bkx-form-active").data( "active" );
         return current_obj;
@@ -816,7 +825,6 @@ jQuery( function( $ ) {
             }
             availability_slots.html("");
             booking_form.days_selected = "";
-
             $.ajax( {
                 type    :        'POST',
                 url     :        get_url('display_availability_slots'),
@@ -824,20 +832,21 @@ jQuery( function( $ ) {
                 dataType:       'html',
                 success: function( response ) {
                     if(response != 'NORF'){
-                        //availability_slots.html( response );
-                        var result = jQuery.parseJSON(response);
-                        if(typeof result =='object') {
-                            if(result.data){
-                                var date_range = result.data;
-                                booking_form.days_selected = date_range;
-                                $.each(date_range, function( index, value ) {
-                                    $('.calendar-day').find("[data-date='" + value + "']").addClass('day-click-selected');
-                                });
-                            }else if(result.error){
-                                availability_slots.html(result.error);
+                        if( IsJsonString(response) == true ){
+                            var result = jQuery.parseJSON(response);
+                            if(typeof result =='object') {
+                                if(result.data){
+                                    var date_range = result.data;
+                                    booking_form.days_selected = date_range;
+                                    $.each(date_range, function( index, value ) {
+                                        $('.calendar-day').find("[data-date='" + value + "']").addClass('day-click-selected');
+                                    });
+                                }else if(result.error){
+                                    availability_slots.html(result.error);
+                                }
                             }
                         } else {
-                            availability_slots.html( response );
+                            $('.bkx-booking-form .step-2 .select-time .booking-slots').html( response );
                         }
                     }else{
 
