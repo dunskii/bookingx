@@ -1,9 +1,10 @@
 <?php 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
-$bkx_export_file_name = BKX_PLUGIN_DIR_PATH."uploads/newfile.xml";
+$bkx_export_file_name = BKX_PLUGIN_DIR_PATH."public/uploads/newfile.xml";
 $seat_alias = bkx_crud_option_multisite("bkx_alias_seat");
 $base_alias = bkx_crud_option_multisite("bkx_alias_base");
 $addition_alias = bkx_crud_option_multisite('bkx_alias_addition');
+$Bookingx_Admin = new Bookingx_Admin();
 if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 <!---Alias settings-->
 <h3> <?php printf( esc_html__( '%1$s', 'bookingx' ),  $bkx_general_submenu_label ); ?> </h3>
@@ -437,14 +438,13 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 				<?php
 				$bkx_dashboard_column_selected = bkx_crud_option_multisite("bkx_dashboard_column");
 				if(empty($bkx_dashboard_column_selected)){
-					$bkx_dashboard_column_selected = bkx_booking_columns_data();
-				}	
+					$bkx_dashboard_column_selected = $Bookingx_Admin->bkx_booking_columns_data();
+				}
 				$bkx_dashboard_column_html = "";
-				$bkx_booking_columns = bkx_booking_columns_data();
+				$bkx_booking_columns = $Bookingx_Admin->bkx_booking_columns_data();
 				if(!empty($bkx_booking_columns)){
 					foreach ($bkx_booking_columns as $key => $booking_columns) {
-					 	if($key != "cb")
-					 	{
+					 	if($key != "cb") {
 					 		$bkx_booking_column_checked = ( !empty($bkx_dashboard_column_selected) && in_array($key, $bkx_dashboard_column_selected) ? " checked='checked' " : '');
 					 		$bkx_dashboard_column_html .= '<input type="checkbox" class="bkx-dashboard-column" name="bkx_dashboard_column[]" value="'.$key.'" '.$bkx_booking_column_checked.'>'.$booking_columns.'<br />';
 					 	}
@@ -511,15 +511,4 @@ if(!is_writable($bkx_export_file_name)) { echo "<strong> Please allow file permi
 </form>
 </div>
 <!--End Import Functionality-->
-<?php endif; ?>
-<?php
-if(isset($_POST['export_xml']) && sanitize_text_field($_POST['export_xml']) == "Export xml") :
-    ob_clean();
-    $BkxExportObj = new BkxExport();
-    $BkxExportObj->export_now();
-    die;
-endif;
-if(isset($_POST['import_xml']) && sanitize_text_field($_POST['import_xml']) == "Import Xml") :
-    $BkxImport = new BkxImport();
-	$import_now = $BkxImport->import_now($_FILES,$_POST);
-endif;
+<?php endif;

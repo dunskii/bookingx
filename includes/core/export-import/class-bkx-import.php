@@ -39,14 +39,15 @@ class BkxImport
      * BkxImport constructor.
      * @param string $type
      */
-    function __construct($type = 'all'){
-
-		$this->upload_dir = BKX_PLUGIN_DIR_PATH.'uploads/importXML';
-		$this->errors = $this->errors['errors'];
-		if(!in_array($type, $this->import_type)){
-			$this->errors['type_error'] = "Oops.. , '$type' type does not exists.";
-			return $this->errors;
-		}
+    function __construct( $type = 'all' ){
+        if(isset($_POST['import_xml']) && sanitize_text_field($_POST['import_xml']) == "Import Xml"){
+            $this->upload_dir = BKX_PLUGIN_DIR_PATH.'public/uploads/importXML';
+            $this->errors = $this->errors['errors'];
+            if(!in_array($type, $this->import_type)){
+                $this->errors['type_error'] = "Oops.. , '$type' type does not exists.";
+                return $this->errors;
+            }
+        }
 	}
 
     /**
@@ -54,34 +55,35 @@ class BkxImport
      * @param null $post_data
      * @return array
      */
-    function import_now($fileobj = null , $post_data = null){
-		$truncate_records = $post_data['truncate_records'];
-		$file_data =  $this->check_file_is_ok($fileobj);
-		if(!empty($this->errors))
-		    return $this->errors;
-		$truncate_flag = $this->truncate_old_data($truncate_records);
-		if(!empty($file_data)){
-			$loadxml = new SimpleXMLElement($file_data);
-            if(isset($loadxml) && COUNT($loadxml) > 0)
-            {
-                $SeatPosts 		= $loadxml->SeatPosts;
-                $BasePosts 		= $loadxml->BasePosts;
-                $ExtraPosts 	= $loadxml->ExtraPosts;
-                $BookingPosts 	= $loadxml->BookingPosts;
-                $BkxUsers 		= $loadxml->BkxUsers;
-                $Settings 		= $loadxml->Settings;
-                $this->generate_post( $SeatPosts, 'bkx_seat' );
-                $this->generate_post( $BasePosts, 'bkx_base' );
-                $this->generate_post( $ExtraPosts, 'bkx_addition' );
-                $this->generate_setting($Settings);
-                $this->generate_post( $BookingPosts, 'bkx_booking' );
-                $this->generate_bkx_users( $BkxUsers );
-                unlink($this->target_file);
-                $redirect = add_query_arg( array( 'bkx_success' => 'FIS' ), $_SERVER['HTTP_REFERER'] );
-                wp_safe_redirect( $redirect );
-                wp_die();
+    function import_now( $fileobj = null , $post_data = null ){
+        if(isset($_POST['import_xml']) && sanitize_text_field($_POST['import_xml']) == "Import Xml"){
+            $truncate_records = $post_data['truncate_records'];
+            $file_data =  $this->check_file_is_ok($fileobj);
+            if(!empty($this->errors))
+                return $this->errors;
+            $truncate_flag = $this->truncate_old_data($truncate_records);
+            if(!empty($file_data)){
+                $loadxml = new SimpleXMLElement($file_data);
+                if(isset($loadxml) && COUNT($loadxml) > 0) {
+                    $SeatPosts 		= $loadxml->SeatPosts;
+                    $BasePosts 		= $loadxml->BasePosts;
+                    $ExtraPosts 	= $loadxml->ExtraPosts;
+                    $BookingPosts 	= $loadxml->BookingPosts;
+                    $BkxUsers 		= $loadxml->BkxUsers;
+                    $Settings 		= $loadxml->Settings;
+                    $this->generate_post( $SeatPosts, 'bkx_seat' );
+                    $this->generate_post( $BasePosts, 'bkx_base' );
+                    $this->generate_post( $ExtraPosts, 'bkx_addition' );
+                    $this->generate_setting($Settings);
+                    $this->generate_post( $BookingPosts, 'bkx_booking' );
+                    $this->generate_bkx_users( $BkxUsers );
+                    unlink($this->target_file);
+                    $redirect = add_query_arg( array( 'bkx_success' => 'FIS' ), $_SERVER['HTTP_REFERER'] );
+                    wp_safe_redirect( $redirect );
+                    wp_die();
+                }
             }
-		}	
+        }
 	}
     /**
      * @param null $xml_data
@@ -280,3 +282,4 @@ class BkxImport
 	    endif;
 	}
 }
+new BkxImport();

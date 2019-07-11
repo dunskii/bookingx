@@ -53,7 +53,6 @@ class BkxExport {
      * @param string $type
      */
     public function __construct($type = 'all') {
-
 		$this->upload_dir = wp_upload_dir();
 		$this->xmlobj = new DOMDocument();
 		$this->parent_root = $this->xmlobj->appendChild($this->xmlobj->createElement("Root"));
@@ -69,17 +68,21 @@ class BkxExport {
      * @return array
      */
     public function export_now(){
-		if(empty($this->errors)):
-			$this->bkx_get_posts('bkx_seat','SeatPosts','Seat');
-			$this->bkx_get_posts('bkx_base','BasePosts','Base');
-			$this->bkx_get_posts('bkx_addition','ExtraPosts','Extra'); //ok
-			$this->bkx_get_posts('bkx_booking','BookingPosts','Booking');
-			$this->get_bkx_users();
-			$this->get_bkx_settings();
-			$this->generate_file();
-		else:
-			return $this->errors;
-		endif;
+        if(isset($_POST['export_xml']) && sanitize_text_field($_POST['export_xml']) == "Export xml") {
+            if(empty($this->errors)){
+                $this->bkx_get_posts('bkx_seat','SeatPosts','Seat');
+                $this->bkx_get_posts('bkx_base','BasePosts','Base');
+                $this->bkx_get_posts('bkx_addition','ExtraPosts','Extra'); //ok
+                $this->bkx_get_posts('bkx_booking','BookingPosts','Booking');
+                $this->get_bkx_users();
+                $this->get_bkx_settings();
+                $this->generate_file();
+            } else{
+                return $this->errors;
+            }
+        }else{
+            return $this->errors;
+        }
 	}
 
     /**
@@ -89,7 +92,7 @@ class BkxExport {
 		$this->xmlobj->formatOutput = true;
 		$cur_date = date("Y-m-d_H:i:s");
 		$content = $this->xmlobj->saveXML();
-		$newfile_name = BKX_PLUGIN_DIR_PATH."uploads/newfile.xml";
+		$newfile_name = BKX_PLUGIN_DIR_PATH."public/uploads/newfile.xml";
 		unlink($newfile_name);
 		$file_handle = fopen($newfile_name, "w") or die("Please allow file permission to generate file on booking/uploads Directory.");
 		fwrite($file_handle,$content);
@@ -305,7 +308,7 @@ class BkxExport {
         }else{
             $post_status = 'publish';
         }
-        $args = array('posts_per_page'=> -1,'post_type'=> $post_type,'post_status'=> $post_status);
+        $args = array( 'posts_per_page'=> -1, 'post_type'=> $post_type, 'post_status'=> $post_status );
         $get_posts = get_posts( $args );
         if(!empty($get_posts)){
             //create the root element
@@ -343,9 +346,9 @@ class BkxExport {
                     $postmeta = $PostTag->appendChild($this->xmlobj->createElement("Postmeta"));
                     foreach ($metas as $meta_key => $meta_value) {
                         if($post_type == 'bkx_booking') {
-                            delete_post_meta('order_seat_slug');
-                            delete_post_meta('order_base_slug');
-                            delete_post_meta('order_addition_slugs');
+                            delete_post_meta_by_key('order_seat_slug');
+                            delete_post_meta_by_key('order_base_slug');
+                            delete_post_meta_by_key('order_addition_slugs');
                             if($meta_key == 'seat_id'){
                                 $seat_id = $meta_value[0];
                                 $seat_data = get_post($seat_id);
@@ -383,3 +386,4 @@ class BkxExport {
         }
 	}
 }
+new BkxExport();
