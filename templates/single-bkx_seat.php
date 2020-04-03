@@ -7,9 +7,7 @@
  * @subpackage bookingx
  * @since Bookingx
  */
-
-get_header(); 
-?>
+get_header('bkx' ); ?>
 	<?php
 		/**
 		 * bookingx_before_main_content hook.
@@ -44,4 +42,4 @@ get_header();
 		do_action( 'bookingx_sidebar' );
 	?>
 
-<?php get_footer(); ?>
+<?php get_footer();

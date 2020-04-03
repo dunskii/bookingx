@@ -1,14 +1,15 @@
 <?php 
  if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 global $wp_query,$wpdb;
+die;
 $query = new WP_Query( array( 'post_type' => $post_type , 'posts_per_page'=> $per_page, 'post__in'=> $in_array ) );
 
-if(!empty($in_array) && sizeof($in_array) == 1)
-{
-	$redirect_to = get_permalink($in_array[0]);
-	wp_safe_redirect($redirect_to);
-	die();
-}
+//if(!empty($in_array) && sizeof($in_array) == 1)
+//{
+//	$redirect_to = get_permalink($in_array[0]);
+//	wp_safe_redirect($redirect_to);
+//	die();
+//}
 ?>
 <div class="bookingx-service-listing">
 

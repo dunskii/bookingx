@@ -2,5 +2,7 @@
 /**
  * Sidebar
  */
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
-get_sidebar(); ?>
+if ( ! defined( 'ABSPATH' ) ) {
+    exit; // Exit if accessed directly
+}
+get_sidebar('bkx');

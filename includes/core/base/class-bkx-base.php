@@ -247,20 +247,21 @@ class BkxBase {
     }
 
     /**
-     *
-     * @return type
+     * @return mixed|void
      */
     public function get_thumb() {
         if (has_post_thumbnail($this->post)) {
             $gallery = "";
             $image = get_the_post_thumbnail($this->post->ID, apply_filters('bkx_single_post_large_thumbnail_size', 'bkx_single'), array(
                 'title' => $this->get_title(),
+                'class' => 'img-thumbnail',
                 'alt' => $this->get_title(),
             ));
+
             return apply_filters(
                 'bookingx_single_post_image_html',
                 sprintf(
-                    '<a href="%s" itemprop="image" class="bookingx-main-image zoom" title="%s" data-rel="prettyPhoto%s">%s</a>',
+                    '<a href="%s" itemprop="image" class="bookingx-main-image zoom" title="%s" data-rel="%s">%s</a>',
                     esc_url(get_permalink()),
                     esc_attr($this->get_title()),
                     $gallery,
@@ -277,7 +278,7 @@ class BkxBase {
      */
     public function get_thumb_url() {
         $get_thumb_url = the_post_thumbnail_url($this->post);
-        return apply_filters('bkx_base_thumb_url', $get_thumb_url, $this);
+       // return apply_filters('bkx_base_thumb_url', $get_thumb_url, $this);
     }
 
     /**
@@ -435,19 +436,25 @@ class BkxBase {
         if($enable_any_seat == 0 ){
             $args['meta_query'] =
                 array(
+                    'relation'=> 'OR',
+                    array(
+                        'key' => 'base_selected_seats',
+                        'value' => maybe_serialize($seat_id),
+                        'compare' => 'LIKE'
+                    ),
                     array(
                         'key' => 'base_selected_seats',
                         'value' => serialize($seat_id),
-                        'compare' => 'like'
-                    )
+                        'compare' => 'IN'
+                    ),
                 );
         }
 
-        $baseresult = new WP_Query($args);
+        $base_result = new WP_Query($args);
 
         $BaseData = array();
-        if ($baseresult->have_posts()) :
-            while ($baseresult->have_posts()) : $baseresult->the_post();
+        if ($base_result->have_posts()) :
+            while ($base_result->have_posts()) : $base_result->the_post();
                 $base_id = get_the_ID();
                 $BkxBaseObj = new BkxBase('', $base_id);
                 $BaseData[] = $BkxBaseObj;
