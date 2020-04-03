@@ -18,3 +18,9 @@ wp-content/plugins/bookingx/uploads/
 /sitemap.xml
 /sitemap.xml.gz
 
+/.idea/.gitignore
+/.idea/bookingx.iml
+/.idea/codeStyles/codeStyleConfig.xml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/vcs.xml
