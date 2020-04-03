@@ -166,11 +166,15 @@ class BkxSeat {
 		return apply_filters( 'bkx_seat_price', $post_excerpt, $this );
 	}
 
+    /**
+     * @return mixed|void
+     */
 	public function get_thumb() {
 		if ( has_post_thumbnail($this->post) ) {
 			$image            = get_the_post_thumbnail( $this->post->ID, apply_filters( 'bkx_single_post_large_thumbnail_size', 'bkx_single' ), array(
 				'title'	 => $this->get_title(),
 				'alt'    => $this->get_title(),
+                'class'  => 'img-thumbnail'
 			) );
 			return apply_filters(
 				'bookingx_single_post_image_html',

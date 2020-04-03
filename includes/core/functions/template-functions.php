@@ -199,10 +199,10 @@
         }
 
         if (!empty($get_base_by_seat)) {
-            $available_services .= '<h3>Available ' . $alias . '</h3>';
-            $available_services .= '<ul>';
-            foreach ($get_base_by_seat as $key => $BaseObj) {
+            $available_services .= '<h3>Available ' . $alias . '</h3><hr class="mt-1"/>';
 
+            foreach ($get_base_by_seat as $key => $BaseObj) {
+                $available_services .= '<div class="row"> ';
                 $base_post = $BaseObj->post;
                 $base_id = $base_post->ID;
                 $base_name = $base_post->post_title;
@@ -238,7 +238,7 @@
                         }
                         $base_service_time_text = "";
                         if (isset($base_service_timeHMObj) && !empty($base_service_timeHMObj)):
-                            $hours = isset($base_service_timeHMObj['hours']) && $base_service_timeHMObj['hours'] > 0 && $base_service_timeHMObj['hours'] != '' ? $base_service_timeHMObj['hours'] . ' Hours ' : '';
+                            $hours  = isset($base_service_timeHMObj['hours']) && $base_service_timeHMObj['hours'] > 0 && $base_service_timeHMObj['hours'] != '' ? $base_service_timeHMObj['hours'] . ' Hours ' : '';
                             $mins = isset($base_service_timeHMObj['minutes']) && $base_service_timeHMObj['minutes'] > 0 && $base_service_timeHMObj['minutes'] != '' ? $base_service_timeHMObj['minutes'] . ' Minutes' : '';
                             $base_service_time_text = " - {$hours} {$mins}";
                         endif;
@@ -248,19 +248,19 @@
                             $base_service_time_text = $day;
                         endif;
                         if (!empty($base_id)):
-                            $available_services .= '<li><a href="' . get_permalink($base_id) . '">' . $base_name . '</a> ' . $base_service_time_text . ' ' . $currencyBlock . '<form style="float:right;" method="post" enctype="multipart/form-data" action="' . $booking_url . '">
-                                    <input type="hidden" name="type" value="' . $post_type . '" />
-                                            <input type="hidden" name="id" value="' . $base_id . '" />';
+                            $available_services .= '<div class="col-md-8 mt-1 mb-1"><a href="' . get_permalink($base_id) . '">' . $base_name . '</a> ' . $base_service_time_text . ' ' . $currencyBlock . '</div>
+                                                    <div class="col-md-4 mt-1 mb-1"><form method="post" enctype="multipart/form-data" action="' . $booking_url . '">
+                                                    <input type="hidden" name="type" value="' . $post_type . '" /><input type="hidden" name="id" value="' . $base_id . '" />';
                             if ($post_type != 'bkx_addition') :
-                                $available_services .= '<button type="submit" class="small-button smallblue alt">' . sprintf(__('Book now', 'Bookingx')) . '</button>';
+                                $available_services .= '<button type="submit" class="btn btn-primary">' . sprintf(__('Book now', 'Bookingx')) . '</button>';
                             endif;
-                            $available_services .= '</form></li>';
+                            $available_services .= '</form></div>';
                         endif;
                 }
-
+                $available_services .= '</div><hr class="mt-1"/>';
             }
 
-            $available_services .= '</ul>';
+
         }
 
         return $available_services;
