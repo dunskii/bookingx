@@ -27,7 +27,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-if (!defined('ABSPATH')) exit; // Exit if accessed directly
+defined( 'ABSPATH' ) || exit;
 define('BKX_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__));
 define('BKX_PLUGIN_DIR_URL', plugin_dir_url(__FILE__));
 define('BKX_PLUGIN_PUBLIC_URL', BKX_PLUGIN_DIR_URL."public");
@@ -60,5 +60,11 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-bookingx.php';
 function run_bookingx() {
     $plugin = new Bookingx();
     $plugin->run();
+    // Global for backwards compatibility.
+    $GLOBALS['bkx'] = BKX();
 }
+function BKX() {
+    return Bookingx::instance();
+}
+
 run_bookingx();

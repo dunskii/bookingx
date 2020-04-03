@@ -31,3 +31,10 @@
      */
     add_action('bookingx_after_single_post_summary', 'bookingx_template_single_booking_url', 20, 2);
     add_action('bookingx_after_single_post_summary', 'bookingx_template_single_pagination', 20, 2);
+
+/**
+ * Sidebar.
+ *
+ * @see bookingx_get_sidebar()
+ */
+add_action( 'bookingx_sidebar', 'bookingx_get_sidebar', 10 );

@@ -12,7 +12,7 @@ if(!empty($bkx_addition)) { $bkx_current_post = $bkx_addition; }
 			$image            = get_the_post_thumbnail( $bkx_current_post->id, apply_filters( 'bkx_single_post_large_thumbnail_size', 'shop_single' ), array(
 				'title'	 => get_the_title(),
 				'alt'    => get_the_title(),
-				'class'  => '',
+				'class'  => 'img-thumbnail',
 			) );
 			echo apply_filters(
 				'bookingx_single_post_image_html',
@@ -26,7 +26,7 @@ if(!empty($bkx_addition)) { $bkx_current_post = $bkx_addition; }
                 $bkx_current_post->id
 			);
 		} else {
-			echo apply_filters( 'bookingx_single_post_image_html', sprintf( '<img src="%s" alt="%s" class="" />', bkx_placeholder_img_src(), __( 'Placeholder', 'bookingx' ) ), $bkx_current_post->id );
+			echo apply_filters( 'bookingx_single_post_image_html', sprintf( '<img src="%s" alt="%s" class="img-thumbnail" />', bkx_placeholder_img_src(), __( 'Placeholder', 'bookingx' ) ), $bkx_current_post->id );
 		}
 		do_action( 'bookingx_post_thumbnails' );
 	?>

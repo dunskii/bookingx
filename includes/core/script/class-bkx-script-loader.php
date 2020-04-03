@@ -96,6 +96,8 @@ class Bkx_Script_Loader
      * Register all BookingX Style.
      */
     private static function register_styles() {
+        $active_theme = wp_get_theme();
+        $stylesheet = $active_theme->stylesheet;
         $register_styles = array(
             'bkx-google-fonts'                  => array(
                 'src'     => 'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900',
@@ -121,6 +123,12 @@ class Bkx_Script_Loader
                 'version' => BKX_PLUGIN_VER,
                 'has_rtl' => false,
             ),
+            "theme-support-{$stylesheet}"                  => array(
+                'src'     => BKX_PLUGIN_PUBLIC_URL . "/css/theme/{$stylesheet}.css",
+                'deps'    => array(),
+                'version' => BKX_PLUGIN_VER,
+                'has_rtl' => false,
+            ),
             'blue'                  => array(
                 'src'     => BKX_PLUGIN_PUBLIC_URL . '/css/blue.css',
                 'deps'    => array('style-main'),
@@ -140,6 +148,8 @@ class Bkx_Script_Loader
     }
 
     public static function get_styles() {
+        $active_theme = wp_get_theme();
+        $stylesheet = $active_theme->stylesheet;
         return apply_filters(
             'bookingx_enqueue_styles',
             array(
@@ -170,6 +180,12 @@ class Bkx_Script_Loader
                 'style-main'                  => array(
                     'src'     => BKX_PLUGIN_PUBLIC_URL . '/css/style.css',
                     'deps'    => array('bkx-google-fonts','line-awesome-min'),
+                    'version' => BKX_PLUGIN_VER,
+                    'has_rtl' => false,
+                ),
+                "theme-support-{$stylesheet}"                  => array(
+                    'src'     => BKX_PLUGIN_PUBLIC_URL . "/css/theme/{$stylesheet}.css",
+                    'deps'    => array(),
                     'version' => BKX_PLUGIN_VER,
                     'has_rtl' => false,
                 ),

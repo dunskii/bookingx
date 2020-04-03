@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The file that defines the core plugin class
  *
@@ -27,6 +26,7 @@
  * @subpackage Bookingx/includes
  * @author     Dunskii Web Services <divyang@dunskii.com>
  */
+defined( 'ABSPATH' ) || exit;
 class Bookingx {
 
 	/**
@@ -38,6 +38,8 @@ class Bookingx {
 	 * @var      Bookingx_Loader    $loader    Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
+
+    protected static $_instance = null;
 
 	/**
 	 * The unique identifier of this plugin.
@@ -117,6 +119,17 @@ class Bookingx {
         $this->define_public_hooks();
 	}
 
+    public static function instance() {
+        if ( is_null( self::$_instance ) ) {
+            self::$_instance = new self();
+        }
+        return self::$_instance;
+    }
+
+    public function template_path() {
+        return apply_filters( 'bkx_template_path', BKX_PLUGIN_DIR_PATH );
+    }
+
 	/**
 	 * Load the required dependencies for this plugin.
 	 *
@@ -193,6 +206,11 @@ class Bookingx {
          */
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/export-import/class-bkx-export.php';
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/export-import/class-bkx-import.php';
+
+        /**
+         * BKX Template Loader
+         */
+        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/class-bkx-template-loader.php';
 
         /**
          *  BKX Core Functions

@@ -83,10 +83,11 @@ class Bookingx_Admin {
         register_post_type('bkx_seat', array(
             'labels' => $labels,
             'public' => true,
-            'has_archive' => true,
-            'supports' => array( 'title', 'editor', 'excerpt', 'thumbnail' ),
+            'has_archive' => sanitize_title($alias_seat),
+            'supports' => array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields'),
+            'query_var' => true,
             'rewrite' => array(
-                'slug' => sanitize_title($alias_seat)
+                'slug' => 'bkx-seat'
             ),
             'show_in_menu' => 'edit.php?post_type=bkx_booking'
         ));
