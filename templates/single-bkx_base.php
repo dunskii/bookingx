@@ -23,7 +23,7 @@ get_header();
 
 		<?php while ( have_posts() ) : the_post(); ?>
 
-			<?php require 'content-base.php'; ?>
+			<?php require 'content-single-bkx_base.php'; ?>
 
 		<?php endwhile; // end of the loop. ?>
 

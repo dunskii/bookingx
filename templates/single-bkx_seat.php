@@ -7,7 +7,7 @@
  * @subpackage bookingx
  * @since Bookingx
  */
-get_header('bkx' ); ?>
+get_header('bkx_seat' ); ?>
 	<?php
 		/**
 		 * bookingx_before_main_content hook.
@@ -20,7 +20,7 @@ get_header('bkx' ); ?>
 
 		<?php while ( have_posts() ) : the_post(); ?>
 
-			<?php require 'content-seat.php'; ?>
+			<?php require 'content-single-bkx_seat.php'; ?>
 
 		<?php endwhile; // end of the loop. ?>
 
@@ -42,4 +42,4 @@ get_header('bkx' ); ?>
 		do_action( 'bookingx_sidebar' );
 	?>
 
-<?php get_footer();
+<?php get_footer('bkx_seat');

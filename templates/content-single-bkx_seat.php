@@ -8,7 +8,6 @@ $seat_id = $bkx_seat->id;
 $BaseObj = new BkxBase();
 $get_base_by_seat = $BaseObj->get_base_by_seat( get_the_ID() );
 
-
 $BkxExtraObj = new BkxExtra();
 $get_extra_by_seat = $BkxExtraObj->get_extra_by_seat( $get_base_by_seat );
 
