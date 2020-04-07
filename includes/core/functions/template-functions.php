@@ -202,11 +202,12 @@
             $available_services .= '<h3>Available ' . $alias . '</h3><hr class="mt-1"/>';
 
             foreach ($get_base_by_seat as $key => $BaseObj) {
-                $available_services .= '<div class="row"> ';
-                $base_post = $BaseObj->post;
-                $base_id = $base_post->ID;
-                $base_name = $base_post->post_title;
-                if($base_post->post_type != 'bkx_booking') {
+                if(!empty($BaseObj->post)){
+                    $available_services .= '<div class="row"> ';
+                    $base_post = $BaseObj->post;
+                    $base_id = $base_post->ID;
+                    $base_name = $base_post->post_title;
+                    if($base_post->post_type != 'bkx_booking') {
                         if ($type == 'seat') {
                             $ClassObj = new BkxBase('', $base_id);
                             $post_type = $base_post->post_type;
@@ -256,11 +257,10 @@
                             endif;
                             $available_services .= '</form></div>';
                         endif;
+                    }
+                    $available_services .= '</div><hr class="mt-1"/>';
                 }
-                $available_services .= '</div><hr class="mt-1"/>';
             }
-
-
         }
 
         return $available_services;

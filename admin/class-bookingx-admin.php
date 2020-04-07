@@ -87,7 +87,7 @@ class Bookingx_Admin {
             'supports' => array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields'),
             'query_var' => true,
             'rewrite' => array(
-                'slug' => 'bkx-seat'
+                'slug' => sanitize_title($alias_seat)
             ),
             'show_in_menu' => 'edit.php?post_type=bkx_booking'
         ));
@@ -142,12 +142,13 @@ class Bookingx_Admin {
         register_post_type('bkx_base', array(
             'labels' => $labels,
             'public' => true,
-            'has_archive' => true,
-            'supports' => array( 'title', 'editor', 'excerpt', 'thumbnail' ),
+            'supports' => array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields'),
+            'show_in_menu' => 'edit.php?post_type=bkx_booking',
+            'has_archive' => sanitize_title($bkx_alias_base),
+            'query_var' => true,
             'rewrite' => array(
                 'slug' => sanitize_title($bkx_alias_base)
             ),
-            'show_in_menu' => 'edit.php?post_type=bkx_booking'
         ));
         $bkx_base_taxonomy_status = bkx_crud_option_multisite( 'bkx_base_taxonomy_status' );
         if( isset($bkx_base_taxonomy_status) && $bkx_base_taxonomy_status == 1 ){
@@ -196,7 +197,7 @@ class Bookingx_Admin {
         register_post_type('bkx_addition', array(
             'labels' => $labels,
             'public' => true,
-            'has_archive' => true,
+            'has_archive' => sanitize_title($bkx_alias_addition),
             'supports' => array( 'title', 'editor', 'excerpt', 'thumbnail' ),
             'rewrite' => array(
                 'slug' => sanitize_title($bkx_alias_addition)
