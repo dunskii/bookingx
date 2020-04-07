@@ -23,7 +23,7 @@ get_header();
 
 		<?php while ( have_posts() ) : the_post(); ?>
 
-			<?php require 'content-extra.php'; ?>
+			<?php require 'content-single-bkx_addition.php'; ?>
 
 		<?php endwhile; // end of the loop. ?>
 
@@ -45,4 +45,4 @@ get_header();
 		do_action( 'bookingx_sidebar' );
 	?>
 
-<?php get_footer(); ?>
+<?php get_footer();

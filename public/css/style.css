@@ -101,6 +101,13 @@ body{font-family: 'Roboto', sans-ser}
 .schedule-indicator{width: 90%;margin: 0 auto;}
 .booking-x .schedule-wrap{margin-bottom: 1rem;}
 
+/**
+Listing CSS Bootstrap 4
+ */
+.bookingx-lists .row > div[class*='col-'] {
+    display: flex;
+}
+
 /*Admin CSS*/
 #post-body-content, #titlediv { display:none }
 .bkx-general_full { float: left;width: 32%;}

@@ -573,3 +573,30 @@ function bkx_generate_inline_style(){
 
     return $custom_css;
 }
+
+function bkx_generate_thumbnail( $post ){
+    if(empty($post))
+        return;
+
+    if ( has_post_thumbnail($post) ) {
+        $image = get_the_post_thumbnail($post->post->ID, apply_filters('bkx_single_post_large_thumbnail_size', 'bkx_single'), array(
+            'title' => $post->get_title(),
+            'class' => 'img-thumbnail',
+            'alt' => $post->get_title(),
+        ));
+    }else{
+        $image = '<img width="250" height="180" src="'.BKX_PLUGIN_PUBLIC_URL.'"/images/placeholder.png\'" class="img-thumbnail wp-post-image" alt="'.$post->get_title().'" title="'.$post->get_title().'">';
+    }
+
+    return apply_filters(
+        'bookingx_single_post_image_html',
+        sprintf(
+            '<a href="%s" itemprop="image" class="bookingx-main-image zoom" title="%s" data-rel="%s">%s</a>',
+            esc_url(get_permalink()),
+            esc_attr($post->get_title()),
+            "",
+            $image
+        ),
+        $post->post->ID
+    );
+}

@@ -146,24 +146,27 @@ class BkxExtra {
      * @return type
      */
     public function get_thumb() {
-        $gallery = "";
-		if ( has_post_thumbnail($this->post) ) {
-			$image            = get_the_post_thumbnail( $this->post->ID, apply_filters( 'bkx_single_post_large_thumbnail_size', 'bkx_single' ), array(
-				'title'	 => $this->get_title(),
-				'alt'    => $this->get_title(),
-			) );
-                    return apply_filters(
-				'bookingx_single_post_image_html',
-				sprintf(
-					'<a href="%s" itemprop="image" class="bookingx-main-image zoom" title="%s" data-rel="prettyPhoto%s">%s</a>',
-					esc_url(get_permalink() ),
-					esc_attr($this->get_title() ),
-					$gallery,
-					$image
-				),
-				$this->post->ID
-			);
-		}
+        if ( has_post_thumbnail($this->post) ) {
+            $image = get_the_post_thumbnail($this->post->ID, apply_filters('bkx_single_post_large_thumbnail_size', 'bkx_single'), array(
+                'title' => $this->get_title(),
+                'class' => 'img-thumbnail',
+                'alt' => $this->get_title(),
+            ));
+        }else{
+            $image = '<img src="'.BKX_PLUGIN_PUBLIC_URL.'/images/placeholder.png\'" class="img-thumbnail wp-post-image" alt="'.$this->get_title().'" title="'.$this->get_title().'">';
+        }
+
+        return apply_filters(
+            'bookingx_single_post_image_html',
+            sprintf(
+                '<a href="%s" itemprop="image" class="bookingx-main-image zoom" title="%s" data-rel="%s">%s</a>',
+                esc_url(get_permalink()),
+                esc_attr($this->get_title()),
+                "",
+                $image
+            ),
+            $this->post->ID
+        );
 	}
     /**
      * 
