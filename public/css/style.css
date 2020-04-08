@@ -104,7 +104,7 @@ body{font-family: 'Roboto', sans-ser}
 /**
 Listing CSS Bootstrap 4
  */
-.bookingx-lists .row > div[class*='col-'] {
+.booking-x-lists .row > div[class*='col-'], .booking-x-bkx-seat .row > div[class*='col-'], .booking-x-bkx-base .row > div[class*='col-'], .booking-x-bkx-addition .row > div[class*='col-'] {
     display: flex;
 }
 

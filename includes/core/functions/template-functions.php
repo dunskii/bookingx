@@ -127,6 +127,61 @@
         }
     }
 
+    if ( ! function_exists( 'bookingx_breadcrumb' ) ) {
+
+        /**
+         * Output the Booking X Breadcrumb.
+         *
+         * @param array $args Arguments.
+         */
+        function bookingx_breadcrumb( $args = array() ) {
+            $args = wp_parse_args(
+                $args,
+                apply_filters(
+                    'bookingx_breadcrumb_defaults',
+                    array(
+                        'delimiter'   => '&nbsp;&#47;&nbsp;',
+                        'wrap_before' => '<nav class="bookingx-breadcrumb" aria-label="breadcrumb"><ol class="breadcrumb">',
+                        'wrap_after'  => '</ol></nav>',
+                        'before'      => '<li class="breadcrumb-item">',
+                        'after'       => '<li>',
+                        'home'        => _x( 'Home', 'breadcrumb', 'bookingx' ),
+                    )
+                )
+            );
+
+            $breadcrumbs = array();
+
+            if ( ! empty( $args['home'] ) ) {
+                $breadcrumbs[] = array('title' => $args['home'], 'hyperlink' => apply_filters( 'bookingx_breadcrumb_home_url', home_url() ) ) ;
+            }
+            if ( is_search() ) {
+                $breadcrumbs[] = array('title' => booking_x_page_title(), 'hyperlink' => '' ) ;
+            } elseif ( is_tax() ) {
+                $breadcrumbs[] = array('title' => booking_x_page_title(), 'hyperlink' => '' ) ;
+            }elseif(is_post_type_archive() ){
+                $post_type = get_post_type();
+                $breadcrumbs[] = array('title' => post_type_archive_title('', false), 'hyperlink' => get_post_type_archive_link($post_type) ) ;
+            } elseif(is_singular()){
+                $post_type = get_post_type();
+                $post_type_obj = get_post_type_object( $post_type );
+                if($post_type_obj){
+                    $breadcrumbs[] = array('title' => $post_type_obj->label, 'hyperlink' => get_post_type_archive_link($post_type) ) ;
+                }
+                $breadcrumbs[] = array('title' => get_the_title(), 'hyperlink' => get_permalink() ) ;
+            } else {
+                $breadcrumbs[] = array('title' => booking_x_page_title(), 'hyperlink' => get_permalink() ) ;
+            }
+
+            do_action( 'bookingx_breadcrumb', $breadcrumbs, $args );
+
+            $args['breadcrumb'] = $breadcrumbs;
+
+            bkx_get_template( 'global/breadcrumb.php', $args );
+        }
+    }
+
+
     if (!function_exists('bookingx_get_sidebar')) {
 
         /**
@@ -262,6 +317,43 @@
                 }
             }
         }
-
         return $available_services;
     }
+
+if ( ! function_exists( 'booking_x_page_title' ) ) {
+
+    /**
+     * Page Title function.
+     *
+     * @param  bool $echo Should echo title.
+     * @return string
+     */
+    function booking_x_page_title( $echo = true ) {
+
+        if ( is_search() ) {
+            /* translators: %s: search query */
+            $page_title = sprintf( __( 'Search results: &ldquo;%s&rdquo;', 'bookingx' ), get_search_query() );
+
+            if ( get_query_var( 'paged' ) ) {
+                /* translators: %s: page number */
+                $page_title .= sprintf( __( '&nbsp;&ndash; Page %s', 'bookingx' ), get_query_var( 'paged' ) );
+            }
+        } elseif ( is_tax() ) {
+
+            $page_title = single_term_title( '', false );
+
+        }elseif(is_post_type_archive()){
+            $page_title = post_type_archive_title('', false);
+        } else {
+            $page_title   = get_the_title();
+        }
+
+        $page_title = apply_filters( 'booking_x_page_title', $page_title );
+
+        if ( $echo ) {
+            echo $page_title;
+        } else {
+            return $page_title;
+        }
+    }
+}
