@@ -214,7 +214,7 @@ class BkxBase {
             if(isset($base_day) && $base_day > 0 && $base_day > 1 ){
                 $base['formatted']  = sprintf(__('%1$s Days', 'bookingx'), $base_day);
             }
-            $base_time          = $base_day * 24;
+            $base_time          = $base_day * 24 * 60;
             $base['type']       = $base_time_option;
         }
 

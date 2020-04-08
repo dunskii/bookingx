@@ -498,6 +498,7 @@ class Bookingx_Admin {
         $wp_scripts = wp_scripts();
         wp_enqueue_style('bkx-admin-ui-css', '//ajax.googleapis.com/ajax/libs/jqueryui/' . $wp_scripts->registered['jquery-ui-core']->ver . '/themes/smoothness/jquery-ui.css',
             false, BKX_PLUGIN_VER, false);
+        wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/bookingx-admin.css', array(), $this->version, 'all' );
 	}
 
 	/**
@@ -519,7 +520,15 @@ class Bookingx_Admin {
 		 * class.
 		 */
         wp_enqueue_script('jquery-ui-datepicker');
+        wp_enqueue_script("bkx-seat-sol", BKX_PLUGIN_DIR_URL . "public/js/admin/sol.js", false, BKX_PLUGIN_VER, true);
+        wp_enqueue_style( 'bkx-seat-sol-style', BKX_PLUGIN_DIR_URL . "public/css/sol.css" );
 
+        $enable_cancel_booking = bkx_crud_option_multisite('enable_cancel_booking');
+        $enable_cancel_booking = isset($enable_cancel_booking) ? $enable_cancel_booking : 0 ;
+        $wp_localize_array = array('ajax_url' => admin_url( 'admin-ajax.php' ), 'is_cancel' => $enable_cancel_booking);
+        wp_register_script ("bkx-admin-js", plugin_dir_url( __FILE__ ) . 'js/bookingx-admin.js', array( 'jquery','iris' ), BKX_PLUGIN_VER , true);
+        wp_localize_script('bkx-admin-js', 'bkx_admin', $wp_localize_array);
+        wp_enqueue_script( 'bkx-admin-js' );
 	}
 
 	public function export_now(){
