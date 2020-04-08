@@ -9,6 +9,13 @@
     add_action('bookingx_after_main_content', 'bookingx_output_content_wrapper_end', 10);
 
     /**
+     * Breadcrumbs.
+     *
+     * @see bookingx_breadcrumb()
+     */
+    add_action( 'bookingx_before_main_content', 'bookingx_breadcrumb', 20, 0 );
+
+    /**
      * Before Single Posts Summary Div.
      * @see bookingx_show_post_images()
      * @see bookingx_show_post_thumbnails()

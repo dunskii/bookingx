@@ -227,7 +227,7 @@ function bkx_get_range($bookingdate, $seatid) {
     return $range;
 }
 
-function bkx_get_template($template_name, $template_path = '') {
+function bkx_get_template($template_name, $args = '') {
     if (isset($template_name) && $template_name != '') {
         $plugin_path = BKX_PLUGIN_DIR_PATH . 'templates/';
         $file_path = $plugin_path . '' . $template_name;

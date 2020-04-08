@@ -21,7 +21,7 @@ class BKX_Listing_ShortCodes
             $query = new WP_Query( array( 'post_type' => $post_type) );
             ob_start();
             if ($query->have_posts()) :?>
-            <div class="bookingx-lists container">
+            <div class="booking-x-lists container">
                 <div class="row">
                     <?php while ( $query->have_posts() ) : $query->the_post();
                         bkx_get_template("content-{$post_type}.php");
