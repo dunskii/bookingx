@@ -38,10 +38,7 @@ if ( ! class_exists( 'BkxSeatMetaBox' ) ) {
             wp_register_script ("bkx-settings", BKX_PLUGIN_DIR_URL . "public/js/admin/bkx-settings.js", false, BKX_PLUGIN_VER , true);
             wp_localize_script('bkx-settings', 'bkx_settings', $wp_localize_array);
             wp_enqueue_script( 'bkx-settings' );
-            wp_enqueue_script("bkx-seat-validate", BKX_PLUGIN_DIR_URL."public/js/admin/bkx-seat-validate.js", false, BKX_PLUGIN_VER , true);
-            wp_enqueue_script("bkx-seat-sol", BKX_PLUGIN_DIR_URL . "public/js/admin/sol.js", false, BKX_PLUGIN_VER, true);
-            wp_enqueue_style( 'bkx-seat-sol-style', BKX_PLUGIN_DIR_URL . "public/css/sol.css" );
-            wp_enqueue_script('iris');
+            wp_enqueue_script("bkx-seat-validate", BKX_PLUGIN_DIR_URL."public/js/admin/bkx-seat-validate.js", array( 'jquery' ), BKX_PLUGIN_VER , true);
             wp_enqueue_script('jquery-ui-datepicker');
         }
 
