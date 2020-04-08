@@ -9,7 +9,7 @@ wp_enqueue_script('jquery-ui-datepicker');
 wp_enqueue_script('jquery-ui-autocomplete');
 $temp_option = bkx_crud_option_multisite('bkx_siteuser_canedit_seat');
 $temp_css = bkx_crud_option_multisite('bkx_siteclient_canedit_css'); ?>
-<div class="wrap">
+<div class="wrap booking-x-setting">
 <div class="icon32 icon32-posts-page" id="icon-edit-pages"><br></div>
 <h2>Bookingx Settings</h2>
 <?php
@@ -74,7 +74,6 @@ if(!empty($current_main_tab))
 	}
 	require_once(BKX_PLUGIN_DIR_PATH.'admin/settings/'.$current_main_tab.'-view.php');
 	do_action('bkx_custom_tab_data_'.$current_submenu_active );
-	require_once(BKX_PLUGIN_DIR_PATH.'admin/settings/setting_js.php');
 } 
 ?>
 </div><!-- WRAP ENDS -->

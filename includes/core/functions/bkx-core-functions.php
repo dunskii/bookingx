@@ -493,7 +493,7 @@ function bkx_localize_string_text(){
  * @throws Exception
  */
 function bkx_total_time_of_services_formatted( $get_total_time_of_services = 0 , $type = "H" ){
-
+    $total_time_of_services_formatted = "";
     if (!empty($get_total_time_of_services) && $get_total_time_of_services != 0) {
         $minutes = $get_total_time_of_services;
 
@@ -510,17 +510,25 @@ function bkx_total_time_of_services_formatted( $get_total_time_of_services = 0 ,
             }
         }
         if($type == "D"){
-            $base_day = $minutes / 24;
-            if(isset($base_day) && $base_day > 0 && $base_day < 2 ){
+            //$base_day = $minutes / 24;
+            $total_time_of_services_formatted =  bkx_convert_seconds($get_total_time_of_services * 60);
+            /*if(isset($base_day) && $base_day > 0 && $base_day < 2 ){
                 $total_time_of_services_formatted  = sprintf(__('%1$s Day', 'bookingx'), $base_day);
             }
             if(isset($base_day) && $base_day > 0 && $base_day > 1 ){
                 $total_time_of_services_formatted  = sprintf(__('%1$s Days', 'bookingx'), $base_day);
-            }
+            }*/
         }
     }
 
     return $total_time_of_services_formatted;
+}
+
+function bkx_convert_seconds($seconds)
+{
+    $dt1 = new DateTime("@0");
+    $dt2 = new DateTime("@$seconds");
+    return $dt1->diff($dt2)->format(' %a Days %h Hours and %i Minutes ');
 }
 
 function bkx_generate_inline_style(){
