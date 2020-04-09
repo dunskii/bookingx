@@ -266,11 +266,31 @@ class Bkx_Ajax_Loader
         //$booking_style = ( ( !isset($bkx_booking_style) || $bkx_booking_style == "" ) ? "default" : $bkx_booking_style);
         $base_time_option   = get_post_meta( $args['base_id'], 'base_time_option', true );
         $base_day           = get_post_meta( $args['base_id'], 'base_day', true );
+        $extra_day = 0;
+        if(!empty($args['extra_ids'])){
+            $extra_ids  = $args['extra_ids'];
+            if(!empty($extra_ids) && $extra_ids != "None"){
+                foreach ($extra_ids as $extra_id ){
+                    $BkxExtra = new BkxExtra("", $extra_id );
+                    $extra_time = $BkxExtra->get_time();
+                    if($extra_time['type'] == 'D'){
+                        $seconds = $extra_time['in_sec'] / 60 * 60 ;
+                        $dt1 = new DateTime("@0");
+                        $dt2 = new DateTime("@$seconds");
+                        $extra_day +=  $dt1->diff($dt2)->d;
+                    }
+                }
+            }
+        }
+
         $allowed[] = 0;
         $availability_slot_flag = true;
         if( isset($base_time_option) && $base_time_option == 'D' && isset($base_day) && $base_day > 0 ){
             $start_date = $args['booking_date'];
             $base_day = ($base_day > 1) ? ($base_day - 1) : 0;
+            if($extra_day > 0 ){
+                $base_day += $extra_day;
+            }
             $end_date =  date('Y-m-d', strtotime($start_date. " + {$base_day} days"));
             $get_date_range = bkx_getDatesFromRange( $start_date, $end_date, 'Y-m-d' ); //2019-6-3
             $availability   = $BkxBooking->get_booking_form_calendar_availability($args);

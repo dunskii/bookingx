@@ -85,19 +85,19 @@
 			jQuery("#months").show();
 			jQuery("#days").hide();
 			jQuery("#hours_minutes").hide();
-			jQuery("#overlap").show();
+			//jQuery("#overlap").show();
 		}
 		if(temp_months_days_times == "Days") {
 			jQuery("#months").hide();
 			jQuery("#days").show();
 			jQuery("#hours_minutes").hide();
-			jQuery("#overlap").show();
+			//jQuery("#overlap").show();
 		}
 		if(temp_months_days_times == "Hour and Minutes") {
 			jQuery("#months").hide();
 			jQuery("#days").hide();
 			jQuery("#hours_minutes").show();
-			jQuery("#overlap").show();
+			//jQuery("#overlap").show();
 		}
 		if(temp_months_days_times == "None") {
 			jQuery("#months").hide();
@@ -111,19 +111,19 @@
 				jQuery("#months").show();
 				jQuery("#days").hide();
 				jQuery("#hours_minutes").hide();
-				jQuery("#overlap").show();
+				//jQuery("#overlap").show();
 			}
 			if(temp_months_days_times_change == "Days") {
 				jQuery("#months").hide();
 				jQuery("#days").show();
 				jQuery("#hours_minutes").hide();
-				jQuery("#overlap").show();
+				//jQuery("#overlap").show();
 			}
 			if(temp_months_days_times_change == "Hour and Minutes") {
 				jQuery("#months").hide();
 				jQuery("#days").hide();
 				jQuery("#hours_minutes").show();
-				jQuery("#overlap").show();
+				//jQuery("#overlap").show();
 			}
 			if(temp_months_days_times_change == "None") {
 				jQuery("#months").hide();
