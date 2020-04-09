@@ -4,7 +4,8 @@
  */
 defined( 'ABSPATH' ) || exit;
 $order_id = ( isset($_REQUEST['order_id']) ? $_REQUEST['order_id'] : 0 );
-$status = ( (isset($order_id) && $order_id != "") ? true : false ) ; ?>
+$status = ( (isset($order_id) && $order_id != "") ? true : false ) ;
+?>
 <div class="booking-x">
     <div class="main-container">
         <div class="booking-x container">
@@ -22,7 +23,7 @@ $status = ( (isset($order_id) && $order_id != "") ? true : false ) ; ?>
                         <?php bkx_get_template('booking-form/steps/step-4.php');?>
                     <?php endif;?>
                     <?php if(isset($_POST['order_id']) && isset($_POST['bkx_payment_gateway_method']) && !empty($_POST['order_id'])){
-                        $args['order_id'] = $_POST['order_id'];
+                        $args = array( 'order_id' => $_POST['order_id'], 'bkx_payment_gateway_method' => $_POST['bkx_payment_gateway_method']);
                         do_action('bkx_payment_gateway_process_hook', $args );
                     } ?>
                     <?php if( isset($status) && $status == true && isset($_GET['order_id']) && $_GET['order_id'] != "" ) {

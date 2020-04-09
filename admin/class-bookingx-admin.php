@@ -639,7 +639,9 @@ class Bookingx_Admin {
                 $start_date         = date('F d, Y',strtotime($days_selected[0]));
                 $end_date           = date('F d, Y',strtotime($days_selected[$last_key]));
                 $date_data          =  "{$start_date} To {$end_date}";
-                $duration   = sprintf( __( '%s', 'bookingx' ), $base_time['formatted'] );
+                $booking_duration       = ( sizeof($days_selected) > 1 ? sizeof($days_selected)." Days" : sizeof($days_selected)." Day");
+                //$duration   = sprintf( __( '%s', 'bookingx' ), $base_time['formatted'] );
+                $duration   = sprintf( __( '%s', 'bookingx' ), $booking_duration );
             }
 
         }

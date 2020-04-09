@@ -29,9 +29,14 @@ class BkxPaymentCore {
 		add_action( 'bkx_payment_gateway_capture_process_hook', array( $this, 'bkx_paypal_payment_gateway_capture_action' ), 10 );
 	}
 
+    /**
+     * @param $args
+     */
 	public function bkx_paypal_payment_gateway_action( $args ){
 		$order_id = $args['order_id'];
 		$this->order_id = $args['order_id'];
+        $booking_meta = array( 'order_id' => $order_id );
+        $process_response = array('success' => true, 'data' => $booking_meta);
 		if ( $order_id !="" && isset($_POST['bkx_payment_gateway_method']) && $_POST['bkx_payment_gateway_method'] == 'bkx_gateway_paypal_express'
 			&& ( !isset($_GET['token']) || $_GET['token'] == '' ) ) {
 				$BkxPaymentPayPalExpress = new BkxPaymentPayPalExpress( $this->order_id );
@@ -45,16 +50,12 @@ class BkxPaymentCore {
                     }
                 }
 		}else if($order_id !="" && !isset($_POST['bkx_payment_gateway_method'])){
-            $booking_meta = array('order_id' => $order_id);
-            $process_response = array('success' => true, 'data' => $booking_meta);
             update_post_meta( $order_id, 'bkx_capture_payment', $process_response );
             $bkx_return_url  = get_permalink( bkx_crud_option_multisite('bkx_plugin_page_id') );
             $bkx_return_url 	= apply_filters( 'bkx_return_url', $bkx_return_url );
             $bkx_return_url  = add_query_arg( array( 'order_id' => base64_encode($order_id) ), $bkx_return_url );
             echo '<meta http-equiv="refresh" content="0;url=' . $bkx_return_url . '">';
         }else{
-            $booking_meta = array('order_id' => $order_id);
-            $process_response = array('success' => true, 'data' => $booking_meta);
             update_post_meta( $order_id, 'bkx_capture_payment', $process_response );
             $bkx_return_url  = get_permalink( bkx_crud_option_multisite('bkx_plugin_page_id') );
             $bkx_return_url 	= apply_filters( 'bkx_return_url', $bkx_return_url );
@@ -191,12 +192,14 @@ class BkxPaymentCore {
                 $base_time_option   = get_post_meta( $order_id, 'base_time_option', true );
                 if(isset( $base_time_option ) && $base_time_option == "D"){
                     $days_selected           = get_post_meta( $order_id, 'booking_multi_days', true );
+
                     if(!empty($days_selected)){
                         $last_key               = sizeof($days_selected) - 1;
                         $start_date             = date('F d, Y',strtotime($days_selected[0]));
                         $end_date               = date('F d, Y',strtotime($days_selected[$last_key]));
                         $date_format            =  "{$start_date} To {$end_date}";
-                        $booking_duration       = $base_time['formatted'];
+                        //$booking_duration       = $base_time['formatted'];
+                        $booking_duration       = ( sizeof($days_selected) > 1 ? sizeof($days_selected)." Days" : sizeof($days_selected)." Day");
                     }
                 }else{
                     $date_format      =  date('F d, Y', strtotime($booking_meta_data['booking_date']));

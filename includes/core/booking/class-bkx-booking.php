@@ -517,7 +517,7 @@ class BkxBooking {
         $seat_obj   = get_post( $seat_id );
         $BkxBase = new BkxBase("", $base_id );
         $total_time = $this->booking_form_generate_total_time($args) ; // In Sec
-        $total_time_in_sec = $total_time['in_sec'] / 60 ;
+        $total_time_in_sec = $total_time['in_sec'] / 60;
         $total_time_formatted = bkx_total_time_of_services_formatted( $total_time_in_sec , $base_time_option );
         $extra_data = $dl_class = "";
         $dl_class =  ( ( isset($args['is_admin']) && $args['is_admin'] == true ) ? "admin" : "" );
@@ -577,7 +577,11 @@ class BkxBooking {
         if ( ! empty( $base_id ) ) {
             $BkxBase = new BkxBase("", $base_id );
             $base_time = $BkxBase->get_time();
-            $total_time += $base_time['in_sec'];
+            if($base_time['type'] == 'D'){
+                $total_time += $base_time['in_sec'] * 60;
+            }else{
+                $total_time += $base_time['in_sec'];
+            }
         }
         if(!empty($selected_ids['extra_ids'])){
             $extra_ids  = $selected_ids['extra_ids'];
@@ -585,7 +589,11 @@ class BkxBooking {
                 foreach ($extra_ids as $extra_id ){
                     $BkxExtra = new BkxExtra("", $extra_id );
                     $extra_time = $BkxExtra->get_time();
-                    $total_time += $extra_time['in_sec'];
+                    if($extra_time['type'] == 'D'){
+                        $total_time += $extra_time['in_sec'] * 60;
+                    }else{
+                        $total_time += $extra_time['in_sec'];
+                    }
                 }
             }
         }
@@ -896,6 +904,7 @@ class BkxBooking {
                     /* Reason : To get the multiple booking slots. */
                     $duration = ( $temp['booking_time']['in_sec'] ) / 60;
                     $seat_slots = intval($duration / 15);
+                    $seat_slots = isset($seat_slots) && $seat_slots > 0 && $seat_slots > 100 ? 100 : $seat_slots;
                     /**
                      * Updated By  : Divyang Parekh
                      * For  : Add Any Seat functionality.
@@ -906,14 +915,12 @@ class BkxBooking {
                                 $booking_slot_arr[] = (int) $temp['full_day'] + $i;
                                 $checked_booked_slots[] = array('created_by' => $PostObj->post_author, 'slot_id' => $temp['full_day'] + $i, 'order_id' => $temp['order_id']);
                             }
-
                         }
                     } else {
                         if(isset($temp['full_day'])){
                             $booking_slot_arr[] = (int) $temp['full_day'];
                             $checked_booked_slots[] = array('created_by' => $PostObj->post_author, 'slot_id' => $temp['full_day'], 'order_id' => $temp['order_id']);
                         }
-
                     }
                 endif;
             }
@@ -1305,6 +1312,7 @@ class BkxBooking {
     }
 
     public function display_availability_slots_html( $args ){
+
         $base_time_option   = get_post_meta( $args['base_id'], 'base_time_option', true );
         $base_day           = get_post_meta( $args['base_id'], 'base_day', true );
         $availability_slots = "";
@@ -1321,7 +1329,6 @@ class BkxBooking {
             $availability_slots  = $this->get_display_availability_slots( $args );
         }
         $day_style_header = "";
-
         if($this->load_global->booking_style == 'day_style' && in_array(0, $args['allowed_day_book'])){
             $day_style_header = '<thead><tr><th colspan="4">'.date('F d, Y, l', strtotime($args['booking_date'])).'</th></tr></thead>';
         }
@@ -1330,7 +1337,6 @@ class BkxBooking {
             if( isset($base_time_option) && $base_time_option == 'D' && isset($base_day) && $base_day > 0  ){
                 $error = $results;
             }
-
         }else if (!empty($availability_slots)){
             $step           = 15 * 60; // Timestamp increase interval to one cell ahead
             $counter        = 1;
@@ -1340,14 +1346,23 @@ class BkxBooking {
             $booked_slots   = $availability_slots['booked_slots'];
             $booked_slots_in_details  = $availability_slots['booked_slots_in_details'];
             $columns = 4;
-
+            $booked_day_dates = $this->find_booked_dates_in_days($args);
+            //echo '<pre>',print_r($booked_slots_in_details,1),'</pre>';
             for ($cell_start = $first; $cell_start < $last; $cell_start = $cell_start + $step ) {
                 if ( in_array( $counter, $range ) ) {
                     if ( $counter % $columns == 1 ) { $results .= "<tr>"; }
                     if(in_array( $counter, $booked_slots )){
                         $results .= "<td> <a href=\"javascript:void(0);\" class=\"disabled\">".bkx_secs2hours($cell_start) ."</a></td>";
                     }else{
-                        $results .= "<td> <a href=\"javascript:void(0);\" class=\"available\" data-verify='".$args['booking_date']."-".$counter."' data-date='".$args['booking_date']."' data-time='". bkx_secs2hours($cell_start) ."' data-slot='".$counter."'>".bkx_secs2hours($cell_start) ."</a></td>";
+                        if(!empty($booked_day_dates)){
+                            if ( in_array( $args['booking_date'], $booked_day_dates ) ) {
+                                $results .= "<td> <a href=\"javascript:void(0);\" class=\"disabled\">".bkx_secs2hours($cell_start) ."</a></td>";
+                            }else{
+                                $results .= "<td> <a href=\"javascript:void(0);\" class=\"available\" data-verify='".$args['booking_date']."-".$counter."' data-date='".$args['booking_date']."' data-time='". bkx_secs2hours($cell_start) ."' data-slot='".$counter."'>".bkx_secs2hours($cell_start) ."</a></td>";
+                            }
+                        }else{
+                            $results .= "<td> <a href=\"javascript:void(0);\" class=\"available\" data-verify='".$args['booking_date']."-".$counter."' data-date='".$args['booking_date']."' data-time='". bkx_secs2hours($cell_start) ."' data-slot='".$counter."'>".bkx_secs2hours($cell_start) ."</a></td>";
+                        }
                     }
                     if ( $counter % $columns == 0) { $results .= "</tr>"; }
                 }
@@ -1360,7 +1375,22 @@ class BkxBooking {
         }else{
             echo $day_style_header.$results;
         }
+    }
 
+    public function find_booked_dates_in_days( $args ){
+        $booked_dates = array();
+        $search['by'] = 'future';
+        $search['seat_id'] = $args['seat_id'];
+        $search['booking_date'] = date('Y-m-d');
+        $booked_records = $this->GetBookedRecords($search);
+        if(!empty($booked_records)){
+            foreach ($booked_records as $booked){
+                if(!empty($booked['booking_multi_days'])){
+                    $booked_dates = array_merge($booked_dates, $booked['booking_multi_days'] );
+                }
+            }
+        }
+        return $booked_dates;
     }
 
     public function booking_form_generate_total_formatted($selected_ids ){
@@ -2146,10 +2176,10 @@ class BkxBooking {
     }
 
     /**
-     *This Function calculates booking time records
-     *@access public
-     *@param $order_id, $bookingdate, $bookingtime, $bookingduration, $currentdate
-     *@return array $bookingTime
+     * This Function calculates booking time records
+     * @access public
+     * @param $bookingTimeRecord
+     * @return array $bookingTime
      */
     public function bkx_bookingTimeRecord( $bookingTimeRecord ){
         $order_id           = $bookingTimeRecord['order_id'];
