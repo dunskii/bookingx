@@ -108,8 +108,8 @@ if ( ! class_exists( 'BkxExtraMetaBox' ) ) {
                             echo "selected='selected'";
                         } ?>>Hour and Minutes
                         </option>
-                        <!-- <option value="Days" <?php //if($addition_time_option == "D"){ echo "selected='selected'"; }
-                        ?>>Days</option> -->
+                         <option value="Days" <?php if($addition_time_option == "D"){ echo "selected='selected'"; }
+                        ?>>Days</option>
 
                     </select>
                 </div>
@@ -145,7 +145,15 @@ if ( ! class_exists( 'BkxExtraMetaBox' ) ) {
                     </select>
                 </div>
             </div>
-            <div class="active" id="overlap">
+            <div class="active" id="days">
+                Number of Days for <?php echo $addition_alias; ?> Time :
+                <div class="plugin-description">
+                    <input name="addition_days" type="text" value="<?php if (isset($addition_days)) {
+                        echo $addition_days;
+                    } ?>" id="id_addition_days">
+                </div>
+            </div>
+            <div class="active" id="overlap" style="display: none;">
                 Does this <?php echo $addition_alias; ?> require its own time bracket or can it overlap with
                 other <?php echo $addition_alias; ?> :
                 <div class="plugin-description">
@@ -167,14 +175,6 @@ if ( ! class_exists( 'BkxExtraMetaBox' ) ) {
                 Number of Months for <?php echo $addition_alias; ?> Time :
                 <div class="plugin-description">
                     <input name="addition_months" type="text" value="<?php echo $addition_months; ?>" id="id_addition_months">
-                </div>
-            </div>
-            <div class="active" id="days">
-                Number of Days for <?php echo $addition_alias; ?> Time :
-                <div class="plugin-description">
-                    <input name="addition_days" type="text" value="<?php if (isset($addition_days)) {
-                        echo $addition_days;
-                    } ?>" id="id_addition_days">
                 </div>
             </div>
 

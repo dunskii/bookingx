@@ -210,7 +210,7 @@ class BkxExtra {
 
         } else if ($extra_time_option == "D" ) {
             $extra['formatted'] = sprintf(__('%1$s Days', 'bookingx'), $extra_day);
-            $extra_time         = $extra_day * 24;
+            $extra_time         = $extra_day * 24 * 60;
             $extra['type']      = $extra_time_option;
 
         } else if ($extra_time_option == "M") {
@@ -378,15 +378,23 @@ class BkxExtra {
                 $extra       = $extra_data->post;
                 $extra_name  = $extra->post_title;
                 $extra_id    = $extra->ID;
+                $BkxExtra = new BkxExtra("", $extra_id );
+                $extra_time = $BkxExtra->get_time();
+                $total_time = $extra_time['in_sec'] / 60;
+
                 $extra_price         = get_post_meta( $extra_id, 'addition_price', true );
                 $extra_time_option   = get_post_meta( $extra_id, 'addition_time_option', true );
                 $extra_day           = get_post_meta( $extra_id, 'addition_days', true );
                 $extra_hours         = get_post_meta( $extra_id, 'addition_hours', true );
                 $extra_minutes       = get_post_meta( $extra_id, 'addition_minutes', true );
-                $extra_hours         = isset($extra_time_option) && $extra_time_option == "H" && $extra_hours > 0 ? "{$extra_hours} Hour": "" ;
-                $extra_hours         .=  isset($extra_hours) && isset($extra_minutes) && $extra_minutes > 0 ? " {$extra_minutes} Minutes" : "";
+                if(isset($extra_time_option) && $extra_time_option == "H"){
+                    $total_time_formatted =  bkx_convert_for_hours($total_time);
+                }
+                if(isset($extra_time_option) && $extra_time_option == "D"){
+                    $total_time_formatted =  bkx_convert_seconds($total_time * 60);
+                }
                 $extra_html .= sprintf( __( '<input type="checkbox" class="custom-control-input" id="bkx-extra-service-%d" value="%d" name="bkx-extra-service">', 'bookingx' ), $extra_id ,$extra_id );
-                $extra_html .= sprintf( __( '<label class="custom-control-label" for="bkx-extra-service-%d"> %s - %s%s%d - %s </label>', 'bookingx' ), $extra_id, esc_html( $extra_name ),$this->load_global->currency_name, $this->load_global->currency_sym, $extra_price, $extra_hours );
+                $extra_html .= sprintf( __( '<label class="custom-control-label" for="bkx-extra-service-%d"> %s - %s%s%d - %s </label>', 'bookingx' ), $extra_id, esc_html( $extra_name ),$this->load_global->currency_name, $this->load_global->currency_sym, $extra_price, $total_time_formatted );
                 $extra_html .= sprintf('</div>');
             }
 

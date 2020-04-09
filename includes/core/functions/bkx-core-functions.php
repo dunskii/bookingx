@@ -487,8 +487,10 @@ function bkx_localize_string_text(){
         'string_you_require' => sprintf(__('%s','bookingx'), 'you require') );
     return apply_filters('bkx_localized_validation_js_array', $validation_js_array);
 }
+
 /**
  * @param int $get_total_time_of_services
+ * @param string $type
  * @return string
  * @throws Exception
  */
@@ -511,7 +513,7 @@ function bkx_total_time_of_services_formatted( $get_total_time_of_services = 0 ,
         }
         if($type == "D"){
             //$base_day = $minutes / 24;
-            $total_time_of_services_formatted =  bkx_convert_seconds($get_total_time_of_services * 60);
+            $total_time_of_services_formatted =  bkx_convert_seconds($get_total_time_of_services);
             /*if(isset($base_day) && $base_day > 0 && $base_day < 2 ){
                 $total_time_of_services_formatted  = sprintf(__('%1$s Day', 'bookingx'), $base_day);
             }
@@ -528,7 +530,31 @@ function bkx_convert_seconds($seconds)
 {
     $dt1 = new DateTime("@0");
     $dt2 = new DateTime("@$seconds");
-    return $dt1->diff($dt2)->format(' %a Days %h Hours and %i Minutes ');
+    $days =  $dt1->diff($dt2)->d;
+    $hours =  $dt1->diff($dt2)->h;
+    $minutes =  $dt1->diff($dt2)->i;
+    $formatted = "";
+    if($hours > 0  && $minutes < 1 ){
+        $formatted = $dt1->diff($dt2)->format(' %a Days %h Hours ');
+    }elseif($hours > 0  && $minutes > 0 ){
+        $formatted = $dt1->diff($dt2)->format(' %a Days %h Hours and %i Minutes ');
+    }elseif($hours < 1  && $minutes > 0 ){
+        $formatted = $dt1->diff($dt2)->format(' %a Days %i Minutes ');
+    }elseif($hours < 1  && $minutes < 1 && $days > 1 ){
+        $formatted = $dt1->diff($dt2)->format(' %a Days ');
+    }elseif($days == 1 ){
+        $formatted = $dt1->diff($dt2)->format(' %a Day ');
+    }else{
+        $formatted = $dt1->diff($dt2)->format(' %a Days %h Hours and %i Minutes ');
+    }
+    return $formatted;
+}
+
+function bkx_convert_for_hours($seconds)
+{
+    $dt1 = new DateTime("@0");
+    $dt2 = new DateTime("@$seconds");
+    return $dt1->diff($dt2)->format(' %h Hours and %i Minutes ');
 }
 
 function bkx_generate_inline_style(){
