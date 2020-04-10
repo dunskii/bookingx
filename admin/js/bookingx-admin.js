@@ -1,5 +1,20 @@
 jQuery(document).ready(function(){
-        jQuery('.bkx-dashboard-column-all').on('click',function(){
+
+    jQuery(".bkx-booking-style").on('change', function(){
+        if(jQuery(this).val() == 'day_style'){
+            jQuery(".thickbox").addClass('bkx-preview-'+jQuery(this).val());
+            jQuery(".thickbox").removeClass('bkx-preview-default');
+            jQuery(".bkx-preview-"+jQuery(this).val()).attr("href", bkx_admin.day_style+'?style=day');
+        }
+        if(jQuery(this).val() == 'default'){
+            jQuery(".thickbox").addClass('bkx-preview-'+jQuery(this).val());
+            jQuery(".thickbox").removeClass('bkx-preview-day_style');
+            jQuery(".bkx-preview-"+jQuery(this).val()).attr("href", bkx_admin.default_style+'?style=default');
+        }
+    });
+
+
+    jQuery('.bkx-dashboard-column-all').on('click',function(){
             if(this.checked){
                 jQuery('.bkx-dashboard-column').each(function(){
                     this.checked = true;

@@ -102,10 +102,6 @@ function bkx_setting_save_action( )
 		bkx_crud_option_multisite("bkx_privacy_policy_page", sanitize_text_field($_POST['bkx_privacy_policy_page']),'update');
 		bkx_crud_option_multisite("enable_editor", sanitize_text_field($_POST['enable_editor']),'update');
 		bkx_crud_option_multisite("bkx_set_booking_page", sanitize_text_field($_POST['bkx_set_booking_page']),'update');
-        $bkx_booking_style = $_POST['bkx_booking_style'];
-        $bkx_booking_style = ( ( !isset($bkx_booking_style) || $bkx_booking_style == "" ) ? "default" : $bkx_booking_style);
-        bkx_crud_option_multisite("bkx_booking_style", sanitize_text_field($bkx_booking_style),'update');
-
         if(isset($_POST['bkx_set_booking_page']) && $_POST['bkx_set_booking_page']!='')
         {
                 $append_data ='';
@@ -142,7 +138,9 @@ function bkx_setting_save_action( )
 	//@ruchira 8/1/2013 options for css customization 
 	if(isset($_POST['sitecss_flag']) && ($_POST['sitecss_flag']==1))
 	{
-		//for editing the css file 
+        $bkx_booking_style = $_POST['bkx_booking_style'];
+        $bkx_booking_style = ( ( !isset($bkx_booking_style) || $bkx_booking_style == "" ) ? "default" : $bkx_booking_style);
+        bkx_crud_option_multisite("bkx_booking_style", sanitize_text_field($bkx_booking_style),'update');
 		bkx_crud_option_multisite("bkx_siteclient_css_text_color", sanitize_text_field($_POST['bkx_text_color']),'update');
 		bkx_crud_option_multisite("bkx_siteclient_css_background_color", sanitize_text_field($_POST['bkx_background_color']),'update');
 		bkx_crud_option_multisite("bkx_siteclient_css_border_color", sanitize_text_field($_POST['bkx_border_color']),'update');
