@@ -140,17 +140,6 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
                     </td>
         </tr>
 
-        <?php $bkx_booking_style = bkx_crud_option_multisite('bkx_booking_style'); ?>
-        <tr class="active">
-            <th scope="row"><label for="Set Booking Style"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Set Booking Style' ); ?></label></th>
-            <td class="plugin-description">
-                <select name="bkx_booking_style">
-                    <option value="default"   <?php echo ( ( $bkx_booking_style == "" || $bkx_booking_style == 'default' ) ? "selected" : "" ); ?>> Default Style</option>
-                    <option value="day_style" <?php echo ( ( $bkx_booking_style == 'day_style' ) ? "selected" : "" ); ?>> Day Style</option>
-                </select>
-            </td>
-        </tr>
-
 		<tr class="active">
 			<th scope="row"><label for="Status Pending (default)"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Status Pending (default)' ); ?> </label></th>
 			 
@@ -257,9 +246,26 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 	<tbody>
 		<input type="hidden" name="sitecss_flag" value="1">
         <input type="hidden" name="bkx_setting_form_init" value="1">
+        <?php $bkx_booking_style = bkx_crud_option_multisite('bkx_booking_style'); ?>
+        <tr class="active">
+            <th scope="row"><label for="Set Booking Style"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Calendar Layout' ); ?></label></th>
+            <td class="plugin-description">
+                <select name="bkx_booking_style" class="bkx-booking-style">
+                    <option value="default"   <?php echo ( ( $bkx_booking_style == "" || $bkx_booking_style == 'default' ) ? "selected" : "" ); ?>> Classic Calendar</option>
+                    <option value="day_style" <?php echo ( ( $bkx_booking_style == 'day_style' ) ? "selected" : "" ); ?>> Sliding Calendar</option>
+                </select>
+                <?php if($bkx_booking_style == "" || $bkx_booking_style == 'default'){?>
+                    <a href="<?php echo BKX_PLUGIN_PUBLIC_URL; ?>/images/preview/2.jpg" class="bkx-preview-<?php echo $bkx_booking_style;?> thickbox">Preview</a>
+                <?php }?>
+                <?php if($bkx_booking_style == 'day_style'){?>
+                    <a href="<?php echo BKX_PLUGIN_PUBLIC_URL; ?>/images/preview/2b.jpg" class="bkx-preview-<?php echo $bkx_booking_style;?> thickbox">Preview</a>
+                <?php }?>
+            </td>
+        </tr>
+
 		<tr class="active">
 			<th scope="row"><label for="Text Colour"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Booking Form Text Colour' ); ?></label></th>
-			 
+
 			<td class="plugin-description">
 				<input type="text" name="bkx_text_color" id="id_bkx_text_color" value="<?php echo bkx_crud_option_multisite('bkx_siteclient_css_text_color'); ?>">
 			</td>

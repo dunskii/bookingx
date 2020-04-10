@@ -525,7 +525,12 @@ class Bookingx_Admin {
 
         $enable_cancel_booking = bkx_crud_option_multisite('enable_cancel_booking');
         $enable_cancel_booking = isset($enable_cancel_booking) ? $enable_cancel_booking : 0 ;
-        $wp_localize_array = array('ajax_url' => admin_url( 'admin-ajax.php' ), 'is_cancel' => $enable_cancel_booking);
+
+        $wp_localize_array = array(
+                'ajax_url' => admin_url( 'admin-ajax.php' ),
+                'is_cancel' => $enable_cancel_booking,
+                'default_style' => BKX_PLUGIN_PUBLIC_URL."/images/preview/2.jpg",
+                'day_style' => BKX_PLUGIN_PUBLIC_URL."/images/preview/2b.jpg");
         wp_register_script ("bkx-admin-js", plugin_dir_url( __FILE__ ) . 'js/bookingx-admin.js', array( 'jquery','iris' ), BKX_PLUGIN_VER , true);
         wp_localize_script('bkx-admin-js', 'bkx_admin', $wp_localize_array);
         wp_enqueue_script( 'bkx-admin-js' );
