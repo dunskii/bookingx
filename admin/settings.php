@@ -5,6 +5,8 @@ wp_enqueue_style('bkx-cal-ui-css', BKX_PLUGIN_PUBLIC_URL . '/css/bkx-cal-ui.css'
 wp_enqueue_script("bkx-seat-sol", BKX_PLUGIN_DIR_URL . "public/js/admin/sol.js", false, BKX_PLUGIN_VER, true);
 wp_enqueue_style( 'bkx-seat-sol-style', BKX_PLUGIN_DIR_URL . "public/css/sol.css" );
 wp_enqueue_script('iris');
+wp_enqueue_script( 'thickbox' );
+wp_enqueue_style( 'thickbox' );;
 wp_enqueue_script('jquery-ui-datepicker');
 wp_enqueue_script('jquery-ui-autocomplete');
 $temp_option = bkx_crud_option_multisite('bkx_siteuser_canedit_seat');
