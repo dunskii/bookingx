@@ -676,8 +676,10 @@ class BkxBooking {
     }
 
     public function get_booking_form_calendar_availability( $args ){
+
         if(empty($args['seat_id']))
             return;
+
         $seat_id                    = $args['seat_id'];
         $seat_obj                   = new BkxSeat("", $seat_id );
         $seat_available_months      = $seat_obj->get_seat_available_months();
@@ -743,7 +745,7 @@ class BkxBooking {
         $unavailable_days = $this->get_all_unavailable_days( $availability );
         $availability['unavailable_days']       = array_merge( $unavailable_days, $booked_days );
         //echo '<pre>',print_r($availability,1),'</pre>';
-        return $availability;
+        return apply_filters( 'bkx_calender_unavailable_days', $availability );
     }
 
     public function get_all_unavailable_days( $availability ){

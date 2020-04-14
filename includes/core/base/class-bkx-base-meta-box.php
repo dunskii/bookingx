@@ -489,7 +489,7 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
             update_post_meta($post_id, 'base_seat_all', $base_seat_all);
         }
         public function bkx_base_columns_head( $defaults ) {
-            $defaults['display_shortcode_all'] = 'Shortcode [bookingx display="rows" base-id="all"] (display : rows|columns)';
+            $defaults['display_shortcode_all'] = 'Shortcode [bookingx base-id="all"]';
             return $defaults;
         }
 

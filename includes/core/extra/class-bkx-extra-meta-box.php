@@ -375,7 +375,7 @@ if ( ! class_exists( 'BkxExtraMetaBox' ) ) {
         }
 
         public function bkx_addition_columns_head( $defaults ) {
-            $defaults['display_shortcode_all'] = 'Shortcode [bookingx display="rows" extra-id="all"] (display : rows|columns)';
+            $defaults['display_shortcode_all'] = 'Shortcode [bookingx extra-id="all"]';
             return $defaults;
         }
 
