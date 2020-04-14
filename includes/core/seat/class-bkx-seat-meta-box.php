@@ -865,7 +865,7 @@ if ( ! class_exists( 'BkxSeatMetaBox' ) ) {
             if (isset($enable_any_seat) && $enable_any_seat == 1) :
                 $defaults['any_seat'] = '<span class="any_seat tips" data-tip="' . esc_attr__('Set as any Seat', 'bookingx') . '">' . esc_attr__('Set as any seat', 'bookingx') . '</span>';
             endif;
-            $defaults['display_shortcode_all'] = 'Shortcode [bookingx display="rows" seat-id="all"] (display : rows|columns)';
+            $defaults['display_shortcode_all'] = 'Shortcode [bookingx seat-id="all"]';
             return $defaults;
         }
 

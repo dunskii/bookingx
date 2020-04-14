@@ -50,6 +50,8 @@ class Bookingx_Admin {
 	public function __construct( $plugin_name = null , $version = null) {
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
+
+		add_filter('bkx_calender_unavailable_days', array($this, 'bkx_calender_unavailable_days'));
 	}
 
     public function bkx_create_seat_post_type(){
@@ -535,6 +537,48 @@ class Bookingx_Admin {
         wp_localize_script('bkx-admin-js', 'bkx_admin', $wp_localize_array);
         wp_enqueue_script( 'bkx-admin-js' );
 	}
+
+    public function createDateRange($first, $last, $step = '+1 day', $output_format = 'm/d/Y')
+    {
+        $dates = array();
+        $current = strtotime($first);
+        $last = strtotime($last);
+        while( $current <= $last ) {
+
+            $dates[] = date($output_format, $current);
+            $current = strtotime($step, $current);
+        }
+
+        return $dates;
+    }
+
+	public function bkx_calender_unavailable_days( $days ){
+
+        $bkx_biz_vac_sd = bkx_crud_option_multisite('bkx_biz_vac_sd');
+        $bkx_biz_vac_sd = $this->date_format_correct($bkx_biz_vac_sd);
+
+        $bkx_biz_vac_ed = bkx_crud_option_multisite('bkx_biz_vac_ed');
+        $bkx_biz_vac_ed = $this->date_format_correct($bkx_biz_vac_ed);
+        $biz_vacations = $this->createDateRange( $bkx_biz_vac_sd, $bkx_biz_vac_ed );
+
+        $bkx_biz_pub_holiday = bkx_crud_option_multisite('bkx_biz_pub_holiday');
+        $holidays = array();
+        if(!empty($bkx_biz_pub_holiday)){
+            foreach ($bkx_biz_pub_holiday as $date){
+                $holidays[] = $this->date_format_correct($date);
+            }
+        }
+        $biz_vacations = array_merge( $biz_vacations, $holidays );
+        $days['unavailable_days']       = array_merge( $biz_vacations, array_unique($days['unavailable_days']) );
+        return $days;
+    }
+
+    public function date_format_correct( $date, $format = 'm/d/Y'){
+        $date_arr = explode("/",$date);
+        $date_formated = strtotime("{$date_arr[2]}/{$date_arr[1]}/{$date_arr[0]}");// "Y-m-d"
+        $date_formated = date($format, $date_formated);
+        return $date_formated;
+    }
 
 	public function export_now(){
 	    if(isset($_POST['export_xml']) && sanitize_text_field($_POST['export_xml']) == "Export xml") :
