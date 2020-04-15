@@ -21,16 +21,25 @@ $seat_available_months = $bkx_seat->seat_available_months;
 $seat_available_days = $bkx_seat->seat_available_days;
 $seat_notifiaction_info = $bkx_seat->seat_notifiaction_info;
 $seat_payment_info = $bkx_seat->seat_payment_info;
+$desc = $image = true;
+if(!empty($args)){
+    $desc   = $args['description'];
+    $image  = $args['image'];
+}
 ?>
 <div class="bkx-single-post-view clearfix">
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                <?php echo $bkx_seat->get_thumb();?>
+                <?php
+                if($image == true ) :
+                    echo $bkx_seat->get_thumb();
+                endif;
+                ?>
             </div>
             <div class="col-md-8">
                 <div class="row">
-                    <div class="col-md-8"><h1><?php echo get_the_title(); ?></h1></div>
+                    <div class="col-md-8"><h1><?php echo get_the_title($seat_id); ?></h1></div>
                     <div class="col-md-4">
                         <div class="booking-btn">
                             <form method="post" enctype='multipart/form-data' action="<?php echo $booking_url;?>">
@@ -42,7 +51,9 @@ $seat_payment_info = $bkx_seat->seat_payment_info;
                     </div>
                 </div>
                 <hr/>
-                <div class="row"><div class="col-md-12"><p><?php echo get_the_content(); ?></p></div></div>
+                <?php if($desc == true ) :?>
+                    <div class="row"><div class="col-md-12"><p><?php echo get_the_content(); ?></p></div></div>
+                <?php endif;;?>
                 <?php if(!empty($available_services)):?>
                     <div class="available-services"><?php echo $available_services; ?></div>
                 <?php endif;?>

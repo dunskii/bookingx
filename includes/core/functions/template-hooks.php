@@ -45,3 +45,8 @@
  * @see bookingx_get_sidebar()
  */
 add_action( 'bookingx_sidebar', 'bookingx_get_sidebar', 10 );
+
+/**
+ * Block hooks for Column Settings
+ */
+add_filter( 'bookingx_block_grid_setting', 'bookingx_block_grid_setting', 10 );

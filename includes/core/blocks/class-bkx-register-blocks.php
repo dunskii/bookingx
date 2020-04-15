@@ -41,7 +41,7 @@ class Bkx_Register_Blocks
             [
                 'style' => $style_slug, // General block style slug
                 'editor_script' => $script_slug,  // The block script slug
-                //'render_callback' => [$this, 'bkx_booking_form_render_callback'],
+                'render_callback' => [$this, 'bkx_booking_form_render_callback'],
             ]
         );
     }

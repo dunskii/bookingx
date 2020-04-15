@@ -237,6 +237,20 @@ function bkx_get_template($template_name, $args = '') {
         include($file_path);
     }
 }
+
+/**
+ * @param $column
+ * @return int
+ */
+function block_column_cal( $column ){
+    $base  = 12;
+    if($column == 1){
+        $value = $base;
+    }else{
+        $value = intval($base / $column) ;
+    }
+    return $value;
+}
 /**
  * When the_post is called, put Bookingx post into a global.
  *
