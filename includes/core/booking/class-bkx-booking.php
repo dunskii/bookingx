@@ -744,6 +744,10 @@ class BkxBooking {
         //echo '<pre>',print_r($booked_days,1),'</pre>';
         $unavailable_days = $this->get_all_unavailable_days( $availability );
         $availability['unavailable_days']       = array_merge( $unavailable_days, $booked_days );
+        $availability['seat_id']    = $args['seat_id'];
+        $availability['base_id']    = $args['base_id'];
+        $availability['extra_ids']  = $args['extra_ids'];
+
         //echo '<pre>',print_r($availability,1),'</pre>';
         return apply_filters( 'bkx_calender_unavailable_days', $availability );
     }

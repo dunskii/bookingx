@@ -52,7 +52,18 @@ class Bookingx_Admin {
 		$this->version = $version;
 
 		add_filter('bkx_calender_unavailable_days', array($this, 'bkx_calender_unavailable_days'));
-	}
+        add_filter( 'register_post_type_args', array($this,'bkx_seat_post_type_args'), 10, 2 );
+    }
+
+    public function bkx_seat_post_type_args( $args, $post_type  ){
+        if ( 'bkx_seat' === $post_type ) {
+            $args['show_in_rest'] = true;
+            // Optionally customize the rest_base or rest_controller_class
+            $args['rest_base']             = 'bkx_seat';
+            $args['rest_controller_class'] = 'WP_REST_Posts_Controller';
+        }
+        return $args;
+    }
 
     public function bkx_create_seat_post_type(){
         bkx_crud_option_multisite('bkx_alias_seat') == "" ? bkx_crud_option_multisite( 'bkx_alias_seat', 'Resource','update') : '';
