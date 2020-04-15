@@ -357,3 +357,31 @@ if ( ! function_exists( 'booking_x_page_title' ) ) {
         }
     }
 }
+
+if (!function_exists('bookingx_block_grid_setting')) {
+
+    /**
+     * @param $args
+     * Get args array from block and related column setting
+     * @return array
+     */
+    function bookingx_block_grid_setting($args)
+    {
+        $class = "col-lg-4 col-12 mb-2";
+        $settings = array('class' => $class );
+        if(!empty($args)){
+            $columns = isset($args['columns']) ? $args['columns'] : 3;
+            $rows = isset($args['rows']) ? $args['rows'] : 3;
+            $col = block_column_cal($columns);
+            $block = "";
+            if(isset($columns)){
+                $class = "col-lg-{$col} col-12 mb-2";
+                $block = "-block";
+            }
+            $settings['class'] = $class;
+            $settings['block'] = $block;
+            $settings['rows']   = $rows;
+        }
+        return $settings;
+    }
+}
