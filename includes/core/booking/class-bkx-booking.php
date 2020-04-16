@@ -1338,7 +1338,6 @@ class BkxBooking {
             $booked_day_dates = $this->find_booked_dates_in_days($args);
             //echo '<pre>',print_r($booked_slots_in_details,1),'</pre>';
             $booked_slots  = apply_filters('bookingx_booked_slots', $booked_slots, $args);
-
             for ($cell_start = $first; $cell_start < $last; $cell_start = $cell_start + $step ) {
                 if ( in_array( $counter, $range ) ) {
                     if ( $counter % $columns == 1 ) { $results .= "<tr>"; }

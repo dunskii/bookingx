@@ -209,11 +209,11 @@ function bkx_get_range($bookingdate, $seatid) {
 
         $timefromArr = explode(":", $time_from);
 
-        $minsCounter = BkxGenerateCounter($timefromArr[1]);
+        $minsCounter = bkx_getMinsSlot($timefromArr[1]);
         $timefrom_slot = $timefromArr[0] * 4 + $minsCounter;
 
         $timetillArr = explode(":", $time_till);
-        $minsCounterTill = BkxGenerateCounter($timetillArr[1]);
+        $minsCounterTill = bkx_getMinsSlot($timetillArr[1]);
         $timetill_slot = $timetillArr[0] * 4 + $minsCounterTill;
         $range = range( $timefrom_slot , $timetill_slot - 1 );
     } else {
