@@ -666,7 +666,6 @@ function date_format_correct( $date, $format = 'm/d/Y'){
  * @return float|int|void
  */
 function GenerateSlotByTime( $selected_time  ){
-
     if(empty($selected_time))
         return;
     $counter = 0;
