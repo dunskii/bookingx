@@ -517,20 +517,6 @@ function bkx_getDayName( $day ) {
     return $day_name;
 }
 
-function bkx_getMinsSlot($mins) {
-    if (intval($mins) == 0) {
-        $slot = 1;
-    } else if (intval($mins) == 15) {
-        $slot = 2;
-    } else if (intval($mins) == 30) {
-        $slot = 3;
-    } else if (intval($mins) == 45) {
-        $slot = 4;
-    }
-
-    return $slot;
-}
-
 function bkx_admin_actions() {
     $alias_seat = bkx_crud_option_multisite('bkx_alias_seat');
     $bkx_alias_base = bkx_crud_option_multisite('bkx_alias_base');
