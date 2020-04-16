@@ -648,3 +648,51 @@ function bkx_generate_thumbnail( $post ){
         $post->post->ID
     );
 }
+
+/**
+ * @param $date
+ * @param string $format
+ * @return false|int|string
+ */
+function date_format_correct( $date, $format = 'm/d/Y'){
+    $date_arr = explode("/",$date);
+    $date_formated = strtotime("{$date_arr[2]}/{$date_arr[1]}/{$date_arr[0]}");// "Y-m-d"
+    $date_formated = date($format, $date_formated);
+    return $date_formated;
+}
+
+/**
+ * @param $selected_time
+ * @return float|int|void
+ */
+function GenerateSlotByTime( $selected_time  ){
+    if(empty($selected_time))
+        return;
+    $counter = 0;
+    $booking_hour = explode(':', $selected_time);
+    $hours_temp = $booking_hour[0];
+    if(isset($booking_hour[1])){
+        $minutes_temp = $booking_hour[1];
+        $counter = BkxGenerateCounter($minutes_temp);
+    }
+    return intval($hours_temp) * 4 + $counter;
+}
+
+/**
+ * @param $minutes_temp
+ * @return int
+ */
+function BkxGenerateCounter($minutes_temp)
+{
+    $counter = 0;
+    if (intval($minutes_temp) == 0) {
+        $counter = 1;
+    } else if (intval($minutes_temp) == 15) {
+        $counter = 2;
+    } else if (intval($minutes_temp) == 30) {
+        $counter = 3;
+    } else if (intval($minutes_temp) == 45) {
+        $counter = 4;
+    }
+    return $counter;
+}
