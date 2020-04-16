@@ -1168,24 +1168,7 @@ class BkxBooking {
         }
 
         //get current booking start time slot
-        $counter = 0;
-        $bookinghour = explode(':', $selected_time);
-        //echo '<pre>', print_r($bookinghour, 1), '</pre>';
-        $hours_temp = $bookinghour[0];
-        if(isset($bookinghour[1])){
-            $minutes_temp = $bookinghour[1];
-            if (intval($minutes_temp) == 0) {
-                $counter = 1;
-            } else if (intval($minutes_temp) == 15) {
-                $counter = 2;
-            } else if (intval($minutes_temp) == 30) {
-                $counter = 3;
-            } else if (intval($minutes_temp) == 45) {
-                $counter = 4;
-            }
-        }
-        $startingSlotNumber = intval($hours_temp) * 4 + $counter;
-
+        $startingSlotNumber = GenerateSlotByTime($selected_time);
         $res = 1;
         $numberOfSlotsToBeBooked = 0;
 
@@ -1354,6 +1337,7 @@ class BkxBooking {
             $columns = 4;
             $booked_day_dates = $this->find_booked_dates_in_days($args);
             //echo '<pre>',print_r($booked_slots_in_details,1),'</pre>';
+            $booked_slots  = apply_filters('bookingx_booked_slots', $booked_slots, $args);
             for ($cell_start = $first; $cell_start < $last; $cell_start = $cell_start + $step ) {
                 if ( in_array( $counter, $range ) ) {
                     if ( $counter % $columns == 1 ) { $results .= "<tr>"; }
