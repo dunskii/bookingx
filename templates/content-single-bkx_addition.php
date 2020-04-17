@@ -19,14 +19,21 @@ if(isset($extra_id) && $extra_id !=""){
 }
 $available_seats = bkx_get_post_with_price_duration( $get_seat_by_extra, $alias_seat, 'seat' );
 $available_base = bkx_get_post_with_price_duration( $get_base_by_extra, $alias_base, 'base' );
+$image = $desc = "yes";
+if(!empty($args)){
+    $desc  = $args['description'];
+    $image  = $args['image'];
+}
 ?>
 <div class="bkx-single-post-view clearfix">
     <div class="container">
         <div class="row">
+            <?php if($image == "yes") :?>
             <div class="col-md-4">
                 <?php echo $bkx_addition->get_thumb();?>
             </div>
-            <div class="col-md-8">
+            <?php endif; ?>
+            <div class="col-md-<?php echo ($image == "yes" ) ? 8 : 12;?>">
                 <div class="row">
                     <div class="col-md-8"><h1><?php echo get_the_title();  ?></h1><h4><?php echo "{$price_duration['time']} {$price_duration['price']}";?></h4></div>
                     <div class="col-md-4">
@@ -38,7 +45,9 @@ $available_base = bkx_get_post_with_price_duration( $get_base_by_extra, $alias_b
                     </div>
                 </div>
                 <hr/>
+                <?php if($desc == "yes" ) :?>
                 <div class="row"><div class="col-md-12"><p><?php echo get_the_content(); ?></p></div></div>
+                <?php endif;?>
                 <?php if(!empty($available_seats)):?>
                     <div class="available-seats"><?php echo $available_seats; ?></div>
                 <?php endif;?>

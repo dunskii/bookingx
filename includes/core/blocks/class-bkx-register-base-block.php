@@ -2,18 +2,48 @@
 
 class Bkx_Register_Base_Block
 {
+    /**
+     * @var string
+     */
     public $plugin_name = 'booking-x';
 
+    /**
+     * @var string
+     */
     public $block_name = 'bkx-base-block';
 
+    /**
+     * @var array
+     */
+    public $attributes = array(
+        'showDesc'      => array( 'type' => 'boolean' ),
+        'showImage'     => array( 'type' => 'boolean' ),
+        'baseDescription'      => array( 'type' => 'string' ),
+        'baseImageStatus'      => array( 'type' => 'string' ),
+        //'showExtra'     => array( 'type' => 'boolean' ),
+        'basePostId'    => array( 'type' => 'string' ),
+        'basePosts'     => array( 'type' => 'object' ),
+        'columns'       => array( 'type' => 'integer' ),
+        'rows'          => array( 'type' => 'integer' ),
+
+    );
+
+    /**
+     * Bkx_Register_Base_Block constructor.
+     */
     public function __construct() {
         add_action( 'init', array( $this,'bkx_base_register_block_action' ) );
     }
 
+
     public function bkx_base_register_block_action() {
 
         $script_slug = $this->plugin_name . '-' . $this->block_name;
-        $style_slug = $this->plugin_name . '-' . $this->block_name . '-style';
+
+        $bootstrap_script = $this->plugin_name . '-' . $this->block_name . '-bootstrap-script';
+        $style_slug = $this->plugin_name . '-' . $this->block_name . '-style-block';
+        $bootstrap_style = $this->plugin_name . '-' . $this->block_name . '-bootstrap-style';
+        $style_main = $this->plugin_name . '-' . $this->block_name . '-style-main';
 
         wp_enqueue_script(
             $script_slug,
@@ -22,17 +52,45 @@ class Bkx_Register_Base_Block
                 'wp-blocks', // Required: contains registerBlockType function that creates a block
                 'wp-element', // Required: contains element function that handles HTML markup
                 'wp-i18n', // contains registerBlockType function that creates a block
-                'wp-server-side-render'
+                'wp-server-side-render',
+                'wp-components', 'wp-editor'
             ],
+            BKX_PLUGIN_VER
+        );
+
+        wp_enqueue_script(
+            $bootstrap_script,
+            BKX_PLUGIN_PUBLIC_URL . '/js/booking-form/bootstrap.min.js',
+            [  // Dependencies that will have to be imported on the block JS file
+                'wp-blocks', // Required: contains registerBlockType function that creates a block
+                'wp-element', // Required: contains element function that handles HTML markup
+                'wp-i18n', // contains registerBlockType function that creates a block
+                'wp-server-side-render',
+                'wp-components', 'wp-editor'
+            ], // General style
             BKX_PLUGIN_VER
         );
 
         // The block style
         // It will be loaded on the editor and on the site
         wp_register_style(
+            $bootstrap_style,
+            BKX_PLUGIN_PUBLIC_URL . '/css/bootstrap.min.css',
+            [], // General style
+            BKX_PLUGIN_VER
+        );
+
+        wp_register_style(
+            $style_main,
+            BKX_PLUGIN_PUBLIC_URL . '/css/style.css',
+            [], // General style
+            BKX_PLUGIN_VER
+        );
+
+        wp_register_style(
             $style_slug,
             BKX_BLOCKS_ASSETS . 'base/css/style.css',
-            ['wp-blocks'], // General style
+            [], // General style
             BKX_PLUGIN_VER
         );
 
@@ -40,16 +98,30 @@ class Bkx_Register_Base_Block
         register_block_type(
             "{$this->plugin_name}/{$this->block_name}", // Block name with namespace
             [
-                'style' => $style_slug, // General block style slug
-                'editor_script' => $script_slug,  // The block script slug
+                'style' => array( $style_main, $style_slug, $bootstrap_style), // General block style slug
+                'editor_script' => array($script_slug, $bootstrap_script),  // The block script slug
                 'render_callback' => [$this, 'bkx_bases_render_callback'],
+                'attributes'      => $this->attributes,
             ]
         );
     }
 
-    function bkx_bases_render_callback(){
+    /**
+     * @param $attributes
+     * @return string
+     */
+    function bkx_bases_render_callback( $attributes){
         ob_start();
-        echo do_shortcode('[bookingx base-id="all"]');
+        // Prepare variables.
+        //$desc       = isset( $attributes['showDesc'] ) ? $attributes['showDesc'] : false;
+        $desc       = $attributes['baseDescription'];
+        $image      = $attributes['baseImageStatus'];
+        ///$info       = isset( $attributes['showExtra'] ) ? $attributes['showExtra'] : true;
+        $base_id    = isset( $attributes['basePostId'] ) && $attributes['basePostId'] > 0 ? $attributes['basePostId'] : 'all';
+        $columns    = isset( $attributes['columns'] ) ? $attributes['columns'] : 3;
+        $rows       = isset( $attributes['rows'] ) ? $attributes['rows'] : 1;
+
+        echo do_shortcode('[bookingx block="1" base-id="'.$base_id.'" columns="'.$columns.'" rows="'.$rows.'"  description="'.$desc.'" image="'.$image.'"]');
         $bases_data = ob_get_clean();
         return "<div class=\"gutenberg-booking-x-bases-data\">{$bases_data}</div>";
     }

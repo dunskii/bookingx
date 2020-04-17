@@ -21,23 +21,22 @@ $seat_available_months = $bkx_seat->seat_available_months;
 $seat_available_days = $bkx_seat->seat_available_days;
 $seat_notifiaction_info = $bkx_seat->seat_notifiaction_info;
 $seat_payment_info = $bkx_seat->seat_payment_info;
-$desc = $image = true;
+$image = $desc = "yes";
 if(!empty($args)){
-    $desc   = $args['description'];
+    $desc  = $args['description'];
     $image  = $args['image'];
 }
+//var_dump($image);
 ?>
 <div class="bkx-single-post-view clearfix">
     <div class="container">
         <div class="row">
+            <?php if($image == "yes") :?>
             <div class="col-md-4">
-                <?php
-                if($image == true ) :
-                    echo $bkx_seat->get_thumb();
-                endif;
-                ?>
+                <?php echo $bkx_seat->get_thumb();?>
             </div>
-            <div class="col-md-8">
+            <?php endif; ?>
+            <div class="col-md-<?php echo ($image == "yes" ) ? 8 : 12;?>">
                 <div class="row">
                     <div class="col-md-8"><h1><?php echo get_the_title($seat_id); ?></h1></div>
                     <div class="col-md-4">
@@ -51,9 +50,9 @@ if(!empty($args)){
                     </div>
                 </div>
                 <hr/>
-                <?php if($desc == true ) :?>
-                    <div class="row"><div class="col-md-12"><p><?php echo get_the_content(); ?></p></div></div>
-                <?php endif;;?>
+                <?php if($desc == "yes" ) :?>
+                    <div class="row"><div class="col-md-12"<p><?php echo $bkx_seat->seat_info; ?></p></div></div>
+                <?php endif;?>
                 <?php if(!empty($available_services)):?>
                     <div class="available-services"><?php echo $available_services; ?></div>
                 <?php endif;?>

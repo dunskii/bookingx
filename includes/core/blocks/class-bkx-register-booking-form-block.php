@@ -1,29 +1,18 @@
 <?php defined( 'ABSPATH' ) || exit;
 
-class Bkx_Register_Seat_Block
+class Bkx_Register_Booking_Form_Block
 {
     public $plugin_name = 'booking-x';
 
-    public $block_name = 'bkx-seat-block';
+    public $block_name = 'bkx-booking-form-block';
 
-    public $attributes = array(
-        'showDesc'      => array( 'type' => 'boolean' ),
-        'showImage'     => array( 'type' => 'boolean' ),
-        'seatDescription'      => array( 'type' => 'string' ),
-        'seatImageStatus'      => array( 'type' => 'string' ),
-        //'showExtra'     => array( 'type' => 'boolean' ),
-        'seatPostId'    => array( 'type' => 'string' ),
-        'seatPosts'     => array( 'type' => 'object' ),
-        'columns'       => array( 'type' => 'integer' ),
-        'rows'          => array( 'type' => 'integer' ),
-
-    );
+    public $attributes = array();
 
     public function __construct() {
-        add_action( 'init', array( $this,'bkx_seat_register_block_action' ) );
+        add_action( 'init', array( $this,'bkx_booking_form_register_block_action' ) );
     }
 
-    public function bkx_seat_register_block_action() {
+    public function bkx_booking_form_register_block_action() {
 
         $script_slug = $this->plugin_name . '-' . $this->block_name;
         $bootstrap_script = $this->plugin_name . '-' . $this->block_name . '-bootstrap-script';
@@ -33,7 +22,7 @@ class Bkx_Register_Seat_Block
 
         wp_enqueue_script(
             $script_slug,
-            BKX_BLOCKS_ASSETS.'seat/block.js',
+            BKX_BLOCKS_ASSETS.'booking-form/block.js',
             [  // Dependencies that will have to be imported on the block JS file
                 'wp-blocks', // Required: contains registerBlockType function that creates a block
                 'wp-element', // Required: contains element function that handles HTML markup
@@ -75,7 +64,7 @@ class Bkx_Register_Seat_Block
 
         wp_register_style(
             $style_slug,
-            BKX_BLOCKS_ASSETS . 'seat/css/style.css',
+            BKX_BLOCKS_ASSETS . 'booking-form/css/style.css',
             [], // General style
             BKX_PLUGIN_VER
         );
@@ -86,7 +75,7 @@ class Bkx_Register_Seat_Block
             [
                 'style' => array( $style_main, $style_slug, $bootstrap_style), // General block style slug
                 'editor_script' => array($script_slug, $bootstrap_script),  // The block script slug
-                'render_callback' => [$this, 'bkx_seats_render_callback'],
+                'render_callback' => [$this, 'bkx_booking_forms_render_callback'],
                 'attributes'      => $this->attributes,
             ]
         );
@@ -96,18 +85,12 @@ class Bkx_Register_Seat_Block
      * @param $attributes
      * @return string
      */
-    function bkx_seats_render_callback( $attributes){
+    function bkx_booking_forms_render_callback( $attributes){
         // Prepare variables.
-        $desc       = $attributes['seatDescription'];
-        $image      = $attributes['seatImageStatus'];
-        ///$info       = isset( $attributes['showExtra'] ) ? $attributes['showExtra'] : true;
-        $seat_id    = isset( $attributes['seatPostId'] ) && $attributes['seatPostId'] > 0 ? $attributes['seatPostId'] : 'all';
-        $columns    = isset( $attributes['columns'] ) ? $attributes['columns'] : 3;
-        $rows       = isset( $attributes['rows'] ) ? $attributes['rows'] : 1;
         ob_start();
-        echo do_shortcode('[bookingx block="1" seat-id="'.$seat_id.'" columns="'.$columns.'" rows="'.$rows.'"  description="'.$desc.'" image="'.$image.'"]');
-        $seats_data = ob_get_clean();
-        return "<div class=\"gutenberg-booking-x-seats-data\">{$seats_data}</div>";
+        echo do_shortcode('[bookingform]');
+        $booking_forms_data = ob_get_clean();
+        return "<div class=\"gutenberg-booking-x-booking_forms-data\">{$booking_forms_data}</div>";
     }
 }
-new Bkx_Register_Seat_Block();
+new Bkx_Register_Booking_Form_Block();

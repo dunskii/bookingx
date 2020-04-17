@@ -56,10 +56,10 @@ class Bookingx_Admin {
     }
 
     public function bkx_seat_post_type_args( $args, $post_type  ){
-        if ( 'bkx_seat' === $post_type ) {
+        if ( 'bkx_seat' === $post_type || 'bkx_base' === $post_type || 'bkx_addition' === $post_type) {
             $args['show_in_rest'] = true;
             // Optionally customize the rest_base or rest_controller_class
-            $args['rest_base']             = 'bkx_seat';
+            $args['rest_base']             = $post_type;
             $args['rest_controller_class'] = 'WP_REST_Posts_Controller';
         }
         return $args;
