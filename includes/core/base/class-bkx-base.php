@@ -131,6 +131,64 @@ class BkxBase {
          endif;
     }
 
+    /**
+     * @param $base_id
+     * @return string
+     */
+    public function get_meta_details_html( $base_id ){
+        $booking_url = $this->booking_page_url;
+        $bkx_alias_base = bkx_crud_option_multisite('bkx_alias_base');
+        $meta_data = $this->GetMetData($base_id);
+        $base_location_type = isset($meta_data['base_location_type'][0]) ? esc_attr($meta_data['base_location_type'][0]) : "Fixed Location";
+        $Duration = $this->get_service_time( $base_id );
+        if((isset($Duration['H']))){
+            $DurationHMObj = $Duration['H'];
+        }
+        if((isset($Duration['D']))){
+            $DurationDObj = $Duration['D'];
+        }
+
+        if(!empty($DurationHMObj)):
+            $hours  = isset($DurationHMObj['hours']) && $DurationHMObj['hours'] > 0 && $DurationHMObj['hours']!='' ? $DurationHMObj['hours'].' Hours ' : '';
+            $hours  = isset($DurationHMObj['hours']) && $DurationHMObj['hours'] < 2 && $DurationHMObj['hours']!='' ? $DurationHMObj['hours'].' Hour ' : $hours;
+            $mins   = isset($DurationHMObj['minutes'])  && $DurationHMObj['minutes'] > 0 && $DurationHMObj['minutes']!='' ? " and {$DurationHMObj['minutes']} Minutes " : '';
+            $duration_text = "{$hours} {$mins}";
+        endif;
+        if(!empty($DurationDObj)):
+            $day    = isset($DurationDObj['days']) && $DurationDObj['days']!='' ? $DurationDObj['days'].' Days ' : '';
+            $duration_text = $day;
+        endif;
+        $extended = $this->service_extended();
+        $extended_label = isset($extended) && $extended == 'Y' ? 'Yes' : 'No';
+        $fixed_mobile = $this->get_service_fixed_mobile();
+        $fixedObj   = $fixed_mobile['fixed'];
+        $mobileObj  = $fixed_mobile['mobile'];
+        if ($base_location_type == "FM") {
+            $base_location_type = "Fixed & Mobile";
+        }
+        $html = "";
+        $html .= "<div class=\"row\">
+                    <div class=\"col-md-8\">".sprintf('<h3>%s</h3>',__('Additional Information', 'bookingx'))."</div>
+                    <div class=\"col-md-4\">
+                        <form method=\"post\" enctype='multipart/form-data' action=\"$booking_url\">
+                            <input type=\"hidden\" name=\"type\" value=\"bkx_seat\" />
+                            <input type=\"hidden\" name=\"id\" value=\"esc_attr( $base_id )\" />
+                            <button type=\"submit\" class=\"btn btn-primary\">".esc_html( 'Book now', 'bookingx' )."</button>
+                        </form>
+                    </div>
+                <div class=\"col-md-12\"><hr class=\"mt-1\"/></div>
+                </div>";
+        $html .="<div class=\"row\">
+                    <div class=\"col-md-12\">
+                            <ul class=\"additional-info\">".sprintf(__('<li><div class=\"fixed-mobile\"><label>This is a %1$s %2$s </label></li>', 'bookingx'), $base_location_type , $bkx_alias_base);
+                        $html .= sprintf('<li><div class="durations"><label>%s :</label><span> %s</span></li>','Duration ',$duration_text);
+                        $html .= sprintf(__('<li><div class="extended"><label>%2$s Time Extended :</label><span> %1$s</span></li>', 'bookingx'), $extended_label , $bkx_alias_base);
+                        $html .= "</ul>
+                    </div>
+                </div>";
+        return $html;
+    }
+
     public function get_base_options_for_booking_form( $seat_id = null ){
 
         if( !isset($seat_id) && $seat_id == "" )
@@ -293,11 +351,27 @@ class BkxBase {
     }
 
     /**
+     * @param $base_id
+     * @return mixed
+     */
+    public function GetMetData( $base_id){
+
+        if(empty($base_id))
+            return;
+        return get_post_meta($base_id);
+    }
+
+    /**
      *
+     * @param $base_id
      * @return type
      */
-    public function get_service_time() {
-        $meta_data = $this->meta_data;
+    public function get_service_time( $base_id = null  ) {
+        if(empty($base_id)){
+            $base_id = $this->id;
+        }
+        $meta_data = $this->GetMetData($base_id );
+
         $base_time_option = isset($meta_data['base_time_option']) ? esc_attr($meta_data['base_time_option'][0]) : "";
         //$base_month = isset($meta_data['base_month']) ? esc_attr($meta_data['base_month'][0]) : "";
         $base_day = isset($meta_data['base_day']) ? esc_attr($meta_data['base_day'][0]) : "";
@@ -314,7 +388,8 @@ class BkxBase {
         if ($base_time_option == 'D'):
             $time_data[$base_time_option]['days'] = $base_day;
         endif;
-        return apply_filters('bkx_base_service_time', $time_data, $this);
+
+        return apply_filters('bkx_base_service_time', $time_data);
     }
     /**
      * @return mixed|void

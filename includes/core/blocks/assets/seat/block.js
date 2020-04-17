@@ -21,12 +21,10 @@
         category: 'booking-x',
         attributes: {
             'showDesc': {
-                type: 'boolean',
-                default: true
+                type: 'boolean'
             },
             'showImage': {
-                type: 'boolean',
-                default: true
+                type: 'boolean'
             },
             // 'showExtra': {
             //     type: 'boolean',
@@ -45,6 +43,12 @@
             'rows':{
                 type : 'integer',
                 default: 1
+            },
+            'seatDescription':{
+                type : 'string'
+            },
+            'seatImageStatus':{
+                type : 'string'
             }
         },
         edit: ( props ) => {
@@ -73,8 +77,6 @@
             if(props.attributes.seatPosts && props.attributes.seatPosts.length === 0){
                 options.push( { value: 0, label: 'No seats found, Please add new seats.' } )
             }
-
-            console.log(props.attributes)
             return[
                 /**
                  * Server side render
@@ -126,6 +128,12 @@
                                         options : options,
                                         onChange: ( value ) => {
                                             props.setAttributes( { seatPostId: value } );
+                                            if(value > 0 ){
+                                                props.setAttributes( { showDesc: true } );
+                                                props.setAttributes( { showImage: true } );
+                                                props.setAttributes( { seatImageStatus: 'yes' } );
+                                                props.setAttributes( { seatDescription: 'yes' } );
+                                            }
                                         },
                                     },
                                 )
@@ -136,6 +144,11 @@
                                     {
                                         label: 'Show Description',
                                         onChange: ( value ) => {
+                                            if(value == true){
+                                                props.setAttributes( { seatDescription: 'yes' } );
+                                            }else{
+                                                props.setAttributes( { seatDescription: 'no' } );
+                                            }
                                             props.setAttributes( { showDesc: value } );
                                         },
                                         checked: props.attributes.showDesc,
@@ -148,7 +161,12 @@
                                     {
                                         label: 'Show Image',
                                         onChange: ( value ) => {
-                                            props.setAttributes( { showImage: value } );
+                                            if(value == true){
+                                                props.setAttributes( { seatImageStatus: 'yes' } );
+                                            }else{
+                                                props.setAttributes( { seatImageStatus: 'no' } );
+                                            }
+                                           props.setAttributes( { showImage: value } );
                                         },
                                         checked: props.attributes.showImage,
                                     }
@@ -171,9 +189,8 @@
                     el( ServerSideRender, {
                         block: 'booking-x/bkx-seat-block',
                         attributes: {
-                            showDesc : props.attributes.showDesc,
-                            showImage : props.attributes.showImage,
-                            //showExtra : props.attributes.showExtra,
+                            seatDescription : (!props.attributes.seatDescription ? 'yes' : props.attributes.seatDescription),
+                            seatImageStatus : (!props.attributes.seatImageStatus ? 'yes' : props.attributes.seatImageStatus),
                             seatPostId : props.attributes.seatPostId,
                             columns : props.attributes.columns,
                             rows : props.attributes.rows,

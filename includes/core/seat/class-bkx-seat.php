@@ -96,6 +96,7 @@ class BkxSeat {
         $this->meta_data = get_post_custom( $post_id );
         $this->wp_seat_id = $this->get_seat_user_id();
         $this->seat_personal_info = $this->get_seat_personal_info();
+        $this->seat_info = $this->get_description();
         $this->seat_available_months = $this->get_seat_available_months();
         $this->seat_available_days = $this->get_seat_available_days();
         $this->seat_payment_info = $this->get_seat_payment_info();

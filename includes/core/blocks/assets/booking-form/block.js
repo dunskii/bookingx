@@ -1,37 +1,53 @@
 // block.js
 
-( function( blocks, element ) {
+( function( blocks, element, serverSideRender, components, editor ) {
 
     var el = element.createElement,
-        source = blocks.source;
+        registerBlockType = blocks.registerBlockType,
+        ServerSideRender = components.ServerSideRender,
+        SelectControl = components.SelectControl,
+        TextControl = components.RadioControl,
+        ToggleControl = components.ToggleControl,
+        TextareaControl = components.TextareaControl,
+        InspectorControls = editor.InspectorControls,
+        RangeControl = components.RangeControl,
+        Panel= components.Panel,
+        PanelBody= components.PanelBody,
+        PanelRow = components.PanelRow;
 
-    blocks.registerBlockType( 'booking-x/booking-form', {
+    blocks.registerBlockType( 'booking-x/bkx-booking-form-block', {
         title: 'Booking Form',
         icon: 'calendar-alt',
         category: 'booking-x',
-        supports: {
-            multiple: false,
-        },
         attributes: {
-            content: {
-                type: 'string',
-                source: 'html',
-                multiline: 'p',
-                selector: 'js-booking-form',
-            }
+
         },
-        edit: function( props ) {
-            var booking_form = '[bookingform]';
-            return (booking_form);
+        edit: ( props ) => {
+
+            return[
+                /**
+                 * Server side render
+                 */
+
+                el("div", {
+                        className: "booking-x-form-container"
+                    },
+                    el( ServerSideRender, {
+                        block: 'booking-x/bkx-booking-form-block',
+                        attributes: {}
+                    } ),
+                )
+            ]
         },
         save: function( props ) {
-            var booking_form = '[bookingform]';
-            return (booking_form);
-
+            return null;
         },
     } );
 } )(
 
     window.wp.blocks,
-    window.wp.element
+    window.wp.element,
+    window.wp.serverSideRender,
+    window.wp.components,
+    window.wp.editor
 );
