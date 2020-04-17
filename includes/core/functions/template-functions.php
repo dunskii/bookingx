@@ -376,6 +376,8 @@ if (!function_exists('bookingx_block_grid_setting')) {
             $block = "";
             if(isset($columns)){
                 $class = "col-lg-{$col} col-12 mb-2";
+            }
+            if(isset($args['block']) && $args['block'] == 1 ){
                 $block = "-block";
             }
             $settings['class'] = $class;
@@ -383,5 +385,13 @@ if (!function_exists('bookingx_block_grid_setting')) {
             $settings['rows']   = $rows;
         }
         return $settings;
+    }
+}
+
+if(!function_exists('bookingx_base_meta_data_html')){
+    function bookingx_base_meta_data_html( $bkx_base ){
+        $base_id = $bkx_base->id;
+        $BaseObj = new BkxBase(null, $base_id);
+        echo $BaseObj->get_meta_details_html($base_id);
     }
 }

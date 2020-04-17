@@ -233,6 +233,7 @@ class Bookingx {
          * Gutenberg Blocks for Gutenberg
          */
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/blocks/class-bkx-register-blocks.php';
+        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/blocks/class-bkx-register-booking-form-block.php';
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/blocks/class-bkx-register-seat-block.php';
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/blocks/class-bkx-register-base-block.php';
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/blocks/class-bkx-register-addition-block.php';

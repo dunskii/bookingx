@@ -18,10 +18,18 @@ class BKX_Listing_ShortCodes
     public function bookingx_shortcode_callback( $atts ){
         if(!empty($atts)){
             $post_type = self::find_post_type($atts);
-            $seat_id = isset( $atts['seat-id'] ) && $atts['seat-id'] > 0 ? $atts['seat-id'] : 0;
+            $id = 0;
+            if( isset($atts['seat-id']) && $atts['seat-id'] != ""){
+                $id = isset( $atts['seat-id'] ) && $atts['seat-id'] > 0 ? $atts['seat-id'] : 0;
+            }elseif(isset($atts['base-id']) && $atts['base-id'] != ""){
+                $id = isset( $atts['base-id'] ) && $atts['base-id'] > 0 ? $atts['base-id'] : 0;
+            }elseif(isset($atts['extra-id']) && $atts['extra-id'] != ""){
+                $id = isset( $atts['extra-id'] ) && $atts['extra-id'] > 0 ? $atts['extra-id'] : 0;
+            }
+
             $class = "";
-            if($seat_id > 0 ){
-                $query = new WP_Query( array( 'post_type' => $post_type, 'post__in' => array($seat_id)) );
+            if($id > 0 ){
+                $query = new WP_Query( array( 'post_type' => $post_type, 'post__in' => array($id)) );
             }else{
                 $query = new WP_Query( array( 'post_type' => $post_type) );
                 $class = "booking-x-lists";
@@ -31,7 +39,7 @@ class BKX_Listing_ShortCodes
             <div class="container <?php echo $class;?>">
                 <div class="row">
                     <?php while ( $query->have_posts() ) : $query->the_post();
-                        if($seat_id > 0 ){
+                        if($id > 0 ){
                             bkx_get_template("content-single-{$post_type}.php", $atts);
                         }else{
                             bkx_get_template("content-{$post_type}.php", $atts);
