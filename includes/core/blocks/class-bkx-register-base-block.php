@@ -1,20 +1,17 @@
 <?php defined( 'ABSPATH' ) || exit;
 
-class Bkx_Register_Base_Block
+class Bkx_Register_Base_Block extends Bkx_Register_Blocks
 {
-    /**
-     * @var string
-     */
+    private static $_instance = null;
+
     public $plugin_name = 'booking-x';
 
-    /**
-     * @var string
-     */
+    public $type = "booking-x/bkx-base-block";
+
     public $block_name = 'bkx-base-block';
 
-    /**
-     * @var array
-     */
+    public $script_handle = array();
+
     public $attributes = array(
         'showDesc'      => array( 'type' => 'boolean' ),
         'showImage'     => array( 'type' => 'boolean' ),
@@ -28,81 +25,64 @@ class Bkx_Register_Base_Block
 
     );
 
-    /**
-     * Bkx_Register_Base_Block constructor.
-     */
-    public function __construct() {
-        add_action( 'init', array( $this,'bkx_base_register_block_action' ) );
+    public static function get_instance() {
+
+        if ( null === self::$_instance ) {
+            self::$_instance = new self;
+        }
+
+        return self::$_instance;
+
     }
 
-
-    public function bkx_base_register_block_action() {
-
+    public function getScripts() {
         $script_slug = $this->plugin_name . '-' . $this->block_name;
-
-        $bootstrap_script = $this->plugin_name . '-' . $this->block_name . '-bootstrap-script';
-        $style_slug = $this->plugin_name . '-' . $this->block_name . '-style-block';
-        $bootstrap_style = $this->plugin_name . '-' . $this->block_name . '-bootstrap-style';
-        $style_main = $this->plugin_name . '-' . $this->block_name . '-style-main';
-
-        wp_enqueue_script(
-            $script_slug,
-            BKX_BLOCKS_ASSETS.'base/block.js',
-            [  // Dependencies that will have to be imported on the block JS file
-                'wp-blocks', // Required: contains registerBlockType function that creates a block
-                'wp-element', // Required: contains element function that handles HTML markup
-                'wp-i18n', // contains registerBlockType function that creates a block
-                'wp-server-side-render',
-                'wp-components', 'wp-editor'
-            ],
-            BKX_PLUGIN_VER
+        $min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+        $bootstrap_script = $this->plugin_name . '-' . $this->type . '-bootstrap-script';
+        $this->script_handle = array( $script_slug, $bootstrap_script );
+        return array(
+            array(
+                'handle'   => $script_slug,
+                'src'      => BKX_BLOCKS_ASSETS.'base/block.js',
+                'deps'     => array( 'wp-blocks', 'wp-element', 'wp-components', 'wp-i18n', 'wp-editor' ),
+                'version'  => $min ? BKX_PLUGIN_VER : filemtime( BKX_BLOCKS_ASSETS_BASE_PATH.'/base/block.js' ),
+                'callback' => array(),
+            ),
+            array(
+                'handle'   => $bootstrap_script,
+                'src'      => BKX_PLUGIN_PUBLIC_URL . '/js/booking-form/bootstrap.min.js',
+                'deps'     => array( 'wp-blocks', 'wp-element', 'wp-components', 'wp-i18n', 'wp-editor' ),
+                'version'  => $min ? BKX_PLUGIN_VER : filemtime( BKX_PLUGIN_PUBLIC_PATH.'\js/booking-form/bootstrap.min.js' ),
+                'callback' => array(),
+            )
         );
+    }
 
-        wp_enqueue_script(
-            $bootstrap_script,
-            BKX_PLUGIN_PUBLIC_URL . '/js/booking-form/bootstrap.min.js',
-            [  // Dependencies that will have to be imported on the block JS file
-                'wp-blocks', // Required: contains registerBlockType function that creates a block
-                'wp-element', // Required: contains element function that handles HTML markup
-                'wp-i18n', // contains registerBlockType function that creates a block
-                'wp-server-side-render',
-                'wp-components', 'wp-editor'
-            ], // General style
-            BKX_PLUGIN_VER
-        );
+    public function getStyles() {
+        $deps = array( 'wp-edit-blocks' );
+        $bootstrap_style = $this->plugin_name . '-' . $this->type . '-bootstrap-style';
+        $style_main = $this->plugin_name . '-' . $this->type . '-style-main';
+        $style_slug = $this->plugin_name . '-' . $this->type . '-style-block';
 
-        // The block style
-        // It will be loaded on the editor and on the site
-        wp_register_style(
-            $bootstrap_style,
-            BKX_PLUGIN_PUBLIC_URL . '/css/bootstrap.min.css',
-            [], // General style
-            BKX_PLUGIN_VER
-        );
-
-        wp_register_style(
-            $style_main,
-            BKX_PLUGIN_PUBLIC_URL . '/css/style.css',
-            [], // General style
-            BKX_PLUGIN_VER
-        );
-
-        wp_register_style(
-            $style_slug,
-            BKX_BLOCKS_ASSETS . 'base/css/style.css',
-            [], // General style
-            BKX_PLUGIN_VER
-        );
-
-        // Registering the block
-        register_block_type(
-            "{$this->plugin_name}/{$this->block_name}", // Block name with namespace
-            [
-                'style' => array( $style_main, $style_slug, $bootstrap_style), // General block style slug
-                'editor_script' => array($script_slug, $bootstrap_script),  // The block script slug
-                'render_callback' => [$this, 'bkx_bases_render_callback'],
-                'attributes'      => $this->attributes,
-            ]
+        return array(
+            array(
+                'handle'  => $style_slug,
+                'src'     => BKX_BLOCKS_ASSETS . 'base/css/style.css',
+                'deps'    => $deps,
+                'version' => defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? filemtime( BKX_BLOCKS_ASSETS_BASE_PATH . '\base/css/style.css' ) : BKX_PLUGIN_VER,
+            ),
+            array(
+                'handle'  => $style_main,
+                'src'     => BKX_PLUGIN_PUBLIC_URL . '/css/style.css',
+                'deps'    => $deps,
+                'version' => defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? filemtime( BKX_PLUGIN_DIR_PATH . '\public/css/style.css' ) : BKX_PLUGIN_VER,
+            ),
+            array(
+                'handle'  => $bootstrap_style,
+                'src'     => BKX_PLUGIN_PUBLIC_URL . '/css/bootstrap.min.css',
+                'deps'    => $deps,
+                'version' => defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? filemtime( BKX_PLUGIN_DIR_PATH . '\public/css/bootstrap.min.css' ) : BKX_PLUGIN_VER,
+            )
         );
     }
 
@@ -110,17 +90,15 @@ class Bkx_Register_Base_Block
      * @param $attributes
      * @return string
      */
-    function bkx_bases_render_callback( $attributes){
-        ob_start();
+    function render_block( $attributes = array() ){
         // Prepare variables.
-        //$desc       = isset( $attributes['showDesc'] ) ? $attributes['showDesc'] : false;
         $desc       = $attributes['baseDescription'];
         $image      = $attributes['baseImageStatus'];
         ///$info       = isset( $attributes['showExtra'] ) ? $attributes['showExtra'] : true;
         $base_id    = isset( $attributes['basePostId'] ) && $attributes['basePostId'] > 0 ? $attributes['basePostId'] : 'all';
         $columns    = isset( $attributes['columns'] ) ? $attributes['columns'] : 3;
         $rows       = isset( $attributes['rows'] ) ? $attributes['rows'] : 1;
-
+        ob_start();
         echo do_shortcode('[bookingx block="1" base-id="'.$base_id.'" columns="'.$columns.'" rows="'.$rows.'"  description="'.$desc.'" image="'.$image.'"]');
         $bases_data = ob_get_clean();
         return "<div class=\"gutenberg-booking-x-bases-data\">{$bases_data}</div>";
