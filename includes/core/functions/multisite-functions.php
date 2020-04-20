@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
  * @param array $meta Meta data. Used to set initial site options.
  */
 
-add_action('wpmu_new_blog', 'generate_while_multisite_creating');
+add_action('wpmu_new_blog', 'generate_while_multisite_creating', 10, 6);
 function generate_while_multisite_creating($blog_id, $user_id, $domain, $path, $site_id, $meta){
     switch_to_blog($blog_id);
     $the_page_title = 'Booking Form';

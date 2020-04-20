@@ -585,20 +585,28 @@ function bkx_reorder_admin_menu_pages( $menu_ord ){
             }
         }
     }
-    $arr[] = $submenu['edit.php?post_type=bkx_booking'][5];     //my original order was 5,10,15,16,17,18
-    $arr[] = $submenu['edit.php?post_type=bkx_booking'][11];
+    if(isset($submenu['edit.php?post_type=bkx_booking']) && !empty($submenu['edit.php?post_type=bkx_booking'])){
+        $arr[] = $submenu['edit.php?post_type=bkx_booking'][5];     //my original order was 5,10,15,16,17,18
+        $arr[] = $submenu['edit.php?post_type=bkx_booking'][11];
+    }
     if(isset($find_submenu['bkx_seat_category']) && $find_submenu['bkx_seat_category'] != " "){
         $arr[] = $submenu['edit.php?post_type=bkx_booking'][$find_submenu['bkx_seat_category']];
     }
-    $arr[] = $submenu['edit.php?post_type=bkx_booking'][12];
+    if(isset($submenu['edit.php?post_type=bkx_booking']) && !empty($submenu['edit.php?post_type=bkx_booking'])){
+        $arr[] = $submenu['edit.php?post_type=bkx_booking'][12];
+    }
     if(isset($find_submenu['bkx_base_category']) && $find_submenu['bkx_base_category'] != " "){
         $arr[] = $submenu['edit.php?post_type=bkx_booking'][$find_submenu['bkx_base_category']];
     }
-    $arr[] = $submenu['edit.php?post_type=bkx_booking'][13];
+    if(isset($submenu['edit.php?post_type=bkx_booking']) && !empty($submenu['edit.php?post_type=bkx_booking'])){
+        $arr[] = $submenu['edit.php?post_type=bkx_booking'][13];
+    }
     if(isset($find_submenu['bkx_addition_category']) && $find_submenu['bkx_addition_category'] != " "){
         $arr[] = $submenu['edit.php?post_type=bkx_booking'][$find_submenu['bkx_addition_category']];
     }
-    $arr[] = $submenu['edit.php?post_type=bkx_booking'][14];
+    if(isset($submenu['edit.php?post_type=bkx_booking']) && !empty($submenu['edit.php?post_type=bkx_booking'])){
+        $arr[] = $submenu['edit.php?post_type=bkx_booking'][14];
+    }
     $submenu['edit.php?post_type=bkx_booking'] = $arr;
     return $menu_ord;
 }
