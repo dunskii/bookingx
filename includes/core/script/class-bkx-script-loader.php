@@ -92,6 +92,12 @@ class Bkx_Script_Loader
         }
     }
 
+    private static function supported_themes(){
+        $themes = array('twentyseventeen');
+
+        return $themes;
+    }
+
     /**register_script
      * Register all BookingX Style.
      */
@@ -123,12 +129,6 @@ class Bkx_Script_Loader
                 'version' => BKX_PLUGIN_VER,
                 'has_rtl' => false,
             ),
-            "theme-support-{$stylesheet}"                  => array(
-                'src'     => BKX_PLUGIN_PUBLIC_URL . "/css/theme/{$stylesheet}.css",
-                'deps'    => array(),
-                'version' => BKX_PLUGIN_VER,
-                'has_rtl' => false,
-            ),
             'blue'                  => array(
                 'src'     => BKX_PLUGIN_PUBLIC_URL . '/css/blue.css',
                 'deps'    => array('style-main'),
@@ -142,6 +142,19 @@ class Bkx_Script_Loader
                 'has_rtl' => false,
             )
         );
+        $support_theme_styles = array();
+        if(!empty($stylesheet) && in_array($stylesheet,self::supported_themes())){
+            $support_theme_styles = array("theme-support-{$stylesheet}"
+                                    => array(
+                                        'src'     => BKX_PLUGIN_PUBLIC_URL . "/css/theme/{$stylesheet}.css",
+                                        'deps'    => array(),
+                                        'version' => BKX_PLUGIN_VER,
+                                        'has_rtl' => false,
+                                    )
+            );
+        }
+        $register_styles = array_merge($support_theme_styles, $register_styles);
+        $register_styles = apply_filters( 'bookingx_theme_support',$register_styles );
         foreach ( $register_styles as $name => $props ) {
             self::register_style( $name, $props['src'], $props['deps'], $props['version'], 'all', $props['has_rtl'] );
         }
@@ -150,7 +163,8 @@ class Bkx_Script_Loader
     public static function get_styles() {
         $active_theme = wp_get_theme();
         $stylesheet = $active_theme->stylesheet;
-        return apply_filters(
+        $support_theme_styles = array();
+        $register_styles =  apply_filters(
             'bookingx_enqueue_styles',
             array(
                 'bkx-google-fonts'                  => array(
@@ -183,12 +197,6 @@ class Bkx_Script_Loader
                     'version' => BKX_PLUGIN_VER,
                     'has_rtl' => false,
                 ),
-                "theme-support-{$stylesheet}"                  => array(
-                    'src'     => BKX_PLUGIN_PUBLIC_URL . "/css/theme/{$stylesheet}.css",
-                    'deps'    => array(),
-                    'version' => BKX_PLUGIN_VER,
-                    'has_rtl' => false,
-                ),
                 'blue'                  => array(
                     'src'     => BKX_PLUGIN_PUBLIC_URL . '/css/style.css',
                     'deps'    => array('style-main'),
@@ -203,6 +211,20 @@ class Bkx_Script_Loader
                 ),
             )
         );
+
+        if(!empty($stylesheet) && in_array($stylesheet,self::supported_themes())){
+            $support_theme_styles = array("theme-support-{$stylesheet}"
+            => array(
+                    'src'     => BKX_PLUGIN_PUBLIC_URL . "/css/theme/{$stylesheet}.css",
+                    'deps'    => array(),
+                    'version' => BKX_PLUGIN_VER,
+                    'has_rtl' => false,
+                )
+            );
+        }
+        $register_styles = array_merge($support_theme_styles, $register_styles);
+        $register_styles = apply_filters( 'bookingx_theme_support',$register_styles );
+        return $register_styles;
     }
 
     /**
