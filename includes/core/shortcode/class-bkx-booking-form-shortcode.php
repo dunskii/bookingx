@@ -12,7 +12,7 @@ if ( ! class_exists( 'BkxBookingFormShortCode' ) ) {
             require_once(BKX_PLUGIN_DIR_PATH.'includes/core/script/class-bkx-script-loader.php');
             //Ajax Loader
             require_once(BKX_PLUGIN_DIR_PATH.'includes/core/ajax/class-bkx-ajax-loader.php');
-            add_shortcode( 'bookingform', array( $this, 'BkxBookingFormShortCodeView' ) );
+            add_shortcode( 'bkx_booking_form', array( $this, 'BkxBookingFormShortCodeView' ) );
             do_action( 'before_bookingx_init' );
         }
         function load_global_variables(){

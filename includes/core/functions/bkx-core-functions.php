@@ -366,6 +366,10 @@ function bkx_sanitize_text_or_array_field($array_or_string){
 
 /**
  *    For bkx_crud_option_multisite() update_option() and add_option() for compatible for multisite
+ * @param $option_name
+ * @param null $option_val
+ * @param string $type
+ * @return mixed
  */
 function bkx_crud_option_multisite( $option_name, $option_val = null, $type = 'get' )
 {
@@ -374,10 +378,8 @@ function bkx_crud_option_multisite( $option_name, $option_val = null, $type = 'g
         switch_to_blog($get_current_blog_id);
     }
     switch ($type) {
-        case 'add':
-            $arg = (is_multisite()) ? array($get_current_blog_id, $option_name, $option_val) : array($option_name, $option_val);
-            break;
         case 'update':
+        case 'add':
             $arg = (is_multisite()) ? array($get_current_blog_id, $option_name, $option_val) : array($option_name, $option_val);
             break;
         case 'get':
@@ -393,6 +395,35 @@ function bkx_crud_option_multisite( $option_name, $option_val = null, $type = 'g
 
 function bkx_get_loader(){
     return '<div class="bookingx-loader" style="display:none">Loading&#8230;</div>';
+}
+
+function bkx_help_tip( $tip, $allow_html = false ) {
+    if ( $allow_html ) {
+        $tip = bkx_sanitize_tooltip( $tip );
+    } else {
+        $tip = esc_attr( $tip );
+    }
+
+    return '<span class="bookingx-help-tip" data-tip="' . $tip . '"></span>';
+}
+
+function bkx_sanitize_tooltip( $var ) {
+    return htmlspecialchars(
+        wp_kses(
+            html_entity_decode( $var ),
+            array(
+                'br'     => array(),
+                'em'     => array(),
+                'strong' => array(),
+                'small'  => array(),
+                'span'   => array(),
+                'ul'     => array(),
+                'li'     => array(),
+                'ol'     => array(),
+                'p'      => array(),
+            )
+        )
+    );
 }
 
 function bkx_getDatesFromRange($start, $end, $format = 'm/d/Y'){

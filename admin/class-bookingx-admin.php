@@ -570,6 +570,7 @@ class Bookingx_Admin {
 
         $bkx_biz_vac_ed = bkx_crud_option_multisite('bkx_biz_vac_ed');
         $bkx_biz_vac_ed = $this->date_format_correct($bkx_biz_vac_ed);
+
         $biz_vacations = $this->createDateRange( $bkx_biz_vac_sd, $bkx_biz_vac_ed );
 
         $bkx_biz_pub_holiday = bkx_crud_option_multisite('bkx_biz_pub_holiday');

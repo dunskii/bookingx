@@ -13,6 +13,17 @@ function bkx_setting_save_action( )
  		$redirect = add_query_arg( array( 'bkx_success' =>  'PAU' ), $_SERVER['HTTP_REFERER'] );
 		wp_safe_redirect( $redirect );
 	}
+	if(isset($_POST['bkx_emails_settings']) && $_POST['bkx_emails_settings'] == 1 ){
+
+	     foreach ($_POST as $field_key  => $field_value){
+             bkx_crud_option_multisite($field_key, sanitize_text_field($field_value),'update');
+         }
+        bkx_crud_option_multisite('bkx_new_booking_enabled', sanitize_text_field($_POST['bkx_new_booking_enabled']),'update');
+
+        $redirect = add_query_arg( array( 'bkx_success' =>  'ESS' ), $_SERVER['HTTP_REFERER'] );
+        wp_safe_redirect( $redirect );
+    }
+
 
 	if(isset($_POST['google_map_api_flag']) && ($_POST['google_map_api_flag']==1))
 	{
@@ -108,11 +119,11 @@ function bkx_setting_save_action( )
                 $check_old_content =  get_post($_POST['bkx_set_booking_page']);
                 $check_old_content_data = $check_old_content->post_content;
                 $append_data = $check_old_content_data;
-                if (strpos($check_old_content_data, 'bookingform') !== false) {
+                if (strpos($check_old_content_data, 'bkx_booking_form') !== false) {
                 }
                 else
                 {
-                    $append_data .='  [bookingform]';
+                    $append_data .='  [bkx_booking_form]';
                     // Update post
                     $booking_post = array(
                         'ID'           => sanitize_text_field($_POST['bkx_set_booking_page']),

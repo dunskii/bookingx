@@ -202,10 +202,10 @@ class Bkx_Meta_Boxes {
                 return $order_summary;
             }
             echo $order_summary;
-            echo do_shortcode('[bookingform order_post_id='.$post->ID.']');
+            echo do_shortcode('[bkx_booking_form order_post_id='.$post->ID.']');
         }else{
             echo '<div style="clear:left;">&nbsp;</div>';
-            echo do_shortcode('[bookingform]');
+            echo do_shortcode('[bkx_booking_form]');
         }
 	}
 
