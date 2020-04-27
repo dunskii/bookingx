@@ -136,7 +136,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
                                     'show_option_no_change' => null, // stringx
                                     'option_none_value'     => null, // string
                                 );
-                         wp_dropdown_pages($args); ?> Shortcode  : [bookingform]
+                         wp_dropdown_pages($args); ?> Shortcode  : [bkx_booking_form]
                     </td>
         </tr>
 
@@ -237,6 +237,43 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 <p class="submit"><input type="submit" onclick="" class='button-primary' name="save_template" id="id_save_template" value="Save Changes" /></p>
 </form>
 <?php endif; ?>
+
+<?php if(!empty($current_submenu_active) && $current_submenu_active == 'emails') :?>
+    <?php
+    $current_main_tab = sanitize_text_field($_GET['bkx_tab']);
+    $section = sanitize_text_field($_GET['section']);
+    $sub_tab = sanitize_text_field($_GET['sub_tab']);
+    $mailer          = new BKX_Emails();
+    $generate_tab_url = $screen->parent_file.'&page=bkx-setting&bkx_tab=bkx_general&section=emails';
+    if( $current_main_tab == 'bkx_general' && $section == 'emails' && isset($sub_tab) && $sub_tab != '') {
+        $email_templates = $mailer->get_emails();
+        if ( $sub_tab ) {
+            foreach ( $email_templates as $email_key => $email ) {
+                if ( strtolower( $email_key ) === $sub_tab ) {
+                    ?>
+                    <form name="bkx_emails_settings" id="bkx_emails_settings" method="post">
+                    <h3> <?php printf( esc_html__( '%1$s', 'bookingx' ),  $email->title ); ?>  <a href="<?php echo $generate_tab_url;?>"> Back </a></h3>
+                    <p><?php printf( esc_html__( '%1$s', 'bookingx' ),  $email->description ); ?></p>
+                    <?php
+                    $email->admin_options();
+                    break;
+                }
+            }
+        }
+        ?>
+        <input type="hidden" name="bkx_emails_settings" value="1">
+        <input type="hidden" name="bkx_setting_form_init" value="1">
+        <p class="submit"><input type="submit" onclick="" class='button-primary' name="bkx_save_<?php echo $sub_tab;?>" id="bkx_save_<?php echo $sub_tab;?>" value="Save Changes" /></p>
+        </form>
+        <?php
+        }else{ ?>
+        <h3> <?php printf( esc_html__( '%1$s', 'bookingx' ),  $bkx_general_submenu_label ); ?> </h3>
+        <p>Email notifications sent from Booking X are listed below. Click on an email to configure it.</p>
+        <?php
+            $email_settings = new BookingX_Email_Content();
+            $email_settings->email_notification_setting();
+         } ?>
+<?php endif;?>
 
 <?php if(!empty($current_submenu_active) && $current_submenu_active == 'css') :?>
 <h3> <?php printf( esc_html__( '%1$s', 'bookingx' ),  $bkx_general_submenu_label ); ?> </h3>
