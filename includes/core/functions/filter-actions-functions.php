@@ -1,16 +1,12 @@
 <?php if (!defined('ABSPATH')) exit; // Exit if accessed directly
 $plugin = plugin_basename(__FILE__);
 
-function bkx_process_mail_by_status($booking_id, $subject, $content, $template_id = null){
+function bkx_process_mail_by_status($booking_id, $subject, $content, $email = null){
     if (empty($booking_id))
         return;
-    if (!empty($template_id)) {
-        $page_obj = get_post($template_id);
-        $template_content = apply_filters('the_content', $page_obj->post_content);
 
-        if (!empty($template_content)) {
-            $message_body = $template_content;
-        }
+    if (!empty($content)) {
+        $message_body = $content;
     }
     $amount_pending = 0;
     $event_address = "";
@@ -63,27 +59,27 @@ function bkx_process_mail_by_status($booking_id, $subject, $content, $template_i
             $addition_list .= $addition->get_title() . ",";
         }
     }
-    $message_body = str_replace("[/fname]", "", $message_body);
-    $message_body = str_replace('[/lname]', "", $message_body);
-    $message_body = str_replace('[/total_price]', "", $message_body);
-    $message_body = str_replace('[/txn_id]', "", $message_body);
-    $message_body = str_replace('[/order_id]', "", $message_body);
-    $message_body = str_replace('[/total_duration]', "", $message_body);
-    $message_body = str_replace('[/paid_price]', "", $message_body);
-    $message_body = str_replace('[/bal_price]', "", $message_body);
-    $message_body = str_replace('[/siteurl]', "", $message_body);
-    $message_body = str_replace('[/seat_name]', "", $message_body);
-    $message_body = str_replace('[/base_name]', "", $message_body);
-    $message_body = str_replace('[/additions_list]', "", $message_body);
-    $message_body = str_replace('[/time_of_booking]', "", $message_body);
-    $message_body = str_replace('[/date_of_booking]', "", $message_body);
-    $message_body = str_replace('[/location_of_booking]', "", $message_body);
-    $message_body = str_replace('[/amount_paid]', "", $message_body);
-    $message_body = str_replace('[/amount_pending]', "", $message_body);
-    $message_body = str_replace('[/business_name]', "", $message_body);
-    $message_body = str_replace('[/business_phone]', "", $message_body);
-    $message_body = str_replace('[/business_email]', "", $message_body);
-    $message_body = str_replace('[/booking_status]', "", $message_body);
+    $message_body = str_replace("[fname]", "", $message_body);
+    $message_body = str_replace('[lname]', "", $message_body);
+    $message_body = str_replace('[total_price]', "", $message_body);
+    $message_body = str_replace('[txn_id]', "", $message_body);
+    $message_body = str_replace('[order_id]', "", $message_body);
+    $message_body = str_replace('[total_duration]', "", $message_body);
+    $message_body = str_replace('[paid_price]', "", $message_body);
+    $message_body = str_replace('[bal_price]', "", $message_body);
+    $message_body = str_replace('[site_url]', "", $message_body);
+    $message_body = str_replace('[seat_name]', "", $message_body);
+    $message_body = str_replace('[base_name]', "", $message_body);
+    $message_body = str_replace('[additions_list]', "", $message_body);
+    $message_body = str_replace('[time_of_booking]', "", $message_body);
+    $message_body = str_replace('[date_of_booking]', "", $message_body);
+    $message_body = str_replace('[location_of_booking]', "", $message_body);
+    $message_body = str_replace('[amount_paid]', "", $message_body);
+    $message_body = str_replace('[amount_pending]', "", $message_body);
+    $message_body = str_replace('[business_name]', "", $message_body);
+    $message_body = str_replace('[business_phone]', "", $message_body);
+    $message_body = str_replace('[business_email]', "", $message_body);
+    $message_body = str_replace('[booking_status]', "", $message_body);
 
     $payment_data = get_post_meta($order_meta['order_id'], 'payment_meta', true);
     if (!empty($payment_data)) {
@@ -171,57 +167,12 @@ function bkx_generate_template_page( $option_key , $content, $page_title, $page_
 //Create default Template Pages Function
 add_action('init', 'bkx_create_default_template');
 function bkx_create_default_template(){
-    $default_content = 'These tags can be placed in the email form and they will pull data from the database to include in the email.
-        [fname], [lname], [total_price], [order_id] , [txn_id], [seat_name], [base_name], [additions_list], [time_of_booking], [date_of_booking], [location_of_booking].';
-    $default_content .= 'Thanks [fname][/fname] for booking [base_name][/base_name],
-
-Here are your booking details.
-<ul>
-    <li style="list-style-type: none;">
-        <ul>
-            <li>    Booking ID: [order_id][/order_id]</li>
-            <li>    Resource: [seat_name][/seat_name]</li>
-            <li>    Service: [base_name][/base_name]</li>
-            <li>    Extras: [additions_list][/additions_list]</li>        
-            <li>    Time: [time_of_booking][/time_of_booking]</li>
-            <li>    Date: [date_of_booking][/date_of_booking]</li>
-            <li>    Location: [location_of_booking][/location_of_booking]</li>
-            <li>    Price: [total_price][/total_price]</li>
-            <li>    Amount Paid : [amount_paid][/amount_paid]</li>
-            <li>    Amount Pending : [amount_pending][/amount_pending]</li>
-            <li>    Business Name : [business_name][/business_name]</li>
-            <li>    Business Phone : [business_phone][/business_phone]</li>
-            <li>    Business Email : [business_email][/business_email]</li>
-            <li>    Booking Status : [booking_status][/booking_status]</li>
-        </ul>
-    </li>
-</ul>';
     $bkx_set_booking_page           = bkx_crud_option_multisite("bkx_set_booking_page");
-    $cancelled_content = 'Hi [fname][/fname],
-
-Your [base_name][/base_name] with [seat_name][/seat_name] has been cancelled.
-
-You can rebook <a href="'.get_permalink( $bkx_set_booking_page ).'">here</a>.';
-
-    $thank_you_page_id              = bkx_crud_option_multisite('bkx_template_thank_you');
     $bkx_set_thank_you_page         = bkx_crud_option_multisite('bkx_set_thank_you_page');
     $booking_edit_process_page_id   = bkx_crud_option_multisite('booking_edit_process_page_id');
-    $payment_success_page_id        = bkx_crud_option_multisite('bkx_template_success');
-    $bkx_template_status_pending   = bkx_crud_option_multisite("bkx_template_status_pending");
-    $bkx_template_status_ack       = bkx_crud_option_multisite("bkx_template_status_ack");
-    $bkx_template_status_complete  = bkx_crud_option_multisite("bkx_template_status_complete");
-    $bkx_template_status_missed    = bkx_crud_option_multisite("bkx_template_status_missed");
-    $bkx_template_status_cancelled = bkx_crud_option_multisite("bkx_template_status_cancelled");
     bkx_generate_template_page( "bkx_set_thank_you_page" , "", "Thank You", $bkx_set_thank_you_page );
-    bkx_generate_template_page( "bkx_template_thank_you" , $default_content, "Thank You | Payment Confirmed", $thank_you_page_id );
-    bkx_generate_template_page( "bkx_template_status_pending" , $default_content, "Email Template | Status Pending", $bkx_template_status_pending );
-    bkx_generate_template_page( "bkx_template_status_ack" , $default_content, "Email Template | Status Acknowledge", $bkx_template_status_ack );
-    bkx_generate_template_page( "bkx_template_status_complete" , $default_content, "Email Template | Status Complete", $bkx_template_status_complete );
-    bkx_generate_template_page( "bkx_template_status_missed" , $default_content, "Email Template | Status Missed", $bkx_template_status_missed );
-    bkx_generate_template_page( "bkx_template_status_cancelled" , $cancelled_content, "Email Template | Status Cancelled", $bkx_template_status_cancelled );
-    bkx_generate_template_page( "bkx_template_success" , $default_content, "Transaction Success", $payment_success_page_id );
-    bkx_generate_template_page( "booking_edit_process_page_id" , "[bookingform]", "Booking Edit", $booking_edit_process_page_id );
-    bkx_generate_template_page( "bkx_set_booking_page" , "[bookingform]", "Booking Form", $bkx_set_booking_page );
+    bkx_generate_template_page( "booking_edit_process_page_id" , "[bkx_booking_form]", "Booking Edit", $booking_edit_process_page_id );
+    bkx_generate_template_page( "bkx_set_booking_page" , "[bkx_booking_form]", "Booking Form", $bkx_set_booking_page );
 }
 // Add settings link on plugin page
 add_filter("plugin_action_links_{$plugin}", 'bkx_plugin_settings_link');

@@ -20,7 +20,6 @@ class BKXShortcode_Tinymce
         if( current_user_can('edit_posts') &&  current_user_can('edit_pages') && 
             ($this->enable_editor == 1 || $this->enable_editor == '1') ) {
             add_filter( 'mce_external_plugins', array($this, 'bkx_add_buttons' ));
-
             add_filter( 'mce_buttons', array($this, 'bkx_register_buttons' ));
         }
     }
@@ -33,7 +32,7 @@ class BKXShortcode_Tinymce
      * @return Array
      */
     public function bkx_add_buttons( $plugin_array ) {
-        $plugin_array['pushortcodes'] = plugin_dir_url( __DIR__ ) . 'js/shortcode-tinymce-button.js?ver='.BKX_PLUGIN_VER;
+        $plugin_array['pushortcodes'] = BKX_PLUGIN_DIR_URL . '/admin/js/shortcode-editor/shortcode-tinymce-button.js?ver='.BKX_PLUGIN_VER;
         return $plugin_array;
     }
 
@@ -87,8 +86,8 @@ class BKXShortcode_Tinymce
                         $buttons[] = array('name' => ''.$key.'',
                                 'options' => array(
                                     'display_name' => ''.$value.'',
-                                    'open_tag' => '\n['.$key.']',
-                                    'close_tag' => '[/'.$key.']\n',
+                                    'open_tag' => '\n{'.$key.'}',
+                                    //'close_tag' => '[/'.$key.']\n',
                                     'key' => ''
                                 ));
                     }
@@ -125,6 +124,7 @@ class BKXShortcode_Tinymce
         $shortcode_tags['business_phone']       = 'Business phone';
         $shortcode_tags['business_email']       = 'Business email';
         $shortcode_tags['booking_status']       = 'Booking status';
+        $shortcode_tags['bkx_booking_form']     = 'Booking Form';
         $shortcode_tags = apply_filters( 'bkx_get_more_shortcodes', $shortcode_tags, $this );
         return $shortcode_tags;
     }

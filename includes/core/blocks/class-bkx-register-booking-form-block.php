@@ -87,7 +87,7 @@ class Bkx_Register_Booking_Form_Block extends Bkx_Register_Blocks
     function render_block( $attributes = array()){
         // Prepare variables.
         ob_start();
-        echo do_shortcode('[bookingform]');
+        echo do_shortcode('[bkx_booking_form]');
         $booking_forms_data = ob_get_clean();
         return "<div class=\"gutenberg-booking-x-booking_forms-data\">{$booking_forms_data}</div>";
     }

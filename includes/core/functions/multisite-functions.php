@@ -28,7 +28,7 @@ function generate_while_multisite_creating($blog_id, $user_id, $domain, $path, $
     // Create post object
     $_p = array();
     $_p['post_title'] = $the_page_title;
-    $_p['post_content'] = "[bookingform]";
+    $_p['post_content'] = "[bkx_booking_form]";
     $_p['post_status'] = 'Publish';
     $_p['post_type'] = 'page';
     $_p['comment_status'] = 'closed';
@@ -38,16 +38,6 @@ function generate_while_multisite_creating($blog_id, $user_id, $domain, $path, $
     $the_page_id = wp_insert_post($_p);
     update_blog_option($blog_id, 'bkx_set_booking_page', $the_page_id);
 
-    $success_page = array();
-    $success_page['post_title'] = "Thank you";
-    $success_page['post_content'] = "";
-    $success_page['post_status'] = 'Publish';
-    $success_page['post_type'] = 'page';
-    $success_page['comment_status'] = 'closed';
-    $success_page['ping_status'] = 'closed';
-    $success_page['post_category'] = array(1); // the default 'Uncatrgorised'
-    $bkx_set_thank_you_page = wp_insert_post($success_page);
-    update_blog_option($blog_id, 'bkx_set_thank_you_page', $bkx_set_thank_you_page);
 
     /**Added By : Divyang Parekh
      * For : Create Page For Login and Customer Booking List

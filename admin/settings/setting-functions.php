@@ -19,6 +19,7 @@ if(!function_exists('bkx_setting_tabs'))
 								'submenu' => array( 
 									'alias' => 'Alias', 
 									'page_setting' => 'Content Settings',
+                                    'emails' => 'Email notifications',
 									'css'	=> 'Styling',
 									'other_settings' => 'Other Settings',
 									'exim' => 'Export/Import'),
@@ -150,6 +151,7 @@ function bkx_admin_success_message ( $key = null) {
 								'BIU'=> 	sprintf(__('%s','bookingx')	, 'Business Information Settings updated successfully.'),
 								'TSU'=> 	sprintf(__('%s','bookingx')	, 'Tax Settings updated successfully.'),
 								'DOP'=> 	sprintf(__('%s','bookingx')	, 'Days of Operations Settings updated successfully.'),
+                                'ESS'=> 	sprintf(__('%s','bookingx')	, 'Email Settings updated successfully.'),
 							);
 	$admin_success_msg = apply_filters('bkx_admin_success_message', $admin_success_msg);
 

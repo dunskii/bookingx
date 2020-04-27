@@ -11,7 +11,7 @@
          
         editor.addButton( 'pushortcodes', {
         title: 'Bookingx',
-        image: '../wp-content/plugins/bookingx/images/dashicons-calendar.png',
+        image: '../wp-content/plugins/bookingx/public/images/dashicons-calendar.png',
         onclick: function() {
             editor.windowManager.open({
                 title: 'Bookingx Shortcodes',
@@ -23,7 +23,7 @@
                         onselect: function(e) {
                             $selected_id = e.control._id;
                             var v = e.control.settings.value;
-                            tinyMCE.activeEditor.selection.setContent( '[' + v + '][/' + v + ']' );
+                            tinyMCE.activeEditor.selection.setContent( '[' + v + ']' );
                         },
                     }
                 ],

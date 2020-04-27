@@ -87,63 +87,21 @@ class BkxBooking {
     }
 
     public function bkx_order_edit_status($booking_id, $status){
-        $bookingObj = new BkxBooking();
-        $order_meta = $bookingObj->get_order_meta_data($booking_id);
-        $content = "";
-        switch ($status) {
-            case 'ack':
-                $template_id = bkx_crud_option_multisite('bkx_template_status_ack');
-                $page_obj = get_post($template_id);
-                $subject = $page_obj->post_title;
-                if (empty($subject)) {
-                    $subject = get_bloginfo() . ' has confirmed your booking for ' . $order_meta['base_arr']['title'];
+        $mailer          = new BKX_Emails();
+        $email_templates = $mailer->get_emails();
+        if ( $status ) {
+            if (strpos($status, 'bkx') !== false) {
+                $status = str_replace('bkx-','',$status );
+            }
+            $email_status = "bkx_email_{$status}_booking"; //bkx_email_bkx-pending_booking
+            foreach ( $email_templates as $email_key => $email ) {
+                if ( strtolower( $email_key ) === $email_status ) {
+                    $subject = $email->subject;
+                    $content = $email->additional_content;
+                    bkx_process_mail_by_status($booking_id, $subject, $content, $email);
+                    break;
                 }
-                $subject = apply_filters('bkx_order_subject_for_ack', $subject);
-                bkx_process_mail_by_status($booking_id, $subject, $content, $template_id);
-                break;
-            case 'completed':
-                $template_id = bkx_crud_option_multisite('bkx_template_status_complete');
-                $page_obj = get_post($template_id);
-                $subject = $page_obj->post_title;
-                if (empty($subject)) {
-                    $subject = 'Thanks you for your booking hope you had a great experience';
-                }
-                $subject = apply_filters('bkx_order_subject_for_completed', $subject);
-                $template_id = bkx_crud_option_multisite('bkx_template_status_complete');
-                bkx_process_mail_by_status($booking_id, $subject, $content, $template_id);
-                break;
-            case 'missed':
-                $template_id = bkx_crud_option_multisite('bkx_template_status_missed');
-                $page_obj = get_post($template_id);
-                $subject = $page_obj->post_title;
-                if (empty($subject)) {
-                    $subject = 'Sorry you missed you booking, you can change your booking here';
-                }
-                $subject = apply_filters('bkx_order_subject_for_missed', $subject);
-                $template_id = bkx_crud_option_multisite('bkx_template_status_missed');
-                bkx_process_mail_by_status($booking_id, $subject, $content, $template_id);
-                break;
-            case 'cancelled':
-                $template_id = bkx_crud_option_multisite('bkx_template_status_cancelled');
-                $page_obj = get_post($template_id);
-                $subject = $page_obj->post_title;
-                if (empty($subject)) {
-                    $subject = 'Your booking has been cancelled';
-                }
-                $subject = apply_filters('bkx_order_subject_for_cancelled', $subject);
-                $template_id = bkx_crud_option_multisite('bkx_template_status_cancelled');
-                bkx_process_mail_by_status($booking_id, $subject, $content, $template_id);
-                break;
-            default:
-                $template_id = bkx_crud_option_multisite('bkx_template_status_pending');
-                $page_obj = get_post($template_id);
-                $subject = $page_obj->post_title;
-                if (empty($subject)) {
-                    $subject = get_bloginfo() . ' has confirmed your booking for ' . $order_meta['base_arr']['title'];
-                }
-                $subject = apply_filters('bkx_order_subject_for_pending', $subject);
-                bkx_process_mail_by_status($booking_id, $subject, $content, $template_id);
-                break;
+            }
         }
     }
 
@@ -1429,8 +1387,11 @@ class BkxBooking {
             $BkxBookingObj = new BkxBooking('',$order_id);
             $BkxBookingObj->add_order_note( sprintf( __( 'Booking has been successfully updated..', 'bookingx' ), ''), 0, null, $order_id );
             //send email that booking confirmed
-            $post_status = 'bkx-' . apply_filters( 'bkx_default_order_status', 'pending');
-            do_action( 'bkx_order_edit_status', $order_id, $post_status);
+            /*$post_status = 'bkx-' . apply_filters( 'bkx_default_order_status', 'pending');
+            do_action( 'bkx_order_edit_status', $order_id, $post_status);*/
+
+            //do_action( 'bkx_order_edit_status',$order_id, 'customer-' . apply_filters( 'bkx_default_order_status', 'pending') );
+            //do_action( 'bkx_order_edit_status',$order_id, apply_filters( 'bkx_default_order_status', 'pending') );
         }
 
         if(isset($post_data['update_order_slot']) && $post_data['update_order_slot']!=''){
@@ -1535,7 +1496,10 @@ class BkxBooking {
 
         //send email that booking confirmed
         if( $send_mail == true ):
-            do_action( 'bkx_order_edit_status', $order_id, $post_data['post_status'] );
+            //do_action( 'bkx_order_edit_status', $order_id, $post_data['post_status'] );
+            do_action( 'bkx_order_edit_status',$order_id, 'pending');
+            do_action( 'bkx_order_edit_status',$order_id, "customer_pending");
+
         endif;
 
         if(is_multisite()):
@@ -1618,7 +1582,9 @@ class BkxBooking {
             array( 'ID' => $order_id ));
             update_post_meta($order_id,'last_updated_date',$date);
             update_post_meta($order_id,'updated_by',$current_user_id);
-            do_action( 'bkx_order_edit_status', $order_id, $status );
+            do_action( 'bkx_order_edit_status', $order_id, "customer_{$status}");
+            do_action( 'bkx_order_edit_status', $order_id, $status);
+
             if(!is_wp_error($post_update))
                 return $order_id;
         }
