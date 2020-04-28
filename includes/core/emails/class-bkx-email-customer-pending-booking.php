@@ -20,7 +20,7 @@ if ( ! class_exists( 'BKX_Email_Customer_Pending_Booking' ) ) :
          * Constructor.
          */
         public function __construct() {
-            $this->id             = 'pending_booking';
+            $this->id             = 'customer_pending_booking';
             $this->title          = __( 'Customer Pending booking', 'bookingx' );
             $this->description    = __( 'Pending booking emails are sent to chosen recipient(s) when a pending booking is received.', 'bookingx' );
             $this->template_html  = 'emails/customer-pending-booking.php';

@@ -59,28 +59,6 @@ function bkx_process_mail_by_status($booking_id, $subject, $content, $email = nu
             $addition_list .= $addition->get_title() . ",";
         }
     }
-    $message_body = str_replace("[fname]", "", $message_body);
-    $message_body = str_replace('[lname]', "", $message_body);
-    $message_body = str_replace('[total_price]', "", $message_body);
-    $message_body = str_replace('[txn_id]', "", $message_body);
-    $message_body = str_replace('[order_id]', "", $message_body);
-    $message_body = str_replace('[total_duration]', "", $message_body);
-    $message_body = str_replace('[paid_price]', "", $message_body);
-    $message_body = str_replace('[bal_price]', "", $message_body);
-    $message_body = str_replace('[site_url]', "", $message_body);
-    $message_body = str_replace('[seat_name]', "", $message_body);
-    $message_body = str_replace('[base_name]', "", $message_body);
-    $message_body = str_replace('[additions_list]', "", $message_body);
-    $message_body = str_replace('[time_of_booking]', "", $message_body);
-    $message_body = str_replace('[date_of_booking]', "", $message_body);
-    $message_body = str_replace('[location_of_booking]', "", $message_body);
-    $message_body = str_replace('[amount_paid]', "", $message_body);
-    $message_body = str_replace('[amount_pending]', "", $message_body);
-    $message_body = str_replace('[business_name]', "", $message_body);
-    $message_body = str_replace('[business_phone]', "", $message_body);
-    $message_body = str_replace('[business_email]', "", $message_body);
-    $message_body = str_replace('[booking_status]', "", $message_body);
-
     $payment_data = get_post_meta($order_meta['order_id'], 'payment_meta', true);
     if (!empty($payment_data)) {
         $transactionID = $payment_data['transactionID'];

@@ -379,7 +379,10 @@ class Bkx_Ajax_Loader
         //echo '<pre>',print_r($args,1),'</pre>';die;
         $get_verify_slot = json_decode( $Bkxbooking->get_verify_slot( $args, false ) );
         if(!empty($get_verify_slot) && $get_verify_slot->result == 1 ||  !empty($args['booking_multi_days'])){
-            $booking = $Bkxbooking->generate_order($_POST);
+            $booking = $Bkxbooking->generate_order($_POST, null, true);
+            //send email that booking confirmed
+            $Bkxbooking->booking_email($booking['meta_data']['order_id'], 'pending');
+            $Bkxbooking->booking_email($booking['meta_data']['order_id'], 'customer_pending');
             $pos = strpos($booking['meta_data']['last_page_url'], "post-new.php");
             if ($pos !== false) {
                 $booking['meta_data']['redirect_to'] = get_edit_post_link( $booking['meta_data']['order_id'],'&' );
