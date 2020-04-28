@@ -20,7 +20,7 @@ if ( ! class_exists( 'BKX_Email_Customer_Cancelled_Booking' ) ) :
          * Constructor.
          */
         public function __construct() {
-            $this->id             = 'cancelled_booking';
+            $this->id             = 'customer_cancelled_booking';
             $this->title          = __( 'Customer Cancelled booking', 'bookingx' );
             $this->description    = __( 'Cancelled booking emails are sent to chosen recipient(s) when a cancelled booking is received.', 'bookingx' );
             $this->template_html  = 'emails/customer-cancelled-booking.php';
@@ -121,7 +121,7 @@ if ( ! class_exists( 'BKX_Email_Customer_Cancelled_Booking' ) ) :
                     'type'    => 'checkbox',
                     'label'   => __( 'Enable this email notification', 'bookingx' ),
                     'default' => 'yes',
-                    'option_key'  => 'bkx_cancelled_booking_enabled'
+                    'option_key'  => 'bkx_customer_cancelled_booking_enabled'
                 ),
                 'subject'            => array(
                     'title'       => __( 'Subject', 'bookingx' ),
@@ -130,7 +130,7 @@ if ( ! class_exists( 'BKX_Email_Customer_Cancelled_Booking' ) ) :
                     'description' => $placeholder_text,
                     'placeholder' => $this->get_default_subject(),
                     'default'     => '',
-                    'option_key'  => 'bkx_cancelled_booking_subject'
+                    'option_key'  => 'bkx_customer_cancelled_booking_subject'
                 ),
                 'heading'            => array(
                     'title'       => __( 'Email heading', 'bookingx' ),
@@ -139,7 +139,7 @@ if ( ! class_exists( 'BKX_Email_Customer_Cancelled_Booking' ) ) :
                     'description' => $placeholder_text,
                     'placeholder' => $this->get_default_heading(),
                     'default'     => '',
-                    'option_key'  => 'bkx_cancelled_booking_heading'
+                    'option_key'  => 'bkx_customer_cancelled_booking_heading'
                 ),
                 'additional_content' => array(
                     'title'       => __( 'Main Body', 'bookingx' ),
@@ -148,7 +148,7 @@ if ( ! class_exists( 'BKX_Email_Customer_Cancelled_Booking' ) ) :
                     'type' => 'wp_editor',
                     'default_editor' => 'html',
                     'default'     => $this->get_default_additional_content(),
-                    'option_key'  => 'bkx_cancelled_booking_heading'
+                    'option_key'  => 'bkx_customer_cancelled_booking_heading'
                 ),
                 'email_type'         => array(
                     'title'       => __( 'Email type', 'bookingx' ),
@@ -158,7 +158,7 @@ if ( ! class_exists( 'BKX_Email_Customer_Cancelled_Booking' ) ) :
                     'css'         => 'width:400px;',
                     'class'       => 'email_type',
                     'options'     => $this->get_email_type_options(),
-                    'option_key'  => 'bkx_cancelled_booking_email_type'
+                    'option_key'  => 'bkx_customer_cancelled_booking_email_type'
                 ),
             );
         }
