@@ -49,7 +49,8 @@ if ( ! class_exists( 'BKX_Email_Pending_Booking' ) ) :
             $this->enabled    = $this->get_option( $this->plugin_id.$this->id.'_enabled' );
             $this->heading    = $this->get_option( $this->plugin_id.$this->id.'_heading' );
             $this->subject    = $this->get_option( $this->plugin_id.$this->id.'_subject' );
-            $this->additional_content    = $this->get_option( $this->plugin_id.$this->id.'_additional_content' );
+            $additional_content = $this->get_option( $this->plugin_id.$this->id.'_additional_content' );
+            $this->additional_content    = isset($additional_content) && !empty($additional_content) ? $additional_content : $this->get_default_additional_content();
         }
 
         public function is_enabled() {

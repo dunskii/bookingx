@@ -588,6 +588,7 @@ class Bookingx_Admin {
     }
 
     public function date_format_correct( $date, $format = 'm/d/Y'){
+        $date = date('m/d/Y',strtotime($date));
         $date_arr = explode("/",$date);
         $date_formated = strtotime("{$date_arr[2]}/{$date_arr[1]}/{$date_arr[0]}");// "Y-m-d"
         $date_formated = date($format, $date_formated);

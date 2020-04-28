@@ -530,7 +530,7 @@ class BookingX_Email_Content{
 
     public function get_option( $key, $empty_value = null ) {
         $value = bkx_crud_option_multisite($key) ? bkx_crud_option_multisite($key) : $empty_value;
-        return apply_filters( 'bookingx_email_get_option', $value, $this, $value, $key, $empty_value );
+        return apply_filters( 'bookingx_get_option', $value, $this, $value, $key, $empty_value );
     }
 
     public function handle_multipart( $mailer ) {
@@ -837,7 +837,7 @@ class BookingX_Email_Content{
 
         // Define emails that can be customised here.
         $screen = get_current_screen();
-        $mailer          = new BKX_Emails();
+        $mailer          = new BKX_Emails_Setup();
         $email_templates = $mailer->get_emails();
         ?>
         <tr valign="top">

@@ -86,8 +86,8 @@ class BkxBooking {
         }
     }
 
-    public function bkx_order_edit_status($booking_id, $status){
-        $mailer          = new BKX_Emails();
+    public function booking_email($booking_id, $status){
+        $mailer          = new BKX_Emails_Setup();
         $email_templates = $mailer->get_emails();
         if ( $status ) {
             if (strpos($status, 'bkx') !== false) {
@@ -102,6 +102,12 @@ class BkxBooking {
                     break;
                 }
             }
+        }
+    }
+
+    public function bkx_order_edit_status($booking_id, $status){
+        if ( $status ) {
+            $this->booking_email($booking_id, $status);
         }
     }
 
@@ -1493,14 +1499,6 @@ class BkxBooking {
             update_post_meta($order_id,'bookingTimeRecord',$bookingTimeRecord);
         }
         $GLOBALS['bkx_booking_data'] = array('meta_data' => $bkx_booking_data,'time_data' => $bookingTimeRecord);
-
-        //send email that booking confirmed
-        if( $send_mail == true ):
-            //do_action( 'bkx_order_edit_status', $order_id, $post_data['post_status'] );
-            do_action( 'bkx_order_edit_status',$order_id, 'pending');
-            do_action( 'bkx_order_edit_status',$order_id, "customer_pending");
-
-        endif;
 
         if(is_multisite()):
             restore_current_blog();
