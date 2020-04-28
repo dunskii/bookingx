@@ -65,7 +65,6 @@ function run_bookingx() {
     $plugin->run();
     // Global for backwards compatibility.
     $GLOBALS['bkx'] = BKX();
-    $GLOBALS['bkx_mail'] = mailer();
 }
 function BKX() {
     return Bookingx::instance();
