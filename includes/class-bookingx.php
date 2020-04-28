@@ -242,7 +242,7 @@ class Bookingx {
          * Email Config
          */
 
-        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/class-bkx-emails.php';
+        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/class-bkx-emailsSetup.php';
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/emails/class-bookingx-email-config.php';
 		$this->loader = new Bookingx_Loader();
 	}

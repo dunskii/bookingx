@@ -1,6 +1,6 @@
 <?php
 defined( 'ABSPATH' ) || exit;
-class BKX_Emails
+class BKX_Emails_Setup
 {
     public $emails = array();
 
@@ -35,11 +35,11 @@ class BKX_Emails
 
     public function init() {
         // Include email classes.
-        $this->emails['BKX_Email_Pending_Booking']                 = include BKX_PLUGIN_DIR_PATH.'/includes/core/emails/class-bkx-email-new-booking.php';
+        $this->emails['BKX_Email_Pending_Booking']             = include BKX_PLUGIN_DIR_PATH.'/includes/core/emails/class-bkx-email-new-booking.php';
         $this->emails['BKX_Email_Cancelled_Booking']           = include BKX_PLUGIN_DIR_PATH.'/includes/core/emails/class-bkx-email-cancelled-booking.php';
         $this->emails['BKX_Email_Customer_Pending_Booking']    = include BKX_PLUGIN_DIR_PATH.'/includes/core/emails/class-bkx-email-customer-pending-booking.php';
-        $this->emails['BKX_Email_Customer_Ack_Booking']         = include BKX_PLUGIN_DIR_PATH.'/includes/core/emails/class-bkx-email-customer-ack-booking.php';
-        $this->emails['BKX_Email_Customer_Cancelled_Booking']    = include BKX_PLUGIN_DIR_PATH.'/includes/core/emails/class-bkx-email-customer-cancelled-booking.php';
+        $this->emails['BKX_Email_Customer_Ack_Booking']        = include BKX_PLUGIN_DIR_PATH.'/includes/core/emails/class-bkx-email-customer-ack-booking.php';
+        $this->emails['BKX_Email_Customer_Cancelled_Booking']  = include BKX_PLUGIN_DIR_PATH.'/includes/core/emails/class-bkx-email-customer-cancelled-booking.php';
         $this->emails['BKX_Email_Customer_Completed_Booking']  = include BKX_PLUGIN_DIR_PATH.'/includes/core/emails/class-bkx-email-customer-completed-booking.php';
         $this->emails = apply_filters( 'bookingx_email_classes', $this->emails );
     }
