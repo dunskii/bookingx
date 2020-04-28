@@ -8,6 +8,9 @@ function bkx_process_mail_by_status($booking_id, $subject, $content, $email = nu
     if (!empty($content)) {
         $message_body = $content;
     }
+
+    $subject = str_replace("{site_title}", get_bloginfo(), $subject);
+    $subject = str_replace("{booking_number}", $booking_id, $subject);
     $amount_pending = 0;
     $event_address = "";
     $amount_paid = 0;
