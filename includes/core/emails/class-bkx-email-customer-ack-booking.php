@@ -41,8 +41,10 @@ if ( ! class_exists( 'BKX_Email_Customer_Ack_Booking' ) ) :
             $this->email_type = $this->get_option( $this->plugin_id.$this->id.'_email_type' );
             $this->enabled    = $this->get_option( $this->plugin_id.$this->id.'_enabled' );
             $this->heading    = $this->get_option( $this->plugin_id.$this->id.'_heading' );
-            $this->subject    = $this->get_option( $this->plugin_id.$this->id.'_subject' );
-            $this->additional_content    = $this->get_option( $this->plugin_id.$this->id.'_additional_content' );
+            $subject = $this->get_option( $this->plugin_id.$this->id.'_subject' );
+            $this->subject    = isset($subject) && !empty($subject) ? $subject : $this->get_default_subject();
+            $content = $this->get_option( $this->plugin_id.$this->id.'_additional_content' );
+            $this->additional_content    = isset($content) && !empty($content) ? $content : $this->get_default_additional_content();
         }
 
         public function is_enabled() {

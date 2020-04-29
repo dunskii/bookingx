@@ -474,13 +474,13 @@ function bkx_setting_page_callback(){
  * @param null $cc_mail
  * @param null $bcc_mail
  */
-function bkx_mail_format_and_send_process($subject, $data_html, $to_mail, $cc_mail = null, $bcc_mail = null) {
+function bkx_mail_format_and_send_process($subject, $data_html, $to_mail, $mail_type = 'html') {
     if (isset($to_mail)) {
         $subject = $subject;
         $admin_email = bkx_crud_option_multisite('admin_email');
-        $headers[] = 'Content-Type: text/html; charset=UTF-8';
-        $headers[] = 'From: Booking Admin <' . $admin_email . '>';
-        if ($cc_mail != '') {
+        $headers[] = 'Content-Type: text/'.$mail_type.'; charset=UTF-8';
+        $headers[] = 'From: '.get_bloginfo().' <' . $admin_email . '>';
+        /*if ($cc_mail != '') {
             $headers[] = 'Cc: ' . $cc_mail . ' <' . $cc_mail . '>';
         }
         if ($bcc_mail != '') {
