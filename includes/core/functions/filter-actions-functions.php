@@ -1,16 +1,16 @@
 <?php if (!defined('ABSPATH')) exit; // Exit if accessed directly
 $plugin = plugin_basename(__FILE__);
 
-function bkx_process_mail_by_status($booking_id, $subject, $content, $email = null){
+function bkx_process_mail_by_status($booking_id, $subject, $content, $email = null, $is_customer = false){
     if (empty($booking_id))
         return;
 
     if (!empty($content)) {
         $message_body = $content;
     }
-
     $subject = str_replace("{site_title}", get_bloginfo(), $subject);
     $subject = str_replace("{booking_number}", $booking_id, $subject);
+
     $amount_pending = 0;
     $event_address = "";
     $amount_paid = 0;
@@ -33,10 +33,11 @@ function bkx_process_mail_by_status($booking_id, $subject, $content, $email = nu
     $BkxSeatObj = $order_meta['seat_arr']['main_obj'];
     $BkxSeatInfo = $BkxSeatObj->seat_personal_info;
 
+    $admin_email = $email->recipient;
+    $to = isset($is_customer) && $is_customer == true ? $order_meta['email'] : $admin_email;
+    $mail_type = isset($email->email_type) && !empty($email->email_type) ? $email->email_type : 'html';
     // multiple recipients
-    $to = $order_meta['email'];
-    $admin_email = bkx_crud_option_multisite('admin_email');
-
+    
     //change request for template tags calculate booking duration 7/4/2013
     $booking_time = $order_meta['booking_time']['in_sec'];
     //conver second into minutes
@@ -123,7 +124,7 @@ function bkx_process_mail_by_status($booking_id, $subject, $content, $email = nu
     $message_body = str_replace('[business_phone]', $bkx_business_phone, $message_body);
     $message_body = str_replace('[booking_status]', $order_status, $message_body);
     // Mail it
-    bkx_mail_format_and_send_process($subject, $message_body, $to);
+    bkx_mail_format_and_send_process($subject, $message_body, $to, $mail_type);
 }
 
 function bkx_generate_template_page( $option_key , $content, $page_title, $page_id ){

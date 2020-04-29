@@ -89,16 +89,20 @@ class BkxBooking {
     public function booking_email($booking_id, $status){
         $mailer          = new BKX_Emails_Setup();
         $email_templates = $mailer->get_emails();
+        $is_customer = false;
         if ( $status ) {
             if (strpos($status, 'bkx') !== false) {
                 $status = str_replace('bkx-','',$status );
+            }
+            if (strpos($status, 'customer') !== false) {
+                $is_customer = true;
             }
             $email_status = "bkx_email_{$status}_booking"; //bkx_email_bkx-pending_booking
             foreach ( $email_templates as $email_key => $email ) {
                 if ( strtolower( $email_key ) === $email_status ) {
                     $subject = $email->subject;
                     $content = $email->additional_content;
-                    bkx_process_mail_by_status($booking_id, $subject, $content, $email);
+                    bkx_process_mail_by_status($booking_id, $subject, $content, $email, $is_customer);
                     break;
                 }
             }
