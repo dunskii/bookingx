@@ -801,11 +801,12 @@ class Bookingx_Admin {
         }
         return $permalink;
     }
-
+  
     public function bkx_booking_bulk_admin_footer()
     {
         global $post_type;
 
+        ob_start();
         if ( 'bkx_booking' == $post_type ) {
             echo '<style> 
                 .column-order_status{ display:block !important;}
@@ -832,10 +833,10 @@ class Bookingx_Admin {
         </style>';
             $bkx_view_id = "";
             $bkx_view_name = "";
-            if(isset($_GET["view"])){
-                $bkx_view_id = sanitize_text_field($_GET["view"]);
+            if(isset($_REQUEST["view"])){
+                $bkx_view_id = sanitize_text_field($_REQUEST["view"]);
             }
-            if(isset($_GET["bkx_name"])){
+            if(isset($_REQUEST["bkx_name"])){
                 $bkx_view_name = sanitize_text_field($_GET["bkx_view_name"]);
             }
             ?>
@@ -870,7 +871,6 @@ class Bookingx_Admin {
                     var bkx_view_id = '<?php echo $bkx_view_id; ?>';
                     var bkx_view_name = '<?php echo $bkx_view_name; ?>';
                     if( bkx_view_id  ) {
-                        alert(bkx_view_id)
                         jQuery('#post-'+ bkx_view_id).focus();
                         bkx_view_summary( bkx_view_id, bkx_view_name );
                     }
@@ -931,15 +931,19 @@ class Bookingx_Admin {
                     }
                 });
                 <?php
-                $listing_view = isset($_GET['listing_view'])? sanitize_text_field($_GET['listing_view']):'';
+                $listing_view = isset($_REQUEST['listing_view'])? sanitize_text_field($_REQUEST['listing_view']):'';
                 if($listing_view == 'weekly' || $listing_view == 'monthly'){
-                bkx_generate_listing_view($listing_view);
+                   
+                $this->bkx_generate_listing_view($listing_view);
                 ?>
                 jQuery("<div class='weekly-data' id='calendar'></div>").insertBefore( ".wp-list-table" ).slideDown('slow');
                 jQuery(".wp-list-table").hide();
                 <?php } ?>
-            </script>
+            </script> 
             <?php
+            $content = ob_get_contents();
+
+            return $content;
         }
     }
 

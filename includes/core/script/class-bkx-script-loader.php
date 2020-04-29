@@ -104,6 +104,7 @@ class Bkx_Script_Loader
     private static function register_styles() {
         $active_theme = wp_get_theme();
         $stylesheet = $active_theme->stylesheet;
+
         $register_styles = array(
             'bkx-google-fonts'                  => array(
                 'src'     => 'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900',
@@ -156,8 +157,8 @@ class Bkx_Script_Loader
         $register_styles = array_merge($support_theme_styles, $register_styles);
         $register_styles = apply_filters( 'bookingx_theme_support',$register_styles );
         foreach ( $register_styles as $name => $props ) {
-            self::register_style( $name, $props['src'], $props['deps'], $props['version'], 'all', $props['has_rtl'] );
-        }
+            self::register_style($name, $props['src'], $props['deps'], $props['version'], 'all', $props['has_rtl']);
+        }   
     }
 
     public static function get_styles() {
@@ -328,17 +329,23 @@ class Bkx_Script_Loader
             self::enqueue_script( 'bkx-booking-form' );
         }
 
-        // CSS Styles.
-        $enqueue_styles = self::get_styles();
-        if ( $enqueue_styles ) {
-            foreach ( $enqueue_styles as $handle => $args ) {
-                if ( ! isset( $args['has_rtl'] ) ) {
-                    $args['has_rtl'] = false;
+        if(is_admin() && isset($_GET['listing_view']) ){
+            self::enqueue_style('fullcalendarcss');
+        }else{
+            // CSS Styles.
+            $enqueue_styles = self::get_styles();
+            if ( $enqueue_styles ) {
+                foreach ( $enqueue_styles as $handle => $args ) {
+
+                    if ( ! isset( $args['has_rtl'] ) ) {
+                        $args['has_rtl'] = false;
+                    }
+                    $args['media'] = "";
+                    self::enqueue_style( $handle, $args['src'], $args['deps'], $args['version'], $args['media'], $args['has_rtl'] );
                 }
-                $args['media'] = "";
-                self::enqueue_style( $handle, $args['src'], $args['deps'], $args['version'], $args['media'], $args['has_rtl'] );
             }
         }
+        
     }
 
     /**
