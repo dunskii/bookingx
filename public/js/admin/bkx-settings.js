@@ -84,7 +84,7 @@
                 jQuery("#page_drop_down_cancel_booking").show();
             }
         });
-        jQuery( "#id_biz_vac_sd" ).datepicker({ dateFormat: "dd/mm/yy" });
+        jQuery( "#id_biz_vac_sd" ).datepicker({ dateFormat: "mm/dd/yy" });
         jQuery('#id_enable_cancel_booking_no').click(function () {
             var $id_enable_cancel_booking = jQuery("#id_enable_cancel_booking_no").val();
             if($id_enable_cancel_booking == 0)
@@ -94,8 +94,8 @@
         });
         jQuery( "#id_biz_vac_sd" ).datepicker({onSelect: function(date){jQuery( "#id_biz_vac_ed" ).val('');
         jQuery( "#id_biz_vac_ed" ).datepicker( "option", "minDate", date );}});
-        jQuery( "#id_biz_vac_ed" ).datepicker({ dateFormat: "dd/mm/yy" });
-        jQuery( "#id_biz_ph_1").datepicker({ dateFormat: "dd/mm/yy" });
+        jQuery( "#id_biz_vac_ed" ).datepicker({ dateFormat: "mm/dd/yy" });
+        jQuery( "#id_biz_ph_1").datepicker({ dateFormat: "mm/dd/yy" });
     });
     function add_more_ph() {
         var current_value = jQuery('#temp_pu_h_cnt').val();
@@ -103,7 +103,7 @@
         set_next_val++;
         jQuery('#temp_pu_h_cnt').val(set_next_val);
         jQuery( ".bkx_more_pub_holiday" ).after('<input type="text" name="biz_ph[]" id="id_clone_ph_'+set_next_val+'"><div class="clear"></div>');
-        jQuery( "#id_clone_ph_"+set_next_val).datepicker({ dateFormat: "dd/mm/yy" });
+        jQuery( "#id_clone_ph_"+set_next_val).datepicker({ dateFormat: "mm/dd/yy" });
     }
     function add_more_days() {
         var current_value = jQuery('#current_value').val();

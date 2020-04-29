@@ -149,7 +149,7 @@ if(!empty($bkx_biz_pub_holiday) && is_array($bkx_biz_pub_holiday))
     			 	$key = $key + 1;
     			 	echo '<input type="text" name="biz_ph[]" id="id_clone_ph_'.$key.'" value="'.$pub_holiday.'"><div class="clear"></div>';
     			 	echo '<script type="text/javascript">jQuery( document ).ready(function() {
-    			 		jQuery( "#id_clone_ph_'.$key.'" ).datepicker({ dateFormat: "dd/mm/yy" });
+    			 		jQuery( "#id_clone_ph_'.$key.'" ).datepicker({ dateFormat: "mm/dd/yy" });
     			 	});</script>';
     			 }    			  
     		}
