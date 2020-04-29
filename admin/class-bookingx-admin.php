@@ -566,11 +566,9 @@ class Bookingx_Admin {
 	public function bkx_calender_unavailable_days( $days ){
 
         $bkx_biz_vac_sd = bkx_crud_option_multisite('bkx_biz_vac_sd');
+        $bkx_biz_vac_ed = bkx_crud_option_multisite('bkx_biz_vac_ed');
         $biz_vacations = array();
         if(isset($bkx_biz_vac_sd) && !empty($bkx_biz_vac_sd) && isset($bkx_biz_vac_ed) && !empty($bkx_biz_vac_ed)){
-            $bkx_biz_vac_sd = $this->date_format_correct($bkx_biz_vac_sd);
-            $bkx_biz_vac_ed = bkx_crud_option_multisite('bkx_biz_vac_ed');
-            $bkx_biz_vac_ed = $this->date_format_correct($bkx_biz_vac_ed);
             $biz_vacations = $this->createDateRange( $bkx_biz_vac_sd, $bkx_biz_vac_ed );
         }
         $bkx_biz_pub_holiday = bkx_crud_option_multisite('bkx_biz_pub_holiday');
@@ -578,7 +576,7 @@ class Bookingx_Admin {
         if(!empty($bkx_biz_pub_holiday)){
             foreach ($bkx_biz_pub_holiday as $date){
                 if(isset($date) && !empty($date)){
-                    $holidays[] = $this->date_format_correct($date);
+                    $holidays[] = $date;
                 }
             }
         }
