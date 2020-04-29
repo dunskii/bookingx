@@ -485,7 +485,7 @@ function bkx_mail_format_and_send_process($subject, $data_html, $to_mail, $mail_
         }
         if ($bcc_mail != '') {
             $headers[] = 'Bcc: ' . $bcc_mail;
-        }
+        }*/
         wp_mail($to_mail, $subject, $data_html, $headers);
     }
 }
