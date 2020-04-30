@@ -6,14 +6,14 @@ defined( 'ABSPATH' ) || exit;?>
 <div class="step-2 bkx-form-deactivate default" data-active="2" data-booking-style="default">
     <div class="user-detail">
     </div>
-    <div class="row px-lg-5 py-3">
-        <div class="col-lg-5 col-md-6">
+    <div class="row px-lg-1 py-1">
+        <div class="col-5 col-md-6 calender-setup"> <!--remove col-lg-5 lg -->
             <div class="form-group">
                 <label>Select date:</label>
             </div>
             <div id="bkx-calendar"></div>
         </div>
-        <div class="col-lg-7 col-md-6">
+        <div class="col-7 col-md-6 slots-setup"> <!--remove col-lg-7 lg -->
             <div class="form-group">
                 <label>Select time slot:</label>
             </div>

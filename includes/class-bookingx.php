@@ -245,6 +245,8 @@ class Bookingx {
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/class-bkx-emailsSetup.php';
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/emails/class-bookingx-email-config.php';
 		$this->loader = new Bookingx_Loader();
+
+        $this->theme_support_includes();
 	}
 
 	/**
@@ -325,7 +327,41 @@ class Bookingx {
 
         $this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
         $this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+        add_filter( 'body_class', function( $classes ) {
+            if(is_booking_page()){
+                $classes = array_merge( $classes, array( 'booking-x-form' ) );
+            }
+            if ( is_bookingx() ) {
+                return array_merge( $classes, array( 'booking-x' ) );
+            }
+        } );
 
+    }
+
+    /**
+     * @return string[]
+     */
+    private function bkx_is_wp_support_themes(){
+        return array(
+            'twentytwenty',
+            'twentynineteen',
+        );
+    }
+
+    /**
+     * Include classes for theme support.
+     */
+    private function theme_support_includes() {
+        if ( $this->bkx_is_wp_support_themes() ) {
+            switch ( get_template() ) {
+                case 'twentynineteen':
+                    include_once BKX_PLUGIN_DIR_PATH . 'includes/core/theme-support/class-bkx-twenty-nineteen.php';
+                    break;
+                case 'twentytwenty':
+                    include_once BKX_PLUGIN_DIR_PATH . 'includes/core/theme-support/class-bkx-twenty-twenty.php';
+                    break;
+            }
+        }
     }
 
 	/**

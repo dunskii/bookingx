@@ -82,9 +82,7 @@ class Bkx_Script_Loader
                 'src'     => '//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.3/fullcalendar.min.js',
                 'deps'    => array( 'jquery' ),
                 'version' => BKX_PLUGIN_VER,
-            ),
-
-
+            )
         );
 
         foreach ( $register_scripts as $name => $props ) {
@@ -92,18 +90,11 @@ class Bkx_Script_Loader
         }
     }
 
-    private static function supported_themes(){
-        $themes = array('twentyseventeen');
-
-        return $themes;
-    }
-
-    /**register_script
+    /**
+     * register_styles
      * Register all BookingX Style.
      */
     private static function register_styles() {
-        $active_theme = wp_get_theme();
-        $stylesheet = $active_theme->stylesheet;
 
         $register_styles = array(
             'bkx-google-fonts'                  => array(
@@ -143,28 +134,15 @@ class Bkx_Script_Loader
                 'has_rtl' => false,
             )
         );
-        $support_theme_styles = array();
-        if(!empty($stylesheet) && in_array($stylesheet,self::supported_themes())){
-            $support_theme_styles = array("theme-support-{$stylesheet}"
-                                    => array(
-                                        'src'     => BKX_PLUGIN_PUBLIC_URL . "/css/theme/{$stylesheet}.css",
-                                        'deps'    => array(),
-                                        'version' => BKX_PLUGIN_VER,
-                                        'has_rtl' => false,
-                                    )
-            );
-        }
-        $register_styles = array_merge($support_theme_styles, $register_styles);
-        $register_styles = apply_filters( 'bookingx_theme_support',$register_styles );
         foreach ( $register_styles as $name => $props ) {
             self::register_style($name, $props['src'], $props['deps'], $props['version'], 'all', $props['has_rtl']);
         }   
     }
 
+    /**
+     * @return mixed|void
+     */
     public static function get_styles() {
-        $active_theme = wp_get_theme();
-        $stylesheet = $active_theme->stylesheet;
-        $support_theme_styles = array();
         $register_styles =  apply_filters(
             'bookingx_enqueue_styles',
             array(
@@ -213,18 +191,6 @@ class Bkx_Script_Loader
             )
         );
 
-        if(!empty($stylesheet) && in_array($stylesheet,self::supported_themes())){
-            $support_theme_styles = array("theme-support-{$stylesheet}"
-            => array(
-                    'src'     => BKX_PLUGIN_PUBLIC_URL . "/css/theme/{$stylesheet}.css",
-                    'deps'    => array(),
-                    'version' => BKX_PLUGIN_VER,
-                    'has_rtl' => false,
-                )
-            );
-        }
-        $register_styles = array_merge($support_theme_styles, $register_styles);
-        $register_styles = apply_filters( 'bookingx_theme_support',$register_styles );
         return $register_styles;
     }
 
@@ -232,7 +198,7 @@ class Bkx_Script_Loader
      * @param $handle
      * @param $path
      * @param array $deps
-     * @param int $version
+     * @param string $version
      * @param bool $in_footer
      */
     private static function register_script( $handle, $path, $deps = array( 'jquery' ), $version = BKX_PLUGIN_VER, $in_footer = true ) {
