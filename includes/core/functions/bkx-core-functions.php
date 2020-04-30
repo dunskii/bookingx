@@ -728,3 +728,38 @@ function BkxGenerateCounter($minutes_temp)
     }
     return $counter;
 }
+
+function is_bookingx(){
+    return apply_filters( 'is_bookingx', is_booking_page() || is_service() || is_staff() || is_extra() );
+}
+
+/**
+ * @return bool
+ */
+function is_booking_page(){
+    if(is_page() || is_single()){
+        global $post;
+        return( has_shortcode( $post->post_content, 'bkx_booking_form'));
+    }
+}
+
+/**
+ * @return bool
+ */
+function is_service(){
+    return ( is_post_type_archive( 'bkx_base' ) || is_singular('bkx_base')  ) ;
+}
+
+/**
+ * @return bool
+ */
+function is_extra(){
+    return ( is_post_type_archive( 'bkx_addition' ) || is_singular('bkx_addition')  ) ;
+}
+
+/**
+ * @return bool
+ */
+function is_staff(){
+    return ( is_post_type_archive( 'bkx_seat' ) || is_singular('bkx_seat')  ) ;
+}

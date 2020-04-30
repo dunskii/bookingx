@@ -1,0 +1,29 @@
+.booking-x .entry .entry-content a,
+.booking-x .booking-x-bkx-seat .btn-primary,
+.booking-x .booking-x-bkx-base .btn-primary,
+.booking-x .booking-x-bkx-addition .btn-primary,
+.booking-x .entry .entry-content a:visited{text-decoration: none; color :#fff;}
+.booking-x .entry .entry-content, .entry .entry-summary {
+    max-width: calc( 100% - (2 * 1rem));
+    margin: 0 1rem;
+    padding: unset;
+}
+.booking-x-form .entry .entry-content > *,
+.booking-x-form .entry .entry-summary > *,
+.booking-x-form .entry .entry-summary > .wp-block-group > .wp-block-group__inner-container > *,
+.booking-x-form .entry .entry-content > .wp-block-group > .wp-block-group__inner-container > * {
+    margin: 32px 0;
+    max-width: 100%;
+}
+.booking-x-form .bkx-booking-form #bkx-form-step-3 a, .booking-x-form .bkx-booking-form #bkx-form-step-3 a:visited{
+    color: #066595;
+}
+@media only screen and (min-width: 768px){
+    .booking-x .content-area {
+        margin: 0 calc(10% + 60px);
+    }
+    .booking-x .entry .entry-header {
+        margin: auto;
+    }
+
+}

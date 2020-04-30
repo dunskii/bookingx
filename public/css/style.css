@@ -131,6 +131,15 @@ Listing CSS Bootstrap 4
 .bkx-general_full { float: left;width: 32%;}
 .bkx-order_summary_full{background: #fff; min-height: auto;}
 
+.booking-x .bkx-single-post-view hr{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: 0;
+    height: 0px;
+    border-top: 1px solid rgba(0,0,0,.1);
+    background-color: rgba(0,0,0,.1);
+}
+
 /* Media */
 @media (min-width: 1366px){
     .booking-x .container {max-width: 1342px;}
