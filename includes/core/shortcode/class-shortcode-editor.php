@@ -124,7 +124,6 @@ class BKXShortcode_Tinymce
         $shortcode_tags['business_phone']       = 'Business phone';
         $shortcode_tags['business_email']       = 'Business email';
         $shortcode_tags['booking_status']       = 'Booking status';
-        $shortcode_tags['bkx_booking_form']     = 'Booking Form';
         $shortcode_tags = apply_filters( 'bkx_get_more_shortcodes', $shortcode_tags, $this );
         return $shortcode_tags;
     }
