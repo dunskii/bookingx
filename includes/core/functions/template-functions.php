@@ -358,6 +358,20 @@ if ( ! function_exists( 'booking_x_page_title' ) ) {
     }
 }
 
+if (!function_exists('bookingx_card_width_setting')) {
+    function bookingx_card_width_setting( ){
+        $width = '18rem';
+        switch ( get_template() ) {
+            case 'twentytwenty':
+                $width = '38rem';
+                break;
+
+        }
+        return $width;
+    }
+}
+
+
 if (!function_exists('bookingx_block_grid_setting')) {
 
     /**

@@ -51,4 +51,6 @@ add_action( 'bookingx_sidebar', 'bookingx_get_sidebar', 10 );
  */
 add_filter( 'bookingx_block_grid_setting', 'bookingx_block_grid_setting', 10 );
 
+add_filter( 'bookingx_card_width_setting', 'bookingx_card_width_setting', 10 );
+
 add_action( 'bookingx_base_meta_data', 'bookingx_base_meta_data_html',10);
