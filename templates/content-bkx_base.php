@@ -6,9 +6,10 @@ $alias_base = bkx_crud_option_multisite('bkx_alias_base');
 $base_id = $bkx_base->id;
 $price_duration = bkx_get_post_price_duration_plain( $bkx_base, $alias_base );
 $settings = apply_filters('bookingx_block_grid_setting', $args);
+$card_width = apply_filters('bookingx_card_width_setting');
 ?>
 <div class="<?php echo $settings['class'];?> base-<?php echo $base_id;?>">
-    <div class="card<?php echo $settings['block'];?>" style="width: 18rem;">
+    <div class="card<?php echo $settings['block'];?>" style="width: <?php echo $card_width;?>">
         <?php echo $bkx_base->get_thumb();?>
         <div class="card-body">
             <h5 class="card-title m-0 text-center"><?php echo get_the_title(); ?></h5>

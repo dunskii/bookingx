@@ -1,5 +1,10 @@
 <?php
 defined( 'ABSPATH' ) || exit;
+
+/**
+ * Class BKX_Emails_Setup
+ * A quick shout-out to those who worked on WooCommerce for the inspiration on a good way to handle email content
+ */
 class BKX_Emails_Setup
 {
     public $emails = array();
@@ -13,6 +18,9 @@ class BKX_Emails_Setup
         return self::$_instance;
     }
 
+    /**
+     * BKX_Emails_Setup constructor.
+     */
     public function __construct() {
         $this->init();
 

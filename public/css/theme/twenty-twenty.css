@@ -1,0 +1,38 @@
+.booking-x .bookingx-breadcrumb ul,
+.booking-x .bookingx-breadcrumb ol,
+.booking-x-form .slots-setup .indicator ul,
+.booking-x-form .slots-setup .indicator ol{
+    margin: 0 0 1rem 1rem;
+}
+.booking-x .entry-content .calender-setup .calendar-day .btn {
+    font-size: 2.1rem;
+}
+.booking-x .select-time .table td a {text-decoration:none;}
+.booking-x .bkx-booking-form .custom-select {
+    height: calc(4.25rem + 2px);
+}
+.booking-x-form .entry-content > .booking-x:not(.alignwide):not(.alignfull):not(.alignleft):not(.alignright):not(.is-style-wide) {
+    max-width: 90rem;
+    width: calc(100% - 4rem);
+}
+
+.booking-x .booking-x-bkx-seat .row .card .card-body .btn,
+.booking-x .booking-x-bkx-base .row .card .card-body .btn,
+.booking-x .booking-x-bkx-addition .row .card .card-body .btn,
+.booking-x .bkx-single-post-view .btn{
+    font-size: 2.1rem;
+    text-decoration : none;
+}
+
+@media only screen and (min-width: 1168px){
+    .booking-x .content-area {
+        max-width: 1600px;
+        padding: 4vw 6vw;
+        margin: 0 auto;
+    }
+}
+@media only screen and (min-width: 768px){
+    .booking-x .content-area .site-main {
+        margin: 0;
+    }
+}

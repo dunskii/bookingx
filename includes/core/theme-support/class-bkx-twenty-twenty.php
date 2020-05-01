@@ -1,6 +1,6 @@
 <?php
 /**
- * Twenty Nineteen support.
+ * Twenty Twenty support.
  * A quick shout-out to those who worked on WooCommerce for the inspiration on a good way to handle Theme Support
  *
  */
@@ -8,9 +8,9 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * BKX_Twenty_Nineteen class.
+ * BKX_Twenty_Twenty class.
  */
-class BKX_Twenty_Nineteen {
+class BKX_Twenty_Twenty {
 
     /**
      * Theme init.
@@ -39,12 +39,12 @@ class BKX_Twenty_Nineteen {
             )
         );
 
-        // Tweak Twenty Nineteen features.
-        add_action( 'wp', array( __CLASS__, 'tweak_theme_features' ) );
+        // Background color change.
+        add_action( 'after_setup_theme', array( __CLASS__, 'set_white_background' ), 10 );
     }
 
     /**
-     * Open the Twenty Nineteen wrapper.
+     * Open the Twenty Twenty wrapper.
      */
     public static function output_content_wrapper() {
         echo '<section id="primary" class="content-area">';
@@ -52,7 +52,7 @@ class BKX_Twenty_Nineteen {
     }
 
     /**
-     * Close the Twenty Nineteen wrapper.
+     * Close the Twenty Twenty wrapper.
      */
     public static function output_content_wrapper_end() {
         echo '</main>';
@@ -67,24 +67,31 @@ class BKX_Twenty_Nineteen {
      */
     public static function enqueue_styles( $styles ) {
 
-        $styles['bookingx-twenty-nineteen'] = array(
-            'src'     => str_replace( array( 'http:', 'https:' ), '', BKX_PLUGIN_PUBLIC_URL ) . '/css/theme/twenty-nineteen.css',
+        $styles['bookingx-twenty-twenty'] = array(
+            'src'     => str_replace( array( 'http:', 'https:' ), '', BKX_PLUGIN_PUBLIC_URL ) . '/css/theme/twenty-twenty.css',
             'deps'    => '',
             'version' => BKX_PLUGIN_VER,
             'media'   => 'all',
             'has_rtl' => true,
         );
 
-        return apply_filters( 'bookingx_twenty_nineteen_styles', $styles );
+        return apply_filters( 'bookingx_twenty_twenty_styles', $styles );
     }
 
     /**
-     * Tweak Twenty Nineteen features.
+     * Set background color to white if it's default, otherwise don't touch it.
      */
-    public static function tweak_theme_features() {
-        if ( is_bookingx() ) {
-            add_filter( 'twentynineteen_can_show_post_thumbnail', '__return_false' );
+    public static function set_white_background() {
+        $background         = sanitize_hex_color_no_hash( get_theme_mod( 'background_color' ) );
+        $background_default = 'f5efe0';
+
+        // Don't change user's choice of background color.
+        if ( ! empty( $background ) && $background !== $background_default ) {
+            return;
         }
+
+        // In case default background is found, change it to white.
+        set_theme_mod( 'background_color', 'fff' );
     }
 }
-BKX_Twenty_Nineteen::init();
+BKX_Twenty_Twenty::init();
