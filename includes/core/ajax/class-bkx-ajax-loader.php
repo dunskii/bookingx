@@ -402,7 +402,8 @@ class Bkx_Ajax_Loader
     public static function send_email_receipt(){
         check_ajax_referer( 'send-email-receipt', 'security' );
         $order_id = sanitize_text_field( wp_unslash( $_POST['order_id'] ) );
-        echo ( isset($order_id) && $order_id != "" ? bkx_order_edit_status( $order_id, "pending") : "NORF" );
+        $BkxBooking = new BkxBooking();
+        echo ( isset($order_id) && $order_id != "" ? $BkxBooking->bkx_order_edit_status( $order_id, "customer_pending") : "NORF" );
         wp_die();
     }
 
