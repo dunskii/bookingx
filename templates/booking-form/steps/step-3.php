@@ -3,6 +3,14 @@
  * Booking Form Step 3
  */
 defined( 'ABSPATH' ) || exit;?>
+<?php
+$privacy_policy = bkx_crud_option_multisite('bkx_privacy_policy_page');
+$cancellation = bkx_crud_option_multisite('bkx_cancellation_page');
+$term_cond = bkx_crud_option_multisite('bkx_term_cond_page');
+$privacy_policy_url = (isset($privacy_policy)) && $privacy_policy != "" ? get_permalink($privacy_policy) : "javascript:void(0);";
+$term_cond_url = (isset($term_cond)) && $term_cond != "" ? get_permalink($term_cond) : "javascript:void(0);";
+$cancellation_url = (isset($cancellation)) && $cancellation != "" ? get_permalink($cancellation) : "javascript:void(0);";
+?>
 <div class="step-3 bkx-form-deactivate" data-active="3">
     <div class="user-detail">
         <div class="row">
@@ -42,19 +50,19 @@ defined( 'ABSPATH' ) || exit;?>
                 <div class="col-md-4">
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" id="bkx-terms-and-conditions" name="bkx_terms_and_conditions">
-                        <label class="custom-control-label" for="bkx-terms-and-conditions">Do you agree with our <a href="javascript:void(0);">terms and conditions</a>?</label>
+                        <label class="custom-control-label" for="bkx-terms-and-conditions">Do you agree with our <a target="_blank" href="<?php echo $term_cond_url;?>">terms and conditions</a>?</label>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" id="bkx-privacy-policy" name="bkx_privacy_policy">
-                        <label class="custom-control-label" for="bkx-privacy-policy">Do you agree with our <a href="javascript:void(0);">privacy policy</a>?</label>
+                        <label class="custom-control-label" for="bkx-privacy-policy">Do you agree with our <a target="_blank" href="<?php echo $privacy_policy_url;?>">privacy policy</a>?</label>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" id="bkx-cancellation-policy" name="bkx_cancellation_policy">
-                        <label class="custom-control-label" for="bkx-cancellation-policy">Do you agree with our <a href="javascript:void(0);">cancellation policy</a>?</label>
+                        <label class="custom-control-label" for="bkx-cancellation-policy">Do you agree with our <a target="_blank" href="<?php echo $cancellation_url;?>">cancellation policy</a>?</label>
                     </div>
                 </div>
             </div>
