@@ -354,6 +354,9 @@ class Bookingx {
     private function theme_support_includes() {
         if ( $this->bkx_is_wp_support_themes() ) {
             switch ( get_template() ) {
+                case 'twentyseventeen':
+                    include_once BKX_PLUGIN_DIR_PATH . 'includes/core/theme-support/class-bkx-twenty-seventeen.php';
+                    break;
                 case 'twentynineteen':
                     include_once BKX_PLUGIN_DIR_PATH . 'includes/core/theme-support/class-bkx-twenty-nineteen.php';
                     break;

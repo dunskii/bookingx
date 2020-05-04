@@ -3,7 +3,7 @@ defined( 'ABSPATH' ) || exit;
 global $bkx_seat;
 $booking_url = $bkx_seat->booking_page_url;
 $settings = apply_filters('bookingx_block_grid_setting', $args);
-$card_width = apply_filters('bookingx_card_width_setting', null);
+$card_width = apply_filters('bookingx_card_width_setting', $args);
 ?>
 <div class="<?php echo $settings['class'];?> ">
     <div class="card<?php echo $settings['block'];?>" style="width: <?php echo $card_width;?>">

@@ -6,7 +6,7 @@ $booking_url = $bkx_addition->booking_page_url;
 $addition_id = $bkx_addition->id;
 $price_duration = bkx_get_post_price_duration_plain( $bkx_addition, $alias_base );
 $settings = apply_filters('bookingx_block_grid_setting', $args);
-$card_width = apply_filters('bookingx_card_width_setting');
+$card_width = apply_filters('bookingx_card_width_setting',$args);
 ?>
 <div class="<?php echo $settings['class'];?>  addition-<?php echo $addition_id;?>">
     <div class="card<?php echo $settings['block'];?>" style="width: <?php echo $card_width;?>">

@@ -141,66 +141,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
         </tr>
 
 		<tr class="active">
-			<th scope="row"><label for="Status Pending (default)"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Status Pending (default)' ); ?> </label></th>
-			 
-			<td class="plugin-description">
-				<div class="plugin-description">				
-					<?php $bkx_template_status_pending = bkx_crud_option_multisite('bkx_template_status_pending');
-                          $args = array('selected'=> $bkx_template_status_pending,'name'=> 'status_pending');
-                          wp_dropdown_pages($args); ?>
-				</div>
-			</td>
-		</tr>
-		<tr class="active">
-			<th scope="row"><label for="Email Confirmation"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Status Acknowledge ' ); ?></label></th>
-			 
-			<td class="plugin-description">
-				<div class="plugin-description">
-				<?php $bkx_template_status_ack = bkx_crud_option_multisite('bkx_template_status_ack');
-                          $args = array('selected'=> $bkx_template_status_ack,'name'=> 'status_ack');
-                          wp_dropdown_pages($args); ?>					 
-				</div>
-			</td>
-		</tr>
-
-		<tr class="active">
-			<th scope="row"><label for="Transaction Success"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Status Complete' ); ?> </label></th>
-			 
-			<td class="plugin-description">
-				<div class="plugin-description">
-						<?php $bkx_template_status_complete = bkx_crud_option_multisite('bkx_template_status_complete');
-                          $args = array('selected'=> $bkx_template_status_complete,'name'=> 'status_complete');
-                          wp_dropdown_pages($args); ?>
-				</div>
-			</td>
-		</tr>
-
-		<tr class="active">
-			<th scope="row"><label for="Transaction Success"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Status Missed' ); ?> </label></th>
-			 
-			<td class="plugin-description">
-				<div class="plugin-description">
-						<?php $bkx_template_status_missed = bkx_crud_option_multisite('bkx_template_status_missed');
-                          $args = array('selected'=> $bkx_template_status_missed,'name'=> 'status_missed');
-                          wp_dropdown_pages($args); ?>
-				</div>
-			</td>
-		</tr>
-
-		<tr class="active">
-			<th scope="row"><label for="Transaction Success"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Status Cancelled' ); ?> </label></th>
-			 
-			<td class="plugin-description">
-				<div class="plugin-description">
-						<?php $bkx_template_status_cancelled = bkx_crud_option_multisite('bkx_template_status_cancelled');
-                          $args = array('selected'=> $bkx_template_status_cancelled,'name'=> 'status_cancelled');
-                          wp_dropdown_pages($args); ?>
-				</div>
-			</td>
-		</tr>
-
-		<tr class="active">
-			<th scope="row"><label for="Terms and conditions"> <?php printf( esc_html__( '%1$s', 'bookingx' ),  'Terms & conditions Page' ); ?></label></th>
+			<th scope="row"><label for="Terms and conditions"> <?php printf( esc_html__( '%1$s', 'bookingx' ),  'Set Terms & conditions Page' ); ?></label></th>
 			<td class="plugin-description">
 				<div class="plugin-description">
 				<?php $bkx_term_cond_page = bkx_crud_option_multisite('bkx_term_cond_page');
@@ -211,7 +152,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 		</tr>
 
 		<tr class="active">
-			<th scope="row"><label for="Privacy Policy"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Privacy policy Page' ); ?> </label></th>
+			<th scope="row"><label for="Privacy Policy"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Set Privacy policy' ); ?> </label></th>
 			<td class="plugin-description">
 				<div class="plugin-description">
 				<?php $bkx_privacy_policy_page = bkx_crud_option_multisite('bkx_privacy_policy_page');
@@ -220,6 +161,17 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 				</div>
 			</td>
 		</tr>
+
+        <tr class="active">
+            <th scope="row"><label for="Cancellation Policy"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Set Cancellation policy' ); ?> </label></th>
+            <td class="plugin-description">
+                <div class="plugin-description">
+                    <?php $bkx_cancellation_policy = bkx_crud_option_multisite('bkx_cancellation_policy_page');
+                    $args = array('show_option_none' => 'Select Cancellation Policy Page', 'selected'=> $bkx_cancellation_policy,'name'=> 'bkx_cancellation_policy_page');
+                    wp_dropdown_pages($args); ?>
+                </div>
+            </td>
+        </tr>
 
 		<tr class="active">
 			<th scope="row"><label for="enable_editor"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Display Booking X shortcode icon on visual editor and text editor?' ); ?></label></th>
