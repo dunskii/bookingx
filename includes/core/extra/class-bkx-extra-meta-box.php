@@ -157,13 +157,13 @@ if ( ! class_exists( 'BkxExtraMetaBox' ) ) {
                 Does this <?php echo $addition_alias; ?> require its own time bracket or can it overlap with
                 other <?php echo $addition_alias; ?> :
                 <div class="plugin-description">
-                    <ul class="gfield_radio" id="input_3_14">
-                        <li class="gchoice_14_0">
+                    <ul class="bkx_radio" id="input_3_14">
+                        <li class="bkx_choice_14_0">
                             <input name="addition_overlap" type="radio" value="Own Time Bracket" id="choice_14_0"
                                    tabindex="5" <?php if ($addition_overlap == "N") echo "checked='true'"; ?> >
                             <label for="choice_14_0">Own Time Bracket</label>
                         </li>
-                        <li class="gchoice_14_1">
+                        <li class="bkx_choice_14_1">
                             <input name="addition_overlap" type="radio" value="Overlap" id="choice_14_1"
                                    tabindex="6" <?php if ($addition_overlap == "Y") echo "checked='true'"; ?> >
                             <label for="choice_14_1">Overlap</label>
@@ -182,7 +182,7 @@ if ( ! class_exists( 'BkxExtraMetaBox' ) ) {
                 This <?php echo $addition_alias; ?> is available to the following <?php echo $base_alias; ?>'s :
                 <div class="plugin-description">
                     <ul class="gfield_checkbox" id="input_2_9">
-                        <li class="gchoice_9_1">
+                        <li class="bkx_choice_9_1">
                             <input name="addition_base_all" type="checkbox" value="All" id="id_addition_base_all"
                                    tabindex="12" <?php /*if($addition_bases=="All"){ echo "checked='checked'"; }*/ ?> >
                             <label for="choice_9_1">All</label>
@@ -199,7 +199,7 @@ if ( ! class_exists( 'BkxExtraMetaBox' ) ) {
                                     }
                                 }
                                 ?>
-                                <li class="gchoice_9_2">
+                                <li class="bkx_choice_9_2">
                                     <input name="addition_base[]" type="checkbox" value="<?php echo $value->ID; ?>"
                                            tabindex="13" class="myCheckbox" <?php if ($selected == true) {
                                         echo "checked='checked'";
@@ -216,7 +216,7 @@ if ( ! class_exists( 'BkxExtraMetaBox' ) ) {
                 This <?php echo $addition_alias; ?> is available to the following <?php echo $alias_seat; ?> :
                 <div class="plugin-description">
                     <ul class="gfield_checkbox" id="input_2_9">
-                        <li class="gchoice_9_1">
+                        <li class="bkx_choice_9_1">
                             <input name="seat_all" type="checkbox" value="All" id="id_seat_all" tabindex="12">
                             <label for="choice_9_1">All</label>
                         </li>
@@ -231,7 +231,7 @@ if ( ! class_exists( 'BkxExtraMetaBox' ) ) {
                                         $selected = '';
                                     }
                                 } ?>
-                                <li class="gchoice_9_2">
+                                <li class="bkx_choice_9_2">
                                     <input name="seat_on_extra[]" type="checkbox" value="<?php echo $value->ID; ?>"
                                            tabindex="13" class="seat_checked" <?php if ($selected == '1') {
                                         echo "checked='checked'";

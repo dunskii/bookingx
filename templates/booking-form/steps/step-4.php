@@ -35,5 +35,4 @@ defined( 'ABSPATH' ) || exit; ?>
         <button type="submit" class="btn btn-default bkx-form-submission-final">Proceed with <img class="payment-gateway-image" src="" alt=""  class="img-fluid"></button>
         <button type="submit" class="btn btn-default bkx-form-submission-previous">Previous</button>
     </div>
-    <form id="bkx-book-now" method="post"></form>
 </div>

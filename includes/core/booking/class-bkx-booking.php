@@ -263,7 +263,7 @@ class BkxBooking {
         );
         $final_order_data = array_merge(  $order_meta_data, $booking_order_meta_data);
         wp_update_post(array( 'ID'    =>  $order_id, 'post_status'   =>  'bkx-' . apply_filters( 'bkx_default_order_status', 'pending' )));
-        return apply_filters( 'bkx_booking_collection_update_post', $final_order_data );
+        return apply_filters( 'bkx_booking_collection_update_post', $final_order_data, $post_data );
     }
 
     /**
@@ -275,7 +275,6 @@ class BkxBooking {
 
         if(empty($post_data))
             return;
-
         global $current_user;
 
         $curr_date = date("Y-m-d H:i:s");
@@ -373,7 +372,7 @@ class BkxBooking {
             'base_days' =>  ( isset($base_days ) ? sanitize_text_field ( $base_days ) : "" ),
             'update_order_slot' => ( isset($post_data['update_order_slot'] ) ? sanitize_text_field ($post_data['update_order_slot'] ) : "" )
         );
-        return apply_filters( 'bkx_booking_collection_posts', $arrData );
+        return apply_filters( 'bkx_booking_collection_posts', $arrData, $post_data);
     }
 
     /**

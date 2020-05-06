@@ -17,7 +17,6 @@ $cancellation_url = (isset($cancellation)) && $cancellation != "" ? get_permalin
         </div>
     </div>
     <div class="form-wrapper">
-        <form id="bkx-form-step-3">
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
@@ -66,7 +65,6 @@ $cancellation_url = (isset($cancellation)) && $cancellation != "" ? get_permalin
                     </div>
                 </div>
             </div>
-        </form>
     </div>
     <div class="button-wrapper">
         <button type="submit" class="btn btn-default bkx-form-submission-next">Next</button>
