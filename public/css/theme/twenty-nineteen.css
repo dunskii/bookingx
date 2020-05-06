@@ -15,7 +15,7 @@
     margin: 32px 0;
     max-width: 100%;
 }
-.booking-x-form .bkx-booking-form #bkx-form-step-3 a, .booking-x-form .bkx-booking-form #bkx-form-step-3 a:visited{
+.booking-x-form .bkx-booking-form .step-3 a, .booking-x-form .bkx-booking-form .step-3 a:visited{
     color: #066595;
 }
 @media only screen and (min-width: 768px){

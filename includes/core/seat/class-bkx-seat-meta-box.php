@@ -190,13 +190,13 @@ if ( ! class_exists( 'BkxSeatMetaBox' ) ) {
                 <label><?php esc_html_e('If yes, Select months of the year', 'bookingx'); ?> :</label>
 
                 <ul class="gfield_checkbox" id="input_1_16">
-                    <li class="gchoice_16_0">
+                    <li class="bkx_choice_16_0">
                         <input name="seat_certain_month_all" type="checkbox" value="January" id="choice_month_all"
                                tabindex="31">
                         <label for="choice_16_0"><?php esc_html_e('All', 'bookingx'); ?></label>
                     </li>
 
-                    <li class="gchoice_16_1">
+                    <li class="bkx_choice_16_1">
                         <input name="seat_certain_month[]" class="month_checkbox" type="checkbox" value="January"
                                id="choice_16_1" tabindex="31" <?php if (isset($temp_seat_months) && ($temp_seat_months != '')) {
                             if (in_array("January", $temp_seat_months)) {
@@ -205,7 +205,7 @@ if ( ! class_exists( 'BkxSeatMetaBox' ) ) {
                         } ?> >
                         <label for="choice_16_1"><?php esc_html_e('January', 'bookingx'); ?></label>
                     </li>
-                    <li class="gchoice_16_2">
+                    <li class="bkx_choice_16_2">
                         <input name="seat_certain_month[]" class="month_checkbox" type="checkbox" value="February"
                                id="choice_16_2" tabindex="32" <?php if (isset($temp_seat_months) && ($temp_seat_months != '')) {
                             if (in_array("February", $temp_seat_months)) {
@@ -215,7 +215,7 @@ if ( ! class_exists( 'BkxSeatMetaBox' ) ) {
                         } ?> >
                         <label for="choice_16_2"><?php esc_html_e('February', 'bookingx'); ?></label>
                     </li>
-                    <li class="gchoice_16_3">
+                    <li class="bkx_choice_16_3">
                         <input name="seat_certain_month[]" class="month_checkbox" type="checkbox" value="March" id="choice_16_3"
                                tabindex="33" <?php if (isset($temp_seat_months) && ($temp_seat_months != '')) {
                             if (in_array("March", $temp_seat_months)) {
@@ -225,7 +225,7 @@ if ( ! class_exists( 'BkxSeatMetaBox' ) ) {
                         } ?>>
                         <label for="choice_16_3"><?php esc_html_e('March', 'bookingx'); ?></label>
                     </li>
-                    <li class="gchoice_16_4">
+                    <li class="bkx_choice_16_4">
                         <input name="seat_certain_month[]" class="month_checkbox" type="checkbox" value="April" id="choice_16_4"
                                tabindex="34" <?php if (isset($temp_seat_months) && ($temp_seat_months != '')) {
                             if (in_array("April", $temp_seat_months)) {
@@ -235,7 +235,7 @@ if ( ! class_exists( 'BkxSeatMetaBox' ) ) {
                         } ?>>
                         <label for="choice_16_4"><?php esc_html_e('April', 'bookingx'); ?></label>
                     </li>
-                    <li class="gchoice_16_5">
+                    <li class="bkx_choice_16_5">
                         <input name="seat_certain_month[]" class="month_checkbox" type="checkbox" value="May" id="choice_16_5"
                                tabindex="35" <?php if (isset($temp_seat_months) && ($temp_seat_months != '')) {
                             if (in_array("May", $temp_seat_months)) {
@@ -245,7 +245,7 @@ if ( ! class_exists( 'BkxSeatMetaBox' ) ) {
                         } ?>>
                         <label for="choice_16_5"><?php esc_html_e('May', 'bookingx'); ?></label>
                     </li>
-                    <li class="gchoice_16_6">
+                    <li class="bkx_choice_16_6">
                         <input name="seat_certain_month[]" class="month_checkbox" type="checkbox" value="June" id="choice_16_6"
                                tabindex="36" <?php if (isset($temp_seat_months) && ($temp_seat_months != '')) {
                             if (in_array("June", $temp_seat_months)) {
@@ -255,7 +255,7 @@ if ( ! class_exists( 'BkxSeatMetaBox' ) ) {
                         } ?>>
                         <label for="choice_16_6"><?php esc_html_e('June', 'bookingx'); ?></label>
                     </li>
-                    <li class="gchoice_16_7">
+                    <li class="bkx_choice_16_7">
                         <input name="seat_certain_month[]" class="month_checkbox" type="checkbox" value="July" id="choice_16_7"
                                tabindex="37" <?php if (isset($temp_seat_months) && ($temp_seat_months != '')) {
                             if (in_array("July", $temp_seat_months)) {
@@ -265,7 +265,7 @@ if ( ! class_exists( 'BkxSeatMetaBox' ) ) {
                         } ?>>
                         <label for="choice_16_7"><?php esc_html_e('July', 'bookingx'); ?></label>
                     </li>
-                    <li class="gchoice_16_8">
+                    <li class="bkx_choice_16_8">
                         <input name="seat_certain_month[]" class="month_checkbox" type="checkbox" value="August"
                                id="choice_16_8" tabindex="38" <?php if (isset($temp_seat_months) && ($temp_seat_months != '')) {
                             if (in_array("August", $temp_seat_months)) {
@@ -275,7 +275,7 @@ if ( ! class_exists( 'BkxSeatMetaBox' ) ) {
                         } ?>>
                         <label for="choice_16_8"><?php esc_html_e('August', 'bookingx'); ?></label>
                     </li>
-                    <li class="gchoice_16_9">
+                    <li class="bkx_choice_16_9">
                         <input name="seat_certain_month[]" class="month_checkbox" type="checkbox" value="September"
                                id="choice_16_9" tabindex="39" <?php if (isset($temp_seat_months) && ($temp_seat_months != '')) {
                             if (in_array("September", $temp_seat_months)) {
@@ -285,7 +285,7 @@ if ( ! class_exists( 'BkxSeatMetaBox' ) ) {
                         } ?>>
                         <label for="choice_16_9"><?php esc_html_e('September', 'bookingx'); ?></label>
                     </li>
-                    <li class="gchoice_16_11">
+                    <li class="bkx_choice_16_11">
                         <input name="seat_certain_month[]" class="month_checkbox" type="checkbox" value="October"
                                id="choice_16_11"
                                tabindex="40" <?php if (isset($temp_seat_months) && ($temp_seat_months != '')) {
@@ -296,7 +296,7 @@ if ( ! class_exists( 'BkxSeatMetaBox' ) ) {
                         } ?>>
                         <label for="choice_16_11"><?php esc_html_e('October', 'bookingx'); ?></label>
                     </li>
-                    <li class="gchoice_16_12">
+                    <li class="bkx_choice_16_12">
                         <input name="seat_certain_month[]" class="month_checkbox" type="checkbox" value="November"
                                id="choice_16_12"
                                tabindex="41" <?php if (isset($temp_seat_months) && ($temp_seat_months != '')) {
@@ -307,7 +307,7 @@ if ( ! class_exists( 'BkxSeatMetaBox' ) ) {
                         } ?>>
                         <label for="choice_16_12"><?php esc_html_e('November', 'bookingx'); ?></label>
                     </li>
-                    <li class="gchoice_16_13">
+                    <li class="bkx_choice_16_13">
                         <input name="seat_certain_month[]" class="month_checkbox" type="checkbox" value="December"
                                id="choice_16_13"
                                tabindex="42" <?php if (isset($temp_seat_months) && ($temp_seat_months != '')) {

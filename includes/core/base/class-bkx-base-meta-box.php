@@ -167,8 +167,8 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
             <div class="active" id="extended">
                 <?php printf(esc_html__('Can %1$s time be extended :', 'bookingx'), $base_alias); ?>
                 <div class="plugin-description">
-                    <ul class="gfield_radio" id="input_2_15">
-                        <li class="gchoice_15_0"><?php //echo $base_is_extended;
+                    <ul class="bkx_radio" id="input_2_15">
+                        <li class="bkx_choice_15_0"><?php //echo $base_is_extended;
                             ?>
                             <input name="base_extended" type="radio" value="Yes" id="id_base_extended_yes"
                                    tabindex="10" <?php if ($base_is_extended == "Y") {
@@ -176,7 +176,7 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
                             } ?>>
                             <label for="choice_15_0"><?php esc_html_e('Yes', 'bookingx'); ?></label>
                         </li>
-                        <li class="gchoice_15_1">
+                        <li class="bkx_choice_15_1">
                             <input name="base_extended" type="radio" value="No" id="id_base_extended_no"
                                    tabindex="11" <?php if ($base_is_extended == "N") {
                                 echo "checked='checked'";
@@ -205,7 +205,7 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
                         <?php
                         $selected = "";
                         if (!empty($get_seat_array) && !is_wp_error($get_seat_array)) :?>
-                            <li class="gchoice_9_1">
+                            <li class="bkx_choice_9_1">
                                 <input name="base_seat_all" <?php echo ($base_seat_all) ? 'checked' : ''; ?> type="checkbox"
                                        value="All" id="id_base_seat_all" tabindex="12">
                                 <label for="choice_9_1"><?php esc_html_e('All', 'bookingx'); ?></label>
@@ -221,7 +221,7 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
                                     }
                                 }
                                 ?>
-                                <li class="gchoice_9_2">
+                                <li class="bkx_choice_9_2">
                                     <input name="base_seats[]" type="checkbox" value="<?php echo $value->ID; ?>" tabindex="13"
                                            class="myCheckbox" <?php if ($selected == true) {
                                         echo "checked='checked'";
@@ -230,7 +230,7 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
                                 </li>
                             <?php }
                         else: ?>
-                            <li class="gchoice_9_1">
+                            <li class="bkx_choice_9_1">
                                 <label for="choice_9_1"><b><a href="<?php echo admin_url('post-new.php?post_type=bkx_seat')?>"><?php  printf(esc_html__('You haven\'t any %1$s, Please create %1$s now :', 'bookingx'), $alias_seat); ?></a></b></label>
                             </li>
                         <?php endif; ?>
@@ -240,22 +240,22 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
             <div class="active" id="base_name">
                 <?php printf(esc_html__('Is this  %1$s   in a fixed location or mobile? :', 'bookingx'), $base_alias); ?>
                 <div class="plugin-description">
-                    <ul class="gfield_radio" id="input_2_11">
-                        <li class="gchoice_11_0">
+                    <ul class="bkx_radio" id="input_2_11">
+                        <li class="bkx_choice_11_0">
                             <input name="base_location_type" type="radio" value="Fixed Location" id="choice_11_0" tabindex="16"
                                    onclick="" <?php if ($base_location_type == "Fixed Location") {
                                 echo "checked='checked'";
                             } ?>>
                             <label for="choice_11_0"><?php esc_html_e('Fixed Location', 'bookingx'); ?></label>
                         </li>
-                        <li class="gchoice_11_1">
+                        <li class="bkx_choice_11_1">
                             <input name="base_location_type" type="radio" value="Mobile" id="choice_11_1" tabindex="17"
                                    onclick="" <?php if ($base_location_type == "Mobile") {
                                 echo "checked='checked'";
                             } ?> >
                             <label for="choice_11_1"><?php esc_html_e('Mobile Location', 'bookingx'); ?></label>
                         </li>
-                        <li class="gchoice_11_1">
+                        <li class="bkx_choice_11_1">
                             <input name="base_location_type" type="radio" value="FM" id="id_base_type_fm" tabindex="17"
                                    onclick="" <?php if ($base_location_type == "FM") {
                                 echo "checked='checked'";
@@ -268,35 +268,35 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
             <div class="active" id="mobile_only">
                 <?php printf(esc_html__('Is this %1$s a mobile only option ? ', 'bookingx'), $alias_seat); ?>
                 <div class="plugin-description">
-                    <ul class="gfield_radio" id="input_2_mob_only">
-                        <li class="gchoice_mob_only1">
-                            <input name="base_location_mobile" type="radio" value="Yes" id="gchoice_mob_only_1" tabindex="20"
+                    <ul class="bkx_radio" id="input_2_mob_only">
+                        <li class="bkx_choice_mob_only1">
+                            <input name="base_location_mobile" type="radio" value="Yes" id="bkx_choice_mob_only_1" tabindex="20"
                                    onclick="" <?php if ($base_is_mobile_only == "Y") {
                                 echo "checked='checked'";
                             } ?> >
-                            <label for="gchoice_mob_only1"><?php esc_html_e('Yes', 'bookingx'); ?></label>
+                            <label for="bkx_choice_mob_only1"><?php esc_html_e('Yes', 'bookingx'); ?></label>
                         </li>
-                        <li class="gchoice_mob_only2">
-                            <input name="base_location_mobile" type="radio" value="No" id="gchoice_mob_only_2" tabindex="21"
+                        <li class="bkx_choice_mob_only2">
+                            <input name="base_location_mobile" type="radio" value="No" id="bkx_choice_mob_only_2" tabindex="21"
                                    onclick="" <?php if ($base_is_mobile_only == "N") {
                                 echo "checked='checked'";
                             } ?> >
-                            <label for="gchoice_mob_only2"><?php esc_html_e('No', 'bookingx'); ?></label></li>
+                            <label for="bkx_choice_mob_only2"><?php esc_html_e('No', 'bookingx'); ?></label></li>
                     </ul>
                 </div>
             </div>
             <div class="active" id="location_differ" style="display:none;">
                 <?php printf(esc_html__('Does the %1$s location differ from %2$s location ?', 'bookingx'), $base_alias, $alias_seat); ?>
                 <div class="plugin-description">
-                    <ul class="gfield_radio" id="input_2_13">
-                        <li class="gchoice_13_0">
+                    <ul class="bkx_radio" id="input_2_13">
+                        <li class="bkx_choice_13_0">
                             <input name="base_location_differ_seat" type="radio" value="Yes" id="choice_13_0" tabindex="18"
                                    onclick="" <?php if ($base_is_location_differ_seat == "Y") {
                                 echo "checked='checked'";
                             } ?> >
                             <label for="choice_13_0"><?php esc_html_e('Yes', 'bookingx'); ?></label>
                         </li>
-                        <li class="gchoice_13_1">
+                        <li class="bkx_choice_13_1">
                             <input name="base_location_differ_seat" type="radio" value="No" id="choice_13_1" tabindex="19"
                                    onclick="" <?php if ($base_is_location_differ_seat == "N") {
                                 echo "checked='checked'";
@@ -329,15 +329,15 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
             <div class="active" id="allow_addition">
                 <?php printf(esc_html__('Does this %1$s allow for %2$ss :', 'bookingx'), $base_alias, $addition_alias); ?>
                 <div class="plugin-description">
-                    <ul class="gfield_radio" id="input_2_13">
-                        <li class="gchoice_13_0">
+                    <ul class="bkx_radio" id="input_2_13">
+                        <li class="bkx_choice_13_0">
                             <input name="base_allow_addition" type="radio" value="Yes" id="choice_13_0" tabindex="18"
                                    onclick="" <?php if ($base_is_allow_addition == "Y") {
                                 echo "checked='checked'";
                             } ?>>
                             <label for="choice_13_0"><?php esc_html_e('Yes', 'bookingx'); ?></label>
                         </li>
-                        <li class="gchoice_13_1">
+                        <li class="bkx_choice_13_1">
                             <input name="base_allow_addition" type="radio" value="No" id="choice_13_1" tabindex="19"
                                    onclick="" <?php if ($base_is_allow_addition == "N") {
                                 echo "checked='checked'";

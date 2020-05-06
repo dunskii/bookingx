@@ -252,7 +252,7 @@ jQuery( function( $ ) {
         book_now : function (){
             //var bkx_payment_gateway_method = listToArray(".bkx-booking-form .step-4 :input[name^=bkx_payment_gateway_method]:checked");
             var service_extend = parseInt( $('.bkx-booking-form .step-1 .bkx-services-extend').val());
-
+            var form = $('#bkx-booking-generate');
             var data = {
                 security: bkx_booking_form_admin_params.book_now_nonce,
                 seat_id     : booking_form.seat_id,
@@ -271,7 +271,8 @@ jQuery( function( $ ) {
                 bkx_phone_number : $("input[name=bkx_phone_number]").val(),
                 bkx_email_address : $("input[name=bkx_email_address]").val(),
                 last_page_url : bkx_booking_form_admin_params.last_page_url,
-                order_id : bkx_booking_form_admin_params.booking_id
+                order_id : bkx_booking_form_admin_params.booking_id,
+                post_data : form.serializeArray()
             };
 
             $.ajax( {
