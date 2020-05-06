@@ -118,7 +118,6 @@ class BkxBase {
         $this->get_service_time = $this->get_service_time();
         $this->get_seat_by_base = $this->get_seat_by_base();
         $this->service_extended = $this->service_extended();
-        $this->get_service_fixed_mobile = $this->get_service_fixed_mobile();
         $this->get_service_unavailable = $this->get_service_unavailable();
         $this->booking_url = $this->get_booking_url();
         $this->booking_page_url = $this->get_booking_page_url();
@@ -139,7 +138,6 @@ class BkxBase {
         $booking_url = $this->booking_page_url;
         $bkx_alias_base = bkx_crud_option_multisite('bkx_alias_base');
         $meta_data = $this->GetMetData($base_id);
-        $base_location_type = isset($meta_data['base_location_type'][0]) ? esc_attr($meta_data['base_location_type'][0]) : "Fixed Location";
         $Duration = $this->get_service_time( $base_id );
         if((isset($Duration['H']))){
             $DurationHMObj = $Duration['H'];
@@ -160,12 +158,7 @@ class BkxBase {
         endif;
         $extended = $this->service_extended();
         $extended_label = isset($extended) && $extended == 'Y' ? 'Yes' : 'No';
-        $fixed_mobile = $this->get_service_fixed_mobile();
-        $fixedObj   = $fixed_mobile['fixed'];
-        $mobileObj  = $fixed_mobile['mobile'];
-        if ($base_location_type == "FM") {
-            $base_location_type = "Fixed & Mobile";
-        }
+
         $html = "";
         $html .= "<div class=\"row\">
                     <div class=\"col-md-8\">".sprintf('<h3>%s</h3>',__('Additional Information', 'bookingx'))."</div>
@@ -180,7 +173,7 @@ class BkxBase {
                 </div>";
         $html .="<div class=\"row\">
                     <div class=\"col-md-12\">
-                            <ul class=\"additional-info\">".sprintf(__('<li><div class=\"fixed-mobile\"><label>This is a %1$s %2$s </label></li>', 'bookingx'), $base_location_type , $bkx_alias_base);
+                            <ul class=\"additional-info\">";
                         $html .= sprintf('<li><div class="durations"><label>%s :</label><span> %s</span></li>','Duration ',$duration_text);
                         $html .= sprintf(__('<li><div class="extended"><label>%2$s Time Extended :</label><span> %1$s</span></li>', 'bookingx'), $extended_label , $bkx_alias_base);
                         $html .= "</ul>
@@ -438,39 +431,6 @@ class BkxBase {
         }
     }
 
-    /**
-     *
-     * @return type
-     */
-    public function get_service_fixed_mobile() {
-        $meta_data = $this->meta_data;
-        $base_is_location_fixed = isset($meta_data['base_is_location_fixed']) ? esc_attr($meta_data['base_is_location_fixed'][0]) : "";
-        $base_is_mobile_only = isset($meta_data['base_is_mobile_only']) ? esc_attr($meta_data['base_is_mobile_only'][0]) : "";
-        $base_is_location_differ_seat = isset($meta_data['base_is_location_differ_seat']) ? esc_attr($meta_data['base_is_location_differ_seat'][0]) : "";
-        $service_fixed_mobile = array();
-        if (isset($base_is_location_fixed) && $base_is_location_fixed == 'Y') {
-            if ($base_is_location_differ_seat == 'Y') {
-                $service_fixed_mobile['fixed']['service_location']['label'] = 'Fixed Location';
-                $base_street = isset($meta_data['base_street']) ? esc_attr($meta_data['base_street'][0]) : "";
-                $base_city = isset($meta_data['base_city']) ? esc_attr($meta_data['base_city'][0]) : "";
-                $base_state = isset($meta_data['base_state']) ? esc_attr($meta_data['base_state'][0]) : "";
-                $base_postcode = isset($meta_data['base_postcode']) ? esc_attr($meta_data['base_postcode'][0]) : "";
-                $service_fixed_mobile['fixed']['service_location']['street'] = $base_street;
-                $service_fixed_mobile['fixed']['service_location']['city'] = $base_city;
-                $service_fixed_mobile['fixed']['service_location']['state'] = $base_state;
-                $service_fixed_mobile['fixed']['service_location']['postcode'] = $base_postcode;
-            }
-        }
-
-        if (isset($base_is_mobile_only) && $base_is_mobile_only == 'Y') {
-            $service_fixed_mobile['mobile']['value'] = 'Yes';
-            $service_fixed_mobile['mobile']['label'] = 'Mobile Location';
-        } else {
-            $service_fixed_mobile['mobile']['value'] = 'No';
-            $service_fixed_mobile['mobile']['label'] = 'Mobile Location';
-        }
-        return apply_filters('bkx_base_service_fixed_mobile', $service_fixed_mobile, $this);
-    }
     /**
      *
      */
