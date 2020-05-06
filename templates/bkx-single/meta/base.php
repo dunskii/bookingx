@@ -44,13 +44,8 @@
                 $extended_label = isset($extended) && $extended == 'Y' ? 'Yes' : 'No';
                 echo sprintf('<li><div class="durations"><label>%s :</label><span> %s</span></li>','Duration ',$duration_text);
                 echo sprintf(__('<li><div class="extended"><label>%2$s Time Extended :</label><span> %1$s</span></li>', 'bookingx'), $extended_label , $bkx_alias_base);
-                $fixed_mobile = $bkx_base->get_service_fixed_mobile();
-                $fixedObj   = $fixed_mobile['fixed'];
-                $mobileObj  = $fixed_mobile['mobile'];
-                if ($base_location_type == "FM") {
-                    $base_location_type = "Fixed & Mobile";
-                }
-                echo sprintf(__('<li><div class="fixed-mobile"><label>This is a %1$s %2$s </label></li>', 'bookingx'), $base_location_type , $bkx_alias_base); ?>
+                do_action('bkx_base_meta_data',$base_id , $bkx_base );
+                ?>
             </ul>
         </div>
     </div>
