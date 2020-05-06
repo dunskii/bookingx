@@ -69,13 +69,6 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
 
             $base_minutes = isset($values['base_minutes']) ? esc_attr($values['base_minutes'][0]) : "";
             $base_is_extended = isset($values['base_is_extended']) ? esc_attr($values['base_is_extended'][0]) : "N";
-            $base_is_location_fixed = isset($values['base_is_location_fixed']) ? esc_attr($values['base_is_location_fixed'][0]) : "";
-            $base_is_mobile_only = isset($values['base_is_mobile_only']) ? esc_attr($values['base_is_mobile_only'][0]) : "N";
-            $base_is_location_differ_seat = isset($values['base_is_location_differ_seat']) ? esc_attr($values['base_is_location_differ_seat'][0]) : "N";
-            $base_street = isset($values['base_street']) ? esc_attr($values['base_street'][0]) : "";
-            $base_city = isset($values['base_city']) ? esc_attr($values['base_city'][0]) : "";
-            $base_state = isset($values['base_state']) ? esc_attr($values['base_state'][0]) : "";
-            $base_postcode = isset($values['base_postcode']) ? esc_attr($values['base_postcode'][0]) : "";
             $base_is_allow_addition = isset($values['base_is_allow_addition']) ? esc_attr($values['base_is_allow_addition'][0]) : "Y";
             $base_is_unavailable = isset($values['base_is_unavailable']) ? esc_attr($values['base_is_unavailable'][0]) : "";
             $base_unavailable_from = isset($values['base_unavailable_from']) ? esc_attr($values['base_unavailable_from'][0]) : "";
@@ -236,94 +229,6 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
                         <?php endif; ?>
                     </ul>
                 </div>
-            </div>
-            <div class="active" id="base_name">
-                <?php printf(esc_html__('Is this  %1$s   in a fixed location or mobile? :', 'bookingx'), $base_alias); ?>
-                <div class="plugin-description">
-                    <ul class="bkx_radio" id="input_2_11">
-                        <li class="bkx_choice_11_0">
-                            <input name="base_location_type" type="radio" value="Fixed Location" id="choice_11_0" tabindex="16"
-                                   onclick="" <?php if ($base_location_type == "Fixed Location") {
-                                echo "checked='checked'";
-                            } ?>>
-                            <label for="choice_11_0"><?php esc_html_e('Fixed Location', 'bookingx'); ?></label>
-                        </li>
-                        <li class="bkx_choice_11_1">
-                            <input name="base_location_type" type="radio" value="Mobile" id="choice_11_1" tabindex="17"
-                                   onclick="" <?php if ($base_location_type == "Mobile") {
-                                echo "checked='checked'";
-                            } ?> >
-                            <label for="choice_11_1"><?php esc_html_e('Mobile Location', 'bookingx'); ?></label>
-                        </li>
-                        <li class="bkx_choice_11_1">
-                            <input name="base_location_type" type="radio" value="FM" id="id_base_type_fm" tabindex="17"
-                                   onclick="" <?php if ($base_location_type == "FM") {
-                                echo "checked='checked'";
-                            } ?> >
-                            <label for="choice_11_1"><?php esc_html_e('Fixed and Mobile Location', 'bookingx'); ?></label>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="active" id="mobile_only">
-                <?php printf(esc_html__('Is this %1$s a mobile only option ? ', 'bookingx'), $alias_seat); ?>
-                <div class="plugin-description">
-                    <ul class="bkx_radio" id="input_2_mob_only">
-                        <li class="bkx_choice_mob_only1">
-                            <input name="base_location_mobile" type="radio" value="Yes" id="bkx_choice_mob_only_1" tabindex="20"
-                                   onclick="" <?php if ($base_is_mobile_only == "Y") {
-                                echo "checked='checked'";
-                            } ?> >
-                            <label for="bkx_choice_mob_only1"><?php esc_html_e('Yes', 'bookingx'); ?></label>
-                        </li>
-                        <li class="bkx_choice_mob_only2">
-                            <input name="base_location_mobile" type="radio" value="No" id="bkx_choice_mob_only_2" tabindex="21"
-                                   onclick="" <?php if ($base_is_mobile_only == "N") {
-                                echo "checked='checked'";
-                            } ?> >
-                            <label for="bkx_choice_mob_only2"><?php esc_html_e('No', 'bookingx'); ?></label></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="active" id="location_differ" style="display:none;">
-                <?php printf(esc_html__('Does the %1$s location differ from %2$s location ?', 'bookingx'), $base_alias, $alias_seat); ?>
-                <div class="plugin-description">
-                    <ul class="bkx_radio" id="input_2_13">
-                        <li class="bkx_choice_13_0">
-                            <input name="base_location_differ_seat" type="radio" value="Yes" id="choice_13_0" tabindex="18"
-                                   onclick="" <?php if ($base_is_location_differ_seat == "Y") {
-                                echo "checked='checked'";
-                            } ?> >
-                            <label for="choice_13_0"><?php esc_html_e('Yes', 'bookingx'); ?></label>
-                        </li>
-                        <li class="bkx_choice_13_1">
-                            <input name="base_location_differ_seat" type="radio" value="No" id="choice_13_1" tabindex="19"
-                                   onclick="" <?php if ($base_is_location_differ_seat == "N") {
-                                echo "checked='checked'";
-                            } ?>>
-                            <label for="choice_13_1"><?php esc_html_e('No', 'bookingx'); ?></label>
-                        </li>
-                    </ul>
-                </div>
-
-            </div>
-
-            <div class="active" id="location_address" style="display:none;">
-                <?php esc_html_e('Base Location :', 'bookingx'); ?>
-                <br/>
-                <input type="text" name="base_street" value="<?php if (isset($base_street) && $base_street != "") {
-                    echo $base_street;
-                } ?>" id="id_base_street"><?php esc_html_e('Street', 'bookingx'); ?> <br/>
-                <input type="text" name="base_city" value="<?php if (isset($base_city) && $base_city != "") {
-                    echo $base_city;
-                } ?>" id="id_base_city"> <?php esc_html_e('City', 'bookingx'); ?><br/>
-                <input type="text" name="base_state" value="<?php if (isset($base_state) && $base_state != "") {
-                    echo $base_state;
-                } ?>" id="id_base_state"> <?php esc_html_e('State / Province / Region', 'bookingx'); ?><br/>
-                <input type="text" name="base_postcode" value="<?php if (isset($base_postcode) && $base_postcode != "") {
-                    echo $base_postcode;
-                } ?>" id="id_base_postcode"> <?php esc_html_e('Zip / Postal Code', 'bookingx'); ?><br/>
-
             </div>
 
             <div class="active" id="allow_addition">

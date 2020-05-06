@@ -1,21 +1,7 @@
 	jQuery(document).ready(function(){
-		if (jQuery("input[name=base_location_differ_seat]:radio:checked").val() == "Yes") {
-			jQuery("#location_address").show();
-		}
 		if (jQuery("input[name=base_extended]:radio:checked").val() == "Yes") {
 			jQuery("#base_extended_input").show();
 		}
-		if (jQuery("input[name=base_location_type]:radio:checked").val() == "Mobile") {
-			jQuery("#mobile_only").show();
-		}
-		else if (jQuery("input[name=base_location_type]:radio:checked").val() == "Fixed Location") {
-			jQuery("#mobile_only").hide();
-		}
-		else if (jQuery("input[name=base_location_type]:radio:checked").val() == "FM") {
-			jQuery("#mobile_only").show();
-			jQuery("#location_differ").show();
-		}
-
 		if (jQuery("input[name=base_is_unavailable]").attr('checked') == "checked") {
 			jQuery("#unavailable_from").show();
 			jQuery("#unavailable_till").show();
@@ -24,15 +10,7 @@
 			jQuery("#unavailable_from").hide();
 			jQuery("#unavailable_till").hide();
 		}
-		jQuery("input[name=base_location_type]:radio").bind("change", function (event, ui) {
-			var this_val = jQuery(this).val();
-			if (this_val == "Mobile") {
-				jQuery("#mobile_only").show();
-			}
-			else if (this_val == "Fixed Location") {
-				jQuery("#mobile_only").hide();
-			}
-		});
+
 		jQuery('#id_base_colour').iris({
 			width: 300,
 			hide: true,
@@ -96,36 +74,6 @@
 				jQuery('.myCheckbox').removeAttr('checked','checked');
 			}
 		});
-		if(jQuery("input[name=base_location_type]:radio:checked").val()=="Mobile") {
-			jQuery("#location_differ").hide();
-		}
-		else if(jQuery("input[name=base_location_type]:radio:checked").val()=="Fixed Location") {
-			jQuery("#location_differ").show();
-		}
-		else if(jQuery("input[name=base_location_type]:radio:checked").val()=="FM") {
-			jQuery("#mobile_only").show();
-			jQuery("#location_differ").show();
-		}
-		jQuery("input[name=base_location_type]:radio").bind( "change", function(event, ui) {
-			var this_val = jQuery(this).val();
-			if(this_val=="Mobile") {
-				jQuery("#location_differ").hide();
-				jQuery("#location_address").hide();
-			} else if(this_val=="Fixed Location") {
-				jQuery("#location_differ").show();
-			} else if(this_val=="FM") {
-				jQuery("#mobile_only").hide();
-				jQuery("#location_differ").show();
-			}
-		});
-		jQuery("input[name=base_location_differ_seat]:radio").bind( "change", function(event, ui) {
-			var this_val = jQuery(this).val();
-			if(this_val=="No") {
-				jQuery("#location_address").hide();
-			} else if(this_val=="Yes") {
-				jQuery("#location_address").show();
-			}
-		});
 		//to change the addition unavailability form input type visibility
 		jQuery("input[name=base_is_unavailable]").bind("change",function(event, ui){
 			if(jQuery(this).attr('checked')=="checked") {
@@ -146,6 +94,7 @@
 	}); // End Document ready
 
 	jQuery(document).on('submit', '#post', function (e) {
+
 		var base_alias = base_obj.base_alias;
 		var seat_alias = base_obj.seat_alias;
 		var error_list = new Array();
@@ -176,27 +125,6 @@
 			if(jQuery("#id_base_hours_minutes").val()=="") {error_list.push("Please enter no of hours and minutes");}
 			if((jQuery("#id_base_hours_minutes").val()==0||jQuery("#id_base_hours_minutes").val()=="" ) && jQuery("#id_base_minutes").val()==0) {
 				error_list.push("Please enter proper time, both hours and minutes should not be zero");
-			}
-		}
-		if(jQuery("input[name=base_location_type]:radio:checked").val()=="Fixed Location")
-		{
-			if(jQuery("input[name=base_location_differ_seat]:radio:checked").val()==undefined) {
-				error_list.push("Select Does the "+base_alias+" Location differ from "+seat_alias+" Location");
-			} else {
-				if(jQuery("input[name=base_location_differ_seat]:radio:checked").val()=="Yes") {
-					if(jQuery("#id_base_street").val()=="") {
-					error_list.push("Enter "+base_alias+" street");
-					}
-					if(jQuery("#id_base_city").val()=="") {
-					error_list.push("Enter  city");
-					}
-					if(jQuery("#id_base_state").val()=="") {
-					error_list.push("Enter state");
-					}
-					if(jQuery("#id_base_postcode").val()=="") {
-					error_list.push("Enter Postal Code");
-					}
-				}
 			}
 		}
 		var temp_err="";
