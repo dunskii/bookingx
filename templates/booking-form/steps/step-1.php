@@ -8,7 +8,6 @@ $load_global = $BkxBookingFormShortCode->load_global_variables();
 ?>
 <div class="step-1 bkx-form-active" data-active="1">
     <div class="form-wrapper">
-        <form>
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group bkx-staff">
@@ -50,7 +49,6 @@ $load_global = $BkxBookingFormShortCode->load_global_variables();
             </div>
             <!--user-detail bg-white px-3 py-4-->
             <div class="bkx-disable-days-note"></div>
-        </form>
     </div>
     <div class="button-wrapper">
         <button type="submit" class="btn btn-default bkx-form-submission-next" >Next</button>

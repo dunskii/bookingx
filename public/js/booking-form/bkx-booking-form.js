@@ -262,6 +262,7 @@ jQuery( function( $ ) {
                 {'key' : 'bkx_privacy_policy',      'val' : bkx_booking_form_params.bkx_privacy_policy},
                 {'key' : 'bkx_cancellation_policy', 'val' : bkx_booking_form_params.bkx_cancellation_policy}
             ];
+            var form = $('#bkx-booking-generate');
             var data = {
                 security: bkx_booking_form_params.book_now_nonce,
                 seat_id     : booking_form.seat_id,
@@ -280,6 +281,7 @@ jQuery( function( $ ) {
                 bkx_phone_number : $("input[name=bkx_phone_number]").val(),
                 bkx_email_address : $("input[name=bkx_email_address]").val(),
                 last_page_url : bkx_booking_form_params.last_page_url,
+                post_data : form.serializeArray()
             };
 
             $.ajax( {
@@ -295,14 +297,14 @@ jQuery( function( $ ) {
                             id: 'order-id',
                             name: 'order_id',
                             value : result.meta_data.order_id
-                        }).appendTo('#bkx-book-now');
+                        }).appendTo('#bkx-booking-generate');
                         $('<input>').attr({
                             type: 'hidden',
                             id: 'payment-gateway',
                             name: 'bkx_payment_gateway_method',
                             value : result.meta_data.bkx_payment_gateway_method
-                        }).appendTo('#bkx-book-now');
-                        $( "#bkx-book-now" ).submit();
+                        }).appendTo('#bkx-booking-generate');
+                        $( "#bkx-booking-generate" ).submit();
                     }else{
 
                     }
