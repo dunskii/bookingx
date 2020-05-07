@@ -325,7 +325,7 @@ class BookingX_Email_Content{
 					<legend class="screen-reader-text"><span><?php echo wp_kses_post( $data['title'] ); ?></span></legend>
                      <?php
                      $default = $this->get_default_additional_content();
-                    $content   = esc_textarea( $this->get_option( $data['option_key'], $default ) );
+                    $content   = $this->get_option( $data['option_key'], $default );
                     $editor_id = esc_attr( $field_key );
                     $settings  = array( 'media_buttons' => false );
                     wp_editor( $content, $editor_id, $settings );

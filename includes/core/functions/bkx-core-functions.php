@@ -763,3 +763,16 @@ function is_extra(){
 function is_staff(){
     return ( is_post_type_archive( 'bkx_seat' ) || is_singular('bkx_seat')  ) ;
 }
+
+/**
+ * @param $booking_id
+ * @return string|void
+ */
+function edit_booking_url( $booking_id){
+
+    if(empty($booking_id))
+        return;
+    $edit_id        = bkx_crud_option_multisite('booking_edit_process_page_id');
+    $edit_booking   = add_query_arg( array( 'id' => $booking_id ) , get_permalink($edit_id) );
+    return wp_nonce_url( $edit_booking, 'edit_booking_'.$booking_id, 'edit_booking_nonce');
+}
