@@ -250,69 +250,72 @@ jQuery( function( $ ) {
             booking_form.flag = 0;
             booking_form.validate_form_fields();
             if( GetCurrentStep() == 4 && booking_form.flag == 1 ){}else{ return false; }
-            var bkx_payment_gateway_method = listToArray(".bkx-booking-form .step-4 :input[name^=bkx_payment_gateway_method]:checked");
-            var service_extend = parseInt( $('.bkx-booking-form .step-1 .bkx-services-extend').val());
+            setTimeout(function() {
+                console.log('trigger now');
+                var bkx_payment_gateway_method = listToArray(".bkx-booking-form .step-4 :input[name^=bkx_payment_gateway_method]:checked");
+                var service_extend = parseInt( $('.bkx-booking-form .step-1 .bkx-services-extend').val());
 
-            var user_form_fields = [
-                {'key' : 'bkx_first_name',          'val' : bkx_booking_form_params.bkx_first_name},
-                {'key' : 'bkx_last_name',           'val' : bkx_booking_form_params.bkx_last_name},
-                {'key' : 'bkx_phone_number',        'val' : bkx_booking_form_params.bkx_phone_number},
-                {'key' : 'bkx_email_address',       'val' : bkx_booking_form_params.bkx_email_address},
-                {'key' : 'bkx_terms_and_conditions','val' : bkx_booking_form_params.bkx_terms_and_conditions},
-                {'key' : 'bkx_privacy_policy',      'val' : bkx_booking_form_params.bkx_privacy_policy},
-                {'key' : 'bkx_cancellation_policy', 'val' : bkx_booking_form_params.bkx_cancellation_policy}
-            ];
-            var form = $('#bkx-booking-generate');
-            var data = {
-                security: bkx_booking_form_params.book_now_nonce,
-                seat_id     : booking_form.seat_id,
-                base_id     : booking_form.base_id,
-                extra_id    : booking_form.extra_id,
-                date        : booking_form.date,
-                time_option : booking_form.time_option,
-                booking_multi_days : booking_form.days_selected,
-                booking_time        : $('.booking-slots').find("a[data-slot='" + booking_form.starting_slot + "']").data('time'),
-                starting_slot     : booking_form.starting_slot,
-                total_slots : booking_form.total_slots,
-                service_extend : service_extend,
-                payment_method : bkx_payment_gateway_method,
-                bkx_first_name : $("input[name=bkx_first_name]").val(),
-                bkx_last_name : $("input[name=bkx_last_name]").val(),
-                bkx_phone_number : $("input[name=bkx_phone_number]").val(),
-                bkx_email_address : $("input[name=bkx_email_address]").val(),
-                last_page_url : bkx_booking_form_params.last_page_url,
-                post_data : form.serializeArray()
-            };
+                var user_form_fields = [
+                    {'key' : 'bkx_first_name',          'val' : bkx_booking_form_params.bkx_first_name},
+                    {'key' : 'bkx_last_name',           'val' : bkx_booking_form_params.bkx_last_name},
+                    {'key' : 'bkx_phone_number',        'val' : bkx_booking_form_params.bkx_phone_number},
+                    {'key' : 'bkx_email_address',       'val' : bkx_booking_form_params.bkx_email_address},
+                    {'key' : 'bkx_terms_and_conditions','val' : bkx_booking_form_params.bkx_terms_and_conditions},
+                    {'key' : 'bkx_privacy_policy',      'val' : bkx_booking_form_params.bkx_privacy_policy},
+                    {'key' : 'bkx_cancellation_policy', 'val' : bkx_booking_form_params.bkx_cancellation_policy}
+                ];
+                var form = $('#bkx-booking-generate');
+                var data = {
+                    security: bkx_booking_form_params.book_now_nonce,
+                    seat_id     : booking_form.seat_id,
+                    base_id     : booking_form.base_id,
+                    extra_id    : booking_form.extra_id,
+                    date        : booking_form.date,
+                    time_option : booking_form.time_option,
+                    booking_multi_days : booking_form.days_selected,
+                    booking_time        : $('.booking-slots').find("a[data-slot='" + booking_form.starting_slot + "']").data('time'),
+                    starting_slot     : booking_form.starting_slot,
+                    total_slots : booking_form.total_slots,
+                    service_extend : service_extend,
+                    payment_method : bkx_payment_gateway_method,
+                    bkx_first_name : $("input[name=bkx_first_name]").val(),
+                    bkx_last_name : $("input[name=bkx_last_name]").val(),
+                    bkx_phone_number : $("input[name=bkx_phone_number]").val(),
+                    bkx_email_address : $("input[name=bkx_email_address]").val(),
+                    last_page_url : bkx_booking_form_params.last_page_url,
+                    post_data : form.serializeArray()
+                };
 
-            $.ajax( {
-                type    :        'POST',
-                url     :        get_url('book_now'),
-                data    :        data,
-                dataType:       'html',
-                success: function( response ) {
-                    if(response != 'NORF'){
-                        var result = $.parseJSON( response );
-                        $('<input>').attr({
-                            type: 'hidden',
-                            id: 'order-id',
-                            name: 'order_id',
-                            value : result.meta_data.order_id
-                        }).appendTo('#bkx-booking-generate');
-                        $('<input>').attr({
-                            type: 'hidden',
-                            id: 'payment-gateway',
-                            name: 'bkx_payment_gateway_method',
-                            value : result.meta_data.bkx_payment_gateway_method
-                        }).appendTo('#bkx-booking-generate');
-                        $( "#bkx-booking-generate" ).submit();
-                    }else{
+                $.ajax( {
+                    type    :        'POST',
+                    url     :        get_url('book_now'),
+                    data    :        data,
+                    dataType:       'html',
+                    success: function( response ) {
+                        if(response != 'NORF'){
+                            var result = $.parseJSON( response );
+                            $('<input>').attr({
+                                type: 'hidden',
+                                id: 'order-id',
+                                name: 'order_id',
+                                value : result.meta_data.order_id
+                            }).appendTo('#bkx-booking-generate');
+                            $('<input>').attr({
+                                type: 'hidden',
+                                id: 'payment-gateway',
+                                name: 'bkx_payment_gateway_method',
+                                value : result.meta_data.bkx_payment_gateway_method
+                            }).appendTo('#bkx-booking-generate');
+                            $( "#bkx-booking-generate" ).submit();
+                        }else{
+
+                        }
+                    },
+                    complete: function() {
 
                     }
-                },
-                complete: function() {
-
-                }
-            } );
+                } );
+            }, 1000);
 
         },
         payment_method : function (){
