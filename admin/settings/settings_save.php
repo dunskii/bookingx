@@ -16,7 +16,12 @@ function bkx_setting_save_action( )
 	if(isset($_POST['bkx_emails_settings']) && $_POST['bkx_emails_settings'] == 1 ){
 
 	     foreach ($_POST as $field_key  => $field_value){
-             bkx_crud_option_multisite($field_key, sanitize_text_field($field_value),'update');
+	         if (strpos($field_key, 'additional_content') !== false) {
+                 bkx_crud_option_multisite($field_key, wp_kses_post($field_value),'update');
+             }else{
+                 bkx_crud_option_multisite($field_key, sanitize_text_field($field_value),'update');
+             }
+
          }
         bkx_crud_option_multisite('bkx_new_booking_enabled', sanitize_text_field($_POST['bkx_new_booking_enabled']),'update');
 

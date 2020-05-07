@@ -150,7 +150,7 @@ if ( ! class_exists( 'BKX_Email_Customer_Completed_Booking' ) ) :
                     'type' => 'wp_editor',
                     'default_editor' => 'html',
                     'default'     => $this->get_default_additional_content(),
-                    'option_key'  => 'bkx_customer_completed_booking_heading'
+                    'option_key'  => 'bkx_customer_completed_booking_additional_content'
                 ),
                 'email_type'         => array(
                     'title'       => __( 'Email type', 'bookingx' ),

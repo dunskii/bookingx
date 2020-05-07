@@ -68,6 +68,11 @@ class Bkx_Script_Loader
                 'deps'    => array( 'jquery' ),
                 'version' => BKX_PLUGIN_VER,
             ),
+            'bkx-edit-booking-form'                 => array(
+                'src'     => BKX_PLUGIN_PUBLIC_URL . '/js/booking-form/bkx-edit-booking-form.js',
+                'deps'    => array( 'jquery' ),
+                'version' => BKX_PLUGIN_VER,
+            ),
             'bkx-booking-form'                 => array(
                 'src'     => BKX_PLUGIN_PUBLIC_URL . '/js/booking-form/bkx-booking-form.js',
                 'deps'    => array( 'jquery' ),
@@ -281,6 +286,8 @@ class Bkx_Script_Loader
         self::enqueue_script( 'bootstrap' );
         self::enqueue_script( 'owl.carousel' );
         self::enqueue_script( 'calendar' );
+
+
         if(is_admin()){
             $screen = get_current_screen();
             $base = $screen->base;
@@ -291,7 +298,10 @@ class Bkx_Script_Loader
                 self::enqueue_script( 'fullcalendar' );
             }
             else{return;}
-        }else{
+        }elseif( isset($_REQUEST['edit_booking_nonce']) && wp_verify_nonce( $_REQUEST['edit_booking_nonce'], 'edit_booking_'.$_REQUEST['id'] )) {
+            self::enqueue_script( 'bkx-edit-booking-form' );
+        }
+        else{
             self::enqueue_script( 'bkx-booking-form' );
         }
 
@@ -324,21 +334,10 @@ class Bkx_Script_Loader
         //Load Global Variables
         $BkxBookingFormShortCode = new BkxBookingFormShortCode();
         $global_variables = (array) $BkxBookingFormShortCode->load_global_variables();
-        $booking_id = ( is_admin() ? ( isset($_GET['post']) ? $_GET['post'] : 0 ) : (isset($_GET['booking_id']) ? $_GET['booking_id'] : 0 ) );
-        if(isset($booking_id) && $booking_id > 0 ){
-            $BkxBooking = new BkxBooking();
-            $order_meta_data = $BkxBooking->get_order_meta_data( $booking_id );
-            if(!empty($order_meta_data)){
-                $seat_id        = $order_meta_data['seat_id'];
-                $base_id        = $order_meta_data['base_id'];
-                $addition_ids   = $order_meta_data['addition_ids'];
-                $extended_base  = $order_meta_data['extended_base_time'];
-                $booking_date   = date('Y-m-d', strtotime($order_meta_data['booking_date']));
-                $first_name     = $order_meta_data['first_name'];
-                $last_name      = $order_meta_data['last_name'];
-                $phone          = $order_meta_data['phone'];
-                $email          = $order_meta_data['email'];
-            }
+        if( isset($_REQUEST['edit_booking_nonce']) && wp_verify_nonce( $_REQUEST['edit_booking_nonce'], 'edit_booking_'.$_REQUEST['id'] )) {
+            $booking_id = $_REQUEST['id'];
+        }else{
+            $booking_id = ( is_admin() ? ( isset($_GET['post']) ? $_GET['post'] : 0 ) : (isset($_GET['booking_id']) ? $_GET['booking_id'] : 0 ) );
         }
 
         $defaults_params = array(
@@ -361,25 +360,41 @@ class Bkx_Script_Loader
             'send_email_receipt_nonce'                  => wp_create_nonce( "send-email-receipt" ),
             'check_staff_availability'                  => wp_create_nonce('check-staff-availability')
         );
+
+        if(isset($booking_id) && $booking_id > 0 ){
+            $BkxBooking = new BkxBooking();
+            $order_meta_data = $BkxBooking->get_order_meta_data( $booking_id );
+            if(!empty($order_meta_data)){
+                $seat_id        = $order_meta_data['seat_id'];
+                $base_id        = $order_meta_data['base_id'];
+                $addition_ids   = $order_meta_data['addition_ids'];
+                $extended_base  = $order_meta_data['extended_base_time'];
+                $booking_date   = date('Y-m-d', strtotime($order_meta_data['booking_date']));
+                $first_name     = $order_meta_data['first_name'];
+                $last_name      = $order_meta_data['last_name'];
+                $phone          = $order_meta_data['phone'];
+                $email          = $order_meta_data['email'];
+            }
+            $defaults_params['is_admin']            = ( !is_admin() ? false : true );
+            $defaults_params['booking_id']          = ( ( isset($booking_id) && $booking_id > 0 ) ? $booking_id : 0 );
+            $defaults_params['seat_id']             = ( ( isset($seat_id) && $seat_id > 0 ) ? $seat_id : 0 );
+            $defaults_params['base_id']             = ( ( isset($base_id) && $base_id > 0 ) ? $base_id : 0 );
+            $defaults_params['extended_base']       = ( ( isset($extended_base) && $extended_base > 0 ) ? $extended_base : 0 );
+            $defaults_params['addition_ids']        = ( ( isset($addition_ids) && $addition_ids > 0 ) ? $addition_ids : 0 );
+            $defaults_params['booking_date']        = ( ( isset($booking_date) && $booking_date != "" ) ? $booking_date : "" );
+            $defaults_params['first_name']          = ( ( isset($booking_date) && $booking_date != "" ) ? $booking_date : "" );
+            $defaults_params['booking_date']        = ( ( isset($booking_date) && $booking_date != "" ) ? $booking_date : "" );
+            $defaults_params['first_name']          = ( ( isset($first_name) && $first_name != "" ) ? $first_name : "" );
+            $defaults_params['last_name']           = ( ( isset($last_name) && $last_name != "" ) ? $last_name : "" );
+            $defaults_params['phone']               = ( ( isset($phone) && $phone != "" ) ? $phone : "" );
+            $defaults_params['email']               = ( ( isset($email) && $email != "" ) ? $email : "" );
+        }
+
         switch ( $handle ) {
-            case 'bkx-booking-form':
-                $params = array_merge( $global_variables , $defaults_params );
-                break;
             case 'bkx-booking-form-admin':
-                $defaults_params['is_admin']            = ( !is_admin() ? false : true );
-                $defaults_params['booking_id']          = ( ( isset($booking_id) && $booking_id > 0 ) ? $booking_id : 0 );
-                $defaults_params['seat_id']             = ( ( isset($seat_id) && $seat_id > 0 ) ? $seat_id : 0 );
-                $defaults_params['base_id']             = ( ( isset($base_id) && $base_id > 0 ) ? $base_id : 0 );
-                $defaults_params['extended_base']       = ( ( isset($extended_base) && $extended_base > 0 ) ? $extended_base : 0 );
-                $defaults_params['addition_ids']        = ( ( isset($addition_ids) && $addition_ids > 0 ) ? $addition_ids : 0 );
-                $defaults_params['booking_date']        = ( ( isset($booking_date) && $booking_date != "" ) ? $booking_date : "" );
-                $defaults_params['first_name']          = ( ( isset($booking_date) && $booking_date != "" ) ? $booking_date : "" );
-                $defaults_params['booking_date']        = ( ( isset($booking_date) && $booking_date != "" ) ? $booking_date : "" );
-                $defaults_params['first_name']          = ( ( isset($first_name) && $first_name != "" ) ? $first_name : "" );
-                $defaults_params['last_name']           = ( ( isset($last_name) && $last_name != "" ) ? $last_name : "" );
-                $defaults_params['phone']               = ( ( isset($phone) && $phone != "" ) ? $phone : "" );
-                $defaults_params['email']               = ( ( isset($email) && $email != "" ) ? $email : "" );
-                $params = array_merge( $global_variables, $defaults_params );
+            case 'bkx-booking-form':
+            case 'bkx-edit-booking-form':
+                $params = array_merge( $global_variables , $defaults_params );
                 break;
             default:
                 $params = false;

@@ -44,6 +44,8 @@ class BKX_Emails_Setup
     public function init() {
         // Include email classes.
         $this->emails['BKX_Email_Pending_Booking']             = include BKX_PLUGIN_DIR_PATH.'/includes/core/emails/class-bkx-email-new-booking.php';
+        $this->emails['BKX_Email_Edit_Booking']  = include BKX_PLUGIN_DIR_PATH.'/includes/core/emails/class-bkx-email-edit-booking.php';
+        $this->emails['BKX_Email_Customer_Edit_Booking']  = include BKX_PLUGIN_DIR_PATH.'/includes/core/emails/class-bkx-email-customer-edit-booking.php';
         $this->emails['BKX_Email_Cancelled_Booking']           = include BKX_PLUGIN_DIR_PATH.'/includes/core/emails/class-bkx-email-cancelled-booking.php';
         $this->emails['BKX_Email_Customer_Pending_Booking']    = include BKX_PLUGIN_DIR_PATH.'/includes/core/emails/class-bkx-email-customer-pending-booking.php';
         $this->emails['BKX_Email_Customer_Ack_Booking']        = include BKX_PLUGIN_DIR_PATH.'/includes/core/emails/class-bkx-email-customer-ack-booking.php';
