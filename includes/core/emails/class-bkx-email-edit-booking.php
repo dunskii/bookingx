@@ -1,42 +1,49 @@
 <?php
 /**
- * Class BKX_Email_Cancelled_Booking file
+ * Class BKX_Email_Edit_Booking file
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-if ( ! class_exists( 'BKX_Email_Cancelled_Booking' ) ) :
+if ( ! class_exists( 'BKX_Email_Edit_Booking' ) ) :
 
     /**
-     * Cancelled Booking Email.
+     * Edit Booking Email.
      *
-     * An email sent to the admin when a cancelled booking is received/paid for.
+     * An email sent to the admin when a edit booking is received/paid for.
      */
-    class BKX_Email_Cancelled_Booking extends BookingX_Email_Content {
+    class BKX_Email_Edit_Booking extends BookingX_Email_Content {
 
         /**
          * Constructor.
          */
         public function __construct() {
-            $this->id             = 'cancelled_booking';
-            $this->title          = __( 'Cancelled booking', 'bookingx' );
-            $this->description    = __( 'Cancelled booking emails are sent to chosen recipient(s) when a cancelled booking is received.', 'bookingx' );
-            $this->template_html  = 'emails/admin-cancelled-booking.php';
-            $this->template_plain = 'emails/plain/admin-cancelled-booking.php';
+            $this->id             = 'edit_booking';
+            $this->title          = __( 'Edit booking', 'bookingx' );
+            $this->description    = __( 'Edit booking emails are sent to chosen recipient(s) when a edit booking is received.', 'bookingx' );
+            $this->template_html  = 'emails/admin-edit-booking.php';
+            $this->template_plain = 'emails/plain/admin-edit-booking.php';
             $this->placeholders   = array(
                 '{booking_date}'   => '',
                 '{booking_number}' => '',
             );
             // Triggers for this email.
-            add_action( 'bookingx_booking_status_processing_to_cancelled_notification', array( $this, 'trigger' ), 10, 2 );
+            add_action( 'bookingx_booking_status_edit_notification', array( $this, 'trigger' ), 10, 2 );
+            add_action( 'bookingx_booking_status_edit_to_ack_notification', array( $this, 'trigger' ), 10, 2 );
+            add_action( 'bookingx_booking_status_edit_to_completed_notification', array( $this, 'trigger' ), 10, 2 );
+            add_action( 'bookingx_booking_status_edit_to_cancelled_notification', array( $this, 'trigger' ), 10, 2 );
+            add_action( 'bookingx_booking_status_failed_to_ack_notification', array( $this, 'trigger' ), 10, 2 );
+            add_action( 'bookingx_booking_status_failed_to_completed_notification', array( $this, 'trigger' ), 10, 2 );
+            add_action( 'bookingx_booking_status_cancelled_to_ack_notification', array( $this, 'trigger' ), 10, 2 );
+            add_action( 'bookingx_booking_status_cancelled_to_completed_notification', array( $this, 'trigger' ), 10, 2 );
 
             // Call parent constructor.
             parent::__construct();
 
             // Other settings.
-            $recipient = $this->get_option( 'admin_email');
+            $recipient = $this->get_option( 'bkx_edit_booking_recipient');
             $this->recipient = isset($recipient) && !empty($recipient) ? $recipient : $this->get_option( 'admin_email');
             $this->email_type = $this->get_option( $this->plugin_id.$this->id.'_email_type' );
             $this->enabled    = $this->get_option( $this->plugin_id.$this->id.'_enabled' );
@@ -44,7 +51,29 @@ if ( ! class_exists( 'BKX_Email_Cancelled_Booking' ) ) :
             $subject = $this->get_option( $this->plugin_id.$this->id.'_subject' );
             $this->subject    = isset($subject) && !empty($subject) ? $subject : $this->get_default_subject();
             $content = $this->get_option( $this->plugin_id.$this->id.'_additional_content' );
+            $content = apply_filters( 'the_content', $content );
             $this->additional_content    = isset($content) && !empty($content) ? $content : $this->get_default_additional_content();
+        }
+
+        /**
+         * Default content to show below main email content.
+         */
+        public function get_default_additional_content() {
+
+            return __( 'Hi there,
+        [seat_name] will be unavailable for the following bookings.
+    Booking ID: [order_id]
+    Resource: [seat_name]
+    Service: [base_name]
+    Extras: [additions_list]        
+    Time: [time_of_booking]
+    Date: [date_of_booking]
+    Location: [location_of_booking]
+    Price: [total_price]
+    Amount Paid : [amount_paid]
+
+    Please contact them to notify them of the change.
+    The customers have also been notified of the change.', 'bookingx' );
         }
 
         public function is_enabled() {
@@ -55,22 +84,22 @@ if ( ! class_exists( 'BKX_Email_Cancelled_Booking' ) ) :
          * Get email subject.
          */
         public function get_default_subject() {
-            return __( '[{site_title}]: Cancelled booking #{booking_number}', 'bookingx' );
+            return __( '[{site_title}]: Edit booking #{booking_number}', 'bookingx' );
         }
 
         /**
          * Get email heading.
          */
         public function get_default_heading() {
-            return __( 'Cancelled Booking: #{booking_number}', 'bookingx' );
+            return __( 'Edit Booking: #{booking_number}', 'bookingx' );
         }
 
         /**
          * Trigger the sending of this email.
          */
         public function trigger( $booking_id, $booking = false ) {
-
-
+            
+             
         }
 
         /**
@@ -123,7 +152,7 @@ if ( ! class_exists( 'BKX_Email_Cancelled_Booking' ) ) :
                     'type'    => 'checkbox',
                     'label'   => __( 'Enable this email notification', 'bookingx' ),
                     'default' => 'yes',
-                    'option_key'  => 'bkx_cancelled_booking_enabled'
+                    'option_key'  => 'bkx_edit_booking_enabled'
                 ),
                 'recipient'          => array(
                     'title'       => __( 'Recipient(s)', 'bookingx' ),
@@ -133,7 +162,7 @@ if ( ! class_exists( 'BKX_Email_Cancelled_Booking' ) ) :
                     'placeholder' => '',
                     'css'         => 'width:400px;',
                     'default'     => '',
-                    'option_key'  => 'bkx_cancelled_booking_recipient'
+                    'option_key'  => 'bkx_edit_booking_recipient'
                 ),
                 'subject'            => array(
                     'title'       => __( 'Subject', 'bookingx' ),
@@ -142,7 +171,7 @@ if ( ! class_exists( 'BKX_Email_Cancelled_Booking' ) ) :
                     'description' => $placeholder_text,
                     'placeholder' => $this->get_default_subject(),
                     'default'     => '',
-                    'option_key'  => 'bkx_cancelled_booking_subject'
+                    'option_key'  => 'bkx_edit_booking_subject'
                 ),
                 'heading'            => array(
                     'title'       => __( 'Email heading', 'bookingx' ),
@@ -151,7 +180,7 @@ if ( ! class_exists( 'BKX_Email_Cancelled_Booking' ) ) :
                     'description' => $placeholder_text,
                     'placeholder' => $this->get_default_heading(),
                     'default'     => '',
-                    'option_key'  => 'bkx_cancelled_booking_heading'
+                    'option_key'  => 'bkx_edit_booking_heading'
                 ),
                 'additional_content' => array(
                     'title'       => __( 'Main Body', 'bookingx' ),
@@ -160,7 +189,7 @@ if ( ! class_exists( 'BKX_Email_Cancelled_Booking' ) ) :
                     'type' => 'wp_editor',
                     'default_editor' => 'html',
                     'default'     => $this->get_default_additional_content(),
-                    'option_key'  => 'bkx_cancelled_booking_additional_content'
+                    'option_key'  => 'bkx_edit_booking_additional_content'
                 ),
                 'email_type'         => array(
                     'title'       => __( 'Email type', 'bookingx' ),
@@ -170,7 +199,7 @@ if ( ! class_exists( 'BKX_Email_Cancelled_Booking' ) ) :
                     'css'         => 'width:400px;',
                     'class'       => 'email_type',
                     'options'     => $this->get_email_type_options(),
-                    'option_key'  => 'bkx_cancelled_booking_email_type'
+                    'option_key'  => 'bkx_edit_booking_email_type'
                 ),
             );
         }
@@ -178,4 +207,4 @@ if ( ! class_exists( 'BKX_Email_Cancelled_Booking' ) ) :
 
 endif;
 
-return new  BKX_Email_Cancelled_Booking();
+return new BKX_Email_Edit_Booking();

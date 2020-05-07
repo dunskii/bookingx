@@ -5,6 +5,10 @@
 defined( 'ABSPATH' ) || exit;
 $order_id = ( isset($_REQUEST['order_id']) ? $_REQUEST['order_id'] : 0 );
 $status = ( (isset($order_id) && $order_id != "") ? true : false ) ;
+$booking_edit = false;
+if( isset($_POST['order_id']) && isset($_REQUEST['edit_booking_nonce']) && wp_verify_nonce( $_REQUEST['edit_booking_nonce'], 'edit_booking_'.$_REQUEST['id'] )) {
+    $booking_edit = true;
+}
 ?>
 <div class="booking-x">
     <div class="main-container">
@@ -24,7 +28,10 @@ $status = ( (isset($order_id) && $order_id != "") ? true : false ) ;
                         <?php bkx_get_template('booking-form/steps/step-4.php');?>
                         </form>
                     <?php endif;?>
-                    <?php if(isset($_POST['order_id']) && isset($_POST['bkx_payment_gateway_method']) && !empty($_POST['order_id'])){
+                    <?php if( isset($_POST['order_id'])
+                        && ( isset($_POST['bkx_payment_gateway_method']) || $booking_edit === true )
+                        && !empty($_POST['order_id']))
+                    {
                         $args = array( 'order_id' => $_POST['order_id'], 'bkx_payment_gateway_method' => $_POST['bkx_payment_gateway_method']);
                         do_action('bkx_payment_gateway_process_hook', $args );
                     }
