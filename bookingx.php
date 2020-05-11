@@ -65,6 +65,22 @@ function run_bookingx() {
     $plugin->run();
     // Global for backwards compatibility.
     $GLOBALS['bkx'] = BKX();
+
+    /**
+     * Gutenberg Blocks for Gutenberg
+     */
+    // Load Editor Blocks if WordPress is 5.0+.
+    if ( function_exists( 'register_block_type' ) ) {
+
+        // Load block framework.
+        if ( ! class_exists('Bkx_Blocks') ) {
+            require_once BKX_PLUGIN_DIR_PATH . '/includes/core/blocks/class-bkx-blocks.php';
+        }
+
+        // Load included Blocks.
+        Bookingx::glob_require_once( '/includes/core/blocks/class-bkx-block-*.php' );
+
+    }
 }
 function BKX() {
     return Bookingx::instance();

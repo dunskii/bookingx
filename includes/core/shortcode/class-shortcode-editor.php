@@ -96,7 +96,6 @@ class BKXShortcode_Tinymce
                     $output .= "edButtons[edButtons.length] = new edButton('bkx_{$buttons[$i]['name']}'
                         ,'{$buttons[$i]['options']['display_name']}'
                         ,'{$buttons[$i]['options']['open_tag']}'
-                        ,'{$buttons[$i]['options']['close_tag']}'
                         ,'{$buttons[$i]['options']['key']}'
                     ); \n";
                 }

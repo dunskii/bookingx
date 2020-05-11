@@ -78,6 +78,11 @@ class Bkx_Script_Loader
                 'deps'    => array( 'jquery' ),
                 'version' => BKX_PLUGIN_VER,
             ),
+            'jquery-blockui'             => array(
+                'src'     => BKX_PLUGIN_PUBLIC_URL . '/js/jquery-blockui/jquery.blockUI.js',
+                'deps'    => array( 'jquery' ),
+                'version' => '2.70',
+            ),
             'bkx-booking-form-admin'                 => array(
                 'src'     => BKX_PLUGIN_PUBLIC_URL . '/js/admin/booking-form/bkx-booking-form.js',
                 'deps'    => array( 'jquery' ),
@@ -286,6 +291,7 @@ class Bkx_Script_Loader
         self::enqueue_script( 'bootstrap' );
         self::enqueue_script( 'owl.carousel' );
         self::enqueue_script( 'calendar' );
+        self::enqueue_script( 'jquery-blockui' );
 
 
         if(is_admin()){
@@ -300,8 +306,7 @@ class Bkx_Script_Loader
             else{return;}
         }elseif( isset($_REQUEST['edit_booking_nonce']) && wp_verify_nonce( $_REQUEST['edit_booking_nonce'], 'edit_booking_'.$_REQUEST['id'] )) {
             self::enqueue_script( 'bkx-edit-booking-form' );
-        }
-        else{
+        } else{
             self::enqueue_script( 'bkx-booking-form' );
         }
 
