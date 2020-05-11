@@ -1,6 +1,6 @@
 <?php defined( 'ABSPATH' ) || exit;
 
-class Bkx_Register_Blocks
+class Bkx_Block
 {
     private static $_instance = null;
 
@@ -15,10 +15,14 @@ class Bkx_Register_Blocks
     public $style_handle = array();
 
     public function __construct() {
-        add_filter( 'block_categories', array( $this ,'bkx_block_categories') );
+
+    }
+
+    public function init() {
+        $this->register_block_type();
         add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_scripts' ) );
         add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_styles' ) );
-        $this->register_block_type();
+
     }
 
     public function get_type() {
@@ -107,18 +111,4 @@ class Bkx_Register_Blocks
         return '';
 
     }
-
-    function bkx_block_categories( $categories ) {
-        return array_merge(
-            $categories,
-            array(
-                array(
-                    'slug' => 'booking-x',
-                    'title' => __( 'Booking X', 'bookingx' ),
-                    'icon'  => 'calendar-alt',
-                ),
-            )
-        );
-    }
 }
-new Bkx_Register_Blocks();

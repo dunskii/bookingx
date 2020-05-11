@@ -1,6 +1,6 @@
 <?php defined( 'ABSPATH' ) || exit;
 
-class Bkx_Register_Booking_Form_Block extends Bkx_Register_Blocks
+class Bkx_Register_Booking_Form_Block extends Bkx_Block
 {
     /**
      * @var null
@@ -87,9 +87,14 @@ class Bkx_Register_Booking_Form_Block extends Bkx_Register_Blocks
     function render_block( $attributes = array()){
         // Prepare variables.
         ob_start();
-        echo do_shortcode('[bkx_booking_form]');
+        echo $booking_forms_data =  do_shortcode('[bkx_booking_form]');
         $booking_forms_data = ob_get_clean();
         return "<div class=\"gutenberg-booking-x-booking_forms-data\">{$booking_forms_data}</div>";
     }
 }
-new Bkx_Register_Booking_Form_Block();
+
+// Register block.
+if ( true !== ( $registered = Bkx_Blocks::register( Bkx_Register_Booking_Form_Block::get_instance() ) ) && is_wp_error( $registered ) ) {
+    // Log that block could not be registered.
+    echo '<pre>',print_r($registered->get_error_message(),1),'</pre>';
+}

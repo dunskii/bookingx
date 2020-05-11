@@ -1,25 +1,30 @@
 <?php defined( 'ABSPATH' ) || exit;
 
-class Bkx_Register_Seat_Block extends Bkx_Register_Blocks
+class Bkx_Register_Addition_Block extends Bkx_Block
 {
     private static $_instance = null;
 
     public $plugin_name = 'booking-x';
 
-    public $type = "booking-x/bkx-seat-block";
+    public $block_name = 'bkx-addition-block';
 
-    public $block_name = 'bkx-seat-block';
+    public $type = "booking-x/bkx-addition-block";
 
     public $script_handle = array();
 
+    public $style_handle = array();
+
+    /**
+     * @var array
+     */
     public $attributes = array(
         'showDesc'      => array( 'type' => 'boolean' ),
         'showImage'     => array( 'type' => 'boolean' ),
-        'seatDescription'      => array( 'type' => 'string' ),
-        'seatImageStatus'      => array( 'type' => 'string' ),
-        //'showExtra'     => array( 'type' => 'boolean' ),
-        'seatPostId'    => array( 'type' => 'string' ),
-        'seatPosts'     => array( 'type' => 'object' ),
+        'additionDescription'      => array( 'type' => 'string' ),
+        'additionImageStatus'      => array( 'type' => 'string' ),
+        //'showaddition'     => array( 'type' => 'boolean' ),
+        'additionPostId'    => array( 'type' => 'string' ),
+        'additionPosts'     => array( 'type' => 'object' ),
         'columns'       => array( 'type' => 'integer' ),
         'rows'          => array( 'type' => 'integer' ),
 
@@ -40,12 +45,13 @@ class Bkx_Register_Seat_Block extends Bkx_Register_Blocks
         $min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
         $bootstrap_script = $this->plugin_name . '-' . $this->type . '-bootstrap-script';
         $this->script_handle = array( $script_slug, $bootstrap_script );
+
         return array(
             array(
                 'handle'   => $script_slug,
-                'src'      => BKX_BLOCKS_ASSETS.'seat/block.js',
+                'src'      => BKX_BLOCKS_ASSETS.'addition/block.js',
                 'deps'     => array( 'wp-blocks', 'wp-element', 'wp-components', 'wp-i18n', 'wp-editor' ),
-                'version'  => $min ? BKX_PLUGIN_VER : filemtime( BKX_BLOCKS_ASSETS_BASE_PATH.'/seat/block.js' ),
+                'version'  => $min ? BKX_PLUGIN_VER : filemtime( BKX_BLOCKS_ASSETS_BASE_PATH.'/addition/block.js' ),
                 'callback' => array(),
             ),
             array(
@@ -67,9 +73,9 @@ class Bkx_Register_Seat_Block extends Bkx_Register_Blocks
         return array(
             array(
                 'handle'  => $style_slug,
-                'src'     => BKX_BLOCKS_ASSETS . 'seat/css/style.css',
+                'src'     => BKX_BLOCKS_ASSETS . 'addition/css/style.css',
                 'deps'    => $deps,
-                'version' => defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? filemtime( BKX_BLOCKS_ASSETS_BASE_PATH . '/seat/css/style.css' ) : BKX_PLUGIN_VER,
+                'version' => defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? filemtime( BKX_BLOCKS_ASSETS_BASE_PATH . '\addition/css/style.css' ) : BKX_PLUGIN_VER,
             ),
             array(
                 'handle'  => $style_main,
@@ -92,16 +98,21 @@ class Bkx_Register_Seat_Block extends Bkx_Register_Blocks
      */
     function render_block( $attributes = array() ){
         // Prepare variables.
-        $desc       = $attributes['seatDescription'];
-        $image      = $attributes['seatImageStatus'];
-        ///$info       = isset( $attributes['showExtra'] ) ? $attributes['showExtra'] : true;
-        $seat_id    = isset( $attributes['seatPostId'] ) && $attributes['seatPostId'] > 0 ? $attributes['seatPostId'] : 'all';
+        $desc       = $attributes['additionDescription'];
+        $image      = $attributes['additionImageStatus'];
+        //$info       = isset( $attributes['showaddition'] ) ? $attributes['showaddition'] : true;
+        $addition_id    = isset( $attributes['additionPostId'] ) && $attributes['additionPostId'] > 0 ? $attributes['additionPostId'] : 'all';
         $columns    = isset( $attributes['columns'] ) ? $attributes['columns'] : 3;
         $rows       = isset( $attributes['rows'] ) ? $attributes['rows'] : 1;
         ob_start();
-        echo do_shortcode('[bookingx block="1" seat-id="'.$seat_id.'" columns="'.$columns.'" rows="'.$rows.'"  description="'.$desc.'" image="'.$image.'"]');
-        $seats_data = ob_get_clean();
-        return "<div class=\"gutenberg-booking-x-seats-data\">{$seats_data}</div>";
+        echo do_shortcode('[bookingx block="1" extra-id="'.$addition_id.'" columns="'.$columns.'" rows="'.$rows.'"  description="'.$desc.'" image="'.$image.'"]');
+        $additions_data = ob_get_clean();
+        return "<div class=\"gutenberg-booking-x-additions-data\">{$additions_data}</div>";
     }
 }
-new Bkx_Register_Seat_Block();
+
+// Register block.
+if ( true !== ( $registered = Bkx_Blocks::register( Bkx_Register_Addition_Block::get_instance() ) ) && is_wp_error( $registered ) ) {
+    // Log that block could not be registered.
+     echo '<pre>',print_r($registered->get_error_message(),1),'</pre>';
+}

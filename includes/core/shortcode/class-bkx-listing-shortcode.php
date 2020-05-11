@@ -15,7 +15,8 @@ class BKX_Listing_ShortCodes
         self::$post_type = array('bkx_seat', 'bkx_base', 'bkx_addition');
     }
 
-    public function bookingx_shortcode_callback( $atts ){
+    static function bookingx_shortcode_callback( $atts ){
+        ob_start();
         if(!empty($atts)){
             $post_type = self::find_post_type($atts);
             $id = 0;
@@ -34,7 +35,6 @@ class BKX_Listing_ShortCodes
                 $query = new WP_Query( array( 'post_type' => $post_type) );
                 $class = "booking-x-lists";
             }
-            ob_start();
             if ($query->have_posts()) :?>
             <div class="container <?php echo $class;?>">
                 <div class="row">
@@ -51,11 +51,12 @@ class BKX_Listing_ShortCodes
             else:
                 do_action("bookingx_no_{$post_type}_found");
             endif;
+
             return ob_get_clean();
         }
     }
 
-    public function find_post_type( $atts ){
+    private static function find_post_type( $atts ){
         if(empty($atts))
             return;
         $find_archive = array('seat-id' => 'bkx_seat', 'base-id' => 'bkx_base', 'extra-id' => 'bkx_addition');

@@ -28,6 +28,7 @@ if ( ! class_exists( 'BKX_Email_Edit_Booking' ) ) :
             $this->placeholders   = array(
                 '{booking_date}'   => '',
                 '{booking_number}' => '',
+                '{booking_edit_url}' => ''
             );
             // Triggers for this email.
             add_action( 'bookingx_booking_status_edit_notification', array( $this, 'trigger' ), 10, 2 );
@@ -61,16 +62,16 @@ if ( ! class_exists( 'BKX_Email_Edit_Booking' ) ) :
         public function get_default_additional_content() {
 
             return __( 'Hi there,
-        [seat_name] will be unavailable for the following bookings.
-    Booking ID: [order_id]
-    Resource: [seat_name]
-    Service: [base_name]
-    Extras: [additions_list]        
-    Time: [time_of_booking]
-    Date: [date_of_booking]
-    Location: [location_of_booking]
-    Price: [total_price]
-    Amount Paid : [amount_paid]
+        [seat_name} will be unavailable for the following bookings.
+    Booking ID: {order_id}
+    Resource: {seat_name}
+    Service: {base_name}
+    Extras: {additions_list}        
+    Time: {time_of_booking}
+    Date: {date_of_booking}
+    Location: {location_of_booking}
+    Price: {total_price}
+    Amount Paid : {amount_paid}
 
     Please contact them to notify them of the change.
     The customers have also been notified of the change.', 'bookingx' );
@@ -84,7 +85,7 @@ if ( ! class_exists( 'BKX_Email_Edit_Booking' ) ) :
          * Get email subject.
          */
         public function get_default_subject() {
-            return __( '[{site_title}]: Edit booking #{booking_number}', 'bookingx' );
+            return __( '[{site_title}}: Edit booking #{booking_number}', 'bookingx' );
         }
 
         /**
