@@ -8,8 +8,7 @@ function bkx_process_mail_by_status($booking_id, $subject, $content, $email = nu
     if (!empty($content)) {
         $message_body = $content;
     }
-    $subject = str_replace("{site_title}", get_bloginfo(), $subject);
-    $subject = str_replace("{booking_number}", $booking_id, $subject);
+
 
     $amount_pending = 0;
     $event_address = "";
@@ -35,7 +34,7 @@ function bkx_process_mail_by_status($booking_id, $subject, $content, $email = nu
 
     $admin_email = $email->recipient;
     $to = isset($is_customer) && $is_customer == true ? $order_meta['email'] : $admin_email;
-    $mail_type = isset($email->email_type) && !empty($email->email_type) ? $email->email_type : 'html';
+    $mail_type = isset($email->email_type) && !empty($email->email_type) ? $email->get_content_type($email->email_type) : 'text/html';
     // multiple recipients
     
     //change request for template tags calculate booking duration 7/4/2013
@@ -101,33 +100,60 @@ function bkx_process_mail_by_status($booking_id, $subject, $content, $email = nu
     }else{
         $event_address .= $bkx_business_country;
     }
-
     $total_price = ($order_meta['total_price'] != '') ? $order_meta['total_price'] : 0;
-    $message_body = str_replace("[fname]", $order_meta['first_name'], $message_body);
-    $message_body = str_replace('[lname]', $order_meta['last_name'], $message_body);
-    $message_body = str_replace('[total_price]', $currency . $order_meta['total_price'] . ' ' . bkx_crud_option_multisite('currency_option'), $message_body);
-    $message_body = str_replace('[txn_id]', $transactionID, $message_body);
-    $message_body = str_replace('[order_id]', $order_meta['order_id'], $message_body);
-    $message_body = str_replace('[total_duration]', $order_meta['total_duration'], $message_body);
-    $message_body = str_replace('[total_price]', $total_price . ' ' . bkx_crud_option_multisite('currency_option'), $message_body);
-    $message_body = str_replace('[siteurl]', site_url(), $message_body);
-    $message_body = str_replace('[seat_name]', $order_meta['seat_arr']['title'], $message_body);
-    $message_body = str_replace('[base_name]', $order_meta['base_arr']['title'], $message_body);
-    $message_body = str_replace('[additions_list]', $addition_list, $message_body);
-    $message_body = str_replace('[time_of_booking]', $booking_duration, $message_body);
-    $message_body = str_replace('[date_of_booking]', $order_meta['booking_start_date'], $message_body);
-    $message_body = str_replace('[location_of_booking]', $event_address, $message_body);
-    $message_body = str_replace('[amount_paid]', $currency . $amount_paid . ' ' . bkx_crud_option_multisite('currency_option'), $message_body);
-    $message_body = str_replace('[amount_pending]', $currency . $amount_pending . ' ' . bkx_crud_option_multisite('currency_option'), $message_body);
-    $message_body = str_replace('[business_name]', $bkx_business_name, $message_body);
-    $message_body = str_replace('[business_email]', $bkx_business_email, $message_body);
-    $message_body = str_replace('[business_phone]', $bkx_business_phone, $message_body);
-    $message_body = str_replace('[booking_status]', $order_status, $message_body);
-    $message_body = str_replace('[booking_edit_url]', edit_booking_url($booking_id), $message_body);
+    $subject = str_replace("{site_title}", get_bloginfo(), $subject);
+    $subject = str_replace("{site_address}", get_site_url(), $subject);
+    $subject = str_replace("{fname}", $order_meta['first_name'], $subject );
+    $subject = str_replace("{lname}", $order_meta['last_name'], $subject );
+    $subject = str_replace("{total_price}", $currency . $order_meta['total_price'] . ' ' . bkx_crud_option_multisite('currency_option'), $subject );
+    $subject = str_replace("{txn_id}", $transactionID, $subject );
+    $subject = str_replace("{order_id}", $order_meta['order_id'], $subject );
+    $subject = str_replace("{total_duration}", $order_meta['total_duration'], $subject );
+    $subject = str_replace("{total_price}", $total_price . ' ' . bkx_crud_option_multisite('currency_option'), $subject );
+    $subject = str_replace("{siteurl}", site_url(), $subject );
+    $subject = str_replace("{seat_name}", $order_meta['seat_arr']['title'], $subject );
+    $subject = str_replace("{base_name}", $order_meta['base_arr']['title'], $subject );
+    $subject = str_replace("{additions_list}", $addition_list, $subject );
+    $subject = str_replace("{time_of_booking}", $booking_duration, $subject );
+    $subject = str_replace("{date_of_booking}", $order_meta['booking_start_date'], $subject );
+    $subject = str_replace("{location_of_booking}", $event_address, $subject );
+    $subject = str_replace("{amount_paid}", $currency . $amount_paid . ' ' . bkx_crud_option_multisite('currency_option'), $subject );
+    $subject = str_replace("{amount_pending}", $currency . $amount_pending . ' ' . bkx_crud_option_multisite('currency_option'), $subject );
+    $subject = str_replace("{business_name}", $bkx_business_name, $subject );
+    $subject = str_replace("{business_email}", $bkx_business_email, $subject );
+    $subject = str_replace("{business_phone}", $bkx_business_phone, $subject );
+    $subject = str_replace("{booking_status}", $order_status, $subject );
+    $subject = str_replace("{booking_edit_url}", edit_booking_url($booking_id), $subject );
+
+
+
+    $message_body = str_replace("{fname}", $order_meta['first_name'], $message_body);
+    $message_body = str_replace("{lname}", $order_meta['last_name'], $message_body);
+    $message_body = str_replace("{total_price}", $currency . $order_meta['total_price'] . ' ' . bkx_crud_option_multisite('currency_option'), $message_body);
+    $message_body = str_replace("{txn_id}", $transactionID, $message_body);
+    $message_body = str_replace("{order_id}", $order_meta['order_id'], $message_body);
+    $message_body = str_replace("{total_duration}", $order_meta['total_duration'], $message_body);
+    $message_body = str_replace("{total_price}", $total_price . ' ' . bkx_crud_option_multisite('currency_option'), $message_body);
+    $message_body = str_replace("{siteurl}", site_url(), $message_body);
+    $message_body = str_replace("{seat_name}", $order_meta['seat_arr']['title'], $message_body);
+    $message_body = str_replace("{base_name}", $order_meta['base_arr']['title'], $message_body);
+    $message_body = str_replace("{additions_list}", $addition_list, $message_body);
+    $message_body = str_replace("{time_of_booking}", $booking_duration, $message_body);
+    $message_body = str_replace("{date_of_booking}", $order_meta['booking_start_date'], $message_body);
+    $message_body = str_replace("{location_of_booking}", $event_address, $message_body);
+    $message_body = str_replace("{amount_paid}", $currency . $amount_paid . ' ' . bkx_crud_option_multisite('currency_option'), $message_body);
+    $message_body = str_replace("{amount_pending}", $currency . $amount_pending . ' ' . bkx_crud_option_multisite('currency_option'), $message_body);
+    $message_body = str_replace("{business_name}", $bkx_business_name, $message_body);
+    $message_body = str_replace("{business_email}", $bkx_business_email, $message_body);
+    $message_body = str_replace("{business_phone}", $bkx_business_phone, $message_body);
+    $message_body = str_replace("{booking_status}", $order_status, $message_body);
+    $message_body = str_replace("{booking_edit_url}", edit_booking_url($booking_id), $message_body);
 
     // Mail it
     bkx_mail_format_and_send_process($subject, $message_body, $to, $mail_type);
 }
+
+
 
 function bkx_generate_template_page( $option_key , $content, $page_title, $page_id ){
     $page_data = array();

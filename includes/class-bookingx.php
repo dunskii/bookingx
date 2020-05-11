@@ -229,14 +229,12 @@ class Bookingx {
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/settings/settings_save.php';
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/settings/setting-functions.php';
 
-        /**
-         * Gutenberg Blocks for Gutenberg
-         */
-        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/blocks/class-bkx-register-blocks.php';
-        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/blocks/class-bkx-register-booking-form-block.php';
+
+
+        /*require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/blocks/class-bkx-register-booking-form-block.php';
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/blocks/class-bkx-register-seat-block.php';
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/blocks/class-bkx-register-base-block.php';
-        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/blocks/class-bkx-register-addition-block.php';
+        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/blocks/class-bkx-register-addition-block.php';*/
 
         /**
          * Email Config
@@ -257,6 +255,30 @@ class Bookingx {
 	public function run() {
 		$this->loader->run();
 	}
+
+    public static function glob( $pattern, $base_path = '' ) {
+        if ( empty( $base_path ) ) {
+            $base_path = BKX_PLUGIN_DIR_PATH;
+        }
+
+        // Escape any brackets in the base path.
+        $base_path = str_replace( array( '[', ']' ), array( '\[', '\]' ), $base_path );
+        $base_path = str_replace( array( '\[', '\]' ), array( '[[]', '[]]' ), $base_path );
+
+        return glob( $base_path . $pattern );
+    }
+
+    public static function glob_require_once( $pattern, $base_path = '' ) {
+        $files = self::glob( $pattern, $base_path );
+
+        if ( is_array( $files ) ) {
+            foreach ( $files as $file ) {
+                require_once $file;
+            }
+        }
+
+        return $files;
+    }
 
 	/**
 	 * The name of the plugin used to uniquely identify it within the context of

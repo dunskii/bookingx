@@ -23,7 +23,7 @@
                         onselect: function(e) {
                             $selected_id = e.control._id;
                             var v = e.control.settings.value;
-                            tinyMCE.activeEditor.selection.setContent( '[' + v + ']' );
+                            tinyMCE.activeEditor.selection.setContent( '{' + v + '}' );
                         },
                     }
                 ],

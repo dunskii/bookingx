@@ -471,14 +471,13 @@ function bkx_setting_page_callback(){
  * @param $subject
  * @param $data_html
  * @param $to_mail
- * @param null $cc_mail
- * @param null $bcc_mail
+ * @param string $mail_type
  */
-function bkx_mail_format_and_send_process($subject, $data_html, $to_mail, $mail_type = 'html') {
+function bkx_mail_format_and_send_process($subject, $data_html, $to_mail, $mail_type) {
     if (isset($to_mail)) {
         $subject = $subject;
         $admin_email = bkx_crud_option_multisite('admin_email');
-        $headers[] = 'Content-Type: text/'.$mail_type.'; charset=UTF-8';
+        $headers[] = 'Content-Type: '.$mail_type.'; charset=UTF-8';
         $headers[] = 'From: '.get_bloginfo().' <' . $admin_email . '>';
         /*if ($cc_mail != '') {
             $headers[] = 'Cc: ' . $cc_mail . ' <' . $cc_mail . '>';

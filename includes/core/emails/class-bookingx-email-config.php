@@ -145,7 +145,7 @@ class BookingX_Email_Content{
     /**
     * @var mixed|string|void
     */
-    public $email_type = "";
+    public $email_type = "html";
 
     /**
      * BookingX_Email_Content constructor.
@@ -603,23 +603,23 @@ class BookingX_Email_Content{
      */
     public function get_default_additional_content() {
 
-        return __( 'Thanks [fname] for booking [base_name],
+        return __( 'Thanks {fname} for booking {base_name},
                 Here are your booking details.
         <ul>
-            <li>    Booking ID: [order_id]</li>
-            <li>    Resource: [seat_name]</li>
-            <li>    Service: [base_name]</li>
-            <li>    Extras: [additions_list]</li>        
-            <li>    Time: [time_of_booking]</li>
-            <li>    Date: [date_of_booking]</li>
-            <li>    Location: [location_of_booking]</li>
-            <li>    Price: [total_price]</li>
-            <li>    Amount Paid : [amount_paid]</li>
-            <li>    Amount Pending : [amount_pending]</li>
-            <li>    Business Name : [business_name]</li>
-            <li>    Business Phone : [business_phone]</li>
-            <li>    Business Email : [business_email]</li>
-            <li>    Booking Status : [booking_status]</li>
+            <li>    Booking ID: {order_id}</li>
+            <li>    Resource: {seat_name}</li>
+            <li>    Service: {base_name}</li>
+            <li>    Extras: {additions_list}</li>        
+            <li>    Time: {time_of_booking}</li>
+            <li>    Date: {date_of_booking}</li>
+            <li>    Location: {location_of_booking}</li>
+            <li>    Price: {total_price}</li>
+            <li>    Amount Paid : {amount_paid}</li>
+            <li>    Amount Pending : {amount_pending}</li>
+            <li>    Business Name : {business_name}</li>
+            <li>    Business Phone : {business_phone}</li>
+            <li>    Business Email : {business_email}</li>
+            <li>    Booking Status : {booking_status}</li>
         </ul>', 'bookingx' );
     }
 
