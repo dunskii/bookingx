@@ -194,6 +194,18 @@
         }
     }
 
+    if (!function_exists('bookingx_form_additional_fields')) {
+
+        /**
+         * Get the Service sidebar template.
+         *
+         */
+        function bookingx_form_additional_fields()
+        {
+            bkx_get_template('booking-form/additional/fields.php');
+        }
+    }
+
 
     function bkx_get_formatted_price($price)
     {
