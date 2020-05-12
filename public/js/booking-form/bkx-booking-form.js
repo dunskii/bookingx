@@ -71,9 +71,13 @@ jQuery( function( $ ) {
     const extra_service = listToArray(".bkx-booking-form .step-1 :input[name^=bkx-extra-service]:checked");
     const service_extend = parseInt( $('.bkx-booking-form .step-1 .bkx-services-extend').val());
     const bkx_error_flag = $('.bkx-booking-form #bkx_error_flag');
+    const bkx_gateway_flag = $('.bkx-booking-form #bkx_gateway_flag');
     const flag = function () {
         return parseInt(bkx_error_flag.val());
     };
+    const GatewayFlag = function () {
+        return parseInt(bkx_gateway_flag.val());
+    }
 
     /**
      * Object to handle Booking form Ajax Call.
@@ -303,7 +307,7 @@ jQuery( function( $ ) {
             block($('div.step-4'));
             bkx_error_flag.val(0) ;
             booking_form.validate_form_fields();
-            if (GetCurrentStep() == 4 && 1 === flag()) {
+            if (GetCurrentStep() == 4 && 1 === flag() && 1 === GatewayFlag()) {
             } else {
                 return false;
             }
