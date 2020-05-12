@@ -39,18 +39,21 @@
     add_action('bookingx_after_single_post_summary', 'bookingx_template_single_booking_url', 20, 2);
     add_action('bookingx_after_single_post_summary', 'bookingx_template_single_pagination', 20, 2);
 
-/**
- * Sidebar.
- *
- * @see bookingx_get_sidebar()
- */
-add_action( 'bookingx_sidebar', 'bookingx_get_sidebar', 10 );
+    /**
+     * Sidebar.
+     *
+     * @see bookingx_get_sidebar()
+     */
+    add_action( 'bookingx_sidebar', 'bookingx_get_sidebar', 10 );
 
-/**
- * Block hooks for Column Settings
- */
-add_filter( 'bookingx_block_grid_setting', 'bookingx_block_grid_setting', 10 );
+    /**
+     * Block hooks for Column Settings
+     */
+    add_filter( 'bookingx_block_grid_setting', 'bookingx_block_grid_setting', 10 );
 
-add_filter( 'bookingx_card_width_setting', 'bookingx_card_width_setting', 10 );
+    add_filter( 'bookingx_card_width_setting', 'bookingx_card_width_setting', 10 );
 
-add_action( 'bookingx_base_meta_data', 'bookingx_base_meta_data_html',10);
+    add_action( 'bookingx_base_meta_data', 'bookingx_base_meta_data_html',10);
+
+    add_action( 'bookingx_form_additional_fields', 'bookingx_form_additional_fields',10);
+
