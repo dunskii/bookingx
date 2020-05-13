@@ -12,9 +12,9 @@ $card_width = apply_filters('bookingx_card_width_setting',$args);
     <div class="card<?php echo $settings['block'];?>" style="width: <?php echo $card_width;?>">
         <?php echo $bkx_base->get_thumb();?>
         <div class="card-body">
-            <h5 class="card-title m-0 text-center"><?php echo get_the_title(); ?></h5>
+            <h5 class="card-title m-0 text-center"><a href="<?php echo get_permalink($base_id);?>"><?php echo get_the_title($base_id); ?></a></h5>
             <p class="card-text mb-2 mt-2 text-center font-weight-bold"><?php echo $price_duration['time']; ?></p>
-            <p class="card-text"><?php echo wp_trim_words( get_the_content(), 15, '...' ); ?></p>
+            <p class="card-text"><?php echo wp_trim_words( get_the_content($base_id), 15, '...' ); ?></p>
             <p class="card-text mb-2 mt-2 text-center font-weight-bold"><?php echo $price_duration['price']; ?></p>
             <div class="text-center">
                 <a href="<?php echo $booking_url;?>" class="btn btn-primary">Book now</a>

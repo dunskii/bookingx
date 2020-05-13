@@ -68,7 +68,6 @@ jQuery( function( $ ) {
         return $('.bkx-booking-form .step-' + step).hasClass('bkx-form-active');
     };
 
-    const extra_service = listToArray(".bkx-booking-form .step-1 :input[name^=bkx-extra-service]:checked");
     const service_extend = parseInt( $('.bkx-booking-form .step-1 .bkx-services-extend').val());
     const bkx_error_flag = $('.bkx-booking-form #bkx_error_flag');
     const bkx_gateway_flag = $('.bkx-booking-form #bkx_gateway_flag');
@@ -206,6 +205,7 @@ jQuery( function( $ ) {
         extra_checked: function () {
             block($('div.step-1'));
             booking_form.update_booking_total();
+            var extra_service = listToArray(".bkx-booking-form .step-1 :input[name^=bkx-extra-service]:checked");
             booking_form.disable_days_note.html('');
             if (extra_service != 'None') {
                 booking_form.disable_days_note.html("<div class=\"row\"><div class=\"col-lg-12\"> <strong> Note : </strong> " + bkx_booking_form_params.disable_days_note + "</div></div>");
@@ -272,6 +272,7 @@ jQuery( function( $ ) {
             booking_form.form_progress();
         },
         form_progress : function(){
+            var extra_service = listToArray(".bkx-booking-form .step-1 :input[name^=bkx-extra-service]:checked");
             booking_form.seat_id = parseInt($('.bkx-booking-form .step-1 .bkx-staff-lists').val());
             booking_form.base_id = parseInt($('.bkx-booking-form .step-1 .bkx-services-lists').val());
             booking_form.extra_id = extra_service;
@@ -545,7 +546,7 @@ jQuery( function( $ ) {
         },
         update_booking_total: function () {
             block($('div.step-' + GetCurrentStep()));
-            var extra_service = extra_service;
+            var extra_service = listToArray(".bkx-booking-form .step-1 :input[name^=bkx-extra-service]:checked");
             var service_extend = parseInt($('.bkx-booking-form .step-1 .bkx-services-extend').val());
             var data = {
                 security: bkx_booking_form_params.update_booking_total_nonce,

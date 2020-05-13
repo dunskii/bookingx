@@ -86,7 +86,7 @@ body{font-family: 'Roboto', sans-ser}
 
 .booking-x .user-detail .admin{display: flex;font-size: 19px;margin-bottom: 1rem;}
 .booking-x .user-detail dl dt{color:#555555;font-weight: 400;}
-.booking-x .user-detail dl dd{color:#066595;margin: 0;}
+.booking-x .user-detail dl dd{color:#066595;margin: 0px 5px 0px 10px;}
 .booking-x .total-text{color: #555555;font-size: 25px;padding: 10px 25px;}
 .booking-x .total-text>span{font-weight: 700;color: #066595;}
 .booking-x .button-wrapper{border-top: #959595 solid 1px;flex-direction: row-reverse;display: flex;justify-content: space-between;margin-top: 2rem;flex-wrap: wrap;}
@@ -124,20 +124,6 @@ Listing CSS Bootstrap 4
  */
 .booking-x-lists .row > div[class*='col-'], .booking-x-bkx-seat .row > div[class*='col-'], .booking-x-bkx-base .row > div[class*='col-'], .booking-x-bkx-addition .row > div[class*='col-'] {
     display: flex;
-}
-
-/*Admin CSS*/
-#post-body-content, #titlediv { display:none }
-.bkx-general_full { float: left;width: 32%;}
-.bkx-order_summary_full{background: #fff; min-height: auto;}
-
-.booking-x .bkx-single-post-view hr{
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    border: 0;
-    height: 0px;
-    border-top: 1px solid rgba(0,0,0,.1);
-    background-color: rgba(0,0,0,.1);
 }
 
 /* Media */
