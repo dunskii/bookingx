@@ -14,7 +14,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 		<input type="hidden" name="alias_flag" value="1">
         <input type="hidden" name="bkx_setting_form_init" value="1">
 		<tr class="active">
-			<th scope="row"><label for="seat"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Seat' ); ?></label></th>
+			<th scope="row"><label for="Resource"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Resource' ); ?></label></th>
 			<td class="plugin-description">
 				<div class="plugin-description">
 					<input type="text" name="seat_alias" id="id_seat_alias" value="<?php echo bkx_crud_option_multisite('bkx_alias_seat'); ?>">
@@ -22,7 +22,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 			</td>
 		</tr>
 		<tr class="active">
-		<th scope="row"><label for="Base"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Base' ); ?></label></th>
+		<th scope="row"><label for="Service"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Service' ); ?></label></th>
 			<td class="plugin-description">
 				<div class="plugin-description">
 					<input type="text" name="base_alias" id="id_base_alias" value="<?php echo bkx_crud_option_multisite('bkx_alias_base'); ?>">
@@ -30,7 +30,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 			</td>
 		</tr>
 		<tr class="active">
-			<th scope="row"><label for="Addition"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Addition' ); ?></label></th>
+			<th scope="row"><label for='Extras'><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Extras' ); ?></label></th>
 			 
 			<td class="plugin-description">
 				<div class="plugin-description">
