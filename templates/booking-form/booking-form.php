@@ -15,7 +15,7 @@ if( isset($_POST['order_id']) && isset($_REQUEST['edit_booking_nonce']) && wp_ve
         <div class="booking-x container">
             <div class="bkx-booking-form">
                 <!--  Start Progress Bar     -->
-                <?php bkx_get_template('booking-form/progress-bar/progress-bar.php');?>
+                <?php bkx_get_template('booking-form/progress-bar/progress-bar.php', $args);?>
                 <!--  End Progress Bar     -->
                     <?php if(isset($status) && $status == false ): ?>
                         <div class="bookingx-error-group"></div>

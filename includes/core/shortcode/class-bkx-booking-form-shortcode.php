@@ -35,17 +35,17 @@ if ( ! class_exists( 'BkxBookingFormShortCode' ) ) {
             return (object) $global_variables;
         }
 
-        function BkxBookingFormShortCodeView(){
+        function BkxBookingFormShortCodeView( $args ){
             ob_start();
                 if(is_admin()){
                     $screen = get_current_screen();
                     $base = $screen->base;
                     $post_type = $screen->post_type;
                     if($base == "post" && $post_type == "bkx_booking"){
-                        bkx_get_template('booking-form/update-booking-form.php');
+                        bkx_get_template('booking-form/update-booking-form.php', $args);
                     }
                 }else{
-                    bkx_get_template('booking-form/booking-form.php');
+                    bkx_get_template('booking-form/booking-form.php', $args);
                 }
             return ob_get_clean();
         }

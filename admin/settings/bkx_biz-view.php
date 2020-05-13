@@ -161,8 +161,9 @@ if(!empty($bkx_biz_pub_holiday) && is_array($bkx_biz_pub_holiday))
 </form>
 <?php endif; ?>
 <div class="clear"></div>
-<?php if(!empty($current_submenu_active) && $current_submenu_active == 'user_opt') :?>
-<h3> <?php printf( esc_html__( '%1$s', 'bookingx' ),  'Site User Option' ); ?> </h3>
+<?php
+if(!empty($current_submenu_active) && $current_submenu_active == 'user_opt') :?>
+<!--<h3> <?php /*printf( esc_html__( '%1$s', 'bookingx' ),  'Site User Option' ); */?> </h3>
 <form name="form_siteuser" id="id_form_siteuser" method="post">
 <table cellspacing="0" class="widefat" style="margin-top:20px;">
 	<tbody>
@@ -172,8 +173,8 @@ if(!empty($bkx_biz_pub_holiday) && is_array($bkx_biz_pub_holiday))
 			<th scope="row"><label for="modify seat owner">Can site user add/edit their own profile?</label></th>
 			<td class="plugin-description">
 					<select name="can_edit_seat" id="id_can_edit_seat">
-						<option value="Y" <?php if($temp_option=="Y"){echo "selected";} ?> >Yes</option>
-						<option value="N" <?php if($temp_option=="N" || $temp_option == "default"){echo "selected";} ?> >No</option>
+						<option value="Y" <?php /*if($temp_option=="Y"){echo "selected";} */?> >Yes</option>
+						<option value="N" <?php /*if($temp_option=="N" || $temp_option == "default"){echo "selected";} */?> >No</option>
 					</select>				
 			</td>
 		</tr>
@@ -185,7 +186,7 @@ if(!empty($bkx_biz_pub_holiday) && is_array($bkx_biz_pub_holiday))
 	</tbody>
 </table>
 <p class="submit"><input type="submit" onclick="" class='button-primary' name="save_siteuser" id="id_save_siteuser" value="Save Changes" /></p>
-</form>
+</form>-->
 <?php
 $alias_seat = bkx_crud_option_multisite('bkx_alias_seat'); 
 $bkx_seat_role = bkx_crud_option_multisite('bkx_seat_role');

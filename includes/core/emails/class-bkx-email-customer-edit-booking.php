@@ -67,9 +67,9 @@ if ( ! class_exists( 'BKX_Email_Customer_Edit_Booking' ) ) :
 
         public function get_default_additional_content() {
 
-            return __( '<p>Hi [fname][lname],</p>
-<p> This is a quick email to let you know that [seat_name] will be unavailable for your [base_name] booking on [time_of_booking] [date_of_booking].</p>
-<p>Please contact us on [business_phone] or edit your <a href="[booking_edit_url]"]booking online</a>.</p>', 'bookingx' );
+            return __( '<p>Hi {fname}{lname},</p>
+<p> This is a quick email to let you know that {seat_name} will be unavailable for your {base_name} booking on {time_of_booking} {date_of_booking}.</p>
+<p>Please contact us on {business_phone} or edit your <a href="{booking_edit_url]"}booking online</a>.</p>', 'bookingx' );
         }
 
         /**

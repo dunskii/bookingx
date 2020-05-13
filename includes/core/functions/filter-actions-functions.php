@@ -9,7 +9,6 @@ function bkx_process_mail_by_status($booking_id, $subject, $content, $email = nu
         $message_body = $content;
     }
 
-
     $amount_pending = 0;
     $event_address = "";
     $amount_paid = 0;
@@ -101,6 +100,7 @@ function bkx_process_mail_by_status($booking_id, $subject, $content, $email = nu
         $event_address .= $bkx_business_country;
     }
     $total_price = ($order_meta['total_price'] != '') ? $order_meta['total_price'] : 0;
+    $subject = str_replace("{booking_number}", $order_meta['order_id'], $subject);
     $subject = str_replace("{site_title}", get_bloginfo(), $subject);
     $subject = str_replace("{site_address}", get_site_url(), $subject);
     $subject = str_replace("{fname}", $order_meta['first_name'], $subject );

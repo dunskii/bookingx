@@ -1,3 +1,18 @@
+.wp-admin h1, h2, h3, h4, h5 {color: #23282d;}
+.post-type-bkx_booking #post-body-content, .post-type-bkx_booking  #titlediv { display:none }
+.post-type-bkx_seat #slugdiv { display:none }
+.bkx-general_full { float: left;width: 32%;}
+.bkx-order_summary_full{background: #fff; min-height: auto;}
+.bkx-order_summary_full a {color: #0073aa;}
+
+.booking-x .bkx-single-post-view hr{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: 0;
+    height: 0px;
+    border-top: 1px solid rgba(0,0,0,.1);
+    background-color: rgba(0,0,0,.1);
+}
 .setting-bookingx {
     background: #fff;
     border: 1px solid #e5e5e5;
