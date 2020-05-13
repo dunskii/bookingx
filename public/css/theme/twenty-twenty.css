@@ -16,6 +16,7 @@
     width: calc(100% - 4rem);
 }
 
+.booking-x-form .booking-x .select-time .table td a {padding: 3px 5px;font-size: 18px;}
 .booking-x .booking-x-bkx-seat .row .card .card-body .btn,
 .booking-x .booking-x-bkx-base .row .card .card-body .btn,
 .booking-x .booking-x-bkx-addition .row .card .card-body .btn,

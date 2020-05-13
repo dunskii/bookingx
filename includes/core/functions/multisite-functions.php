@@ -28,7 +28,7 @@ function generate_while_multisite_creating($blog_id, $user_id, $domain, $path, $
     // Create post object
     $_p = array();
     $_p['post_title'] = $the_page_title;
-    $_p['post_content'] = "[bkx_booking_form]";
+    $_p['post_content'] = "[bkx_booking_form title = false ]";
     $_p['post_status'] = 'Publish';
     $_p['post_type'] = 'page';
     $_p['comment_status'] = 'closed';

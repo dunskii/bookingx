@@ -436,21 +436,21 @@ class BkxBooking {
             $dl_class = "admin";
         }
         $step_2_details = "<dl class='{$dl_class}'>
-            <dt>{$this->load_global->seat} name :</dt>
+            <dt>{$this->load_global->seat} name : </dt>
             <dd class=\"seat_name\"> {$seat_obj->post_title} </dd>
         </dl>";
         $step_2_details .= "<dl>
-            <dt>{$this->load_global->base} name :</dt>
+            <dt>{$this->load_global->base} name : </dt>
             <dd class=\"base_name\"> {$BkxBase->get_title()} </dd>
         </dl>";
         if(isset($extra_data) && !empty($extra_data)){
             $step_2_details .= "<dl>
-                                    <dt>{$this->load_global->extra} Service :</dt>
+                                    <dt>{$this->load_global->extra} Service : </dt>
                                     <dd class=\"extra_name\"> {$extra_data} </dd>
                                 </dl>";
         }
         $step_2_details .="<dl>
-            <dt>Total Time :</dt>
+            <dt>Total Time : </dt>
             <dd class=\"total_hours\">{$total_time_formatted}</dd>
         </dl>";
 
@@ -494,39 +494,39 @@ class BkxBooking {
             $extra_data = implode(", ", $extra_obj );
         }
         $step_3_details = "<div class=\"row\"><div class=\"col-sm-12\"><dl class='{$dl_class}'>
-            <dt>{$this->load_global->seat} name :</dt>
+            <dt>{$this->load_global->seat} name : </dt>
             <dd class=\"seat_name\"> {$seat_obj->post_title} </dd>
         </dl>";
         $step_3_details .= "<dl class='{$dl_class}'>
-            <dt>{$this->load_global->base} name :</dt>
+            <dt>{$this->load_global->base} name : </dt>
             <dd class=\"base_name\"> {$BkxBase->get_title()} </dd>
         </dl>";
 
         if(isset($service_extend) && $service_extend > 0 ){
             $extend_label = ($service_extend > 1) ? "Time's" : "Time";
             $step_3_details .= "<dl class='{$dl_class}'>
-                <dt>{$this->load_global->base} Extend :</dt>
+                <dt>{$this->load_global->base} Extend : </dt>
                 <dd class=\"base_name\"> {$service_extend} {$extend_label} </dd>
             </dl>";
         }
 
         if(isset($extra_data) && !empty($extra_data)){
             $step_3_details .= "<dl class='{$dl_class}'>
-                                    <dt>{$this->load_global->extra} Service :</dt>
+                                    <dt>{$this->load_global->extra} Service : </dt>
                                     <dd class=\"extra_name\"> {$extra_data} </dd>
                                 </dl>";
         }
         $step_3_details .="<dl class='{$dl_class}'>
-            <dt>Total Time :</dt>
+            <dt>Total Time : </dt>
             <dd class=\"total_hours\">{$total_time_formatted}</dd>
         </dl></div><div class=\"col-sm-12\">
                 <dl class='{$dl_class}'>
-                    <dt>Date:</dt>
+                    <dt>Date: </dt>
                     <dd>{$date_format}</dd>
                 </dl>";
         if(!empty($booking_time)){
             $step_3_details .="<dl class='{$dl_class}'>
-                    <dt>Time :</dt>
+                    <dt>Time : </dt>
                     <dd>{$booking_time[0]} - {$booking_time[1]}</dd>
                 </dl>
             </div></div>";
