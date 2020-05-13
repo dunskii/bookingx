@@ -169,7 +169,7 @@ if(!empty($bkx_biz_pub_holiday) && is_array($bkx_biz_pub_holiday))
 		<input type="hidden" name="siteuser_flag" value="1">
         <input type="hidden" name="bkx_setting_form_init" value="1">
 		<tr class="active">
-			<th scope="row"><label for="modify seat owner">Can site user add/edit their own seat</label></th>
+			<th scope="row"><label for="modify seat owner">Can site user add/edit their own profile?</label></th>
 			<td class="plugin-description">
 					<select name="can_edit_seat" id="id_can_edit_seat">
 						<option value="Y" <?php if($temp_option=="Y"){echo "selected";} ?> >Yes</option>

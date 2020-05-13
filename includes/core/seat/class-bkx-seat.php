@@ -71,6 +71,14 @@ class BkxSeat {
      * @var null
      */
     public $id;
+    /**
+     * @var mixed|void
+     */
+    public $seat_available_days;
+    /**
+     * @var mixed|void
+     */
+    public $seat_info;
 
     /**
      * BkxSeat constructor.
