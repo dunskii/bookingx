@@ -70,8 +70,8 @@ class BkxExport {
     public function export_now(){
         if(isset($_POST['export_xml']) && sanitize_text_field($_POST['export_xml']) == "Export xml") {
             if(empty($this->errors)){
-                $this->bkx_get_posts('bkx_seat','SeatPosts','Seat');
-                $this->bkx_get_posts('bkx_base','BasePosts','Base');
+                $this->bkx_get_posts('bkx_seat','SeatPosts','Resource');
+                $this->bkx_get_posts('bkx_base','BasePosts','Service');
                 $this->bkx_get_posts('bkx_addition','ExtraPosts','Extra'); //ok
                 $this->bkx_get_posts('bkx_booking','BookingPosts','Booking');
                 $this->get_bkx_users();
@@ -300,7 +300,7 @@ class BkxExport {
      * @param string $elements_name
      * @param string $element_name
      */
-    public function bkx_get_posts($post_type = 'bkx_seat', $elements_name = 'SeatPosts', $element_name = 'Seat') {
+    public function bkx_get_posts($post_type = 'bkx_seat', $elements_name = 'SeatPosts', $element_name = 'Resource') {
         global $wpdb, $wp_query;
 
         if($post_type == 'bkx_booking'){

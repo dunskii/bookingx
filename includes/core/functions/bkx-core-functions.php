@@ -389,8 +389,7 @@ function bkx_crud_option_multisite( $option_name, $option_val = null, $type = 'g
 
             break;
     }
-    $option_data = (is_multisite()) ? call_user_func_array($type . '_blog_option', $arg) : call_user_func_array($type . '_option', $arg);
-    return $option_data;
+    return (is_multisite()) ? call_user_func_array($type . '_blog_option', $arg) : call_user_func_array($type . '_option', $arg);
 }
 
 function bkx_get_loader(){

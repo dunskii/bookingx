@@ -9,9 +9,14 @@ if ( ! class_exists( 'BkxSeatMetaBox' ) ) {
 
         protected $post_type = "bkx_seat";
 
+        /**
+         * @return BkxSeatMetaBox
+         * @var BkxSeatMetaBox
+         */
+
         public static function init(){
-            null === self :: $instance AND self :: $instance = new self;
-            return self :: $instance;
+            null === self::$instance AND self::$instance = new self;
+            return self::$instance;
         }
 
         public function __construct(  ) {
@@ -534,7 +539,7 @@ if ( ! class_exists( 'BkxSeatMetaBox' ) ) {
                       tabindex="83" <?php if (isset($seat_ical_address) && ($seat_ical_address != '')) {
                     echo "checked='checked'";
                 } ?> >
-                <?php esc_html_e('Do you want a Google Calendar address to enable you to view the bookings in Google calendar etc? :', 'bookingx'); ?>
+                <?php esc_html_e('Would you like to share your booking details with Google Calendar?', 'bookingx'); ?>
             </p>
             <div class="active" id="ical_address" style="display:none;">
                 <?php esc_html_e('Google Calendar ID :', 'bookingx'); ?>

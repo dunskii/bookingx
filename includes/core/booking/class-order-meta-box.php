@@ -144,8 +144,8 @@ class Bkx_Meta_Boxes {
                 $order_summary .= sprintf( __('<p>Full Name : <span id="bkx_fname"> %s </span><span id="bkx_lname"> %s </span></p>','Bookingx'),$order_meta['first_name'],$order_meta['last_name']);
                 $order_summary .= sprintf( __('<p>Phone : <a href="callto:%s" id="bkx_phone"><span id="bkx_phone">%s</span></a></p>','Bookingx'),$order_meta['phone'],$order_meta['phone']);
                 $order_summary .= sprintf( __('<p>Email : <a href="mailto:%s" id="bkx_email"><span id="bkx_email">%s</span></a></p>','Bookingx'),$order_meta['email'],$order_meta['email']);
-                $order_summary .= sprintf( __('<p>Address : <span id="bkx_address"> %s %s </span></p>','Bookingx'),$order_meta['city'],$order_meta['state']);
-                $order_summary .= sprintf( __('<p>Postcode : <span id="bkx_postcode"> %s </span> </p>','Bookingx'),$order_meta['postcode']);
+                $order_summary .= sprintf( __('<p><span id="bkx_address"> %s %s </span></p>','Bookingx'),$order_meta['city'],$order_meta['state']);
+                $order_summary .= sprintf( __('<p><span id="bkx_postcode"> %s </span> </p>','Bookingx'),$order_meta['postcode']);
                 $order_summary .= sprintf('</div>','Bookingx');
 
                 $order_summary .= sprintf('<div class="bkx-general_full">','Bookingx');
