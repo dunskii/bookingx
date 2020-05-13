@@ -23,7 +23,7 @@ if ( ! class_exists( 'BkxSeatMetaBox' ) ) {
             if(is_admin() == false )
                 return;
 
-            add_action( 'add_meta_boxes', array( $this, 'add_bkx_seat_metaboxes' ) );
+            add_action( 'add_meta_boxes', array( $this, 'add_bkx_seat_metaboxes' ), 10, 2);
             add_action( 'save_post', array( $this, 'save_bkx_seat_metaboxes' ) ,10 , 3  );
             add_filter( 'manage_' . $this->post_type . '_posts_columns', array( $this, $this->post_type . '_columns_head' ) , 10, 1);
             add_filter( 'manage_' . $this->post_type . '_posts_custom_column', array( $this, $this->post_type . '_columns_content' ) , 10, 2 );
@@ -47,9 +47,9 @@ if ( ! class_exists( 'BkxSeatMetaBox' ) ) {
             wp_enqueue_script('jquery-ui-datepicker');
         }
 
-        public function add_bkx_seat_metaboxes(){
+        public function add_bkx_seat_metaboxes( $post_type, $post  ){
             $alias_seat = bkx_crud_option_multisite('bkx_alias_seat');
-            add_meta_box('bkx_base_boxes', __("$alias_seat Details", 'bookingx'), array( $this, 'bkx_seat_render_meta_box_content'), 'bkx_seat', 'normal', 'high');
+            add_meta_box('bkx_base_boxes', __("$alias_seat Details", 'bookingx'), array( $this, 'bkx_seat_render_meta_box_content'), 'bkx_seat', 'core', 'default');
         }
 
         public function bkx_seat_render_meta_box_content( $post ){

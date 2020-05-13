@@ -144,9 +144,10 @@ class Bkx_Script_Loader
                 'has_rtl' => false,
             )
         );
+
         foreach ( $register_styles as $name => $props ) {
             self::register_style($name, $props['src'], $props['deps'], $props['version'], 'all', $props['has_rtl']);
-        }   
+        }
     }
 
     /**
@@ -200,7 +201,6 @@ class Bkx_Script_Loader
                 ),
             )
         );
-
         return $register_styles;
     }
 
