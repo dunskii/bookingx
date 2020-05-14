@@ -68,7 +68,7 @@ jQuery( function( $ ) {
         return $('.bkx-booking-form .step-' + step).hasClass('bkx-form-active');
     };
 
-    const service_extend = parseInt( $('.bkx-booking-form .step-1 .bkx-services-extend').val());
+
     const bkx_error_flag = $('.bkx-booking-form #bkx_error_flag');
     const bkx_gateway_flag = $('.bkx-booking-form #bkx_gateway_flag');
     const flag = function () {
@@ -128,8 +128,6 @@ jQuery( function( $ ) {
             var service_list_obj = $('.bkx-booking-form .step-1 .bkx-services-lists');
             var extra_list_obj = $('.bkx-booking-form .step-1 .bkx-extra-lists');
             service_list_obj.val(0);
-
-            booking_form.update_booking_total();
             booking_form.disable_days_note.html('');
             $('.bkx-booking-form .step-1 .service-extended').hide();
             $('.bkx-booking-form .step-1 .bkx-service-extend').html('');
@@ -316,7 +314,7 @@ jQuery( function( $ ) {
                 block($('div.step-4'));
                 console.log('trigger now');
                 var bkx_payment_gateway_method = listToArray(".bkx-booking-form .step-4 :input[name^=bkx_payment_gateway_method]:checked");
-
+                var service_extend = parseInt( $('.bkx-booking-form .step-1 .bkx-services-extend').val());
                 var user_form_fields = [
                     {'key': 'bkx_first_name', 'val': bkx_booking_form_params.bkx_first_name},
                     {'key': 'bkx_last_name', 'val': bkx_booking_form_params.bkx_last_name},

@@ -11,13 +11,24 @@
         width: 18%;
     }
     body.booking-x-form.page-two-column:not(.archive) #primary .entry-content {
-        float: right;
-        width: 80%;
+        float: left;
+        width: 100%;
     }
+    .booking-x-form .booking-x .schedule-indicator{width: 100%;}
+    .booking-x-form .booking-x .schedule-wrap{width: 100%;}
+    .booking-x-form .booking-x .select-time .table td a {padding: 3px 5px;font-size: 17px;}
 }
 .booking-x-form .indicator ul{
     margin: 0 0 0.5em;
 }
 .booking-x-form .indicator ul li {
     margin-right: 9px;
+}
+@media (max-width: 479px){
+    .booking-x-form ul, .booking-x-form ol {
+        margin: 0 0 2rem 0;
+    }
+    .booking-x .indicator ul li {
+        margin: auto;
+    }
 }

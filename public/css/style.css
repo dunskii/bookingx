@@ -52,7 +52,7 @@ body{font-family: 'Roboto', sans-ser}
 .booking-x .select-time .table td a:hover, .select-time .table td a:focus{text-decoration: none;}
 .booking-x .select-time .table td a.disabled{background: #ebebeb;pointer-events: none;}
 .booking-x .select-time .table td a.selected{background: #e3f5ff;}
-.booking-x .select-time .table th{background: #066595;color: #fff;font-weight: 400;border-color: #066595;}
+.booking-x .select-time .table th{background: #066595;color: #fff;font-weight: 400;border-color: #066595;text-align: center;}
 .booking-x .booking-x .indicator ul{list-style: none;display: flex;padding:0;flex-wrap: wrap;}
 .booking-x .indicator ul li{display: flex;align-items: center;margin-right: 15px;color: #555555;font-size: 22px;}
 .booking-x .indicator ul li::before{content: "";background: #ebebeb;width: 62px;height: 27px;margin-right: 5px;border: #ebebeb solid 1px;}
