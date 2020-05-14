@@ -18,6 +18,13 @@
 .booking-x-form .bkx-booking-form .step-3 a, .booking-x-form .bkx-booking-form .step-3 a:visited{
     color: #066595;
 }
+.booking-x-form .booking-x .select-time .table td a {
+    padding: 3px 5px;
+    font-size: 18px;
+}
+.booking-x-form .table td, .booking-x-form .table th{
+    padding: 0.1rem;
+}
 @media only screen and (min-width: 768px){
     .booking-x .content-area {
         margin: 0 calc(10% + 60px);
@@ -25,5 +32,12 @@
     .booking-x .entry .entry-header {
         margin: auto;
     }
-
+}
+@media (max-width: 479px){
+    .booking-x-form ul, .booking-x-form ol {
+        margin: 0 0 2rem 0;
+    }
+    .booking-x .indicator ul li {
+        margin: auto;
+    }
 }

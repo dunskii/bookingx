@@ -23,7 +23,7 @@ if ( ! class_exists( 'BkxSeatMetaBox' ) ) {
             if(is_admin() == false )
                 return;
 
-            add_action( 'add_meta_boxes', array( $this, 'add_bkx_seat_metaboxes' ), 10, 2);
+            add_action( 'add_meta_boxes', array( $this, 'add_bkx_seat_metaboxes' ));
             add_action( 'save_post', array( $this, 'save_bkx_seat_metaboxes' ) ,10 , 3  );
             add_filter( 'manage_' . $this->post_type . '_posts_columns', array( $this, $this->post_type . '_columns_head' ) , 10, 1);
             add_filter( 'manage_' . $this->post_type . '_posts_custom_column', array( $this, $this->post_type . '_columns_content' ) , 10, 2 );
@@ -47,9 +47,9 @@ if ( ! class_exists( 'BkxSeatMetaBox' ) ) {
             wp_enqueue_script('jquery-ui-datepicker');
         }
 
-        public function add_bkx_seat_metaboxes( $post_type, $post  ){
+        public function add_bkx_seat_metaboxes( ){
             $alias_seat = bkx_crud_option_multisite('bkx_alias_seat');
-            add_meta_box('bkx_base_boxes', __("$alias_seat Details", 'bookingx'), array( $this, 'bkx_seat_render_meta_box_content'), 'bkx_seat', 'core', 'default');
+            add_meta_box('bkx_seat_boxes', __("$alias_seat Details", 'bookingx'), array( $this, 'bkx_seat_render_meta_box_content'), 'bkx_seat', 'normal','high');
         }
 
         public function bkx_seat_render_meta_box_content( $post ){
@@ -347,9 +347,9 @@ if ( ! class_exists( 'BkxSeatMetaBox' ) ) {
                 </div>
             </div>
             <?php if ($seat_is_certain_day == "Y") : ?>
-            <div class="spacer"><p>&nbsp;</p>
-                <p>&nbsp;</p></div>
-        <?php endif; ?>
+                <div class="spacer"><p>&nbsp;</p>
+                    <p>&nbsp;</p></div>
+            <?php endif; ?>
             <p><strong><?php esc_html_e('Payment Options', 'bookingx'); ?></strong></p>
             <p><?php printf(esc_html__('Will the %1$s booking require pre payment : ', 'bookingx'), $alias_seat); ?></p>
             <div class="plugin-description">
@@ -424,17 +424,17 @@ if ( ! class_exists( 'BkxSeatMetaBox' ) ) {
             </div>
             <p><strong><?php esc_html_e('User Options', 'bookingx'); ?></strong></p>
             <?php if (!empty($associate_with_username)) {
-                    $associate_with_username_obj = get_user_by('id', $associate_with_username);
-                    if (!empty($associate_with_username_obj) && !is_wp_error($associate_with_username_obj)) {
-                        echo 'This profile link to ' . $associate_with_username_obj->data->display_name . '<a href="' . get_edit_user_link($associate_with_username) . '" > view profile</a>';
-                        $mannual = 'display:none';
-                    }
-                    $associate_with_email = get_user_by('email', $associate_with_username);
-                    if (!empty($associate_with_email) && !is_wp_error($associate_with_email)) {
-                        echo 'This profile link to ' . $associate_with_email->data->display_name . ' <a href="' . get_edit_user_link($associate_with_email->data->ID) . '" > view profile</a>';
-                        $mannual = 'display:none';
-                    }
+                $associate_with_username_obj = get_user_by('id', $associate_with_username);
+                if (!empty($associate_with_username_obj) && !is_wp_error($associate_with_username_obj)) {
+                    echo 'This profile link to ' . $associate_with_username_obj->data->display_name . '<a href="' . get_edit_user_link($associate_with_username) . '" > view profile</a>';
+                    $mannual = 'display:none';
                 }
+                $associate_with_email = get_user_by('email', $associate_with_username);
+                if (!empty($associate_with_email) && !is_wp_error($associate_with_email)) {
+                    echo 'This profile link to ' . $associate_with_email->data->display_name . ' <a href="' . get_edit_user_link($associate_with_email->data->ID) . '" > view profile</a>';
+                    $mannual = 'display:none';
+                }
+            }
             if ($bkx_user_auto == 'Y') {
                 $auto_user = get_user_by('email', $seat_notification_email);
                 if (!empty($auto_user) && !is_wp_error($auto_user)) {
@@ -863,7 +863,7 @@ if ( ! class_exists( 'BkxSeatMetaBox' ) ) {
         /**
          *
          * @param array $defaults
-         * @return string
+         * @return array
          */
         public function bkx_seat_columns_head( $defaults ) {
             $enable_any_seat = bkx_crud_option_multisite('enable_any_seat');

@@ -141,6 +141,7 @@ function bkx_get_range($bookingdate, $seatid) {
 
     $seat_days_time = maybe_unserialize($res_seat['seat_days_time'][0]);
     $seat_is_certain_day = $res_seat['seat_is_certain_day'][0];
+
     if ($seat_is_certain_day == "Y") {
         $selected_days = get_post_meta($GetSeatObj->ID, 'selected_days', true);
     }
@@ -217,7 +218,8 @@ function bkx_get_range($bookingdate, $seatid) {
         $timetill_slot = $timetillArr[0] * 4 + $minsCounterTill;
         $range = range( $timefrom_slot , $timetill_slot - 1 );
     } else {
-        $range = range(1, 96);
+        //$range = range(1, 96);
+        $range = array();
     }
 
     if(is_multisite()):

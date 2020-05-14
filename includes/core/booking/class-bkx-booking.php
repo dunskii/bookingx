@@ -708,6 +708,7 @@ class BkxBooking {
                 $booked_days = array_unique($booked_days);
             }
         }
+        //echo '<pre>',print_r($seat_days,1),'</pre>';
         //echo '<pre>',print_r($booked_days,1),'</pre>';
         $unavailable_days = $this->get_all_unavailable_days( $availability );
         $availability['unavailable_days']       = array_merge( $unavailable_days, $booked_days );
@@ -1305,26 +1306,31 @@ class BkxBooking {
             $booked_day_dates = $this->find_booked_dates_in_days($args);
             //echo '<pre>',print_r($booked_slots_in_details,1),'</pre>';
             $booked_slots  = apply_filters('bookingx_booked_slots', $booked_slots, $args);
-            for ($cell_start = $first; $cell_start < $last; $cell_start = $cell_start + $step ) {
-                if ( in_array( $counter, $range ) ) {
-                    if ( $counter % $columns == 1 ) { $results .= "<tr>"; }
-                    if(in_array( $counter, $booked_slots )){
-                        $results .= "<td> <a href=\"javascript:void(0);\" class=\"disabled\">".bkx_secs2hours($cell_start) ."</a></td>";
-                    }else{
-                        if(!empty($booked_day_dates)){
-                            if ( in_array( $args['booking_date'], $booked_day_dates ) ) {
-                                $results .= "<td> <a href=\"javascript:void(0);\" class=\"disabled\">".bkx_secs2hours($cell_start) ."</a></td>";
+            if(!empty($range)){
+                for ($cell_start = $first; $cell_start < $last; $cell_start = $cell_start + $step ) {
+                    if ( in_array( $counter, $range ) ) {
+                        if ( $counter % $columns == 1 ) { $results .= "<tr>"; }
+                        if(in_array( $counter, $booked_slots )){
+                            $results .= "<td> <a href=\"javascript:void(0);\" class=\"disabled\">".bkx_secs2hours($cell_start) ."</a></td>";
+                        }else{
+                            if(!empty($booked_day_dates)){
+                                if ( in_array( $args['booking_date'], $booked_day_dates ) ) {
+                                    $results .= "<td> <a href=\"javascript:void(0);\" class=\"disabled\">".bkx_secs2hours($cell_start) ."</a></td>";
+                                }else{
+                                    $results .= "<td> <a href=\"javascript:void(0);\" class=\"available\" data-verify='".$args['booking_date']."-".$counter."' data-date='".$args['booking_date']."' data-time='". bkx_secs2hours($cell_start) ."' data-slot='".$counter."'>".bkx_secs2hours($cell_start) ."</a></td>";
+                                }
                             }else{
                                 $results .= "<td> <a href=\"javascript:void(0);\" class=\"available\" data-verify='".$args['booking_date']."-".$counter."' data-date='".$args['booking_date']."' data-time='". bkx_secs2hours($cell_start) ."' data-slot='".$counter."'>".bkx_secs2hours($cell_start) ."</a></td>";
                             }
-                        }else{
-                            $results .= "<td> <a href=\"javascript:void(0);\" class=\"available\" data-verify='".$args['booking_date']."-".$counter."' data-date='".$args['booking_date']."' data-time='". bkx_secs2hours($cell_start) ."' data-slot='".$counter."'>".bkx_secs2hours($cell_start) ."</a></td>";
                         }
+                        if ( $counter % $columns == 0) { $results .= "</tr>"; }
                     }
-                    if ( $counter % $columns == 0) { $results .= "</tr>"; }
+                    $counter = $counter + 1;
                 }
-                $counter = $counter + 1;
+            }else{
+                $results = "<tr><td colspan=\"4\"><a href=\"javascript:void(0);\" class=\"disabled\">{$this->load_global->disable_slots_note}</a></td></tr>";
             }
+
         }
         if( isset($base_time_option) && $base_time_option == 'D' && isset($base_day) && $base_day > 0  ){
             $results = isset( $error ) && $error != "" ? "" : $results;
