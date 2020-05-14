@@ -4,12 +4,12 @@
  */
 defined( 'ABSPATH' ) || exit;
 $order_id = ( isset($_REQUEST['order_id']) ? $_REQUEST['order_id'] : 0 );
-$status = ($order_id > 0) ? true : false;
+$status = ( (isset($order_id) && $order_id != "") ? true : false ) ;
 $booking_edit = false;
 if( isset($_POST['order_id']) && isset($_REQUEST['edit_booking_nonce']) && wp_verify_nonce( $_REQUEST['edit_booking_nonce'], 'edit_booking_'.$_REQUEST['id'] )) {
     $booking_edit = true;
 }
-$args['order_id'] = $order_id;
+$args['order_id'] = $order_id
 ?>
 <div class="booking-x">
     <div class="main-container">
