@@ -25,6 +25,16 @@
     text-decoration : none;
 }
 
+@media (max-width: 479px){
+    .booking-x-form ul, .booking-x-form ol {
+        margin: 0 0 2rem 0;
+    }
+    .booking-x .indicator ul li {
+        margin: auto;
+    }
+}
+
+
 @media only screen and (min-width: 1168px){
     .booking-x .content-area {
         max-width: 1600px;
