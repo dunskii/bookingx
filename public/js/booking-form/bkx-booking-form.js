@@ -83,6 +83,7 @@ jQuery( function( $ ) {
      */
     const booking_form = {
         $error_group: $('.bkx-booking-form .bookingx-error-group'),
+        xhr: false,
         seat_id: "",
         base_id: "",
         extra_id: "",
@@ -302,11 +303,12 @@ jQuery( function( $ ) {
             }
         },
         book_now: function (e) {
+            var $form = $( this );
             e.preventDefault();
             block($('div.step-4'));
             bkx_error_flag.val(0) ;
             booking_form.validate_form_fields();
-            if (GetCurrentStep() == 4 && 1 === flag() && 1 === GatewayFlag()) {
+            if (GetCurrentStep() == 4 && 1 === flag() && 1 === GatewayFlag() ) {
             } else {
                 return false;
             }
@@ -396,6 +398,7 @@ jQuery( function( $ ) {
                     } else {
 
                     }
+                    $( document.body ).trigger( 'bkx_updated_payment_gateway', [ response ] );
                 },
                 complete: function () {
                     unblock($('div.step-4'));
@@ -422,6 +425,7 @@ jQuery( function( $ ) {
                     } else {
 
                     }
+                    $( document.body ).trigger( 'payment_method_on_change' );
                 },
                 complete: function () {
                     unblock($('div.step-4'));
