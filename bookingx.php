@@ -2,8 +2,8 @@
 /**
  *  Plugin Name: Booking X
  *  Plugin URI: https://booking-x.com/
- *  Description: BookingX is a booking and appointments plugin for WordPress
- *  Version: 0.6.1-beta
+ *  Description: Booking X is a booking and appointments plugin for WordPress
+ *  Version: 0.7
  *  Author: Dunskii Web Services
  *  Author URI: https://dunskii.com
  *  Text Domain: bookingx
@@ -11,7 +11,7 @@
  *  License:     GPL v3
  */
 /**
- * BookingX
+ * Booking X
  * Copyright (C) 2007-2019, BookingX
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,7 +32,7 @@ define('BKX_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__));
 define('BKX_PLUGIN_DIR_URL', plugin_dir_url(__FILE__));
 define('BKX_PLUGIN_PUBLIC_URL', BKX_PLUGIN_DIR_URL."public");
 define('BKX_PLUGIN_PUBLIC_PATH', BKX_PLUGIN_DIR_PATH."public");
-define('BKX_PLUGIN_VER', '0.6');
+define('BKX_PLUGIN_VER', '0.7');
 define('BKX_BLOCKS_ASSETS',BKX_PLUGIN_DIR_URL."includes/core/blocks/assets/");
 define('BKX_BLOCKS_ASSETS_BASE_PATH',BKX_PLUGIN_DIR_PATH."includes\core\blocks\assets");
 
@@ -58,7 +58,7 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-bookingx.php';
  * then kicking off the plugin from this point in the file does
  * not affect the page life cycle.
  *
- * @since    0.6.1-beta
+ * @since 0.7
  */
 function run_bookingx() {
     $plugin = new Bookingx();

@@ -21,6 +21,7 @@ if ( ! class_exists( 'BKX_Email_Customer_Cancelled_Booking' ) ) :
          */
         public function __construct() {
             $this->id             = 'customer_cancelled_booking';
+            $this->customer_email = true;
             $this->title          = __( 'Customer Cancelled booking', 'bookingx' );
             $this->description    = __( 'Cancelled booking emails are sent to chosen recipient(s) when a cancelled booking is received.', 'bookingx' );
             $this->template_html  = 'emails/customer-cancelled-booking.php';

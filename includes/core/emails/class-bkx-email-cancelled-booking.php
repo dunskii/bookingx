@@ -36,7 +36,7 @@ if ( ! class_exists( 'BKX_Email_Cancelled_Booking' ) ) :
             parent::__construct();
 
             // Other settings.
-            $recipient = $this->get_option( 'admin_email');
+            $recipient = $this->get_option( 'bkx_cancelled_booking_recipient');
             $this->recipient = isset($recipient) && !empty($recipient) ? $recipient : $this->get_option( 'admin_email');
             $this->email_type = $this->get_option( $this->plugin_id.$this->id.'_email_type' );
             $this->enabled    = $this->get_option( $this->plugin_id.$this->id.'_enabled' );

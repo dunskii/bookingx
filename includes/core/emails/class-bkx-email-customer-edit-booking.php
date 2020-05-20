@@ -21,6 +21,7 @@ if ( ! class_exists( 'BKX_Email_Customer_Edit_Booking' ) ) :
          */
         public function __construct() {
             $this->id             = 'customer_edit_booking';
+            $this->customer_email = true;
             $this->title          = __( 'Customer Edit booking', 'bookingx' );
             $this->description    = __( 'Edit booking emails are sent to chosen recipient(s) when a pending booking is received.', 'bookingx' );
             $this->template_html  = 'emails/customer-edit-booking.php';

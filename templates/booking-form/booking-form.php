@@ -6,6 +6,7 @@ defined( 'ABSPATH' ) || exit;
 $order_id = ( isset($_REQUEST['order_id']) ? $_REQUEST['order_id'] : 0 );
 $status = ( (isset($order_id) && $order_id != "") ? true : false ) ;
 $booking_edit = false;
+echo '<pre>',print_r($_POST,1),'</pre>';
 if( isset($_POST['order_id']) && isset($_REQUEST['edit_booking_nonce']) && wp_verify_nonce( $_REQUEST['edit_booking_nonce'], 'edit_booking_'.$_REQUEST['id'] )) {
     $booking_edit = true;
 }
@@ -20,7 +21,7 @@ $args['order_id'] = $order_id
                 <!--  End Progress Bar     -->
                     <?php if(isset($status) && $status == false ): ?>
                         <div class="bookingx-error-group"></div>
-                        <form method="post" name="bkx-booking-generate" id="bkx-booking-generate" class="bkx-booking-generate">
+                        <form method="post" name="bkx-booking-generate" id="bkx-booking-generate" class="bkx-booking-generate bkx-book-now">
                         <!-- Start Initialized Steps -->
                         <?php bkx_get_template('booking-form/steps/step-1.php');?>
                         <?php bkx_get_template('booking-form/steps/step-2.php');?>

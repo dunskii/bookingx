@@ -325,7 +325,7 @@ if ( ! class_exists( 'BkxSeatMetaBox' ) ) {
                     </li>
                 </ul>
             </div>
-            <p><?php printf(esc_html__('Will %1$s be available at certain days only ', 'bookingx'), $alias_seat); ?></p>
+            <p><?php printf(esc_html__('Will %1$s be available at set days and times', 'bookingx'), $alias_seat); ?></p>
             <div class="plugin-description">
                 <input type="radio" name="seat_is_certain_day" value="Y" <?php if ($seat_is_certain_day == "Y") {
                     echo "checked='checked'";
@@ -335,7 +335,7 @@ if ( ! class_exists( 'BkxSeatMetaBox' ) ) {
                 } ?> <?php if ($seat_is_certain_day == "") {
                     echo "checked='checked'";
                 } ?> />No
-                <p><?php esc_html_e('(Note: selection of \'No\' indicates that it will be available 7 days a week, and 24 hours a day)', 'bookingx'); ?></p>
+                <p><?php esc_html_e('(Note: selection of \'No\' indicates that it will be available the same as the set business "Days of Operation")', 'bookingx'); ?></p>
                 <div id="certain_day">
                     <ul class="setting-bookingx">
                         <?php echo bkx_generate_days_section(7, $bkx_business_days); ?>
@@ -498,18 +498,12 @@ if ( ! class_exists( 'BkxSeatMetaBox' ) ) {
                     echo "display:none";
                 } ?>"> <?php esc_html_e('Please select user :', 'bookingx'); ?>
                     <div class="plugin-description">
-                        <select id="users" name="associate_with_username">
+                        <select id="users" class="bkx-associate-user" name="associate_with_username">
                             <option value="<?php echo $associate_with_username; ?>"><?php echo $associate_with_username; ?></option>
                         </select>
                     </div>
                 </div>
             </div>
-            <p><strong><?php esc_html_e('Colour', 'bookingx'); ?></strong></p>
-            <p><?php printf(esc_html__('%1$s Colour', 'bookingx'), $alias_seat); ?></p>
-            <p><input type="text" name="seat_colour" id="id_seat_colour"
-                      value="<?php if (isset($seat_colour) && ($seat_colour != '')) {
-                          echo $seat_colour;
-                      } ?>"/></p>
             <p><strong><?php esc_html_e('Notification Details', 'bookingx'); ?></strong></p>
             <p><?php esc_html_e('Phone :', 'bookingx'); ?></p>
             <p><input type="text" name="seat_phone" id="id_seat_phone"
@@ -550,6 +544,12 @@ if ( ! class_exists( 'BkxSeatMetaBox' ) ) {
                            } ?>" id="id_seat_ical_address" size="60">
                 </div>
             </div>
+            <p><strong><?php esc_html_e('Colour', 'bookingx'); ?></strong></p>
+            <p><?php printf(esc_html__('%1$s Colour', 'bookingx'), $alias_seat); ?></p>
+            <p><input type="text" name="seat_colour" id="id_seat_colour"
+                      value="<?php if (isset($seat_colour) && ($seat_colour != '')) {
+                          echo $seat_colour;
+                      } ?>"/></p>
             <input type="hidden" name="is_user_valid" id="id_is_user_valid">
             <input type="hidden" name="seat_alias" id="seat_alias" value="<?php echo $alias_seat; ?>">
             <?php
@@ -804,12 +804,20 @@ if ( ! class_exists( 'BkxSeatMetaBox' ) ) {
                 }
             }
             if (isset($bkx_user_id) && $bkx_user_id != '') {
-                $userdata = array(
-                    'ID' => $bkx_user_id,
-                    'first_name' => sanitize_text_field($_POST['post_title']),
-                    'role' => $role,
-                    'display_name' => sanitize_text_field($_POST['post_title']),
-                );
+                if($bkx_user_auto == 'Y'){
+                    $userdata = array(
+                        'ID' => $bkx_user_id,
+                        'first_name' => sanitize_text_field($_POST['post_title']),
+                        'role' => $role,
+                        'user_email' => $seatEmail,
+                        'display_name' => sanitize_text_field($_POST['post_title']),
+                    );
+                }else{
+                    $userdata = array(
+                        'ID' => $bkx_user_id,
+                        'role' => $role,
+                    );
+                }
                 $bkx_user_id = wp_update_user($userdata);
                 update_user_meta($bkx_user_id, 'seat_post_id', $post_id);
                 update_post_meta($post_id, 'seat_user_id', $bkx_user_id);
