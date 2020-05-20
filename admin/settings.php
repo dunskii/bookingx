@@ -13,7 +13,7 @@ $temp_option = bkx_crud_option_multisite('bkx_siteuser_canedit_seat');
 $temp_css = bkx_crud_option_multisite('bkx_siteclient_canedit_css'); ?>
 <div class="wrap booking-x-setting">
 <div class="icon32 icon32-posts-page" id="icon-edit-pages"><br></div>
-<h2>Bookingx Settings</h2>
+<h2>Booking X Settings</h2>
 <?php
 /*
  *  Print the error or success messages if any while processing.

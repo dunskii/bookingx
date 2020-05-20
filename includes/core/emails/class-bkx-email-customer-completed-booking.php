@@ -21,6 +21,7 @@ if ( ! class_exists( 'BKX_Email_Customer_Completed_Booking' ) ) :
          */
         public function __construct() {
             $this->id             = 'customer_completed_booking';
+            $this->customer_email = true;
             $this->title          = __( 'Customer Completed booking', 'bookingx' );
             $this->description    = __( 'Completed booking emails are sent to chosen recipient(s) when a completed booking is received.', 'bookingx' );
             $this->template_html  = 'emails/customer-completed-booking.php';

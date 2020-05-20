@@ -160,6 +160,7 @@ class BookingX_Email_Content{
                 '{fname}' => '','{lname}' => '',
                 '{total_price}' => '','{txn_id}' => '',
                 '{seat_name}' => '','{base_name}' => '',
+                '{phone}' => '','{email}' => '',
                 '{additions_list}' => '','{time_of_booking}' => '',
                 '{date_of_booking}' => '','{location_of_booking}' => ''
             ),

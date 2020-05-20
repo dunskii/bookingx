@@ -420,6 +420,23 @@
 				});
 			}
 		});
+
+		jQuery('.bkx-associate-user').on('change', function() {
+			if(jQuery(this).val() != ''){
+				var data = {
+					action: 'bkx_get_user_data',
+					data: jQuery(this).val(),
+					dataType : 'json'
+				};
+				jQuery.post(ajaxurl, data, function(response) {
+					response = JSON.parse(response);
+					jQuery('#id_seat_phone').val(response.phone);
+					jQuery('#id_seat_email').val(response.email);
+
+				});
+			}
+		});
+
 		var seat_pyt_type = jQuery("#id_seat_deposit_full").val();
 		if(seat_pyt_type=='Full Payment'){
 		   jQuery('#fixed_percentage').hide();
