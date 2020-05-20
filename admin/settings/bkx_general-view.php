@@ -78,18 +78,30 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
  
 <!--End Page Setting-->
 <form name="form_template" id="id_form_template" method="post">
-<table cellspacing="0" class="widefat" style="margin-top:20px;">
+<table cellspacing="0" class="widefat bkx-content-settings" style="margin-top:20px;">
 	<tbody>
 		<input type="hidden" name="template_flag" value="1">
         <input type="hidden" name="bkx_setting_form_init" value="1">
+
+        <tr class="active header">
+            <th scope="row"><label for="<?php echo esc_html__( 'Taxonomy Settings', 'bookingx' ); ?>"><?php echo esc_html__( 'Taxonomy Settings', 'bookingx' ); ?></label></th>
+        </tr>
+
+        <tr class="active">
+            <td class="plugin-description" colspan="3">
+                <div class="plugin-description">
+                    <?php echo __(' <b>Note :</b> If Select "Yes" than Category option enable for this post type.', 'bookingx'); ?>
+                </div>
+            </td>
+        </tr>
+
 		<tr class="active">
 			<th scope="row"><label for="Enable <?php printf( esc_html__( '%1$s', 'bookingx' ),  $seat_alias ); ?> Taxonomy"><?php printf( esc_html__( '%1$s', 'bookingx' ),  "Enable $seat_alias Taxonomy" ); ?></label></th>
-			 
 			<td class="plugin-description">
 					<div class="plugin-description">
-						<input type="radio" name="bkx_seat_taxonomy_status" id="id_enable_seat_taxonomy_yes" value="1" <?php if( bkx_crud_option_multisite('bkx_seat_taxonomy_status') == 1 ) echo "checked"; ?>><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Yes'  ); ?></br>
+						<input type="radio" name="bkx_seat_taxonomy_status" id="id_enable_seat_taxonomy_yes" value="1" <?php if( bkx_crud_option_multisite('bkx_seat_taxonomy_status') == 1 ) echo "checked"; ?>><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Yes'  ); ?>
 						<input type="radio" name="bkx_seat_taxonomy_status" id="id_enable_seat_taxonomy_no" value="0" <?php if(bkx_crud_option_multisite('bkx_seat_taxonomy_status') == 0 ) echo "checked"; ?>>
-						<?php printf( esc_html__( '%1$s', 'bookingx' ),  'No'  ); ?> 
+						<?php printf( esc_html__( '%1$s', 'bookingx' ),  'No'  ); ?>
 					</div>
 			</td>
 		</tr>
@@ -99,7 +111,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 			 
 			<td class="plugin-description">
 					<div class="plugin-description">
-						<input type="radio" name="bkx_base_taxonomy_status" id="id_enable_base_taxonomy_yes" value="1" <?php if( bkx_crud_option_multisite('bkx_base_taxonomy_status') == 1 ) echo "checked"; ?>><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Yes'  ); ?></br>
+						<input type="radio" name="bkx_base_taxonomy_status" id="id_enable_base_taxonomy_yes" value="1" <?php if( bkx_crud_option_multisite('bkx_base_taxonomy_status') == 1 ) echo "checked"; ?>><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Yes'  ); ?>
 						<input type="radio" name="bkx_base_taxonomy_status" id="id_enable_base_taxonomy_no" value="0" <?php if(bkx_crud_option_multisite('bkx_base_taxonomy_status') == 0 ) echo "checked"; ?>>
 						<?php printf( esc_html__( '%1$s', 'bookingx' ),  'No'  ); ?> 
 					</div>
@@ -111,13 +123,15 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 			 
 			<td class="plugin-description">
 					<div class="plugin-description">
-						<input type="radio" name="bkx_addition_taxonomy_status" id="id_bkx_addition_taxonomy_status_yes" value="1" <?php if( bkx_crud_option_multisite('bkx_addition_taxonomy_status') == 1 ) echo "checked"; ?>><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Yes'  ); ?></br>
+						<input type="radio" name="bkx_addition_taxonomy_status" id="id_bkx_addition_taxonomy_status_yes" value="1" <?php if( bkx_crud_option_multisite('bkx_addition_taxonomy_status') == 1 ) echo "checked"; ?>><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Yes'  ); ?>
 						<input type="radio" name="bkx_addition_taxonomy_status" id="id_bkx_addition_taxonomy_status_no" value="0" <?php if(bkx_crud_option_multisite('bkx_addition_taxonomy_status') == 0 ) echo "checked"; ?>>
 						<?php printf( esc_html__( '%1$s', 'bookingx' ),  'No'  ); ?> 
 					</div>
 			</td>
 		</tr>
-
+        <tr class="active header">
+            <th scope="row"><label for="<?php echo esc_html__( 'Other Settings', 'bookingx' ); ?>"><?php echo esc_html__( 'Other Settings', 'bookingx' ); ?></label></th>
+        </tr>
 		 <tr class="active">
             	<th scope="row"><label for="Set Booking Page"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Set Booking Page' ); ?></label></th>
                     
@@ -140,12 +154,23 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
                     </td>
         </tr>
 
+        <tr class="active">
+            <th scope="row"><label for="Enable Legal options"> <?php printf( esc_html__( 'Enable Legal options', 'bookingx' ),  bkx_crud_option_multisite('bkx_legal_options') ); ?></label></th>
+
+            <td class="plugin-description">
+                <div class="plugin-description">
+                    <input type="radio" name="bkx_legal_options" id="id_bkx_legal_options_yes" value="1" <?php if(bkx_crud_option_multisite('bkx_legal_options') == 1) echo "checked"; ?>><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Yes' ); ?>
+                    <input type="radio" name="bkx_legal_options" id="id_bkx_legal_options_no" value="0" <?php if(bkx_crud_option_multisite('bkx_legal_options') == 0) echo "checked"; ?>> <?php printf( esc_html__( '%1$s', 'bookingx' ),  'No' ); ?>
+                </div>
+            </td>
+        </tr>
+
 		<tr class="active">
 			<th scope="row"><label for="Terms and conditions"> <?php printf( esc_html__( '%1$s', 'bookingx' ),  'Set Terms & conditions Page' ); ?></label></th>
 			<td class="plugin-description">
 				<div class="plugin-description">
 				<?php $bkx_term_cond_page = bkx_crud_option_multisite('bkx_term_cond_page');
-                          $args = array('show_option_none' => 'Select Terms & conditions Page', 'selected'=> $bkx_term_cond_page,'name'=> 'bkx_term_cond_page');
+                          $args = array('show_option_none' => 'Select Page', 'selected'=> $bkx_term_cond_page,'name'=> 'bkx_term_cond_page');
                           wp_dropdown_pages($args); ?>					 
 				</div>
 			</td>
@@ -156,7 +181,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 			<td class="plugin-description">
 				<div class="plugin-description">
 				<?php $bkx_privacy_policy_page = bkx_crud_option_multisite('bkx_privacy_policy_page');
-                          $args = array('show_option_none' => 'Select Privacy Policy Page', 'selected'=> $bkx_privacy_policy_page,'name'=> 'bkx_privacy_policy_page');
+                          $args = array('show_option_none' => 'Select Page', 'selected'=> $bkx_privacy_policy_page,'name'=> 'bkx_privacy_policy_page');
                           wp_dropdown_pages($args); ?>					 
 				</div>
 			</td>
@@ -167,7 +192,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
             <td class="plugin-description">
                 <div class="plugin-description">
                     <?php $bkx_cancellation_policy = bkx_crud_option_multisite('bkx_cancellation_policy_page');
-                    $args = array('show_option_none' => 'Select Cancellation Policy Page', 'selected'=> $bkx_cancellation_policy,'name'=> 'bkx_cancellation_policy_page');
+                    $args = array('show_option_none' => 'Select Page', 'selected'=> $bkx_cancellation_policy,'name'=> 'bkx_cancellation_policy_page');
                     wp_dropdown_pages($args); ?>
                 </div>
             </td>
@@ -178,7 +203,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 			 
 			<td class="plugin-description">
 					<div class="plugin-description">
-						<input type="radio" name="enable_editor" id="id_enable_editor_yes" value="1" <?php if(bkx_crud_option_multisite('enable_editor')==1) echo "checked"; ?>><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Yes'  ); ?></br>
+						<input type="radio" name="enable_editor" id="id_enable_editor_yes" value="1" <?php if(bkx_crud_option_multisite('enable_editor')==1) echo "checked"; ?>><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Yes'  ); ?>
 						<input type="radio" name="enable_editor" id="id_enable_editor_no" value="0" <?php if(bkx_crud_option_multisite('enable_editor')==0) echo "checked"; ?>>
 						<?php printf( esc_html__( '%1$s', 'bookingx' ),  'No'  ); ?> 
 					</div>
@@ -390,7 +415,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 			 
 			<td class="plugin-description">
 				<div class="plugin-description">
-					<input type="radio" name="enable_cancel_booking" id="id_enable_cancel_booking_yes" value="1" <?php if(bkx_crud_option_multisite('enable_cancel_booking')==1) echo "checked"; ?>><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Yes' ); ?> </br>
+					<input type="radio" name="enable_cancel_booking" id="id_enable_cancel_booking_yes" value="1" <?php if(bkx_crud_option_multisite('enable_cancel_booking')==1) echo "checked"; ?>><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Yes' ); ?>
 					<input type="radio" name="enable_cancel_booking" id="id_enable_cancel_booking_no" value="0" <?php if(bkx_crud_option_multisite('enable_cancel_booking')==0) echo "checked"; ?>><?php printf( esc_html__( '%1$s', 'bookingx' ),  'No' ); ?> 
 				</div>
 			</td>
@@ -409,7 +434,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 			 
 			<td class="plugin-description">
 				<div class="plugin-description">
-					<input type="radio" name="enable_any_seat" id="id_enable_any_seat_yes" value="1" <?php if(bkx_crud_option_multisite('enable_any_seat')==1) echo "checked"; ?>><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Yes' ); ?> </br>
+					<input type="radio" name="enable_any_seat" id="id_enable_any_seat_yes" value="1" <?php if(bkx_crud_option_multisite('enable_any_seat')==1) echo "checked"; ?>><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Yes' ); ?>
 					<input type="radio" name="enable_any_seat" id="id_enable_any_seat_no" value="0" <?php if(bkx_crud_option_multisite('enable_any_seat')==0) echo "checked"; ?>> <?php printf( esc_html__( '%1$s', 'bookingx' ),  'No' ); ?>
 				</div>
 			</td>
@@ -420,7 +445,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 			 
 			<td class="plugin-description">
 				<div class="plugin-description">
-					<input type="radio" name="reg_customer_crud_op" id="id_reg_customer_crud_op_yes" value="1" <?php if(bkx_crud_option_multisite('reg_customer_crud_op')==1) echo "checked"; ?>><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Yes' ); ?> </br>
+					<input type="radio" name="reg_customer_crud_op" id="id_reg_customer_crud_op_yes" value="1" <?php if(bkx_crud_option_multisite('reg_customer_crud_op')==1) echo "checked"; ?>><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Yes' ); ?>
 					<input type="radio" name="reg_customer_crud_op" id="id_reg_customer_crud_op_no" value="0" <?php if(bkx_crud_option_multisite('reg_customer_crud_op')==0) echo "checked"; ?>> <?php printf( esc_html__( '%1$s', 'bookingx' ),  'No' ); ?>
 				</div>
 			</td>

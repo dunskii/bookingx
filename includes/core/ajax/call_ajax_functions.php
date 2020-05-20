@@ -74,9 +74,9 @@
                 );
                 $seat_obj = new WP_Query($args);
                 if (!empty($seat_obj) && !is_wp_error($seat_obj)) {
-                    if (!$seat_obj->have_posts()) :
+                    //if (!$seat_obj->have_posts()) :
                         $free_user_obj[] = get_user_by('id', $user_id);
-                    endif;
+                    //endif;
                 }
             }
         }
@@ -85,6 +85,32 @@
     }
     add_action('wp_ajax_bkx_validate_seat_get_user', 'bkx_validate_seat_get_user');
     add_action('wp_ajax_nopriv_bkx_validate_seat_get_user', 'bkx_validate_seat_get_user');
+
+    function bkx_get_user_data($userobj){
+        if(is_multisite()):
+            $blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+            switch_to_blog($blog_id);
+        endif;
+        $user_id = sanitize_text_field($_POST['data']);
+        if(empty($user_id))
+            return;
+
+        $userobj = get_user_by('id', $user_id);
+        $user_prefill = array();
+        if( !empty($userobj) && !is_wp_error($userobj)){
+            $user_email = $userobj->user_email;
+            $seat_post_id = get_user_meta($user_id, 'seat_post_id', true );
+            if(isset($seat_post_id) && $seat_post_id != ""){
+                $user_phone = get_post_meta( $seat_post_id, 'seatPhone', true );
+            }
+            $user_prefill['email'] = $user_email;
+            $user_prefill['phone'] = $user_phone;
+        }
+        echo json_encode($user_prefill);
+        wp_die(); // this is required to return a proper result
+    }
+    add_action('wp_ajax_bkx_get_user_data', 'bkx_get_user_data');
+    add_action('wp_ajax_nopriv_bkx_get_user_data', 'bkx_get_user_data');
 
     function bkx_action_view_summary_callback(){
         if(is_multisite()):

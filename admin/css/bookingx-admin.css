@@ -4,6 +4,9 @@
 .bkx-general_full { float: left;width: 32%;}
 .bkx-order_summary_full{background: #fff; min-height: auto;}
 .bkx-order_summary_full a {color: #0073aa;}
+.bkx-admin-paypal-settings input[type="text"] { width: 70%;}
+.bkx-content-settings th label{ font-weight: normal;}
+.bkx-content-settings .header th label{ font-weight: 600;}
 
 .booking-x .bkx-single-post-view hr{
     margin-top: 1rem;

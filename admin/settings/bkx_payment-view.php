@@ -5,21 +5,30 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'bkx_gateway_pa
 <h3> <?php printf( esc_html__( '%1$s', 'bookingx' ),  "{$bkx_general_submenu_label}" ); ?> </h3>
 <a href="https://developer.paypal.com/docs/classic/api/apiCredentials/" target="_blank">Click here</a> to create your paypal account and get API Credentials.
 <form name="form_api" id="id_form_api" method="post">
-<table cellspacing="0" class="widefat" style="margin-top:20px;">
+<table cellspacing="0" class="widefat bkx-admin-paypal-settings" style="margin-top:20px;" >
 	<tbody>
 		<input type="hidden" name="api_flag" value="1">
         <input type="hidden" name="bkx_setting_form_init" value="1">
+        <tr class="active">
+            <th scope="row"><label for="Paypal Mode">Enable / Disable</label></th>
+            <td class="plugin-description">
+                <div class="plugin-description">
+                    <input type="radio" name="paypal_status" id="id_paypal_status_on" value="1" <?php if(bkx_crud_option_multisite('bkx_gateway_paypal_express_status') == 1 ) echo "checked"; ?>>Enable
+                    <input type="radio" name="paypal_status" id="id_paypal_status_off" value="0" <?php if(bkx_crud_option_multisite('bkx_gateway_paypal_express_status') == 0) echo "checked"; ?>> Disable
+                </div>
+            </td>
+        </tr>
 		<tr class="active">
-			<th scope="row"><label for="Paypal Mode">Paypal Mode</label></th>
+			<th scope="row"><label for="Paypal Mode">PayPal Mode</label></th>
 			<td class="plugin-description">
 				<div class="plugin-description">
-					<input type="radio" name="paypalmode" id="id_modesandbox" value="sandbox" <?php if(bkx_crud_option_multisite('bkx_api_paypal_paypalmode')=="sandbox") echo "checked"; ?>>Sandbox </br>
+					<input type="radio" name="paypalmode" id="id_modesandbox" value="sandbox" <?php if(bkx_crud_option_multisite('bkx_api_paypal_paypalmode')=="sandbox") echo "checked"; ?>>Sandbox
 					<input type="radio" name="paypalmode" id="id_modelive" value="live" <?php if(bkx_crud_option_multisite('bkx_api_paypal_paypalmode')=="live") echo "checked"; ?>> Live
 				</div>
 			</td>
 		</tr>
 		<tr class="active">
-			<th scope="row"><label for="API username">API username</label></th>
+			<th scope="row"><label for="API username">API Username</label></th>
 			<td class="plugin-description">
 				<div class="plugin-description">
 					<input type="text" name="username" id="id_username" value="<?php echo bkx_crud_option_multisite('bkx_api_paypal_username'); ?>">
@@ -27,7 +36,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'bkx_gateway_pa
 			</td>
 		</tr>
 		<tr class="active">
-			<th scope="row"><label for="API password">API password</label></th>
+			<th scope="row"><label for="API password">API Password</label></th>
 			<td class="plugin-description">
 				<div class="plugin-description">
 					<input type="text" name="password" id="id_password" value="<?php echo bkx_crud_option_multisite('bkx_api_paypal_password'); ?>">
@@ -35,7 +44,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'bkx_gateway_pa
 			</td>
 		</tr>
 		<tr class="active">
-			<th scope="row"><label for="API signature">API signature</label></th>
+			<th scope="row"><label for="API signature">API Signature</label></th>
 			<td class="plugin-description">
 				<div class="plugin-description">
 					<input type="text" name="signature" id="id_signature" value="<?php echo bkx_crud_option_multisite('bkx_api_paypal_signature'); ?>">

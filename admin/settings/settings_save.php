@@ -5,11 +5,13 @@ function bkx_setting_save_action( )
 	do_action('bxk_custom_setting_save_process');
 	if(isset($_POST['api_flag']) && ($_POST['api_flag']==1))
 	{
+        $paypal_status = sanitize_text_field($_POST['paypal_status']);
+        $paypal_status = isset($paypal_status) && $paypal_status == "1" ? 1 : 0;
  		bkx_crud_option_multisite("bkx_api_paypal_paypalmode", sanitize_text_field($_POST['paypalmode']),'update');
 		bkx_crud_option_multisite("bkx_api_paypal_username", sanitize_text_field($_POST['username']), 'update');
 		bkx_crud_option_multisite("bkx_api_paypal_password", sanitize_text_field($_POST['password']), 'update');
 		bkx_crud_option_multisite("bkx_api_paypal_signature", sanitize_text_field($_POST['signature']), 'update');
-		bkx_crud_option_multisite('bkx_gateway_paypal_express_status', 1 ,'update');
+		bkx_crud_option_multisite('bkx_gateway_paypal_express_status', $paypal_status ,'update');
  		$redirect = add_query_arg( array( 'bkx_success' =>  'PAU' ), $_SERVER['HTTP_REFERER'] );
 		wp_safe_redirect( $redirect );
 	}
@@ -109,12 +111,10 @@ function bkx_setting_save_action( )
 		bkx_crud_option_multisite("bkx_base_taxonomy_status", sanitize_text_field($_POST['bkx_base_taxonomy_status']),'update');
 		bkx_crud_option_multisite("bkx_addition_taxonomy_status", sanitize_text_field($_POST['bkx_addition_taxonomy_status']),'update');
 
-		bkx_crud_option_multisite("bkx_template_status_pending", sanitize_text_field($_POST['status_pending']),'update');
-		bkx_crud_option_multisite("bkx_template_status_ack", sanitize_text_field($_POST['status_ack']),'update');
-		bkx_crud_option_multisite("bkx_template_status_complete", sanitize_text_field($_POST['status_complete']),'update');
-		bkx_crud_option_multisite("bkx_template_status_missed", sanitize_text_field($_POST['status_missed']),'update');
-		bkx_crud_option_multisite("bkx_template_status_cancelled", sanitize_text_field($_POST['status_cancelled']),'update');
+
+        bkx_crud_option_multisite("bkx_legal_options", sanitize_text_field($_POST['bkx_legal_options']),'update');
 		bkx_crud_option_multisite("bkx_term_cond_page", sanitize_text_field($_POST['bkx_term_cond_page']),'update');
+		bkx_crud_option_multisite("bkx_cancellation_policy_page", sanitize_text_field($_POST['bkx_cancellation_policy_page']),'update');
 		bkx_crud_option_multisite("bkx_privacy_policy_page", sanitize_text_field($_POST['bkx_privacy_policy_page']),'update');
 		bkx_crud_option_multisite("enable_editor", sanitize_text_field($_POST['enable_editor']),'update');
 		bkx_crud_option_multisite("bkx_set_booking_page", sanitize_text_field($_POST['bkx_set_booking_page']),'update');

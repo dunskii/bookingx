@@ -108,6 +108,8 @@ class BKXShortcode_Tinymce
         $shortcode_tags = array();
         $shortcode_tags['fname']                = 'First name';
         $shortcode_tags['lname']                = 'Last name';
+        $shortcode_tags['phone']                = 'Phone';
+        $shortcode_tags['email']                = 'Email';
         $shortcode_tags['total_price']          = 'Total price';
         $shortcode_tags['order_id']             = 'Order id';
         $shortcode_tags['txn_id']               = 'Transaction id';

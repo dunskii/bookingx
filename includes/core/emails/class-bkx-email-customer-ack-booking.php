@@ -21,6 +21,7 @@ if ( ! class_exists( 'BKX_Email_Customer_Ack_Booking' ) ) :
          */
         public function __construct() {
             $this->id             = 'customer_ack_booking';
+            $this->customer_email = true;
             $this->title          = __( 'Customer Acknowledge booking', 'bookingx' );
             $this->description    = __( 'Acknowledge booking emails are sent to chosen recipient(s) when a ack booking is received.', 'bookingx' );
             $this->template_html  = 'emails/customer-ack-booking.php';
@@ -37,7 +38,7 @@ if ( ! class_exists( 'BKX_Email_Customer_Ack_Booking' ) ) :
             parent::__construct();
 
             // Other settings.
-            $this->recipient = $this->get_option( 'admin_email');
+            //$this->recipient = $this->get_option( 'admin_email');
             $this->email_type = $this->get_option( $this->plugin_id.$this->id.'_email_type' );
             $this->enabled    = $this->get_option( $this->plugin_id.$this->id.'_enabled' );
             $this->heading    = $this->get_option( $this->plugin_id.$this->id.'_heading' );
