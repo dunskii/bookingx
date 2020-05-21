@@ -121,6 +121,8 @@ if ( ! class_exists( 'BkxSeatMetaBox' ) ) {
             $selected = !empty($bkx_business_days) ? sizeof($bkx_business_days) : 2;
             $add_more_status = ($selected >= 7) ? 'display:none' : 'display:block';
             $display_location = ($seat_is_different_loc == "Y") ? 'display: block;' : 'display: none;';
+            $mannual = "";
+
             ?>
             <style type="text/css">
                 .setting-bookingx .standard {

@@ -38,25 +38,9 @@ function generate_while_multisite_creating($blog_id, $user_id, $domain, $path, $
     $the_page_id = wp_insert_post($_p);
     update_blog_option($blog_id, 'bkx_set_booking_page', $the_page_id);
 
-
-    /**Added By : Divyang Parekh
-     * For : Create Page For Login and Customer Booking List
-     */
-    $_login = array();
-    $_login['post_title'] = 'Login Here';
-    $_login['post_content'] = "[bkx_login_view]";
-    $_login['post_status'] = 'Publish';
-    $_login['public'] = true;
-    $_login['post_type'] = 'page';
-    $_login['comment_status'] = 'closed';
-    $_login['ping_status'] = 'closed';
-    $_login['post_category'] = array(1); // the default 'Uncatrgorised'
-    // Insert the post into the database
-    wp_insert_post($_login);
-
     $_my_account = array();
-    $_my_account['post_title'] = 'My Account';
-    $_my_account['post_content'] = "[bkx_my_account_view]";
+    $_my_account['post_title'] = 'Dashboard';
+    $_my_account['post_content'] = "[bkx_dashboard]";
     $_my_account['post_status'] = 'Publish';
     $_my_account['public'] = true;
     $_my_account['post_type'] = 'page';
