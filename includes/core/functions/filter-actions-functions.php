@@ -182,7 +182,6 @@ function bkx_create_default_template(){
     $bkx_set_booking_page           = bkx_crud_option_multisite("bkx_set_booking_page");
     $bkx_set_thank_you_page         = bkx_crud_option_multisite('bkx_set_thank_you_page');
     $booking_edit_process_page_id   = bkx_crud_option_multisite('booking_edit_process_page_id');
-    bkx_generate_template_page( "bkx_set_thank_you_page" , "", "Thank You", $bkx_set_thank_you_page );
     bkx_generate_template_page( "booking_edit_process_page_id" , "[bkx_booking_form]", "Booking Edit", $booking_edit_process_page_id );
     bkx_generate_template_page( "bkx_set_booking_page" , "[bkx_booking_form]", "Booking Form", $bkx_set_booking_page );
 }

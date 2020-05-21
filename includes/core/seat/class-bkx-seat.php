@@ -185,8 +185,9 @@ class BkxSeat {
                 'class' => 'img-thumbnail',
                 'alt' => $this->get_title(),
             ));
+
         }else{
-            $image = '<img src="'.BKX_PLUGIN_PUBLIC_URL.'/images/placeholder.png\'" class="img-thumbnail wp-post-image" alt="'.$this->get_title().'" title="'.$this->get_title().'">';
+            $image = '<img src="'.BKX_PLUGIN_PUBLIC_URL.'/images/placeholder.png" class="img-thumbnail wp-post-image" alt="'.$this->get_title().'" title="'.$this->get_title().'">';
         }
         return apply_filters(
             'bookingx_single_post_image_html',
