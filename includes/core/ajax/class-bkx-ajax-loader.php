@@ -132,10 +132,17 @@ class Bkx_Ajax_Loader
             if(isset($base_time_option) && $base_time_option == 'D' && isset($base_day) && $base_day > 0 ){
                 $booking_style = "default";
             }
+            $prepayment = false;
+            if(isset($_POST['seat_id']) && $_POST['seat_id'] != 0 ){
+                $seat_id = sanitize_text_field( wp_unslash( $_POST['seat_id'] ) );
+                $seatIsPrePayment = get_post_meta( $seat_id, 'seatIsPrePayment', true );
+                $prepayment = isset( $seatIsPrePayment) && esc_attr( $seatIsPrePayment ) == 'Y' ?  true : false;
+            }
             $result['extra_html']       = $extra_html;
             $result['extended']         = $service_extended_html;
             $result['booking_style']    = $booking_style;
             $result['time_option']      = $base_time_option;
+            $result['is_prepayment']      = $prepayment;
             echo json_encode($result);
         }
         wp_die();
@@ -331,7 +338,7 @@ class Bkx_Ajax_Loader
     public static function get_payment_method(){
         check_ajax_referer( 'get-payment-method', 'security' );
         $BkxPaymentCore = new BkxPaymentCore();
-        $bkx_get_available_gateways = $BkxPaymentCore->bkx_get_available_gateways();
+        $bkx_get_available_gateways = $BkxPaymentCore->bkx_get_available_gateways($_POST);
         $prepayment = false;
         if(isset($_POST['seat_id']) && $_POST['seat_id'] != 0 ){
             $seat_id = sanitize_text_field( wp_unslash( $_POST['seat_id'] ) );
@@ -348,16 +355,58 @@ class Bkx_Ajax_Loader
         check_ajax_referer( 'payment-method-on-change', 'security' );
         $result = array();
         $BkxPaymentCore = new BkxPaymentCore();
-        $bkx_get_available_gateways = $BkxPaymentCore->bkx_get_available_gateways();
+        $bkx_get_available_gateways = $BkxPaymentCore->bkx_get_available_gateways($_POST);
         $payment_id = sanitize_text_field( wp_unslash( $_POST['payment_id'] ) );
         if(!empty($payment_id)){
             $gateway = $bkx_get_available_gateways[$payment_id];
-            $gateway_obj = $gateway['class'];
-            $result['image_url']    =  isset($gateway_obj->image_url) ? $gateway_obj->image_url : "";
+            if(!empty($gateway['class']) ){
+                $gateway_obj = $gateway['class'];
+                $result['image_url']    =  isset($gateway_obj->image_url) ? $gateway_obj->image_url : "";
+            }
             $result['title']        =  $gateway['title'];
         }
         echo  json_encode($result);
         wp_die();
+    }
+
+    public function validation( $post ){
+        $errors = array();
+        $i18n = bkx_localize_string_text();
+
+        $prepayment = false;
+        if(isset($post['seat_id']) && $post['seat_id'] != 0 ){
+            $seat_id = sanitize_text_field( wp_unslash( $post['seat_id'] ) );
+            $seatIsPrePayment = get_post_meta( $seat_id, 'seatIsPrePayment', true );
+            $prepayment = isset( $seatIsPrePayment) && esc_attr( $seatIsPrePayment ) == 'Y' ?  true : false;
+        }
+
+        if(empty($post)){
+            $errors[] = __($i18n['string_something_went'], 'bookingx');
+        }
+        if(empty($post['seat_id'])){
+            $errors[] = __($i18n['string_select_a_seat'], 'bookingx');
+        }
+        if(empty($post['base_id'])){
+            $errors[] = __($i18n['string_select_a_base'], 'bookingx');
+        }
+        if(empty($post['date'])){
+            $errors[] = __($i18n['string_select_date_time'], 'bookingx');
+        }
+        if(empty($post['starting_slot'])){
+            $errors[] = __($i18n['string_select_a_base'], 'bookingx');
+        }
+        if(empty($post['booking_time'])){
+            $errors[] = __($i18n['string_select_date_time'], 'bookingx');
+        }
+        if($prepayment == true ){
+            $errors[] = __($i18n['payment_method'], 'bookingx');
+        }
+
+        return apply_filters('bkx_booking_form_validation',$errors );
+    }
+
+    public function validation_html( $post ){
+        $error_html = "";
     }
 
     public static function book_now(){

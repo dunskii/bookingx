@@ -44,8 +44,19 @@ class BkxPaymentCore {
 				if(!empty($payment_request_call) && !isset($payment_request_call['error'])){
                     $method = $payment_request_call['method'];
                     if ( $method == 'SetExpressCheckout' && "SUCCESS" == strtoupper($payment_request_call["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($payment_request_call["ACK"])) {
-                        echo "<h3>Processing booking, you will be forwarded to PayPal soon....</h3>";
+                        echo __( "<h3>Please wait Booking Processing, you will be forwarded to PayPal soon....</h3>", 'bookingx');
                         $BkxPaymentPayPalExpress->ready_for_redirect_to_paypal( $order_id,$payment_request_call );
+                        die();
+                    }else{
+                        $error = $payment_request_call['L_LONGMESSAGE0'];
+                        update_post_meta( $order_id, 'bkx_payment_error_log', $payment_request_call );
+                        update_post_meta( $order_id, 'bkx_payment_message', $error );
+                        update_post_meta( $order_id, 'bkx_capture_payment', $process_response );
+                        $bkx_return_url  = get_permalink( bkx_crud_option_multisite('bkx_plugin_page_id') );
+                        $bkx_return_url 	= apply_filters( 'bkx_return_url', $bkx_return_url );
+                        $bkx_return_url  = add_query_arg( array( 'order_id' => base64_encode($order_id)), $bkx_return_url );
+                        echo __('<h3>Please wait redirecting soon..</h3>', 'bookingx');
+                        echo '<meta http-equiv="refresh" content="0;url=' . $bkx_return_url . '">';
                         die();
                     }
                 }
@@ -68,6 +79,11 @@ class BkxPaymentCore {
 		if(isset($_GET['order_id']) && $_GET['order_id']!=""){
     		$order_id = base64_decode($_GET['order_id']);
     	}
+        $capture_payment = get_post_meta($order_id, 'bkx_capture_payment', true);
+		if(!empty($capture_payment))
+		    return;
+
+        $i18n = bkx_localize_string_text();
 		//Paypal redirects back to this page using ReturnURL, We should receive TOKEN and Payer ID
 		if (isset($_GET["token"]) && isset($_GET["PayerID"])) {
 			$token = sanitize_text_field($_GET["token"]);
@@ -78,15 +94,37 @@ class BkxPaymentCore {
 			$BkxPaymentPayPalExpress = new BkxPaymentPayPalExpress( $order_id );
 			$capture_payment = $BkxPaymentPayPalExpress->capture_payment( $order_id, $args);
 			update_post_meta( $order_id, 'bkx_capture_payment', $capture_payment );
-		}
-		if(isset($_GET['token']) && sanitize_text_field ($_GET['token'])!='' && sanitize_text_field ($_GET['PayerID'])=='') {
-			echo $message_error = "<span style='color: red;margin: 0 0 0 25%;'>Payment and booking was cancelled via PayPal</span>";
-		}
+		}else{
+            $booking_meta = array( 'order_id' => $order_id );
+            $process_response = array('success' => true, 'data' => $booking_meta);
+            update_post_meta( $order_id, 'bkx_payment_error_log', 'PayerID Blank' );
+            update_post_meta( $order_id, 'bkx_payment_message', $i18n['paypal_error'] );
+            update_post_meta( $order_id, 'bkx_capture_payment', $process_response );
+            $bkx_return_url  = get_permalink( bkx_crud_option_multisite('bkx_plugin_page_id') );
+            $bkx_return_url 	= apply_filters( 'bkx_return_url', $bkx_return_url );
+            $bkx_return_url  = add_query_arg( array( 'order_id' => base64_encode($order_id)), $bkx_return_url );
+            echo __('<h3>Please wait redirecting soon..</h3>', 'bookingx');
+            echo '<meta http-equiv="refresh" content="0;url=' . $bkx_return_url . '">';
+            die();
+        }
+
 	}
 
-	public function bkx_get_available_gateways(){
+	public function bkx_get_available_gateways( $post = array()){
 
-        $load_gateways = array( 'bkx_gateway_paypal_express' => array( 'title' => 'Paypal', 'class' => new BkxPaymentPayPalExpress() ), 'bkx_gateway_pay_later' => array( 'title' => 'Pay Later', 'class' => '' ));
+	    if(empty($post))
+	        return;
+
+        $prepayment = false;
+	    if(isset($post['seat_id']) && $post['seat_id'] > 0 ){
+            $seat_id = sanitize_text_field( wp_unslash( $_POST['seat_id'] ) );
+            $seatIsPrePayment = get_post_meta( $seat_id, 'seatIsPrePayment', true );
+            $prepayment = isset( $seatIsPrePayment) && esc_attr( $seatIsPrePayment ) == 'Y' ?  true : false;
+        }
+	    if($prepayment == false)
+	        return;
+
+        $load_gateways = array( 'bkx_gateway_paypal_express' => array( 'title' => 'Paypal', 'class' => new BkxPaymentPayPalExpress() ));
         // Filter
         $load_gateways = apply_filters( 'bkx_payment_gateways', $load_gateways ) ;
 
@@ -98,7 +136,7 @@ class BkxPaymentCore {
 		if(!empty($this->payment_gateways)){
 			foreach ( $this->payment_gateways as $key_name => $gateway ) {
 				$check_status = bkx_crud_option_multisite($key_name.'_status');
-				if( isset($check_status) && $check_status == 1 || $key_name == 'bkx_gateway_pay_later' ){
+				if( isset($check_status) && $check_status == 1 ){
 					$_available_gateways[$key_name] = $gateway;
 				}
 			}
@@ -109,8 +147,8 @@ class BkxPaymentCore {
 
 	public function bkx_get_available_gateways_html( $prepayment = false ){
 		if(!empty($this->payment_gateways)){
-		    if( $prepayment == true ){
-		        unset($this->payment_gateways['bkx_gateway_pay_later']);
+		    if( $prepayment == false ){
+		        return;
             }
 		    $count = !empty($this->payment_gateways) ? sizeof($this->payment_gateways) : 0;
             $checked = ($count == 1) ? 'checked = checked' : '';
@@ -127,7 +165,7 @@ class BkxPaymentCore {
 			}
 			$_available_gateways_html .= "</div></div>";
 		}
-		return apply_filters( 'bkx_get_available_gateways_html', $_available_gateways_html );
+		return apply_filters( 'bkx_get_available_gateways_html', $_available_gateways_html, $prepayment );
 	}
 
 	public function bkx_success_payment( $booking_data ){

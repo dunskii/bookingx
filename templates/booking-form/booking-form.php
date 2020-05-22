@@ -6,7 +6,6 @@ defined( 'ABSPATH' ) || exit;
 $order_id = ( isset($_REQUEST['order_id']) ? $_REQUEST['order_id'] : 0 );
 $status = ( (isset($order_id) && $order_id != "") ? true : false ) ;
 $booking_edit = false;
-echo '<pre>',print_r($_POST,1),'</pre>';
 if( isset($_POST['order_id']) && isset($_REQUEST['edit_booking_nonce']) && wp_verify_nonce( $_REQUEST['edit_booking_nonce'], 'edit_booking_'.$_REQUEST['id'] )) {
     $booking_edit = true;
 }
@@ -49,6 +48,13 @@ $args['order_id'] = $order_id
                                 do_action('bkx_payment_gateway_capture_process_hook', $action_data);
                             }
                         }
+                        $payment_error = get_post_meta($order_id, 'bkx_payment_message', true);
+                        if (!empty($payment_error)) {
+                                echo "<div class=\"row\"><div class=\"col-md-12\"><ul class=\"bookingx-error\">";
+                                echo __("<li> Payment Error : {$payment_error}</li>");
+                                echo "</ul></div></div>";
+                        }
+
                        // echo '<pre>',print_r(get_post_meta($order_id),1),'</pre>';
                         $capture_payment = get_post_meta($order_id, 'bkx_capture_payment', true);
                         if (!empty($capture_payment) && $capture_payment['success'] == true) {
