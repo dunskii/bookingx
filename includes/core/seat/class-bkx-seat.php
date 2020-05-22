@@ -166,13 +166,20 @@ class BkxSeat {
 	}
 
     public function get_description() {
-		$post_content = $this->post->post_content;
-		return apply_filters( 'bkx_seat_description', $post_content, $this );
+        $post_content = "";
+        if(!empty($this->post)){
+            $post_content = $this->post->post_content;
+        }
+		return apply_filters( 'bkx_seat_description', $post_content );
 	}
 
 	public function get_excerpts() {
-		$post_excerpt = $this->post->post_excerpt;
-		return apply_filters( 'bkx_seat_price', $post_excerpt, $this );
+        $post_excerpt = "";
+        if(!empty($this->post)){
+            $post_excerpt = $this->post->post_excerpt;
+        }
+
+		return apply_filters( 'bkx_seat_price', $post_excerpt );
 	}
 
     /**
