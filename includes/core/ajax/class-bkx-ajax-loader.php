@@ -129,8 +129,10 @@ class Bkx_Ajax_Loader
             $booking_style = ( ( !isset($bkx_booking_style) || $bkx_booking_style == "" ) ? "default" : $bkx_booking_style);
             $base_time_option   = get_post_meta( $base_id, 'base_time_option', true );
             $base_day           = get_post_meta( $base_id, 'base_day', true );
+            $slot_hide_flag = false;
             if(isset($base_time_option) && $base_time_option == 'D' && isset($base_day) && $base_day > 0 ){
                 $booking_style = "default";
+                $slot_hide_flag = true;
             }
             $prepayment = false;
             if(isset($_POST['seat_id']) && $_POST['seat_id'] != 0 ){
@@ -143,6 +145,7 @@ class Bkx_Ajax_Loader
             $result['booking_style']    = $booking_style;
             $result['time_option']      = $base_time_option;
             $result['is_prepayment']      = $prepayment;
+            $result['slot_hide_flag']       = $slot_hide_flag;
             echo json_encode($result);
         }
         wp_die();

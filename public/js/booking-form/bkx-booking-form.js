@@ -186,6 +186,12 @@ jQuery( function( $ ) {
                         extra_list_obj.html(result.extra_html);
                         booking_form.booking_style = result.booking_style;
                         booking_form.time_option = result.time_option;
+                        if(result.slot_hide_flag == true){
+                            $('.bkx-booking-form .step-2 .slots-setup').hide();
+                        }else{
+                            $('.bkx-booking-form .step-2 .slots-setup').show();
+                        }
+
                         $('.bkx-booking-form #bkx_is_prepayment').val(result.is_prepayment)
                         if(result.is_prepayment == false){
                             $('.bkx-booking-form .bkx-form-submission-final').text(bkx_booking_form_params.booking_button)
@@ -433,7 +439,7 @@ jQuery( function( $ ) {
                     } else {
 
                     }
-                    $( document.body ).trigger( 'payment_method_on_change' );
+                    $( document.body ).trigger( 'payment_method_on_change' , [data] );
                 },
                 complete: function () {
                     unblock($('div.step-4'));
@@ -466,7 +472,7 @@ jQuery( function( $ ) {
                 $error_messages += " <li> " + bkx_booking_form_params.bkx_validate_day_select + "</li>"
             }
 
-            if (GetCurrentStep() == 3) {
+            if (GetCurrentStep() == 3 && bkx_booking_form_params.bkx_legal == "1") {
                 if (booking_form.validate_user_details() == true) {
                     $error_messages += " <li> " + bkx_booking_form_params.complete_form + "</li>"
                     $error_messages += " <li> " + bkx_booking_form_params.bkx_terms_and_conditions + "</li>"
@@ -941,4 +947,37 @@ jQuery( function( $ ) {
     };
 
     booking_form.init();
+
+    $( document.body ).on( 'bkx_updated_payment_gateway', function() {
+        block($('div.step-4'));
+        var payment_method = listToArray(".bkx-booking-form .step-4 :input[name^=bkx_payment_gateway_method]:checked");
+        if(payment_method.length == 1 ) {
+            var data = {
+                security: bkx_booking_form_params.payment_method_on_change_nonce,
+                payment_id: payment_method[0],
+                seat_id: booking_form.seat_id
+            };
+            //bkx-form-submission-final
+            var image_section = $('.bkx-booking-form .step-4 .bkx-form-submission-final .payment-gateway-image');
+            $.ajax({
+                type: 'POST',
+                url: get_url('payment_method_on_change'),
+                data: data,
+                dataType: 'html',
+                success: function (response) {
+                    if (response != 'NORF') {
+                        var result = $.parseJSON(response);
+                        if(result.image_url && result.image_url != ""){
+                            image_section.attr('src', result.image_url);
+                        }
+                    } else {
+
+                    }
+                },
+                complete: function () {
+                    unblock($('div.step-4'));
+                }
+            });
+        }
+    });
 });
