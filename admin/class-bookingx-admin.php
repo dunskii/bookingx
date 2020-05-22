@@ -734,7 +734,6 @@ class Bookingx_Admin {
                 break;
             case 'service':
                 $base_arr = $order_meta[ 'base_arr' ];
-                echo '<pre>',print_r($base_arr[ 'post' ],1),'</pre>';
                 printf( __( '%s', 'bookingx' ),$base_arr['main_obj']->post->post_title );
                 break;
             case 'extra':

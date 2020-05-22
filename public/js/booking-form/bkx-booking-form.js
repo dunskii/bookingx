@@ -77,7 +77,6 @@ jQuery( function( $ ) {
     const GatewayFlag = function () {
         return parseInt(bkx_gateway_flag.val());
     }
-
     /**
      * Object to handle Booking form Ajax Call.
      */
@@ -92,6 +91,7 @@ jQuery( function( $ ) {
         booking_style: 'default',
         time_option: "",
         date: "",
+        is_prepayment : $('.bkx-booking-form #bkx_is_prepayment').val(),
         days_selected: "",
         disable_days_note: $('.bkx-booking-form .step-1 .bkx-disable-days-note'),
         /**
@@ -165,7 +165,8 @@ jQuery( function( $ ) {
 
             var data = {
                 security: bkx_booking_form_params.on_base_change_nonce,
-                base_id: $('.bkx-booking-form .step-1 .bkx-services-lists').val()
+                base_id: parseInt($('.bkx-booking-form .step-1 .bkx-services-lists').val()),
+                seat_id: parseInt($('.bkx-booking-form .step-1 .bkx-staff-lists').val())
             };
             var extra_list_obj = $('.bkx-booking-form .step-1 .bkx-extra-lists');
             var service_extend = $('.bkx-booking-form .step-1 .bkx-services-extend');
@@ -185,6 +186,10 @@ jQuery( function( $ ) {
                         extra_list_obj.html(result.extra_html);
                         booking_form.booking_style = result.booking_style;
                         booking_form.time_option = result.time_option;
+                        $('.bkx-booking-form #bkx_is_prepayment').val(result.is_prepayment)
+                        if(result.is_prepayment == false){
+                            $('.bkx-booking-form .bkx-form-submission-final').text(bkx_booking_form_params.booking_button)
+                        }
                         if (result.extended != "") {
                             service_extend.removeAttr("disabled");
                             service_extend.html(result.extended);
@@ -409,7 +414,8 @@ jQuery( function( $ ) {
             block($('div.step-4'));
             var data = {
                 security: bkx_booking_form_params.payment_method_on_change_nonce,
-                payment_id: $(this).val()
+                payment_id: $(this).val(),
+                seat_id: booking_form.seat_id
             };
             //bkx-form-submission-final
             var image_section = $('.bkx-booking-form .step-4 .bkx-form-submission-final .payment-gateway-image');
@@ -421,7 +427,9 @@ jQuery( function( $ ) {
                 success: function (response) {
                     if (response != 'NORF') {
                         var result = $.parseJSON(response);
-                        image_section.attr('src', result.image_url);
+                        if(result.image_url && result.image_url != ""){
+                            image_section.attr('src', result.image_url);
+                        }
                     } else {
 
                     }
@@ -460,7 +468,8 @@ jQuery( function( $ ) {
 
             if (GetCurrentStep() == 3) {
                 if (booking_form.validate_user_details() == true) {
-                    $error_messages += "Please complete below form.";
+                    $error_messages += " <li> " + bkx_booking_form_params.complete_form + "</li>"
+                    $error_messages += " <li> " + bkx_booking_form_params.bkx_terms_and_conditions + "</li>"
                 }
                 if (listToArray(".bkx-booking-form .step-3 :input[name^=bkx_terms_and_conditions]:checked") == 'None') {
                     $error_messages += " <li> " + bkx_booking_form_params.bkx_terms_and_conditions + "</li>"
@@ -473,10 +482,10 @@ jQuery( function( $ ) {
                 }
             }
 
-            if (GetCurrentStep() == 4) {
+            if (GetCurrentStep() == 4 && booking_form.is_prepayment == true ) {
                 var bkx_payment_gateway_method = listToArray(".bkx-booking-form .step-4 :input[name^=bkx_payment_gateway_method]:checked");
                 if (bkx_payment_gateway_method == "None") {
-                    $error_messages += " <li> Please select payment method.</li>"
+                    $error_messages += " <li> " + bkx_booking_form_params.payment_method + "</li>"
                 }
             }
 
