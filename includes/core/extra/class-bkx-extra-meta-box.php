@@ -115,13 +115,12 @@ if ( ! class_exists( 'BkxExtraMetaBox' ) ) {
                 </div>
             </div>
             <div class="active" id="hours_minutes">
+                <?php
+                $addition_hours = isset($addition_hours) && $addition_hours != "" ? $addition_hours : 00;
+                ?>
                 <?php echo $addition_alias; ?> Time In Hours and Minutes :
                 <div class="plugin-description">
-                    <input name="addition_hours_minutes" type="text" value="<?php if (isset($addition_hours)) {
-                        echo $addition_hours;
-                    } else {
-                        echo 0;
-                    } ?>" id="id_addition_hours_minutes">
+                    <input name="addition_hours_minutes" type="text" value="<?php echo $addition_hours;?>" id="id_addition_hours_minutes">
                     <?php
                     if (isset($addition_minutes))
                         $additionMinute = $addition_minutes; ?>

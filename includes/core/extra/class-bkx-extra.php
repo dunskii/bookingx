@@ -388,7 +388,7 @@ class BkxExtra {
                 $extra_hours         = get_post_meta( $extra_id, 'addition_hours', true );
                 $extra_minutes       = get_post_meta( $extra_id, 'addition_minutes', true );
                 if(isset($extra_time_option) && $extra_time_option == "H"){
-                    $total_time_formatted =  bkx_convert_for_hours($total_time);
+                    $total_time_formatted =  bkx_convert_for_hours($total_time * 60 );
                 }
                 if(isset($extra_time_option) && $extra_time_option == "D"){
                     $total_time_formatted =  bkx_convert_seconds($total_time * 60);

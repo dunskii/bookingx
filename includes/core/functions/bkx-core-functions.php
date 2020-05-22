@@ -527,6 +527,10 @@ function bkx_localize_string_text(){
         'string_invalid_email'=> sprintf(__('%s.','bookingx'), 'You have entered an invalid email address!'),
         'string_success_reassign'=> sprintf(__('%.s','bookingx'), 'Booking Successfully Reassign.'),
         'string_reassign_booking'=> sprintf(__('%s','bookingx'), 'Reassign Booking'),
+        'booking_button' => sprintf(__('%s','bookingx'), 'Process Booking'),
+        'payment_method' => sprintf(__('%s','bookingx'), 'Please select payment method.'),
+        'complete_form' => sprintf(__('%s','bookingx'), 'Please complete below form.'),
+        'paypal_error' => sprintf(__('%s','bookingx'), 'Payment was cancelled via PayPal.'),
         'string_do_you_want_to_cont'=> sprintf(__('%s','bookingx'), 'Do you want to continue update booking?'),
         'string_something_went' => sprintf(__('%s','bookingx'), 'Sorry ! Something went wrong , Please try again.'),
         'string_you_require' => sprintf(__('%s','bookingx'), 'you require') );
