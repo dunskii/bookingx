@@ -67,7 +67,6 @@ if(!empty($args)){
 
                 <?php do_action('bkx_seat_addition_info', $seat_id);?>
             </div>
-
         </div>
     </div>
 	<div class="clearfix"></div>
