@@ -65,7 +65,6 @@ if(!empty($args)){
                     <div class="meta-data businessHours"><?php bkx_get_template( 'bkx-single/meta/seat.php' );?></div>
                 <?php endif;?>
             </div>
-
         </div>
     </div>
 	<div class="clearfix"></div>
