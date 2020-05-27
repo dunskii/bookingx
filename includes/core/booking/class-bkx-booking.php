@@ -1275,9 +1275,7 @@ class BkxBooking {
         $availability_slots = "";
         $results = "";
         $error = "";
-        $type = "";
         if( isset($base_time_option) && $base_time_option == 'D' && isset($base_day) && $base_day > 0  ){
-            $type = "days";
             if( in_array(0, $args['allowed_day_book']) ){
                 $availability_slots = "None";
             }else{
@@ -1294,7 +1292,7 @@ class BkxBooking {
         if($availability_slots == "None"){
             $results = "<tr><td colspan=\"4\"><a href=\"javascript:void(0);\" class=\"disabled\">{$this->load_global->disable_slots_note}</a></td></tr>";
             if( isset($base_time_option) && $base_time_option == 'D' && isset($base_day) && $base_day > 0  ){
-                $error = $this->load_global->disable_slots_note;
+                $error = $results;
             }
         }else if (!empty($availability_slots)){
             $step           = 15 * 60; // Timestamp increase interval to one cell ahead
@@ -1336,7 +1334,7 @@ class BkxBooking {
         }
         if( isset($base_time_option) && $base_time_option == 'D' && isset($base_day) && $base_day > 0  ){
             $results = isset( $error ) && $error != "" ? "" : $results;
-            echo  json_encode( array( 'data' => $results , 'error' => $error, 'type' => $type ) );
+            echo  $results = json_encode( array( 'data' => $results , 'error' => $error) );
         }else{
             echo $day_style_header.$results;
         }
