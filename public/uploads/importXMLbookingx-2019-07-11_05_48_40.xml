@@ -2759,13 +2759,13 @@ Phasellus lacinia ut augue gravida tempus. Phasellus a lorem nisl. Sed ut neque 
     <enable_editor>0</enable_editor>
     <bkx_notice_time_extended_text_alias>How many times you want to extend this service?</bkx_notice_time_extended_text_alias>
     <bkx_label_of_step1>Please select what you would like to book</bkx_label_of_step1>
-    <bkx_siteclient_css_text_color/>
-    <bkx_siteclient_css_background_color/>
+    <bkx_form_text_color/>
+    <bkx_form_background_color/>
     <bkx_siteclient_css_border_color/>
     <bkx_siteclient_css_progressbar_color/>
     <bkx_siteclient_css_cal_border_color/>
-    <bkx_siteclient_css_cal_day_color/>
-    <bkx_siteclient_css_cal_day_selected_color/>
+    <bkx_cal_day_color/>
+    <bkx_cal_day_selected_color/>
     <bkx_time_available_color/>
     <bkx_time_selected_color/>
     <bkx_time_unavailable_color/>
