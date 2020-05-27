@@ -281,89 +281,76 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 			<th scope="row"><label for="Text Colour"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Booking Form Text Colour' ); ?></label></th>
 
 			<td class="plugin-description">
-				<input type="text" name="bkx_text_color" id="id_bkx_text_color" value="<?php echo bkx_crud_option_multisite('bkx_form_text_color'); ?>">
+				<input type="text" name="bkx_text_color" id="id_bkx_text_color" value="<?php echo bkx_crud_option_multisite('bkx_siteclient_css_text_color'); ?>">
 			</td>
 		</tr>
-		<!--<tr class="active">
-			<th scope="row"><label for="Background Colour"><?php /*printf( esc_html__( '%1$s', 'bookingx' ),  'Booking Form Background Colour' ); */?></label></th>
+		<tr class="active">
+			<th scope="row"><label for="Background Colour"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Booking Form Background Colour' ); ?></label></th>
 			 
 			<td class="plugin-description">
-				<input type="text" name="bkx_background_color" id="id_bkx_background_color" value="<?php /*echo bkx_crud_option_multisite('bkx_form_background_color'); */?>">
+				<input type="text" name="bkx_background_color" id="id_bkx_background_color" value="<?php echo bkx_crud_option_multisite('bkx_siteclient_css_background_color'); ?>">
 			</td>
-		</tr>-->
-
-		<!--<tr class="active">
-			<th scope="row"><label for="Border Colour"><?php /*printf( esc_html__( '%1$s', 'bookingx' ),  'Booking Form Border Colour' ); */?></label></th>
-			 
-			<td class="plugin-description">
-				<input type="text" name="bkx_border_color" id="id_bkx_border_color" value="<?php /*echo bkx_crud_option_multisite('bkx_siteclient_css_border_color'); */?>">
-			</td>
-		</tr>-->
+		</tr>
 
 		<tr class="active">
-			<th scope="row"><label for="Active Step Color"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Booking Form Active Step Colour' ); ?></label></th>
+			<th scope="row"><label for="Border Colour"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Booking Form Border Colour' ); ?></label></th>
+			 
 			<td class="plugin-description">
-				<input type="text" name="bkx_progressbar_color" id="id_bkx_progressbar_color" value="<?php echo bkx_crud_option_multisite('bkx_active_step_color'); ?>">
+				<input type="text" name="bkx_border_color" id="id_bkx_border_color" value="<?php echo bkx_crud_option_multisite('bkx_siteclient_css_border_color'); ?>">
+			</td>
+		</tr>
+
+		<tr class="active">
+			<th scope="row"><label for="Progress Bar"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Booking Form Progress Bar Colour' ); ?></label></th>
+			<td class="plugin-description">
+				<input type="text" name="bkx_progressbar_color" id="id_bkx_progressbar_color" value="<?php echo bkx_crud_option_multisite('bkx_siteclient_css_progressbar_color'); ?>">
 			</td>
 		</tr>
  
-		<!--<tr class="active">
-			<th scope="row"><label for="Calendar Month title color"><?php /*printf( esc_html__( '%1$s', 'bookingx' ),  'Booking Calendar Month title color' ); */?></label></th>
-			<td class="plugin-description">
-				<input type="text" name="bkx_cal_month_title_color" id="id_bkx_cal_month_title_color" value="<?php /*echo bkx_crud_option_multisite('bkx_cal_month_title_color'); */?>">
-			</td>
-		</tr>-->
-
-		<!--<tr class="active">
-			<th scope="row"><label for="Calendar Month background color"><?php /*printf( esc_html__( '%1$s', 'bookingx' ),  'Add Calendar Month background color' ); */?></label></th>
-			<td class="plugin-description">
-				<input type="text" name="bkx_cal_month_bg_color" id="id_bkx_cal_month_bg_color" value="<?php /*echo bkx_crud_option_multisite('bkx_cal_month_bg_color'); */?>">
-			</td>
-		</tr>-->
-
-		<!--<tr class="active">
-			<th scope="row"><label for="Calendar Border colour"><?php /*printf( esc_html__( '%1$s', 'bookingx' ),  'Add Calendar Border colour option' ); */?></label></th>
-			<td class="plugin-description">
-				<input type="text" name="bkx_cal_border_color" id="id_bkx_cal_border_color" value="<?php /*echo bkx_crud_option_multisite('bkx_siteclient_css_cal_border_color'); */?>">
-			</td>
-		</tr>-->
-
 		<tr class="active">
-			<th scope="row"><label for="Calendar day background colour"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Booking Calendar Day Background Colour' ); ?></label></th>
+			<th scope="row"><label for="Calendar Month title color"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Add Calendar  Month title color' ); ?></label></th>
 			<td class="plugin-description">
-				<input type="text" name="bkx_cal_day_color" id="id_bkx_cal_day_color" value="<?php echo bkx_crud_option_multisite('bkx_cal_day_color'); ?>">
-			</td>
-		</tr>
-        <tr class="active">
-			<th scope="row"><label for="Booking Previous Button"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Booking Previous Button' ); ?></label></th>
-			<td class="plugin-description">
-				<input type="text" name="bkx_prev_btn" id="id_bkx_prev_btn" value="<?php echo bkx_crud_option_multisite('bkx_prev_btn'); ?>">
-			</td>
-		</tr>
-
-        <tr class="active">
-			<th scope="row"><label for="Booking Next Button"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Booking Next Button' ); ?></label></th>
-			<td class="plugin-description">
-				<input type="text" name="bkx_next_btn" id="id_bkx_next_btn" value="<?php echo bkx_crud_option_multisite('bkx_next_btn'); ?>">
+				<input type="text" name="bkx_cal_month_title_color" id="id_bkx_cal_month_title_color" value="<?php echo bkx_crud_option_multisite('bkx_cal_month_title_color'); ?>">
 			</td>
 		</tr>
 
 		<tr class="active">
-			<th scope="row"><label for="Calendar day selected colour"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Booking Calendar Day Selected' ); ?></label></th>
+			<th scope="row"><label for="Calendar Month background color"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Add Calendar Month background color' ); ?></label></th>
 			<td class="plugin-description">
-				<input type="text" name="bkx_cal_day_selected_color" id="id_bkx_cal_day_selected_color" value="<?php echo bkx_crud_option_multisite('bkx_cal_day_selected_color'); ?>">
+				<input type="text" name="bkx_cal_month_bg_color" id="id_bkx_cal_month_bg_color" value="<?php echo bkx_crud_option_multisite('bkx_cal_month_bg_color'); ?>">
 			</td>
 		</tr>
 
 		<tr class="active">
-			<th scope="row"><label for="Add time available colour option"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Booking Form Time available' ); ?></label></th>
+			<th scope="row"><label for="Calendar Border colour"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Add Calendar Border colour option' ); ?></label></th>
+			<td class="plugin-description">
+				<input type="text" name="bkx_cal_border_color" id="id_bkx_cal_border_color" value="<?php echo bkx_crud_option_multisite('bkx_siteclient_css_cal_border_color'); ?>">
+			</td>
+		</tr>
+
+		<tr class="active">
+			<th scope="row"><label for="Calendar day background colour"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Add Calendar day background colour option' ); ?></label></th>
+			<td class="plugin-description">
+				<input type="text" name="bkx_cal_day_color" id="id_bkx_cal_day_color" value="<?php echo bkx_crud_option_multisite('bkx_siteclient_css_cal_day_color'); ?>">
+			</td>
+		</tr>
+
+		<tr class="active">
+			<th scope="row"><label for="Calendar day selected colour"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Add Current Selcted colour' ); ?></label></th>
+			<td class="plugin-description">
+				<input type="text" name="bkx_cal_day_selected_color" id="id_bkx_cal_day_selected_color" value="<?php echo bkx_crud_option_multisite('bkx_siteclient_css_cal_day_selected_color'); ?>">
+			</td>
+		</tr>
+
+		<tr class="active">
+			<th scope="row"><label for="Add time available colour option"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Add time available colour option' ); ?></label></th>
 			<td class="plugin-description">
 				<input type="text" name="bkx_time_available_color" id="id_bkx_time_available_color" value="<?php echo bkx_crud_option_multisite('bkx_time_available_color'); ?>">
 			</td>
 		</tr>
 
 		<tr class="active">
-			<th scope="row"><label for="Add time selected colour"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Booking Form Selected Time' ); ?></label></th>
+			<th scope="row"><label for="Add time selected colour"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Add time selected colour' ); ?></label></th>
 			<td class="plugin-description">
 				<input type="text" name="bkx_time_selected_color" id="id_bkx_time_selected_color" value="<?php echo bkx_crud_option_multisite('bkx_time_selected_color'); ?>">
 			</td>
@@ -383,26 +370,26 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 			</td>
 		</tr> -->
 
-		<!--<tr class="active">
-			<th scope="row"><label for="Time Block BG colour"><?php /*printf( esc_html__( '%1$s', 'bookingx' ),  'Time Block BG colour' ); */?></label></th>
+		<tr class="active">
+			<th scope="row"><label for="Time Block BG colour"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Time Block BG colour' ); ?></label></th>
 			<td class="plugin-description">
-				<input type="text" name="bkx_time_block_bg_color" id="id_bkx_time_block_bg_color" value="<?php /*echo bkx_crud_option_multisite('bkx_time_block_bg_color'); */?>">
+				<input type="text" name="bkx_time_block_bg_color" id="id_bkx_time_block_bg_color" value="<?php echo bkx_crud_option_multisite('bkx_time_block_bg_color'); ?>">
 			</td>
 		</tr>
 
 		<tr class="active">
-			<th scope="row"><label for="Time Block service colour"><?php /*printf( esc_html__( '%1$s', 'bookingx' ),  'Time Block service colour' ); */?></label></th>
+			<th scope="row"><label for="Time Block service colour"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Time Block service colour' ); ?></label></th>
 			<td class="plugin-description">
-				<input type="text" name="bkx_time_block_service_color" id="id_bkx_time_block_service_color" value="<?php /*echo bkx_crud_option_multisite('bkx_time_block_service_color'); */?>">
+				<input type="text" name="bkx_time_block_service_color" id="id_bkx_time_block_service_color" value="<?php echo bkx_crud_option_multisite('bkx_time_block_service_color'); ?>">
 			</td>
 		</tr>
 
 		<tr class="active">
-			<th scope="row"><label for="Time Block extra colour"><?php /*printf( esc_html__( '%1$s', 'bookingx' ),  'Time Block extra colour' ); */?></label></th>
+			<th scope="row"><label for="Time Block extra colour"><?php printf( esc_html__( '%1$s', 'bookingx' ),  'Time Block extra colour' ); ?></label></th>
 			<td class="plugin-description">
-				<input type="text" name="bkx_time_block_extra_color" id="id_bkx_time_block_extra_color" value="<?php /*echo bkx_crud_option_multisite('bkx_time_block_extra_color'); */?>">
+				<input type="text" name="bkx_time_block_extra_color" id="id_bkx_time_block_extra_color" value="<?php echo bkx_crud_option_multisite('bkx_time_block_extra_color'); ?>">
 			</td>
-		</tr>-->
+		</tr>
 		
 		<tr class="active">
 			<td class="plugin-title" colspan="2" style="border-style: none;padding: 10px 200px;">
