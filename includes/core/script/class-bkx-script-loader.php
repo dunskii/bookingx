@@ -234,7 +234,7 @@ class Bkx_Script_Loader
      * @param $handle
      * @param $path
      * @param array $deps
-     * @param int $version
+     * @param string $version
      * @param string $media
      * @param bool $has_rtl
      */
@@ -302,8 +302,7 @@ class Bkx_Script_Loader
                 self::enqueue_script( 'bkx-booking-form-admin' );
             }elseif(isset($_GET['listing_view']) && ( $_GET['listing_view'] == "monthly" || $_GET['listing_view'] == "weekly" )){
                 self::enqueue_script( 'fullcalendar' );
-            }
-            else{return;}
+            }else{return;}
         }elseif( isset($_REQUEST['edit_booking_nonce']) && wp_verify_nonce( $_REQUEST['edit_booking_nonce'], 'edit_booking_'.$_REQUEST['id'] )) {
             self::enqueue_script( 'bkx-edit-booking-form' );
         } else{
@@ -317,7 +316,6 @@ class Bkx_Script_Loader
             $enqueue_styles = self::get_styles();
             if ( $enqueue_styles ) {
                 foreach ( $enqueue_styles as $handle => $args ) {
-
                     if ( ! isset( $args['has_rtl'] ) ) {
                         $args['has_rtl'] = false;
                     }
@@ -326,7 +324,8 @@ class Bkx_Script_Loader
                 }
             }
         }
-        
+        $custom_css = bkx_generate_inline_style();
+        wp_add_inline_style( 'style-main', $custom_css );
     }
 
     /**

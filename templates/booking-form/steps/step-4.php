@@ -32,7 +32,7 @@ defined( 'ABSPATH' ) || exit; ?>
         <div class="bkx-deposite-note user-detail bg-white px-3 py-4"></div>
     </div>
     <div class="button-wrapper">
-        <button type="submit" class="btn btn-default bkx-form-submission-final">Proceed with <img class="payment-gateway-image" src="" alt=""  class="img-fluid"></button>
+        <button type="submit" class="btn btn-default bkx-form-submission-final">Process Booking</button>
         <button type="submit" class="btn btn-default bkx-form-submission-previous">Previous</button>
     </div>
 </div>

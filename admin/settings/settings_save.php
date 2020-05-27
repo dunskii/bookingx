@@ -43,14 +43,18 @@ function bkx_setting_save_action( )
 
 	if(isset($_POST['other_setting_flag']) && ($_POST['other_setting_flag']==1))
 	{
-		$bkx_dashboard_column = array_map( 'sanitize_text_field', wp_unslash( $_POST['bkx_dashboard_column'] ) );
+	    if(isset($_POST['bkx_dashboard_column'])){
+            $bkx_dashboard_column = array_map( 'sanitize_text_field', wp_unslash( $_POST['bkx_dashboard_column'] ) );
+            if(!empty($bkx_dashboard_column)){
+                bkx_crud_option_multisite("bkx_dashboard_column", $bkx_dashboard_column,'update');
+            }
+        }
+
 		bkx_crud_option_multisite("enable_cancel_booking", sanitize_text_field($_POST['enable_cancel_booking']), 'update');
 		bkx_crud_option_multisite("cancellation_policy_page_id", sanitize_text_field($_POST['page_id']),'update');
 		bkx_crud_option_multisite("enable_any_seat", sanitize_text_field($_POST['enable_any_seat']),'update');	
 		bkx_crud_option_multisite("reg_customer_crud_op", sanitize_text_field($_POST['reg_customer_crud_op']),'update');
-		if(!empty($bkx_dashboard_column)){
-			bkx_crud_option_multisite("bkx_dashboard_column", $bkx_dashboard_column,'update');
-		}
+
 
  		$redirect = add_query_arg( array( 'bkx_success' =>  'OSE' ), $_SERVER['HTTP_REFERER'] );
 		wp_safe_redirect( $redirect );
@@ -157,22 +161,24 @@ function bkx_setting_save_action( )
         $bkx_booking_style = $_POST['bkx_booking_style'];
         $bkx_booking_style = ( ( !isset($bkx_booking_style) || $bkx_booking_style == "" ) ? "default" : $bkx_booking_style);
         bkx_crud_option_multisite("bkx_booking_style", sanitize_text_field($bkx_booking_style),'update');
-		bkx_crud_option_multisite("bkx_siteclient_css_text_color", sanitize_text_field($_POST['bkx_text_color']),'update');
-		bkx_crud_option_multisite("bkx_siteclient_css_background_color", sanitize_text_field($_POST['bkx_background_color']),'update');
-		bkx_crud_option_multisite("bkx_siteclient_css_border_color", sanitize_text_field($_POST['bkx_border_color']),'update');
-		bkx_crud_option_multisite("bkx_siteclient_css_progressbar_color", sanitize_text_field($_POST['bkx_progressbar_color']),'update');
-		bkx_crud_option_multisite("bkx_siteclient_css_cal_border_color", sanitize_text_field($_POST['bkx_cal_border_color']),'update');
-		bkx_crud_option_multisite("bkx_siteclient_css_cal_day_color", sanitize_text_field($_POST['bkx_cal_day_color']),'update');
-		bkx_crud_option_multisite("bkx_siteclient_css_cal_day_selected_color", sanitize_text_field($_POST['bkx_cal_day_selected_color']),'update');
+		bkx_crud_option_multisite("bkx_form_text_color", sanitize_text_field($_POST['bkx_text_color']),'update');
+		//bkx_crud_option_multisite("bkx_form_background_color", sanitize_text_field($_POST['bkx_background_color']),'update');
+		//bkx_crud_option_multisite("bkx_siteclient_css_border_color", sanitize_text_field($_POST['bkx_border_color']),'update');
+		bkx_crud_option_multisite("bkx_active_step_color", sanitize_text_field($_POST['bkx_progressbar_color']),'update');
+		//bkx_crud_option_multisite("bkx_siteclient_css_cal_border_color", sanitize_text_field($_POST['bkx_cal_border_color']),'update');
+		bkx_crud_option_multisite("bkx_cal_day_color", sanitize_text_field($_POST['bkx_cal_day_color']),'update');
+		bkx_crud_option_multisite("bkx_cal_day_selected_color", sanitize_text_field($_POST['bkx_cal_day_selected_color']),'update');
 		bkx_crud_option_multisite("bkx_time_available_color", sanitize_text_field($_POST['bkx_time_available_color']),'update');
 		bkx_crud_option_multisite("bkx_time_selected_color", sanitize_text_field($_POST['bkx_time_selected_color']),'update');
 		bkx_crud_option_multisite("bkx_time_unavailable_color", sanitize_text_field($_POST['bkx_time_unavailable_color']),'update');
-		bkx_crud_option_multisite("bkx_time_block_bg_color", sanitize_text_field($_POST['bkx_time_block_bg_color']),'update');
-		bkx_crud_option_multisite("bkx_time_block_extra_color", sanitize_text_field($_POST['bkx_time_block_extra_color']),'update');
-		bkx_crud_option_multisite("bkx_time_block_service_color", sanitize_text_field($_POST['bkx_time_block_service_color']),'update');
-		bkx_crud_option_multisite("bkx_cal_month_title_color", sanitize_text_field($_POST['bkx_cal_month_title_color']),'update');
-		bkx_crud_option_multisite("bkx_cal_month_bg_color", sanitize_text_field($_POST['bkx_cal_month_bg_color']),'update');
-		bkx_crud_option_multisite("bkx_time_new_selected", sanitize_text_field($_POST['bkx_time_new_selected']),'update');
+		//bkx_crud_option_multisite("bkx_time_block_bg_color", sanitize_text_field($_POST['bkx_time_block_bg_color']),'update');
+		//bkx_crud_option_multisite("bkx_time_block_extra_color", sanitize_text_field($_POST['bkx_time_block_extra_color']),'update');
+		//bkx_crud_option_multisite("bkx_time_block_service_color", sanitize_text_field($_POST['bkx_time_block_service_color']),'update');
+		//bkx_crud_option_multisite("bkx_cal_month_title_color", sanitize_text_field($_POST['bkx_cal_month_title_color']),'update');
+		//bkx_crud_option_multisite("bkx_cal_month_bg_color", sanitize_text_field($_POST['bkx_cal_month_bg_color']),'update');
+		//bkx_crud_option_multisite("bkx_time_new_selected", sanitize_text_field($_POST['bkx_time_new_selected']),'update');
+		bkx_crud_option_multisite("bkx_next_btn", sanitize_text_field($_POST['bkx_next_btn']),'update');
+		bkx_crud_option_multisite("bkx_prev_btn", sanitize_text_field($_POST['bkx_prev_btn']),'update');
 
 		$redirect = add_query_arg( array( 'bkx_success' =>  'STU' ), $_SERVER['HTTP_REFERER'] );
 		wp_safe_redirect( $redirect );

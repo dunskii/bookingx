@@ -15,280 +15,291 @@ jQuery(document).ready(function(){
 
 
     jQuery('.bkx-dashboard-column-all').on('click',function(){
-            if(this.checked){
-                jQuery('.bkx-dashboard-column').each(function(){
-                    this.checked = true;
-                });
-            }else{
-                jQuery('.bkx-dashboard-column').each(function(){
-                    this.checked = false;
-                });
-            }
-        });
+        if(this.checked){
+            jQuery('.bkx-dashboard-column').each(function(){
+                this.checked = true;
+            });
+        }else{
+            jQuery('.bkx-dashboard-column').each(function(){
+                this.checked = false;
+            });
+        }
+    });
 
-        jQuery('.bkx-dashboard-column').on('click',function(){
-            if(jQuery('.bkx-dashboard-column:checked').length == jQuery('.bkx-dashboard-column').length){
-                jQuery('.bkx-dashboard-column-all').prop('checked',true);
-            }else{
-                jQuery('.bkx-dashboard-column-all').prop('checked',false);
-            }
-        });
+    jQuery('.bkx-dashboard-column').on('click',function(){
+        if(jQuery('.bkx-dashboard-column:checked').length == jQuery('.bkx-dashboard-column').length){
+            jQuery('.bkx-dashboard-column-all').prop('checked',true);
+        }else{
+            jQuery('.bkx-dashboard-column-all').prop('checked',false);
+        }
+    });
 
-        /**********************start script for color picker******************************/
-        var ajax_url = bkx_admin.ajax_url;
-        jQuery('#id_bkx_text_color').iris({
-            width: 300,
-            hide: true,
-            palettes: true
-        });
-        jQuery( "#id_bkx_text_color").click(function() {
-            jQuery('.id_bkx_text_color').show();
-        });
+    /**********************start script for color picker******************************/
+    var ajax_url = bkx_admin.ajax_url;
+    jQuery('#id_bkx_text_color').iris({
+        width: 300,
+        hide: true,
+        palettes: true
+    });
+    jQuery( "#id_bkx_text_color").click(function() {
+        jQuery('.id_bkx_text_color').show();
+    });
 
-        jQuery( ".id_bkx_text_color").mouseenter(function() {
-            jQuery('.id_bkx_text_color').show();
-        }).mouseleave(function() {
-            jQuery('.id_bkx_text_color').hide();
-        });
-
-
-        jQuery('#id_bkx_background_color').iris({
-            width: 300,
-            hide: true,
-            palettes: true
-        });
-        jQuery( "#id_bkx_background_color").click(function() {
-            jQuery('.id_bkx_background_color').show();
-        });
-        jQuery( ".id_bkx_background_color").mouseenter(function() {
-            jQuery('.id_bkx_background_color').show();
-        }).mouseleave(function() {
-            jQuery('.id_bkx_background_color').hide();
-        });
+    jQuery( ".id_bkx_text_color").mouseenter(function() {
+        jQuery('.id_bkx_text_color').show();
+    }).mouseleave(function() {
+        jQuery('.id_bkx_text_color').hide();
+    });
 
 
-        jQuery('#id_bkx_border_color').iris({
-            width: 300,
-            hide: true,
-            palettes: true
-        });
-        jQuery( "#id_bkx_border_color").click(function() {
-            jQuery('.id_bkx_border_color').show();
-        });
-        jQuery( ".id_bkx_border_color").mouseenter(function() {
-            jQuery('.id_bkx_border_color').show();
-        }).mouseleave(function() {
-            jQuery('.id_bkx_border_color').hide();
-        });
+    jQuery('#id_bkx_background_color').iris({
+        width: 300,
+        hide: true,
+        palettes: true
+    });
+    jQuery( "#id_bkx_background_color").click(function() {
+        jQuery('.id_bkx_background_color').show();
+    });
+    jQuery( ".id_bkx_background_color").mouseenter(function() {
+        jQuery('.id_bkx_background_color').show();
+    }).mouseleave(function() {
+        jQuery('.id_bkx_background_color').hide();
+    });
 
 
-        jQuery('#id_bkx_progressbar_color').iris({
-            width: 300,
-            hide: true,
-            palettes: true
-        });
-        jQuery( "#id_bkx_progressbar_color").click(function() {
-            jQuery('.id_bkx_progressbar_color').show();
-        });
-        jQuery( ".id_bkx_progressbar_color").mouseenter(function() {
-            jQuery('.id_bkx_progressbar_color').show();
-        }).mouseleave(function() {
-            jQuery('.id_bkx_progressbar_color').hide();
-        });
+    jQuery('#id_bkx_border_color').iris({
+        width: 300,
+        hide: true,
+        palettes: true
+    });
+    jQuery( "#id_bkx_border_color").click(function() {
+        jQuery('.id_bkx_border_color').show();
+    });
+    jQuery( ".id_bkx_border_color").mouseenter(function() {
+        jQuery('.id_bkx_border_color').show();
+    }).mouseleave(function() {
+        jQuery('.id_bkx_border_color').hide();
+    });
 
 
-        jQuery('#id_bkx_cal_border_color').iris({
-            width: 300,
-            hide: true,
-            palettes: true
-        });
-        jQuery( "#id_bkx_cal_border_color").click(function() {
-            jQuery('.id_bkx_cal_border_color').show();
-        });
-        jQuery( ".id_bkx_cal_border_color").mouseenter(function() {
-            jQuery('.id_bkx_cal_border_color').show();
-        }).mouseleave(function() {
-            jQuery('.id_bkx_cal_border_color').hide();
-        });
-
-        jQuery('#id_bkx_cal_day_color').iris({
-            width: 300,
-            hide: true,
-            palettes: true
-        });
-        jQuery( "#id_bkx_cal_day_color").click(function() {
-            jQuery('.id_bkx_cal_day_color').show();
-        });
-        jQuery( ".id_bkx_cal_day_color").mouseenter(function() {
-            jQuery('.id_bkx_cal_day_color').show();
-        }).mouseleave(function() {
-            jQuery('.id_bkx_cal_day_color').hide();
-        });
+    jQuery('#id_bkx_progressbar_color').iris({
+        width: 300,
+        hide: true,
+        palettes: true
+    });
+    jQuery( "#id_bkx_progressbar_color").click(function() {
+        jQuery('.id_bkx_progressbar_color').show();
+    });
+    jQuery( ".id_bkx_progressbar_color").mouseenter(function() {
+        jQuery('.id_bkx_progressbar_color').show();
+    }).mouseleave(function() {
+        jQuery('.id_bkx_progressbar_color').hide();
+    });
 
 
-        jQuery('#id_bkx_cal_day_selected_color').iris({
-            width: 300,
-            hide: true,
-            palettes: true
-        });
-        jQuery( "#id_bkx_cal_day_selected_color").click(function() {
-            jQuery('.id_bkx_cal_day_selected_color').show();
-        });
-        jQuery( ".id_bkx_cal_day_selected_color").mouseenter(function() {
-            jQuery('.id_bkx_cal_day_selected_color').show();
-        }).mouseleave(function() {
-            jQuery('.id_bkx_cal_day_selected_color').hide();
-        });
+    jQuery('#id_bkx_cal_border_color').iris({
+        width: 300,
+        hide: true,
+        palettes: true
+    });
+    jQuery( "#id_bkx_cal_border_color").click(function() {
+        jQuery('.id_bkx_cal_border_color').show();
+    });
+    jQuery( ".id_bkx_cal_border_color").mouseenter(function() {
+        jQuery('.id_bkx_cal_border_color').show();
+    }).mouseleave(function() {
+        jQuery('.id_bkx_cal_border_color').hide();
+    });
 
-        jQuery('#id_bkx_time_available_color').iris({
-            width: 300,
-            hide: true,
-            palettes: true
-        });
-        jQuery( "#id_bkx_time_available_color").click(function() {
-            jQuery('.id_bkx_time_available_color').show();
-        });
-        jQuery( ".id_bkx_time_available_color").mouseenter(function() {
-            jQuery('.id_bkx_time_available_color').show();
-        }).mouseleave(function() {
-            jQuery('.id_bkx_time_available_color').hide();
-        });
-
-        /***************************************************************/
-        jQuery('#id_bkx_time_selected_color').iris({
-            width: 300,
-            hide: true,
-            palettes: true
-        });
-        jQuery( "#id_bkx_time_selected_color").click(function() {
-            jQuery('.id_bkx_time_selected_color').show();
-        });
-        jQuery( ".id_bkx_time_selected_color").mouseenter(function() {
-            jQuery('.id_bkx_time_selected_color').show();
-        }).mouseleave(function() {
-            jQuery('.id_bkx_time_selected_color').hide();
-        });
-        /*****************************************************************/
-
-        jQuery('#id_bkx_time_block_bg_color').iris({
-            width: 300,
-            hide: true,
-            palettes: true
-        });
-        jQuery( "#id_bkx_time_block_bg_color").click(function() {
-            jQuery('.id_bkx_time_block_bg_color').show();
-        });
-        jQuery( ".id_bkx_time_block_bg_color").mouseenter(function() {
-            jQuery('.id_bkx_time_block_bg_color').show();
-        }).mouseleave(function() {
-            jQuery('.id_bkx_time_block_bg_color').hide();
-        });
-
-        /*****************************************************************/
-
-        jQuery('#id_bkx_time_block_extra_color').iris({
-            width: 300,
-            hide: true,
-            palettes: true
-        });
-        jQuery( "#id_bkx_time_block_extra_color").click(function() {
-            jQuery('.id_bkx_time_block_extra_color').show();
-        });
-        jQuery( ".id_bkx_time_block_extra_color").mouseenter(function() {
-            jQuery('.id_bkx_time_block_extra_color').show();
-        }).mouseleave(function() {
-            jQuery('.id_bkx_time_block_extra_color').hide();
-        });
-        /*****************************************************************/
-
-        jQuery('#id_bkx_time_block_service_color').iris({
-            width: 300,
-            hide: true,
-            palettes: true
-        });
-        jQuery( "#id_bkx_time_block_service_color").click(function() {
-            jQuery('.id_bkx_time_block_service_color').show();
-        });
-        jQuery( ".id_bkx_time_block_service_color").mouseenter(function() {
-            jQuery('.id_bkx_time_block_service_color').show();
-        }).mouseleave(function() {
-            jQuery('.id_bkx_time_block_service_color').hide();
-        });
-
-        /*****************************************************************/
+    jQuery('#id_bkx_cal_day_color').iris({
+        width: 300,
+        hide: true,
+        palettes: true
+    });
+    jQuery( "#id_bkx_cal_day_color").click(function() {
+        jQuery('.id_bkx_cal_day_color').show();
+    });
+    jQuery( ".id_bkx_cal_day_color").mouseenter(function() {
+        jQuery('.id_bkx_cal_day_color').show();
+    }).mouseleave(function() {
+        jQuery('.id_bkx_cal_day_color').hide();
+    });
 
 
-        jQuery('#id_bkx_time_unavailable_color').iris({
-            width: 300,
-            hide: true,
-            palettes: true,
-        });
-        jQuery( "#id_bkx_time_unavailable_color").click(function() {
-            jQuery('.id_bkx_time_unavailable_color').show();
-        });
+    jQuery('#id_bkx_cal_day_selected_color').iris({
+        width: 300,
+        hide: true,
+        palettes: true
+    });
+    jQuery( "#id_bkx_cal_day_selected_color").click(function() {
+        jQuery('.id_bkx_cal_day_selected_color').show();
+    });
+    jQuery( ".id_bkx_cal_day_selected_color").mouseenter(function() {
+        jQuery('.id_bkx_cal_day_selected_color').show();
+    }).mouseleave(function() {
+        jQuery('.id_bkx_cal_day_selected_color').hide();
+    });
 
-        /** Mouse out and color picker out */
+    jQuery('#id_bkx_time_available_color').iris({
+        width: 300,
+        hide: true,
+        palettes: true
+    });
+    jQuery( "#id_bkx_time_available_color").click(function() {
+        jQuery('.id_bkx_time_available_color').show();
+    });
+    jQuery( ".id_bkx_time_available_color").mouseenter(function() {
+        jQuery('.id_bkx_time_available_color').show();
+    }).mouseleave(function() {
+        jQuery('.id_bkx_time_available_color').hide();
+    });
 
-        jQuery( ".id_bkx_time_unavailable_color").mouseenter(function() {
-            jQuery('.id_bkx_time_unavailable_color').show();
-        }).mouseleave(function() {
-            jQuery('.id_bkx_time_unavailable_color').hide();
-        });
+    /***************************************************************/
+    jQuery('#id_bkx_time_selected_color').iris({
+        width: 300,
+        hide: true,
+        palettes: true
+    });
+    jQuery( "#id_bkx_time_selected_color").click(function() {
+        jQuery('.id_bkx_time_selected_color').show();
+    });
+    jQuery( ".id_bkx_time_selected_color").mouseenter(function() {
+        jQuery('.id_bkx_time_selected_color').show();
+    }).mouseleave(function() {
+        jQuery('.id_bkx_time_selected_color').hide();
+    });
+    /*****************************************************************/
 
-        /**************************************************************************/
+    jQuery('#id_bkx_time_block_bg_color').iris({
+        width: 300,
+        hide: true,
+        palettes: true
+    });
+    jQuery( "#id_bkx_time_block_bg_color").click(function() {
+        jQuery('.id_bkx_time_block_bg_color').show();
+    });
+    jQuery( ".id_bkx_time_block_bg_color").mouseenter(function() {
+        jQuery('.id_bkx_time_block_bg_color').show();
+    }).mouseleave(function() {
+        jQuery('.id_bkx_time_block_bg_color').hide();
+    });
 
-        jQuery('#id_bkx_cal_month_title_color').iris({
-            width: 300,
-            hide: true,
-            palettes: true,
-        });
-        jQuery( "#id_bkx_cal_month_title_color").click(function() {
-            jQuery('.id_bkx_cal_month_title_color').show();
-        });
+    /*****************************************************************/
 
-        /** Mouse out and color picker out */
+    jQuery('#id_bkx_time_block_extra_color').iris({
+        width: 300,
+        hide: true,
+        palettes: true
+    });
+    jQuery( "#id_bkx_time_block_extra_color").click(function() {
+        jQuery('.id_bkx_time_block_extra_color').show();
+    });
+    jQuery( ".id_bkx_time_block_extra_color").mouseenter(function() {
+        jQuery('.id_bkx_time_block_extra_color').show();
+    }).mouseleave(function() {
+        jQuery('.id_bkx_time_block_extra_color').hide();
+    });
+    /*****************************************************************/
 
-        jQuery( ".id_bkx_cal_month_title_color").mouseenter(function() {
-            jQuery('.id_bkx_cal_month_title_color').show();
-        }).mouseleave(function() {
-            jQuery('.id_bkx_cal_month_title_color').hide();
-        });
+    jQuery('#id_bkx_time_block_service_color').iris({
+        width: 300,
+        hide: true,
+        palettes: true
+    });
+    jQuery( "#id_bkx_time_block_service_color").click(function() {
+        jQuery('.id_bkx_time_block_service_color').show();
+    });
+    jQuery( ".id_bkx_time_block_service_color").mouseenter(function() {
+        jQuery('.id_bkx_time_block_service_color').show();
+    }).mouseleave(function() {
+        jQuery('.id_bkx_time_block_service_color').hide();
+    });
 
-        /**********************************************************************/
-        jQuery('#id_bkx_cal_month_bg_color').iris({
-            width: 300,
-            hide: true,
-            palettes: true,
-        });
-        jQuery( "#id_bkx_cal_month_bg_color").click(function() {
-            jQuery('.id_bkx_cal_month_bg_color').show();
-        });
+    /*****************************************************************/
 
-        /** Mouse out and color picker out */
 
-        jQuery( ".id_bkx_cal_month_bg_color").mouseenter(function() {
-            jQuery('.id_bkx_cal_month_bg_color').show();
-        }).mouseleave(function() {
-            jQuery('.id_bkx_cal_month_bg_color').hide();
-        });
+    jQuery('#id_bkx_time_unavailable_color').iris({
+        width: 300,
+        hide: true,
+        palettes: true,
+    });
+    jQuery( "#id_bkx_time_unavailable_color").click(function() {
+        jQuery('.id_bkx_time_unavailable_color').show();
+    });
 
-        /**********************************************************************/
-        jQuery('#id_bkx_time_new_selected').iris({
-            width: 300,
-            hide: true,
-            palettes: true,
-        });
-        jQuery( "#id_bkx_time_new_selected").click(function() {
-            jQuery('.id_bkx_time_new_selected').show();
-        });
+    /** Mouse out and color picker out */
 
-        /** Mouse out and color picker out */
+    jQuery( ".id_bkx_time_unavailable_color").mouseenter(function() {
+        jQuery('.id_bkx_time_unavailable_color').show();
+    }).mouseleave(function() {
+        jQuery('.id_bkx_time_unavailable_color').hide();
+    });
 
-        jQuery( ".id_bkx_time_new_selected").mouseenter(function() {
-            jQuery('.id_bkx_time_new_selected').show();
-        }).mouseleave(function() {
-            jQuery('.id_bkx_time_new_selected').hide();
-        });
+    /**************************************************************************/
+
+    jQuery('#id_bkx_cal_month_title_color').iris({
+        width: 300,
+        hide: true,
+        palettes: true,
+    });
+    jQuery( "#id_bkx_cal_month_title_color").click(function() {
+        jQuery('.id_bkx_cal_month_title_color').show();
+    });
+
+    /** Mouse out and color picker out */
+
+    jQuery( ".id_bkx_cal_month_title_color").mouseenter(function() {
+        jQuery('.id_bkx_cal_month_title_color').show();
+    }).mouseleave(function() {
+        jQuery('.id_bkx_cal_month_title_color').hide();
+    });
+
+    /**********************************************************************/
+    jQuery('#id_bkx_cal_month_bg_color').iris({
+        width: 300,
+        hide: true,
+        palettes: true,
+    });
+    jQuery( "#id_bkx_cal_month_bg_color").click(function() {
+        jQuery('.id_bkx_cal_month_bg_color').show();
+    });
+
+    /** Mouse out and color picker out */
+
+    jQuery( ".id_bkx_cal_month_bg_color").mouseenter(function() {
+        jQuery('.id_bkx_cal_month_bg_color').show();
+    }).mouseleave(function() {
+        jQuery('.id_bkx_cal_month_bg_color').hide();
+    });
+
+    /**********************************************************************/
+    jQuery('#id_bkx_time_new_selected').iris({
+        width: 300,
+        hide: true,
+        palettes: true,
+    });
+    jQuery( "#id_bkx_time_new_selected").click(function() {
+        jQuery('.id_bkx_time_new_selected').show();
+    });
+
+    /** Mouse out and color picker out */
+
+    jQuery( ".id_bkx_time_new_selected").mouseenter(function() {
+        jQuery('.id_bkx_time_new_selected').show();
+    }).mouseleave(function() {
+        jQuery('.id_bkx_time_new_selected').hide();
+    });
+
+    jQuery('#id_bkx_next_btn').iris({
+        width: 300,
+        hide: true,
+        palettes: true
+    });
+    jQuery('#id_bkx_prev_btn').iris({
+        width: 300,
+        hide: true,
+        palettes: true
+    });
 
 
         /********************end script for color picker*******************************/
