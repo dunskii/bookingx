@@ -403,7 +403,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 				<input type="text" name="bkx_time_block_extra_color" id="id_bkx_time_block_extra_color" value="<?php /*echo bkx_crud_option_multisite('bkx_time_block_extra_color'); */?>">
 			</td>
 		</tr>-->
-		
+
 		<tr class="active">
 			<td class="plugin-title" colspan="2" style="border-style: none;padding: 10px 200px;">
 				
