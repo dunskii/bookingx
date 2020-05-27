@@ -134,26 +134,6 @@ class Bkx_Ajax_Loader
                 $booking_style = "default";
                 $slot_hide_flag = true;
             }
-
-            /**
-             * Any Seat Functionality
-             */
-            $enable_any_seat = bkx_crud_option_multisite('enable_any_seat');
-            $enable_any_seat = apply_filters( 'bkx_enable_any_seat', $enable_any_seat  );
-            $default_seat    = bkx_crud_option_multisite('select_default_seat');
-            $default_seat    = apply_filters( 'bkx_enable_any_seat_id', $default_seat );
-            $any_seat = 0;
-            if (isset($default_seat) && $default_seat != '' && $enable_any_seat == 1) {
-                $_POST['seat_id'] = $default_seat;
-                $any_seat = $default_seat;
-            }elseif( (!isset($default_seat) || $default_seat == '' || $default_seat < 1 ) && $enable_any_seat == 1){
-                $base_selected_seats   = get_post_meta( $base_id, 'base_selected_seats', true );
-                if(!empty($base_selected_seats)){
-                    $seat_key = array_rand($base_selected_seats, 1 );
-                    $_POST['seat_id'] = $base_selected_seats[$seat_key];
-                    $any_seat = $base_selected_seats[$seat_key];;
-                }
-            }
             $prepayment = false;
             if(isset($_POST['seat_id']) && $_POST['seat_id'] != 0 ){
                 $seat_id = sanitize_text_field( wp_unslash( $_POST['seat_id'] ) );
@@ -164,9 +144,8 @@ class Bkx_Ajax_Loader
             $result['extended']         = $service_extended_html;
             $result['booking_style']    = $booking_style;
             $result['time_option']      = $base_time_option;
-            $result['is_prepayment']    = $prepayment;
-            $result['slot_hide_flag']   = $slot_hide_flag;
-            $result['any_seat']         = $any_seat;
+            $result['is_prepayment']      = $prepayment;
+            $result['slot_hide_flag']       = $slot_hide_flag;
             echo json_encode($result);
         }
         wp_die();
@@ -289,8 +268,6 @@ class Bkx_Ajax_Loader
         $BkxBooking = new BkxBooking();
         $args['seat_id'] = sanitize_text_field( wp_unslash( $_POST['seat_id'] ) );
         $args['base_id'] = sanitize_text_field( wp_unslash( $_POST['base_id'] ) );
-        $args['service_extend'] = sanitize_text_field( wp_unslash( $_POST['service_extend'] ) );
-
         if(isset($_POST['extra_id']) && !empty($_POST['extra_id']) && $_POST['extra_id']!="None"){
             $args['extra_ids'] = array_map( 'absint', (array) isset( $_POST['extra_id'] ) ? wp_unslash( $_POST['extra_id'] ) : array() );
         }
@@ -324,9 +301,6 @@ class Bkx_Ajax_Loader
             if($extra_day > 0 ){
                 $base_day += $extra_day;
             }
-            if(isset($args['service_extend']) && $args['service_extend'] > 0 ){
-                $base_day += $args['service_extend'];
-            }
             $end_date =  date('Y-m-d', strtotime($start_date. " + {$base_day} days"));
             $get_date_range = bkx_getDatesFromRange( $start_date, $end_date, 'Y-m-d' ); //2019-6-3
             $availability   = $BkxBooking->get_booking_form_calendar_availability($args);
@@ -334,10 +308,7 @@ class Bkx_Ajax_Loader
                 $allowed = array();
                 foreach ($get_date_range as $date ){
                     $args['booking_date'] = $date;
-                    $weekday = date('l', strtotime($date));
-                    if(!empty($availability['unavailable_days']) &&  in_array( date("m/d/Y", strtotime( $date ) ), $availability['unavailable_days'])){
-                        $already_booked = array(0);
-                    }elseif(!in_array( $weekday, $availability['seat']['days'])){
+                    if(!empty($availability['unavailable_days']) && in_array( date("m/d/Y", strtotime( $date ) ), $availability['unavailable_days'])){
                         $already_booked = array(0);
                     }else{
                         $already_booked = $BkxBooking->GetBookedRecords( $args );

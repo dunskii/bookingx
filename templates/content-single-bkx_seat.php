@@ -64,8 +64,6 @@ if(!empty($args)){
                 <?php if(!empty($seat_available_months) || !empty($seat_available_days) || !empty($seat_payment_info)):?>
                     <div class="meta-data businessHours"><?php bkx_get_template( 'bkx-single/meta/seat.php' );?></div>
                 <?php endif;?>
-
-                <?php do_action('bkx_seat_addition_info', $seat_id);?>
             </div>
 
         </div>

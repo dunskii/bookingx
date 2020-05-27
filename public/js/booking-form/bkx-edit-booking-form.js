@@ -486,7 +486,7 @@ jQuery( function( $ ) {
             var service_extend = parseInt( $('.bkx-booking-form .step-1 .bkx-services-extend').val());
             var data = {
                 security    : bkx_edit_booking_form_params.update_booking_total_nonce,
-                seat_id     : $('.bkx-booking-form .step-1 .bkx-staff-lists').val(),
+                seat_id     : parseInt($('.bkx-booking-form .step-1 .bkx-staff-lists').val()),
                 base_id     : parseInt($('.bkx-services-lists').val()),
                 extra_ids   : extra_service,
                 service_extend : service_extend
