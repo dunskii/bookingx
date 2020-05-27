@@ -38,8 +38,12 @@
 
     function bkx_bookingx_set_as_any_seat_callback(){
         $seat_id = absint(sanitize_text_field($_GET['seat_id']));
-        if ('bkx_seat' === get_post_type($seat_id)) {
+        $select_default_seat = bkx_crud_option_multisite('select_default_seat');
+
+        if ('bkx_seat' === get_post_type($seat_id) && $select_default_seat == "") {
             bkx_crud_option_multisite('select_default_seat', $seat_id, 'update');
+        }else{
+            bkx_crud_option_multisite('select_default_seat', "", 'update');
         }
         wp_safe_redirect(wp_get_referer() ? remove_query_arg(array('trashed', 'untrashed', 'deleted', 'ids'), wp_get_referer()) : admin_url('edit.php?post_type=bkx_seat'));
         wp_die();
