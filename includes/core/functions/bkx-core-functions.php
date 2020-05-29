@@ -408,6 +408,23 @@ function bkx_help_tip( $tip, $allow_html = false ) {
     return '<span class="bookingx-help-tip" data-tip="' . $tip . '"></span>';
 }
 
+/**
+ * Skip Step 1 if Admin Edit booking
+ * @return string
+ */
+function SkipStep()
+{
+    $skip_this_step = false;
+    if(is_admin()){
+        $screen = get_current_screen();
+        $base = $screen->base;
+        $post_type = $screen->post_type;
+        if($base == "post" && $post_type == "bkx_booking" && isset($_REQUEST['post']) && $_REQUEST['post'] > 0){
+            $skip_this_step = true;
+        }
+    }
+    return $skip_this_step;
+}
 function bkx_sanitize_tooltip( $var ) {
     return htmlspecialchars(
         wp_kses(
@@ -777,4 +794,17 @@ function edit_booking_url( $booking_id){
     $edit_id        = bkx_crud_option_multisite('booking_edit_process_page_id');
     $edit_booking   = add_query_arg( array( 'id' => $booking_id ) , get_permalink($edit_id) );
     return wp_nonce_url( $edit_booking, 'edit_booking_'.$booking_id, 'edit_booking_nonce');
+}
+
+function bkx_get_dashboard_orders_columns(){
+    return apply_filters(
+        'bkx_listing_default_headers',
+        array(
+            'booking-number'  => esc_html__( 'Booking #', 'woocommerce' ),
+            'booking-date'    => esc_html__( 'Date & Time', 'woocommerce' ),
+            'booking-status'  => esc_html__( 'Status', 'woocommerce' ),
+            'booking-total'   => esc_html__( 'Total', 'woocommerce' ),
+            'booking-actions' => '&nbsp;',
+        )
+    );
 }
