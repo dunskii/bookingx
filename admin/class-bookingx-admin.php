@@ -705,7 +705,6 @@ class Bookingx_Admin {
                 //$duration   = sprintf( __( '%s', 'bookingx' ), $base_time['formatted'] );
                 $duration   = sprintf( __( '%s', 'bookingx' ), $booking_duration );
             }
-
         }
         switch ( $column ) {
             case 'order_status':

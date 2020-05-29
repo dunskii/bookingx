@@ -421,3 +421,23 @@ if(!function_exists('bookingx_base_meta_data_html')){
         echo $BaseObj->get_meta_details_html($base_id);
     }
 }
+
+if(!function_exists('bkx_dashboard_nav')){
+    function bkx_dashboard_nav(){
+        bkx_get_template('dashboard/nav.php');
+    }
+}
+
+if(!function_exists('bkx_dashboard_content')){
+    function bkx_dashboard_content(){
+        bkx_get_template('dashboard/nav-content.php');
+    }
+}
+
+if(!function_exists('bkx_dashboard_booking_view')){
+    function bkx_dashboard_booking_view(){
+        bkx_get_template('dashboard/detail.php');
+    }
+}
+
+

@@ -48,7 +48,8 @@ function generate_while_multisite_creating($blog_id, $user_id, $domain, $path, $
     $_my_account['ping_status'] = 'closed';
     $_my_account['post_category'] = array(1); // the default 'Uncatrgorised'
     // Insert the post into the database
-    wp_insert_post($_my_account);
+    $bkx_dashboard_id = wp_insert_post($_my_account);
+    add_blog_option($blog_id, 'bkx_dashboard_id', $bkx_dashboard_id);
     add_blog_option($blog_id, 'bkx_plugin_page_id', $the_page_id);
     restore_current_blog();
 }
