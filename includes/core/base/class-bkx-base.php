@@ -462,14 +462,13 @@ class BkxBase {
 
         $enable_any_seat = bkx_crud_option_multisite('enable_any_seat');
         $enable_any_seat = isset($enable_any_seat) && $enable_any_seat > 0 ? $enable_any_seat : 0;
-
         $args = array(
             'posts_per_page' => -1,
             'post_type' => 'bkx_base',
             'post_status' => 'publish',
             'suppress_filters' => false,
         );
-        if($enable_any_seat == 0 ){
+        if($enable_any_seat == 0 || ( $seat_id != "any" && $seat_id > 0) ){
             $args['meta_query'] =
                 array(
                     'relation'=> 'OR',
@@ -485,7 +484,6 @@ class BkxBase {
                     ),
                 );
         }
-
         $base_result = new WP_Query($args);
 
         $BaseData = array();

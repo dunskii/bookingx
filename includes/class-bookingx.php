@@ -168,6 +168,7 @@ class Bookingx {
 		/**
 		 *  Bkx Short code Load
 		 */
+        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/shortcode/class-bkx-dashboard.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/shortcode/class-bkx-booking-form-shortcode.php';
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/shortcode/class-shortcode-editor.php';
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/shortcode/class-bkx-listing-shortcode.php';

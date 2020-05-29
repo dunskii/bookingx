@@ -2,7 +2,10 @@
 /**
  * Booking Form Step 2
  */
-defined( 'ABSPATH' ) || exit;?>
+defined( 'ABSPATH' ) || exit;
+$skip_this_step = SkipStep();
+$skip_this_step_style = ($skip_this_step == true) ? 'style = "display: none;"' : "";
+?>
 <div class="step-2 bkx-form-deactivate default" data-active="2" data-booking-style="default">
     <div class="user-detail">
     </div>
@@ -31,7 +34,11 @@ defined( 'ABSPATH' ) || exit;?>
         </div>
     </div>
     <div class="button-wrapper">
-        <button type="submit" class="btn btn-default bkx-form-submission-next">Next</button>
-        <button type="submit" class="btn btn-default bkx-form-submission-previous">Previous</button>
+        <?php if($skip_this_step == true) : ?>
+            <button type="submit" class="btn btn-default bkx-form-submission-final">Booking Update</button>
+        <?php else : ?>
+            <button type="submit" class="btn btn-default bkx-form-submission-next">Next</button>
+        <?php endif;?>
+        <button <?php echo $skip_this_step_style;?> type="submit" class="btn btn-default bkx-form-submission-previous">Previous</button>
     </div>
 </div>

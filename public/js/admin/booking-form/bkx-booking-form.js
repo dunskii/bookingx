@@ -110,8 +110,8 @@ jQuery( function( $ ) {
                 },
                 complete: function() {
                     if(bkx_booking_form_admin_params.seat_id > 0 ){
+                        $('.bkx-admin-loading-edit h2').html('Still Loading, Please Wait..');
                         booking_form.base_change();
-                        booking_form.form_progress();
                     }
                 }
             } );
@@ -201,8 +201,8 @@ jQuery( function( $ ) {
                             $( "#bkx-extra-service-"+extra_selected[id]).prop('checked', true);
                             $( "#bkx-extra-service-"+extra_selected[id]).attr('checked','checked');
                         }
-                        booking_form.extra_checked();
                     }
+                    booking_form.extra_checked();
                     if(bkx_booking_form_admin_params.extended_base > 0 ){
                         $('.bkx-booking-form .step-1 .bkx-services-extend').val(bkx_booking_form_admin_params.extended_base);
                         booking_form.update_booking_total();
@@ -216,6 +216,7 @@ jQuery( function( $ ) {
             if( listToArray(".bkx-booking-form .step-1 :input[name^=bkx-extra-service]:checked") != 'None' ){
                 booking_form.disable_days_note.html("<div class=\"row\"><div class=\"col-lg-12\"> <strong> Note : </strong> "+bkx_booking_form_admin_params.disable_days_note+"</div></div>");
             }
+            booking_form.form_progress();
         },
         submit: function (e) {
             e.preventDefault();
@@ -238,84 +239,101 @@ jQuery( function( $ ) {
             if( GetCurrentStep() < 2 && booking_form.booking_style == 'default' ){
                 $('.bkx-booking-form .step-2.default').show();
                 $('.bkx-booking-form .step-2.day-style').hide();
-                booking_form.BookingFormGetCalendarAvailability( ( bkx_edit_booking_form_params.booking_date ) ? bkx_edit_booking_form_params.booking_date : moment().format("Y-M-D") );
+                booking_form.BookingFormGetCalendarAvailability( ( bkx_booking_form_admin_params.booking_date ) ? bkx_booking_form_admin_params.booking_date : moment().format("Y-M-D") );
             }
 
             //Booking Step 2B Design
             if( GetCurrentStep() < 2 && booking_form.booking_style == 'day_style' ){
                 $('.bkx-booking-form .step-2.day-style').show();
                 $('.bkx-booking-form .step-2.default').hide();
-                booking_form.BookingFormGetCalendarAvailabilityDayStyle( ( bkx_booking_form_admin_params.booking_date ) ? bkx_edit_booking_form_params.booking_date : moment().format("Y-M-D") );
+                booking_form.BookingFormGetCalendarAvailabilityDayStyle( ( bkx_booking_form_admin_params.booking_date ) ? bkx_booking_form_admin_params.booking_date : moment().format("Y-M-D") );
             }
 
-            if( booking_form.flag == 1 && GetCurrentStep() < 4 ){
+            if( booking_form.flag == 1 && GetCurrentStep() < 2 ){
                 booking_form.BookingFormProgressNext();
                 booking_form.scroll_to_notices();
             }
         },
         book_now : function (){
-            //var bkx_payment_gateway_method = listToArray(".bkx-booking-form .step-4 :input[name^=bkx_payment_gateway_method]:checked");
-            var service_extend = parseInt( $('.bkx-booking-form .step-1 .bkx-services-extend').val());
-            var form = $('#bkx-booking-generate');
-            var data = {
-                security: bkx_booking_form_admin_params.book_now_nonce,
-                seat_id     : booking_form.seat_id,
-                base_id     : booking_form.base_id,
-                extra_id    : booking_form.extra_id,
-                date        : booking_form.date,
-                time_option : booking_form.time_option,
-                booking_multi_days : booking_form.days_selected,
-                booking_time        : $('.booking-slots').find("a[data-slot='" + booking_form.starting_slot + "']").data('time'),
-                starting_slot     : booking_form.starting_slot,
-                total_slots : booking_form.total_slots,
-                service_extend : service_extend,
-                //payment_method : bkx_payment_gateway_method,
-                bkx_first_name : $("input[name=bkx_first_name]").val(),
-                bkx_last_name : $("input[name=bkx_last_name]").val(),
-                bkx_phone_number : $("input[name=bkx_phone_number]").val(),
-                bkx_email_address : $("input[name=bkx_email_address]").val(),
-                last_page_url : bkx_booking_form_admin_params.last_page_url,
-                order_id : bkx_booking_form_admin_params.booking_id,
-                post_data : form.serializeArray()
-            };
+            if(confirm('Are you sure want to update booking?')){
+                $('.bkx-form-submission-final').text('Please wait..');
+                $('.bkx-form-submission-final').prop('disabled', true);
+                if( $('.booking-slots').data('starting_slot') > 0 ){
+                    booking_form.total_slots    = ( $('.booking-slots').data('total_slots') ) ? $('.booking-slots').data('total_slots') : 0;
+                    booking_form.starting_slot  = ( $('.booking-slots').data('starting_slot') ) ? $('.booking-slots').data('starting_slot') : 0;
+                }
+                var is_admin_edit;
+                if(bkx_booking_form_admin_params.booking_id){
+                    is_admin_edit = true;
+                }
+                //var bkx_payment_gateway_method = listToArray(".bkx-booking-form .step-4 :input[name^=bkx_payment_gateway_method]:checked");
+                var service_extend = parseInt( $('.bkx-booking-form .step-1 .bkx-services-extend').val());
+                var form = $('#bkx-booking-generate');
+                var data = {
+                    security: bkx_booking_form_admin_params.book_now_nonce,
+                    seat_id     : booking_form.seat_id,
+                    base_id     : booking_form.base_id,
+                    extra_id    : booking_form.extra_id,
+                    date        : booking_form.date,
+                    time_option : booking_form.time_option,
+                    booking_multi_days : booking_form.days_selected,
+                    booking_time        : $('.booking-slots').find("a[data-slot='" + booking_form.starting_slot + "']").data('time'),
+                    starting_slot     : booking_form.starting_slot,
+                    total_slots : booking_form.total_slots,
+                    service_extend : service_extend,
+                    is_admin_edit : is_admin_edit,
+                    //payment_method : bkx_payment_gateway_method,
+                    bkx_first_name : $("input[name=bkx_first_name]").val(),
+                    bkx_last_name : $("input[name=bkx_last_name]").val(),
+                    bkx_phone_number : $("input[name=bkx_phone_number]").val(),
+                    bkx_email_address : $("input[name=bkx_email_address]").val(),
+                    last_page_url : bkx_booking_form_admin_params.last_page_url,
+                    order_id : bkx_booking_form_admin_params.booking_id,
+                    post_data : form.serializeArray()
+                };
 
-            $.ajax( {
-                type    :        'POST',
-                url     :        get_url('book_now'),
-                data    :        data,
-                dataType:       'html',
-                success: function( response ) {
-                    if(response != 'NORF'){
-                        var result = $.parseJSON( response );
-                        if(result.meta_data.redirect_to){
-                            window.location.href = result.meta_data.redirect_to;
+                $.ajax( {
+                    type    :        'POST',
+                    url     :        get_url('book_now'),
+                    data    :        data,
+                    dataType:       'html',
+                    success: function( response ) {
+                        if(response != 'NORF'){
+                            var result = $.parseJSON( response );
+                            if(result.meta_data.redirect_to){
+                                window.location.href = result.meta_data.redirect_to;
+                            }else{
+                                $('<input>').attr({
+                                    type: 'hidden',
+                                    id: 'order-id',
+                                    name: 'order_id',
+                                    value : result.meta_data.order_id
+                                }).appendTo('#bkx-booking-generate');
+
+                                $('<input>').attr({
+                                    type: 'hidden',
+                                    id: 'payment-gateway',
+                                    name: 'bkx_payment_gateway_method',
+                                    value : result.meta_data.bkx_payment_gateway_method
+                                }).appendTo('#bkx-booking-generate');
+
+                                $( "#bkx-booking-generate" ).submit();
+                            }
+
                         }else{
-                            $('<input>').attr({
-                                type: 'hidden',
-                                id: 'order-id',
-                                name: 'order_id',
-                                value : result.meta_data.order_id
-                            }).appendTo('#bkx-booking-generate');
-
-                            $('<input>').attr({
-                                type: 'hidden',
-                                id: 'payment-gateway',
-                                name: 'bkx_payment_gateway_method',
-                                value : result.meta_data.bkx_payment_gateway_method
-                            }).appendTo('#bkx-booking-generate');
-
-                            $( "#bkx-booking-generate" ).submit();
+                            $('.bkx-form-submission-final').prop('disabled', false);
+                            $('.bkx-form-submission-final').text('Booking Update');
                         }
-
-                    }else{
+                    },
+                    complete: function() {
 
                     }
-                },
-                complete: function() {
-
-                }
-            } );
-
+                } );
+            }else{
+                $('.bkx-form-submission-final').prop('disabled', false);
+                $('.bkx-form-submission-final').text('Booking Update');
+                return false;
+            }
         },
         payment_method : function (){
             var data = {
@@ -748,6 +766,7 @@ jQuery( function( $ ) {
                     }
                 },
                 complete: function() {
+                    $('.bkx-admin-loading-edit h2').hide();
                     var owl = $('.owl-carousel');
                     owl.owlCarousel('destroy');
                     owl.owlCarousel({
@@ -797,7 +816,7 @@ jQuery( function( $ ) {
                             booking_form.BookingFormGetAvailableSlotByDate( ev );
                         };
                         ///calendar.diasResal = [4, 15, 26]; //Selected Days
-                        calendar.staffAvailableCertainMonths    = staffAvailableCertainMonths;
+                        //calendar.staffAvailableCertainMonths    = staffAvailableCertainMonths;
                         calendar.staffAvailableCertainDays      = staffAvailableCertainDays;
                         calendar.unavailable_days               = availability.unavailable_days;
                         calendar.createCalendar();
@@ -806,7 +825,7 @@ jQuery( function( $ ) {
                     }
                 },
                 complete: function() {
-
+                    $('.bkx-admin-loading-edit h2').hide();
                 }
             } );
         },
@@ -828,7 +847,7 @@ jQuery( function( $ ) {
             if(availability_slots == ""){
                 availability_slots =  $('.bkx-booking-form .step-2 .select-time .booking-slots');
             }
-            availability_slots.html("");
+            availability_slots.html("Please Wait...");
             booking_form.days_selected = "";
             $.ajax( {
                 type    :        'POST',

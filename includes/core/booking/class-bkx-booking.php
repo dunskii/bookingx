@@ -63,6 +63,9 @@ class BkxBooking {
         $this->load_global = $BkxBookingFormShortCode->load_global_variables();
 
         $this->order_id = $order_id;
+        if(isset($order_id) && $order_id > 0 ){
+            $this->setId($order_id);
+        }
         $this->post_type = 'bkx_booking';
         add_filter( 'comments_clauses', array( $this, 'bkx_comments_clauses' ) , 10, 2);
         add_action('transition_post_status', array( $this, 'bkx_on_all_status_transitions') , 10, 3);
@@ -70,9 +73,24 @@ class BkxBooking {
     }
 
     /**
+     * @param $id
+     */
+    public function setId( $id){
+        $this->order_id = absint( $id );
+    }
+
+    /**
+     * @return null
+     */
+    public function getId(){
+        return $this->order_id;
+    }
+
+    /**
      * @param $new_status
      * @param $old_status
      * @param $post
+     * @throws Exception
      */
     public function bkx_on_all_status_transitions($new_status, $old_status, $post){
         $post_id = $post->ID;
@@ -182,77 +200,19 @@ class BkxBooking {
             $booking_start_date     = date("Y-m-d H:i:s", strtotime(sanitize_text_field ($post_data['input_date']) . " " . sanitize_text_field ($post_data['booking_time_from'])));
             $booking_end_date       = date("Y-m-d H:i:s", strtotime(sanitize_text_field ($post_data['input_date']) . " " . sanitize_text_field ($post_data['booking_time_from']) ) + sanitize_text_field ($post_data['booking_duration_insec']) );
         }
-        $generate_total    = $this->booking_form_generate_total( $args );
-        $total_price = $generate_total['total_price'];
-        $bkx_cal_total_tax = bkx_cal_total_tax ( $total_price );
-
-        $bkx_prices_include_tax = bkx_crud_option_multisite("bkx_prices_include_tax");
-
-        if( $bkx_prices_include_tax == 1 ){ //Yes, I will enter prices inclusive of tax
-            $include_tax = 'minus';
-        }
-        if( $bkx_prices_include_tax == 0 ){ //No, I will enter prices exclusive of tax
-            $include_tax = 'plus';
-        }
-
         if(isset($_POST['booking_multi_days']) && !empty($post_data['booking_multi_days'])) {
             $booking_multi_days = explode(",", $post_data['booking_multi_days']);
             $booking_start_date = date('Y-m-d H:i:s', strtotime($booking_multi_days[0]));
             $booking_end_date = date('Y-m-d H:i:s', strtotime($booking_multi_days[1]));
         }
-
-        if(!empty($bkx_cal_total_tax)){
-            $total_tax      = $bkx_cal_total_tax['total_tax'];
-            $tax_rate       = $bkx_cal_total_tax['tax_rate'];
-            $grand_total    = $bkx_cal_total_tax['grand_total'];
-            $tax_name       = $bkx_cal_total_tax['tax_name'];
-            $total_price    = $bkx_cal_total_tax['total_price'];
-
-            $total_tax      = number_format((float)$total_tax, 2, '.', '');
-            $total_price    = number_format((float)$total_price, 2, '.', '');
-            $grand_total    = number_format((float)$grand_total, 2, '.', '');
-        } else {
-            $total_tax = 0;
-            $total_price    = number_format((float)$total_price, 2, '.', '');
-            $grand_total    = number_format((float)$total_price, 2, '.', '');
-        }
-
-        $first_name         = !empty($post_data['bkx_first_name']) ? $post_data['bkx_first_name'] : "";
-        $last_name          = !empty($post_data['bkx_last_name']) ? $post_data['bkx_last_name'] : "";
-        $phone              = !empty($post_data['bkx_phone_number']) ? $post_data['bkx_phone_number'] : "";
-        $email              = !empty($post_data['bkx_email_address']) ? $post_data['bkx_email_address'] : "";
-        $street             = !empty($post_data['input_street']) ? $post_data['input_street'] : "";
-        $city               = !empty($post_data['input_city']) ? $post_data['input_city'] : "";
-        $state              = !empty($post_data['input_state']) ? $post_data['input_state'] : "";
-        $postcode           = !empty($post_data['input_postcode']) ? $post_data['input_postcode'] : "";
         $booking_date       = !empty($post_data['date']) ? $post_data['date'] : "";
         $booking_time       = !empty($total_time) ? $total_time : "";
         $booking_time_from  = !empty($post_data['booking_time']) ? $post_data['booking_time'] : "";
-        $payment_method     = sanitize_text_field ( $order_meta_data['bkx_payment_gateway_method'] );
-        $payment_method     = ( isset($payment_method) && $payment_method != "" ? $payment_method : "bkx_gateway_pay_later" );
         $booking_order_meta_data = array(
-                'seat_id'               => sanitize_text_field ($post_data['seat_id'] ),
-                'base_id'               => sanitize_text_field ($post_data['base_id'] ),
-                'addition_ids'          => (!empty($post_data['extra_id']) && $post_data['extra_id'] != "None") ? implode(",",$post_data['extra_id']) : "" ,
-                'first_name'            =>  sanitize_text_field ($first_name ),
-                'last_name'             =>  sanitize_text_field ($last_name ),
-                'phone'                 =>  sanitize_text_field ($phone ),
-                'email'                 =>  sanitize_text_field ($email ),
-                'street'                =>  sanitize_text_field ($street ),
-                'city'                  =>  sanitize_text_field ($city ),
-                'state'                 =>  sanitize_text_field ($state ),
-                'postcode'              =>  sanitize_text_field ($postcode ),
                 'order_id'              =>  $order_id,
-                'total_price'           => $grand_total,
-                'total_tax'             => $total_tax,
-                'payment_method'        => sanitize_text_field ( $payment_method ),
-                'bkx_payment_gateway_method' => sanitize_text_field ( $payment_method ),
-                'tax_rate'              => isset($tax_rate) ? $tax_rate : "" ,
-                'include_tax'           => $include_tax,
                 'booking_date'          =>  sanitize_text_field ($booking_date ),
                 'booking_time'          =>  $booking_time ,
                 'total_duration'        =>  $total_time_formatted,
-                'extended_base_time'    => ( isset( $post_data['service_extend'] ) ? sanitize_text_field ( $post_data['service_extend'] ) : 0 ),
                 'booking_start_date'    =>  $booking_start_date,
                 'booking_end_date'      =>  $booking_end_date,
                 'booking_time_from'     =>  sanitize_text_field ($booking_time_from ),
@@ -2054,7 +2014,8 @@ class BkxBooking {
         if(is_admin()){
             $seat_id = get_current_user_id();
         }
-        $search_date = date('F j, Y',strtotime($search_date));
+        //$search_date = date('F j, Y',strtotime($search_date));
+        $args = array();
         switch ($search_by) {
             case $bkx_seat_role: //Query for Seat user booking data
                     $args = array(
@@ -2113,6 +2074,8 @@ class BkxBooking {
                     );
                 break;
         }
+        $args = apply_filters('bkx_get_bookings_by_user', $args );
+        //echo '<pre>',print_r($args,1),'</pre>';
         $bookedresult = new WP_Query( $args );
 
         if ( $bookedresult->have_posts() ) :
@@ -2138,6 +2101,26 @@ class BkxBooking {
             restore_current_blog();
         endif;
         return $finalarr;
+    }
+
+    /**
+     * @param $booking_id
+     * @param $page_id
+     * @return mixed|void
+     */
+    public function get_view_booking_url( $booking_id, $page_id ) {
+        $url = add_query_arg( array(
+            'view-booking' => $booking_id
+        ), get_permalink($page_id) );
+
+
+        $view_url = wp_nonce_url( $url, 'view_booking_'.$booking_id, 'view_booking_nonce');
+
+        return apply_filters( 'bkx_get_view_booking_url', $view_url , $this );
+    }
+
+    public function get_booking_date(){
+        return get_post_meta($this->order_id, 'booking_start_date', true );
     }
 
     /**

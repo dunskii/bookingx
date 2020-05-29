@@ -15,8 +15,15 @@ if(!empty($args) && isset($args['order_id']) && $args['order_id'] != ""){
     $is_active_5 = 'is-active';
     $default_active = "";
 }
+$skip_this_step = SkipStep();
+$skip_this_step_style = ($skip_this_step == true) ? 'style = "display: none;"' : "";
 ?>
-<div class="progress-wrapper">
+<?php
+if($skip_this_step == true ){
+    echo "<div class='bkx-admin-loading-edit'><div class=\"row\"><div class=\"col-md-12\"> <h2> Please Wait Booking Form is Loading..</h2></div></div></div>";
+}
+?>
+<div class="progress-wrapper" <?php echo $skip_this_step_style; ?>>
     <?php echo $form_title;?>
     <ul class="progress-tracker progress-tracker--text">
         <li class="progress-step <?php echo $default_active;?> left-curve progress-step-1">

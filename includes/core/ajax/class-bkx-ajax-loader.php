@@ -289,8 +289,9 @@ class Bkx_Ajax_Loader
         $BkxBooking = new BkxBooking();
         $args['seat_id'] = sanitize_text_field( wp_unslash( $_POST['seat_id'] ) );
         $args['base_id'] = sanitize_text_field( wp_unslash( $_POST['base_id'] ) );
-        $args['service_extend'] = sanitize_text_field( wp_unslash( $_POST['service_extend'] ) );
-
+        if(isset($_POST['service_extend'])){
+            $args['service_extend'] = sanitize_text_field( wp_unslash( $_POST['service_extend'] ) );
+        }
         if(isset($_POST['extra_id']) && !empty($_POST['extra_id']) && $_POST['extra_id']!="None"){
             $args['extra_ids'] = array_map( 'absint', (array) isset( $_POST['extra_id'] ) ? wp_unslash( $_POST['extra_id'] ) : array() );
         }
@@ -471,8 +472,9 @@ class Bkx_Ajax_Loader
                 $Bkxbooking->booking_email($booking['meta_data']['order_id'], 'customer_pending');
             }
 
-            $pos = strpos($booking['meta_data']['last_page_url'], "post-new.php");
-            if ($pos !== false) {
+            $is_new = strpos($booking['meta_data']['last_page_url'], "post-new.php");
+            $is_edited = ( isset($_POST['is_admin_edit']) && $_POST['is_admin_edit'] != "" && $_POST['is_admin_edit'] == true ? 1 : 0);
+            if ($is_new !== false || $is_edited == 1) {
                 $booking['meta_data']['redirect_to'] = get_edit_post_link( $booking['meta_data']['order_id'],'&' );
             }
         }

@@ -5,7 +5,8 @@
 defined( 'ABSPATH' ) || exit;
 $BkxBookingFormShortCode = new BkxBookingFormShortCode();
 $load_global = $BkxBookingFormShortCode->load_global_variables();
-
+$skip_this_step = SkipStep();
+$skip_this_step_style = ($skip_this_step == true) ? 'style = "display: none;"' : "";
 /**
  * Any Seat Functionality
  */
@@ -14,7 +15,7 @@ $enable_any_seat        = apply_filters( 'bkx_enable_any_seat', $enable_any_seat
 $default_seat    = bkx_crud_option_multisite('select_default_seat');
 $default_seat    = apply_filters( 'bkx_enable_any_seat_id', $default_seat );
 ?>
-<div class="step-1 bkx-form-active" data-active="1">
+<div class="step-1 bkx-form-active" data-active="1" <?php echo $skip_this_step_style;?>>
     <div class="form-wrapper">
             <div class="row">
                 <div class="col-md-6">

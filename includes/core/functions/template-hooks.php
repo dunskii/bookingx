@@ -57,3 +57,8 @@
 
     add_action( 'bookingx_form_additional_fields', 'bookingx_form_additional_fields',10);
 
+    add_action( 'bkx_dashboard_nav', 'bkx_dashboard_nav',10);
+
+    add_action( 'bkx_dashboard_content', 'bkx_dashboard_content',10);
+
+    add_action( 'bkx_dashboard_booking_view', 'bkx_dashboard_booking_view',10);
