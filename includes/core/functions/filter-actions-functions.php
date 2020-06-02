@@ -180,10 +180,11 @@ function bkx_generate_template_page( $option_key , $content, $page_title, $page_
 add_action('init', 'bkx_create_default_template');
 function bkx_create_default_template(){
     $bkx_set_booking_page           = bkx_crud_option_multisite("bkx_set_booking_page");
-    $bkx_set_thank_you_page         = bkx_crud_option_multisite('bkx_set_thank_you_page');
+    $bkx_dashboard_page_id         = bkx_crud_option_multisite('bkx_dashboard_page_id');
     $booking_edit_process_page_id   = bkx_crud_option_multisite('booking_edit_process_page_id');
     bkx_generate_template_page( "booking_edit_process_page_id" , "[bkx_booking_form]", "Booking Edit", $booking_edit_process_page_id );
     bkx_generate_template_page( "bkx_set_booking_page" , "[bkx_booking_form]", "Booking Form", $bkx_set_booking_page );
+    bkx_generate_template_page( "bkx_dashboard_page_id" , "[bkx_dashboard]", "Dashboard", $bkx_dashboard_page_id );
 }
 // Add settings link on plugin page
 add_filter("plugin_action_links_{$plugin}", 'bkx_plugin_settings_link');

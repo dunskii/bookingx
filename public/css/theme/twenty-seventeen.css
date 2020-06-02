@@ -6,11 +6,13 @@
     .has-sidebar.booking-x:not(.error404) #secondary {
         width: 20%;
     }
-    body.page-two-column.booking-x-form:not(.archive) #primary .entry-header {
+    body.page-two-column.booking-x-form:not(.archive) #primary .entry-header,
+    body.page-two-column.booking-x-dashboard:not(.archive) #primary .entry-header {
         float: left;
         width: 18%;
     }
-    body.booking-x-form.page-two-column:not(.archive) #primary .entry-content {
+    body.booking-x-form.page-two-column:not(.archive) #primary .entry-content,
+    body.booking-x-dashboard.page-two-column:not(.archive) #primary .entry-content {
         float: left;
         width: 100%;
     }
@@ -32,3 +34,10 @@
         margin: auto;
     }
 }
+
+@media screen and (min-width: 30em){
+    .booking-x-dashboard .bkx-dashboard-booking h2 {
+        font-size: 1.3rem;
+    }
+}
+

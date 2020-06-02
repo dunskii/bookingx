@@ -3,7 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
 ?>
-<ul class="nav nav-tabs" id="bkx-dashboard" role="tablist">
+<ul class="nav nav-tabs bkx-nav-tabs" id="bkx-dashboard" role="tablist">
     <li class="nav-item">
         <a class="nav-link active" id="future-tab" data-toggle="tab" href="#future" role="tab" aria-controls="future" aria-selected="true"><?php echo __( 'Future Bookings', 'bookingx' ) ?></a>
     </li>

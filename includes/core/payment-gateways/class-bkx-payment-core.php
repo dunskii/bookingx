@@ -110,6 +110,19 @@ class BkxPaymentCore {
 
 	}
 
+    public function PaymentGateways(){
+        $load_gateways = array( 'bkx_gateway_paypal_express' => array( 'title' => 'Paypal', 'class' => new BkxPaymentPayPalExpress() ));
+        // Filter
+        $load_gateways = apply_filters( 'bkx_payment_gateways', $load_gateways ) ;
+
+        foreach ( $load_gateways as $key_name => $gateway ) {
+            $this->payment_gateways[$key_name] = $gateway;
+        }
+
+        return $this->payment_gateways;
+    }
+
+
 	public function bkx_get_available_gateways( $post = array()){
 
 	    if(empty($post))

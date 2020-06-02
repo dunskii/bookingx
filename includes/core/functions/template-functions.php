@@ -233,8 +233,11 @@
             if (!empty($postobj->get_extra_time)) {
                 $base_service_time = $postobj->get_extra_time;
             }
+
             $currencyBlock = bkx_get_formatted_price($postobj->get_price);
-            $base_service_timeHMObj = $base_service_time['H']; //Hours and minutes
+            if(isset($base_service_time['H'])){
+                $base_service_timeHMObj = $base_service_time['H']; //Hours and minutes
+            }
             if (isset($base_service_time['D'])) {
                 $base_service_timeDObj = $base_service_time['D']; // Days
             }
@@ -395,21 +398,23 @@ if (!function_exists('bookingx_block_grid_setting')) {
     {
         $class = "col-lg-4 col-12 mb-2";
         $settings = array('class' => $class );
+        $block = "";
+        $rows = 3;
         if(!empty($args)){
             $columns = isset($args['columns']) ? $args['columns'] : 3;
             $rows = isset($args['rows']) ? $args['rows'] : 3;
             $col = block_column_cal($columns);
-            $block = "";
+
             if(isset($columns)){
                 $class = "col-lg-{$col} col-12 mb-2";
             }
             if(isset($args['block']) && $args['block'] == 1 ){
                 $block = "-block";
             }
-            $settings['class'] = $class;
-            $settings['block'] = $block;
-            $settings['rows']   = $rows;
         }
+        $settings['class'] = $class;
+        $settings['block'] = $block;
+        $settings['rows']   = $rows;
         return $settings;
     }
 }

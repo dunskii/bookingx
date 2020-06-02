@@ -5,6 +5,7 @@ $booking_url = $bkx_base->booking_page_url;
 $alias_base = bkx_crud_option_multisite('bkx_alias_base');
 $base_id = $bkx_base->id;
 $price_duration = bkx_get_post_price_duration_plain( $bkx_base, $alias_base );
+$args = !empty($args) ? $args : array();
 $settings = apply_filters('bookingx_block_grid_setting', $args);
 $card_width = apply_filters('bookingx_card_width_setting',$args);
 ?>

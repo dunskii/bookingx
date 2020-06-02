@@ -98,8 +98,8 @@ class Bkx_Register_Addition_Block extends Bkx_Block
      */
     function render_block( $attributes = array() ){
         // Prepare variables.
-        $desc       = $attributes['additionDescription'];
-        $image      = $attributes['additionImageStatus'];
+        $desc       = isset($attributes['additionDescription']) && $attributes['additionDescription'] != "" ? $attributes['additionDescription'] : 'yes';
+        $image      = isset($attributes['additionImageStatus']) && $attributes['additionImageStatus'] != "" ? $attributes['additionImageStatus'] : 'yes';;
         //$info       = isset( $attributes['showaddition'] ) ? $attributes['showaddition'] : true;
         $addition_id    = isset( $attributes['additionPostId'] ) && $attributes['additionPostId'] > 0 ? $attributes['additionPostId'] : 'all';
         $columns    = isset( $attributes['columns'] ) ? $attributes['columns'] : 3;
