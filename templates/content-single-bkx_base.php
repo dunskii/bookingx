@@ -43,7 +43,7 @@ if(!empty($args)){
                 </div>
                 <hr/>
                 <?php if($desc == "yes" ) :?>
-                <div class="row"><div class="col-md-12"><p><?php echo $BaseObj->get_description(); ?></p></div></div>
+                <div class="row"><div class="col-md-12"><?php echo $BaseObj->get_description(); ?></div></div>
                 <?php endif;?>
                 <?php if(!empty($available_seats)):?>
                     <div class="available-services"><?php echo $available_seats; ?></div>

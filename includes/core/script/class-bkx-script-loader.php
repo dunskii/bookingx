@@ -306,7 +306,9 @@ class Bkx_Script_Loader
         }elseif( isset($_REQUEST['edit_booking_nonce']) && wp_verify_nonce( $_REQUEST['edit_booking_nonce'], 'edit_booking_'.$_REQUEST['id'] )) {
             self::enqueue_script( 'bkx-edit-booking-form' );
         } else{
-            self::enqueue_script( 'bkx-booking-form' );
+            if(is_booking_page()){
+                self::enqueue_script( 'bkx-booking-form' );
+            }
         }
 
         if(is_admin() && isset($_GET['listing_view']) ){

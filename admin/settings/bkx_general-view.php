@@ -64,7 +64,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 				</div>
 			</td>
 		</tr>
-	
+        <?php do_action('bkx_general_alias_settings');?>
 	</tbody>
 </table>
 <p class="submit"><input type="submit" onclick="" class='button-primary' name="save_alias" id="id_save_alias" value="Save Changes" /></p>
@@ -209,6 +209,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 					</div>
 			</td>
 		</tr>
+        <?php do_action('bkx_general_page_settings');?>
 	</tbody>
 </table>
 <p class="submit"><input type="submit" onclick="" class='button-primary' name="save_template" id="id_save_template" value="Save Changes" /></p>
@@ -403,12 +404,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 				<input type="text" name="bkx_time_block_extra_color" id="id_bkx_time_block_extra_color" value="<?php /*echo bkx_crud_option_multisite('bkx_time_block_extra_color'); */?>">
 			</td>
 		</tr>-->
-
-		<tr class="active">
-			<td class="plugin-title" colspan="2" style="border-style: none;padding: 10px 200px;">
-				
-			</td>
-		</tr>
+    <?php do_action('bkx_general_styling_settings');?>
 	</tbody>
 </table>
 <p class="submit"><input type="submit" onclick="" class='button-primary' name="save_sitecss" id="id_save_sitecss" value="Save Changes" /></p>
@@ -500,6 +496,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 			<td class="plugin-title" colspan="2" style="border-style: none;padding: 10px 200px;">
 			</td>
 		</tr>
+        <?php do_action('bkx_general_other_settings');?>
 		</tbody>
 	</table>
 	<input type="hidden" name="other_setting_flag" value="1">

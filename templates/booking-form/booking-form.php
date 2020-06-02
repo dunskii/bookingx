@@ -9,7 +9,9 @@ $booking_edit = false;
 if( isset($_POST['order_id']) && isset($_REQUEST['edit_booking_nonce']) && wp_verify_nonce( $_REQUEST['edit_booking_nonce'], 'edit_booking_'.$_REQUEST['id'] )) {
     $booking_edit = true;
 }
-$args['order_id'] = $order_id;
+if(isset($args['order_id']) && $args['order_id'] > 0 ){
+    $args['order_id'] = $order_id;
+}
 ?>
 <div class="booking-x">
     <div class="main-container">

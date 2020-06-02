@@ -92,8 +92,8 @@ class Bkx_Register_Seat_Block extends Bkx_Block
      */
     function render_block( $attributes = array() ){
         // Prepare variables.
-        $desc       = $attributes['seatDescription'];
-        $image      = $attributes['seatImageStatus'];
+        $desc       = isset($attributes['seatDescription']) && $attributes['seatDescription'] != "" ? $attributes['seatDescription'] : 'yes';
+        $image      = isset($attributes['seatImageStatus']) && $attributes['seatImageStatus'] != "" ? $attributes['seatImageStatus'] : 'yes';;
         ///$info       = isset( $attributes['showExtra'] ) ? $attributes['showExtra'] : true;
         $seat_id    = isset( $attributes['seatPostId'] ) && $attributes['seatPostId'] > 0 ? $attributes['seatPostId'] : 'all';
         $columns    = isset( $attributes['columns'] ) ? $attributes['columns'] : 3;

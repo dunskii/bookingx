@@ -51,7 +51,7 @@ if(!empty($args)){
                 </div>
                 <hr/>
                 <?php if($desc == "yes" ) :?>
-                    <div class="row"><div class="col-md-12"<p><?php echo $bkx_seat->seat_info; ?></p></div></div>
+                    <div class="row"><div class="col-md-12"><?php echo apply_filters( 'the_content', get_the_content($seat_id) );?></div></div>
                 <?php endif;?>
                 <?php if(!empty($available_services)):?>
                     <div class="available-services"><?php echo $available_services; ?></div>

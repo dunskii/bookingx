@@ -35,7 +35,7 @@ if(!empty($args)){
             <?php endif; ?>
             <div class="col-md-<?php echo ($image == "yes" ) ? 8 : 12;?>">
                 <div class="row">
-                    <div class="col-md-8"><h1><?php echo get_the_title();  ?></h1><h4><?php echo "{$price_duration['time']} {$price_duration['price']}";?></h4></div>
+                    <div class="col-md-8"><h1><?php echo get_the_title($extra_id);  ?></h1><h4><?php echo "{$price_duration['time']} {$price_duration['price']}";?></h4></div>
                     <div class="col-md-4">
                         <form method="post" enctype='multipart/form-data' action="<?php echo $booking_url;?>">
                             <input type="hidden" name="type" value="bkx_base" />
@@ -46,7 +46,7 @@ if(!empty($args)){
                 </div>
                 <hr/>
                 <?php if($desc == "yes" ) :?>
-                <div class="row"><div class="col-md-12"><p><?php echo get_the_content(); ?></p></div></div>
+                <div class="row"><div class="col-md-12"><?php echo apply_filters( 'the_content', get_the_content($extra_id) );?></div></div>
                 <?php endif;?>
                 <?php if(!empty($available_seats)):?>
                     <div class="available-seats"><?php echo $available_seats; ?></div>
