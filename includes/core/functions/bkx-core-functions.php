@@ -749,7 +749,7 @@ function BkxGenerateCounter($minutes_temp)
 }
 
 function is_bookingx(){
-    return apply_filters( 'is_bookingx', is_booking_page() || is_service() || is_staff() || is_extra() );
+    return apply_filters( 'is_bookingx',  is_bkx_singular() || is_singular( array( 'bkx_seat', 'bkx_base', 'bkx_addition' ) ) || is_booking_page() || is_service() || is_staff() || is_extra() || is_dashboard() );
 }
 
 /**
@@ -759,6 +759,26 @@ function is_booking_page(){
     if(is_page() || is_single()){
         global $post;
         return( has_shortcode( $post->post_content, 'bkx_booking_form'));
+    }
+}
+
+/**
+ * @return bool
+ */
+function is_bkx_singular(){
+    if(is_page() || is_single() ){
+        global $post;
+        return( has_shortcode( $post->post_content, 'bookingx'));
+    }
+}
+
+/**
+ * @return bool
+ */
+function is_dashboard(){
+    if(is_page() || is_single()){
+        global $post;
+        return( has_shortcode( $post->post_content, 'bkx_dashboard'));
     }
 }
 

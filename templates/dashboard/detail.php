@@ -33,14 +33,13 @@
 
     if(!empty($payment_source_method)){
         $BkxPaymentCore = new BkxPaymentCore();
-        $bkx_get_available_gateways = $BkxPaymentCore->bkx_get_available_gateways();
-        if(isset($payment_source_method) && $payment_source_method == 'cash'){
-            $payment_source_name = "Offline Payment";
-        }else{
+        $bkx_get_available_gateways = $BkxPaymentCore->PaymentGateways();
+        if(!empty($bkx_get_available_gateways[$payment_source_method])){
             $payment_source_name = $bkx_get_available_gateways[$payment_source_method];
+        }else{
+            $payment_source_name = "Offline Payment";
         }
-
-        $payment_source = sprintf(__("%s",'Bookingx'),$payment_source_name);
+        $payment_source = sprintf(__("%s",'Bookingx'),$payment_source_name['title']);
     }else{
         $payment_source = sprintf(__("%s",'Bookingx'),"Offline Payment");
     }
@@ -69,7 +68,17 @@
     $bkx_business_phone = bkx_crud_option_multisite('bkx_business_phone');
     $bkx_business_address_1 = bkx_crud_option_multisite('bkx_business_address_1');
     $bkx_business_address_2 = bkx_crud_option_multisite('bkx_business_address_2');
-    $bkx_business_address = sprintf( __( '%s %s', 'bookingx' ), $bkx_business_address_1, $bkx_business_address_2);
+    $bkx_business_city = bkx_crud_option_multisite('bkx_business_city');
+    $bkx_business_state = bkx_crud_option_multisite('bkx_business_state');
+    $bkx_business_zip = bkx_crud_option_multisite('bkx_business_zip');
+    $bkx_business_country = bkx_crud_option_multisite('bkx_business_country');
+    $bkx_business_city = sprintf( __( '%s', 'bookingx' ), $bkx_business_city);
+    $bkx_business_state = sprintf( __( '%s', 'bookingx' ), $bkx_business_state);
+    $bkx_business_zip = sprintf( __( '%d', 'bookingx' ), $bkx_business_zip);
+    $bkx_business_country = sprintf( __( '%s', 'bookingx' ), $bkx_business_country);
+    $bkx_business_address = sprintf( __( '%s %s %s %s %s %s ', 'bookingx' ), $bkx_business_address_1, $bkx_business_address_2, $bkx_business_city, $bkx_business_state, $bkx_business_zip, $bkx_business_country);
+
+
     $first_header = esc_html("Booking Information", 'bookingx');
     $second_header = sprintf( __( 'Your Booking with %s', 'bookingx' ), $bkx_business_name);
     if($is_mobile == 1 ){
@@ -109,8 +118,8 @@
                 <div class="row">
                     <div class="col-md-5 col-lg-4 col-xl-3 col-12">
                         <div class="white-block">
-                            <h1 class="title-block"><?php echo $first_header;?> </h1>
-                            <div class="content-block" style="font-weight: bold;">
+                            <h2 class="title-block"><?php echo $first_header;?> </h2>
+                            <div class="content-block">
                                 <?php echo '<p> <label>Booking ID: </label> #'.$booking_id.'</p>
                                       <p> <label>Booking Date : </label>'.$date_data.'</p>
                                       <p> <label>Service name : </label>'.$order_meta['base_arr']['main_obj']->post->post_title.'</p>
@@ -153,16 +162,16 @@
                                     <?php echo $pending_paypal_message;?>
                                 </div>
                             <?php } ?>
-                            <?php do_action('bkx_booking_payment_before', $booking_id);?>
-
-                            <h2 class="title-block"> Business Information </h2>
+                            <?php do_action('bkx_booking_payment_after', $booking_id);?>
+                            <?php do_action('bkx_booking_business_info_before', $booking_id);?>
+                            <h2 class="title-block"> <?php echo esc_html('Business Information', 'bookingx')?> </h2>
                             <div class="content-block booking-info" style="margin: 0;">
                                 <p> <label> <?php echo esc_html('Business Name :');?> </label> <?php echo esc_html($bkx_business_name);?>   </p>
                                 <p> <label> <?php echo esc_html('Phone :');?></label> <?php echo esc_html($bkx_business_phone);?></p>
                                 <p> <label> <?php echo esc_html('Email :');?> </label> <?php echo esc_html($bkx_business_email);?></p>
                                 <p> <label> <?php echo esc_html('Address :');?></label> <?php echo esc_html($bkx_business_address);?>   </p>
                             </div>
-
+                            <?php do_action('bkx_booking_business_info_after', $booking_id);?>
                             <?php if($is_mobile == 1 ): ?>
                                 <div class="row">
                                     <div class="col-12">

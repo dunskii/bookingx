@@ -284,7 +284,7 @@ class BkxBase {
      * @return type
      */
     public function get_description() {
-        $post_content = $this->post->post_content;
+        $post_content = apply_filters( 'the_content', get_the_content($this->post->ID) );
         return apply_filters('bkx_base_description', $post_content);
     }
 

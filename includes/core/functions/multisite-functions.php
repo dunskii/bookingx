@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
 add_action('wpmu_new_blog', 'generate_while_multisite_creating', 10, 6);
 function generate_while_multisite_creating($blog_id, $user_id, $domain, $path, $site_id, $meta){
     switch_to_blog($blog_id);
-    $the_page_title = 'Booking Form';
+    $the_page_title = __('Booking Form','bookingx');
     add_blog_option( $blog_id, 'bkx_alias_seat', 'Resource');
     add_blog_option( $blog_id, 'bkx_alias_base', 'Service');
     add_blog_option( $blog_id, 'bkx_alias_addition', 'Extra');
@@ -48,8 +48,8 @@ function generate_while_multisite_creating($blog_id, $user_id, $domain, $path, $
     $_my_account['ping_status'] = 'closed';
     $_my_account['post_category'] = array(1); // the default 'Uncatrgorised'
     // Insert the post into the database
-    $bkx_dashboard_id = wp_insert_post($_my_account);
-    add_blog_option($blog_id, 'bkx_dashboard_id', $bkx_dashboard_id);
+    wp_insert_post($_my_account);
     add_blog_option($blog_id, 'bkx_plugin_page_id', $the_page_id);
+    add_blog_option($blog_id, 'bkx_dashboard_page_id', $the_page_id);
     restore_current_blog();
 }

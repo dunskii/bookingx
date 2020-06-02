@@ -3,19 +3,31 @@
 .booking-x .booking-x-bkx-base .btn-primary,
 .booking-x .booking-x-bkx-addition .btn-primary,
 .booking-x .entry .entry-content a:visited{text-decoration: none; color :#fff;}
+.booking-x-dashboard .entry .entry-content .booking-x-orders-table__cell-booking-number a:visited,
+.booking-x-dashboard .entry .entry-content .booking-x-orders-table__cell-booking-number a{
+    color: #0073aa;
+}
 .booking-x .entry .entry-content, .entry .entry-summary {
     max-width: calc( 100% - (2 * 1rem));
     margin: 0 1rem;
     padding: unset;
 }
 .booking-x-form .entry .entry-content > *,
+.booking-x-dashboard .entry .entry-content > *,
 .booking-x-form .entry .entry-summary > *,
 .booking-x-form .entry .entry-summary > .wp-block-group > .wp-block-group__inner-container > *,
+.booking-x-dashboard .entry .entry-content > .wp-block-group > .wp-block-group__inner-container > *,
 .booking-x-form .entry .entry-content > .wp-block-group > .wp-block-group__inner-container > * {
     margin: 32px 0;
     max-width: 100%;
 }
 .booking-x-form .bkx-booking-form .step-3 a, .booking-x-form .bkx-booking-form .step-3 a:visited{
+    color: #066595;
+}
+.booking-x-dashboard .bkx-nav-tabs .nav-item a{
+    color: #495057;
+}
+.booking-x-dashboard .bkx-nav-tabs .nav-item .active{
     color: #066595;
 }
 .booking-x-form .booking-x .select-time .table td a {

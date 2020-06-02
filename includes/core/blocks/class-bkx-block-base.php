@@ -92,8 +92,8 @@ class Bkx_Register_Base_Block extends Bkx_Block
      */
     function render_block( $attributes = array() ){
         // Prepare variables.
-        $desc       = $attributes['baseDescription'];
-        $image      = $attributes['baseImageStatus'];
+        $desc       = isset($attributes['baseDescription']) && $attributes['baseDescription'] != "" ? $attributes['baseDescription'] : 'yes';
+        $image      = isset($attributes['baseImageStatus']) && $attributes['baseImageStatus'] != "" ? $attributes['baseImageStatus'] : 'yes';;
         ///$info       = isset( $attributes['showExtra'] ) ? $attributes['showExtra'] : true;
         $base_id    = isset( $attributes['basePostId'] ) && $attributes['basePostId'] > 0 ? $attributes['basePostId'] : 'all';
         $columns    = isset( $attributes['columns'] ) ? $attributes['columns'] : 3;

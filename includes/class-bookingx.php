@@ -354,9 +354,13 @@ class Bookingx {
             if(is_booking_page()){
                 $classes = array_merge( $classes, array( 'booking-x-form' ) );
             }
+            if(is_dashboard()){
+                $classes = array_merge( $classes, array( 'booking-x-dashboard' ) );
+            }
             if ( is_bookingx() ) {
                 return array_merge( $classes, array( 'booking-x' ) );
             }
+
         } );
 
     }

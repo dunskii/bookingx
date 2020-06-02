@@ -22,13 +22,16 @@ class Bkx_Block
         $this->register_block_type();
         add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_scripts' ) );
         add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_styles' ) );
+        add_filter('is_bookingx', array( $this, 'is_bookingx_call' ));
 
     }
 
     public function get_type() {
-
         return $this->type;
+    }
 
+    public function is_bookingx_call(){
+        return true;
     }
 
     public function register_block_type() {
