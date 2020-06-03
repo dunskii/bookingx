@@ -103,137 +103,45 @@ class BkxExport {
 	}
 
     /**
+     * Bkx Settings Key Array
+     * @return mixed|void
+     */
+	public function settings_fields(){
+        $options = array('bkx_api_paypal_paypalmode', 'bkx_api_paypal_username', 'bkx_api_paypal_password',
+            'bkx_api_paypal_signature', 'bkx_gateway_paypal_express_status', 'bkx_new_booking_enabled', 'bkx_dashboard_column', 'enable_cancel_booking', 'cancellation_policy_page_id', 'enable_any_seat',
+            'reg_customer_crud_op', 'currency_option', 'bkx_seat_role', 'bkx_alias_seat', 'bkx_alias_base', 'bkx_alias_addition','bkx_alias_notification', 'bkx_notice_time_extended_text_alias',
+            'bkx_label_of_step1', 'bkx_seat_taxonomy_status', 'bkx_base_taxonomy_status', 'bkx_addition_taxonomy_status',
+            'bkx_legal_options', 'bkx_term_cond_page', 'bkx_cancellation_policy_page', 'bkx_privacy_policy_page', 'enable_editor', 'bkx_set_booking_page', 'bkx_siteuser_canedit_seat', 'bkx_siteclient_canedit_css',
+            'bkx_booking_style', 'bkx_form_text_color', 'bkx_active_step_color', 'bkx_cal_day_color', 'bkx_cal_day_selected_color',
+            'bkx_time_available_color', 'bkx_time_selected_color', 'bkx_time_unavailable_color', 'bkx_next_btn', 'bkx_prev_btn', 'bkx_business_name','bkx_business_email', 'bkx_business_phone', 'bkx_business_address_1', 'bkx_business_address_2', 'bkx_business_city',
+            'bkx_business_state','bkx_business_zip', 'bkx_business_country', 'bkx_business_days', 'bkx_biz_vac_sd', 'bkx_biz_vac_ed', 'bkx_biz_pub_holiday','bkx_tax_rate', 'bkx_tax_name',
+            'bkx_prices_include_tax', 'bkx_customer_cancelled_booking_subject','bkx_customer_cancelled_booking_heading','bkx_customer_cancelled_booking_additional_content','bkx_customer_cancelled_booking_email_type','bkx_save_bkx_email_customer_cancelled_booking',
+            'bkx_customer_completed_booking_subject','bkx_customer_completed_booking_heading','bkx_customer_completed_booking_additional_content','bkx_customer_completed_booking_email_type','bkx_save_bkx_email_customer_completed_booking',
+            'bkx_customer_ack_booking_subject','bkx_customer_ack_booking_heading','bkx_customer_ack_booking_additional_content','bkx_customer_ack_booking_email_type','bkx_save_bkx_email_customer_ack_booking',
+            'bkx_customer_pending_booking_enabled','bkx_customer_pending_booking_subject','bkx_customer_pending_booking_heading','bkx_customer_pending_booking_additional_content','bkx_customer_pending_booking_email_type','bkx_save_bkx_email_customer_pending_booking',
+            'bkx_cancelled_booking_enabled','bkx_cancelled_booking_recipient','bkx_cancelled_booking_subject','bkx_cancelled_booking_heading','bkx_cancelled_booking_additional_content','bkx_cancelled_booking_email_type','bkx_save_bkx_email_cancelled_booking',
+            'bkx_customer_edit_booking_enabled','bkx_customer_edit_booking_subject','bkx_customer_edit_booking_heading','bkx_customer_edit_booking_additional_content','bkx_customer_edit_booking_email_type','bkx_save_bkx_email_customer_edit_booking',
+            'bkx_edit_booking_enabled','bkx_edit_booking_recipient','bkx_edit_booking_subject','bkx_edit_booking_heading','bkx_edit_booking_additional_content','bkx_edit_booking_email_type','bkx_save_bkx_email_edit_booking',
+            'bkx_pending_booking_enabled','bkx_pending_booking_recipient','bkx_pending_booking_subject','bkx_pending_booking_heading','bkx_pending_booking_additional_content','bkx_pending_booking_email_type','bkx_save_bkx_email_pending_booking','bkx_emails_settings', 'bkx_setting_form_init');
+        return apply_filters('bkx_settings_import', $options);
+    }
+
+    /**
      *
      */
     public function get_bkx_settings(){
-
-		$bkx_api_paypal_paypalmode = bkx_crud_option_multisite('bkx_api_paypal_paypalmode');
- 		$bkx_api_paypal_username = bkx_crud_option_multisite('bkx_api_paypal_username');
-		$bkx_api_paypal_password = bkx_crud_option_multisite('bkx_api_paypal_password'); 
-		$bkx_api_paypal_signature = bkx_crud_option_multisite('bkx_api_paypal_signature');
-		$bkx_api_google_map_key = bkx_crud_option_multisite('bkx_api_google_map_key');
-		$enable_cancel_booking = bkx_crud_option_multisite('enable_cancel_booking');
-		$enable_any_seat = bkx_crud_option_multisite('enable_any_seat');
-		$cancellation_policy_page_id = bkx_crud_option_multisite('cancellation_policy_page_id');
-		$currency_option  = bkx_crud_option_multisite('currency_option');
-		$reg_customer_crud_op  = bkx_crud_option_multisite('reg_customer_crud_op');
-		$bkx_seat_role = bkx_crud_option_multisite('bkx_seat_role');
-		$bkx_set_booking_page = bkx_crud_option_multisite('bkx_set_booking_page');
-		$bkx_alias_seat = bkx_crud_option_multisite('bkx_alias_seat');
-		$bkx_alias_base = bkx_crud_option_multisite('bkx_alias_base');
-		$bkx_alias_addition = bkx_crud_option_multisite('bkx_alias_addition');
-		$bkx_alias_notification = bkx_crud_option_multisite('bkx_alias_notification');
-		$bkx_client_id = bkx_crud_option_multisite('bkx_client_id');
-		$bkx_client_secret = bkx_crud_option_multisite('bkx_client_secret');
-		$bkx_redirect_uri = bkx_crud_option_multisite('bkx_redirect_uri');
-		$bkx_google_calendar_id = bkx_crud_option_multisite('bkx_google_calendar_id');
-		$bkx_template_thank_you = bkx_crud_option_multisite("bkx_template_thank_you");
-		$bkx_tempalate_pending = bkx_crud_option_multisite("bkx_tempalate_pending");
-		$bkx_template_success = bkx_crud_option_multisite("bkx_template_success");
-		$bkx_term_cond_page = bkx_crud_option_multisite("bkx_term_cond_page");
-		$bkx_privacy_policy_page = bkx_crud_option_multisite("bkx_privacy_policy_page");
-		$enable_editor = bkx_crud_option_multisite("enable_editor");
-		$bkx_notice_time_extended_text_alias = bkx_crud_option_multisite("bkx_notice_time_extended_text_alias");
-		$bkx_label_of_step1= bkx_crud_option_multisite("bkx_label_of_step1");
-		$temp_option = bkx_crud_option_multisite('bkx_siteuser_canedit_seat');
-		$can_edit_css = bkx_crud_option_multisite("bkx_siteclient_canedit_css");
-		$bkx_form_text_color = bkx_crud_option_multisite("bkx_form_text_color");
-		$bkx_form_background_color = bkx_crud_option_multisite("bkx_form_background_color");
-		$bkx_siteclient_css_border_color = bkx_crud_option_multisite("bkx_siteclient_css_border_color");
-		$bkx_siteclient_css_progressbar_color = bkx_crud_option_multisite("bkx_siteclient_css_progressbar_color");
-		$bkx_siteclient_css_cal_border_color = bkx_crud_option_multisite("bkx_siteclient_css_cal_border_color");
-		$bkx_cal_day_color = bkx_crud_option_multisite("bkx_cal_day_color");
-		$bkx_cal_day_selected_color = bkx_crud_option_multisite("bkx_cal_day_selected_color");
-		$time_available_color = bkx_crud_option_multisite("bkx_time_available_color");
-		$time_selected_color = bkx_crud_option_multisite("bkx_time_selected_color");
-		$time_unavailable_color = bkx_crud_option_multisite("bkx_time_unavailable_color");
-		$time_block_bg_color = bkx_crud_option_multisite("bkx_time_block_bg_color");
-		$time_block_extra_color = bkx_crud_option_multisite("time_block_extra_color");
-		$time_block_service_color = bkx_crud_option_multisite("time_block_service_color");
-		$time_block_extra_color = bkx_crud_option_multisite("bkx_time_block_extra_color");
-
-		$bkx_time_block_service_color = bkx_crud_option_multisite("bkx_time_block_service_color");
-		$bkx_cal_month_title_color = bkx_crud_option_multisite("bkx_cal_month_title_color");
-		$bkx_cal_month_bg_color = bkx_crud_option_multisite("bkx_cal_month_bg_color");
-		$bkx_time_new_selected = bkx_crud_option_multisite("bkx_time_new_selected");
-
-		$bkx_tax_rate = bkx_crud_option_multisite("bkx_tax_rate");
-		$bkx_tax_name = bkx_crud_option_multisite("bkx_tax_name");
-		$bkx_prices_include_tax = bkx_crud_option_multisite("bkx_prices_include_tax");
-		$bkx_business_name = bkx_crud_option_multisite("bkx_business_name");
-		$bkx_business_email = bkx_crud_option_multisite("bkx_business_email");
-		$bkx_business_phone = bkx_crud_option_multisite("bkx_business_phone");		
-		$bkx_business_address_1 = bkx_crud_option_multisite("bkx_business_address_1");
-		$bkx_business_address_2 = bkx_crud_option_multisite("bkx_business_address_2");
-		$bkx_business_city = bkx_crud_option_multisite("bkx_business_city");
-		$bkx_business_state = bkx_crud_option_multisite("bkx_business_state");
-		$bkx_business_zip = bkx_crud_option_multisite("bkx_business_zip");
-		$bkx_business_country = bkx_crud_option_multisite("bkx_business_country");
-		$bkx_business_days = maybe_serialize(bkx_crud_option_multisite("bkx_business_days"));
-
 		$settingTag = $this->parent_root->appendChild($this->xmlobj->createElement('Settings'));
-
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_google_calendar_id", $bkx_google_calendar_id));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_api_paypal_paypalmode", $bkx_api_paypal_paypalmode));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_api_paypal_username", $bkx_api_paypal_username));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_api_paypal_password", $bkx_api_paypal_password));		
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_api_paypal_signature", $bkx_api_paypal_signature));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_api_google_map_key", $bkx_api_google_map_key));
-		$settingTag->appendChild($this->xmlobj->createElement("enable_cancel_booking", $enable_cancel_booking));
-		$settingTag->appendChild($this->xmlobj->createElement("enable_any_seat", $enable_any_seat));
-		$settingTag->appendChild($this->xmlobj->createElement("cancellation_policy_page_id", $cancellation_policy_page_id));
-		$settingTag->appendChild($this->xmlobj->createElement("currency_option", $currency_option));
-		$settingTag->appendChild($this->xmlobj->createElement("reg_customer_crud_op", $reg_customer_crud_op));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_seat_role", $bkx_seat_role));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_set_booking_page", $bkx_set_booking_page));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_alias_seat", $bkx_alias_seat));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_alias_base", $bkx_alias_base));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_alias_addition", $bkx_alias_addition));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_alias_notification", $bkx_alias_notification));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_client_id", $bkx_client_id));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_client_secret", $bkx_client_secret));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_template_thank_you", $bkx_template_thank_you));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_tempalate_pending", $bkx_tempalate_pending));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_template_success", $bkx_template_success));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_term_cond_page", $bkx_term_cond_page));		
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_privacy_policy_page", $bkx_privacy_policy_page));
-		$settingTag->appendChild($this->xmlobj->createElement("enable_editor", $enable_editor));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_notice_time_extended_text_alias", $bkx_notice_time_extended_text_alias));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_label_of_step1", $bkx_label_of_step1));
-		//$settingTag->appendChild($this->xmlobj->createElement("bkx_siteuser_canedit_seat", $bkx_siteuser_canedit_seat));
-		//$settingTag->appendChild($this->xmlobj->createElement("bkx_siteclient_canedit_css", $bkx_siteclient_canedit_css));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_form_text_color", $bkx_form_text_color));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_form_background_color", $bkx_form_background_color));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_siteclient_css_border_color", $bkx_siteclient_css_border_color));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_siteclient_css_progressbar_color", $bkx_siteclient_css_progressbar_color));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_siteclient_css_cal_border_color", $bkx_siteclient_css_cal_border_color));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_cal_day_color", $bkx_cal_day_color));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_cal_day_selected_color", $bkx_cal_day_selected_color));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_time_available_color", $time_available_color));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_time_selected_color", $time_selected_color));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_time_unavailable_color", $time_unavailable_color));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_time_block_bg_color", $time_block_bg_color));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_time_block_extra_color", $time_block_extra_color));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_time_block_service_color", $time_block_service_color));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_time_block_service_color", $bkx_time_block_service_color));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_cal_month_title_color", $bkx_cal_month_title_color));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_cal_month_bg_color", $bkx_cal_month_bg_color));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_time_new_selected", $bkx_time_new_selected));
-
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_business_name", $bkx_business_name));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_business_email", $bkx_business_email));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_business_phone", $bkx_business_phone));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_business_address_1", $bkx_business_address_1));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_business_address_2", $bkx_business_address_2));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_business_city", $bkx_business_city));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_business_state", $bkx_business_state));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_business_zip", $bkx_business_zip));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_business_country", $bkx_business_country));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_business_days", $bkx_business_days));
-
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_tax_rate", $bkx_tax_rate));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_tax_name", $bkx_tax_name));
-		$settingTag->appendChild($this->xmlobj->createElement("bkx_prices_include_tax", $bkx_prices_include_tax));
+		foreach ($this->settings_fields() as $option_key ){
+		    if(!empty($option_key)){
+                $option_value = bkx_crud_option_multisite($option_key);
+                $option_value = isset($option_value) ? $option_value : '';
+                if(is_array($option_value)){
+                    $settingTag->appendChild($this->xmlobj->createElement($option_key, maybe_serialize($option_value)));
+                }else{
+                    $settingTag->appendChild($this->xmlobj->createElement($option_key, $option_value));
+                }
+            }
+        }
 	}
 
 	public function get_bkx_users(){
@@ -378,9 +286,16 @@ class BkxExport {
                         }
                         $postmeta->appendChild($this->xmlobj->createElement($meta_key, $postmeta_value));
                     }
-                    $postmeta->appendChild($this->xmlobj->createElement('order_seat_slug', $seat_slug));
-                    $postmeta->appendChild($this->xmlobj->createElement('order_base_slug', $base_slug));
-                    $postmeta->appendChild($this->xmlobj->createElement('order_addition_slugs', implode(",", $addition_slug)));
+                    if(isset($seat_slug)){
+                        $postmeta->appendChild($this->xmlobj->createElement('order_seat_slug', $seat_slug));
+                    }
+                    if(isset($base_slug)){
+                        $postmeta->appendChild($this->xmlobj->createElement('order_base_slug', $base_slug));
+                    }
+                    if(isset($addition_slug)){
+                        $addition_data = implode(",", $addition_slug);
+                        $postmeta->appendChild($this->xmlobj->createElement('order_addition_slugs', $addition_data ));
+                    }
                 }
             }
         }

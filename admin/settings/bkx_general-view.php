@@ -220,7 +220,7 @@ if(!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
     <?php
     $current_main_tab = sanitize_text_field($_GET['bkx_tab']);
     $section = sanitize_text_field($_GET['section']);
-    $sub_tab = sanitize_text_field($_GET['sub_tab']);
+    $sub_tab = isset($_GET['sub_tab']) ? sanitize_text_field($_GET['sub_tab']) : '';
     $mailer          = new BKX_Emails_Setup();
     $generate_tab_url = $screen->parent_file.'&page=bkx-setting&bkx_tab=bkx_general&section=emails';
     if( $current_main_tab == 'bkx_general' && $section == 'emails' && isset($sub_tab) && $sub_tab != '') {
