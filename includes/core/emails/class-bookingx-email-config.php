@@ -832,7 +832,7 @@ class BookingX_Email_Content{
     public function email_notification_setting() {
         $current_main_tab = sanitize_text_field($_GET['bkx_tab']);
         $section = sanitize_text_field($_GET['section']);
-        $sub_tab = sanitize_text_field($_GET['sub_tab']);
+        $sub_tab = isset($_GET['sub_tab']) ? sanitize_text_field($_GET['sub_tab']) : '';
         if( $current_main_tab == 'bkx_general' && $section == 'emails' && isset($sub_tab) && $sub_tab != '')
             return;
 
