@@ -796,7 +796,10 @@ class Bookingx_Admin {
         if( $post->post_type == 'bkx_booking' ) {
             $orderObj   = new BkxBooking();
             $order_meta = $orderObj->get_order_meta_data( $post->ID );
-            $permalink = 'javascript:bkx_view_summary(\''.$post->ID.'\',\''.$order_meta[ 'first_name' ].' '.$order_meta[ 'last_name' ].'\')';
+            $permalink = "";
+            if(!empty($order_meta) && isset($order_meta[ 'first_name' ])){
+                $permalink = 'javascript:bkx_view_summary(\''.$post->ID.'\',\''.$order_meta[ 'first_name' ].' '.$order_meta[ 'last_name' ].'\')';
+            }
         }
         return $permalink;
     }
