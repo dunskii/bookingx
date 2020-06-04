@@ -42,7 +42,9 @@ class BkxImport
     function __construct( $type = 'all' ){
         if(isset($_POST['import_xml']) && sanitize_text_field($_POST['import_xml']) == "Import Xml"){
             $this->upload_dir = BKX_PLUGIN_DIR_PATH.'public/uploads/importXML';
-            $this->errors = $this->errors['errors'];
+            if(isset($this->errors['errors']) && !empty($this->errors['errors'])){
+                $this->errors = $this->errors['errors'];
+            }
             if(!in_array($type, $this->import_type)){
                 $this->errors['type_error'] = "Oops.. , '$type' type does not exists.";
                 return $this->errors;
@@ -56,34 +58,44 @@ class BkxImport
      * @return array
      */
     function import_now( $fileobj = null , $post_data = null ){
-        if(isset($_POST['import_xml']) && sanitize_text_field($_POST['import_xml']) == "Import Xml"){
-            $truncate_records = $post_data['truncate_records'];
-            $file_data =  $this->check_file_is_ok($fileobj);
-            if(!empty($this->errors))
-                return $this->errors;
-            $truncate_flag = $this->truncate_old_data($truncate_records);
-            if(!empty($file_data)){
-                $loadxml = new SimpleXMLElement($file_data);
-                if(isset($loadxml) && COUNT($loadxml) > 0) {
-                    $SeatPosts 		= $loadxml->SeatPosts;
-                    $BasePosts 		= $loadxml->BasePosts;
-                    $ExtraPosts 	= $loadxml->ExtraPosts;
-                    $BookingPosts 	= $loadxml->BookingPosts;
-                    $BkxUsers 		= $loadxml->BkxUsers;
-                    $Settings 		= $loadxml->Settings;
-                    $this->generate_post( $SeatPosts, 'bkx_seat' );
-                    $this->generate_post( $BasePosts, 'bkx_base' );
-                    $this->generate_post( $ExtraPosts, 'bkx_addition' );
-                    $this->generate_setting($Settings);
-                    $this->generate_post( $BookingPosts, 'bkx_booking' );
-                    $this->generate_bkx_users( $BkxUsers );
-                    unlink($this->target_file);
-                    $redirect = add_query_arg( array( 'bkx_success' => 'FIS' ), $_SERVER['HTTP_REFERER'] );
-                    wp_safe_redirect( $redirect );
-                    wp_die();
+        try{
+            if(isset($_POST['import_xml']) && sanitize_text_field($_POST['import_xml']) == "Import Xml"){
+                $file_data =  $this->check_file_is_ok($fileobj);
+                if(!empty($this->errors)){
+                    return $this->errors;
+                }
+                if(isset($post_data['truncate_records'])){
+                    $truncate_records = apply_filters('bkx_truncate_records', $post_data['truncate_records'] );
+                    $this->truncate_old_data($truncate_records);
+                }
+
+                if(!empty($file_data)){
+                    $loadxml = new SimpleXMLElement($file_data);
+                    if(isset($loadxml) && count($loadxml) > 0) {
+                        $SeatPosts 		= $loadxml->SeatPosts;
+                        $BasePosts 		= $loadxml->BasePosts;
+                        $ExtraPosts 	= $loadxml->ExtraPosts;
+                        $BookingPosts 	= $loadxml->BookingPosts;
+                        $BkxUsers 		= $loadxml->BkxUsers;
+                        $Settings 		= $loadxml->Settings;
+
+                        $this->generate_post( $SeatPosts, 'bkx_seat' );
+                        $this->generate_post( $BasePosts, 'bkx_base' );
+                        $this->generate_post( $ExtraPosts, 'bkx_addition' );
+                        $this->generate_setting($Settings);
+                        $this->generate_post( $BookingPosts, 'bkx_booking' );
+                        $this->generate_bkx_users( $BkxUsers );
+                        unlink($this->target_file);
+                        $redirect = add_query_arg( array( 'bkx_success' => 'FIS' ), $_SERVER['HTTP_REFERER'] );
+                        header("Location: {$redirect}");
+                    }
                 }
             }
+        }catch (Exception  $exception){
+            $redirect = add_query_arg( array( 'bkx_error' => 'FIE' ), $_SERVER['HTTP_REFERER'] );
+            header("Location: {$redirect}");
         }
+
 	}
     /**
      * @param null $xml_data
@@ -116,10 +128,13 @@ class BkxImport
 			  				}
 			  			}
 			  		}
-			  		$posts = $wpdb->get_results("SELECT * FROM $wpdb->postmeta 
+                    $posts = array();
+			  		if(isset($create_user_data['user_email']) && $create_user_data['user_email'] != ""){
+                        $posts = $wpdb->get_results($wpdb->prepare("SELECT * FROM {$wpdb->postmeta} 
 			  									 WHERE meta_key = 'seatEmail'
-			  									 AND meta_value =  '".$create_user_data['user_email']."'
-			  									 LIMIT 1", ARRAY_A);
+			  									 AND meta_value =  %s
+			  									 LIMIT 1",$create_user_data['user_email']), ARRAY_A);
+                    }
 			  		$post_obj = reset($posts);
 			  		if ( isset($create_user_data['user_login']) && username_exists( $create_user_data['user_login'] ) ){
 				        $user_id = username_exists( $create_user_data['user_login'] );
@@ -195,7 +210,7 @@ class BkxImport
 				 	  		$BkxBookingObj = new BkxBooking('',$post_id);
 				 	  		if(!empty($commentObj) && !empty($post_id)){
 				 	  			foreach ($commentObj as $key => $comment_arr) {				 	  				
-				 	  				$BkxBookingObj->add_order_note( $comment_arr->comment_content , 0, $manual );
+				 	  				$BkxBookingObj->add_order_note( $comment_arr->comment_content);
 					 	  		}
 				 	  		}
 			 	  		}
@@ -255,10 +270,10 @@ class BkxImport
 		    $wpdb->query( $wpdb->prepare( 'DELETE FROM '.$wpdb->posts.' WHERE '.$wpdb->posts.'.post_type = %s', 'bkx_booking' ) );
 		    // Delete all postmeta which not exists in posts table.
 		     $wpdb->query( $wpdb->prepare( 'DELETE FROM '.$wpdb->postmeta.'  
-		    	WHERE '.$wpdb->postmeta.'.post_id NOT IN ( SELECT '.$wpdb->posts.'.ID FROM '.$wpdb->posts.' )','') );
+		    	WHERE '.$wpdb->postmeta.'.post_id NOT IN ( SELECT '.$wpdb->posts.'.ID FROM '.$wpdb->posts.' )'),'' );
  		     //Delete all setting
-            $setting_array = array('bkx_google_calendar_id','bkx_api_paypal_paypalmode','bkx_api_paypal_username','bkx_api_paypal_password','bkx_api_paypal_signature','bkx_api_google_map_key','enable_cancel_booking','enable_any_seat','cancellation_policy_page_id','currency_option','reg_customer_crud_op','bkx_seat_role','bkx_set_booking_page','bkx_alias_seat','bkx_alias_base','bkx_alias_addition','bkx_alias_notification','bkx_client_id','bkx_client_secret','bkx_google_calendar_id','bkx_template_thank_you','bkx_tempalate_pending','bkx_template_success','bkx_term_cond_page','bkx_privacy_policy_page','enable_editor','bkx_notice_time_extended_text_alias','bkx_label_of_step1','bkx_siteuser_canedit_seat','bkx_siteclient_canedit_css','bkx_form_text_color','bkx_form_background_color','bkx_siteclient_css_border_color','bkx_siteclient_css_progressbar_color','bkx_siteclient_css_cal_border_color','bkx_cal_day_color','bkx_cal_day_selected_color','time_available_color','time_selected_color','time_unavailable_color','time_block_bg_color','time_block_extra_color','time_block_service_color','bkx_business_name','bkx_business_email','bkx_business_phone','bkx_business_address_1','bkx_business_address_2','bkx_business_city','bkx_business_state','bkx_business_zip','bkx_business_country','bkx_business_days');
-		    $setting_array =  apply_filters( 'bkx_setting_options_array', $setting_array, $this );
+            $BkxExport =  new BkxExport();
+            $setting_array = $BkxExport->settings_fields();
 		    //delete previous setting options value from database
 		     if(!empty($setting_array)){
 		     	foreach ($setting_array as $opt_key) {
