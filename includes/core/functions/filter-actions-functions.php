@@ -155,9 +155,7 @@ function bkx_process_mail_by_status($booking_id, $subject, $content, $email = nu
     bkx_mail_format_and_send_process($subject, $message_body, $to, $mail_type);
 }
 
-
-
-function bkx_generate_template_page( $option_key , $content, $page_title, $page_id ){
+function bkx_generate_template_page( $option_key , $content, $page_title, $page_id, $parent_id = null ){
     $page_data = array();
     if(isset($page_id) && $page_id != "" ){ $page_data = get_post( $page_id ); }
     if( !empty($page_data) ){
@@ -171,6 +169,9 @@ function bkx_generate_template_page( $option_key , $content, $page_title, $page_
         $page_array['comment_status']   = 'closed';
         $page_array['ping_status']      = 'closed';
         $page_array['post_category']    = array(1);
+        if(isset($parent_id) && $parent_id > 0 ){
+            $page_array['post_parent'] = $parent_id;
+        }
         $page_id  = wp_insert_post($page_array);
         bkx_crud_option_multisite($option_key, $page_id, 'update');
     }
@@ -182,9 +183,9 @@ function bkx_create_default_template(){
     $bkx_set_booking_page           = bkx_crud_option_multisite("bkx_set_booking_page");
     $bkx_dashboard_page_id         = bkx_crud_option_multisite('bkx_dashboard_page_id');
     $booking_edit_process_page_id   = bkx_crud_option_multisite('booking_edit_process_page_id');
-    bkx_generate_template_page( "booking_edit_process_page_id" , "[bkx_booking_form]", "Booking Edit", $booking_edit_process_page_id );
-    bkx_generate_template_page( "bkx_set_booking_page" , "[bkx_booking_form]", "Booking Form", $bkx_set_booking_page );
-    bkx_generate_template_page( "bkx_dashboard_page_id" , "[bkx_dashboard]", "Dashboard", $bkx_dashboard_page_id );
+    bkx_generate_template_page( "bkx_dashboard_page_id" , "[bkx_dashboard]", __("Dashboard", 'bookingx'), $bkx_dashboard_page_id );
+    bkx_generate_template_page( "bkx_set_booking_page" , "[bkx_booking_form]", __("Booking Form", 'bookingx'), $bkx_set_booking_page );
+    bkx_generate_template_page( "booking_edit_process_page_id" , "[bkx_booking_form]", __("Edit Booking", 'bookingx'), $booking_edit_process_page_id, $bkx_dashboard_page_id );
 }
 // Add settings link on plugin page
 add_filter("plugin_action_links_{$plugin}", 'bkx_plugin_settings_link');
