@@ -165,14 +165,14 @@ class BkxPaymentCore {
             }
 		    $count = !empty($this->payment_gateways) ? sizeof($this->payment_gateways) : 0;
             $checked = ($count == 1) ? 'checked = checked' : '';
-			$_available_gateways_html = "<div class=\"row\"><div class=\"col-lg-8\"><div class=\"check-text\">Payment Method </div>";
+			$_available_gateways_html = "<div class=\"row bkx-gateways\"><div class=\"col-lg-8\"><div class=\"check-text\">Payment Method </div>";
 			foreach ( $this->payment_gateways as $key_name => $gateway ) {
 				$check_status = bkx_crud_option_multisite($key_name.'_status');
                 $gateway_name = $gateway['title'];
 				if(isset($check_status) && $check_status == 1 || $key_name == 'bkx_gateway_pay_later' ){
                      $_available_gateways_html .="<div class=\"row mt-2\"><div class=\"col-md-6\"><div class=\"custom-control custom-radio\">
                                                   <input type=\"radio\" {$checked} class=\"custom-control-input\" id=\"{$key_name}\" name=\"bkx_payment_gateway_method\" value=\"{$key_name}\" data-payment-method=\"{$key_name}\">
-                                                  <label class=\"custom-control-label\" for=\"{$key_name}\">{$gateway_name}</label>
+                                                  <label class=\"custom-control-label bkx-gateway-label\" for=\"{$key_name}\">{$gateway_name}</label>
                                                 </div></div></div>";
 				}
 			}

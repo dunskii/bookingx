@@ -143,15 +143,15 @@ class Bkx_Ajax_Loader
             $default_seat    = bkx_crud_option_multisite('select_default_seat');
             $default_seat    = apply_filters( 'bkx_enable_any_seat_id', $default_seat );
             $any_seat = 0;
-            if (isset($default_seat) && $default_seat != '' && $enable_any_seat == 1) {
+            if (isset($default_seat) && $default_seat != '' && $enable_any_seat == 1 && $_POST['seat_id'] == 'any') {
                 $_POST['seat_id'] = $default_seat;
                 $any_seat = $default_seat;
-            }elseif( (!isset($default_seat) || $default_seat == '' || $default_seat < 1 ) && $enable_any_seat == 1){
+            }elseif( (!isset($default_seat) || $default_seat == '' || $default_seat < 1 ) && $enable_any_seat == 1 && $_POST['seat_id'] == 'any'){
                 $base_selected_seats   = get_post_meta( $base_id, 'base_selected_seats', true );
                 if(!empty($base_selected_seats)){
                     $seat_key = array_rand($base_selected_seats, 1 );
                     $_POST['seat_id'] = $base_selected_seats[$seat_key];
-                    $any_seat = $base_selected_seats[$seat_key];;
+                    $any_seat = $base_selected_seats[$seat_key];
                 }
             }
             $prepayment = false;

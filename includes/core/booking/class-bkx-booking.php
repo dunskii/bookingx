@@ -1332,7 +1332,7 @@ class BkxBooking {
         $result['total_price_formatted'] = "{$result['currency_name']}{$result['currency_sym']}{$result['total_price']}";
         $result['grand_total_formatted']  = "{$short_currency_name}{$result['currency_sym']}{$grand_total}";
 
-        $result['deposit_note']           = ( $result['deposit_price'] > 0 ) ? sprintf("<div class=\"row\"><div class=\"col-lg-12\"> <strong> Note : </strong> Please Deposit of %s%s%s is required to process and confirm this booking.</div></div>",$short_currency_name,$result['currency_sym'],$result['deposit_price']) : "";
+        $result['deposit_note']           = ( $result['deposit_price'] > 0 ) ? sprintf("<div class=\"row\"><div class=\"col-lg-12\"> <strong> Note : </strong> Please Deposit of %s%s is required to process and confirm this booking.</div></div>",$result['currency_sym'],$result['deposit_price']) : "";
 
 
         return $result;
