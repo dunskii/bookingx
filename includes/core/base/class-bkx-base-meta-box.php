@@ -291,6 +291,8 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
         }
 
         public function save_bkx_base_metaboxes( $post_id, $post, $update = null ){
+
+
             // Bail if we're doing an auto save
             if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
             // if our current user can't edit this post, bail
@@ -317,6 +319,7 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
             $base_unavailable_from      = isset($_POST['base_unavailable_from']) ? sanitize_text_field($_POST['base_unavailable_from']): "";
             $base_unavailable_till      = isset($_POST['base_unavailable_till']) ? sanitize_text_field($_POST['base_unavailable_till']): "";
             $baseSeatsValue             = isset($_POST['base_seats']) ? array_map('sanitize_text_field', wp_unslash($_POST['base_seats'])): "";
+            $seat_slug = array();
             if(!empty($baseSeatsValue)){
                 foreach ($baseSeatsValue as $key => $seat_id) {
                     $seat_data = get_post($seat_id);

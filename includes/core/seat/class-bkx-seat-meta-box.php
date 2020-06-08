@@ -425,16 +425,20 @@ if ( ! class_exists( 'BkxSeatMetaBox' ) ) {
                 </div>
             </div>
             <p><strong><?php esc_html_e('User Options', 'bookingx'); ?></strong></p>
-            <?php if (!empty($associate_with_username)) {
+            <?php
+            $hide_related = 'display:none';
+            if (!empty($associate_with_username)) {
                 $associate_with_username_obj = get_user_by('id', $associate_with_username);
                 if (!empty($associate_with_username_obj) && !is_wp_error($associate_with_username_obj)) {
                     echo 'This profile link to ' . $associate_with_username_obj->data->display_name . '<a href="' . get_edit_user_link($associate_with_username) . '" > view profile</a>';
                     $mannual = 'display:none';
+                    $hide_related = 'display:block';
                 }
                 $associate_with_email = get_user_by('email', $associate_with_username);
                 if (!empty($associate_with_email) && !is_wp_error($associate_with_email)) {
                     echo 'This profile link to ' . $associate_with_email->data->display_name . ' <a href="' . get_edit_user_link($associate_with_email->data->ID) . '" > view profile</a>';
                     $mannual = 'display:none';
+                    $hide_related = 'display:block';
                 }
             }
             if ($bkx_user_auto == 'Y') {
@@ -443,6 +447,7 @@ if ( ! class_exists( 'BkxSeatMetaBox' ) ) {
                     $associate_with_username = $values['seatEmail'];
                     echo 'This profile link to ' . $auto_user->data->display_name . ' <a href="' . get_edit_user_link($auto_user->data->ID) . '"> view profile</a>';
                     $mannual = 'display:none';
+                    $hide_related = 'display:block';
                 }
             }
             $crete_user_auto_status = ($associate_with_user == 'Y') ? 'display:block;' : 'display:none;';
@@ -506,44 +511,46 @@ if ( ! class_exists( 'BkxSeatMetaBox' ) ) {
                     </div>
                 </div>
             </div>
-            <p><strong><?php esc_html_e('Notification Details', 'bookingx'); ?></strong></p>
-            <p><?php esc_html_e('Phone :', 'bookingx'); ?></p>
-            <p><input type="text" name="seat_phone" id="id_seat_phone"
-                      value="<?php if (isset($seat_phone) && ($seat_phone != '')) {
-                          echo $seat_phone;
-                      } ?>"/></p>
-            <p><?php esc_html_e('Email :', 'bookingx'); ?></p>
-            <p><input type="text" name="seat_email" id="id_seat_email"
-                      value="<?php if (isset($seat_notification_email) && ($seat_notification_email != '')) {
-                          echo $seat_notification_email;
-                      } ?>"/></p>
-            <p><input name="seat_is_alternate_email" type="checkbox" onclick="display_secondary_email(this);" value="Yes"
-                      id="id_seat_is_alternate_email"
-                      tabindex="83" <?php if (isset($seat_notification_alternate_email) && ($seat_notification_alternate_email != '')) {
-                    echo "checked='checked'";
-                } ?> ><?php esc_html_e('Would you like to notify a second email address? :', 'bookingx'); ?></p>
-            <div class="active" id="secondary_email" style="display:none;">
-                <?php esc_html_e('Secondary Email :', 'bookingx'); ?>
-                <div class="plugin-description">
-                    <input type="text" name="seat_alternate_email" id="id_seat_alternate_email"
-                           value="<?php if (isset($seat_notification_alternate_email) && ($seat_notification_alternate_email != '')) {
-                               echo $seatAlternateEmail;
-                           } ?>"/>
+            <div class="bkx-seat-notification" style="<?php echo $hide_related;?>">
+                <p><strong><?php esc_html_e('Notification Details', 'bookingx'); ?></strong></p>
+                <p><?php esc_html_e('Phone :', 'bookingx'); ?></p>
+                <p><input type="text" name="seat_phone" id="id_seat_phone"
+                          value="<?php if (isset($seat_phone) && ($seat_phone != '')) {
+                              echo $seat_phone;
+                          } ?>"/></p>
+                <p><?php esc_html_e('Email :', 'bookingx'); ?></p>
+                <p><input type="text" name="seat_email" id="id_seat_email"
+                          value="<?php if (isset($seat_notification_email) && ($seat_notification_email != '')) {
+                              echo $seat_notification_email;
+                          } ?>"/></p>
+                <p><input name="seat_is_alternate_email" type="checkbox" onclick="display_secondary_email(this);" value="Yes"
+                          id="id_seat_is_alternate_email"
+                          tabindex="83" <?php if (isset($seat_notification_alternate_email) && ($seat_notification_alternate_email != '')) {
+                        echo "checked='checked'";
+                    } ?> ><?php esc_html_e('Would you like to notify a second email address? :', 'bookingx'); ?></p>
+                <div class="active" id="secondary_email" style="display:none;">
+                    <?php esc_html_e('Secondary Email :', 'bookingx'); ?>
+                    <div class="plugin-description">
+                        <input type="text" name="seat_alternate_email" id="id_seat_alternate_email"
+                               value="<?php if (isset($seat_notification_alternate_email) && ($seat_notification_alternate_email != '')) {
+                                   echo $seatAlternateEmail;
+                               } ?>"/>
+                    </div>
                 </div>
-            </div>
-            <p><input name="seat_is_ical" type="checkbox" onclick="display_ical_address(this);" value="Yes" id="id_seat_is_ical"
-                      tabindex="83" <?php if (isset($seat_ical_address) && ($seat_ical_address != '')) {
-                    echo "checked='checked'";
-                } ?> >
-                <?php esc_html_e('Would you like to share your booking details with Google Calendar?', 'bookingx'); ?>
-            </p>
-            <div class="active" id="ical_address" style="display:none;">
-                <?php esc_html_e('Google Calendar ID :', 'bookingx'); ?>
-                <div class="plugin-description">
-                    <input name="seat_ical_address" type="text"
-                           value="<?php if (isset($seatIcalAddress) && ($seatIcalAddress != '')) {
-                               echo $seatIcalAddress;
-                           } ?>" id="id_seat_ical_address" size="60">
+                <p><input name="seat_is_ical" type="checkbox" onclick="display_ical_address(this);" value="Yes" id="id_seat_is_ical"
+                          tabindex="83" <?php if (isset($seat_ical_address) && ($seat_ical_address != '')) {
+                        echo "checked='checked'";
+                    } ?> >
+                    <?php esc_html_e('Would you like to share your booking details with Google Calendar?', 'bookingx'); ?>
+                </p>
+                <div class="active" id="ical_address" style="display:none;">
+                    <?php esc_html_e('Google Calendar ID :', 'bookingx'); ?>
+                    <div class="plugin-description">
+                        <input name="seat_ical_address" type="text"
+                               value="<?php if (isset($seatIcalAddress) && ($seatIcalAddress != '')) {
+                                   echo $seatIcalAddress;
+                               } ?>" id="id_seat_ical_address" size="60">
+                    </div>
                 </div>
             </div>
             <p><strong><?php esc_html_e('Colour', 'bookingx'); ?></strong></p>

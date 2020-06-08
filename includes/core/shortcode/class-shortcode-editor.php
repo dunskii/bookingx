@@ -106,26 +106,26 @@ class BKXShortcode_Tinymce
 
     public function get_shortcodes() {
         $shortcode_tags = array();
-        $shortcode_tags['fname']                = 'First name';
-        $shortcode_tags['lname']                = 'Last name';
-        $shortcode_tags['phone']                = 'Phone';
-        $shortcode_tags['email']                = 'Email';
-        $shortcode_tags['total_price']          = 'Total price';
-        $shortcode_tags['order_id']             = 'Order id';
-        $shortcode_tags['txn_id']               = 'Transaction id';
-        $shortcode_tags['seat_name']            = 'Resource name';
-        $shortcode_tags['base_name']            = 'Service name';
-        $shortcode_tags['additions_list']       = 'Extra list';
-        $shortcode_tags['time_of_booking']      = 'Time of booking';
-        $shortcode_tags['date_of_booking']      = 'Date of booking';
-        $shortcode_tags['location_of_booking']  = 'Location of booking';
-        $shortcode_tags['amount_paid']          = 'Amount paid';
-        $shortcode_tags['amount_pending']       = 'Amount pending';
-        $shortcode_tags['business_name']        = 'Business name';
-        $shortcode_tags['business_phone']       = 'Business phone';
-        $shortcode_tags['business_email']       = 'Business email';
-        $shortcode_tags['booking_status']       = 'Booking status';
-        $shortcode_tags['booking_edit_url']       = 'Booking Edit url';
+        $shortcode_tags['fname']                = esc_html('First name', 'bookingx');
+        $shortcode_tags['lname']                = esc_html('Last name', 'bookingx');
+        $shortcode_tags['phone']                = esc_html('Phone', 'bookingx');
+        $shortcode_tags['email']                = esc_html('Email', 'bookingx');
+        $shortcode_tags['total_price']          = esc_html('Total price', 'bookingx');
+        $shortcode_tags['order_id']             = esc_html('Order id', 'bookingx');
+        $shortcode_tags['txn_id']               = esc_html('Transaction id', 'bookingx');
+        $shortcode_tags['seat_name']            = esc_html('Resource name', 'bookingx');
+        $shortcode_tags['base_name']            = esc_html('Service name', 'bookingx');
+        $shortcode_tags['additions_list']       = esc_html('Extra list', 'bookingx');
+        $shortcode_tags['time_of_booking']      = esc_html('Time of booking', 'bookingx');
+        $shortcode_tags['date_of_booking']      = esc_html('Date of booking', 'bookingx');
+        $shortcode_tags['location_of_booking']  = esc_html('Location of booking', 'bookingx');
+        $shortcode_tags['amount_paid']          = esc_html('Amount paid', 'bookingx');
+        $shortcode_tags['amount_pending']       = esc_html('Amount pending', 'bookingx');
+        $shortcode_tags['business_name']        = esc_html('Business name', 'bookingx');
+        $shortcode_tags['business_phone']       = esc_html('Business phone', 'bookingx');
+        $shortcode_tags['business_email']       = esc_html('Business email', 'bookingx');
+        $shortcode_tags['booking_status']       = esc_html('Booking status', 'bookingx');
+        $shortcode_tags['booking_edit_url']     = esc_html('Edit Booking Url', 'bookingx');
         $shortcode_tags = apply_filters( 'bkx_get_more_shortcodes', $shortcode_tags, $this );
         return $shortcode_tags;
     }

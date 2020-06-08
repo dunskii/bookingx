@@ -204,6 +204,7 @@ class BkxImport
 						update_post_meta( $post_id, "{$type}_slug", $post_data_slug);
 						// Generate Post Meta
 			 	  		$postmetaObj = $posts->Postmeta;
+
 			 	  		// Generate Comment 
 						if($type == 'bkx_booking' && !empty($posts->CommentData)) {
 				 	  		$commentObj = json_decode($posts->CommentData);
@@ -219,7 +220,20 @@ class BkxImport
 			 	  			    if(!empty($postmeta_arr)) {
 		 	  						foreach ($postmeta_arr as $key => $postmeta) {
 		 	  							$postmeta_data = maybe_unserialize(reset($postmeta));
-		 	  							update_post_meta( $post_id, $key, $postmeta_data);		  
+		 	  							update_post_meta( $post_id, $key, $postmeta_data);
+                                        if($type == 'bkx_base' && ( $key == 'base_seat_all' || $key == 'base_selected_seats') ){
+                                            if($postmeta_data == 'All'){
+                                                $args = array('fields' => 'ids', 'post_type' => 'bkx_seat', 'numberposts' => -1, );
+                                                $seat_ids = get_posts($args);
+                                                update_post_meta( $post_id, 'base_selected_seats', $seat_ids);
+                                            }else{
+                                                if($key == 'seat_slugs' && !empty($postmeta_data)){
+                                                    $args = array('fields' => 'ids', 'post_type' => 'bkx_seat', 'post_name__in' => $postmeta_data );
+                                                    $seat_ids = get_posts($args);
+                                                    update_post_meta( $post_id, 'base_selected_seats', $seat_ids);
+                                                }
+                                            }
+                                        }
 				 	  				}
 		 	  					}
 				 	  		}
