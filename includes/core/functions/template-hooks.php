@@ -50,15 +50,16 @@
      * Block hooks for Column Settings
      */
     add_filter( 'bookingx_block_grid_setting', 'bookingx_block_grid_setting', 10 );
-
     add_filter( 'bookingx_card_width_setting', 'bookingx_card_width_setting', 10 );
 
     add_action( 'bookingx_base_meta_data', 'bookingx_base_meta_data_html',10);
 
     add_action( 'bookingx_form_additional_fields', 'bookingx_form_additional_fields',10);
 
-    add_action( 'bkx_dashboard_nav', 'bkx_dashboard_nav',10);
-
+    add_action( 'bkx_dashboard_bookings_nav', 'bkx_dashboard_bookings_nav',10);
+    add_action( 'bkx_dashboard_booking_content', 'bkx_dashboard_booking_content',10);
+    add_action( 'bkx_dashboard_booking_view', 'bkx_dashboard_booking_view',10);
+    add_action( 'bkx_dashboard_navigation', 'bkx_dashboard_navigation',10);
     add_action( 'bkx_dashboard_content', 'bkx_dashboard_content',10);
 
-    add_action( 'bkx_dashboard_booking_view', 'bkx_dashboard_booking_view',10);
+    add_action( 'bkx_my_account_content', 'bkx_my_account_content',10);

@@ -182,10 +182,12 @@ add_action('init', 'bkx_create_default_template');
 function bkx_create_default_template(){
     $bkx_set_booking_page           = bkx_crud_option_multisite("bkx_set_booking_page");
     $bkx_dashboard_page_id         = bkx_crud_option_multisite('bkx_dashboard_page_id');
-    $booking_edit_process_page_id   = bkx_crud_option_multisite('booking_edit_process_page_id');
+    $bkx_edit_booking_page_id   = bkx_crud_option_multisite('bkx_edit_booking_page_id');
+    $my_account_id              = bkx_crud_option_multisite('bkx_my_account_page_id');
     bkx_generate_template_page( "bkx_dashboard_page_id" , "[bkx_dashboard]", __("Dashboard", 'bookingx'), $bkx_dashboard_page_id );
     bkx_generate_template_page( "bkx_set_booking_page" , "[bkx_booking_form]", __("Booking Form", 'bookingx'), $bkx_set_booking_page );
-    bkx_generate_template_page( "booking_edit_process_page_id" , "[bkx_booking_form]", __("Edit Booking", 'bookingx'), $booking_edit_process_page_id, $bkx_dashboard_page_id );
+    bkx_generate_template_page( "bkx_edit_booking_page_id" , "[bkx_booking_form]", __("Edit Booking", 'bookingx'), $bkx_edit_booking_page_id, $bkx_dashboard_page_id );
+    bkx_generate_template_page( "bkx_my_account_page_id" , "[bkx_my_account]", __("My Account", 'bookingx'), $my_account_id, $bkx_dashboard_page_id );
 }
 // Add settings link on plugin page
 add_filter("plugin_action_links_{$plugin}", 'bkx_plugin_settings_link');
