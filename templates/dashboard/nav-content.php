@@ -50,5 +50,5 @@ $GetPastBookedRecords = $BkxBooking->GetBookedRecordsByUser($search);
             </tbody>
         </table>
     </div>
-    <?php do_action('bkx_dashboard_nav_content');?>
+    <?php do_action('bkx_dashboard_bookings_nav_content');?>
 </div>

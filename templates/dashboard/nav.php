@@ -10,5 +10,5 @@ if ( ! defined( 'ABSPATH' ) ) {
     <li class="nav-item">
         <a class="nav-link" id="past-tab" data-toggle="tab" href="#past" role="tab" aria-controls="past" aria-selected="false"><?php echo __( 'Past Bookings', 'bookingx' ) ?></a>
     </li>
-    <?php do_action('bkx_dashboard_nav_tabs');?>
+    <?php do_action('bkx_dashboard_bookings_nav_tabs');?>
 </ul>

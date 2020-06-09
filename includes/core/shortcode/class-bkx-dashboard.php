@@ -87,7 +87,7 @@ if ( ! class_exists( 'BkxDashboard' ) ) {
 
         public function BkxDashboard( $args ){
             ob_start();
-            bkx_get_template('dashboard/listing.php', $args);
+            bkx_get_template('dashboard/dashboard.php', $args);
             return ob_get_clean();
         }
     }

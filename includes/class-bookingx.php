@@ -169,6 +169,7 @@ class Bookingx {
 		 *  Bkx Short code Load
 		 */
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/shortcode/class-bkx-dashboard.php';
+        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/shortcode/class-bkx-my-account.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/shortcode/class-bkx-booking-form-shortcode.php';
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/shortcode/class-shortcode-editor.php';
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/shortcode/class-bkx-listing-shortcode.php';
@@ -229,13 +230,6 @@ class Bookingx {
          */
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/settings/settings_save.php';
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/settings/setting-functions.php';
-
-
-
-        /*require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/blocks/class-bkx-register-booking-form-block.php';
-        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/blocks/class-bkx-register-seat-block.php';
-        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/blocks/class-bkx-register-base-block.php';
-        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/core/blocks/class-bkx-register-addition-block.php';*/
 
         /**
          * Email Config

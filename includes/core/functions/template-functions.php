@@ -427,14 +427,14 @@ if(!function_exists('bookingx_base_meta_data_html')){
     }
 }
 
-if(!function_exists('bkx_dashboard_nav')){
-    function bkx_dashboard_nav(){
+if(!function_exists('bkx_dashboard_bookings_nav')){
+    function bkx_dashboard_bookings_nav(){
         bkx_get_template('dashboard/nav.php');
     }
 }
 
-if(!function_exists('bkx_dashboard_content')){
-    function bkx_dashboard_content(){
+if(!function_exists('bkx_dashboard_booking_content')){
+    function bkx_dashboard_booking_content(){
         bkx_get_template('dashboard/nav-content.php');
     }
 }
@@ -445,4 +445,20 @@ if(!function_exists('bkx_dashboard_booking_view')){
     }
 }
 
+if(!function_exists('bkx_dashboard_navigation')){
+    function bkx_dashboard_navigation(){
+        bkx_get_template('dashboard/navigation.php');
+    }
+}
 
+if(!function_exists('bkx_dashboard_content')){
+    function bkx_dashboard_content(){
+        bkx_get_template('dashboard/content.php');
+    }
+}
+
+if(!function_exists('bkx_my_account_content')){
+    function bkx_my_account_content(){
+        bkx_get_template('dashboard/my-account/content.php');
+    }
+}

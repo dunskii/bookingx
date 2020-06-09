@@ -35,11 +35,11 @@
         $BkxPaymentCore = new BkxPaymentCore();
         $bkx_get_available_gateways = $BkxPaymentCore->PaymentGateways();
         if(!empty($bkx_get_available_gateways[$payment_source_method])){
-            $payment_source_name = $bkx_get_available_gateways[$payment_source_method];
+            $payment_source_name = $bkx_get_available_gateways[$payment_source_method]['title'];
         }else{
             $payment_source_name = "Offline Payment";
         }
-        $payment_source = sprintf(__("%s",'Bookingx'),$payment_source_name['title']);
+        $payment_source = sprintf(__("%s",'Bookingx'),$payment_source_name);
     }else{
         $payment_source = sprintf(__("%s",'Bookingx'),"Offline Payment");
     }

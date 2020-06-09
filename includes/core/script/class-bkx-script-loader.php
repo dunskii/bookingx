@@ -365,7 +365,9 @@ class Bkx_Script_Loader
             'book_now_nonce'                            => wp_create_nonce( "book-now" ),
             'back_to_booking_page_nonce'                => wp_create_nonce( "back-to-booking-page" ),
             'send_email_receipt_nonce'                  => wp_create_nonce( "send-email-receipt" ),
-            'check_staff_availability'                  => wp_create_nonce('check-staff-availability')
+            'check_staff_availability'                  => wp_create_nonce('check-staff-availability'),
+            'change_password_nonce'                     => wp_create_nonce('change-password'),
+            'customer_details_nonce'                     => wp_create_nonce('customer-details')
         );
 
         if(isset($booking_id) && $booking_id > 0 ){
@@ -401,6 +403,7 @@ class Bkx_Script_Loader
             case 'bkx-booking-form-admin':
             case 'bkx-booking-form':
             case 'bkx-edit-booking-form':
+            case 'bookingx':
                 $params = array_merge( $global_variables , $defaults_params );
                 break;
             default:

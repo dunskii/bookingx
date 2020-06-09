@@ -24,11 +24,14 @@ function generate_while_multisite_creating($blog_id, $user_id, $domain, $path, $
         add_blog_option( $blog_id, "bkx_form_background_color", esc_html('f0e8e7', 'bookingx'));
         add_blog_option( $blog_id, "bkx_siteclient_css_border_color", esc_html('1f191f', 'bookingx'));
         add_blog_option( $blog_id, "bkx_siteclient_css_progressbar_color", esc_html('875428', 'bookingx'));
-        $bkx_set_booking_page          = bkx_crud_option_multisite("bkx_set_booking_page");
-        $bkx_dashboard_page_id         = bkx_crud_option_multisite('bkx_dashboard_page_id');
-        $booking_edit_process_page_id  = bkx_crud_option_multisite('booking_edit_process_page_id');
+        $bkx_set_booking_page       = bkx_crud_option_multisite("bkx_set_booking_page");
+        $bkx_dashboard_page_id      = bkx_crud_option_multisite('bkx_dashboard_page_id');
+        $bkx_edit_booking_page_id   = bkx_crud_option_multisite('bkx_edit_booking_page_id');
+        $my_account_id              = bkx_crud_option_multisite('bkx_my_account_page_id');
         bkx_generate_template_page( "bkx_dashboard_page_id" , "[bkx_dashboard]", __("Dashboard", 'bookingx'), $bkx_dashboard_page_id );
         bkx_generate_template_page( "bkx_set_booking_page" , "[bkx_booking_form]", __("Booking Form", 'bookingx'), $bkx_set_booking_page );
-        bkx_generate_template_page( "booking_edit_process_page_id" , "[bkx_booking_form]", __("Edit Booking", 'bookingx'), $booking_edit_process_page_id, $bkx_dashboard_page_id );
+        bkx_generate_template_page( "bkx_edit_booking_page_id" , "[bkx_booking_form]", __("Edit Booking", 'bookingx'), $bkx_edit_booking_page_id, $bkx_dashboard_page_id );
+        bkx_generate_template_page( "bkx_my_account_page_id" , "[bkx_my_account]", __("My Account", 'bookingx'), $my_account_id, $bkx_dashboard_page_id );
+
     restore_current_blog();
 }
