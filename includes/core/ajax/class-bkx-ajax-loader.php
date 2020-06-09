@@ -85,6 +85,8 @@ class Bkx_Ajax_Loader
             'back_to_booking_page'                    => true,
             'send_email_receipt'                      => true,
             'check_staff_availability'                => true,
+            'change_password'                         => true,
+            'customer_details'                         => true,
         );
 
         foreach ( $ajax_events as $ajax_event => $nopriv ) {
@@ -98,6 +100,120 @@ class Bkx_Ajax_Loader
 
     public static function get_endpoint( $request = '' ) {
         return esc_url_raw( apply_filters( 'bookingx_ajax_get_endpoint', add_query_arg( 'bkx-ajax', $request, remove_query_arg( array( '_wpnonce' ), home_url( '/', 'relative' ) ) ), $request ) );
+    }
+
+    public static function customer_details(){
+        check_ajax_referer( 'customer-details', 'security' );
+        parse_str($_POST['form_data'], $post_data);
+        $nonce_value = $post_data['bkx-customer-details-nonce'];
+        if ( ! wp_verify_nonce( $nonce_value, 'bkx-customer-details' ) && !is_user_logged_in()) {
+            return;
+        }
+        $user_id = get_current_user_id();
+        $user = get_user_by( 'ID', $user_id );
+        $errors = array();
+        $result = array();
+        if ( isset( $post_data['first_name'], $post_data['last_name'], $post_data['email_address'] ) ) {
+            if ( empty( $post_data['first_name'] ) ) {
+                $errors['first_name'] = __( 'Please enter your first name.', 'bookingx' );
+            }
+
+            if ( empty( $post_data['last_name'] ) ) {
+                $errors['last_name'] = __( 'Please enter your last name.', 'bookingx' );
+            }
+
+            if ( empty( $post_data['email_address'] ) ) {
+                $errors['email_address'] = __( 'Please enter your email address.', 'bookingx' );
+            }
+
+            if ( !empty( $post_data['email_address'] ) && !is_email( $post_data['email_address'] ) ) {
+                $errors['email_address'] = __( 'Please enter valid email address.', 'bookingx' );
+            }
+
+        }else{
+            $errors['all'] = __('Please fill all required fields.', 'bookingx');
+        }
+
+        do_action( 'bkx_validate_customer_details', $errors, $user );
+
+        if(!empty($errors)){
+            $result['errors'] = $errors;
+        }else{
+            $user_data = wp_update_user( array(
+                'ID' => $user_id,
+                'first_name' => $post_data['first_name'],
+                'last_name' => $post_data['last_name'] ,
+                'user_email' => $post_data['email_address']
+            ));
+            if ( is_wp_error( $user_data ) ) {
+                // There was an error; possibly this user doesn't exist.
+                $errors['top_error'] = __('Something went wrong, Please try again.', 'bookingx');
+            } else {
+                // Success!
+                update_user_meta( $user_id, 'bkx_phone_number', $post_data['phone_number']);
+                do_action( 'bkx_update_customer_details', $user, $post_data);
+                $result['success'] = array('feedback' => __('Your profile updated successfully.','bookingx'));
+                $result = apply_filters('bkx_customer_details_success', $result, $user);
+            }
+        }
+        echo json_encode($result);
+        wp_die();
+    }
+
+    public static function change_password() {
+        check_ajax_referer( 'change-password', 'security' );
+        parse_str($_POST['form_data'], $post_data);
+        $nonce_value = $post_data['bkx-change-password-nonce'];
+        if ( ! wp_verify_nonce( $nonce_value, 'bkx-change-password' ) && !is_user_logged_in()) {
+            return;
+        }
+
+        $user_id = get_current_user_id();
+        $user = get_user_by( 'ID', $user_id );
+        $errors = array();
+        $result = array();
+        if ( isset( $post_data['current_password'], $post_data['new_password'], $post_data['confirm_password'] ) ) {
+            if ( empty( $post_data['current_password'] ) ) {
+                $errors['current_password'] = __( 'Please enter your current password.', 'bookingx' );
+            }
+
+            if ( !empty( $user ) && wp_check_password( $post_data['current_password'], $user->data->user_pass, $user->ID )) {
+
+            }else{
+                $errors['current_password'] = __( 'Please check your current password.', 'bookingx' );
+            }
+
+            if ( empty( $post_data['new_password'] ) ) {
+                $errors['new_password'] = __( 'Please enter new password.', 'bookingx' );
+            }
+
+            if ( empty( $post_data['confirm_password'] ) ) {
+                $errors['confirm_password'] = __( 'Please enter confirm password.', 'bookingx' );
+            }
+
+            if ( $post_data['new_password'] !== $post_data['confirm_password'] ) {
+                $errors['not_match'] = __( 'Passwords do not match.', 'bookingx' );
+            }
+
+        }else{
+            $errors['all'] = __('Please fill all required fields.', 'bookingx');
+        }
+
+        do_action( 'bkx_validate_change_password', $errors, $user );
+        
+        if(!empty($errors)){
+            $result['errors'] = $errors;
+        }else{
+            do_action( 'bkx_password_changed', $user, $post_data['new_password'] );
+            wp_set_password( $post_data['new_password'], $user->ID );
+            BkxMyAccount::set_change_password_cookie();
+            wp_password_change_notification( $user );
+            do_action( 'bkx_customer_changed_password', $user );
+            $result['success'] = array('feedback' => __('Your password changed successfully.','bookingx'));
+            $result = apply_filters('bkx_change_password_success', $result, $user);
+        }
+        echo json_encode($result);
+        wp_die();
     }
 
     public static function on_seat_change() {

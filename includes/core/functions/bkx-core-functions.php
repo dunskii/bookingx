@@ -811,7 +811,7 @@ function edit_booking_url( $booking_id){
 
     if(empty($booking_id))
         return;
-    $edit_id        = bkx_crud_option_multisite('booking_edit_process_page_id');
+    $edit_id        = bkx_crud_option_multisite('bkx_edit_booking_page_id');
     $edit_booking   = add_query_arg( array( 'id' => $booking_id ) , get_permalink($edit_id) );
     return wp_nonce_url( $edit_booking, 'edit_booking_'.$booking_id, 'edit_booking_nonce');
 }
@@ -820,11 +820,33 @@ function bkx_get_dashboard_orders_columns(){
     return apply_filters(
         'bkx_listing_default_headers',
         array(
-            'booking-number'  => esc_html__( 'Booking #', 'woocommerce' ),
-            'booking-date'    => esc_html__( 'Date & Time', 'woocommerce' ),
-            'booking-status'  => esc_html__( 'Status', 'woocommerce' ),
-            'booking-total'   => esc_html__( 'Total', 'woocommerce' ),
+            'booking-number'  => esc_html__( 'Booking #', 'bookingx' ),
+            'booking-date'    => esc_html__( 'Date & Time', 'bookingx' ),
+            'booking-status'  => esc_html__( 'Status', 'bookingx' ),
+            'booking-total'   => esc_html__( 'Total', 'bookingx' ),
             'booking-actions' => '&nbsp;',
+        )
+    );
+}
+
+function bkx_get_dashboard_navigation_menu(){
+
+    $dashboard_id        = bkx_crud_option_multisite('bkx_dashboard_page_id');
+    $my_account_id       = bkx_crud_option_multisite('bkx_my_account_page_id');
+
+    return apply_filters(
+        'bkx_dashboard_navigation_menu',
+        array(
+            'bookings'  => array(
+                            'label' => esc_html__( 'Bookings', 'bookingx' ),
+                            'link'  => esc_url( get_permalink($dashboard_id), 'bookingx'),
+                            'active' => true
+                            ),
+            'my_account'    => array(
+                            'label' => esc_html__( 'My Account', 'bookingx' ),
+                            'link'  => esc_url( get_permalink($my_account_id), 'bookingx'),
+                            'active' => false
+                        ),
         )
     );
 }
