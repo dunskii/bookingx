@@ -1,10 +1,10 @@
-jQuery( function( $ ) {
+jQuery(function ($) {
     // Common scroll to element code.
-    $.bkx_scroll_to_notices = function( scrollElement ) {
-        if ( scrollElement.length ) {
-            $( 'html, body' ).animate( {
-                scrollTop: ( scrollElement.offset().top - 100 )
-            }, 1000 );
+    $.bkx_scroll_to_notices = function (scrollElement) {
+        if (scrollElement.length) {
+            $('html, body').animate({
+                scrollTop: (scrollElement.offset().top - 100)
+            }, 1000);
         }
     };
 
@@ -80,7 +80,7 @@ jQuery( function( $ ) {
             $('.bkx-change-password-success-message').html('');
             var data = {
                 security: bookingx_params.change_password_nonce,
-                form_data: $( "#bkx-change-password" ).serialize()
+                form_data: $("#bkx-change-password").serialize()
             }
             $.ajax({
                 type: 'POST',
@@ -90,19 +90,19 @@ jQuery( function( $ ) {
                 success: function (response) {
                     if (response != 'NORF') {
                         var result = $.parseJSON(response);
-                        if(result.errors){
+                        if (result.errors) {
                             $('input').removeClass('is-invalid');
                             $('.invalid-feedback').html('');
                             $.each(result.errors, function (key, val) {
-                                $('.bkx-'+key).addClass('is-invalid');
-                                $('.'+key+'-feedback').html(val);
-                                if(key == 'not_match'){
+                                $('.bkx-' + key).addClass('is-invalid');
+                                $('.' + key + '-feedback').html(val);
+                                if (key == 'not_match') {
                                     $('.bkx-new_password').addClass('is-invalid');
                                     $('.bkx-confirm_password').addClass('is-invalid');
                                     $('.new_password-feedback').html(val);
                                     $('.confirm_password-feedback').html(val);
                                 }
-                                if(key == 'all'){
+                                if (key == 'all') {
                                     $('.bkx-new_password').addClass('is-invalid');
                                     $('.bkx-current_password').addClass('is-invalid');
                                     $('.bkx-confirm_password').addClass('is-invalid');
@@ -111,7 +111,7 @@ jQuery( function( $ ) {
                         }
                         unblock($('.bkx-change-password-main'));
                     }
-                    if(result.success){
+                    if (result.success) {
                         //$('.bkx-change-password-form').hide();
                         $('.bkx-change-password-success-message').show();
                         $('.bkx-change-password-success-message').html(result.success.feedback);
@@ -134,7 +134,7 @@ jQuery( function( $ ) {
             $('.invalid-feedback').html('');
             var data = {
                 security: bookingx_params.customer_details_nonce,
-                form_data: $( "#bkx-customer-details" ).serialize()
+                form_data: $("#bkx-customer-details").serialize()
             }
             $.ajax({
                 type: 'POST',
@@ -144,16 +144,16 @@ jQuery( function( $ ) {
                 success: function (response) {
                     if (response != 'NORF') {
                         var result = $.parseJSON(response);
-                        if(result.errors){
+                        if (result.errors) {
                             $.each(result.errors, function (key, val) {
-                                $('.bkx-'+key).addClass('is-invalid');
-                                $('.'+key+'-feedback').html(val);
-                                if(key == 'all'){
+                                $('.bkx-' + key).addClass('is-invalid');
+                                $('.' + key + '-feedback').html(val);
+                                if (key == 'all') {
                                     $('.bkx-first_name').addClass('is-invalid');
                                     $('.bkx-last_name').addClass('is-invalid');
                                     $('.bkx-email_address').addClass('is-invalid');
                                 }
-                                if(key == 'top_error'){
+                                if (key == 'top_error') {
                                     $('.bkx-customer-details-error-message').show();
                                     $('.bkx-customer-details-error-message').html(val);
                                 }
@@ -161,7 +161,7 @@ jQuery( function( $ ) {
                         }
                         unblock($('.bkx-customer-details-main'));
                     }
-                    if(result.success){
+                    if (result.success) {
                         //$('.bkx-change-password-form').hide();
                         $('.bkx-customer-details-success-message').show();
                         $('.bkx-customer-details-success-message').html(result.success.feedback);

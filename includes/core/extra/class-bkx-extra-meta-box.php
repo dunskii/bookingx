@@ -1,5 +1,5 @@
-<?php !defined( 'ABSPATH' ) AND exit;
-if ( ! class_exists( 'BkxExtraMetaBox' ) ) {
+<?php !defined('ABSPATH') and exit;
+if (!class_exists('BkxExtraMetaBox')) {
     add_action('load-post.php', array('BkxExtraMetaBox', 'init'));
     add_action('load-post-new.php', array('BkxExtraMetaBox', 'init'));
     add_action('load-edit.php', array('BkxExtraMetaBox', 'init'));
@@ -9,48 +9,53 @@ if ( ! class_exists( 'BkxExtraMetaBox' ) ) {
         protected static $instance;
         protected $post_type = "bkx_addition";
 
-        public static function init(){
-            null === self:: $instance AND self:: $instance = new self;
+        public static function init()
+        {
+            null === self:: $instance and self:: $instance = new self;
             return self:: $instance;
         }
 
-        public function __construct(  ) {
-            if(is_admin() == false )
+        public function __construct()
+        {
+            if (is_admin() == false)
                 return;
-            add_action( 'add_meta_boxes', array( $this, 'add_bkx_extra_metaboxes' ) );
-            add_action( 'save_post', array( $this, 'save_bkx_addition_metaboxes' ) ,10 , 3  );
-            add_filter( 'manage_' . $this->post_type . '_posts_columns', array( $this, 'bkx_addition_columns_head' ) , 10, 1);
-            add_filter( 'manage_' . $this->post_type . '_posts_custom_column', array( $this, 'bkx_addition_columns_content' ) , 10, 2 );
-            add_action( 'admin_enqueue_scripts', array( $this, 'bkx_extra_wp_enqueue_scripts' ) );
+            add_action('add_meta_boxes', array($this, 'add_bkx_extra_metaboxes'));
+            add_action('save_post', array($this, 'save_bkx_addition_metaboxes'), 10, 3);
+            add_filter('manage_' . $this->post_type . '_posts_columns', array($this, 'bkx_addition_columns_head'), 10, 1);
+            add_filter('manage_' . $this->post_type . '_posts_custom_column', array($this, 'bkx_addition_columns_content'), 10, 2);
+            add_action('admin_enqueue_scripts', array($this, 'bkx_extra_wp_enqueue_scripts'));
         }
 
-        public function bkx_extra_wp_enqueue_scripts(){
+        public function bkx_extra_wp_enqueue_scripts()
+        {
             global $post;
-            if( !empty($post) && $post->post_type != 'bkx_addition')
+            if (!empty($post) && $post->post_type != 'bkx_addition')
                 return;
             $addition_alias = bkx_crud_option_multisite('bkx_alias_addition');
-            $base_alias     = bkx_crud_option_multisite('bkx_alias_base');
+            $base_alias = bkx_crud_option_multisite('bkx_alias_base');
             $translation_array = array('plugin_url' => BKX_PLUGIN_DIR_URL, 'extra_alias' => $addition_alias, 'base_alias' => $base_alias);
             wp_enqueue_script('iris');
             wp_enqueue_script('jquery-ui-core');
             wp_enqueue_script('jquery-ui-datepicker');
-            wp_register_script("bkx-extra-validate", BKX_PLUGIN_DIR_URL."public/js/admin/bkx-extra-validate.js",false, BKX_PLUGIN_VER, true);
+            wp_register_script("bkx-extra-validate", BKX_PLUGIN_DIR_URL . "public/js/admin/bkx-extra-validate.js", false, BKX_PLUGIN_VER, true);
             wp_localize_script('bkx-extra-validate', 'extra_obj', $translation_array);
-            wp_enqueue_script( 'bkx-extra-validate' );
+            wp_enqueue_script('bkx-extra-validate');
             $wp_scripts = wp_scripts();
             wp_enqueue_style('bkx-admin-ui-css', '//ajax.googleapis.com/ajax/libs/jqueryui/' . $wp_scripts->registered['jquery-ui-core']->ver . '/themes/smoothness/jquery-ui.css',
                 false, BKX_PLUGIN_VER, false);
         }
 
-        public function add_bkx_extra_metaboxes(){
+        public function add_bkx_extra_metaboxes()
+        {
             $alias = bkx_crud_option_multisite('bkx_alias_addition');
-            add_meta_box('bkx_base_boxes', __(ucwords($alias) . " Details", 'bookingx'), array( $this, 'bkx_extra_boxes_metabox_callback' ), 'bkx_addition', 'normal', 'high');
+            add_meta_box('bkx_base_boxes', __(ucwords($alias) . " Details", 'bookingx'), array($this, 'bkx_extra_boxes_metabox_callback'), 'bkx_addition', 'normal', 'high');
         }
 
-        public function bkx_extra_boxes_metabox_callback( $post ){
+        public function bkx_extra_boxes_metabox_callback($post)
+        {
             wp_nonce_field('bkx_extra_boxes_metabox', 'bkx_extra_boxes_metabox_nonce');
             $addition_alias = bkx_crud_option_multisite('bkx_alias_addition');
-            $base_alias     = bkx_crud_option_multisite('bkx_alias_base');
+            $base_alias = bkx_crud_option_multisite('bkx_alias_base');
             //Get Seat post Array
             $args = array(
                 'posts_per_page' => -1,
@@ -101,15 +106,19 @@ if ( ! class_exists( 'BkxExtraMetaBox' ) ) {
             <div class="active" id="months_days_times">
                 Is <?php echo $addition_alias; ?> time in days, hours & minutes:
                 <div class="plugin-description">
-                    <select name="addition_time_option" id="id_addition_time_option" class="medium gfield_select" tabindex="4">
+                    <select name="addition_time_option" id="id_addition_time_option" class="medium gfield_select"
+                            tabindex="4">
                         <!--  <option value="Months" <?php //if($addition_time_option == "M"){ echo "selected='selected'"; }
                         ?> >Months</option> -->
                         <option value="Hour and Minutes" <?php if ($addition_time_option == "H") {
                             echo "selected='selected'";
                         } ?>>Hour and Minutes
                         </option>
-                         <option value="Days" <?php if($addition_time_option == "D"){ echo "selected='selected'"; }
-                        ?>>Days</option>
+                        <option value="Days" <?php if ($addition_time_option == "D") {
+                            echo "selected='selected'";
+                        }
+                        ?>>Days
+                        </option>
 
                     </select>
                 </div>
@@ -120,7 +129,8 @@ if ( ! class_exists( 'BkxExtraMetaBox' ) ) {
                 ?>
                 <?php echo $addition_alias; ?> Time In Hours and Minutes :
                 <div class="plugin-description">
-                    <input name="addition_hours_minutes" type="text" value="<?php echo $addition_hours;?>" id="id_addition_hours_minutes">
+                    <input name="addition_hours_minutes" type="text" value="<?php echo $addition_hours; ?>"
+                           id="id_addition_hours_minutes">
                     <?php
                     if (isset($addition_minutes))
                         $additionMinute = $addition_minutes; ?>
@@ -173,7 +183,8 @@ if ( ! class_exists( 'BkxExtraMetaBox' ) ) {
             <div class="active" id="months">
                 Number of Months for <?php echo $addition_alias; ?> Time :
                 <div class="plugin-description">
-                    <input name="addition_months" type="text" value="<?php echo $addition_months; ?>" id="id_addition_months">
+                    <input name="addition_months" type="text" value="<?php echo $addition_months; ?>"
+                           id="id_addition_months">
                 </div>
             </div>
 
@@ -244,7 +255,7 @@ if ( ! class_exists( 'BkxExtraMetaBox' ) ) {
             <p><strong><?php esc_html_e('Colour', 'bookingx'); ?></strong></p>
             <p><?php printf(esc_html__('%1$s Colour', 'bookingx'), $addition_alias); ?></p>
             <p><input type="text" name="extra_colour" id="id_extra_colour"
-                      value="<?php printf(esc_html__('%1$s', 'bookingx'), $extra_colour);?>"/></p>
+                      value="<?php printf(esc_html__('%1$s', 'bookingx'), $extra_colour); ?>"/></p>
             <!--only for edit form  -->
             <div class="active" id="is_unavailable">
                 Does the <?php echo $addition_alias; ?> Unavailable ?
@@ -260,37 +271,39 @@ if ( ! class_exists( 'BkxExtraMetaBox' ) ) {
                 <?php echo $addition_alias; ?> Unavailable
                 <div class="plugin-description">
                     From <input type="text" name="addition_unavailable_from" id="id_addition_unavailable_from"
-                           value="<?php if (isset($addition_available_from)) {
-                               echo $addition_available_from;
-                           } ?>"> To <input type="text" name="addition_unavailable_to" id="id_addition_unavailable_to"
-                                              value="<?php if (isset($addition_available_to)) {
-                                                  echo $addition_available_to;
-                                              } ?>">
+                                value="<?php if (isset($addition_available_from)) {
+                                    echo $addition_available_from;
+                                } ?>"> To <input type="text" name="addition_unavailable_to"
+                                                 id="id_addition_unavailable_to"
+                                                 value="<?php if (isset($addition_available_to)) {
+                                                     echo $addition_available_to;
+                                                 } ?>">
                 </div>
             </div>
             <?php
         }
 
-        public function save_bkx_addition_metaboxes( $post_id, $post, $update = null ){
+        public function save_bkx_addition_metaboxes($post_id, $post, $update = null)
+        {
             if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
             if ($post->post_type != 'bkx_addition') return;
             if ($post->post_status != 'publish') return;
-            $additionPrice              = isset($_POST['addition_price']) ? sanitize_text_field($_POST['addition_price']) : "";
-            $additionMonthDaysTime      = isset($_POST['addition_time_option']) ? sanitize_text_field($_POST['addition_time_option']) : "";
-            $additionMonths             = isset($_POST['addition_months']) ? sanitize_text_field($_POST['addition_months']) : "";
-            $additionDays               = isset($_POST['addition_days']) ? sanitize_text_field($_POST['addition_days']) : "";
-            $additionHoursMinutes       = isset($_POST['addition_hours_minutes']) ? sanitize_text_field($_POST['addition_hours_minutes']) : "";
-            $additionMinutes            = isset($_POST['addition_minutes']) ? sanitize_text_field($_POST['addition_minutes']) : "";
-            $additionOverlap            = isset($_POST['addition_overlap']) ? sanitize_text_field($_POST['addition_overlap']) : "";
-            $additionBaseAll            = isset($_POST['addition_base_all']) ? sanitize_text_field($_POST['addition_base_all']) : "";
+            $additionPrice = isset($_POST['addition_price']) ? sanitize_text_field($_POST['addition_price']) : "";
+            $additionMonthDaysTime = isset($_POST['addition_time_option']) ? sanitize_text_field($_POST['addition_time_option']) : "";
+            $additionMonths = isset($_POST['addition_months']) ? sanitize_text_field($_POST['addition_months']) : "";
+            $additionDays = isset($_POST['addition_days']) ? sanitize_text_field($_POST['addition_days']) : "";
+            $additionHoursMinutes = isset($_POST['addition_hours_minutes']) ? sanitize_text_field($_POST['addition_hours_minutes']) : "";
+            $additionMinutes = isset($_POST['addition_minutes']) ? sanitize_text_field($_POST['addition_minutes']) : "";
+            $additionOverlap = isset($_POST['addition_overlap']) ? sanitize_text_field($_POST['addition_overlap']) : "";
+            $additionBaseAll = isset($_POST['addition_base_all']) ? sanitize_text_field($_POST['addition_base_all']) : "";
             $additionLocationDifferSeat = 'N';
             $additionLocationDifferBase = 'N';
-            $additionIsUnavailable      = isset($_POST['addition_is_unavailable']) ? sanitize_text_field($_POST['addition_is_unavailable']) : "";
-            $additionUnavailableFrom    = isset($_POST['addition_unavailable_from']) ? sanitize_text_field($_POST['addition_unavailable_from']) : "";
-            $additionUnavailableTo      = isset($_POST['addition_unavailable_to']) ? sanitize_text_field($_POST['addition_unavailable_to']) : "";
-            $extraSeatsValue            = isset($_POST['addition_base']) ? array_map('sanitize_text_field', wp_unslash($_POST['addition_base'])) : "";
-            $checked_seats              = isset($_POST['seat_on_extra']) ? array_map('sanitize_text_field', wp_unslash($_POST['seat_on_extra'])) : "";
-            $extra_colour               = isset($_POST['extra_colour']) ? sanitize_text_field($_POST['extra_colour']) : "";
+            $additionIsUnavailable = isset($_POST['addition_is_unavailable']) ? sanitize_text_field($_POST['addition_is_unavailable']) : "";
+            $additionUnavailableFrom = isset($_POST['addition_unavailable_from']) ? sanitize_text_field($_POST['addition_unavailable_from']) : "";
+            $additionUnavailableTo = isset($_POST['addition_unavailable_to']) ? sanitize_text_field($_POST['addition_unavailable_to']) : "";
+            $extraSeatsValue = isset($_POST['addition_base']) ? array_map('sanitize_text_field', wp_unslash($_POST['addition_base'])) : "";
+            $checked_seats = isset($_POST['seat_on_extra']) ? array_map('sanitize_text_field', wp_unslash($_POST['seat_on_extra'])) : "";
+            $extra_colour = isset($_POST['extra_colour']) ? sanitize_text_field($_POST['extra_colour']) : "";
             if (isset($_POST['addition_is_unavailable']) && ($_POST['addition_is_unavailable'] == "Yes")) {
                 $additionIsUnavailable = 'Y';
             }
@@ -353,14 +366,14 @@ if ( ! class_exists( 'BkxExtraMetaBox' ) ) {
                 update_post_meta($post_id, 'addition_unavailable_from', $additionUnavailableFrom);
             if (isset($additionUnavailableTo))
                 update_post_meta($post_id, 'addition_unavailable_to', $additionUnavailableTo);
-            if(!empty($_POST['addition_base'])){
+            if (!empty($_POST['addition_base'])) {
                 foreach ($_POST['addition_base'] as $key => $base_id) {
                     $base_data = get_post($base_id);
                     $base_slug[] = $base_data->post_name;
                 }
                 update_post_meta($post_id, 'extra_selected_base_slugs', $base_slug);
             }
-            if(!empty($_POST['seat_on_extra'])){
+            if (!empty($_POST['seat_on_extra'])) {
                 foreach ($_POST['seat_on_extra'] as $key => $seat_id) {
                     $seat_data = get_post($seat_id);
                     $seat_slug[] = $seat_data->post_name;
@@ -373,12 +386,14 @@ if ( ! class_exists( 'BkxExtraMetaBox' ) ) {
                 update_post_meta($post_id, 'extra_selected_seats', $_POST['seat_on_extra']);
         }
 
-        public function bkx_addition_columns_head( $defaults ) {
+        public function bkx_addition_columns_head($defaults)
+        {
             $defaults['display_shortcode_all'] = 'Shortcode [bookingx extra-id="all"]';
             return $defaults;
         }
 
-        public function bkx_addition_columns_content( $column_name, $post_ID ){
+        public function bkx_addition_columns_content($column_name, $post_ID)
+        {
             if ($column_name == 'display_shortcode_all') {
                 echo '[bookingx extra-id="' . $post_ID . '" description="yes" image="yes" extra-info="no"]';
             }

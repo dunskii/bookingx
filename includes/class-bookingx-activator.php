@@ -1,45 +1,36 @@
 <?php
-
-/**
- * Fired during plugin activation
- *
- * @link       https://dunskii.com
- * @since      0.7
- *
- * @package    Bookingx
- * @subpackage Bookingx/includes
- */
-
 /**
  * Fired during plugin activation.
  *
  * This class defines all code necessary to run during the plugin's activation.
  *
- * @since      0.7
+ * @since      0.7.6
  * @package    Bookingx
  * @subpackage Bookingx/includes
  * @author     Dunskii Web Services <divyang@dunskii.com>
  */
-class Bookingx_Activator {
+class Bookingx_Activator
+{
+    /**
+     * Short Description. (use period)
+     * Long Description.
+     * @since      0.7.6
+     */
+    public function activate(){
+        add_action('init', array($this, 'bkx_basic_set_up'));
+    }
 
-	/**
-	 * Short Description. (use period)
-	 *
-	 * Long Description.
-	 *
-	 * @since    0.7
-	 */
-	public function activate() {
-        add_action( 'init', array( $this,'bkx_basic_set_up' ) );
-	}
-
-	public function bkx_basic_set_up(){
+    /**
+     * Quick Settings Related to Post Type name and others
+     */
+    public function bkx_basic_set_up(){
         flush_rewrite_rules();
-        bkx_crud_option_multisite( 'bkx_alias_seat', 'Resource','update');
-        bkx_crud_option_multisite( 'bkx_alias_base', 'Service','update');
-        bkx_crud_option_multisite( 'bkx_alias_addition', 'Extra','update');
-        bkx_crud_option_multisite( 'bkx_alias_notification', 'Notification','update');
-        bkx_crud_option_multisite( 'bkx_notice_time_extended_text_alias', 'How many times you want to extend this service?','update');
-        bkx_crud_option_multisite( 'bkx_label_of_step1', 'Please select what you would like to book','update');
+        add_role('resource', __('Resource'), array('read' => true, 'edit_posts' => true, 'delete_posts' => false));
+        bkx_crud_option_multisite('bkx_alias_seat', esc_html('Resource', 'bookingx'), 'update');
+        bkx_crud_option_multisite('bkx_alias_base', esc_html('Service', 'bookingx'), 'update');
+        bkx_crud_option_multisite('bkx_alias_addition', esc_html('Extra', 'bookingx'), 'update');
+        bkx_crud_option_multisite('bkx_alias_notification', esc_html('Extra', 'Notification'), 'update');
+        bkx_crud_option_multisite('bkx_notice_time_extended_text_alias', esc_html('How many times you want to extend this service?', 'bookingx'), 'update');
+        bkx_crud_option_multisite('bkx_label_of_step1', esc_html('Please select what you would like to book', 'bookingx'), 'update');
     }
 }

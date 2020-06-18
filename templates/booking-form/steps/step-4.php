@@ -2,7 +2,7 @@
 /**
  * Booking Form Step 4
  */
-defined( 'ABSPATH' ) || exit; ?>
+defined('ABSPATH') || exit; ?>
 <div class="step-4 bkx-form-deactivate" data-active="4">
     <div class="check-text">Please check your booking before proceeding:</div>
     <div class="user-detail bkx-booking-summary bg-gray px-3 py-4">
@@ -15,11 +15,11 @@ defined( 'ABSPATH' ) || exit; ?>
             <div class="col-lg-7">
                 <div class="px-3 py-2 bkx-booking-total">
                     <dl>
-                        <dt> Sub Total : </dt>
+                        <dt> Sub Total :</dt>
                         <dd class="total">$ 45.00</dd>
                     </dl>
                     <dl class="tax-section" style="display: none;">
-                        <dt class="tax-name"> Tax <span>(10% GST )</span> : </dt>
+                        <dt class="tax-name"> Tax <span>(10% GST )</span> :</dt>
                         <dd class="total-tax">$ 5.00</dd>
                     </dl>
                 </div>

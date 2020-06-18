@@ -1,51 +1,69 @@
-<?php !defined( 'ABSPATH' ) AND exit;
-if ( ! class_exists( 'BkxBaseMetabox' ) ) {
+<?php !defined('ABSPATH') and exit;
+if (!class_exists('BkxBaseMetabox')) {
     add_action('load-post.php', array('BkxBaseMetabox', 'init'));
     add_action('load-post-new.php', array('BkxBaseMetabox', 'init'));
     add_action('load-edit.php', array('BkxBaseMetabox', 'init'));
 
+    /**
+     * Class BkxBaseMetabox
+     * @property BkxBaseMetabox instance
+     */
     class BkxBaseMetabox
     {
         protected static $instance;
 
         protected $post_type = "bkx_base";
 
-        public static function init() {
-            null === self :: $instance AND self :: $instance = new self;
-            return self :: $instance;
+        public static function init()
+        {
+            null === self:: $instance and self:: $instance = new self;
+            return self:: $instance;
         }
 
-        public function __construct(  ) {
-            if(is_admin() == false )
+        public function __construct()
+        {
+            if (is_admin() == false)
                 return;
-            add_action( 'add_meta_boxes', array( $this, 'add_bkx_base_metaboxes' ) );
-            add_action( 'save_post', array( $this, 'save_bkx_base_metaboxes' ) ,10 , 3  );
-            add_filter( 'manage_' . $this->post_type . '_posts_columns', array( $this, $this->post_type . '_columns_head' ) , 10, 1);
-            add_filter( 'manage_' . $this->post_type . '_posts_custom_column', array( $this, $this->post_type . '_columns_content' ) , 10, 2 );
-            add_action( 'admin_enqueue_scripts', array( $this, 'bkx_base_wp_enqueue_scripts' ) );
+            add_action('add_meta_boxes', array($this, 'add_bkx_base_metaboxes'));
+            add_action('save_post', array($this, 'save_bkx_base_metaboxes'), 10, 3);
+            add_filter('manage_' . $this->post_type . '_posts_columns', array($this, $this->post_type . '_columns_head'), 10, 1);
+            add_filter('manage_' . $this->post_type . '_posts_custom_column', array($this, $this->post_type . '_columns_content'), 10, 2);
+            add_action('admin_enqueue_scripts', array($this, 'bkx_base_wp_enqueue_scripts'));
         }
 
-        public function bkx_base_wp_enqueue_scripts(){
+        /**
+         * Enqueue Scripts for Service Meta Box
+         */
+        public function bkx_base_wp_enqueue_scripts()
+        {
             global $post;
 
-            if( !empty($post) && $post->post_type != 'bkx_base')
+            if (!empty($post) && $post->post_type != 'bkx_base')
                 return;
 
             $seat_alias = bkx_crud_option_multisite('bkx_alias_seat');
             $base_alias = bkx_crud_option_multisite('bkx_alias_base');
             wp_enqueue_script('iris');
-            wp_register_script("bkx-base-validate", BKX_PLUGIN_DIR_URL."public/js/admin/bkx-base-validate.js",false, BKX_PLUGIN_VER, true);
+            wp_register_script("bkx-base-validate", BKX_PLUGIN_DIR_URL . "public/js/admin/bkx-base-validate.js", false, BKX_PLUGIN_VER, true);
             $translation_array = array('plugin_url' => BKX_PLUGIN_DIR_URL, 'seat_alias' => $seat_alias, 'base_alias' => $base_alias);
             wp_localize_script('bkx-base-validate', 'base_obj', $translation_array);
-            wp_enqueue_script( 'bkx-base-validate' );
+            wp_enqueue_script('bkx-base-validate');
         }
 
-        public function add_bkx_base_metaboxes() {
+        /**
+         * Adding Meta Box
+         */
+        public function add_bkx_base_metaboxes()
+        {
             $alias = bkx_crud_option_multisite('bkx_alias_base');
-            add_meta_box('bkx_base_boxes', __("{$alias} Details", 'bookingx'), array($this,'bkx_base_boxes_metabox_callback'), 'bkx_base', 'normal', 'high');
+            add_meta_box('bkx_base_boxes', __("{$alias} Details", 'bookingx'), array($this, 'bkx_base_boxes_metabox_callback'), 'bkx_base', 'normal', 'high');
         }
 
-        public function bkx_base_boxes_metabox_callback( $post ) {
+        /**
+         * Adding Meta Box Call Back
+         */
+        public function bkx_base_boxes_metabox_callback($post)
+        {
             $base_alias = bkx_crud_option_multisite('bkx_alias_base');
             $addition_alias = bkx_crud_option_multisite('bkx_alias_addition');
             wp_nonce_field('bkx_base_boxes_metabox', 'bkx_base_boxes_metabox_nonce');
@@ -82,10 +100,8 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
             $base_colour = get_post_meta($post->ID, 'base_colour', true);
             //}
             $alias_seat = bkx_crud_option_multisite('bkx_alias_seat');
-
             ?>
             <div class="error" id="error_list" style="display:none;"></div>
-
             <div class="active" id="base_name">
                 <?php printf(esc_html__('%1$s  Price:', 'bookingx'), $base_alias); ?>
                 <div class="plugin-description">
@@ -110,7 +126,6 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
                     </select>
                 </div>
             </div>
-
             <div class="active" id="months" style="display: none">
                 <?php printf(esc_html__('Number of Months for %1$s   Time :', 'bookingx'), $base_alias); ?>
                 <div class="plugin-description">
@@ -131,15 +146,14 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
             </div>
             <div class="active" id="hours_minutes" style="display: none">
                 <?php printf(esc_html__('%1$s  Time In Hours and Minutes :', 'bookingx'), $base_alias); ?>
-
                 <div class="plugin-description">
-                    <input name="base_hours_minutes" size="1" type="text" value="<?php printf(esc_html__('%1$s', 'bookingx'), $base_hours); ?>" id="id_base_hours_minutes">
+                    <input name="base_hours_minutes" size="1" type="text"
+                           value="<?php printf(esc_html__('%1$s', 'bookingx'), $base_hours); ?>"
+                           id="id_base_hours_minutes">
                     <?php
                     if (isset($base_minutes)) {
                         $baseMinute = $base_minutes;
-                    }
-
-                    ?>
+                    } ?>
                     <select name="base_minutes" id="id_base_minutes">
                         <option value=00 <?php if ($baseMinute == 15) {
                             echo "selected";
@@ -155,14 +169,12 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
                         } ?>><?php esc_html_e('45', 'bookingx'); ?></option>
                     </select>
                 </div>
-
             </div>
             <div class="active" id="extended">
                 <?php printf(esc_html__('Can %1$s time be extended :', 'bookingx'), $base_alias); ?>
                 <div class="plugin-description">
                     <ul class="bkx_radio" id="input_2_15">
-                        <li class="bkx_choice_15_0"><?php //echo $base_is_extended;
-                            ?>
+                        <li class="bkx_choice_15_0">
                             <input name="base_extended" type="radio" value="Yes" id="id_base_extended_yes"
                                    tabindex="10" <?php if ($base_is_extended == "Y") {
                                 echo "checked='checked'";
@@ -178,7 +190,6 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
                         </li>
                     </ul>
                 </div>
-
             </div>
 
             <div class="active" id="base_extended_input" style="display: none;">
@@ -194,29 +205,26 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
                 <?php printf(esc_html__('This %1$s  is available to the following %2$s :', 'bookingx'), $base_alias, $alias_seat); ?>
                 <div class="plugin-description">
                     <ul class="gfield_checkbox" id="input_2_9">
-
                         <?php
                         $selected = "";
                         if (!empty($get_seat_array) && !is_wp_error($get_seat_array)) :?>
                             <li class="bkx_choice_9_1">
-                                <input name="base_seat_all" <?php echo ($base_seat_all) ? 'checked' : ''; ?> type="checkbox"
+                                <input name="base_seat_all" <?php echo ($base_seat_all) ? 'checked' : ''; ?>
+                                       type="checkbox"
                                        value="All" id="id_base_seat_all" tabindex="12">
                                 <label for="choice_9_1"><?php esc_html_e('All', 'bookingx'); ?></label>
                             </li>
                             <?php
                             foreach ($get_seat_array as $value) {
-                                ?>
-                                <?php
                                 if (isset($res_seat_final) && sizeof($res_seat_final) > 0) {
                                     $selected = false;
                                     if (in_array($value->ID, $res_seat_final)) {
                                         $selected = true;
                                     }
-                                }
-                                ?>
+                                } ?>
                                 <li class="bkx_choice_9_2">
-                                    <input name="base_seats[]" type="checkbox" value="<?php echo $value->ID; ?>" tabindex="13"
-                                           class="myCheckbox" <?php if ($selected == true) {
+                                    <input name="base_seats[]" type="checkbox" value="<?php echo $value->ID; ?>"
+                                           tabindex="13" class="myCheckbox" <?php if ($selected == true) {
                                         echo "checked='checked'";
                                     } ?>>
                                     <label for="choice_9_2"><?php echo $value->post_title; ?></label>
@@ -224,7 +232,8 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
                             <?php }
                         else: ?>
                             <li class="bkx_choice_9_1">
-                                <label for="choice_9_1"><b><a href="<?php echo admin_url('post-new.php?post_type=bkx_seat')?>"><?php  printf(esc_html__('You haven\'t any %1$s, Please create %1$s now :', 'bookingx'), $alias_seat); ?></a></b></label>
+                                <label for="choice_9_1"><b><a
+                                                href="<?php echo admin_url('post-new.php?post_type=bkx_seat') ?>"><?php printf(esc_html__('You haven\'t any %1$s, Please create %1$s now :', 'bookingx'), $alias_seat); ?></a></b></label>
                             </li>
                         <?php endif; ?>
                     </ul>
@@ -290,63 +299,96 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
             <?php
         }
 
-        public function save_bkx_base_metaboxes( $post_id, $post, $update = null ){
-
-
+        /**
+         * @param $post_id
+         * @param $post
+         * @param null $update
+         */
+        public function save_bkx_base_metaboxes($post_id, $post, $update = null)
+        {
             // Bail if we're doing an auto save
             if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
             // if our current user can't edit this post, bail
             //if (!current_user_can('edit_post')) return;
             if ($post->post_type != 'bkx_base') return;
             if ($post->post_status != 'publish') return;
-            $basePrice                  = isset($_POST['base_price']) ? sanitize_text_field($_POST['base_price']) : "";
-            $baseMonthDaysTime          = isset($_POST['base_months_days_times']) ? sanitize_text_field($_POST['base_months_days_times']) : "";
-            $baseMonths                 = isset($_POST['base_months']) ? sanitize_text_field($_POST['base_months']): "";
-            $baseDays                   = isset($_POST['base_days']) ? sanitize_text_field($_POST['base_days']): "";
-            $baseHoursMinutes           = isset($_POST['base_hours_minutes']) ? sanitize_text_field($_POST['base_hours_minutes']): "";
-            $baseMinutes                = isset($_POST['base_minutes']) ? sanitize_text_field($_POST['base_minutes']): "";
-            $baseExtended               = isset($_POST['base_extended']) ? sanitize_text_field($_POST['base_extended']): "";
-            $baseLocationType           = isset($_POST['base_location_type']) ? sanitize_text_field($_POST['base_location_type']): "";
-            $baselocationmobile         = isset($_POST['base_location_mobile']) ? sanitize_text_field($_POST['base_location_mobile']): "";
-            $baseLocationDifferSeat     = isset($_POST['base_location_differ_seat']) ? sanitize_text_field($_POST['base_location_differ_seat']): "";
-            $baseStreet                 = isset($_POST['base_street']) ? sanitize_text_field($_POST['base_street']): "";
-            $baseCity                   = isset($_POST['base_city']) ? sanitize_text_field($_POST['base_city']): "";
-            $baseState                  = isset($_POST['base_state']) ? sanitize_text_field($_POST['base_state']): "";
-            $basePostcode               = isset($_POST['base_postcode']) ? sanitize_text_field($_POST['base_postcode']): "";
-            $baseAllowAddition          = isset($_POST['base_allow_addition']) ? sanitize_text_field($_POST['base_allow_addition']): "";
-            $baseSeatAll                = isset($_POST['base_seat_all']) ? $_POST['base_seat_all']: "";
-            $base_is_unavailable        = isset($_POST['base_is_unavailable']) ? sanitize_text_field($_POST['base_is_unavailable']): "";
-            $base_unavailable_from      = isset($_POST['base_unavailable_from']) ? sanitize_text_field($_POST['base_unavailable_from']): "";
-            $base_unavailable_till      = isset($_POST['base_unavailable_till']) ? sanitize_text_field($_POST['base_unavailable_till']): "";
-            $baseSeatsValue             = isset($_POST['base_seats']) ? array_map('sanitize_text_field', wp_unslash($_POST['base_seats'])): "";
+            do_action('bkx_base_meta_box_save', $post_id);
+            $basePrice = isset($_POST['base_price']) ? sanitize_text_field($_POST['base_price']) : "";
+            $baseMonthDaysTime = isset($_POST['base_months_days_times']) ? sanitize_text_field($_POST['base_months_days_times']) : "";
+            $baseMonths = isset($_POST['base_months']) ? sanitize_text_field($_POST['base_months']) : "";
+            $baseDays = isset($_POST['base_days']) ? sanitize_text_field($_POST['base_days']) : "";
+            $baseHoursMinutes = isset($_POST['base_hours_minutes']) ? sanitize_text_field($_POST['base_hours_minutes']) : "";
+            $baseMinutes = isset($_POST['base_minutes']) ? sanitize_text_field($_POST['base_minutes']) : "";
+            $baseExtended = isset($_POST['base_extended']) ? sanitize_text_field($_POST['base_extended']) : "";
+            $baseLocationType = isset($_POST['base_location_type']) ? sanitize_text_field($_POST['base_location_type']) : "";
+            $baselocationmobile = isset($_POST['base_location_mobile']) ? sanitize_text_field($_POST['base_location_mobile']) : "";
+            $baseLocationDifferSeat = isset($_POST['base_location_differ_seat']) ? sanitize_text_field($_POST['base_location_differ_seat']) : "";
+            $baseStreet = isset($_POST['base_street']) ? sanitize_text_field($_POST['base_street']) : "";
+            $baseCity = isset($_POST['base_city']) ? sanitize_text_field($_POST['base_city']) : "";
+            $baseState = isset($_POST['base_state']) ? sanitize_text_field($_POST['base_state']) : "";
+            $basePostcode = isset($_POST['base_postcode']) ? sanitize_text_field($_POST['base_postcode']) : "";
+            $baseAllowAddition = isset($_POST['base_allow_addition']) ? sanitize_text_field($_POST['base_allow_addition']) : "";
+            $baseSeatAll = isset($_POST['base_seat_all']) ? $_POST['base_seat_all'] : "";
+            $base_is_unavailable = isset($_POST['base_is_unavailable']) ? sanitize_text_field($_POST['base_is_unavailable']) : "";
+            $base_unavailable_from = isset($_POST['base_unavailable_from']) ? sanitize_text_field($_POST['base_unavailable_from']) : "";
+            $base_unavailable_till = isset($_POST['base_unavailable_till']) ? sanitize_text_field($_POST['base_unavailable_till']) : "";
+            $baseSeatsValue = isset($_POST['base_seats']) ? array_map('sanitize_text_field', wp_unslash($_POST['base_seats'])) : "";
             $seat_slug = array();
-            if(!empty($baseSeatsValue)){
+            if (!empty($baseSeatsValue)) {
                 foreach ($baseSeatsValue as $key => $seat_id) {
                     $seat_data = get_post($seat_id);
                     $seat_slug[] = $seat_data->post_name;
                 }
                 update_post_meta($post_id, 'seat_slugs', $seat_slug);
             }
-            $base_extended_limit        = isset($_POST['base_extended_limit']) ? sanitize_text_field($_POST['base_extended_limit']): "";
-            $base_seat_all              = isset($_POST['base_seat_all']) ? sanitize_text_field($_POST['base_seat_all']): "";
-            $base_colour                = isset($_POST['base_colour']) ? sanitize_text_field($_POST['base_colour']): "";
-            if ($baseMonthDaysTime == "Months") {$baseTimeOption = 'M';}
-            if ($baseMonthDaysTime == "Days") { $baseTimeOption = 'D';}
-            if ($baseMonthDaysTime == "HourMinutes") {$baseTimeOption = 'H';}
-            if ($baseExtended == "Yes") {$baseIsExtended = 'Y';}
-            if ($baseExtended == "No") {$baseIsExtended = 'N';}
-            if ($baseLocationType == "Fixed Location" || "FM") {$isLocationFixed = 'Y';$isMobileOnly = 'N';}
+            $base_extended_limit = isset($_POST['base_extended_limit']) ? sanitize_text_field($_POST['base_extended_limit']) : "";
+            $base_seat_all = isset($_POST['base_seat_all']) ? sanitize_text_field($_POST['base_seat_all']) : "";
+            $base_colour = isset($_POST['base_colour']) ? sanitize_text_field($_POST['base_colour']) : "";
+            if ($baseMonthDaysTime == "Months") {
+                $baseTimeOption = 'M';
+            }
+            if ($baseMonthDaysTime == "Days") {
+                $baseTimeOption = 'D';
+            }
+            if ($baseMonthDaysTime == "HourMinutes") {
+                $baseTimeOption = 'H';
+            }
+            if ($baseExtended == "Yes") {
+                $baseIsExtended = 'Y';
+            }
+            if ($baseExtended == "No") {
+                $baseIsExtended = 'N';
+            }
+            if ($baseLocationType == "Fixed Location" || "FM") {
+                $isLocationFixed = 'Y';
+                $isMobileOnly = 'N';
+            }
             if ($baseLocationType == "Mobile") {
                 $isLocationFixed = 'N';
-                if ($baselocationmobile == "Yes") {$isMobileOnly = 'Y';}
-                if ($baselocationmobile == "No") {$isMobileOnly = 'N';}
+                if ($baselocationmobile == "Yes") {
+                    $isMobileOnly = 'Y';
+                }
+                if ($baselocationmobile == "No") {
+                    $isMobileOnly = 'N';
+                }
             }
-            if ($baseLocationDifferSeat == "Yes") {$isLocationDifferent = 'Y';}
-            if ($baseLocationDifferSeat == "No") {$isLocationDifferent = 'N';}
-            if ($baseAllowAddition == "Yes") {$isAllowAddition = 'Y';}
-            if ($baseAllowAddition == "No") {$isAllowAddition = 'N';}
-            if (isset($base_is_unavailable) && $base_is_unavailable == "Yes") {$base_is_unavailable = 'Y';
-            }else {$base_is_unavailable = 'N';}
+            if ($baseLocationDifferSeat == "Yes") {
+                $isLocationDifferent = 'Y';
+            }
+            if ($baseLocationDifferSeat == "No") {
+                $isLocationDifferent = 'N';
+            }
+            if ($baseAllowAddition == "Yes") {
+                $isAllowAddition = 'Y';
+            }
+            if ($baseAllowAddition == "No") {
+                $isAllowAddition = 'N';
+            }
+            if (isset($base_is_unavailable) && $base_is_unavailable == "Yes") {
+                $base_is_unavailable = 'Y';
+            } else {
+                $base_is_unavailable = 'N';
+            }
             // Make sure your data is set before trying to save it
             if (isset($basePrice))
                 update_post_meta($post_id, 'base_price', $basePrice);
@@ -396,12 +438,23 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
                 update_post_meta($post_id, 'base_location_type', $baseLocationType);
             update_post_meta($post_id, 'base_seat_all', $base_seat_all);
         }
-        public function bkx_base_columns_head( $defaults ) {
+
+        /**
+         * @param $defaults
+         * @return mixed
+         */
+        public function bkx_base_columns_head($defaults)
+        {
             $defaults['display_shortcode_all'] = 'Shortcode [bookingx base-id="all"]';
             return $defaults;
         }
 
-        public function bkx_base_columns_content( $column_name, $post_id ){
+        /**
+         * @param $column_name
+         * @param $post_id
+         */
+        public function bkx_base_columns_content($column_name, $post_id)
+        {
             if ($column_name == 'display_shortcode_all') {
                 echo '[bookingx base-id="' . $post_id . '" description="yes" image="yes" extra-info="no"]';
             }

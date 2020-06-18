@@ -2,7 +2,7 @@
 /**
  * Booking Form Step 2b
  */
-defined( 'ABSPATH' ) || exit;
+defined('ABSPATH') || exit;
 ?>
 <div class="step-2 bkx-form-deactivate day-style" data-active="2" data-booking-style="day_style">
     <div class="user-detail mb-5">
@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
                 </ul>
             </div>
             <div class="schedule-wrap">
-                <div class="owl-carousel owl-theme bkx-available-days"> </div>
+                <div class="owl-carousel owl-theme bkx-available-days"></div>
             </div>
         </div>
     </div>

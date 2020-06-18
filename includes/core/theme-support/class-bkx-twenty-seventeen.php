@@ -5,33 +5,35 @@
  *
  */
 
-defined( 'ABSPATH' ) || exit;
+defined('ABSPATH') || exit;
 
 /**
  * BKX_Twenty_Seventeen class.
  */
-class BKX_Twenty_Seventeen {
+class BKX_Twenty_Seventeen
+{
 
     /**
      * Theme init.
      */
-    public static function init() {
+    public static function init()
+    {
 
         // Change BookingX wrappers.
-        remove_action( 'bookingx_before_main_content', 'bookingx_output_content_wrapper', 10 );
-        remove_action( 'bookingx_after_main_content', 'bookingx_output_content_wrapper_end', 10 );
-        add_action( 'bookingx_before_main_content', array( __CLASS__, 'output_content_wrapper' ), 10 );
-        add_action( 'bookingx_after_main_content', array( __CLASS__, 'output_content_wrapper_end' ), 10 );
+        remove_action('bookingx_before_main_content', 'bookingx_output_content_wrapper', 10);
+        remove_action('bookingx_after_main_content', 'bookingx_output_content_wrapper_end', 10);
+        add_action('bookingx_before_main_content', array(__CLASS__, 'output_content_wrapper'), 10);
+        add_action('bookingx_after_main_content', array(__CLASS__, 'output_content_wrapper_end'), 10);
         // Enqueue theme compatibility styles.
-        add_filter( 'bookingx_enqueue_styles', array( __CLASS__, 'enqueue_styles' ) );
-        add_filter( 'twentyseventeen_custom_colors_css', array( __CLASS__, 'theme_custom_colors_css' ), 10, 3 );
+        add_filter('bookingx_enqueue_styles', array(__CLASS__, 'enqueue_styles'));
+        add_filter('twentyseventeen_custom_colors_css', array(__CLASS__, 'theme_custom_colors_css'), 10, 3);
 
         // Register theme features.
         add_theme_support(
             'bookingx',
             array(
                 'thumbnail_image_width' => 300,
-                'single_image_width'    => 450,
+                'single_image_width' => 450,
             )
         );
     }
@@ -39,7 +41,8 @@ class BKX_Twenty_Seventeen {
     /**
      * Open the Twenty Twenty wrapper.
      */
-    public static function output_content_wrapper() {
+    public static function output_content_wrapper()
+    {
         echo '<div class="wrap">';
         echo '<div id="primary" class="content-area twentyseventeen">';
         echo '<main id="main" class="site-main" role="main">';
@@ -48,7 +51,8 @@ class BKX_Twenty_Seventeen {
     /**
      * Close the Twenty Twenty wrapper.
      */
-    public static function output_content_wrapper_end() {
+    public static function output_content_wrapper_end()
+    {
         echo '</main>';
         echo '</div>';
         get_sidebar();
@@ -58,20 +62,21 @@ class BKX_Twenty_Seventeen {
     /**
      * Enqueue CSS for this theme.
      *
-     * @param  array $styles Array of registered styles.
+     * @param array $styles Array of registered styles.
      * @return array
      */
-    public static function enqueue_styles( $styles ) {
+    public static function enqueue_styles($styles)
+    {
 
-        $styles['bookingx-twenty-twenty'] = array(
-            'src'     => str_replace( array( 'http:', 'https:' ), '', BKX_PLUGIN_PUBLIC_URL ) . '/css/theme/twenty-seventeen.css',
-            'deps'    => '',
+        $styles['bookingx-twenty-seventeen'] = array(
+            'src' => str_replace(array('http:', 'https:'), '', BKX_PLUGIN_PUBLIC_URL) . '/css/theme/twenty-seventeen.css',
+            'deps' => '',
             'version' => BKX_PLUGIN_VER,
-            'media'   => 'all',
+            'media' => 'all',
             'has_rtl' => true,
         );
 
-        return apply_filters( 'bookingx_twenty_twenty_styles', $styles );
+        return apply_filters('bookingx_twenty_seventeen_styles', $styles);
     }
 
     /**
@@ -80,7 +85,8 @@ class BKX_Twenty_Seventeen {
      * @param $saturation
      * @return string
      */
-    public static function theme_custom_colors_css( $css, $hue, $saturation ) {
+    public static function theme_custom_colors_css($css, $hue, $saturation)
+    {
         $css .= '
 			.colors-custom .select2-container--default .select2-selection--single {
 				border-color: hsl( ' . $hue . ', ' . $saturation . ', 73% );
@@ -106,4 +112,5 @@ class BKX_Twenty_Seventeen {
 
 
 }
+
 BKX_Twenty_Seventeen::init();
