@@ -26,16 +26,20 @@ if (!empty($args)) {
     $desc = $args['description'];
     $image = $args['image'];
 }
-//var_dump($image);
+$args_data = apply_filters('bkx_single_post_view_args', array('post_type' => 'bkx_seat', 'ID' => $seat_id) );
 ?>
 <div class="bkx-single-post-view clearfix">
     <div class="container">
+        <?php do_action('bkx_before_row_single_post', $args_data); ?>
         <div class="row">
             <?php if ($image == "yes") : ?>
                 <div class="col-md-4">
-                    <?php echo $bkx_seat->get_thumb(); ?>
+                    <?php do_action('bkx_before_single_post_title', $args_data); ?>
+                        <?php echo $bkx_seat->get_thumb(); ?>
+                    <?php do_action('bkx_after_single_post_title', $args_data); ?>
                 </div>
             <?php endif; ?>
+            <?php do_action('bkx_before_col_single_post', $args_data); ?>
             <div class="col-md-<?php echo ($image == "yes") ? 8 : 12; ?>">
                 <div class="row">
                     <div class="col-md-8"><h1><?php echo get_the_title($seat_id); ?></h1></div>
@@ -70,7 +74,8 @@ if (!empty($args)) {
 
                 <?php do_action('bkx_seat_addition_info', $seat_id); ?>
             </div>
+            <?php do_action('bkx_after_col_single_post', $args_data); ?>
         </div>
+        <?php do_action('bkx_after_row_single_post', $args_data); ?>
     </div>
-    <div class="clearfix"></div>
 </div>

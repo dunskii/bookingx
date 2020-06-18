@@ -706,23 +706,11 @@ class Bookingx_Admin
         $total_time = "-";
         $date_format = bkx_crud_option_multisite('date_format');
         if (isset($base_time_option) && $base_time_option == "H") {
-            $total_time = sprintf(__('%s', 'bookingx'), date('h:i A', strtotime($order_meta['booking_start_date'])), date('h:i A ', strtotime($order_meta['booking_end_date'])));
-            //$duration   = sprintf( __( '%s', 'bookingx' ), $order_meta['total_duration'] );
-            $booking_duration = str_replace('(', '', $order_meta['total_duration']);
-            $booking_duration = str_replace(')', '', $booking_duration);
-            $duration = sprintf(__('%s', 'bookingx'), $booking_duration);
+            $total_time = getDateDuration($order_meta);
+            $duration = getDuration($order_meta);
             $date_data = sprintf(__('%s', 'bookingx'), date($date_format, strtotime($order_meta['booking_date'])));
         } else {
-            $days_selected = get_post_meta($post->ID, 'booking_multi_days', true);
-            if (!empty($days_selected)) {
-                $last_key = sizeof($days_selected) - 1;
-                $start_date = date('F d, Y', strtotime($days_selected[0]));
-                $end_date = date('F d, Y', strtotime($days_selected[$last_key]));
-                $date_data = "{$start_date} To {$end_date}";
-                $booking_duration = (sizeof($days_selected) > 1 ? sizeof($days_selected) . " Days" : sizeof($days_selected) . " Day");
-                //$duration   = sprintf( __( '%s', 'bookingx' ), $base_time['formatted'] );
-                $duration = sprintf(__('%s', 'bookingx'), $booking_duration);
-            }
+            list($date_data, $duration) = getDayDateDuration($post->ID);
         }
         switch ($column) {
             case 'order_status':

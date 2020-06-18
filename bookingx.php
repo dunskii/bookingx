@@ -41,8 +41,7 @@ define('BKX_BLOCKS_ASSETS_BASE_PATH', BKX_PLUGIN_DIR_PATH . "includes\core\block
  * This action is documented in includes/class-bookingx-activator.php
  */
 
-function activate_bookingx()
-{
+function activate_bookingx(){
     require_once plugin_dir_path(__FILE__) . 'includes/class-bookingx-activator.php';
     $Bookingx_Activator = new Bookingx_Activator();
     $Bookingx_Activator->activate();
@@ -59,7 +58,7 @@ require plugin_dir_path(__FILE__) . 'includes/class-bookingx.php';
  * then kicking off the plugin from this point in the file does
  * not affect the page life cycle.
  *
- * @since 0.7
+ * @since 0.7.6
  */
 function run_bookingx()
 {
