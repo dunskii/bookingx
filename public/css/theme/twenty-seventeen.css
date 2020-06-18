@@ -1,41 +1,58 @@
-@media screen and (min-width: 48em){
+@media screen and (min-width: 48em) {
     .has-sidebar.booking-x:not(.error404) #primary {
         float: left;
         width: 74%;
     }
+
     .has-sidebar.booking-x:not(.error404) #secondary {
         width: 20%;
     }
+
     body.page-two-column.booking-x-form:not(.archive) #primary .entry-header,
     body.page-two-column.booking-x-dashboard:not(.archive) #primary .entry-header {
         float: left;
         width: 18%;
     }
+
     body.booking-x-form.page-two-column:not(.archive) #primary .entry-content,
     body.booking-x-dashboard.page-two-column:not(.archive) #primary .entry-content {
         float: left;
         width: 100%;
     }
-    .booking-x-form .booking-x .schedule-indicator{width: 100%;}
-    .booking-x-form .booking-x .schedule-wrap{width: 100%;}
-    .booking-x-form .booking-x .select-time .table td a {padding: 3px 5px;font-size: 17px;}
+
+    .booking-x-form .booking-x .schedule-indicator {
+        width: 100%;
+    }
+
+    .booking-x-form .booking-x .schedule-wrap {
+        width: 100%;
+    }
+
+    .booking-x-form .booking-x .select-time .table td a {
+        padding: 3px 5px;
+        font-size: 17px;
+    }
 }
-.booking-x-form .indicator ul{
+
+.booking-x-form .indicator ul {
     margin: 0 0 0.5em;
 }
+
 .booking-x-form .indicator ul li {
     margin-right: 9px;
 }
-@media (max-width: 479px){
+
+@media (max-width: 479px) {
     .booking-x-form ul, .booking-x-form ol {
         margin: 0 0 2rem 0;
     }
+
     .booking-x .indicator ul li {
         margin: auto;
     }
 }
 
-@media screen and (min-width: 30em){
+@media screen and (min-width: 30em) {
     .booking-x-dashboard .bkx-dashboard-booking h2 {
         font-size: 1.3rem;
     }

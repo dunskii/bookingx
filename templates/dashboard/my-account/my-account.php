@@ -2,7 +2,7 @@
 /**
  * My Account Page
  */
-if ( ! defined( 'ABSPATH' ) ) {
+if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 

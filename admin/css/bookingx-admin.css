@@ -1,21 +1,50 @@
-.wp-admin h1, h2, h3, h4, h5 {color: #23282d;}
-.post-type-bkx_booking #post-body-content, .post-type-bkx_booking  #titlediv { display:none }
-.post-type-bkx_seat #slugdiv { display:none }
-.bkx-general_full { float: left;width: 32%;}
-.bkx-order_summary_full{background: #fff; min-height: auto;}
-.bkx-order_summary_full a {color: #0073aa;}
-.bkx-admin-paypal-settings input[type="text"] { width: 70%;}
-.bkx-content-settings th label{ font-weight: normal;}
-.bkx-content-settings .header th label{ font-weight: 600;}
+.wp-admin h1, h2, h3, h4, h5 {
+    color: #23282d;
+}
 
-.booking-x .bkx-single-post-view hr{
+.post-type-bkx_booking #post-body-content, .post-type-bkx_booking #titlediv {
+    display: none
+}
+
+.post-type-bkx_seat #slugdiv {
+    display: none
+}
+
+.bkx-general_full {
+    float: left;
+    width: 32%;
+}
+
+.bkx-order_summary_full {
+    background: #fff;
+    min-height: auto;
+}
+
+.bkx-order_summary_full a {
+    color: #0073aa;
+}
+
+.bkx-admin-paypal-settings input[type="text"] {
+    width: 70%;
+}
+
+.bkx-content-settings th label {
+    font-weight: normal;
+}
+
+.bkx-content-settings .header th label {
+    font-weight: 600;
+}
+
+.booking-x .bkx-single-post-view hr {
     margin-top: 1rem;
     margin-bottom: 1rem;
     border: 0;
     height: 0px;
-    border-top: 1px solid rgba(0,0,0,.1);
-    background-color: rgba(0,0,0,.1);
+    border-top: 1px solid rgba(0, 0, 0, .1);
+    background-color: rgba(0, 0, 0, .1);
 }
+
 .setting-bookingx {
     background: #fff;
     border: 1px solid #e5e5e5;
@@ -24,6 +53,7 @@
     margin-top: 20px;
     height: auto
 }
+
 .booking-x-setting .widefat th {
     vertical-align: top;
     text-align: left;
@@ -34,6 +64,7 @@
     color: #555;
     padding: 8px 10px
 }
+
 .setting-bookingx .standard {
     vertical-align: top;
     text-align: left;
@@ -45,6 +76,7 @@
     padding: 3px 5px;
     float: left
 }
+
 .setting-bookingx .lable {
     vertical-align: top;
     text-align: left;

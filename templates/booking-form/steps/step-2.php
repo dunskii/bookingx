@@ -2,7 +2,7 @@
 /**
  * Booking Form Step 2
  */
-defined( 'ABSPATH' ) || exit;
+defined('ABSPATH') || exit;
 $skip_this_step = SkipStep();
 $skip_this_step_style = ($skip_this_step == true) ? 'style = "display: none;"' : "";
 ?>
@@ -28,17 +28,20 @@ $skip_this_step_style = ($skip_this_step == true) ? 'style = "display: none;"' :
                 </ul>
             </div>
             <div class="select-time">
-                <table class="table table-bordered booking-slots" data-total_slots="0" data-starting_slot="0" data-date="">
+                <table class="table table-bordered booking-slots" data-total_slots="0" data-starting_slot="0"
+                       data-date="">
                 </table>
             </div>
         </div>
     </div>
     <div class="button-wrapper">
-        <?php if($skip_this_step == true) : ?>
+        <?php if ($skip_this_step == true) : ?>
             <button type="submit" class="btn btn-default bkx-form-submission-final">Booking Update</button>
         <?php else : ?>
             <button type="submit" class="btn btn-default bkx-form-submission-next">Next</button>
-        <?php endif;?>
-        <button <?php echo $skip_this_step_style;?> type="submit" class="btn btn-default bkx-form-submission-previous">Previous</button>
+        <?php endif; ?>
+        <button <?php echo $skip_this_step_style; ?> type="submit" class="btn btn-default bkx-form-submission-previous">
+            Previous
+        </button>
     </div>
 </div>
