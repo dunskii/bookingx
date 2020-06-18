@@ -3,7 +3,7 @@
  *  Plugin Name: Booking X
  *  Plugin URI: https://booking-x.com/
  *  Description: Booking X is a booking and appointments plugin for WordPress
- *  Version: 0.7.5
+ *  Version: 0.7.6
  *  Author: Dunskii Web Services
  *  Author URI: https://dunskii.com
  *  Text Domain: bookingx
@@ -27,29 +27,30 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-defined( 'ABSPATH' ) || exit;
+defined('ABSPATH') || exit;
 define('BKX_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__));
 define('BKX_PLUGIN_DIR_URL', plugin_dir_url(__FILE__));
-define('BKX_PLUGIN_PUBLIC_URL', BKX_PLUGIN_DIR_URL."public");
-define('BKX_PLUGIN_PUBLIC_PATH', BKX_PLUGIN_DIR_PATH."public");
-define('BKX_PLUGIN_VER', '0.7.5');
-define('BKX_BLOCKS_ASSETS',BKX_PLUGIN_DIR_URL."includes/core/blocks/assets/");
-define('BKX_BLOCKS_ASSETS_BASE_PATH',BKX_PLUGIN_DIR_PATH."includes\core\blocks\assets");
+define('BKX_PLUGIN_PUBLIC_URL', BKX_PLUGIN_DIR_URL . "public");
+define('BKX_PLUGIN_PUBLIC_PATH', BKX_PLUGIN_DIR_PATH . "public");
+define('BKX_PLUGIN_VER', '0.7.6');
+define('BKX_BLOCKS_ASSETS', BKX_PLUGIN_DIR_URL . "includes/core/blocks/assets/");
+define('BKX_BLOCKS_ASSETS_BASE_PATH', BKX_PLUGIN_DIR_PATH . "includes\core\blocks\assets");
 
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-bookingx-activator.php
  */
 
-function activate_bookingx() {
-    require_once plugin_dir_path( __FILE__ ) . 'includes/class-bookingx-activator.php';
+function activate_bookingx()
+{
+    require_once plugin_dir_path(__FILE__) . 'includes/class-bookingx-activator.php';
     $Bookingx_Activator = new Bookingx_Activator();
     $Bookingx_Activator->activate();
 }
 
-register_activation_hook( __FILE__, 'activate_bookingx' );
+register_activation_hook(__FILE__, 'activate_bookingx');
 
-require plugin_dir_path( __FILE__ ) . 'includes/class-bookingx.php';
+require plugin_dir_path(__FILE__) . 'includes/class-bookingx.php';
 
 /**
  * Begins execution of the plugin.
@@ -60,7 +61,8 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-bookingx.php';
  *
  * @since 0.7
  */
-function run_bookingx() {
+function run_bookingx()
+{
     $plugin = new Bookingx();
     $plugin->run();
     // Global for backwards compatibility.
@@ -70,19 +72,21 @@ function run_bookingx() {
      * Gutenberg Blocks for Gutenberg
      */
     // Load Editor Blocks if WordPress is 5.0+.
-    if ( function_exists( 'register_block_type' ) ) {
+    if (function_exists('register_block_type')) {
 
         // Load block framework.
-        if ( ! class_exists('Bkx_Blocks') ) {
+        if (!class_exists('Bkx_Blocks')) {
             require_once BKX_PLUGIN_DIR_PATH . '/includes/core/blocks/class-bkx-blocks.php';
         }
 
         // Load included Blocks.
-        Bookingx::glob_require_once( '/includes/core/blocks/class-bkx-block-*.php' );
+        Bookingx::glob_require_once('/includes/core/blocks/class-bkx-block-*.php');
 
     }
 }
-function BKX() {
+
+function BKX()
+{
     return Bookingx::instance();
 }
 
