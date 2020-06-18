@@ -289,7 +289,7 @@ class Bookingx
      * WordPress and to define internationalization functionality.
      *
      * @return    string    The name of the plugin.
-     * @since     0.7
+     * @since 0.7.6
      */
     public function get_plugin_name()
     {
@@ -300,7 +300,7 @@ class Bookingx
      * The reference to the class that orchestrates the hooks with the plugin.
      *
      * @return    Bookingx_Loader    Orchestrates the hooks of the plugin.
-     * @since     0.7
+     * @since 0.7.6
      */
     public function get_loader()
     {
@@ -407,7 +407,7 @@ class Bookingx
      * Retrieve the version number of the plugin.
      *
      * @return    string    The version number of the plugin.
-     * @since     0.7
+     * @since 0.7.6
      */
     public function get_version()
     {

@@ -253,16 +253,7 @@ class BkxPaymentCore
                 $end_time = date('H:i', strtotime($booking_meta_data['booking_end_date']));
                 $base_time_option = get_post_meta($order_id, 'base_time_option', true);
                 if (isset($base_time_option) && $base_time_option == "D") {
-                    $days_selected = get_post_meta($order_id, 'booking_multi_days', true);
-
-                    if (!empty($days_selected)) {
-                        $last_key = sizeof($days_selected) - 1;
-                        $start_date = date('F d, Y', strtotime($days_selected[0]));
-                        $end_date = date('F d, Y', strtotime($days_selected[$last_key]));
-                        $date_format = "{$start_date} To {$end_date}";
-                        //$booking_duration       = $base_time['formatted'];
-                        $booking_duration = (sizeof($days_selected) > 1 ? sizeof($days_selected) . " Days" : sizeof($days_selected) . " Day");
-                    }
+                    list($date_format, $booking_duration) = getDayDateDuration($order_id);
                 } else {
                     $date_format = date('F d, Y', strtotime($booking_meta_data['booking_date']));
                     $booking_duration = str_replace('(', '', $booking_meta_data['total_duration']);

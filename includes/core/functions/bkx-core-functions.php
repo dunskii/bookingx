@@ -937,3 +937,109 @@ function bkx_get_dashboard_navigation_menu()
         )
     );
 }
+
+/**
+ * @param $booking_id
+ * @return array
+ */
+function getDayDateDuration($booking_id)
+{
+    $days_selected = get_post_meta($booking_id, 'booking_multi_days', true);
+    if ( isset($days_selected) && !empty($days_selected)) {
+        $last_key = sizeof($days_selected) - 1;
+        $start_date = date('F d, Y', strtotime($days_selected[0]));
+        $end_date = date('F d, Y', strtotime($days_selected[$last_key]));
+        $date_data = "{$start_date} To {$end_date}";
+        $booking_duration = (sizeof($days_selected) > 1 ? sizeof($days_selected) . " Days" : sizeof($days_selected) . " Day");
+        $duration = sprintf(__('%s', 'bookingx'), $booking_duration);
+    }
+    return array($date_data, $duration );
+}
+
+/**
+ * @param $order_meta
+ * @return string
+ */
+function getDateDuration($order_meta){
+    return sprintf(__('%s', 'bookingx'), date('h:i A', strtotime($order_meta['booking_start_date'])), date('h:i A ', strtotime($order_meta['booking_end_date'])));
+}
+
+/**
+ * @param $order_meta
+ * @return string
+ */
+function getDuration($order_meta){
+    $booking_duration = str_replace('(', '', $order_meta['total_duration']);
+    $booking_duration = str_replace(')', '', $booking_duration);
+    return sprintf( __('%s', 'bookingx'), $booking_duration);
+}
+
+/**
+ * @return array
+ */
+function getBusinessInfo()
+{
+    $bkx_business_name = bkx_crud_option_multisite('bkx_business_name');
+    $bkx_business_email = bkx_crud_option_multisite('bkx_business_email');
+    $bkx_business_phone = bkx_crud_option_multisite('bkx_business_phone');
+    $bkx_business_address_1 = bkx_crud_option_multisite('bkx_business_address_1');
+    $bkx_business_address_2 = bkx_crud_option_multisite('bkx_business_address_2');
+    $bkx_business_city = bkx_crud_option_multisite('bkx_business_city');
+    $bkx_business_state = bkx_crud_option_multisite('bkx_business_state');
+    $bkx_business_zip = bkx_crud_option_multisite('bkx_business_zip');
+    $bkx_business_country = bkx_crud_option_multisite('bkx_business_country');
+    $bkx_business_city = sprintf(__('%s', 'bookingx'), $bkx_business_city);
+    $bkx_business_state = sprintf(__('%s', 'bookingx'), $bkx_business_state);
+    $bkx_business_zip = sprintf(__('%d', 'bookingx'), $bkx_business_zip);
+    $bkx_business_country = sprintf(__('%s', 'bookingx'), $bkx_business_country);
+    $bkx_business_address = sprintf(__('%s %s %s %s %s %s ', 'bookingx'), $bkx_business_address_1, $bkx_business_address_2, $bkx_business_city, $bkx_business_state, $bkx_business_zip, $bkx_business_country);
+    return array($bkx_business_name, $bkx_business_email, $bkx_business_phone, $bkx_business_address);
+}
+
+/**
+ * @param $order_meta
+ * @return array
+ */
+function getExtraHtml( $order_meta )
+{
+    $extra_html = "";
+    if (!empty($order_meta['addition_ids']) && !empty($order_meta['extra_arr'])) {
+        $extra_html = sprintf(__('%s', 'bookingx'), "<p><label>Extra Services : </label>");
+        $extra_data = "";
+        foreach ($order_meta['extra_arr'] as $extra_obj) {
+            $main_obj = $extra_obj['main_obj']->post;
+            $extra_title = $main_obj->post_title;
+            $extra_data .= " {$extra_title} " . ",";
+        }
+        $extra_data = rtrim($extra_data, ",");
+        $extra_html .= $extra_data . "</p>";
+    }
+    return array($extra_html);
+}
+
+/**
+ * @param $payment_source_method
+ * @param $payment_status
+ * @return array
+ */
+function getPaymentInfo($payment_source_method, $payment_status)
+{
+    $pending_paypal_message = "";
+    if (isset($payment_source_method) && $payment_source_method == "bkx_gateway_paypal_express" && $payment_status == "Pending") {
+        $pending_paypal_message = sprintf(__('%s', 'bookingx'), "<p> <label>Note : </label> Transaction Incomplete and payment is still in pending status! You need to manually authorize this payment in your Paypal Account </p>");
+    }
+
+    if (!empty($payment_source_method)) {
+        $BkxPaymentCore = new BkxPaymentCore();
+        $bkx_get_available_gateways = $BkxPaymentCore->PaymentGateways();
+        if (!empty($bkx_get_available_gateways[$payment_source_method])) {
+            $payment_source_name = $bkx_get_available_gateways[$payment_source_method]['title'];
+        } else {
+            $payment_source_name = esc_html("Offline Payment", 'bookingx');
+        }
+        $payment_source = sprintf(__("%s", 'Bookingx'), $payment_source_name);
+    } else {
+        $payment_source = sprintf(__("%s", 'Bookingx'), "Offline Payment");
+    }
+    return array($pending_paypal_message, $payment_source);
+}

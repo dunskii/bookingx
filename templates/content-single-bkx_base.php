@@ -21,16 +21,21 @@ if (!empty($args)) {
     $desc = $args['description'];
     $image = $args['image'];
 }
+$args_data = apply_filters('bkx_single_post_view_args', array('post_type' => 'bkx_base', 'ID' => $base_id) );
 ?>
 <div class="bkx-single-post-view clearfix">
     <div class="container">
+        <?php do_action('bkx_before_row_single_post', $args_data); ?>
         <div class="row">
             <?php if ($image == "yes") : ?>
                 <div class="col-md-4">
-                    <?php echo $bkx_base->get_thumb(); ?>
+                    <?php do_action('bkx_before_single_post_title', $args_data); ?>
+                        <?php echo $bkx_base->get_thumb(); ?>
+                    <?php do_action('bkx_after_single_post_title', $args_data); ?>
                 </div>
             <?php endif; ?>
-            <div class="col-md-<?php echo ($image == "yes") ? 8 : 12; ?>">
+            <?php do_action('bkx_before_col_single_post', $args_data); ?>
+                <div class="col-md-<?php echo ($image == "yes") ? 8 : 12; ?>">
                 <div class="row">
                     <div class="col-md-8"><h1><?php echo get_the_title($base_id); ?></h1>
                         <h4><?php echo "{$price_duration['time']} {$price_duration['price']}"; ?></h4></div>
@@ -58,6 +63,8 @@ if (!empty($args)) {
                 <?php endif; ?>
                 <?php do_action('bookingx_base_meta_data', $bkx_base); ?>
             </div>
+            <?php do_action('bkx_after_col_single_post', $args_data); ?>
         </div>
+        <?php do_action('bkx_after_row_single_post', $args_data); ?>
     </div>
 </div>
