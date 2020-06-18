@@ -681,7 +681,7 @@ class Bkx_Ajax_Loader
         $booking = array();
 
         $booking['meta_data']['redirect_to'] = "";
-        if (isset($_POST['seat_id'], $_POST['base_id'], $_POST['booking_time'], $_POST['starting_slot'], $_POST['time_option'])) {
+        if (isset($_POST['seat_id'], $_POST['base_id'], $_POST['starting_slot'], $_POST['time_option'])) {
             $args['seat_id'] = sanitize_text_field(wp_unslash($_POST['seat_id']));
             $args['base_id'] = sanitize_text_field(wp_unslash($_POST['base_id']));
             $args['extra_ids'] = sanitize_text_field(wp_unslash($_POST['extra_id']));
