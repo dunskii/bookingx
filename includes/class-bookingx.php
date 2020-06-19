@@ -105,22 +105,23 @@ class Bookingx
         if (defined('BOOKINGX_VERSION')) {
             $this->version = BOOKINGX_VERSION;
         } else {
-            $this->version = '0.7';
+            $this->version = '0.7.6';
         }
 
         $this->dir_path = plugin_dir_path(__DIR__);
         $this->dir_url = plugin_dir_url(__DIR__);
         $this->public_url = $this->dir_url . "public";
 
-        // define('BKX_PLUGIN_VER', rand(1,999999999999));
-
-
         $this->plugin_name = 'bookingx';
 
         $this->load_dependencies();
         $this->define_admin_hooks();
         $this->define_public_hooks();
+        // Set up localisation.
+        $this->load_plugin_textdomain();
     }
+
+
 
     public static function instance()
     {
@@ -282,6 +283,21 @@ class Bookingx
         }
 
         return $files;
+    }
+
+    public function load_plugin_textdomain() {
+
+        if ( function_exists( 'determine_locale' ) ) {
+            $locale = determine_locale();
+        } else {
+            $locale = is_admin() ? get_user_locale() : get_locale();
+        }
+
+        $locale = apply_filters( 'plugin_locale', $locale, 'bookingx' );
+
+        unload_textdomain( 'bookingx' );
+        load_textdomain( 'bookingx', WP_LANG_DIR . '/bookingx/bookingx-' . $locale . '.mo' );
+        load_plugin_textdomain( 'bookingx', false, plugin_basename( dirname( BKX_PLUGIN_FILE ) ) . '/languages' );
     }
 
     /**
