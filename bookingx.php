@@ -35,6 +35,9 @@ define('BKX_PLUGIN_PUBLIC_PATH', BKX_PLUGIN_DIR_PATH . "public");
 define('BKX_PLUGIN_VER', '0.7.6');
 define('BKX_BLOCKS_ASSETS', BKX_PLUGIN_DIR_URL . "includes/core/blocks/assets/");
 define('BKX_BLOCKS_ASSETS_BASE_PATH', BKX_PLUGIN_DIR_PATH . "includes\core\blocks\assets");
+if ( ! defined( 'BKX_PLUGIN_FILE' ) ) {
+    define( 'BKX_PLUGIN_FILE', __FILE__ );
+}
 
 /**
  * The code that runs during plugin activation.
