@@ -76,8 +76,6 @@ class Bkx_Meta_Boxes
         $order_id = $post->ID;
         if (empty($post->ID))
             return;
-        global $_wp_admin_css_colors;
-        $admin_colors = $_wp_admin_css_colors;
         $seat_id = get_post_meta($order_id, 'seat_id', true);
         if (isset($seat_id) && $seat_id != "") {
             $order_summary = "";

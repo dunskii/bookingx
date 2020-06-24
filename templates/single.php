@@ -5,7 +5,7 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
  *
  * @package Bookingx
  * @subpackage bookingx
- * @since      0.7.6
+ * @since      0.7.6.1
  */
 
 get_header();

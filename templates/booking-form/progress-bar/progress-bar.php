@@ -3,6 +3,7 @@
  * Booking Form Progress Bar
  */
 defined('ABSPATH') || exit;
+
 $bkx_label_step_1 = (!empty(bkx_crud_option_multisite("bkx_label_of_step1"))) ? bkx_crud_option_multisite("bkx_label_of_step1") : 'Please select what you would like to book';
 $bkx_label_step_1 = sprintf(esc_html__('%1$s', 'bookingx'), $bkx_label_step_1);
 $form_title = "";
@@ -11,6 +12,7 @@ if (isset($args['title']) && $args['title'] == "true") {
 }
 $is_active_5 = "";
 $default_active = 'is-active';
+
 if (!empty($args) && isset($args['order_id']) && $args['order_id'] != "") {
     $is_active_5 = 'is-active';
     $default_active = "";

@@ -3,15 +3,30 @@
  * Booking Form Page
  */
 defined('ABSPATH') || exit;
+
+if(empty($args) || !isset($args)){
+    $args = array();
+}
+$args['type'] = 'new';
 $order_id = (isset($_REQUEST['order_id']) ? $_REQUEST['order_id'] : 0);
-$status = ((isset($order_id) && $order_id != "") ? true : false);
+if ((isset($order_id) && $order_id != "")) {
+    $status = (true);
+} else {
+    $status = (false);
+}
+
 $booking_edit = false;
 if (isset($_POST['order_id']) && isset($_REQUEST['edit_booking_nonce']) && wp_verify_nonce($_REQUEST['edit_booking_nonce'], 'edit_booking_' . $_REQUEST['id'])) {
     $booking_edit = true;
+    $args['type'] = 'edit';
 }
 if (isset($args['order_id']) && $args['order_id'] > 0) {
     $args['order_id'] = $order_id;
-} ?>
+}
+$args['order_id'] = $order_id;
+$args['status'] = $status;
+
+?>
 <div class="booking-x">
     <div class="main-container">
         <div class="booking-x container">
@@ -36,7 +51,9 @@ if (isset($args['order_id']) && $args['order_id'] > 0) {
                     $args = array('order_id' => $_POST['order_id'], 'bkx_payment_gateway_method' => $_POST['bkx_payment_gateway_method']);
                     do_action('bkx_payment_gateway_process_hook', $args);
                 } ?>
-                <?php if (isset($status) && $status == true && isset($_GET['order_id']) && $_GET['order_id'] != "") {
+                <?php if (!isset($status) || $status != true || !isset($_GET['order_id']) || $_GET['order_id'] == "") {
+                } else {
+
                     $order_id = base64_decode($_GET['order_id']);
                     $action_data = array('order_id' => $order_id);
                     $payment_method = get_post_meta($order_id, 'payment_method', true);
