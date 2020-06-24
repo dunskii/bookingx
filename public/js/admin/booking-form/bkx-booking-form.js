@@ -299,7 +299,7 @@ jQuery(function ($) {
                     data: data,
                     dataType: 'html',
                     success: function (response) {
-                        if (response != 'NORF' && response != 'SWR') {
+                        if (response != 'NORF' && response != 'SWR' && response != 'BTB') {
                             var result = $.parseJSON(response);
                             if (result.meta_data.redirect_to) {
                                 window.location.href = result.meta_data.redirect_to;
@@ -321,7 +321,12 @@ jQuery(function ($) {
                                 $("#bkx-booking-generate").submit();
                             }
 
-                        } else if (response == 'SWR') {
+                        } else if (response == 'BTB') {
+                            booking_form.$error_group.prepend('<div class="row"><div class="col-md-12"><ul class="bookingx-error">' + bkx_booking_form_admin_params.string_select_date_time + '</ul></div></div>');
+                            booking_form.scroll_to_notices();
+                            $('.bkx-form-submission-final').prop('disabled', false);
+                            $('.bkx-form-submission-final').text('Booking Update');
+                        }  else if (response == 'SWR') {
                             booking_form.$error_group.prepend('<div class="row"><div class="col-md-12"><ul class="bookingx-error">' + bkx_booking_form_admin_params.string_something_went + '</ul></div></div>');
                             booking_form.scroll_to_notices();
                             $('.bkx-form-submission-final').prop('disabled', false);
