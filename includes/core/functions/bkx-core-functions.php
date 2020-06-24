@@ -714,11 +714,27 @@ function bkx_generate_inline_style()
     $bkx_next_btn = bkx_crud_option_multisite('bkx_next_btn');
     $bkx_next_btn = ($bkx_next_btn) ? $bkx_next_btn : '#066595';
 
+    if( is_user_logged_in() && is_admin()){
+        $color_schema = adminColorSchema();
+        $bkx_previous_btn = $color_schema['button'];
+        $bkx_previous_btn = ($bkx_previous_btn) ? $bkx_previous_btn : '#066595';
+        $bkx_next_btn = $color_schema['button'];
+        $bkx_next_btn = ($bkx_next_btn) ? $bkx_next_btn : '#066595';
+        $time_available_color = $color_schema['open'];
+        $time_unavailable_color = $color_schema['booked'];
+        $time_selected_color = $color_schema['current'];
+        $bkx_active_step_color = $color_schema['button'];
+    }
 
-    //if ( ! is_admin() ) {
     $custom_css .= " .booking-x .indicator ul li.open::before, .booking-x .select-time .table td a.available { background: {$time_available_color};} ";
     $custom_css .= " .booking-x .indicator ul li.booked::before, .booking-x .select-time .table td a.disabled { background: {$time_unavailable_color};} ";
-    $custom_css .= " .booking-x .indicator ul li.current::before, .booking-x .select-time .table td a.selected { background: {$time_selected_color}; } ";
+    if( is_user_logged_in() && is_admin()){
+        $custom_css .= " .booking-x .indicator ul li.current::before, .booking-x .select-time .table td a.selected { background: linear-gradient(to bottom right, {$time_available_color} 0%, {$time_available_color} 50%, {$time_selected_color} 50%, {$time_selected_color} 100%); } ";
+        $custom_css .= " .booking-x .select-time .table td a.selected { color : #fff; } ";
+    }else{
+        $custom_css .= " .booking-x .indicator ul li.current::before, .booking-x .select-time .table td a.selected { background: {$time_selected_color}; } ";
+    }
+
     $custom_css .= " .booking-x-form .progress-title, .booking-x-form .form-group label { color: {$text_color} }";
     $custom_css .= " .booking-x-form .booking-x .progress-step.is-active::after { background-color: {$bkx_active_step_color} }";
     $custom_css .= " .booking-x-form .booking-x .on-click-selected { background: {$cal_day_selected_color} }";
@@ -727,9 +743,10 @@ function bkx_generate_inline_style()
     $custom_css .= " .booking-x .progress-step.is-active .progress-title, .booking-x-form .booking-x .progress-step.is-active::after { color: {$bkx_active_step_color} }";
     $custom_css .= " .booking-x-form .booking-x .bkx-form-submission-next { background: {$bkx_next_btn} }";
     $custom_css .= " .booking-x-form .booking-x .bkx-form-submission-previous { background: {$bkx_previous_btn} }";
+    $custom_css .= " .post-type-bkx_booking .bkx-booking-form .bkx-form-submission-final { background: {$bkx_previous_btn} }";
     $custom_css .= " .booking-x-form .booking-x .bkx-calendar .calendar-month .text-uppercase { color: {$bkx_cal_month_title} }";
-    //}
-    return $custom_css;
+
+    return apply_filters('bkx_generate_inline_style', $custom_css);
 }
 
 function bkx_generate_thumbnail($post)
@@ -1042,4 +1059,53 @@ function getPaymentInfo($payment_source_method, $payment_status)
         $payment_source = sprintf(__("%s", 'Bookingx'), "Offline Payment");
     }
     return array($pending_paypal_message, $payment_source);
+}
+
+/**
+ * @return mixed|void
+ */
+function adminColorSchema(){
+    if( is_user_logged_in() && is_admin()){
+        global $_wp_admin_css_colors;
+        $admin_color = get_user_option( 'admin_color' );
+        $colors      = $_wp_admin_css_colors[$admin_color]->colors;
+        switch ($admin_color) {
+            case 'fresh':
+                $button = $colors[2];
+                $booked = $colors[1];
+                $open = $colors[3];
+                $current = $colors[0];
+                break;
+            case 'light':
+                $button = $colors[3];
+                $booked = $colors[1];
+                $open = $colors[2];
+                $current = $colors[0];
+                break;
+            case 'blue':
+                $button = '#e1a948';
+                $booked = $colors[1];
+                $open = $colors[2];
+                $current = $colors[0];
+                break;
+            case 'ectoplasm':
+            case 'coffee':
+            case 'ocean':
+            case 'sunrise':
+                $button = $colors[2];
+                $booked = $colors[0];
+                $open = $colors[3];
+                $current = $colors[1];
+                break;
+            case 'midnight':
+                $button = $colors[3];
+                $booked = $colors[0];
+                $open = $colors[2];
+                $current = $colors[1];
+                break;
+        }
+        $color_schema = array( 'button' => $button, 'booked' => $booked, 'open' => $open, 'current' => $current );
+        
+        return apply_filters('bkx_admin_form_color_schema', $color_schema );
+    }
 }
