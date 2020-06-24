@@ -1105,7 +1105,7 @@ function adminColorSchema(){
                 break;
         }
         $color_schema = array( 'button' => $button, 'booked' => $booked, 'open' => $open, 'current' => $current );
-        
+
         return apply_filters('bkx_admin_form_color_schema', $color_schema );
     }
 }

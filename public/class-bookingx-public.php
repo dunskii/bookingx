@@ -4,7 +4,7 @@
  * The public-facing functionality of the plugin.
  *
  * @link       https://dunskii.com
- * @since      0.7.6
+ * @since      0.7.6.1
  *
  * @package    Bookingx
  * @subpackage Bookingx/public
@@ -26,7 +26,7 @@ class Bookingx_Public
     /**
      * The ID of this plugin.
      *
-     * @since      0.7.6
+     * @since      0.7.6.1
      * @access   private
      * @var      string $plugin_name The ID of this plugin.
      */
@@ -35,7 +35,7 @@ class Bookingx_Public
     /**
      * The version of this plugin.
      *
-     * @since      0.7.6
+     * @since      0.7.6.1
      * @access   private
      * @var      string $version The current version of this plugin.
      */
@@ -46,7 +46,7 @@ class Bookingx_Public
      *
      * @param string $plugin_name The name of the plugin.
      * @param string $version The version of this plugin.
-     * @since      0.7.6
+     * @since      0.7.6.1
      */
     public function __construct($plugin_name, $version)
     {
@@ -59,7 +59,7 @@ class Bookingx_Public
     /**
      * Register the stylesheets for the public-facing side of the site.
      *
-     * @since      0.7.6
+     * @since      0.7.6.1
      */
     public function enqueue_styles()
     {
@@ -83,7 +83,7 @@ class Bookingx_Public
     /**
      * Register the JavaScript for the public-facing side of the site.
      *
-     * @since      0.7.6
+     * @since      0.7.6.1
      */
     public function enqueue_scripts()
     {

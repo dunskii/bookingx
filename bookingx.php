@@ -3,7 +3,7 @@
  *  Plugin Name: Booking X
  *  Plugin URI: https://booking-x.com/
  *  Description: Booking X is a booking and appointments plugin for WordPress
- *  Version: 0.7.6
+ *  Version: 0.7.6.1
  *  Author: Dunskii Web Services
  *  Author URI: https://dunskii.com
  *  Text Domain: bookingx
@@ -61,7 +61,7 @@ require plugin_dir_path(__FILE__) . 'includes/class-bookingx.php';
  * then kicking off the plugin from this point in the file does
  * not affect the page life cycle.
  *
- * @since 0.7.6
+ * @since 0.7.6.1
  */
 function run_bookingx()
 {
