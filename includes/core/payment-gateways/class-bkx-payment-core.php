@@ -189,9 +189,14 @@ class BkxPaymentCore
         return apply_filters('bkx_get_available_gateways_html', $_available_gateways_html, $prepayment);
     }
 
+    /**
+     * @param $booking_data
+     * @return mixed|void
+     * @throws Exception
+     */
     public function bkx_success_payment($booking_data)
     {
-
+        $payment_success_html = "";
         if ($booking_data['success'] == true || $booking_data['success'] == 1) {
             $seat_alias = bkx_crud_option_multisite("bkx_alias_seat");
             $base_alias = bkx_crud_option_multisite("bkx_alias_base");
@@ -239,11 +244,12 @@ class BkxPaymentCore
                     $extra_data = rtrim($extra_data, ",");
                 }
             }
-            $payment_success_html = "<h2>Congratulations! {$booking_meta_data['first_name']}, Your booking has been confirmed!</h2>";
+            $payment_success_html = sprintf(__('<h2>Congratulations! %s, Your booking has been confirmed!</h2>','bookingx'),$booking_meta_data['first_name']);
             if (strtolower($payment_status) == "completed") {
-                $payment_success_html = "<h2>Congratulations! {$booking_meta_data['first_name']}, Your booking has been confirmed!</h2>";
+                 $payment_success_html = sprintf(__('<h2>Congratulations! %s, Your booking has been confirmed!</h2>','bookingx'),$booking_meta_data['first_name']);
             } elseif ('Pending' == $payment_status) {
-                $payment_success_html = "<h2>Dear {$booking_meta_data['first_name']}, Transaction Complete, but payment is still pending! You need to manually authorize this payment in your <a target=\"_new\" href=\"http://www.paypal.com\">Paypal Account</a></h2>";
+
+                $payment_success_html = sprintf(__('<h2>Dear %s, Transaction Complete, but payment is still pending! You need to manually authorize this payment in your <a target="_new" href="%s">PayPal Account</a></h2>','bookingx'),$booking_meta_data['first_name'], esc_url('http://www.paypal.com') );
             }
             $payment_success_html .= "<div class='bkx-booking-success'><div class='bkx-booking-detail user-detail'>";
             if (isset($order_id)) {
@@ -259,7 +265,7 @@ class BkxPaymentCore
                     $booking_duration = str_replace('(', '', $booking_meta_data['total_duration']);
                     $booking_duration = str_replace(')', '', $booking_duration);
                 }
-                $payment_success_html .= '<div class="row"><div class="col-sm-12"><dl> <dt style="font-weight: bold;"> Details of your booking are as follow : </dt></dl></div></div>';
+                $payment_success_html .= __('<div class="row"><div class="col-sm-12"><dl> <dt style="font-weight: bold;"> Details of your booking are as follow : </dt></dl></div></div>','bookingx');
                 $payment_success_html .= "<div class=\"row\"><div class=\"col-sm-6\">";
                 $payment_success_html .= "<dl> <dt> {$seat_alias}</dt> :  <dd>{$seat_name}</dd></dl>";
                 $payment_success_html .= "<dl> <dt> {$base_alias} </dt> : <dd>{$base_name}</dd></dl>";
@@ -271,22 +277,22 @@ class BkxPaymentCore
                 $payment_success_html .= "<div class=\"col-sm-6\">";
                 $payment_success_html .= "<dl> <dt> Date </dt> : <dd>  {$date_format} </dd></dl>";
                 if (isset($base_time_option) && $base_time_option == "H") {
-                    $payment_success_html .= "<dl> <dt> Time </dt> : <dd>  {$booking_meta_data['booking_time_from']} - {$end_time} </dd></dl>";
+                    $payment_success_html .= __("<dl> <dt> Time </dt> : <dd>  {$booking_meta_data['booking_time_from']} - {$end_time} </dd></dl>", 'bookingx');
                 }
-                $payment_success_html .= "<dl> <dt> Duration </dt> :  <dd> {$booking_duration}  </dd></dl>";
+                $payment_success_html .= __("<dl> <dt> Duration </dt> :  <dd> {$booking_duration}  </dd></dl>", 'bookingx');
                 $payment_success_html .= "</div></div>";
 
                 $payment_success_html .= "<div class=\"row\"><div class=\"col-sm-6\">";
-                $payment_success_html .= "<dl> <dt> Total Cost </dt>: <dd> {$current_currency}{$booking_meta_data['total_price']}</dd></dl>";
-                $payment_success_html .= "<dl> <dt> Remaining Cost </dt>: <dd> {$current_currency}{$remaining_cost}</dd></dl>";
+                $payment_success_html .= __("<dl> <dt> Total Cost </dt>: <dd> {$current_currency}{$booking_meta_data['total_price']}</dd></dl>", 'bookingx');
+                $payment_success_html .= __("<dl> <dt> Remaining Cost </dt>: <dd> {$current_currency}{$remaining_cost}</dd></dl>", 'bookingx');
                 if (isset($payment_status) && $payment_status != "") {
-                    $payment_success_html .= "<dl> <dt> Payment Status</dt>: <dd> {$payment_status}</dd></dl>";
+                    $payment_success_html .= __("<dl> <dt> Payment Status</dt>: <dd> {$payment_status}</dd></dl>", 'bookingx');
                 }
                 $payment_success_html .= "</div>";
                 $payment_success_html .= "<div class=\"col-sm-6\">";
-                $payment_success_html .= "<dl> <dt> Total Paid</dt>: <dd>  {$current_currency}{$pay_amt}</dd></dl>";
+                $payment_success_html .= __("<dl> <dt> Total Paid</dt>: <dd>  {$current_currency}{$pay_amt}</dd></dl>", 'bookingx');
                 if (isset($transaction_id) && $transaction_id != "") {
-                    $payment_success_html .= "<dl><dt>Transaction ID</dt>: <dd>  {$transaction_id}</dd></dl>";
+                    $payment_success_html .= __("<dl><dt>Transaction ID</dt>: <dd>  {$transaction_id}</dd></dl>", 'bookingx');
                 }
                 $payment_success_html .= "</div></div>";
             }

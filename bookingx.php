@@ -71,7 +71,7 @@ function run_bookingx()
     $GLOBALS['bkx'] = BKX();
 
     /**
-     * Gutenberg Blocks for Gutenberg
+     * Gutenberg Blocks for Load this Class
      */
     // Load Editor Blocks if WordPress is 5.0+.
     if (function_exists('register_block_type')) {
@@ -80,10 +80,8 @@ function run_bookingx()
         if (!class_exists('Bkx_Blocks')) {
             require_once BKX_PLUGIN_DIR_PATH . '/includes/core/blocks/class-bkx-blocks.php';
         }
-
         // Load included Blocks.
         Bookingx::glob_require_once('/includes/core/blocks/class-bkx-block-*.php');
-
     }
 }
 
