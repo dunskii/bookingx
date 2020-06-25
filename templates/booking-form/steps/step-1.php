@@ -71,6 +71,6 @@ $default_seat = apply_filters('bkx_enable_any_seat_id', $default_seat);
         <div class="bkx-disable-days-note"></div>
     </div>
     <div class="button-wrapper">
-        <button type="submit" class="btn btn-default bkx-form-submission-next">Next</button>
+        <button type="submit" class="btn btn-default bkx-form-submission-next"><?php esc_html_e("Next", 'bookingx'); ?></button>
     </div>
 </div>

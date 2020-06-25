@@ -11,13 +11,13 @@ defined('ABSPATH') || exit;
     <div class="row">
         <div class="col-sm-12">
             <div class="form-group">
-                <label>Select schedule:</label>
+                <label><?php esc_html_e("Select schedule", 'bookingx'); ?>:</label>
             </div>
             <div class="indicator schedule-indicator">
                 <ul>
-                    <li class="booked">Booked</li>
-                    <li class="open">Open</li>
-                    <li class="current">Current</li>
+                    <li class="booked"><?php esc_html_e("Booked", 'bookingx'); ?></li>
+                    <li class="open"><?php esc_html_e("Open", 'bookingx'); ?></li>
+                    <li class="current"><?php esc_html_e("Current", 'bookingx'); ?></li>
                 </ul>
             </div>
             <div class="schedule-wrap">
@@ -26,7 +26,7 @@ defined('ABSPATH') || exit;
         </div>
     </div>
     <div class="button-wrapper">
-        <button type="submit" class="btn btn-default bkx-form-submission-next">Next</button>
-        <button type="submit" class="btn btn-default bkx-form-submission-previous">Previous</button>
+        <button type="submit" class="btn btn-default bkx-form-submission-next"><?php esc_html_e("Next", 'bookingx'); ?></button></button>
+        <button type="submit" class="btn btn-default bkx-form-submission-previous"><?php esc_html_e("Previous", 'bookingx'); ?></button>
     </div>
 </div>

@@ -14,7 +14,7 @@ if (!empty($seat_available_months) || !empty($seat_available_days) || !empty($se
             foreach ($seat_available_days as $day => $timing) {
                 $from = $timing['time_from'];
                 $to = $timing['time_till'];
-                $days .= sprintf(__('<li><span> %s : </span><span> %s  To %s </span></li>', 'Bookingx'), ucwords($day), $from, $to);
+                $days .= sprintf(__('<li><span> %s : </span><span> %s  To %s </span></li>', 'bookingx'), ucwords($day), $from, $to);
             }
             $days .= '</ul>';
         }
@@ -28,19 +28,19 @@ if (!empty($seat_available_months) || !empty($seat_available_days) || !empty($se
         }
         if (!empty($payment_deposite)):
             $payment_details = isset($payment_deposite['type']) && $payment_deposite['type'] == 'FA' ? '($' . $payment_deposite['amount'] . ')' : $payment_deposite['percentage'];
-            $payment_info = sprintf(__(' %s%s', 'Bookingx'), $payment_details, "&#37;");
+            $payment_info = sprintf(__(' %s%s', 'bookingx'), $payment_details, "&#37;");
         endif;
         if (!empty($payment_full_pay)):
-            $payment_info = sprintf(__('<span> %s </span>', 'Bookingx'), $payment_full_pay['value']);
+            $payment_info = sprintf(__('<span> %s </span>', 'bookingx'), $payment_full_pay['value']);
         endif;
         if (!empty($seat_available_months)):
-            echo sprintf('<li><div class="months"><label>%s : %s </label> </li>', 'Months', implode(", ", $seat_available_months));
+            echo sprintf( __('<li><div class="months"><label>%s : %s </label> </li>','bookingx'),'Months', implode(", ", $seat_available_months));
         endif;
         if (!empty($seat_available_days)):
-            echo sprintf('<li><div class="days"><label>%s : %s </label></li>', '<strong>Days of operations</strong>', $days);
+            echo sprintf( __('<li><div class="days"><label>%s : %s </label></li>', '<strong>Days of operations</strong>','bookingx'), $days);
         endif;
         if (!empty($seat_payment_info)):
-            echo sprintf('<li><div class="payment-info"><label> %s : &nbsp; %s</label></li>', 'Booking Require Pre Payment', $payment_info);
+            echo sprintf( __('<li><div class="payment-info"><label> %s : &nbsp; %s</label></li>','bookingx'), 'Booking Require Pre Payment', $payment_info);
         endif; ?>
     </ul>
 <?php

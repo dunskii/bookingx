@@ -18,26 +18,7 @@ jQuery(document).ready(function () {
         }
     });
     var ajax_url = bkx_settings.ajax_url;
-    var bkx_color_picker, bkx_color_picker_total, cp, cp_id;
-    bkx_color_picker = ["id_bkx_cal_day_selected_color", "id_bkx_text_color", "id_bkx_time_available_color",
-        "id_bkx_time_selected_color", "id_bkx_background_color", "id_bkx_border_color", "id_bkx_progressbar_color",
-        "id_bkx_time_block_bg_color", "id_bkx_time_block_extra_color", "id_bkx_cal_border_color", "id_bkx_cal_day_color",
-        "id_bkx_time_block_service_color", "id_bkx_time_unavailable_color", "id_bkx_cal_month_title_color",
-        "id_bkx_cal_month_bg_color", "id_bkx_time_new_selected"];
-    bkx_color_picker_total = bkx_color_picker.length;
-    for (cp = 0; cp < bkx_color_picker_total; cp++) {
-        cp_id = bkx_color_picker_total[cp];
-        jQuery("#" + cp_id).iris({width: 300, hide: true, palettes: true,});
-        jQuery("#" + cp_id).click(function () {
-            jQuery('.' + cp_id).show();
-        });
-        /** Mouse out and color picker out */
-        jQuery("." + cp_id).mouseenter(function () {
-            jQuery("." + cp_id).show();
-        }).mouseleave(function () {
-            jQuery("." + cp_id).hide();
-        });
-    }
+
     /* Business Form Jquery*/
     for (var count = 0; count < 10; count++) {
         jQuery('#business_days_' + count).change(function () {

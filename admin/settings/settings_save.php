@@ -148,7 +148,7 @@ function bkx_setting_save_action()
         $bkx_booking_style = ((!isset($bkx_booking_style) || $bkx_booking_style == "") ? "default" : $bkx_booking_style);
         bkx_crud_option_multisite("bkx_booking_style", sanitize_text_field($bkx_booking_style), 'update');
         bkx_crud_option_multisite("bkx_form_text_color", sanitize_text_field($_POST['bkx_text_color']), 'update');
-        //bkx_crud_option_multisite("bkx_form_background_color", sanitize_text_field($_POST['bkx_background_color']),'update');
+        bkx_crud_option_multisite("bkx_form_slot_time_color", sanitize_text_field($_POST['bkx_form_slot_time_color']),'update');
         //bkx_crud_option_multisite("bkx_siteclient_css_border_color", sanitize_text_field($_POST['bkx_border_color']),'update');
         bkx_crud_option_multisite("bkx_active_step_color", sanitize_text_field($_POST['bkx_progressbar_color']), 'update');
         //bkx_crud_option_multisite("bkx_siteclient_css_cal_border_color", sanitize_text_field($_POST['bkx_cal_border_color']),'update');
