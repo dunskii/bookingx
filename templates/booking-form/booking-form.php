@@ -36,7 +36,7 @@ $args['status'] = $status;
                 <!--  End Progress Bar     -->
                 <?php if (isset($status) && $status == false): ?>
                     <div class="bookingx-error-group"></div>
-                    <form method="post" name="bkx-booking-generate" id="bkx-booking-generate"
+                    <form method="post" name="bkx_booking_generate" id="bkx-booking-generate"
                           class="bkx-booking-generate bkx-book-now">
                         <!-- Start Initialized Steps -->
                         <?php bkx_get_template('booking-form/steps/step-1.php'); ?>
@@ -50,8 +50,16 @@ $args['status'] = $status;
                 <?php if (isset($_POST['order_id']) && (isset($_POST['bkx_payment_gateway_method']) || $booking_edit === true) && !empty($_POST['order_id'])) {
                     $args = array('order_id' => $_POST['order_id'], 'bkx_payment_gateway_method' => $_POST['bkx_payment_gateway_method']);
                     do_action('bkx_payment_gateway_process_hook', $args);
+                }else{
+                    /**
+                     * Make Order while form automatically submitted by Event
+                     */
+                    if(!isset($_POST['order_id']) || !isset($_REQUEST['order_id'])){
+                        do_action('bkx_make_booking_hook', $_POST);
+                    }
                 } ?>
                 <?php if (!isset($status) || $status != true || !isset($_GET['order_id']) || $_GET['order_id'] == "") {
+
                 } else {
 
                     $order_id = base64_decode($_GET['order_id']);

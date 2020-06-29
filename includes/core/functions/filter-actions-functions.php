@@ -611,3 +611,27 @@ function bkx_plugin_add_settings_link($links)
 }
 
 add_filter("plugin_action_links_$plugin", 'bkx_plugin_add_settings_link');
+
+add_action('bkx_make_booking_hook', 'bkx_make_booking_hook_call_back');
+/**
+ * @param $post
+ * @throws Exception
+ */
+function bkx_make_booking_hook_call_back($post){
+    if(empty($post))
+        return;
+
+    $bkx_return_url = get_permalink(bkx_crud_option_multisite('bkx_plugin_page_id'));
+    $Bkxbooking = new BkxBooking();
+    $booking_data = $Bkxbooking->MakeBookingProcess($post , false);
+    $booking = json_decode($booking_data, true);
+    $order_id = $booking['meta_data']['order_id'];
+    $bkx_return_url = add_query_arg(array('order_id' => base64_encode($order_id)), $bkx_return_url);
+    if(empty($order_id)){
+        return;
+    }
+    $booking_meta = array('order_id' => $order_id);
+    $process_response = array('success' => true, 'data' => $booking_meta);
+    update_post_meta($order_id, 'bkx_capture_payment', $process_response);
+    echo '<meta http-equiv="refresh" content="0;url=' . $bkx_return_url . '">';
+}
