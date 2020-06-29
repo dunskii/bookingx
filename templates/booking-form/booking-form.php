@@ -70,10 +70,9 @@ $args['status'] = $status;
                     $payment_error = get_post_meta($order_id, 'bkx_payment_message', true);
                     if (!empty($payment_error)) {
                         echo "<div class=\"row\"><div class=\"col-md-12\"><ul class=\"bookingx-error\">";
-                        echo __("<li> Payment Error : {$payment_error}</li>");
+                        echo sprintf(__('<li>Payment Error : %s </li>', 'bookingx'), $payment_error);
                         echo "</ul></div></div>";
                     }
-
                     // echo '<pre>',print_r(get_post_meta($order_id),1),'</pre>';
                     $capture_payment = get_post_meta($order_id, 'bkx_capture_payment', true);
                     if (!empty($capture_payment) && $capture_payment['success'] == true) {

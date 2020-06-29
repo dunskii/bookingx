@@ -12,19 +12,19 @@ $skip_this_step_style = ($skip_this_step == true) ? 'style = "display: none;"' :
     <div class="row px-lg-1 py-1">
         <div class="col-5 col-md-6 calender-setup"> <!--remove col-lg-5 lg -->
             <div class="form-group">
-                <label>Select date:</label>
+                <label><?php esc_html_e("Select date", 'bookingx'); ?>:</label>
             </div>
             <div id="bkx-calendar"></div>
         </div>
         <div class="col-7 col-md-6 slots-setup"> <!--remove col-lg-7 lg -->
             <div class="form-group">
-                <label>Select time slot:</label>
+                <label><?php esc_html_e("Select time slot", 'bookingx'); ?>:</label>
             </div>
             <div class="indicator">
                 <ul>
-                    <li class="booked">Booked</li>
-                    <li class="open">Open</li>
-                    <li class="current">Current</li>
+                    <li class="booked"><?php esc_html_e("Booked", 'bookingx'); ?></li>
+                    <li class="open"><?php esc_html_e("Open", 'bookingx'); ?></li>
+                    <li class="current"><?php esc_html_e("Current", 'bookingx'); ?></li>
                 </ul>
             </div>
             <div class="select-time">
@@ -36,12 +36,14 @@ $skip_this_step_style = ($skip_this_step == true) ? 'style = "display: none;"' :
     </div>
     <div class="button-wrapper">
         <?php if ($skip_this_step == true) : ?>
-            <button type="submit" class="btn btn-default bkx-form-submission-final">Booking Update</button>
+            <button type="submit" class="btn btn-default bkx-form-submission-final">
+                <?php esc_html_e("Booking Update", 'bookingx'); ?></button>
         <?php else : ?>
-            <button type="submit" class="btn btn-default bkx-form-submission-next">Next</button>
+            <button type="submit" class="btn btn-default bkx-form-submission-next">
+                <?php esc_html_e("Next", 'bookingx'); ?></button>
         <?php endif; ?>
         <button <?php echo $skip_this_step_style; ?> type="submit" class="btn btn-default bkx-form-submission-previous">
-            Previous
+            <?php esc_html_e("Previous", 'bookingx'); ?>
         </button>
     </div>
 </div>

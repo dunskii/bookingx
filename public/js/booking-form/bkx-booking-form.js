@@ -486,20 +486,22 @@ jQuery(function ($) {
                 $error_messages += " <li> " + bkx_booking_form_params.bkx_validate_day_select + "</li>"
             }
 
-            if (GetCurrentStep() == 3 && bkx_booking_form_params.bkx_legal == "1") {
+            if (GetCurrentStep() == 3 ) {
                 if (booking_form.validate_user_details() == true) {
                     $error_messages += " <li> " + bkx_booking_form_params.complete_form + "</li>"
-                    $error_messages += " <li> " + bkx_booking_form_params.bkx_terms_and_conditions + "</li>"
                 }
-                if (listToArray(".bkx-booking-form .step-3 :input[name^=bkx_terms_and_conditions]:checked") == 'None') {
-                    $error_messages += " <li> " + bkx_booking_form_params.bkx_terms_and_conditions + "</li>"
+                if( bkx_booking_form_params.bkx_legal == "1" ){
+                    if (listToArray(".bkx-booking-form .step-3 :input[name^=bkx_terms_and_conditions]:checked") === 'None') {
+                        $error_messages += " <li> " + bkx_booking_form_params.bkx_terms_and_conditions + "</li>"
+                    }
+                    if (listToArray(".bkx-booking-form .step-3 :input[name^=bkx_privacy_policy]:checked") === 'None') {
+                        $error_messages += " <li> " + bkx_booking_form_params.bkx_privacy_policy + "</li>"
+                    }
+                    if (listToArray(".bkx-booking-form .step-3 :input[name^=bkx_cancellation_policy]:checked") === 'None') {
+                        $error_messages += " <li> " + bkx_booking_form_params.bkx_cancellation_policy + "</li>"
+                    }
                 }
-                if (listToArray(".bkx-booking-form .step-3 :input[name^=bkx_privacy_policy]:checked") == 'None') {
-                    $error_messages += " <li> " + bkx_booking_form_params.bkx_privacy_policy + "</li>"
-                }
-                if (listToArray(".bkx-booking-form .step-3 :input[name^=bkx_cancellation_policy]:checked") == 'None') {
-                    $error_messages += " <li> " + bkx_booking_form_params.bkx_cancellation_policy + "</li>"
-                }
+
             }
 
             if (GetCurrentStep() == 4 && booking_form.is_prepayment == true) {

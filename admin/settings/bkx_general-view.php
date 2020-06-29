@@ -44,17 +44,17 @@ if (!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
                     </div>
                 </td>
             </tr>
-            <tr class="active">
+   <!--         <tr class="active">
                 <th scope="row"><label
-                            for="Notification"><?php printf(esc_html__('%1$s', 'bookingx'), 'Notification'); ?></label>
+                            for="Notification"><?php /*printf(esc_html__('%1$s', 'bookingx'), 'Notification'); */?></label>
                 </th>
                 <td class="plugin-description">
                     <div class="plugin-description">
                         <input type="text" name="notification_alias" id="id_notification_alias"
-                               value="<?php echo bkx_crud_option_multisite('bkx_alias_notification'); ?>">
+                               value="<?php /*echo bkx_crud_option_multisite('bkx_alias_notification'); */?>">
                     </div>
                 </td>
-            </tr>
+            </tr>-->
 
             <tr class="active">
                 <th scope="row"><label
@@ -320,10 +320,10 @@ if (!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
                 <td class="plugin-description">
                     <select name="bkx_booking_style" class="bkx-booking-style">
                         <option value="default" <?php echo(($bkx_booking_style == "" || $bkx_booking_style == 'default') ? "selected" : ""); ?>>
-                            Classic Calendar
+                            <?php echo esc_html('Classic Calendar', 'bookingx');?>
                         </option>
                         <option value="day_style" <?php echo(($bkx_booking_style == 'day_style') ? "selected" : ""); ?>>
-                            Sliding Calendar
+                            <?php echo esc_html('Sliding Calendar', 'bookingx');?>
                         </option>
                     </select>
                     <?php if ($bkx_booking_style == "" || $bkx_booking_style == 'default') { ?>
@@ -338,13 +338,14 @@ if (!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
             </tr>
 
             <tr class="active">
-                <th scope="row"><label
-                            for="Text Colour"><?php printf(esc_html__('%1$s', 'bookingx'), 'Booking Form Text Colour'); ?></label>
-                </th>
+                <th scope="row"><label for="Text Colour"><?php printf(esc_html__('%1$s', 'bookingx'), 'Booking Form Text Colour'); ?></label></th>
 
                 <td class="plugin-description">
-                    <input type="text" name="bkx_text_color" id="id_bkx_text_color"
-                           value="<?php echo bkx_crud_option_multisite('bkx_form_text_color'); ?>">
+                    <input type="text" name="bkx_text_color" id="id_bkx_text_color" value="<?php echo bkx_crud_option_multisite('bkx_form_text_color'); ?>">
+                </td>
+                <th scope="row"><label class="bkx_form_slot_time_color_label" for="Slot Time Colour"><?php printf(esc_html__('%1$s', 'bookingx'), 'Booking Form Slot Time Colour'); ?></label></th>
+                <td class="plugin-description">
+                    <input type="text" name="bkx_form_slot_time_color" id="id_bkx_form_slot_time_color" value="<?php echo bkx_crud_option_multisite('bkx_form_slot_time_color'); ?>">
                 </td>
             </tr>
             <!--<tr class="active">
@@ -364,8 +365,7 @@ if (!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 		</tr>-->
 
             <tr class="active">
-                <th scope="row"><label
-                            for="Active Step Color"><?php printf(esc_html__('%1$s', 'bookingx'), 'Booking Form Active Step Colour'); ?></label>
+                <th scope="row"><label for="Active Step Color"><?php printf(esc_html__('%1$s', 'bookingx'), 'Booking Form Active Step Colour'); ?></label>
                 </th>
                 <td class="plugin-description">
                     <input type="text" name="bkx_progressbar_color" id="id_bkx_progressbar_color"
@@ -455,7 +455,7 @@ if (!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 
             <tr class="active">
                 <th scope="row"><label
-                            for="Add time unavailable colour"><?php printf(esc_html__('%1$s', 'bookingx'), 'Add time unavailable colour'); ?></label>
+                            for="Add time unavailable colour"><?php printf(esc_html__('%1$s', 'bookingx'), 'Booking Form unavailable colour'); ?></label>
                 </th>
                 <td class="plugin-description">
                     <input type="text" name="bkx_time_unavailable_color" id="id_bkx_time_unavailable_color"

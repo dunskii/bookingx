@@ -4,7 +4,7 @@
  */
 defined('ABSPATH') || exit; ?>
 <div class="step-4 bkx-form-deactivate" data-active="4">
-    <div class="check-text">Please check your booking before proceeding:</div>
+    <div class="check-text"><label><?php echo esc_html('Please check your booking before proceeding','bookingx');?>:</label></div>
     <div class="user-detail bkx-booking-summary bg-gray px-3 py-4">
         <div class="row">
         </div>
@@ -15,7 +15,7 @@ defined('ABSPATH') || exit; ?>
             <div class="col-lg-7">
                 <div class="px-3 py-2 bkx-booking-total">
                     <dl>
-                        <dt> Sub Total :</dt>
+                        <dt> <?php echo esc_html('Sub Total','bookingx');?></label> :</dt>
                         <dd class="total">$ 45.00</dd>
                     </dl>
                     <dl class="tax-section" style="display: none;">
@@ -25,14 +25,14 @@ defined('ABSPATH') || exit; ?>
                 </div>
             </div>
             <div class="col-lg-5">
-                <div class="bg-blue grand-total">Grand total: <strong></strong>
+                <div class="bg-blue grand-total"><?php esc_html_e("Grand total", 'bookingx'); ?>: <strong></strong>
                 </div>
             </div>
         </div>
         <div class="bkx-deposite-note user-detail bg-white px-3 py-4"></div>
     </div>
     <div class="button-wrapper">
-        <button type="submit" class="btn btn-default bkx-form-submission-final">Process Booking</button>
-        <button type="submit" class="btn btn-default bkx-form-submission-previous">Previous</button>
+        <button type="submit" class="btn btn-default bkx-form-submission-final"><?php esc_html_e("Process Booking", 'bookingx'); ?></button>
+        <button type="submit" class="btn btn-default bkx-form-submission-previous"><?php esc_html_e("Previous", 'bookingx'); ?></button>
     </div>
 </div>

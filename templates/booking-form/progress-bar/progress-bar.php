@@ -5,10 +5,10 @@
 defined('ABSPATH') || exit;
 
 $bkx_label_step_1 = (!empty(bkx_crud_option_multisite("bkx_label_of_step1"))) ? bkx_crud_option_multisite("bkx_label_of_step1") : 'Please select what you would like to book';
-$bkx_label_step_1 = sprintf(esc_html__('%1$s', 'bookingx'), $bkx_label_step_1);
+$bkx_label_step_1 = sprintf(esc_html('%1$s', 'bookingx'), $bkx_label_step_1);
 $form_title = "";
 if (isset($args['title']) && $args['title'] == "true") {
-    $form_title = "<h1>" . esc_html__(get_the_title(), 'bookingx') . "</h1>";
+    $form_title = "<h1>" . esc_html(get_the_title(), 'bookingx') . "</h1>";
 }
 $is_active_5 = "";
 $default_active = 'is-active';
@@ -21,7 +21,7 @@ $skip_this_step = SkipStep();
 $skip_this_step_style = ($skip_this_step == true) ? 'style = "display: none;"' : "";
 
 if ($skip_this_step == true) {
-    echo "<div class='bkx-admin-loading-edit'><div class=\"row\"><div class=\"col-md-12\"> <h2> Please Wait Booking Form is Loading..</h2></div></div></div>";
+    echo "<div class='bkx-admin-loading-edit'><div class=\"row\"><div class=\"col-md-12\"> <h2>".esc_html('Please Wait Booking Form is Loading..', 'bookingx')."</h2></div></div></div>";
 }
 ?>
 <div class="progress-wrapper" <?php echo $skip_this_step_style; ?>>
