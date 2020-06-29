@@ -115,6 +115,9 @@ class BkxPaymentCore
 
     }
 
+    /**
+     * @return mixed
+     */
     public function PaymentGateways()
     {
         $load_gateways = array('bkx_gateway_paypal_express' => array('title' => 'Paypal', 'class' => new BkxPaymentPayPalExpress()));
@@ -128,9 +131,11 @@ class BkxPaymentCore
         return $this->payment_gateways;
     }
 
-
-    public function bkx_get_available_gateways($post = array())
-    {
+    /**
+     * @param array $post
+     * @return mixed|void
+     */
+    public function bkx_get_available_gateways($post = array()){
 
         if (empty($post))
             return;
@@ -139,7 +144,11 @@ class BkxPaymentCore
         if (isset($post['seat_id']) && $post['seat_id'] > 0) {
             $seat_id = sanitize_text_field(wp_unslash($_POST['seat_id']));
             $seatIsPrePayment = get_post_meta($seat_id, 'seatIsPrePayment', true);
-            $prepayment = isset($seatIsPrePayment) && esc_attr($seatIsPrePayment) == 'Y' ? true : false;
+            if (isset($seatIsPrePayment) && esc_attr($seatIsPrePayment) == 'Y') {
+                $prepayment = true;
+            } else {
+                $prepayment = false;
+            }
         }
         if ($prepayment == false)
             return;
@@ -147,7 +156,6 @@ class BkxPaymentCore
         $load_gateways = array('bkx_gateway_paypal_express' => array('title' => 'Paypal', 'class' => new BkxPaymentPayPalExpress()));
         // Filter
         $load_gateways = apply_filters('bkx_payment_gateways', $load_gateways);
-
         foreach ($load_gateways as $key_name => $gateway) {
             $this->payment_gateways[$key_name] = $gateway;
         }

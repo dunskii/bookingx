@@ -187,6 +187,64 @@ class BkxBooking
         return $generate_json;
     }
 
+    /**
+     * @param $data
+     * @param bool $ajax
+     * @return false|string|void
+     * @throws Exception
+     */
+    function MakeBookingProcess( $data , $ajax = true){
+        if(empty($data))
+            return;
+        $result = "";
+        $_POST = $data;
+        $booking = array();
+        $booking['meta_data']['redirect_to'] = "";
+        if (isset($_POST['seat_id'], $_POST['base_id'], $_POST['starting_slot'], $_POST['time_option'])) {
+            $args['seat_id'] = sanitize_text_field(wp_unslash($_POST['seat_id']));
+            $args['base_id'] = sanitize_text_field(wp_unslash($_POST['base_id']));
+            $args['extra_ids'] = sanitize_text_field(wp_unslash($_POST['extra_id']));
+            $args['service_extend'] = sanitize_text_field(wp_unslash($_POST['service_extend']));
+            $args['date'] = sanitize_text_field(wp_unslash($_POST['date']));
+            $args['slot'] = sanitize_text_field(wp_unslash($_POST['starting_slot']));
+            $args['time'] = isset($_POST['booking_time']) ? sanitize_text_field(wp_unslash($_POST['booking_time'])) : "";
+            $args['time_option'] = sanitize_text_field(wp_unslash($_POST['time_option']));
+            $args['booking_multi_days'] = wp_unslash($_POST['booking_multi_days']);
+
+            $get_verify_slot = json_decode($this->get_verify_slot($args, false));
+            if (!empty($get_verify_slot) && $get_verify_slot->result == 1 || !empty($args['booking_multi_days'])) {
+                $booking = $this->generate_order($_POST, null, true);
+                //send email that edit booking confirmed
+                if (isset($_POST['edit_booking']) && $_POST['edit_booking'] == true) {
+                    $this->booking_email($booking['meta_data']['order_id'], 'edit');
+                    $this->booking_email($booking['meta_data']['order_id'], 'customer_edit');
+                } else {
+                    //send email that new booking confirmed
+                    $this->booking_email($booking['meta_data']['order_id'], 'pending');
+                    $this->booking_email($booking['meta_data']['order_id'], 'customer_pending');
+                }
+
+                $is_new = strpos($booking['meta_data']['last_page_url'], "post-new.php");
+                $is_edited = (isset($_POST['is_admin_edit']) && $_POST['is_admin_edit'] != "" && $_POST['is_admin_edit'] == true ? 1 : 0);
+                if ($is_new !== false || $is_edited == 1) {
+                    $booking['meta_data']['redirect_to'] = get_edit_post_link($booking['meta_data']['order_id'], '&');
+                }
+            }
+            if(empty($args['time']) ){
+                $result =  __("BTB", 'bookingx');
+            }else{
+                $result =  (!empty($booking['meta_data']['order_id']) ? json_encode($booking) : "NORF");
+            }
+        } else {
+            $result =  __("SWR", 'bookingx');
+        }
+        if($ajax == true){
+            echo $result;
+        }else{
+            return $result;
+        }
+    }
+
     function UpdateBookingData($order_id, $post_data)
     {
 
