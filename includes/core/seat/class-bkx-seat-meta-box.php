@@ -118,7 +118,7 @@ if (!class_exists('BkxSeatMetaBox')) {
             $seat_is_different_loc = isset($values['seat_is_different_loc']) ? esc_attr($values['seat_is_different_loc'][0]) : "N";
             $seat_is_certain_day = isset($values['seat_is_certain_day']) ? esc_attr($values['seat_is_certain_day'][0]) : "N";
             $selected_days = get_post_meta($post->ID, 'selected_days', true);
-            $seat_colour = get_post_meta($post->ID, 'seat_colour', true);
+            //$seat_colour = get_post_meta($post->ID, 'seat_colour', true);
             if (empty($selected_days)) {
                 $bkx_business_days = bkx_crud_option_multisite("bkx_business_days");
             } else {
@@ -368,6 +368,23 @@ if (!class_exists('BkxSeatMetaBox')) {
                 <p>&nbsp;</p></div>
         <?php endif; ?>
             <p><strong><?php esc_html_e('Payment Options', 'bookingx'); ?></strong></p>
+            <?php
+            $admin_screen = get_current_screen();
+            if($admin_screen->post_type == 'bkx_seat'){
+                $BkxPaymentCore = new BkxPaymentCore();
+                $gateway_status = $BkxPaymentCore->is_activate_payment_gateway();
+                if(empty($gateway_status) ){
+                    $class = 'bkx-notice';
+                    $message = __( 'No payment merchant has been select. If you require pre-payment for your booking please enable a payment gateway.', 'bookingx' );
+                    $message_data['class'] = $class;
+                    $message_data['message'] = $message;
+                }
+            }
+
+            if(!empty($message_data)){
+                printf( '<div class="%1$s"><p><b class="note">Note :</b> %2$s</p></div>', esc_attr( $message_data['class'] ), esc_html( $message_data['message'] ) );
+            }
+            ?>
             <p><?php printf(esc_html__('Will the %1$s booking require pre payment : ', 'bookingx'), $alias_seat); ?></p>
             <div class="plugin-description">
                 <input type="radio" name="seat_is_pre_payment"
@@ -504,7 +521,7 @@ if (!class_exists('BkxSeatMetaBox')) {
                             <option value=""> <?php esc_html_e('Select Role', 'bookingx'); ?></option>
                             <?php global $wp_roles;
                             $roles = $wp_roles->get_names(); // Below code will print the all list of roles.
-                            unset($roles['administrator']);
+                           // unset($roles['administrator']);
                             foreach ($roles as $key => $role) { ?>
                                 <option value="<?php echo $key; ?>"
                                     <?php if (isset($associate_with_user_role) && ($associate_with_user_role == $key)) {
@@ -572,12 +589,12 @@ if (!class_exists('BkxSeatMetaBox')) {
                     </div>
                 </div>
             </div>
-            <p><strong><?php esc_html_e('Colour', 'bookingx'); ?></strong></p>
-            <p><?php printf(esc_html__('%1$s Colour', 'bookingx'), $alias_seat); ?></p>
+            <!--<p><strong><?php /*esc_html_e('Colour', 'bookingx'); */?></strong></p>
+            <p><?php /*printf(esc_html__('%1$s Colour', 'bookingx'), $alias_seat); */?></p>
             <p><input type="text" name="seat_colour" id="id_seat_colour"
-                      value="<?php if (isset($seat_colour) && ($seat_colour != '')) {
+                      value="<?php /*if (isset($seat_colour) && ($seat_colour != '')) {
                           echo $seat_colour;
-                      } ?>"/></p>
+                      } */?>"/></p>-->
             <input type="hidden" name="is_user_valid" id="id_is_user_valid">
             <input type="hidden" name="seat_alias" id="seat_alias" value="<?php echo $alias_seat; ?>">
             <?php
@@ -635,9 +652,9 @@ if (!class_exists('BkxSeatMetaBox')) {
             if (isset($_POST['associate_with_user'])) {
                 $associate_with_user = sanitize_text_field($_POST['associate_with_user']);
             }
-            if (isset($_POST['seat_colour'])) {
+            /*if (isset($_POST['seat_colour'])) {
                 $seat_colour = sanitize_text_field($_POST['seat_colour']);
-            }
+            }*/
             if (isset($_POST['associate_with_user_role'])) {
                 $associate_with_user_role = sanitize_text_field($_POST['associate_with_user_role']);
             }
@@ -728,9 +745,9 @@ if (!class_exists('BkxSeatMetaBox')) {
             if (!empty($selected_days)) {
                 update_post_meta($post_id, 'selected_days', $selected_days_final);
             }
-            if (!empty($seat_colour)) {
+            /*if (!empty($seat_colour)) {
                 update_post_meta($post_id, 'seat_colour', $seat_colour);
-            }
+            }*/
             if (isset($associate_with_user))
                 update_post_meta($post_id, 'associate_with_user', $associate_with_user);
             if (isset($associate_with_user_role))

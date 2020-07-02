@@ -635,3 +635,25 @@ function bkx_make_booking_hook_call_back($post){
     update_post_meta($order_id, 'bkx_capture_payment', $process_response);
     echo '<meta http-equiv="refresh" content="0;url=' . $bkx_return_url . '">';
 }
+
+add_action( 'admin_notices', 'bkx_admin_notice_error' );
+function bkx_admin_notice_error() {
+    $message_data = array();
+    $admin_screen = get_current_screen();
+    if(isset($_REQUEST['bkx_tab']) && $_REQUEST['bkx_tab'] == 'bkx_payment' || $admin_screen->id == 'bkx_seat' || $admin_screen->post_type == 'bkx_seat'){
+        $BkxPaymentCore = new BkxPaymentCore();
+        $bkx_get_available_gateways = $BkxPaymentCore->is_activate_payment_gateway();
+        $gateway_status = apply_filters('bkx_is_payment_gateway_activate', $bkx_get_available_gateways );
+
+        if(empty($gateway_status) || $bkx_get_available_gateways == 1){
+            $class = 'notice notice-info is-dismissible';
+            $message = __( 'No payment merchant has been select. If you require pre-payment for your booking please enable a payment gateway.', 'bookingx' );
+            $message_data['class'] = $class;
+            $message_data['message'] = $message;
+        }
+    }
+    if(!empty($message_data)){
+        $message_data = apply_filters('bkx_admin_admin_notices', $message_data );
+        printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $message_data['class'] ), esc_html( $message_data['message'] ) );
+    }
+}

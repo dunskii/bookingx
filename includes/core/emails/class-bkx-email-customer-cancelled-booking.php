@@ -104,6 +104,26 @@ if (!class_exists('BKX_Email_Customer_Cancelled_Booking')) :
         }
 
         /**
+         * Default content to show below main email content.
+         */
+        public function get_default_additional_content()
+        {
+
+            return __(' <p>Hi {fname},</p>
+                        <p>Your booking has been cancelled. If you think this is an error please contact us.</p>
+                        <p>Here are your booking details: </p>
+                        <p>Booking ID: {order_id}</p>
+                        <p>Resource: {seat_name}</p>
+                        <p>Service: {base_name}</p>
+                        <p>Extras: {additions_list} </p>    
+                        <p>Time: {time_of_booking}</p>
+                        <p>Date: {date_of_booking}</p>
+                        <p>Location: {location_of_booking}</p>
+                        <p>Price: {total_price}</p>
+                        <p>Amount Paid : {amount_paid}</p>', 'bookingx');
+        }
+
+        /**
          * Get content plain.
          *
          * @return string
