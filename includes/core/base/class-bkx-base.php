@@ -535,12 +535,30 @@ class BkxBase
             return;
         $SeatData = array();
         $base_selected_seats = get_post_meta($base_id, 'base_selected_seats', true);
-        if (!empty($base_selected_seats)) {
-            foreach ($base_selected_seats as $key => $seat) {
-                $BkxSeatObj = new BkxSeat('', $seat);
-                $SeatData[] = $BkxSeatObj;
+        $base_seat_all = get_post_meta($base_id, 'base_seat_all', true);
+        if(isset($base_seat_all) && $base_seat_all == 'All'){
+            $args = array(
+                'posts_per_page' => -1,
+                'post_type' => 'bkx_seat',
+                'post_status' => 'publish',
+                'suppress_filters' => false
+            );
+            $seats_post= get_posts($args);
+            if (!empty($seats_post)) {
+                foreach ($seats_post as $seat_post) {
+                    $BkxSeatObj = new BkxSeat('', $seat_post->ID);
+                    $SeatData[] = $BkxSeatObj;
+                }
+            }
+        }else{
+            if (!empty($base_selected_seats)) {
+                foreach ($base_selected_seats as $key => $seat) {
+                    $BkxSeatObj = new BkxSeat('', $seat);
+                    $SeatData[] = $BkxSeatObj;
+                }
             }
         }
+
         return $SeatData;
     }
 

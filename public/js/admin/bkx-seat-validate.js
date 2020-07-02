@@ -67,7 +67,7 @@ jQuery(document).on('submit', '#post', function (e) {
         }
     }
     if (jQuery("#id_seat_email").val() == "" || jQuery("#id_seat_email") == undefined) {
-        error_list.push("Please enter your email address");
+        //error_list.push("Please enter your email address");
     } else {
         var seat_email = jQuery("#id_seat_email").val();
         var seat_alias = jQuery("#seat_alias").val();

@@ -409,8 +409,7 @@ class BkxBooking
      * @param $wp_query
      * @return mixed
      */
-    function bkx_comments_clauses($pieces, $wp_query)
-    {
+    function bkx_comments_clauses($pieces, $wp_query){
         if (is_admin()) {
             $current_screen = get_current_screen();
             if (isset($current_screen->base) && 'edit' === $current_screen->base
@@ -1704,7 +1703,6 @@ class BkxBooking
 
         if ($is_customer_note) {
             add_comment_meta($comment_id, 'is_customer_note', 1);
-
             do_action('bookingx_new_customer_note', array('order_id' => $this->order_id, 'customer_note' => $commentdata['comment_content']));
         }
         if (is_multisite()):
@@ -1913,9 +1911,13 @@ class BkxBooking
             $blog_id = apply_filters('bkx_set_blog_id', get_current_blog_id());
             switch_to_blog($blog_id);
         endif;
-        $booking_note_data = get_comments(array(
+        $args = array(
             'post_id' => $order_id,
-        ));
+            'comment_type' => 'booking_note'
+        );
+        $comments_query = new WP_Comment_Query( $args );
+        //echo "<pre>".print_r($comments_query)."</pre>";
+        $booking_note_data = get_comments($args);
 
         $booking_notes = '';
         if (!empty($booking_note_data) && !is_wp_error($booking_note_data)) {
