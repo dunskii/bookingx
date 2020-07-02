@@ -28,9 +28,7 @@ class BkxPaymentCore
         endif;
 
         $this->order_id = $order_id;
-        add_action('bkx_payment_gateway_process_hook', array($this, 'bkx_paypal_payment_gateway_action'), 10);
-        add_action('bkx_payment_gateway_capture_process_hook', array($this, 'bkx_paypal_payment_gateway_capture_action'), 10);
-    }
+     }
 
     /**
      * @param $args
@@ -118,11 +116,29 @@ class BkxPaymentCore
     /**
      * @return mixed
      */
+    public function is_activate_payment_gateway(){
+        return is_array($this->PaymentGateways()) ? $this->PaymentGateways() : array();
+    }
+
+    /**
+     * @return array[]
+     */
+    public function default_payment_gateway(){
+        $check_status = bkx_crud_option_multisite('bkx_gateway_paypal_express_status');
+        $load_gateways = array();
+        if(isset($check_status) && $check_status == 1){
+            $load_gateways = array('bkx_gateway_paypal_express' => array( 'title' => 'Paypal', 'class' => new BkxPaymentPayPalExpress() ));
+        }
+        return apply_filters('bkx_payment_gateways',$load_gateways );
+
+    }
+
+    /**
+     * @return mixed
+     */
     public function PaymentGateways()
     {
-        $load_gateways = array('bkx_gateway_paypal_express' => array('title' => 'Paypal', 'class' => new BkxPaymentPayPalExpress()));
-        // Filter
-        $load_gateways = apply_filters('bkx_payment_gateways', $load_gateways);
+        $load_gateways = $this->default_payment_gateway();
 
         foreach ($load_gateways as $key_name => $gateway) {
             $this->payment_gateways[$key_name] = $gateway;
@@ -153,9 +169,7 @@ class BkxPaymentCore
         if ($prepayment == false)
             return;
 
-        $load_gateways = array('bkx_gateway_paypal_express' => array('title' => 'Paypal', 'class' => new BkxPaymentPayPalExpress()));
-        // Filter
-        $load_gateways = apply_filters('bkx_payment_gateways', $load_gateways);
+        $load_gateways = $this->default_payment_gateway();
         foreach ($load_gateways as $key_name => $gateway) {
             $this->payment_gateways[$key_name] = $gateway;
         }

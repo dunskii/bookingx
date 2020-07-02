@@ -1009,7 +1009,7 @@ msgstr ""
 #: includes/core/emails/class-bkx-email-edit-booking.php:67
 msgid ""
 "Hi there,\n"
-"        [seat_name} will be unavailable for the following bookings.\n"
+"        {seat_name} will be unavailable for the following bookings.\n"
 "    Booking ID: {order_id}\n"
 "    Resource: {seat_name}\n"
 "    Service: {base_name}\n"
@@ -1025,7 +1025,7 @@ msgid ""
 msgstr ""
 
 #: includes/core/emails/class-bkx-email-edit-booking.php:93
-msgid "[{site_title}}: Edit booking #{booking_number}"
+msgid "{site_title}}: Edit booking #{booking_number}"
 msgstr ""
 
 #: includes/core/emails/class-bkx-email-new-booking.php:26

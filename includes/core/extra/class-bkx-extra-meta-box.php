@@ -86,7 +86,7 @@ if (!class_exists('BkxExtraMetaBox')) {
                 $extra_selected_seats = maybe_unserialize($values['extra_selected_seats'][0]);
                 $extra_selected_seats = maybe_unserialize($extra_selected_seats);
             }
-            $extra_colour = isset($values['extra_colour']) ? esc_attr($values['extra_colour'][0]) : "";
+            //$extra_colour = isset($values['extra_colour']) ? esc_attr($values['extra_colour'][0]) : "";
             $args = array(
                 'posts_per_page' => -1,
                 'post_type' => 'bkx_seat',
@@ -252,10 +252,10 @@ if (!class_exists('BkxExtraMetaBox')) {
                     </ul>
                 </div>
             </div>
-            <p><strong><?php esc_html_e('Colour', 'bookingx'); ?></strong></p>
-            <p><?php printf(esc_html__('%1$s Colour', 'bookingx'), $addition_alias); ?></p>
+            <!--<p><strong><?php /*esc_html_e('Colour', 'bookingx'); */?></strong></p>
+            <p><?php /*printf(esc_html__('%1$s Colour', 'bookingx'), $addition_alias); */?></p>
             <p><input type="text" name="extra_colour" id="id_extra_colour"
-                      value="<?php printf(esc_html__('%1$s', 'bookingx'), $extra_colour); ?>"/></p>
+                      value="<?php /*printf(esc_html__('%1$s', 'bookingx'), $extra_colour); */?>"/></p>-->
             <!--only for edit form  -->
             <div class="active" id="is_unavailable">
                 Does the <?php echo $addition_alias; ?> Unavailable ?
@@ -338,8 +338,8 @@ if (!class_exists('BkxExtraMetaBox')) {
             if ($additionLocationDifferBase == "No") {
                 $additionDifferBase = 'N';
             }
-            if (!empty($extra_colour))
-                update_post_meta($post_id, 'extra_colour', $extra_colour);
+            /*if (!empty($extra_colour))
+                update_post_meta($post_id, 'extra_colour', $extra_colour);*/
             if (isset($additionPrice))
                 update_post_meta($post_id, 'addition_price', $additionPrice);
             if (isset($additionTimeOption))

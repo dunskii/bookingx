@@ -96,8 +96,8 @@ if (!class_exists('BkxBaseMetabox')) {
                 $res_seat_final = maybe_unserialize($res_seat_final);
             }
             $base_location_type = isset($values['base_location_type']) ? esc_attr($values['base_location_type'][0]) : "Fixed Location";
-            $base_seat_all = isset($values['base_seat_all']) ? esc_attr($values['base_seat_all'][0]) : "";
-            $base_colour = get_post_meta($post->ID, 'base_colour', true);
+           $base_seat_all = isset($values['base_seat_all']) ? esc_attr($values['base_seat_all'][0]) : "";
+            //$base_colour = get_post_meta($post->ID, 'base_colour', true);
             //}
             $alias_seat = bkx_crud_option_multisite('bkx_alias_seat');
             ?>
@@ -218,7 +218,7 @@ if (!class_exists('BkxBaseMetabox')) {
                             foreach ($get_seat_array as $value) {
                                 if (isset($res_seat_final) && sizeof($res_seat_final) > 0) {
                                     $selected = false;
-                                    if (in_array($value->ID, $res_seat_final)) {
+                                    if (in_array($value->ID, $res_seat_final) || isset($base_seat_all) && $base_seat_all == 'All') {
                                         $selected = true;
                                     }
                                 } ?>
@@ -262,12 +262,12 @@ if (!class_exists('BkxBaseMetabox')) {
                 </div>
             </div>
             <!--only for edit form  -->
-            <p><strong><?php esc_html_e('Colour', 'bookingx'); ?></strong></p>
-            <p><?php printf(esc_html__('%1$s Colour', 'bookingx'), $base_alias); ?></p>
+            <!--<p><strong><?php /*esc_html_e('Colour', 'bookingx'); */?></strong></p>
+            <p><?php /*printf(esc_html__('%1$s Colour', 'bookingx'), $base_alias); */?></p>
             <p><input type="text" name="base_colour" id="id_base_colour"
-                      value="<?php if (isset($base_colour) && ($base_colour != '')) {
+                      value="<?php /*if (isset($base_colour) && ($base_colour != '')) {
                           echo $base_colour;
-                      } ?>"/></p>
+                      } */?>"/></p>-->
             <div class="active" id="is_unavailable">
                 <?php printf(esc_html__('Does the  %1$s  Unavailable? :', 'bookingx'), $base_alias); ?>
                 <div class="plugin-description">
@@ -343,7 +343,7 @@ if (!class_exists('BkxBaseMetabox')) {
             }
             $base_extended_limit = isset($_POST['base_extended_limit']) ? sanitize_text_field($_POST['base_extended_limit']) : "";
             $base_seat_all = isset($_POST['base_seat_all']) ? sanitize_text_field($_POST['base_seat_all']) : "";
-            $base_colour = isset($_POST['base_colour']) ? sanitize_text_field($_POST['base_colour']) : "";
+            //$base_colour = isset($_POST['base_colour']) ? sanitize_text_field($_POST['base_colour']) : "";
             if ($baseMonthDaysTime == "Months") {
                 $baseTimeOption = 'M';
             }
@@ -392,8 +392,8 @@ if (!class_exists('BkxBaseMetabox')) {
             // Make sure your data is set before trying to save it
             if (isset($basePrice))
                 update_post_meta($post_id, 'base_price', $basePrice);
-            if (!empty($base_colour))
-                update_post_meta($post_id, 'base_colour', $base_colour);
+           /* if (!empty($base_colour))
+                update_post_meta($post_id, 'base_colour', $base_colour);*/
             if (isset($baseTimeOption))
                 update_post_meta($post_id, 'base_time_option', $baseTimeOption);
             if (isset($baseMonths))
