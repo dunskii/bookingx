@@ -230,7 +230,9 @@ class BkxBooking
                     $booking['meta_data']['redirect_to'] = get_edit_post_link($booking['meta_data']['order_id'], '&');
                 }
             }
-            if(empty($args['time']) ){
+            if(empty($args['time']) && $args['time_option'] ==  'H'){
+                $result =  __("BTB", 'bookingx');
+            }elseif($args['time_option'] ==  'D' &&  empty($args['booking_multi_days']) ){
                 $result =  __("BTB", 'bookingx');
             }else{
                 $result =  (!empty($booking['meta_data']['order_id']) ? json_encode($booking) : "NORF");
@@ -1317,8 +1319,7 @@ class BkxBooking
 
     }
 
-    public function display_availability_slots_html($args)
-    {
+    public function display_availability_slots_html($args){
 
         $base_time_option = get_post_meta($args['base_id'], 'base_time_option', true);
         $base_day = get_post_meta($args['base_id'], 'base_day', true);
@@ -1337,6 +1338,7 @@ class BkxBooking
             $args['allowed_day_book'][] = 0;
             $availability_slots = $this->get_display_availability_slots($args);
         }
+
         $day_style_header = "";
         if ($this->load_global->booking_style == 'day_style' && in_array(0, $args['allowed_day_book'])) {
             $day_style_header = '<thead><tr><th colspan="4">' . date('F d, Y, l', strtotime($args['booking_date'])) . '</th></tr></thead>';
@@ -1386,7 +1388,6 @@ class BkxBooking
             } else {
                 $results = "<tr><td colspan=\"4\"><a href=\"javascript:void(0);\" class=\"disabled\">{$this->load_global->disable_slots_note}</a></td></tr>";
             }
-
         }
         if (isset($base_time_option) && $base_time_option == 'D' && isset($base_day) && $base_day > 0) {
             $results = isset($error) && $error != "" ? "" : $results;

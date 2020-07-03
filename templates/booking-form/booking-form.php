@@ -25,7 +25,6 @@ if (isset($args['order_id']) && $args['order_id'] > 0) {
 }
 $args['order_id'] = $order_id;
 $args['status'] = $status;
-
 ?>
 <div class="booking-x">
     <div class="main-container">
