@@ -28,6 +28,8 @@ class BkxPaymentCore
         endif;
 
         $this->order_id = $order_id;
+        add_action('bkx_payment_gateway_process_hook', array($this, 'bkx_paypal_payment_gateway_action'), 10);
+        add_action('bkx_payment_gateway_capture_process_hook', array($this, 'bkx_paypal_payment_gateway_capture_action'), 10);
      }
 
     /**
