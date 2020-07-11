@@ -1,0 +1,129 @@
+.booking-x .entry .entry-content a,
+.booking-x .booking-x-bkx-seat .btn-primary,
+.booking-x .booking-x-bkx-base .btn-primary,
+.booking-x .booking-x-bkx-addition .btn-primary,
+.booking-x .entry .entry-content a:visited {
+    text-decoration: none;
+}
+
+.booking-x-dashboard .entry .entry-content .booking-x-orders-table__cell-booking-number a:visited,
+.booking-x-dashboard .entry .entry-content .booking-x-orders-table__cell-booking-number a {
+    color: #0073aa;
+}
+
+.booking-x .entry .entry-content, .entry .entry-summary {
+    max-width: calc(100% - (2 * 1rem));
+    margin: 0 1rem;
+    padding: unset;
+}
+
+.booking-x-form .entry .entry-content > *,
+.booking-x-dashboard .entry .entry-content > *,
+.booking-x-form .entry .entry-summary > *,
+.booking-x-form .entry .entry-summary > .wp-block-group > .wp-block-group__inner-container > *,
+.booking-x-dashboard .entry .entry-content > .wp-block-group > .wp-block-group__inner-container > *,
+.booking-x-form .entry .entry-content > .wp-block-group > .wp-block-group__inner-container > * {
+    margin: 32px 0;
+    max-width: 100%;
+}
+
+.booking-x-form .bkx-booking-form .step-3 a, .booking-x-form .bkx-booking-form .step-3 a:visited {
+    color: #066595;
+}
+
+.booking-x-dashboard .bkx-nav-tabs .nav-item a {
+    color: #495057;
+}
+
+.booking-x-dashboard .bkx-nav-tabs .nav-item .active {
+    color: #066595;
+}
+
+.booking-x-form .booking-x .select-time .table td a {
+    padding: 3px 5px;
+    font-size: 18px;
+}
+
+.booking-x-form .table td, .booking-x-form .table th {
+    padding: 0.1rem;
+}
+
+.booking-x-form {
+    .indicator ul {
+        margin: 0 0 0.5em;
+    }
+    .indicator ul li {
+        margin-right: 9px;
+    }
+    .bookingx-error {
+        background: #b22222;
+        color: #ffffff;
+    }
+}
+
+/* Detail */
+.booking-x {
+    .user-detail{ background: #f4f4f4;}
+    .booking-x .user-detail dl dt { color: #555555;}
+    .booking-x .user-detail dl dd {
+        margin: 0px 5px 0px 10px;
+    }
+    .select-time .table td a {
+        color: #555555;
+    }
+    .select-time .table td a.disabled {
+        background: #666;
+        color: #fff;
+    }
+    .select-time .table td a.selected {
+        background: #333;
+        color: #fff;
+    }
+    .select-time .table th {
+        background: #066595;
+        color: #fff;
+        border-color: #066595;
+    }
+    .indicator ul li::before {
+        background: #ebebeb;
+        border: #ebebeb solid 1px;
+    }
+    .indicator ul li.booked::before {
+        background: #666;
+    }
+    .indicator ul li.open::before {
+        background: #fff;
+    }
+    .indicator ul li.current::before {
+        background: #333;
+    }
+    .calendar-yvv .calendar-month .btn {
+        color: #333;
+    }
+}
+.booking-x-dashboard {
+    .form-group label {
+        font-size: 18px;
+        font-weight: normal;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .booking-x .content-area {
+        margin: 0 calc(10% + 60px);
+    }
+
+    .booking-x .entry .entry-header {
+        margin: auto;
+    }
+}
+
+@media (max-width: 479px) {
+    .booking-x-form ul, .booking-x-form ol {
+        margin: 0 0 2rem 0;
+    }
+
+    .booking-x .indicator ul li {
+        margin: auto;
+    }
+}

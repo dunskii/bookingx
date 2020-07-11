@@ -90,3 +90,34 @@
 }
 .bkx-notice {font-style: italic;}
 .bkx-notice b{color:#00a0d2;}
+
+/* .column-order_status{ display:block !important;}*/
+#order_actions { width: 80px; }
+#calendar {
+    max-width: 900px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 20px;
+}
+.bkx-order_summary, .bkx-order_summary_full {
+    background-color: #fefefe;
+    margin: auto;
+    border: none;
+    margin : 3px;
+    position: relative;
+}
+
+.bkx-order-note .bkx-note-actions .note-btn.button{
+    color: #fff;
+    cursor:pointer;
+}
+
+.bkx-customer-dashboard-main .radio-button-section{ width: 20% ; float: left;}
+.bkx-customer-dashboard-main .shortcode-section{ width: 50% ; float: left;}
+.edit-php.post-type-bkx_booking .bkx-order_summary , .edit-php.post-type-bkx_booking .bkx-order_summary_full{
+    border: 1px solid #ccd0d4;
+}
+.search_by_dates_section input {
+    width: 93px;
+    margin-right: 5px;
+}

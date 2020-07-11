@@ -94,7 +94,7 @@ if (!class_exists('BKX_Email_Pending_Booking')) :
          */
         public function get_content_html()
         {
-            return wc_get_template_html(
+            return bkx_get_template_html(
                 $this->template_html,
                 array(
                     'booking' => $this->object,
@@ -114,7 +114,7 @@ if (!class_exists('BKX_Email_Pending_Booking')) :
          */
         public function get_content_plain()
         {
-            return wc_get_template_html(
+            return bkx_get_template_html(
                 $this->template_plain,
                 array(
                     'booking' => $this->object,

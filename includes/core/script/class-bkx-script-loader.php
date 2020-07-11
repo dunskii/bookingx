@@ -135,12 +135,12 @@ class Bkx_Script_Loader
                 'version' => BKX_PLUGIN_VER,
                 'has_rtl' => false,
             ),
-            'blue' => array(
+            /*'blue' => array(
                 'src' => BKX_PLUGIN_PUBLIC_URL . '/css/blue.css',
                 'deps' => array('style-main'),
                 'version' => BKX_PLUGIN_VER,
                 'has_rtl' => false,
-            ),
+            ),*/
             'fullcalendarcss' => array(
                 'src' => '//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.3/fullcalendar.min.css',
                 'deps' => array('style-main'),

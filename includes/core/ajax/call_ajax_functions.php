@@ -164,7 +164,7 @@ function bkx_action_view_summary_callback()
     // $order_summary_output = '<div class="bkx-order_summary"> <h3>Booking #'.$post_id.' Notes </h3></div>';
     $output = '<td class="section-1" colspan="10">' . $order_full_output . '</td>
        <td colspan="3" class="section-2">' . $bookingx_note_output . '' . $bookingx_reassign_output . '</td>';
-    echo apply_filters('bkx_order_summary_output', $post_id, $output);
+    echo apply_filters('bkx_order_summary_output', $output,$post_id);
     wp_die();
 }
 
