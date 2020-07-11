@@ -5,6 +5,9 @@
 .booking-x .entry .entry-content a:visited {
   text-decoration: none; }
 
+.booking-x-orders-table__cell-booking-actions a {
+  font-size: 15px; }
+
 .booking-x-dashboard .entry .entry-content .booking-x-orders-table__cell-booking-number a:visited,
 .booking-x-dashboard .entry .entry-content .booking-x-orders-table__cell-booking-number a {
   color: #0073aa; }
@@ -28,9 +31,13 @@
 
 .booking-x-dashboard .bkx-nav-tabs .nav-item a {
   color: #495057; }
-
 .booking-x-dashboard .bkx-nav-tabs .nav-item .active {
   color: #066595; }
+.booking-x-dashboard .table td, .booking-x-dashboard .table th {
+  padding: 0.3rem;
+  font-size: 18px; }
+.booking-x-dashboard body {
+  font-size: 0.9em; }
 
 .booking-x-form .booking-x .select-time .table td a {
   padding: 3px 5px;
@@ -84,10 +91,13 @@
 
 @media only screen and (min-width: 768px) {
   .booking-x .content-area {
-    margin: 0 calc(10% + 60px); }
+    margin: 0 calc(5% + 60px); }
 
   .booking-x .entry .entry-header {
-    margin: auto; } }
+    margin: auto; }
+
+  .booking-x .entry-title, .booking-x .not-found .page-title, .booking-x .error-404 .page-title, .booking-x .has-larger-font-size, .booking-x h2, .booking-x h3 {
+    font-size: 1em; } }
 @media (max-width: 479px) {
   .booking-x-form ul, .booking-x-form ol {
     margin: 0 0 2rem 0; }

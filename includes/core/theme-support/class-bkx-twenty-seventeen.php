@@ -100,8 +100,8 @@ class BKX_Twenty_Seventeen
 				border-color: #000;
 			}
 			.colors-custom .select2-container--focus .select2-selection--single .select2-selection__arrow b {
-				border-color: #000 transparent transparent transparent;
 			}
+				border-color: #000 transparent transparent transparent;
 			.colors-custom .select2-container--focus .select2-selection .select2-selection__rendered {
 				color: #000;
 			}
@@ -111,5 +111,6 @@ class BKX_Twenty_Seventeen
 
 
 }
-
-BKX_Twenty_Seventeen::init();
+if(!is_admin()){
+    BKX_Twenty_Seventeen::init();
+}
