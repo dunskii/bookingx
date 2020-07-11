@@ -4,7 +4,7 @@
  * The admin-specific functionality of the plugin.
  *
  * @link       https://dunskii.com
- * @since      0.7.6.1
+ * @since      0.7.6.2
  *
  * @package    Bookingx
  * @subpackage Bookingx/admin
@@ -26,7 +26,7 @@ class Bookingx_Admin
     /**
      * The ID of this plugin.
      *
-     * @since      0.7.6.1
+     * @since      0.7.6.2
      * @access   private
      * @var      string $plugin_name The ID of this plugin.
      */
@@ -35,7 +35,7 @@ class Bookingx_Admin
     /**
      * The version of this plugin.
      *
-     * @since      0.7.6.1
+     * @since      0.7.6.2
      * @access   private
      * @var      string $version The current version of this plugin.
      */
@@ -46,7 +46,7 @@ class Bookingx_Admin
      *
      * @param string $plugin_name The name of this plugin.
      * @param string $version The version of this plugin.
-     * @since      0.7.6.1
+     * @since      0.7.6.2
      */
     public function __construct($plugin_name = null, $version = null)
     {
@@ -504,7 +504,7 @@ class Bookingx_Admin
     /**
      * Register the stylesheets for the admin area.
      *
-     * @since      0.7.6.1
+     * @since      0.7.6.2
      */
     public function enqueue_styles()
     {
@@ -530,7 +530,7 @@ class Bookingx_Admin
     /**
      * Register the JavaScript for the admin area.
      *
-     * @since      0.7.6.1
+     * @since      0.7.6.2
      */
     public function enqueue_scripts()
     {
