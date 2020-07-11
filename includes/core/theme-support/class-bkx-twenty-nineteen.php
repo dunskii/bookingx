@@ -93,5 +93,6 @@ class BKX_Twenty_Nineteen
         }
     }
 }
-
-BKX_Twenty_Nineteen::init();
+if(!is_admin()){
+    BKX_Twenty_Nineteen::init();
+}

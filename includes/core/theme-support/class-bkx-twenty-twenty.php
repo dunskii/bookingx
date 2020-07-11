@@ -101,4 +101,6 @@ class BKX_Twenty_Twenty
     }
 }
 
-BKX_Twenty_Twenty::init();
+if(!is_admin()){
+    BKX_Twenty_Twenty::init();
+}
