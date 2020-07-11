@@ -25,23 +25,7 @@ $bkx_alias_base = bkx_crud_option_multisite('bkx_alias_base');
             $meta_data = $bkx_base->meta_data;
             $base_location_type = isset($meta_data['base_location_type'][0]) ? esc_attr($meta_data['base_location_type'][0]) : "Fixed Location";
             $Duration = $bkx_base->get_service_time();
-            if ((isset($Duration['H']))) {
-                $DurationHMObj = $Duration['H'];
-            }
-            if ((isset($Duration['D']))) {
-                $DurationDObj = $Duration['D'];
-            }
-
-            if (!empty($DurationHMObj)):
-                $hours = isset($DurationHMObj['hours']) && $DurationHMObj['hours'] > 0 && $DurationHMObj['hours'] != '' ? $DurationHMObj['hours'] . ' Hours ' : '';
-                $hours = isset($DurationHMObj['hours']) && $DurationHMObj['hours'] < 2 && $DurationHMObj['hours'] != '' ? $DurationHMObj['hours'] . ' Hour ' : $hours;
-                $mins = isset($DurationHMObj['minutes']) && $DurationHMObj['minutes'] > 0 && $DurationHMObj['minutes'] != '' ? " and {$DurationHMObj['minutes']} Minutes " : '';
-                $duration_text = "{$hours} {$mins}";
-            endif;
-            if (!empty($DurationDObj)):
-                $day = isset($DurationDObj['days']) && $DurationDObj['days'] != '' ? $DurationDObj['days'] . ' Days ' : '';
-                $duration_text = $day;
-            endif;
+            $duration_text = service_hours_formatted($Duration);
             $extended = $bkx_base->service_extended();
             $extended_label = isset($extended) && $extended == 'Y' ? 'Yes' : 'No';
             echo sprintf('<li><div class="durations"><label>%s :</label><span> %s</span></li>', 'Duration ', $duration_text);

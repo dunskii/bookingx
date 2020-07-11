@@ -686,45 +686,46 @@ function bkx_generate_inline_style()
 {
     $custom_css = "";
     $text_color = bkx_crud_option_multisite('bkx_form_text_color');
-    $text_color = ($text_color) ? $text_color : '#066595';
+    $text_color = ($text_color) ? $text_color : '';
 
     $cal_day_color = bkx_crud_option_multisite('bkx_cal_day_color');
     $cal_day_color = ($cal_day_color) ? $cal_day_color : '';
 
     $cal_day_selected_color = bkx_crud_option_multisite('bkx_cal_day_selected_color');
-    $cal_day_selected_color = ($cal_day_selected_color) ? $cal_day_selected_color : '#066595';
+    $cal_day_selected_color = ($cal_day_selected_color) ? $cal_day_selected_color : '';
 
     $time_available_color = bkx_crud_option_multisite('bkx_time_available_color');
-    $time_available_color = ($time_available_color) ? $time_available_color : '#fff';
+    $time_available_color = ($time_available_color) ? $time_available_color : '';
 
     $bkx_active_step_color = bkx_crud_option_multisite('bkx_active_step_color');
-    $bkx_active_step_color = ($bkx_active_step_color) ? $bkx_active_step_color : '#066595';
+    $bkx_active_step_color = ($bkx_active_step_color) ? $bkx_active_step_color : 'currentColor';
 
     $time_selected_color = bkx_crud_option_multisite('bkx_time_selected_color');
-    $time_selected_color = ($time_selected_color) ? $time_selected_color : '#e3f5ff';
+    $time_selected_color = ($time_selected_color) ? $time_selected_color : '';
 
     $time_unavailable_color = bkx_crud_option_multisite('bkx_time_unavailable_color');
-    $time_unavailable_color = ($time_unavailable_color) ? $time_unavailable_color : '#ebebeb';
+    $time_unavailable_color = ($time_unavailable_color) ? $time_unavailable_color : '';
 
     $slot_time_color = bkx_crud_option_multisite('bkx_form_slot_time_color');
-    $slot_time_color = ($slot_time_color) ? $slot_time_color : 'inherit';
+    $slot_time_color = ($slot_time_color) ? $slot_time_color : '';
 
     $bkx_cal_month_title = bkx_crud_option_multisite('bkx_cal_month_title_color') != '' ? bkx_crud_option_multisite('bkx_cal_month_title_color') : '#222222'; //  Calendar Month title
-    $bkx_cal_month_title = ($bkx_cal_month_title) ? $bkx_cal_month_title : 'inherit';
+    $bkx_cal_month_title = ($bkx_cal_month_title) ? $bkx_cal_month_title : '';
 
     $bkx_previous_btn = bkx_crud_option_multisite('bkx_prev_btn');
-    $bkx_previous_btn = ($bkx_previous_btn) ? $bkx_previous_btn : '#066595';
+    $bkx_previous_btn = ($bkx_previous_btn) ? $bkx_previous_btn : '';
     $bkx_next_btn = bkx_crud_option_multisite('bkx_next_btn');
-    $bkx_next_btn = ($bkx_next_btn) ? $bkx_next_btn : '#066595';
-
+    $bkx_next_btn = ($bkx_next_btn) ? $bkx_next_btn : '';
+    $bkx_pay_now_btn = bkx_crud_option_multisite('bkx_pay_now_btn');
+    $bkx_pay_now_btn = ($bkx_pay_now_btn) ? $bkx_pay_now_btn : '';
 
     if( is_user_logged_in() && is_admin()){
         $color_schema = adminColorSchema();
         if(!empty($color_schema)){
             $bkx_previous_btn = $color_schema['button'];
-            $bkx_previous_btn = ($bkx_previous_btn) ? $bkx_previous_btn : '#066595';
+            $bkx_previous_btn = ($bkx_previous_btn) ? $bkx_previous_btn : 'currentColor';
             $bkx_next_btn = $color_schema['button'];
-            $bkx_next_btn = ($bkx_next_btn) ? $bkx_next_btn : '#066595';
+            $bkx_next_btn = ($bkx_next_btn) ? $bkx_next_btn : '';
             $time_available_color = $color_schema['open'];
             $time_unavailable_color = $color_schema['booked'];
             $time_selected_color = $color_schema['current'];
@@ -732,28 +733,48 @@ function bkx_generate_inline_style()
         }
     }
 
-    $bkx_final_color = isset($bkx_previous_btn) ? $bkx_previous_btn : '' ;
-    $bkx_final_color = (isset($bkx_final_color) ? $bkx_final_color : $bkx_next_btn);
-
-    $custom_css .= " .booking-x .indicator ul li.open::before, .booking-x .select-time .table td a.available { background: {$time_available_color}; color: {$slot_time_color} } ";
-    $custom_css .= " .booking-x .indicator ul li.booked::before, .booking-x .select-time .table td a.disabled { background: {$time_unavailable_color};} ";
+    if(isset($time_available_color,$slot_time_color) && $slot_time_color != "" && $time_available_color != ""){
+        $custom_css .= " .booking-x .indicator ul li.open::before, .booking-x .select-time .table td a.available { background: {$time_available_color}; color: {$slot_time_color} } ";
+    }
+    if(isset($time_unavailable_color) && $time_unavailable_color != ""){
+        $custom_css .= " .booking-x .indicator ul li.booked::before, .booking-x .select-time .table td a.disabled { background: {$time_unavailable_color};} ";
+    }
     if( is_user_logged_in() && is_admin()){
         $custom_css .= " .booking-x .indicator ul li.current::before, .booking-x .select-time .table td a.selected { background: linear-gradient(to bottom right, {$time_available_color} 0%, {$time_available_color} 50%, {$time_selected_color} 50%, {$time_selected_color} 100%); } ";
         $custom_css .= " .booking-x .select-time .table td a.selected { color : #fff; } ";
     }else{
         $custom_css .= " .booking-x .indicator ul li.current::before, .booking-x .select-time .table td a.selected { background: {$time_selected_color}; } ";
     }
-
-    $custom_css .= " .booking-x-form h1 ,.booking-x-form h2, .booking-x-form h3, .booking-x-form h4, .booking-x-form h5 , .booking-x-form .progress-title, .booking-x-form .form-group label, .booking-x-form .user-detail dl dt, .booking-x .indicator ul li, .booking-x .total-text { color: {$text_color} }";
-    $custom_css .= " .booking-x-form .booking-x .progress-step.is-active::after { background-color: {$bkx_active_step_color} }";
-    $custom_css .= " .booking-x-form .booking-x .on-click-selected { background: {$cal_day_selected_color} }";
-    $custom_css .= " .booking-x-form .booking-x .bkx-cal-enable { background: {$cal_day_color} }";
-    $custom_css .= " .booking-x .progress-step.is-active .progress-title, .booking-x-form .booking-x .progress-step.is-active::after { color: {$bkx_active_step_color} }";
-    $custom_css .= " .booking-x .progress-step.is-active .progress-title, .booking-x-form .booking-x .progress-step.is-active::after { color: {$bkx_active_step_color} }";
-    $custom_css .= " .booking-x-form .booking-x .bkx-form-submission-next { background: {$bkx_next_btn} }";
-    $custom_css .= " .booking-x-form .booking-x .bkx-form-submission-previous { background: {$bkx_previous_btn} }";
-    $custom_css .= " .post-type-bkx_booking .bkx-booking-form .bkx-form-submission-final { background: {$bkx_previous_btn} }";
-    $custom_css .= " .booking-x-form .booking-x .bkx-form-submission-final, .booking-x-form .booking-x .bkx-send-email-receipt, .booking-x-form .booking-x .bkx-back-to-booking{ background: {$bkx_final_color} }";
+    if(isset($text_color) && $text_color != ""){
+        $custom_css .= " .booking-x-form h1 ,.booking-x-form h2, .booking-x-form h3, .booking-x-form h4, .booking-x-form h5 , .booking-x-form .progress-title, .booking-x-form .form-group label, .booking-x-form .user-detail dl dt, .booking-x .indicator ul li, .booking-x .total-text { color: {$text_color} }";
+    }
+    if(isset($bkx_active_step_color) && $bkx_active_step_color != ""){
+        $custom_css .= " .booking-x-form .booking-x .progress-step.is-active::after { background-color: {$bkx_active_step_color} }";
+    }
+    if(isset($cal_day_selected_color) && $cal_day_selected_color != ""){
+        $custom_css .= " .booking-x-form .booking-x .on-click-selected { background: {$cal_day_selected_color} }";
+    }
+    if(isset($cal_day_color) && $cal_day_color != ""){
+        $custom_css .= " .booking-x-form .booking-x .bkx-cal-enable { background: {$cal_day_color} }";
+    }
+    if(isset($bkx_active_step_color) && $bkx_active_step_color != ""){
+        $custom_css .= " .booking-x .progress-step.is-active .progress-title, .booking-x-form .booking-x .progress-step.is-active::after { color: {$bkx_active_step_color} }";
+    }
+    if(isset($bkx_active_step_color) && $bkx_active_step_color != ""){
+        $custom_css .= " .booking-x .progress-step.is-active .progress-title, .booking-x-form .booking-x .progress-step.is-active::after { color: {$bkx_active_step_color} }";
+    }
+    if(isset($bkx_next_btn) && $bkx_next_btn != ""){
+        $custom_css .= " .booking-x-form .booking-x .bkx-form-submission-next { background: {$bkx_next_btn} }";
+    }
+    if(isset($bkx_previous_btn) && $bkx_previous_btn != ""){
+        $custom_css .= " .booking-x-form .booking-x .bkx-form-submission-previous { background: {$bkx_previous_btn} }";
+    }
+    if(isset($bkx_pay_now_btn) && $bkx_pay_now_btn != ""){
+        $custom_css .= " .post-type-bkx_booking .bkx-booking-form .bkx-form-submission-final { background: {$bkx_pay_now_btn} }";
+    }
+    if(isset($bkx_pay_now_btn) && $bkx_pay_now_btn != ""){
+        $custom_css .= " .booking-x-form .booking-x .bkx-form-submission-final, .booking-x-form .booking-x .bkx-send-email-receipt, .booking-x-form .booking-x .bkx-back-to-booking{ background: {$bkx_pay_now_btn} }";
+    }
     $custom_css .= " .booking-x-form .booking-x .bkx-calendar .calendar-month .text-uppercase { color: {$bkx_cal_month_title} }";
 
     return apply_filters('bkx_generate_inline_style', $custom_css);
@@ -1118,4 +1139,46 @@ function adminColorSchema(){
 
         return apply_filters('bkx_admin_form_color_schema', $color_schema );
     }
+}
+
+/**
+ * @param $obj
+ * @return mixed|void
+ */
+function service_hours_formatted( $obj ){
+    if(empty($obj))
+        return;
+    $duration_text = "";
+    if ((isset($obj['H']))) {
+        $hour_min_obj = $obj['H'];
+    }
+    if ((isset($obj['D']))) {
+        $day_obj = $obj['D'];
+    }
+
+    if (!empty($hour_min_obj)):
+        $hours_val = (int) $hour_min_obj['hours'];
+        $minutes_val = (int) $hour_min_obj['minutes'];
+        if(isset($hours_val) && $hours_val != '' && $hours_val > 1 ){
+            $hours = "{$hours_val} Hours";
+        }elseif(isset($hours_val) && $hours_val != '' && $hours_val == 1 ){
+            $hours = "{$hours_val} Hour";
+        }
+        $mins = "";
+        if(isset($minutes_val) && $minutes_val != '' && $minutes_val > 1 ){
+            $mins = "{$minutes_val} minutes";
+        }
+        $duration_text = "{$hours} {$mins}";
+    endif;
+    if (!empty($day_obj)):
+        $days_val = (int) $day_obj['days'];
+        if(isset($days_val) && $days_val != '' && $days_val > 1 ){
+            $day = "{$days_val} Days";
+        }elseif(isset($days_val) && $days_val != '' && $days_val == 1 ){
+            $day = "{$days_val} Day";
+        }
+        $duration_text = $day;
+    endif;
+
+    return apply_filters('bkx_service_time_formatted', $duration_text, $obj) ;
 }

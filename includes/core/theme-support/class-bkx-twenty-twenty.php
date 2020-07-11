@@ -72,7 +72,7 @@ class BKX_Twenty_Twenty
     public static function enqueue_styles($styles)
     {
 
-        $styles['bookingx-twenty-twenty'] = array(
+        $styles['bookingx-twenty-twenty-main'] = array(
             'src' => str_replace(array('http:', 'https:'), '', BKX_PLUGIN_PUBLIC_URL) . '/css/theme/twenty-twenty.css',
             'deps' => '',
             'version' => BKX_PLUGIN_VER,

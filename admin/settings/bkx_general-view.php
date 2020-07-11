@@ -371,6 +371,16 @@ if (!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
                     <input type="text" name="bkx_progressbar_color" id="id_bkx_progressbar_color"
                            value="<?php echo bkx_crud_option_multisite('bkx_active_step_color'); ?>">
                 </td>
+
+
+                <th scope="row"><label
+                            for="Calendar day background colour"><?php printf(esc_html__('%1$s', 'bookingx'), 'Booking Calendar Day Background Colour'); ?></label>
+                </th>
+                <td class="plugin-description">
+                    <input type="text" name="bkx_cal_day_color" id="id_bkx_cal_day_color"
+                           value="<?php echo bkx_crud_option_multisite('bkx_cal_day_color'); ?>">
+                </td>
+
             </tr>
 
             <!--<tr class="active">
@@ -394,15 +404,7 @@ if (!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
 			</td>
 		</tr>-->
 
-            <tr class="active">
-                <th scope="row"><label
-                            for="Calendar day background colour"><?php printf(esc_html__('%1$s', 'bookingx'), 'Booking Calendar Day Background Colour'); ?></label>
-                </th>
-                <td class="plugin-description">
-                    <input type="text" name="bkx_cal_day_color" id="id_bkx_cal_day_color"
-                           value="<?php echo bkx_crud_option_multisite('bkx_cal_day_color'); ?>">
-                </td>
-            </tr>
+
             <tr class="active">
                 <th scope="row"><label
                             for="Booking Previous Button"><?php printf(esc_html__('%1$s', 'bookingx'), 'Booking Previous Button'); ?></label>
@@ -411,19 +413,22 @@ if (!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
                     <input type="text" name="bkx_prev_btn" id="id_bkx_prev_btn"
                            value="<?php echo bkx_crud_option_multisite('bkx_prev_btn'); ?>">
                 </td>
-            </tr>
 
-            <tr class="active">
-                <th scope="row"><label
-                            for="Booking Next Button"><?php printf(esc_html__('%1$s', 'bookingx'), 'Booking Next Button'); ?></label>
+                <th scope="row"><label for="Booking Next Button"><?php printf(esc_html__('%1$s', 'bookingx'), 'Booking Next Button'); ?></label>
                 </th>
                 <td class="plugin-description">
-                    <input type="text" name="bkx_next_btn" id="id_bkx_next_btn"
-                           value="<?php echo bkx_crud_option_multisite('bkx_next_btn'); ?>">
+                    <input type="text" name="bkx_next_btn" id="id_bkx_next_btn" value="<?php echo bkx_crud_option_multisite('bkx_next_btn'); ?>">
                 </td>
             </tr>
 
+
             <tr class="active">
+                <th scope="row"><label for="Booking Pay Now Button"><?php printf(esc_html__('%1$s', 'bookingx'), 'Booking Pay Now Button'); ?></label>
+                </th>
+                <td class="plugin-description">
+                    <input type="text" name="bkx_pay_now_btn" id="id_bkx_pay_now_btn" value="<?php echo bkx_crud_option_multisite('bkx_pay_now_btn'); ?>">
+                </td>
+
                 <th scope="row"><label
                             for="Calendar day selected colour"><?php printf(esc_html__('%1$s', 'bookingx'), 'Booking Calendar Day Selected'); ?></label>
                 </th>
@@ -433,6 +438,7 @@ if (!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
                 </td>
             </tr>
 
+
             <tr class="active">
                 <th scope="row"><label
                             for="Add time available colour option"><?php printf(esc_html__('%1$s', 'bookingx'), 'Booking Form Time available'); ?></label>
@@ -441,9 +447,7 @@ if (!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
                     <input type="text" name="bkx_time_available_color" id="id_bkx_time_available_color"
                            value="<?php echo bkx_crud_option_multisite('bkx_time_available_color'); ?>">
                 </td>
-            </tr>
 
-            <tr class="active">
                 <th scope="row"><label
                             for="Add time selected colour"><?php printf(esc_html__('%1$s', 'bookingx'), 'Booking Form Selected Time'); ?></label>
                 </th>
@@ -452,6 +456,7 @@ if (!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
                            value="<?php echo bkx_crud_option_multisite('bkx_time_selected_color'); ?>">
                 </td>
             </tr>
+
 
             <tr class="active">
                 <th scope="row"><label
@@ -547,18 +552,19 @@ if (!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
                 </td>
             </tr>
 
-            <tr class="active">
+            <tr class="active bkx-customer-dashboard-main">
                 <th scope="row"><label
-                            for="edit and delete bookings"><?php printf(esc_html__('%1$s', 'bookingx'), 'Enable customer dashboard'); ?></label>
+                            for="edit and delete bookings"><?php printf(esc_html__('%1$s', 'bookingx'), 'Enable Customer Dashboard'); ?></label>
                 </th>
 
                 <td class="plugin-description">
-                    <div class="plugin-description">
-                        <input type="radio" name="reg_customer_crud_op" id="id_reg_customer_crud_op_yes"
-                               value="1" <?php if (bkx_crud_option_multisite('reg_customer_crud_op') == 1) echo "checked"; ?>><?php printf(esc_html__('%1$s', 'bookingx'), 'Yes'); ?>
-                        <input type="radio" name="reg_customer_crud_op" id="id_reg_customer_crud_op_no"
-                               value="0" <?php if (bkx_crud_option_multisite('reg_customer_crud_op') == 0) echo "checked"; ?>> <?php printf(esc_html__('%1$s', 'bookingx'), 'No'); ?>
+                    <div class="radio-button-section">
+                        <input type="radio" name="bkx_enable_customer_dashboard" id="id_bkx_enable_customer_dashboard_yes"
+                               value="1" <?php if (bkx_crud_option_multisite('bkx_enable_customer_dashboard') == 1) echo "checked"; ?>><?php printf(esc_html__('%1$s', 'bookingx'), 'Yes'); ?>
+                        <input type="radio" name="bkx_enable_customer_dashboard" id="id_bkx_enable_customer_dashboard_no"
+                               value="0" <?php if (bkx_crud_option_multisite('bkx_enable_customer_dashboard') == 0) echo "checked"; ?>> <?php printf(esc_html__('%1$s', 'bookingx'), 'No'); ?>
                     </div>
+                    <div class="shortcode-section" style="display: none;"><label>Shortcode  : </label><code spellcheck="false">['bkx_my_account']</code></div>
                 </td>
             </tr>
 

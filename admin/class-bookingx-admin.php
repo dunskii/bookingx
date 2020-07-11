@@ -819,29 +819,6 @@ class Bookingx_Admin
 
         ob_start();
         if ('bkx_booking' == $post_type) {
-            echo '<style> 
-                .column-order_status{ display:block !important;}
-                        #order_actions { width: 80px; }
-                #calendar {
-                        max-width: 900px;
-                        margin: 0 auto;
-                        background: #fff;
-                        padding: 20px;
-                }
-                .bkx-order_summary, .bkx-order_summary_full {
-                    background-color: #fefefe;
-                    margin: auto;
-                    padding: 20px;
-                    border: 1px solid #888;
-                    margin : 3px;
-                    position: relative;
-                
-                }
-                .search_by_dates_section input {
-                    width: 93px;
-                    margin-right: 5px;
-                }
-        </style>';
             $bkx_view_id = "";
             $bkx_view_name = "";
             if (isset($_REQUEST["view"])) {

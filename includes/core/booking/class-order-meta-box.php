@@ -76,6 +76,7 @@ class Bkx_Meta_Boxes
         $order_id = $post->ID;
         if (empty($post->ID))
             return;
+
         $seat_id = get_post_meta($order_id, 'seat_id', true);
         if (isset($seat_id) && $seat_id != "") {
             $order_summary = "";
@@ -112,10 +113,16 @@ class Bkx_Meta_Boxes
             $booked_days = '';
             $BookedRecords = $orderObj->GetBookedRecordsByUser($search);
             if (!empty($BookedRecords)) {
+                //echo "<pre>".print_r($BookedRecords)."</pre>";
                 foreach ($BookedRecords as $bookings) :
                     if (isset($bookings['booking_multi_days']) && !empty($bookings['booking_multi_days'])) :
                         $booking_multi_days = $bookings['booking_multi_days'];
-                        $booking_multi_days_arr = explode(",", $booking_multi_days);
+                        if(!is_array($booking_multi_days)){
+                            $booking_multi_days_arr = explode(",", $booking_multi_days);
+                        }else{
+                            $booking_multi_days_arr = $booking_multi_days;
+                        }
+
                         if (!empty($booking_multi_days_arr)) {
                             $booking_multi_days_data = !empty($booking_multi_days_arr[0]) ? $booking_multi_days_arr[0] : "";
                             $booking_multi_days_data_1 = !empty($booking_multi_days_arr[1]) ? $booking_multi_days_arr[1] : "";
@@ -150,26 +157,18 @@ class Bkx_Meta_Boxes
             $total_time = "-";
             $end_time = date('H:i', strtotime($order_meta['booking_end_date']));
             $date_format = bkx_crud_option_multisite('date_format');
+
             if (isset($base_time_option) && $base_time_option == "H") {
                 $total_time = sprintf(__('%s', 'bookingx'), date('h:i A', strtotime($order_meta['booking_start_date'])), date('h:i A ', strtotime($order_meta['booking_end_date'])));
-                //$duration   = sprintf( __( '%s', 'bookingx' ), $order_meta['total_duration'] );
-                $booking_duration = str_replace('(', '', $order_meta['total_duration']);
-                $booking_duration = str_replace(')', '', $booking_duration);
-                $duration = sprintf(__('%s', 'bookingx'), $booking_duration);
+                $duration   = sprintf( __( '%s', 'bookingx' ), $order_meta['total_duration'] );
                 $date_data = sprintf(__('%s', 'bookingx'), date($date_format, strtotime($order_meta['booking_date'])));
+                $duration = sprintf(__('%s', 'bookingx'), $duration);
             } else {
-                $days_selected = get_post_meta($post->ID, 'booking_multi_days', true);
-                if (!empty($days_selected)) {
-                    $last_key = sizeof($days_selected) - 1;
-                    $start_date = date('F d, Y', strtotime($days_selected[0]));
-                    $end_date = date('F d, Y', strtotime($days_selected[$last_key]));
-                    $date_data = "{$start_date} To {$end_date}";
-                    $duration = sprintf(__('%s', 'bookingx'), $base_time['formatted']);
-                }
+                list($date_data, $duration) = getDayDateDuration($order_id);
             }
 
             if (isset($order_meta['seat_id']) && $order_meta['seat_id'] != '') {
-                $order_summary = sprintf('<div class="bkx-order_summary_full">', 'Bookingx');
+                $order_summary = sprintf('<div class="bkx-order_summary_full bkx-admin-order-detail">', 'Bookingx');
                 $order_summary .= sprintf(__('<h3>Booking #%d details</h3>', 'Bookingx'), $post->ID);
                 $order_summary .= sprintf('<div class="bkx-general_full">', 'Bookingx');
                 //$order_summary .= sprintf( __('<h4>Customer Information</h4>','Bookingx'));
@@ -282,12 +281,11 @@ class Bkx_Meta_Boxes
 	        });
 		}		
 	});});</script>';
-        $order_summary = sprintf('<div class="bkx-order_summary">', 'Bookingx');
+        $order_summary = sprintf('<div class="bkx-order_summary bkx-order-note">', 'Bookingx');
         $order_summary .= sprintf(__('<h3>Booking #%d Notes</h3>', 'Bookingx'), $post->ID);
         $order_summary .= sprintf(__('<span id="bkx_add_custom_note_err"></span><textarea rows="4" id="bkx_custom_note"></textarea>', 'Bookingx'), '');
         $order_summary .= sprintf(__('<input type="hidden" id="bkx_booking_id" value="%d">', 'Bookingx'), $post->ID);
-
-        $order_summary .= sprintf(__('<a style="cursor:pointer;" id="bkx_id_add_custom_note" name="bkx_add_custom_note"> Add note </a> <span id="bkx_add_custom_note_loader" style="display:none;"> Please wait.. </span>', 'Bookingx'), '');
+        $order_summary .= sprintf(__('<div class="bkx-note-actions"><a class="button button-primary button-large note-btn" id="bkx_id_add_custom_note" name="bkx_add_custom_note"> Add note </a> <span id="bkx_add_custom_note_loader" style="display:none;"> Please wait.. </span></div>', 'Bookingx'), '');
         $order_summary .= $orderObj->get_booking_notes($post->ID);
         $order_summary .= sprintf('</div>', 'Bookingx');
         $order_summary .= $script;

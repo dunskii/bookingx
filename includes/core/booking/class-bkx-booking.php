@@ -70,7 +70,7 @@ class BkxBooking
             $this->setId($order_id);
         }
         $this->post_type = 'bkx_booking';
-        add_filter('comments_clauses', array($this, 'bkx_comments_clauses'), 10, 2);
+        add_filter('comments_clauses', array($this, 'bkx_comments_clauses'), 99, 2);
         add_action('transition_post_status', array($this, 'bkx_on_all_status_transitions'), 10, 3);
         add_action('bkx_order_edit_status', array($this, 'bkx_order_edit_status'), 10, 2);
     }
@@ -414,11 +414,12 @@ class BkxBooking
     function bkx_comments_clauses($pieces, $wp_query){
         if (is_admin()) {
             $current_screen = get_current_screen();
-            if (isset($current_screen->base) && 'edit' === $current_screen->base
-                && 'bkx_booking' === $current_screen->post_type) {
+            if ( isset($current_screen->base) &&  ( 'edit' === $current_screen->base || 'edit' === $current_screen->parent_base) && 'bkx_booking' === $current_screen->post_type
+                ||
+                ( isset($_POST['action'], $_POST['post_id']) && $_POST['action'] == 'bkx_action_view_summary')) {
                 global $wpdb;
                 $post_id = $wp_query->query_vars['post_id'];
-                $pieces['where'] = "( ( comment_approved = '0' OR comment_approved = '1' ) ) AND comment_post_ID = $post_id AND  {$wpdb->prefix}posts.post_type NOT IN ('bkx_seat','bkx_base','bkx_addition') ";
+                $pieces['where'] = "( ( comment_approved = '0' OR comment_approved = '1' ) ) AND comment_post_ID = {$post_id} AND  {$wpdb->prefix}posts.post_type NOT IN ('bkx_seat','bkx_base','bkx_addition') ";
                 return $pieces;
             }
         }
@@ -663,16 +664,19 @@ class BkxBooking
         $deposit_type = isset($deposit_type) ? apply_filters('bxk_booking_prepayment_deposit_type', $deposit_type) : "";
         $percentage = isset($percentage) ? apply_filters('bxk_booking_prepayment_percentage', $percentage) : "";
         $fixed_amount = isset($fixed_amount) ? apply_filters('bxk_booking_prepayment_fixed_amount', $fixed_amount) : "";
-
+        $note = "";
         if ($booking_require_prepayment == "Y") {
             if ($payment_type == "FP") {
                 $deposit_price = $generate_total;
+                $note = __('This booking requires full payment to process.', 'bookingx');
             }
             if ($payment_type == "D") {
                 if ($deposit_type == "FA") {
-                    $deposit_price = $fixed_amount;
+                    $deposit_price = bkx_get_formatted_price($fixed_amount);
+                    $note = __("This booking requires a {$deposit_price} deposit to process.", 'bookingx');
                 } else if ($deposit_type == "P") {
-                    $deposit_price = ($percentage / 100) * $generate_total;
+                    $deposit_price = bkx_get_formatted_price(($percentage / 100) * $generate_total);
+                    $note = __("This booking requires a {$percentage}% ({$deposit_price}) deposit to process.", 'bookingx');
                 }
             }
         } else {
@@ -680,6 +684,7 @@ class BkxBooking
         }
 
         $result['tax'] = $total_with_tax;
+        $result['note'] = $note;
         $result['seat_is_booking_prepayment'] = $booking_require_prepayment;
         $result['deposit_price'] = number_format((float)$deposit_price, 2, '.', '');
 
@@ -1414,9 +1419,7 @@ class BkxBooking
         return $booked_dates;
     }
 
-    public function booking_form_generate_total_formatted($selected_ids)
-    {
-
+    public function booking_form_generate_total_formatted($selected_ids){
         $result = $this->booking_form_generate_total($selected_ids);
         $result['currency_name'] = $this->load_global->currency_name;
         $result['currency_sym'] = $this->load_global->currency_sym;
@@ -1429,7 +1432,7 @@ class BkxBooking
         $result['total_price_formatted'] = "{$result['currency_name']}{$result['currency_sym']}{$result['total_price']}";
         $result['grand_total_formatted'] = "{$short_currency_name}{$result['currency_sym']}{$grand_total}";
 
-        $result['deposit_note'] = ($result['deposit_price'] > 0) ? sprintf("<div class=\"row\"><div class=\"col-lg-12\"> <strong> Note : </strong> Please Deposit of %s%s is required to process and confirm this booking.</div></div>", $result['currency_sym'], $result['deposit_price']) : "";
+        $result['deposit_note'] = (isset($result['note']) && $result['note']!="") ? sprintf("<div class=\"row\"><div class=\"col-lg-12\"> <strong> Note : </strong> %s</div></div>", $result['note']) : "";
 
 
         return $result;
@@ -1473,16 +1476,14 @@ class BkxBooking
             $order_id = $post_data['update_order_slot'];
         }
 
-        $reg_customer_crud_op = bkx_crud_option_multisite('reg_customer_crud_op');
+        $bkx_enable_customer_dashboard = bkx_crud_option_multisite('bkx_enable_customer_dashboard');
         // If 1 means enable to create customer
 
-        if (isset($reg_customer_crud_op) == 1 && !is_user_logged_in()) :
+        if (isset($bkx_enable_customer_dashboard) == 1 && !is_user_logged_in()) :
             $user_id = BkxBooking::create_new_user($post_data);
         endif;
 
         $order_data['post_status'] = 'bkx-' . apply_filters('bkx_default_order_status', 'pending');
-
-        //echo '<pre>',print_r($post_data,1),'</pre>';die;
 
         if (!isset($order_id) || $order_id == '' || $order_id == 0) {
             $order_data['post_type'] = $this->post_type;
@@ -1912,14 +1913,14 @@ class BkxBooking
             $blog_id = apply_filters('bkx_set_blog_id', get_current_blog_id());
             switch_to_blog($blog_id);
         endif;
+
         $args = array(
             'post_id' => $order_id,
             'comment_type' => 'booking_note'
         );
-        $comments_query = new WP_Comment_Query( $args );
-        //echo "<pre>".print_r($comments_query)."</pre>";
+      /* $comments_query = new WP_Comment_Query( $args );
+        echo "<pre>".print_r($comments_query)."</pre>";*/
         $booking_note_data = get_comments($args);
-
         $booking_notes = '';
         if (!empty($booking_note_data) && !is_wp_error($booking_note_data)) {
             $booking_notes .= '<ul>';
@@ -2357,7 +2358,7 @@ class BkxBooking
                 $wpdb->prepare("
                         SELECT DISTINCT p1.post_id FROM {$wpdb->postmeta} p1 INNER JOIN {$wpdb->posts} p2 ON p1.post_id = p2.ID WHERE( p1.meta_key IN ('" . implode("','", array_map('esc_sql', $search_fields)) . "') 
                             AND p1.meta_value LIKE %s )",
-                    '%' . $wpdb->esc_like(wc_clean($term)) . '%'
+                    '%' . $wpdb->esc_like(bkx_clean($term)) . '%'
                 )
             )
         ));

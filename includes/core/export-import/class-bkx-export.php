@@ -114,7 +114,7 @@ class BkxExport
     {
         $options = array('bkx_api_paypal_paypalmode', 'bkx_api_paypal_username', 'bkx_api_paypal_password',
             'bkx_api_paypal_signature', 'bkx_gateway_paypal_express_status', 'bkx_new_booking_enabled', 'bkx_dashboard_column', 'enable_cancel_booking', 'cancellation_policy_page_id', 'enable_any_seat',
-            'reg_customer_crud_op', 'currency_option', 'bkx_seat_role', 'bkx_alias_seat', 'bkx_alias_base', 'bkx_alias_addition', 'bkx_alias_notification', 'bkx_notice_time_extended_text_alias',
+            'bkx_enable_customer_dashboard', 'currency_option', 'bkx_seat_role', 'bkx_alias_seat', 'bkx_alias_base', 'bkx_alias_addition', 'bkx_alias_notification', 'bkx_notice_time_extended_text_alias',
             'bkx_label_of_step1', 'bkx_seat_taxonomy_status', 'bkx_base_taxonomy_status', 'bkx_addition_taxonomy_status',
             'bkx_legal_options', 'bkx_term_cond_page', 'bkx_cancellation_policy_page', 'bkx_privacy_policy_page', 'enable_editor', 'bkx_set_booking_page', 'bkx_siteuser_canedit_seat', 'bkx_siteclient_canedit_css',
             'bkx_booking_style', 'bkx_form_text_color', 'bkx_active_step_color', 'bkx_cal_day_color', 'bkx_cal_day_selected_color',

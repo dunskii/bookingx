@@ -4023,7 +4023,7 @@
         <enable_any_seat>0</enable_any_seat>
         <cancellation_policy_page_id>13</cancellation_policy_page_id>
         <currency_option>AUD</currency_option>
-        <reg_customer_crud_op>0</reg_customer_crud_op>
+        <bkx_enable_customer_dashboard>0</bkx_enable_customer_dashboard>
         <bkx_seat_role/>
         <bkx_set_booking_page>14</bkx_set_booking_page>
         <bkx_alias_seat>Resource</bkx_alias_seat>
