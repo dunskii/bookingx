@@ -116,6 +116,7 @@
 .bkx-customer-dashboard-main .shortcode-section{ width: 50% ; float: left;}
 .edit-php.post-type-bkx_booking .bkx-order_summary , .edit-php.post-type-bkx_booking .bkx-order_summary_full{
     border: 1px solid #ccd0d4;
+    padding:15px;
 }
 .search_by_dates_section input {
     width: 93px;

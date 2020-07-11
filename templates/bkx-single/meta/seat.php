@@ -9,7 +9,7 @@ $booking_url = $bkx_seat->booking_url;
 $currency_option = (bkx_crud_option_multisite('currency_option') ? bkx_crud_option_multisite('currency_option') : 'AUD');
 
 if (!empty($seat_available_months) || !empty($seat_available_days) || !empty($seat_payment_info)):
-    echo sprintf('<h3>%s</h3>', __('Additional Information : ', 'bookingx')); ?>
+    echo sprintf('<h3>%s</h3>', __('Additional Information', 'bookingx')); ?>
     <ul class="additional-info"><?php
         if (!empty($seat_available_days)) {
             $days = '<ul>';
