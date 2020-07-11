@@ -1,17 +1,35 @@
-jQuery(document).ready(function () {
 
-    jQuery(".bkx-booking-style").on('change', function () {
-        if (jQuery(this).val() == 'day_style') {
-            jQuery(".thickbox").addClass('bkx-preview-' + jQuery(this).val());
-            jQuery(".thickbox").removeClass('bkx-preview-default');
-            jQuery(".bkx-preview-" + jQuery(this).val()).attr("href", bkx_admin.day_style + '?style=day');
+jQuery(function ($) {
+    $(".bkx-booking-style").on('change', function () {
+        if ($(this).val() == 'day_style') {
+            $(".thickbox").addClass('bkx-preview-' + $(this).val());
+            $(".thickbox").removeClass('bkx-preview-default');
+            $(".bkx-preview-" + $(this).val()).attr("href", bkx_admin.day_style + '?style=day');
         }
-        if (jQuery(this).val() == 'default') {
-            jQuery(".thickbox").addClass('bkx-preview-' + jQuery(this).val());
-            jQuery(".thickbox").removeClass('bkx-preview-day_style');
-            jQuery(".bkx-preview-" + jQuery(this).val()).attr("href", bkx_admin.default_style + '?style=default');
+        if ($(this).val() == 'default') {
+            $(".thickbox").addClass('bkx-preview-' + $(this).val());
+            $(".thickbox").removeClass('bkx-preview-day_style');
+            $(".bkx-preview-" + $(this).val()).attr("href", bkx_admin.default_style + '?style=default');
         }
     });
+
+    $('#id_bkx_enable_customer_dashboard_yes').on('click',function () {
+        var cust_dash = $("#id_bkx_enable_customer_dashboard_yes").val();
+        if (cust_dash == 1) {
+            $(".shortcode-section").show();
+        }
+    });
+
+    $('#id_bkx_enable_customer_dashboard_no').on('click',function () {
+        var cust_dash = $("#id_bkx_enable_customer_dashboard_no").val();
+        if (cust_dash == 0) {
+            $(".shortcode-section").hide();
+        }
+    });
+
+});
+
+jQuery(document).ready(function () {
 
 
     jQuery('.bkx-dashboard-column-all').on('click', function () {
@@ -42,9 +60,7 @@ jQuery(document).ready(function () {
         "id_bkx_progressbar_color", "id_bkx_cal_border_color", "id_bkx_cal_day_color", "id_bkx_cal_day_selected_color",
         "id_bkx_time_available_color", "id_bkx_time_selected_color", "id_bkx_time_block_bg_color", "id_bkx_time_block_extra_color",
         "id_bkx_time_block_service_color", "id_bkx_time_unavailable_color", "id_bkx_cal_month_title_color",
-        "id_bkx_cal_month_bg_color", "id_bkx_time_new_selected","id_bkx_next_btn","id_bkx_prev_btn",  "id_bkx_form_slot_time_color"];
-
-
+        "id_bkx_cal_month_bg_color", "id_bkx_time_new_selected","id_bkx_next_btn","id_bkx_prev_btn", "id_bkx_pay_now_btn", "id_bkx_form_slot_time_color"];
 
     bkx_color_picker_total = bkx_color_picker.length;
     for (cp = 0; cp < bkx_color_picker_total; cp++) {

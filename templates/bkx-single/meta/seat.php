@@ -6,6 +6,8 @@ $seat_available_days = $bkx_seat->seat_available_days;
 $seat_notifiaction_info = $bkx_seat->seat_notifiaction_info;
 $seat_payment_info = $bkx_seat->seat_payment_info;
 $booking_url = $bkx_seat->booking_url;
+$currency_option = (bkx_crud_option_multisite('currency_option') ? bkx_crud_option_multisite('currency_option') : 'AUD');
+
 if (!empty($seat_available_months) || !empty($seat_available_days) || !empty($seat_payment_info)):
     echo sprintf('<h3>%s</h3>', __('Additional Information : ', 'bookingx')); ?>
     <ul class="additional-info"><?php
@@ -27,8 +29,9 @@ if (!empty($seat_available_months) || !empty($seat_available_days) || !empty($se
             $payment_full_pay = $seat_payment_info['FP'];
         }
         if (!empty($payment_deposite)):
-            $payment_details = isset($payment_deposite['type']) && $payment_deposite['type'] == 'FA' ? '($' . $payment_deposite['amount'] . ')' : $payment_deposite['percentage'];
-            $payment_info = sprintf(__(' %s%s', 'bookingx'), $payment_details, "&#37;");
+            $payment = bkx_get_formatted_price($payment_deposite['amount']);
+            $payment_details = isset($payment_deposite['type']) && $payment_deposite['type'] == 'FA' ? $payment  : "{$payment_deposite['percentage']}&#37;";
+            $payment_info = sprintf(__(' %s', 'bookingx'), $payment_details);
         endif;
         if (!empty($payment_full_pay)):
             $payment_info = sprintf(__('<span> %s </span>', 'bookingx'), $payment_full_pay['value']);

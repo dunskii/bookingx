@@ -12,13 +12,13 @@ $skip_this_step_style = ($skip_this_step == true) ? 'style = "display: none;"' :
     <div class="row px-lg-1 py-1">
         <div class="col-5 col-md-6 calender-setup"> <!--remove col-lg-5 lg -->
             <div class="form-group">
-                <label><?php esc_html_e("Select date", 'bookingx'); ?>:</label>
+                <label><?php esc_html_e("Select Date", 'bookingx'); ?></label>
             </div>
             <div id="bkx-calendar"></div>
         </div>
         <div class="col-7 col-md-6 slots-setup"> <!--remove col-lg-7 lg -->
             <div class="form-group">
-                <label><?php esc_html_e("Select time slot", 'bookingx'); ?>:</label>
+                <label><?php esc_html_e("Select Time Slot", 'bookingx'); ?></label>
             </div>
             <div class="indicator">
                 <ul>

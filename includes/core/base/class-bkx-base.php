@@ -140,28 +140,10 @@ class BkxBase
     {
         $booking_url = $this->booking_page_url;
         $bkx_alias_base = bkx_crud_option_multisite('bkx_alias_base');
-        $meta_data = $this->GetMetData($base_id);
         $Duration = $this->get_service_time($base_id);
-        if ((isset($Duration['H']))) {
-            $DurationHMObj = $Duration['H'];
-        }
-        if ((isset($Duration['D']))) {
-            $DurationDObj = $Duration['D'];
-        }
-
-        if (!empty($DurationHMObj)):
-            $hours = isset($DurationHMObj['hours']) && $DurationHMObj['hours'] > 0 && $DurationHMObj['hours'] != '' ? $DurationHMObj['hours'] . ' Hours ' : '';
-            $hours = isset($DurationHMObj['hours']) && $DurationHMObj['hours'] < 2 && $DurationHMObj['hours'] != '' ? $DurationHMObj['hours'] . ' Hour ' : $hours;
-            $mins = isset($DurationHMObj['minutes']) && $DurationHMObj['minutes'] > 0 && $DurationHMObj['minutes'] != '' ? " and {$DurationHMObj['minutes']} Minutes " : '';
-            $duration_text = "{$hours} {$mins}";
-        endif;
-        if (!empty($DurationDObj)):
-            $day = isset($DurationDObj['days']) && $DurationDObj['days'] != '' ? $DurationDObj['days'] . ' Days ' : '';
-            $duration_text = $day;
-        endif;
+        $duration_text = service_hours_formatted($Duration);
         $extended = $this->service_extended();
         $extended_label = isset($extended) && $extended == 'Y' ? 'Yes' : 'No';
-
         $html = "";
         $html .= "<div class=\"row\">
                     <div class=\"col-md-8\">" . sprintf('<h3>%s</h3>', __('Additional Information', 'bookingx')) . "</div>

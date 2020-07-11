@@ -101,6 +101,10 @@ function bkx_process_mail_by_status($booking_id, $subject, $content, $email = nu
         $event_address .= $bkx_business_country;
     }
     $total_price = ($order_meta['total_price'] != '') ? $order_meta['total_price'] : 0;
+    $amount_paid = bkx_get_formatted_price($amount_paid);
+    $total_price = bkx_get_formatted_price($total_price);
+    $amount_pending = bkx_get_formatted_price($amount_pending);
+
     $subject = str_replace("{booking_number}", $order_meta['order_id'], $subject);
     $subject = str_replace("{site_title}", get_bloginfo(), $subject);
     $subject = str_replace("{site_address}", get_site_url(), $subject);
@@ -110,7 +114,7 @@ function bkx_process_mail_by_status($booking_id, $subject, $content, $email = nu
     $subject = str_replace("{txn_id}", $transactionID, $subject);
     $subject = str_replace("{order_id}", $order_meta['order_id'], $subject);
     $subject = str_replace("{total_duration}", $order_meta['total_duration'], $subject);
-    $subject = str_replace("{total_price}", $total_price . ' ' . bkx_crud_option_multisite('currency_option'), $subject);
+    $subject = str_replace("{total_price}", $total_price , $subject);
     $subject = str_replace("{siteurl}", site_url(), $subject);
     $subject = str_replace("{seat_name}", $order_meta['seat_arr']['title'], $subject);
     $subject = str_replace("{base_name}", $order_meta['base_arr']['title'], $subject);
@@ -118,8 +122,8 @@ function bkx_process_mail_by_status($booking_id, $subject, $content, $email = nu
     $subject = str_replace("{time_of_booking}", $booking_duration, $subject);
     $subject = str_replace("{date_of_booking}", $order_meta['booking_start_date'], $subject);
     $subject = str_replace("{location_of_booking}", $event_address, $subject);
-    $subject = str_replace("{amount_paid}", $currency . $amount_paid . ' ' . bkx_crud_option_multisite('currency_option'), $subject);
-    $subject = str_replace("{amount_pending}", $currency . $amount_pending . ' ' . bkx_crud_option_multisite('currency_option'), $subject);
+    $subject = str_replace("{amount_paid}", $amount_paid, $subject);
+    $subject = str_replace("{amount_pending}", $amount_pending, $subject);
     $subject = str_replace("{business_name}", $bkx_business_name, $subject);
     $subject = str_replace("{business_email}", $bkx_business_email, $subject);
     $subject = str_replace("{business_phone}", $bkx_business_phone, $subject);
@@ -143,8 +147,9 @@ function bkx_process_mail_by_status($booking_id, $subject, $content, $email = nu
     $message_body = str_replace("{time_of_booking}", $booking_duration, $message_body);
     $message_body = str_replace("{date_of_booking}", $order_meta['booking_start_date'], $message_body);
     $message_body = str_replace("{location_of_booking}", $event_address, $message_body);
-    $message_body = str_replace("{amount_paid}", $currency . $amount_paid . ' ' . bkx_crud_option_multisite('currency_option'), $message_body);
-    $message_body = str_replace("{amount_pending}", $currency . $amount_pending . ' ' . bkx_crud_option_multisite('currency_option'), $message_body);
+    $message_body = str_replace("{total_price}", $total_price , $message_body);
+    $message_body = str_replace("{amount_paid}", $amount_paid, $message_body);
+    $message_body = str_replace("{amount_pending}", $amount_pending , $message_body);
     $message_body = str_replace("{business_name}", $bkx_business_name, $message_body);
     $message_body = str_replace("{business_email}", $bkx_business_email, $message_body);
     $message_body = str_replace("{business_phone}", $bkx_business_phone, $message_body);
@@ -214,7 +219,7 @@ function bkx_search_label($query)
         return $query;
     }
 
-    return wc_clean(wp_unslash($_GET['s'])); // WPCS: input var ok, sanitization ok.
+    return bkx_clean(wp_unslash($_GET['s'])); // WPCS: input var ok, sanitization ok.
 }
 
 function bkx_query_vars($qv)
@@ -265,9 +270,9 @@ add_filter('wp_count_comments', 'bkx_count_comments', 10, 2);
 function bkx_count_comments($stats, $post_id)
 {
     global $wpdb;
-    //delete_transient( 'wc_count_comments' );
+
     if (0 === $post_id) {
-        $stats = get_transient('wc_count_comments');
+        $stats = get_transient('bkx_count_comments');
         if (!$stats) {
             $stats = array();
             $count = $wpdb->get_results("SELECT comment_approved, COUNT( * ) AS num_comments FROM {$wpdb->comments} WHERE comment_type != 'booking_note' GROUP BY comment_approved", ARRAY_A);
@@ -296,7 +301,7 @@ function bkx_count_comments($stats, $post_id)
                 }
             }
             $stats = (object)$stats;
-            set_transient('wc_count_comments', $stats);
+            set_transient('bkx_count_comments', $stats);
         }
     }
     return $stats;

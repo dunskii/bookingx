@@ -1,0 +1,113 @@
+
+/**
+ * Layout stuff
+ */
+@media screen and (min-width: 48em) {
+    .has-sidebar.booking-x:not(.error404) #primary {
+        float: left;
+        width: 74%;
+    }
+
+    .has-sidebar.booking-x:not(.error404) #secondary {
+        width: 20%;
+    }
+
+    body.page-two-column.booking-x-form:not(.archive) #primary .entry-header,
+    body.page-two-column.booking-x-dashboard:not(.archive) #primary .entry-header {
+        float: left;
+        width: 18%;
+    }
+
+    body.booking-x-form.page-two-column:not(.archive) #primary .entry-content,
+    body.booking-x-dashboard.page-two-column:not(.archive) #primary .entry-content {
+        float: left;
+        width: 100%;
+    }
+    .booking-x-form {
+        .booking-x .schedule-indicator {
+            width: 100%;
+        }
+        .booking-x .schedule-wrap {
+            width: 100%;
+        }
+        .booking-x .select-time .table td a {
+            padding: 3px 5px;
+            font-size: 17px;
+        }
+    }
+}
+
+.booking-x-form {
+    .indicator ul {
+        margin: 0 0 0.5em;
+    }
+    .indicator ul li {
+        margin-right: 9px;
+    }
+    .bookingx-error {
+        background: #b22222;
+        color: #ffffff;
+    }
+}
+
+    /* Detail */
+    .booking-x {
+        .user-detail{ background: #f4f4f4;}
+        .booking-x .user-detail dl dt { color: #555555;}
+        .booking-x .user-detail dl dd {
+            margin: 0px 5px 0px 10px;
+        }
+        .select-time .table td a {
+            color: #555555;
+        }
+        .select-time .table td a.disabled {
+            background: #666;
+            color: #fff;
+        }
+        .select-time .table td a.selected {
+            background: #333;
+            color: #fff;
+        }
+        .select-time .table th {
+            background: #066595;
+            color: #fff;
+            border-color: #066595;
+        }
+        .indicator ul li::before {
+            background: #ebebeb;
+            border: #ebebeb solid 1px;
+        }
+        .indicator ul li.booked::before {
+            background: #666;
+        }
+        .indicator ul li.open::before {
+            background: #fff;
+        }
+        .indicator ul li.current::before {
+            background: #333;
+        }
+        .calendar-yvv .calendar-month .btn {
+            color: #333;
+        }
+    }
+    .booking-x-dashboard {
+        .form-group label {
+            font-size: 18px;
+            font-weight: normal;
+        }
+    }
+    @media (max-width: 479px) {
+        .booking-x-form ul, .booking-x-form ol {
+            margin: 0 0 2rem 0;
+        }
+        .booking-x .indicator ul li {
+            margin: auto;
+        }
+    }
+
+    @media screen and (min-width: 30em) {
+        .booking-x-dashboard .bkx-dashboard-booking h2 {
+            font-size: 1.3rem;
+        }
+    }
+

@@ -289,7 +289,7 @@ class BkxPaymentCore
                     $booking_duration = str_replace('(', '', $booking_meta_data['total_duration']);
                     $booking_duration = str_replace(')', '', $booking_duration);
                 }
-                $payment_success_html .= __('<div class="row"><div class="col-sm-12"><dl> <dt style="font-weight: bold;"> Details of your booking are as follow : </dt></dl></div></div>','bookingx');
+                $payment_success_html .= __('<div class="row"><div class="col-sm-12"><dl> <dt"> Details of your booking are as follow : </dt></dl></div></div>','bookingx');
                 $payment_success_html .= "<div class=\"row\"><div class=\"col-sm-6\">";
                 $payment_success_html .= "<dl> <dt> {$seat_alias}</dt> :  <dd>{$seat_name}</dd></dl>";
                 $payment_success_html .= "<dl> <dt> {$base_alias} </dt> : <dd>{$base_name}</dd></dl>";

@@ -21,7 +21,7 @@ $bkx_legal = bkx_crud_option_multisite('bkx_legal_options');
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Name:</label>
+                    <label><?php esc_html_e("Name", 'bookingx'); ?></label>
                     <input type="text" name="bkx_first_name" class="form-control" placeholder="First name">
                 </div>
             </div>
@@ -35,7 +35,7 @@ $bkx_legal = bkx_crud_option_multisite('bkx_legal_options');
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Contact details:</label>
+                    <label><?php esc_html_e("Contact Details", 'bookingx'); ?></label>
                     <input type="text" name="bkx_phone_number" class="form-control" placeholder="Phone">
                 </div>
             </div>
