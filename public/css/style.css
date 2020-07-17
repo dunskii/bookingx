@@ -476,12 +476,21 @@ Gutenberg Style
     border-radius: .25rem;
 }
 
+.booking-x .entry-content .gutenberg-booking-x-bases-data,
+.booking-x .entry-content .gutenberg-booking-x-seats-data,
+.booking-x .entry-content .gutenberg-booking-x-additions-data{
+    max-width: 100%;
+}
 
 /**
 Listing CSS Bootstrap 4
  */
 .booking-x-lists .row > div[class*='col-'], .booking-x-bkx-seat .row > div[class*='col-'], .booking-x-bkx-base .row > div[class*='col-'], .booking-x-bkx-addition .row > div[class*='col-'] {
     display: flex;
+}
+
+.booking-x .booking-x-lists .card-block img{
+    width: 100%;
 }
 
 /* Media */
