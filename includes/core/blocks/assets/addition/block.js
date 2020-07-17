@@ -78,9 +78,11 @@
         attributes: {
             'showDesc': {
                 type: 'boolean',
+                default: true
             },
             'showImage': {
                 type: 'boolean',
+                default: true
             },
             // 'showExtra': {
             //     type: 'boolean',

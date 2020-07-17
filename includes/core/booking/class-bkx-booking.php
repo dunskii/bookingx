@@ -2153,7 +2153,7 @@ class BkxBooking
                     'posts_per_page' => -1,
                     'meta_query' => array(
                         array(
-                            'key' => 'booking_date',
+                            'key' => 'booking_start_date',
                             'value' => $search_date,
                             'compare' => '>='
 
@@ -2169,10 +2169,9 @@ class BkxBooking
                     'posts_per_page' => -1,
                     'meta_query' => array(
                         array(
-                            'key' => 'booking_date',
+                            'key' => 'booking_start_date',
                             'value' => $search_date,
                             'compare' => '<'
-
                         ),
                     ),
                 );

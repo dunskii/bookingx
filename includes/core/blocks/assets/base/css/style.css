@@ -11,3 +11,7 @@
     border: 1px solid rgba(0, 0, 0, .125);
     border-radius: .25rem;
 }
+.booking-x-container .gutenberg-booking-x-bases-data{
+    max-width: 100%;
+}
+
