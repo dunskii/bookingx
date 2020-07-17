@@ -213,7 +213,7 @@ function bkx_get_formatted_price($price)
     $currencyBlock = '';
     $currency_option = (bkx_crud_option_multisite('currency_option') ? bkx_crud_option_multisite('currency_option') : 'AUD');
     if (!empty($price)) :
-        $currencyBlock = '<span class="currencyBlock"><currency itemprop="priceCurrency price" content="' . $currency_option . '' . $price . '" style="color:#7BBD4D!important"> ' . get_bookingx_currency_symbol($currency_option) . '' . $price . '</currency></span>';
+        $currencyBlock = '<span class="currencyBlock"><currency itemprop="priceCurrency price" content="' . $currency_option . '' . $price . '" > ' . get_bookingx_currency_symbol($currency_option) . '' . $price . '</currency></span>';
     endif;
 
     return $currencyBlock;
@@ -378,12 +378,12 @@ if (!function_exists('booking_x_page_title')) {
 if (!function_exists('bookingx_card_width_setting')) {
     function bookingx_card_width_setting()
     {
-        $width = '18rem';
+        $width = 'auto';
         switch (get_template()) {
             case 'twentytwenty':
-                $width = '38rem';
+            case 'twentynineteen':
+                $width = 'auto';
                 break;
-
         }
         return $width;
     }
