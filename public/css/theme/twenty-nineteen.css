@@ -3,7 +3,11 @@
 .booking-x .booking-x-bkx-base .btn-primary,
 .booking-x .booking-x-bkx-addition .btn-primary,
 .booking-x .entry .entry-content a:visited {
-  text-decoration: none; }
+  text-decoration: none;
+  color: #fff; }
+
+.booking-x .card-body .btn.btn-primary {
+  color: #fff; }
 
 .booking-x-orders-table__cell-booking-actions a {
   font-size: 15px; }
