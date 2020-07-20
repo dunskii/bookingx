@@ -117,7 +117,7 @@
     .entry-content > .booking-x:not(.alignwide):not(.alignfull):not(.alignleft):not(.alignright):not(.is-style-wide)
     {
       max-width: 90rem;
-      width: calc(100% - 4rem);
+      width: calc(100%);
     }
     .booking-x .select-time .table td a {
       padding: 3px 5px;
@@ -199,3 +199,20 @@
       color: #006599;
     }
   }
+
+@media (max-width: 600px){
+
+
+  .booking-x-form{
+    .entry-content{
+      width:100%;
+      font-size: 17px;
+    }
+    .bkx-booking-form .schedule-indicator{
+      width: 100%;
+    }
+    .bkx-booking-form .schedule-indicator ul{
+      margin: 0 0 2rem 0rem;
+    }
+  }
+}
