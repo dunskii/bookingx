@@ -376,13 +376,14 @@ if (!function_exists('booking_x_page_title')) {
 }
 
 if (!function_exists('bookingx_card_width_setting')) {
-    function bookingx_card_width_setting()
+    function bookingx_card_width_setting($args )
     {
-        $width = 'auto';
+       //if($args['columns'])
+        $width = '100%;';
         switch (get_template()) {
             case 'twentytwenty':
             case 'twentynineteen':
-                $width = 'auto';
+                $width = '100%;';
                 break;
         }
         return $width;

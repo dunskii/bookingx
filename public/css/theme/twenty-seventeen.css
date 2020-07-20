@@ -64,6 +64,8 @@
   background: #333; }
 .booking-x .calendar-yvv .calendar-month .btn {
   color: #333; }
+.booking-x .card-body .btn.btn-primary {
+  color: #fff; }
 
 .booking-x-dashboard .form-group label {
   font-size: 18px;
