@@ -936,6 +936,24 @@ function is_staff()
 }
 
 /**
+ * @return bool
+ */
+function is_bookingx_admin(){
+    $status = false;
+    $current_screen = get_current_screen();
+    $admin_base_screens = array(
+        'base' => array( 'bkx_booking_page_bkx-setting', 'edit', 'add'),
+        'post_type' => array('bkx_booking', 'bkx_seat', 'bkx_base', 'bkx_addition')
+    );
+    $admin_base_screens = apply_filters('bkx_admin_screens_access',$admin_base_screens );
+    if(is_admin() && in_array($current_screen->base, $admin_base_screens['base'])
+        || in_array($current_screen->post_type, $admin_base_screens['post_type']) ){
+        $status = true;
+    }
+    return $status;
+}
+
+/**
  * @param $booking_id
  * @return string|void
  */
