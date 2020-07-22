@@ -40,7 +40,7 @@ if (!empty($seat_available_months) || !empty($seat_available_days) || !empty($se
             echo sprintf( __('<li><div class="months"><label>%s : %s </label> </li>','bookingx'),'Months', implode(", ", $seat_available_months));
         endif;
         if (!empty($seat_available_days)):
-            echo sprintf( __('<li><div class="days"><label>%s : %s </label></li>', '<strong>Days of operations</strong>','bookingx'), $days);
+            echo sprintf( __('<li><div class="days"><label>%s : %s </label></li>','bookingx'), 'Days of operations',$days);
         endif;
         if (!empty($seat_payment_info)):
             echo sprintf( __('<li><div class="payment-info"><label> %s : &nbsp; %s</label></li>','bookingx'), 'Booking Require Pre Payment', $payment_info);

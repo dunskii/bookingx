@@ -390,13 +390,13 @@ function bkx_list_table_views_filter($view)
             $seat_post_id = get_user_meta($current_seat_id, 'seat_post_id', true);
             if (isset($seat_post_id) && $seat_post_id != '') {
                 $querystr = " 
-                SELECT {$wpdb}->posts.post_status, COUNT( * ) AS num_posts FROM {$wpdb}->posts, {$wpdb}->postmeta
-                WHERE {$wpdb}->posts.ID = $wpdb->postmeta.post_id 
-                AND {$wpdb}->posts.post_type = 'bkx_booking'
-                AND {$wpdb}->postmeta.meta_key = 'seat_id' 
-                AND {$wpdb}->postmeta.meta_value = $seat_post_id 
-                AND {$wpdb}->posts.post_status IN ('bkx-pending', 'bkx-ack', 'bkx-completed', 'bkx-missed', 'bkx-cancelled')
-                GROUP BY {$wpdb}->posts.post_status";
+                SELECT $wpdb->posts.post_status, COUNT( * ) AS num_posts FROM $wpdb->posts, $wpdb->postmeta
+                WHERE $wpdb->posts.ID = $wpdb->postmeta.post_id 
+                AND $wpdb->posts.post_type = 'bkx_booking'
+                AND $wpdb->postmeta.meta_key = 'seat_id' 
+                AND $wpdb->postmeta.meta_value = $seat_post_id 
+                AND $wpdb->posts.post_status IN ('bkx-pending', 'bkx-ack', 'bkx-completed', 'bkx-missed', 'bkx-cancelled')
+                GROUP BY $wpdb->posts.post_status";
                 $bkx_post_count = $wpdb->get_results($querystr, OBJECT);
                 $query_request = $wp_query->query['post_status'];
                 $status_counts = array();

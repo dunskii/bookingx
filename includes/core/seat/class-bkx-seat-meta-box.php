@@ -811,6 +811,7 @@ if (!class_exists('BkxSeatMetaBox')) {
             } else {
                 $role = 'resource';
             }
+
             if ($bkx_user_auto == 'N') {
                 if (isset($associate_with_username) && $associate_with_username != '') {
                     $user = get_user_by('id', $associate_with_username);
@@ -850,21 +851,21 @@ if (!class_exists('BkxSeatMetaBox')) {
                 }
             }
             if (isset($bkx_user_id) && $bkx_user_id != '') {
-                if ($bkx_user_auto == 'Y') {
-                    $userdata = array(
-                        'ID' => $bkx_user_id,
-                        'first_name' => sanitize_text_field($_POST['post_title']),
-                        'role' => $role,
-                        'user_email' => $seatEmail,
-                        'display_name' => sanitize_text_field($_POST['post_title']),
-                    );
-                } else {
-                    $userdata = array(
-                        'ID' => $bkx_user_id,
-                        'role' => $role,
-                    );
-                }
-                $bkx_user_id = wp_update_user($userdata);
+//                if ($bkx_user_auto == 'Y') {
+//                    $userdata = array(
+//                        'ID' => $bkx_user_id,
+//                        'first_name' => sanitize_text_field($_POST['post_title']),
+//                        //'role' => $role,
+//                        'user_email' => $seatEmail,
+//                        'display_name' => sanitize_text_field($_POST['post_title']),
+//                    );
+//                } else {
+//                    $userdata = array(
+//                        'ID' => $bkx_user_id,
+//                        //'role' => $role,
+//                    );
+//                }
+//                $bkx_user_id = wp_update_user($userdata);
                 update_user_meta($bkx_user_id, 'seat_post_id', $post_id);
                 update_post_meta($post_id, 'seat_user_id', $bkx_user_id);
                 if (isset($_POST['seat_street']))
