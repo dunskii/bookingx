@@ -14,10 +14,10 @@ if (!empty($args)) {
     $image = $args['image'];
 }
 $args_data = apply_filters('bkx_listing_post_view_args', array('post_type' => 'bkx_addition', 'ID' => $addition_id) );
-
+//style="width: <?php echo $card_width;
 ?>
 <div class="<?php echo $settings['class']; ?>  addition-<?php echo $addition_id; ?>">
-    <div class="card<?php echo $settings['block']; ?>" style="width: <?php echo $card_width; ?>">
+    <div class="card<?php echo $settings['block']; ?>" >
         <?php if ($image == "yes") : ?>
             <?php echo $bkx_addition->get_thumb(); ?>
         <?php endif; ?>

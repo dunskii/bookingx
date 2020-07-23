@@ -14,7 +14,7 @@ if (!empty($args)) {
 $args_data = apply_filters('bkx_listing_post_view_args', array('post_type' => 'bkx_seat', 'ID' => $seat_id) );
 ?>
 <div class="<?php echo $settings['class']; ?>">
-    <div class="card<?php echo $settings['block']; ?>" style="width: <?php echo $card_width; ?>">
+    <div class="card<?php echo $settings['block']; ?>">
         <?php if ($image == "yes") : ?>
             <?php echo $bkx_seat->get_thumb(); ?>
         <?php endif; ?>

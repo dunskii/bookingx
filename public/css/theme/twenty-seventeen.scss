@@ -50,67 +50,40 @@
     }
 }
 
-    /* Detail */
-    .booking-x {
-        .user-detail{ background: #f4f4f4;}
-        .booking-x .user-detail dl dt { color: #555555;}
-        .booking-x .user-detail dl dd {
-            margin: 0px 5px 0px 10px;
-        }
-        .select-time .table td a {
-            color: #555555;
-        }
-        .select-time .table td a.disabled {
-            background: #666;
-            color: #fff;
-        }
-        .select-time .table td a.selected {
-            background: #333;
-            color: #fff;
-        }
-        .select-time .table th {
-            background: #066595;
-            color: #fff;
-            border-color: #066595;
-        }
-        .indicator ul li::before {
-            background: #ebebeb;
-            border: #ebebeb solid 1px;
-        }
-        .indicator ul li.booked::before {
-            background: #666;
-        }
-        .indicator ul li.open::before {
-            background: #fff;
-        }
-        .indicator ul li.current::before {
-            background: #333;
-        }
-        .calendar-yvv .calendar-month .btn {
-            color: #333;
-        }
-        .card-body .btn.btn-primary {
-            color: #fff;
-        }
+/* Detail */
+.booking-x {
+    .user-detail{ background: #f4f4f4;}
+    .booking-x .user-detail dl dt { color: #555555;}
+    .booking-x .user-detail dl dd {
+        margin: 0px 5px 0px 10px;
     }
-    .booking-x-dashboard {
-        .form-group label {
-            font-size: 18px;
-            font-weight: normal;
-        }
+    .btn-primary {
+        color: inherit;
+        background-color: inherit;
+        border-color: inherit;
     }
-    @media (max-width: 479px) {
-        .booking-x-form ul, .booking-x-form ol {
-            margin: 0 0 2rem 0;
-        }
-        .booking-x .indicator ul li {
-            margin: auto;
-        }
+    .card-body .btn.btn-primary {
+        color: #fff;
     }
+}
+.booking-x-dashboard {
+    .form-group label {
+        font-size: 18px;
+        font-weight: normal;
+    }
+}
+@media (max-width: 479px) {
+    .booking-x-form ul, .booking-x-form ol {
+        margin: 0 0 2rem 0;
+    }
+    .booking-x .indicator ul li {
+        margin: auto;
+    }
+}
 
-    @media screen and (min-width: 30em) {
-        .booking-x-dashboard .bkx-dashboard-booking h2 {
-            font-size: 1.3rem;
-        }
+@media screen and (min-width: 30em) {
+    .booking-x-dashboard .bkx-dashboard-booking h2 {
+        font-size: 1.3rem;
     }
+}
 

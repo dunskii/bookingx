@@ -15,18 +15,18 @@ jQuery(document).on('submit', '#post', function (e) {
     if (jQuery('#selOpt').val() == "") {
         error_list.push("Please select associate option");
     }
-    if (jQuery("input[name=bkx_user_auto]:radio:checked").val() == "N") {
-        if (jQuery('#selOpt').val() == 'Y') {
-            if (jQuery('#role').val() == "") {
-                error_list.push("Please select user type");
-            }
-            if (jQuery('#role').val() != "") {
-                if (jQuery('#users').val() == "") {
-                    error_list.push("Please select user");
-                }
-            }
-        }
-    }
+    // if (jQuery("input[name=bkx_user_auto]:radio:checked").val() == "N") {
+    //     if (jQuery('#selOpt').val() == 'Y') {
+    //         if (jQuery('#role').val() == "") {
+    //             error_list.push("Please select user type");
+    //         }
+    //         if (jQuery('#role').val() != "") {
+    //             if (jQuery('#users').val() == "") {
+    //                 error_list.push("Please select user");
+    //             }
+    //         }
+    //     }
+    // }
     if (jQuery('textarea#id_seat_description').val() == "") {
         error_list.push("Please enter seat description");
     }
@@ -388,24 +388,24 @@ jQuery(document).ready(function () {
             jQuery('#selRoles').hide();
         }
     });
-    var bkx_user_auto = jQuery('input[name=bkx_user_auto]:checked').val();
-    if (bkx_user_auto == 'Y') {
-        jQuery('#selUsers').hide();
-        jQuery('#selRoles').hide();
-    }
-    if (bkx_user_auto == 'N' && jQuery('#selOpt').val() == 'Y') {
-        jQuery('#selRoles').show();
-    }
-    jQuery("input[name=bkx_user_auto]").bind("change", function (event, ui) {
-        var bkx_user_auto = jQuery(this).val();
-        if (bkx_user_auto == "Y") {
-            jQuery('#selUsers').hide();
-            jQuery('#selRoles').hide();
-        }
-        if (bkx_user_auto == "N") {
-            jQuery('#selRoles').show();
-        }
-    });
+    // var bkx_user_auto = jQuery('input[name=bkx_user_auto]:checked').val();
+    // if (bkx_user_auto == 'Y') {
+    //     jQuery('#selUsers').hide();
+    //     jQuery('#selRoles').hide();
+    // }
+    // if (bkx_user_auto == 'N' && jQuery('#selOpt').val() == 'Y') {
+    //     jQuery('#selRoles').show();
+    // }
+    // jQuery("input[name=bkx_user_auto]").bind("change", function (event, ui) {
+    //     var bkx_user_auto = jQuery(this).val();
+    //     if (bkx_user_auto == "Y") {
+    //         jQuery('#selUsers').hide();
+    //         jQuery('#selRoles').hide();
+    //     }
+    //     if (bkx_user_auto == "N") {
+    //         jQuery('#selRoles').show();
+    //     }
+    // });
     jQuery('#role').on('change', function () {
         if (jQuery(this).val() != '') {
             var data = {
