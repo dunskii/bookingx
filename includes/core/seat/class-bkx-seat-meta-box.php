@@ -484,7 +484,8 @@ if (!class_exists('BkxSeatMetaBox')) {
                     $hide_related = 'display:block';
                 }
             }
-            $crete_user_auto_status = ($associate_with_user == 'Y') ? 'display:block;' : 'display:none;';
+            //$crete_user_auto_status = ($associate_with_user == 'Y') ? 'display:block;' : 'display:none;';
+            $crete_user_auto_status =  'display:none;';
             $user_type_showhide = ($bkx_user_auto == 'N') ? 'display:block;' : 'display:none;';
             ?>
             <div class="bkx_user_mannual" style="<?php echo $mannual; ?>">
@@ -497,22 +498,22 @@ if (!class_exists('BkxSeatMetaBox')) {
                         echo "selected='selected'";
                     } ?>><?php esc_html_e('YES', 'bookingx'); ?></option>
                 </select>
-                <div class="crete_user_auto" id="crete_user_auto" style="<?php echo $crete_user_auto_status; ?>">
-                    <p><?php printf(esc_html__('Create User automatically : ', 'bookingx')); ?></p>
+                <!--<div class="crete_user_auto" id="crete_user_auto" style="<?php /*echo $crete_user_auto_status; */?>">
+                    <p><?php /*printf(esc_html__('Create User automatically : ', 'bookingx')); */?></p>
                     <p><input type="radio" name="bkx_user_auto" id="id_bkx_user_auto_y"
-                              value="Y" <?php if ($bkx_user_auto == "Y") {
+                              value="Y" <?php /*if ($bkx_user_auto == "Y") {
                             echo "checked='checked'";
-                        } ?> <?php if (!isset($bkx_user_auto)) {
+                        } */?> <?php /*if (!isset($bkx_user_auto)) {
                             echo "checked='checked'";
-                        } ?>>Yes
+                        } */?>>Yes
                         <input type="radio" name="bkx_user_auto" id="id_bkx_user_auto_n"
-                               value="N" <?php if ($bkx_user_auto == "N") {
+                               value="N" <?php /*if ($bkx_user_auto == "N") {
                             echo "checked='checked'";
-                        } ?> <?php if ($bkx_user_auto == "") {
+                        } */?> <?php /*if ($bkx_user_auto == "") {
                             echo "checked='checked'";
-                        } ?> />No
+                        } */?> />No
                     </p>
-                </div>
+                </div>-->
 
                 <div class="active" id="selRoles" style="<?php echo $crete_user_auto_status; ?>">
                     <?php esc_html_e('Please select user type :', 'bookingx'); ?>

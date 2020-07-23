@@ -41,29 +41,10 @@
   color: #555555; }
 .booking-x .booking-x .user-detail dl dd {
   margin: 0px 5px 0px 10px; }
-.booking-x .select-time .table td a {
-  color: #555555; }
-.booking-x .select-time .table td a.disabled {
-  background: #666;
-  color: #fff; }
-.booking-x .select-time .table td a.selected {
-  background: #333;
-  color: #fff; }
-.booking-x .select-time .table th {
-  background: #066595;
-  color: #fff;
-  border-color: #066595; }
-.booking-x .indicator ul li::before {
-  background: #ebebeb;
-  border: #ebebeb solid 1px; }
-.booking-x .indicator ul li.booked::before {
-  background: #666; }
-.booking-x .indicator ul li.open::before {
-  background: #fff; }
-.booking-x .indicator ul li.current::before {
-  background: #333; }
-.booking-x .calendar-yvv .calendar-month .btn {
-  color: #333; }
+.booking-x .btn-primary {
+  color: inherit;
+  background-color: inherit;
+  border-color: inherit; }
 .booking-x .card-body .btn.btn-primary {
   color: #fff; }
 

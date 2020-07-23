@@ -15,10 +15,10 @@ if (!empty($args)) {
 }
 $args_data = apply_filters('bkx_listing_post_view_args', array('post_type' => 'bkx_base', 'ID' => $base_id) );
 $center_class = "";
-
+//style="width: <?php echo $card_width;"
 ?>
 <div class="<?php echo $settings['class']; ?> base-<?php echo $base_id; ?>">
-    <div class="card<?php echo $settings['block']; ?>" style="width: <?php echo $card_width; ?>">
+    <div class="card<?php echo $settings['block']; ?>">
         <?php if ($image == "yes") : ?>
         <?php echo $bkx_base->get_thumb(); ?>
         <?php endif; ?>

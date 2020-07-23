@@ -684,6 +684,21 @@ function bkx_convert_for_hours($seconds)
 
 function bkx_generate_inline_style()
 {
+    $my_theme = wp_get_theme();
+    $text_domain = esc_html( $my_theme->get( 'TextDomain' ) );
+    $booked = $open = $current = $selected_time_color = "";
+    //if(!empty($my_theme) && $text_domain == 'twentytwenty'){
+    if(class_exists('BKX_Twenty_Twenty')){
+        $BKX_Twenty_Twenty = new BKX_Twenty_Twenty();
+        $default_colors = $BKX_Twenty_Twenty->default_colors();
+        if(!empty($default_colors)){
+            $booked = $default_colors['booked'];
+            $open = $default_colors['open'];
+            $current = $default_colors['current'];
+            $selected_time_color = $default_colors['selected_time_color'];
+        }
+    }
+
     $custom_css = "";
     $text_color = bkx_crud_option_multisite('bkx_form_text_color');
     $text_color = ($text_color) ? $text_color : '';
@@ -695,16 +710,16 @@ function bkx_generate_inline_style()
     $cal_day_selected_color = ($cal_day_selected_color) ? $cal_day_selected_color : '';
 
     $time_available_color = bkx_crud_option_multisite('bkx_time_available_color');
-    $time_available_color = ($time_available_color) ? $time_available_color : '';
+    $time_available_color = ($time_available_color) ? $time_available_color : "{$open}";
 
     $bkx_active_step_color = bkx_crud_option_multisite('bkx_active_step_color');
     $bkx_active_step_color = ($bkx_active_step_color) ? $bkx_active_step_color : 'currentColor';
 
     $time_selected_color = bkx_crud_option_multisite('bkx_time_selected_color');
-    $time_selected_color = ($time_selected_color) ? $time_selected_color : '';
+    $time_selected_color = ($time_selected_color) ? $time_selected_color : "{$current}";
 
     $time_unavailable_color = bkx_crud_option_multisite('bkx_time_unavailable_color');
-    $time_unavailable_color = ($time_unavailable_color) ? $time_unavailable_color : '';
+    $time_unavailable_color = ($time_unavailable_color) ? $time_unavailable_color : "{$booked}";
 
     $slot_time_color = bkx_crud_option_multisite('bkx_form_slot_time_color');
     $slot_time_color = ($slot_time_color) ? $slot_time_color : '';
