@@ -15,7 +15,7 @@ defined('ABSPATH') || exit;
                 <!-- Start Initialized Steps -->
                 <?php bkx_get_template('booking-form/steps/step-1.php'); ?>
                 <?php bkx_get_template('booking-form/steps/step-2.php') ?>
-                <?php //bkx_get_template('booking-form/steps/step-2b.php')?>
+                <?php bkx_get_template('booking-form/steps/step-2b.php')?>
                 <?php bkx_get_template('booking-form/steps/step-3.php') ?>
                 <?php bkx_get_template('booking-form/steps/step-4.php') ?>
                 <!-- End Initialized Steps -->

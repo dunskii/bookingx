@@ -379,11 +379,11 @@ if (!function_exists('bookingx_card_width_setting')) {
     function bookingx_card_width_setting($args )
     {
        //if($args['columns'])
-        $width = '100%;';
+        $width = '';
         switch (get_template()) {
             case 'twentytwenty':
             case 'twentynineteen':
-                $width = '100%;';
+                //$width = '100%;';
                 break;
         }
         return $width;

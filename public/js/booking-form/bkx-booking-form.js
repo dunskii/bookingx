@@ -312,6 +312,7 @@ jQuery(function ($) {
                 $('.bkx-booking-form .step-2.default').hide();
                 booking_form.BookingFormGetCalendarAvailabilityDayStyle(moment().format("Y-M-D"));
             }
+
             if (1 === flag() && GetCurrentStep() < 4) {
                 booking_form.BookingFormProgressNext();
                 booking_form.scroll_to_notices();

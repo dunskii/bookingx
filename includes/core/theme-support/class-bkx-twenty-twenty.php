@@ -84,6 +84,14 @@ class BKX_Twenty_Twenty
     }
 
     /**
+     * @return mixed|void
+     */
+    public function default_colors(){
+        $colors = array('booked' => '#666', 'open' => '#fff', 'current' => '#333', 'selected_time_color' => '#fff');
+        return apply_filters('bkx_booking_form_color_schema', $colors);
+    }
+
+    /**
      * Set background color to white if it's default, otherwise don't touch it.
      */
     public static function set_white_background()

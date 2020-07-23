@@ -23,19 +23,21 @@ jQuery(function ($) {
         return true;
     };
 
-    var GetCurrentStep = function () {
+    const GetCurrentStep = function () {
         var current_obj = $(".bkx-booking-form").find(".bkx-form-active").data("active");
         return current_obj;
     };
 
-    var CheckIsActiveForm = function (step = 1) {
+    let is_edit = false;
+
+    const CheckIsActiveForm = function (step = 1) {
         return $('.bkx-booking-form .step-' + step).hasClass('bkx-form-active');
     };
 
     /**
      * Object to handle Booking form Ajax Call.
      */
-    var booking_form = {
+    const booking_form = {
         $error_group: $('.bkx-booking-form .bookingx-error-group'),
         seat_id: "",
         base_id: "",
@@ -55,6 +57,7 @@ jQuery(function ($) {
             booking_form.update_booking_total();
             if (bkx_booking_form_admin_params.seat_id > 0) {
                 booking_form.skip_step_1();
+                is_edit = true;
             }
             $(document).on('change select', '.bkx-booking-form .step-1 .bkx-staff', this.seat_change);
             $(document).on('change select', '.bkx-booking-form .step-1 .bkx-services-lists', this.base_change);
@@ -194,8 +197,9 @@ jQuery(function ($) {
                         service_extend.html('');
                     }
                 },
+
                 complete: function () {
-                    if (bkx_booking_form_admin_params.addition_ids != 0) {
+                    if (bkx_booking_form_admin_params.seat_id && bkx_booking_form_admin_params.addition_ids != 0) {
                         var extra_selected = bkx_booking_form_admin_params.addition_ids.split(',');
                         for (id in extra_selected) {
                             $("#bkx-extra-service-" + extra_selected[id]).prop('checked', true);
@@ -203,7 +207,7 @@ jQuery(function ($) {
                         }
                     }
                     booking_form.extra_checked();
-                    if (bkx_booking_form_admin_params.extended_base > 0) {
+                    if (bkx_booking_form_admin_params.seat_id && bkx_booking_form_admin_params.extended_base > 0) {
                         $('.bkx-booking-form .step-1 .bkx-services-extend').val(bkx_booking_form_admin_params.extended_base);
                         booking_form.update_booking_total();
                     }
@@ -216,13 +220,24 @@ jQuery(function ($) {
             if (listToArray(".bkx-booking-form .step-1 :input[name^=bkx-extra-service]:checked") != 'None') {
                 booking_form.disable_days_note.html("<div class=\"row\"><div class=\"col-lg-12\"> <strong> Note : </strong> " + bkx_booking_form_admin_params.disable_days_note + "</div></div>");
             }
-            booking_form.form_progress();
+            if (is_edit == true) {
+                booking_form.form_progress();
+            }
+
         },
         submit: function (e) {
             e.preventDefault();
             booking_form.form_progress();
         },
         form_progress: function () {
+            var form_next_access = 4;
+            if (bkx_booking_form_admin_params.seat_id > 0) {
+                form_next_access = 2;
+            }
+            var selected_date = moment().format("Y-M-D");
+            if (is_edit == true && bkx_booking_form_admin_params.booking_date) {
+                selected_date = bkx_booking_form_admin_params.booking_date;
+            }
             booking_form.seat_id = parseInt($('.bkx-booking-form .step-1 .bkx-staff-lists').val());
             booking_form.base_id = parseInt($('.bkx-booking-form .step-1 .bkx-services-lists').val());
             booking_form.extra_id = listToArray(".bkx-booking-form .step-1 :input[name^=bkx-extra-service]:checked");
@@ -239,17 +254,18 @@ jQuery(function ($) {
             if (GetCurrentStep() < 2 && booking_form.booking_style == 'default') {
                 $('.bkx-booking-form .step-2.default').show();
                 $('.bkx-booking-form .step-2.day-style').hide();
-                booking_form.BookingFormGetCalendarAvailability((bkx_booking_form_admin_params.booking_date) ? bkx_booking_form_admin_params.booking_date : moment().format("Y-M-D"));
+                booking_form.BookingFormGetCalendarAvailability(selected_date);
             }
 
             //Booking Step 2B Design
             if (GetCurrentStep() < 2 && booking_form.booking_style == 'day_style') {
                 $('.bkx-booking-form .step-2.day-style').show();
                 $('.bkx-booking-form .step-2.default').hide();
-                booking_form.BookingFormGetCalendarAvailabilityDayStyle((bkx_booking_form_admin_params.booking_date) ? bkx_booking_form_admin_params.booking_date : moment().format("Y-M-D"));
+                booking_form.BookingFormGetCalendarAvailabilityDayStyle(selected_date);
             }
 
-            if (booking_form.flag == 1 && GetCurrentStep() < 2) {
+            if (booking_form.flag == 1 && GetCurrentStep() < form_next_access) {
+
                 booking_form.BookingFormProgressNext();
                 booking_form.scroll_to_notices();
             }
@@ -326,7 +342,7 @@ jQuery(function ($) {
                             booking_form.scroll_to_notices();
                             $('.bkx-form-submission-final').prop('disabled', false);
                             $('.bkx-form-submission-final').text('Booking Update');
-                        }  else if (response == 'SWR') {
+                        } else if (response == 'SWR') {
                             booking_form.$error_group.prepend('<div class="row"><div class="col-md-12"><ul class="bookingx-error">' + bkx_booking_form_admin_params.string_something_went + '</ul></div></div>');
                             booking_form.scroll_to_notices();
                             $('.bkx-form-submission-final').prop('disabled', false);
@@ -408,12 +424,14 @@ jQuery(function ($) {
         validate_form_fields: function () {
 
             var $error_messages = "";
-            /*if(booking_form.seat_id !== booking_form.seat_id){
-                $error_messages +=" <li>" +bkx_booking_form_admin_params.string_select_a_seat+ "</li>"
+            if(is_edit == false){
+                if(booking_form.seat_id !== booking_form.seat_id){
+                    $error_messages +=" <li>" +bkx_booking_form_admin_params.string_select_a_seat+ "</li>"
+                }
+                if(booking_form.base_id !== booking_form.base_id){
+                    $error_messages +=" <li>" +bkx_booking_form_admin_params.string_select_a_base+ "</li>"
+                }
             }
-            if(booking_form.base_id !== booking_form.base_id){
-                $error_messages +=" <li>" +bkx_booking_form_admin_params.string_select_a_base+ "</li>"
-            }*/
 
             if ($('.booking-slots').data('starting_slot') == 0 && GetCurrentStep() == 2 && booking_form.time_option == "M") {
                 $error_messages += " <li> " + bkx_booking_form_params.string_select_date_time + "</li>"
@@ -422,28 +440,30 @@ jQuery(function ($) {
             if (booking_form.days_selected == "" && booking_form.time_option == "D" && GetCurrentStep() == 2) {
                 $error_messages += " <li> " + bkx_booking_form_params.bkx_validate_day_select + "</li>"
             }
+            if(is_edit == false){
+                if( GetCurrentStep() == 3 ){
+                    if( booking_form.validate_user_details() == true){
+                        $error_messages += "Please complete below form.";
+                    }
+                   /* if( listToArray(".bkx-booking-form .step-3 :input[name^=bkx_terms_and_conditions]:checked") == 'None'){
+                        $error_messages +=" <li> " +bkx_booking_form_admin_params.bkx_terms_and_conditions+ "</li>"
+                    }
+                    if( listToArray(".bkx-booking-form .step-3 :input[name^=bkx_privacy_policy]:checked") == 'None'){
+                        $error_messages +=" <li> " +bkx_booking_form_admin_params.bkx_privacy_policy+ "</li>"
+                    }
+                    if( listToArray(".bkx-booking-form .step-3 :input[name^=bkx_cancellation_policy]:checked") == 'None'){
+                        $error_messages +=" <li> " +bkx_booking_form_admin_params.bkx_cancellation_policy+ "</li>"
+                    }*/
+                }
 
-            /*if( GetCurrentStep() == 3 ){
-                if( booking_form.validate_user_details() == true){
-                    $error_messages += "Please complete below form.";
-                }
-                if( listToArray(".bkx-booking-form .step-3 :input[name^=bkx_terms_and_conditions]:checked") == 'None'){
-                    $error_messages +=" <li> " +bkx_booking_form_admin_params.bkx_terms_and_conditions+ "</li>"
-                }
-                if( listToArray(".bkx-booking-form .step-3 :input[name^=bkx_privacy_policy]:checked") == 'None'){
-                    $error_messages +=" <li> " +bkx_booking_form_admin_params.bkx_privacy_policy+ "</li>"
-                }
-                if( listToArray(".bkx-booking-form .step-3 :input[name^=bkx_cancellation_policy]:checked") == 'None'){
-                    $error_messages +=" <li> " +bkx_booking_form_admin_params.bkx_cancellation_policy+ "</li>"
-                }
-            }*/
+                 /*if( GetCurrentStep() == 4 ){
+                     var bkx_payment_gateway_method = listToArray(".bkx-booking-form .step-4 :input[name^=bkx_payment_gateway_method]:checked");
+                     if(bkx_payment_gateway_method == "None"){
+                         $error_messages +=" <li> Please select payment method.</li>"
+                     }
+                 }*/
+            }
 
-            // if( GetCurrentStep() == 4 ){
-            //     var bkx_payment_gateway_method = listToArray(".bkx-booking-form .step-4 :input[name^=bkx_payment_gateway_method]:checked");
-            //     if(bkx_payment_gateway_method == "None"){
-            //         $error_messages +=" <li> Please select payment method.</li>"
-            //     }
-            // }
 
             if ($error_messages) {
                 booking_form.submit_error($error_messages);
@@ -896,6 +916,6 @@ jQuery(function ($) {
                 }
             });
         }
-    }
+    };
     booking_form.init();
 });

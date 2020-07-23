@@ -4,11 +4,8 @@
 .booking-x .booking-x-bkx-addition .btn-primary,
 .booking-x .entry .entry-content a:visited {
     text-decoration: none;
-    color: #fff;
 }
-.booking-x .card-body .btn.btn-primary {
-    color: #fff;
-}
+
 .booking-x-orders-table__cell-booking-actions a{
     font-size: 15px;
 }
@@ -54,7 +51,7 @@
     }
 }
 
-    .booking-x-form .booking-x .select-time .table td a {
+        .booking-x-form .booking-x .select-time .table td a {
         padding: 3px 5px;
         font-size: 18px;
     }
@@ -83,34 +80,10 @@
         .booking-x .user-detail dl dd {
             margin: 0px 5px 0px 10px;
         }
-        .select-time .table td a {
-            color: #555555;
-        }
-        .select-time .table td a.disabled {
-            background: #666;
-            color: #fff;
-        }
-        .select-time .table td a.selected {
-            background: #333;
-            color: #fff;
-        }
-        .select-time .table th {
-            background: #066595;
-            color: #fff;
-            border-color: #066595;
-        }
-        .indicator ul li::before {
-            background: #ebebeb;
-            border: #ebebeb solid 1px;
-        }
-        .indicator ul li.booked::before {
-            background: #666;
-        }
-        .indicator ul li.open::before {
-            background: #fff;
-        }
-        .indicator ul li.current::before {
-            background: #333;
+        .btn-primary {
+            color: inherit;
+            background-color: inherit;
+            border-color: inherit;
         }
         .calendar-yvv .calendar-month .btn {
             color: #333;
