@@ -247,7 +247,7 @@ class Bkx_Ajax_Loader
             $seat_id = sanitize_text_field(wp_unslash($_POST['seat_id']));
             $base_obj = new BkxBase();
             $base_html = $base_obj->get_base_options_for_booking_form($seat_id);
-            echo $base_html;
+            echo apply_filters( 'bkx_booking_form_seat_change', $base_html, $seat_id );
         }
         wp_die();
     }
@@ -409,6 +409,7 @@ class Bkx_Ajax_Loader
         $selected_ids['extra_ids'] = $extra_ids;
         $BkxBooking = new BkxBooking();
         $generate_total = $BkxBooking->booking_form_generate_total_formatted($selected_ids);
+        $generate_total = apply_filters( 'bkx_booking_form_generate_total', $generate_total, $_POST );
         echo json_encode($generate_total);
         wp_die();
     }
