@@ -122,9 +122,11 @@ jQuery(function ($) {
          */
         seat_change: function () {
             block($('div.step-1'));
+            var form = $('#bkx-booking-generate');
             var data = {
                 security: bkx_booking_form_params.on_seat_change_nonce,
-                seat_id: $('.bkx-booking-form .step-1 .bkx-staff-lists').val()
+                seat_id: $('.bkx-booking-form .step-1 .bkx-staff-lists').val(),
+                post_data: form.serializeArray()
             };
             var service_list_obj = $('.bkx-booking-form .step-1 .bkx-services-lists');
             var extra_list_obj = $('.bkx-booking-form .step-1 .bkx-extra-lists');
@@ -158,6 +160,7 @@ jQuery(function ($) {
          *  On Change Base Select.
          */
         base_change: function () {
+            var form = $('#bkx-booking-generate');
             block($('div.step-1'));
             booking_form.disable_days_note.html('');
             $('.bkx-booking-form .step-1 :input[name^=bkx-extra-service][type=checkbox]').removeAttr('checked');
@@ -166,7 +169,8 @@ jQuery(function ($) {
             var data = {
                 security: bkx_booking_form_params.on_base_change_nonce,
                 base_id: parseInt($('.bkx-booking-form .step-1 .bkx-services-lists').val()),
-                seat_id: $('.bkx-booking-form .step-1 .bkx-staff-lists').val()
+                seat_id: $('.bkx-booking-form .step-1 .bkx-staff-lists').val(),
+                post_data: form.serializeArray()
             };
             var extra_list_obj = $('.bkx-booking-form .step-1 .bkx-extra-lists');
             var service_extend = $('.bkx-booking-form .step-1 .bkx-services-extend');
@@ -415,10 +419,12 @@ jQuery(function ($) {
             }, 2000);
         },
         payment_method: function () {
+            var form = $('#bkx-booking-generate');
             block($('div.step-4'));
             var data = {
                 security: bkx_booking_form_params.get_payment_method_nonce,
-                seat_id: booking_form.seat_id
+                seat_id: booking_form.seat_id,
+                post_data: form.serializeArray()
             };
             var payment_methods = $('.bkx-booking-form .step-4 .bkx-payment-method');
             payment_methods.html('');
@@ -442,10 +448,12 @@ jQuery(function ($) {
         },
         payment_method_on_change: function () {
             block($('div.step-4'));
+            var form = $('#bkx-booking-generate');
             var data = {
                 security: bkx_booking_form_params.payment_method_on_change_nonce,
                 payment_id: $(this).val(),
-                seat_id: booking_form.seat_id
+                seat_id: booking_form.seat_id,
+                post_data: form.serializeArray()
             };
             //bkx-form-submission-final
             var image_section = $('.bkx-booking-form .step-4 .bkx-form-submission-final');
@@ -595,12 +603,14 @@ jQuery(function ($) {
             block($('div.step-' + GetCurrentStep()));
             var extra_service = listToArray(".bkx-booking-form .step-1 :input[name^=bkx-extra-service]:checked");
             var service_extend = parseInt($('.bkx-booking-form .step-1 .bkx-services-extend').val());
+            var form = $('#bkx-booking-generate');
             var data = {
                 security: bkx_booking_form_params.update_booking_total_nonce,
                 seat_id: $('.bkx-booking-form .step-1 .bkx-staff-lists').val(),
                 base_id: parseInt($('.bkx-services-lists').val()),
                 extra_ids: extra_service,
-                service_extend: service_extend
+                service_extend: service_extend,
+                post_data: form.serializeArray()
             };
             $('.bkx-booking-form .step-4 .tax-section').hide();
             var booking_form_total = $('.bkx-booking-form .bkx-booking-total span');

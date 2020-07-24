@@ -101,8 +101,9 @@ class Bookingx_Admin
             'labels' => $labels,
             'public' => true,
             'has_archive' => sanitize_title($alias_seat),
-            'supports' => array('title', 'editor', 'thumbnail'),
+            'supports' => array('title', 'editor', 'thumbnail', 'excerpt'),
             'query_var' => true,
+            'show_in_rest' => true,
             'rewrite' => array(
                 'slug' => sanitize_title($alias_seat)
             ),
@@ -129,6 +130,7 @@ class Bookingx_Admin
                 'labels' => $labels,
                 'show_ui' => true,
                 'show_admin_column' => true,
+                'show_in_rest' => true,
                 'query_var' => true,
                 'show_in_menu' => true,
                 'rewrite' => array(
@@ -160,9 +162,10 @@ class Bookingx_Admin
         register_post_type('bkx_base', array(
             'labels' => $labels,
             'public' => true,
-            'supports' => array('title', 'editor', 'thumbnail'),
+            'supports' => array('title', 'editor', 'thumbnail', 'excerpt'),
             'show_in_menu' => 'edit.php?post_type=bkx_booking',
             'has_archive' => sanitize_title($bkx_alias_base),
+            'show_in_rest' => true,
             'query_var' => true,
             'rewrite' => array(
                 'slug' => sanitize_title($bkx_alias_base)
@@ -189,6 +192,7 @@ class Bookingx_Admin
                 'labels' => $labels,
                 'show_ui' => true,
                 'show_admin_column' => true,
+                'show_in_rest' => true,
                 'query_var' => true,
             ));
         }
@@ -217,7 +221,8 @@ class Bookingx_Admin
             'labels' => $labels,
             'public' => true,
             'has_archive' => sanitize_title($bkx_alias_addition),
-            'supports' => array('title', 'editor', 'thumbnail'),
+            'supports' => array('title', 'editor', 'thumbnail', 'excerpt'),
+            'show_in_rest' => true,
             'rewrite' => array(
                 'slug' => sanitize_title($bkx_alias_addition)
             ),
@@ -243,6 +248,7 @@ class Bookingx_Admin
                 'labels' => $labels,
                 'show_ui' => true,
                 'show_admin_column' => true,
+                'show_in_rest' => true,
                 'query_var' => true,
             ));
         }
