@@ -10,7 +10,7 @@ do_action('bkx_before_dashboard');
     <div class="container-fluid">
         <div class="row">
             <?php
-            do_action('bkx_dashboard_navigation');
+            //do_action('bkx_dashboard_navigation');
             do_action('bkx_dashboard_content');
             ?>
         </div>

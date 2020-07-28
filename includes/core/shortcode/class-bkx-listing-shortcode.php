@@ -30,14 +30,22 @@ class BKX_Listing_ShortCodes
             } elseif (isset($atts['extra-id']) && $atts['extra-id'] != "") {
                 $id = isset($atts['extra-id']) && $atts['extra-id'] > 0 ? $atts['extra-id'] : 0;
             }
-
+            $order = "ASC";
+            if (isset($atts['order']) && $atts['order'] != "") {
+                $order = $atts['order'];
+            }
+            $order_by = "ID";
+            if (isset($atts['order-by']) && $atts['order-by'] != "") {
+                $order_by = $atts['order-by'];
+            }
             $class = "";
             if ($id > 0) {
                 $query = new WP_Query(array('post_type' => $post_type, 'post__in' => array($id)));
             } else {
-                $query = new WP_Query(array('post_type' => $post_type));
+                $query = new WP_Query(array('post_type' => $post_type, 'order_by' => $order_by , 'order'=>  $order));
                 $class = "booking-x-lists";
             }
+            //echo "<pre>".print_r($query, true)."</pre>";
             if ($query->have_posts()) :?>
                 <div class="container <?php echo $class; ?>">
                     <div class="row">

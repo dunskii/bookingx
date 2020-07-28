@@ -6,7 +6,7 @@
  * public-facing side of the site and the admin area.
  *
  * @link       https://dunskii.com
- * @since      0.7.6.3
+ * @since      0.7.6.4
  *
  * @package    Bookingx
  * @subpackage Bookingx/includes
@@ -21,7 +21,7 @@
  * Also maintains the unique identifier of this plugin as well as the current
  * version of the plugin.
  *
- * @since      0.7.6.3
+ * @since      0.7.6.4
  * @package    Bookingx
  * @subpackage Bookingx/includes
  * @author     Dunskii Web Services <divyang@dunskii.com>
@@ -35,7 +35,7 @@ class Bookingx
      * The loader that's responsible for maintaining and registering all hooks that power
      * the plugin.
      *
-     * @since      0.7.6.3
+     * @since      0.7.6.4
      * @access   protected
      * @var      Bookingx_Loader $loader Maintains and registers all hooks for the plugin.
      */
@@ -46,7 +46,7 @@ class Bookingx
     /**
      * The unique identifier of this plugin.
      *
-     * @since      0.7.6.3
+     * @since      0.7.6.4
      * @access   protected
      * @var      string $plugin_name The string used to uniquely identify this plugin.
      */
@@ -55,7 +55,7 @@ class Bookingx
     /**
      * The current version of the plugin.
      *
-     * @since      0.7.6.3
+     * @since      0.7.6.4
      * @access   protected
      * @var      string $version The current version of the plugin.
      */
@@ -64,7 +64,7 @@ class Bookingx
     /**
      * The Directory Path of the plugin.
      *
-     * @since      0.7.6.3
+     * @since      0.7.6.4
      * @access   protected
      * @var      string $dir_path The Directory Path of the plugin.
      */
@@ -74,7 +74,7 @@ class Bookingx
     /**
      * The Directory Url of the plugin.
      *
-     * @since      0.7.6.3
+     * @since      0.7.6.4
      * @access   protected
      * @var      string $dir_url The Directory Url of the plugin.
      */
@@ -84,7 +84,7 @@ class Bookingx
     /**
      * The Public Url of the plugin.
      *
-     * @since      0.7.6.3
+     * @since      0.7.6.4
      * @access   protected
      * @var      string $public_url The Public Url of the plugin.
      */
@@ -98,14 +98,14 @@ class Bookingx
      * Load the dependencies, define the locale, and set the hooks for the admin area and
      * the public-facing side of the site.
      *
-     * @since      0.7.6.3
+     * @since      0.7.6.4
      */
     public function __construct()
     {
         if (defined('BOOKINGX_VERSION')) {
             $this->version = BOOKINGX_VERSION;
         } else {
-            $this->version = '0.7.6.3';
+            $this->version = '0.7.6.4';
         }
 
         $this->dir_path = plugin_dir_path(__DIR__);
@@ -149,7 +149,7 @@ class Bookingx
      * Create an instance of the loader which will be used to register the hooks
      * with WordPress.
      *
-     * @since      0.7.6.3
+     * @since      0.7.6.4
      * @access   private
      */
     private function load_dependencies()
@@ -252,7 +252,7 @@ class Bookingx
     /**
      * Run the loader to execute all of the hooks with WordPress.
      *
-     * @since      0.7.6.3
+     * @since      0.7.6.4
      */
     public function run()
     {
@@ -305,7 +305,7 @@ class Bookingx
      * WordPress and to define internationalization functionality.
      *
      * @return    string    The name of the plugin.
-     * @since 0.7.6.3
+     * @since 0.7.6.4
      */
     public function get_plugin_name()
     {
@@ -316,7 +316,7 @@ class Bookingx
      * The reference to the class that orchestrates the hooks with the plugin.
      *
      * @return    Bookingx_Loader    Orchestrates the hooks of the plugin.
-     * @since 0.7.6.3
+     * @since 0.7.6.4
      */
     public function get_loader()
     {
@@ -327,14 +327,11 @@ class Bookingx
      * Register all of the hooks related to the admin area functionality
      * of the plugin.
      *
-     * @since      0.7.6.3
+     * @since      0.7.6.4
      * @access   private
      */
-    private function define_admin_hooks()
-    {
-
+    private function define_admin_hooks(){
         $plugin_admin = new Bookingx_Admin($this->get_plugin_name(), $this->get_version());
-
         $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles');
         $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
         $this->loader->add_action('init', $plugin_admin, 'bkx_create_seat_post_type');
@@ -353,17 +350,19 @@ class Bookingx
         $this->loader->add_action('pre_get_posts', $plugin_admin, 'bkx_add_meta_query');
         $this->loader->add_action('init', $plugin_admin, 'export_now');
         $this->loader->add_action('init', $plugin_admin, 'import_now');
+        $this->loader->add_action('admin_notices', $plugin_admin, 'bkx_bulk_action_admin_notice');
 
         $this->loader->add_filter('manage_bkx_booking_posts_columns', $plugin_admin, 'bkx_booking_columns', 99, 2);
         $this->loader->add_filter('post_type_link', $plugin_admin, 'bkx_change_view_link', 10, 2);
         $this->loader->add_filter('bulk_actions-edit-bkx_booking', $plugin_admin, 'bkx_booking_bulk_actions');
+        $this->loader->add_filter('handle_bulk_actions-edit-bkx_booking', $plugin_admin, 'bkx_booking_handle_bulk_actions',10, 3);
     }
 
     /**
      * Register all of the hooks related to the public-facing functionality
      * of the plugin.
      *
-     * @since      0.7.6.3
+     * @since      0.7.6.4
      * @access   private
      */
     private function define_public_hooks()
@@ -423,7 +422,7 @@ class Bookingx
      * Retrieve the version number of the plugin.
      *
      * @return    string    The version number of the plugin.
-     * @since 0.7.6.3
+     * @since 0.7.6.4
      */
     public function get_version()
     {

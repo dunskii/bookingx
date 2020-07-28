@@ -40,7 +40,6 @@ if ($booking_date_converted < $current_date || $order_status == 'Completed') {
 }
 
 $extra_html = getExtraHtml($order_meta);
-
 list($bkx_business_name, $bkx_business_email, $bkx_business_phone, $bkx_business_address) = getBusinessInfo();
 
 $first_header = esc_html("Booking Information", 'bookingx');

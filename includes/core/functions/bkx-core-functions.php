@@ -989,7 +989,8 @@ function bkx_get_dashboard_orders_columns()
         array(
             'booking-number' => esc_html__('Booking #', 'bookingx'),
             'booking-date' => esc_html__('Date & Time', 'bookingx'),
-            'booking-status' => esc_html__('Status', 'bookingx'),
+            //'booking-status' => esc_html__('Status', 'bookingx'),
+            'booking-service' => esc_html__('Service', 'bookingx'),
             'booking-total' => esc_html__('Total', 'bookingx'),
             'booking-actions' => '&nbsp;',
         )
@@ -1095,7 +1096,7 @@ function getExtraHtml( $order_meta )
         $extra_data = rtrim($extra_data, ",");
         $extra_html .= $extra_data . "</p>";
     }
-    return array($extra_html);
+    return $extra_html;
 }
 
 /**

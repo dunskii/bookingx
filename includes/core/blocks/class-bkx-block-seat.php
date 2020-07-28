@@ -38,7 +38,8 @@ class Bkx_Register_Seat_Block extends Bkx_Block
         'showImage' => array('type' => 'boolean'),
         'seatDescription' => array('type' => 'string'),
         'seatImageStatus' => array('type' => 'string'),
-        //'showExtra'     => array( 'type' => 'boolean' ),
+        'orderBy'     => array( 'type' => 'string' ),
+        'order'     => array( 'type' => 'string' ),
         'seatPostId' => array('type' => 'string'),
         'seatPosts' => array('type' => 'object'),
         'columns' => array('type' => 'integer'),
@@ -128,12 +129,14 @@ class Bkx_Register_Seat_Block extends Bkx_Block
         // Prepare variables.
         $desc = isset($attributes['seatDescription']) && $attributes['seatDescription'] != "" ? $attributes['seatDescription'] : 'yes';
         $image = isset($attributes['seatImageStatus']) && $attributes['seatImageStatus'] != "" ? $attributes['seatImageStatus'] : 'yes';
-        ///$info       = isset( $attributes['showExtra'] ) ? $attributes['showExtra'] : true;
+        $orderBy = isset( $attributes['orderBy'] ) ? $attributes['orderBy'] : "ID";
+        $orderType = isset( $attributes['order'] ) ? $attributes['order'] : "ASC";
         $seat_id = isset($attributes['seatPostId']) && $attributes['seatPostId'] > 0 ? $attributes['seatPostId'] : 'all';
         $columns = isset($attributes['columns']) ? $attributes['columns'] : 3;
         $rows = isset($attributes['rows']) ? $attributes['rows'] : 1;
+        $order_settings = array();
         ob_start();
-        echo do_shortcode('[bookingx block="1" seat-id="' . $seat_id . '" columns="' . $columns . '" rows="' . $rows . '"  description="' . $desc . '" image="' . $image . '"]');
+        echo do_shortcode('[bookingx block="1" order="'.$orderType.'" order-by="'.$orderBy.'" seat-id="' . $seat_id . '" columns="' . $columns . '" rows="' . $rows . '"  description="' . $desc . '" image="' . $image . '"]');
         $seats_data = ob_get_clean();
         return "<div class=\"gutenberg-booking-x-seats-data\">{$seats_data}</div>";
     }
