@@ -2232,8 +2232,7 @@ class BkxBooking
     /**
      * @return mixed
      */
-    public function get_booking_date()
-    {
+    public function get_booking_date(){
         return get_post_meta($this->order_id, 'booking_start_date', true);
     }
 

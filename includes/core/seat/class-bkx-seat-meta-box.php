@@ -665,6 +665,7 @@ if (!class_exists('BkxSeatMetaBox')) {
             if (isset($_POST['bkx_user_auto'])) {
                 $bkx_user_auto = sanitize_text_field($_POST['bkx_user_auto']);
             }
+
             if (isset($_POST['seat_is_different_loc'])) {
                 $seat_is_different_loc = sanitize_text_field($_POST['seat_is_different_loc']);
             }
@@ -749,6 +750,7 @@ if (!class_exists('BkxSeatMetaBox')) {
             /*if (!empty($seat_colour)) {
                 update_post_meta($post_id, 'seat_colour', $seat_colour);
             }*/
+            $bkx_user_auto = "N";
             if (isset($associate_with_user))
                 update_post_meta($post_id, 'associate_with_user', $associate_with_user);
             if (isset($associate_with_user_role))

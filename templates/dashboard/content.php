@@ -2,7 +2,7 @@
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 } ?>
-<div class="col-sm-9">
+<div class="col-sm-12">
     <?php do_action('bkx_dashboard_before_content'); ?>
     <div class="tab-content" id="bkx-dashboard-tabContent">
         <div class="tab-pane fade show active" id="bkx-dashboard-bookings" role="tabpanel"

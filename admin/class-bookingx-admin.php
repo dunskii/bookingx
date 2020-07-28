@@ -4,7 +4,7 @@
  * The admin-specific functionality of the plugin.
  *
  * @link       https://dunskii.com
- * @since      0.7.6.3
+ * @since      0.7.6.4
  *
  * @package    Bookingx
  * @subpackage Bookingx/admin
@@ -26,7 +26,7 @@ class Bookingx_Admin
     /**
      * The ID of this plugin.
      *
-     * @since      0.7.6.3
+     * @since      0.7.6.4
      * @access   private
      * @var      string $plugin_name The ID of this plugin.
      */
@@ -35,7 +35,7 @@ class Bookingx_Admin
     /**
      * The version of this plugin.
      *
-     * @since      0.7.6.3
+     * @since      0.7.6.4
      * @access   private
      * @var      string $version The current version of this plugin.
      */
@@ -46,7 +46,7 @@ class Bookingx_Admin
      *
      * @param string $plugin_name The name of this plugin.
      * @param string $version The version of this plugin.
-     * @since      0.7.6.3
+     * @since      0.7.6.4
      */
     public function __construct($plugin_name = null, $version = null)
     {
@@ -441,8 +441,43 @@ class Bookingx_Admin
         }
     }
 
-    function bkx_booking_bulk_actions($actions)
-    {
+    public function bkx_booking_handle_bulk_actions( $redirect_to, $do_action, $post_ids ) {
+        $allow_status = array( 'mark_pending', 'mark_ack', 'mark_completed', 'mark_missed', 'mark_cancelled' );
+        if ( !in_array($do_action, $allow_status) ) {
+            return $redirect_to;
+        }
+        $order_status = "";
+        foreach ( $post_ids as $post_id ) {
+            if(isset($post_id) && $post_id > 0 ){
+                $bkx_action_status = explode("_", sanitize_text_field($do_action));
+                $order_status = $bkx_action_status[1];
+                if (is_multisite()):
+                    $blog_id = apply_filters('bkx_set_blog_id', get_current_blog_id());
+                    switch_to_blog($blog_id);
+                endif;
+                $BkxBooking = new BkxBooking('', $post_id);
+                $BkxBooking->update_status($order_status);
+            }
+        }
+        $redirect_to = add_query_arg( array( 'bulk_status_changed' => $order_status, 'bulk_status_count' => count( $post_ids )  ), $redirect_to );
+        return $redirect_to;
+    }
+
+    function bkx_bulk_action_admin_notice(){
+        if ( ! empty( $_REQUEST['bulk_status_changed'] ) ) {
+            $count     = intval($_REQUEST['bulk_status_count']);
+            $status = ucwords($_REQUEST['bulk_status_changed']);
+            printf( '<div id="message" class="updated fade">' .
+                _n( "Booking have changed status to {$status}.",
+                    '%d of bookings have changed status to %s.',
+                    $count ,
+                    'bookingx'
+                ) . '</div>', $count, $status );
+        }
+    }
+
+
+    function bkx_booking_bulk_actions($actions){
         if (isset($actions['edit'])) {
             unset($actions['edit']);
         }
@@ -510,7 +545,7 @@ class Bookingx_Admin
     /**
      * Register the stylesheets for the admin area.
      *
-     * @since      0.7.6.3
+     * @since      0.7.6.4
      */
     public function enqueue_styles()
     {
@@ -537,7 +572,7 @@ class Bookingx_Admin
     /**
      * Register the JavaScript for the admin area.
      *
-     * @since      0.7.6.3
+     * @since      0.7.6.4
      */
     public function enqueue_scripts()
     {
