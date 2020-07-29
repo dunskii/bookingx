@@ -108,7 +108,7 @@ if (!class_exists('BkxDashboard')) {
                                         <?php echo esc_html('View', 'bookingx'); ?>
                                     </a>
                                 <?php if ( $datetime >= $yesterday ) : ?>
-                                    <a class="btn btn-dark" href="<?php echo esc_url(edit_booking_url($booking_id)); ?>">
+                                    <a class="btn btn-dark" href="<?php echo esc_url(edit_booking_url($booking_id,$page_id)); ?>">
                                         <?php echo esc_html('Edit', 'bookingx'); ?>
                                     </a>
                                 <?php endif; ?>

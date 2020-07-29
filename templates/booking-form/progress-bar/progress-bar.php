@@ -19,6 +19,7 @@ if (!empty($args) && isset($args['order_id']) && $args['order_id'] != "") {
 }
 $skip_this_step = SkipStep();
 $skip_this_step_style = ($skip_this_step == true) ? 'style = "display: none;"' : "";
+$back_booking = "";
 
 if ($skip_this_step == true) {
     echo "<div class='bkx-admin-loading-edit'><div class=\"row\"><div class=\"col-md-12\"> <h2>".esc_html('Please Wait Booking Form is Loading..', 'bookingx')."</h2></div></div></div>";

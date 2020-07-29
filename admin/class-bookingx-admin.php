@@ -302,9 +302,14 @@ class Bookingx_Admin
         }
     }
 
+    function bkx_booking_parse_comment_query($wp){
+        //echo "<pre>".print_r($wp, true)."</pre>";
+    }
+
     function bkx_booking_search_custom_fields($wp)
     {
         global $pagenow;
+
         if ('edit.php' != $pagenow || empty($wp->query_vars['s']) || $wp->query_vars['post_type'] != 'bkx_booking') {
             return;
         }

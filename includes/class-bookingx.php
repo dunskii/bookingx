@@ -347,6 +347,7 @@ class Bookingx
         $this->loader->add_action('restrict_manage_posts', $plugin_admin, 'bkx_booking_seat_view', 2, 10);
         $this->loader->add_action('restrict_manage_posts', $plugin_admin, 'bkx_booking_listing_view', 2, 10);
         $this->loader->add_action('parse_query', $plugin_admin, 'bkx_booking_search_custom_fields');
+        $this->loader->add_action('parse_comment_query', $plugin_admin, 'bkx_booking_parse_comment_query');
         $this->loader->add_action('pre_get_posts', $plugin_admin, 'bkx_add_meta_query');
         $this->loader->add_action('init', $plugin_admin, 'export_now');
         $this->loader->add_action('init', $plugin_admin, 'import_now');
