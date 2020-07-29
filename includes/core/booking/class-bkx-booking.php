@@ -70,7 +70,7 @@ class BkxBooking
             $this->setId($order_id);
         }
         $this->post_type = 'bkx_booking';
-        add_filter('comments_clauses', array($this, 'bkx_comments_clauses'), 99, 2);
+        //add_filter('comments_clauses', array($this, 'bkx_comments_clauses'), 99, 2);
         add_action('transition_post_status', array($this, 'bkx_on_all_status_transitions'), 10, 3);
         add_action('bkx_order_edit_status', array($this, 'bkx_order_edit_status'), 10, 2);
     }
@@ -226,8 +226,16 @@ class BkxBooking
 
                 $is_new = strpos($booking['meta_data']['last_page_url'], "post-new.php");
                 $is_edited = (isset($_POST['is_admin_edit']) && $_POST['is_admin_edit'] != "" && $_POST['is_admin_edit'] == true ? 1 : 0);
+                $is_customer_edit = (isset($_POST['is_customer_edit']) && $_POST['is_customer_edit'] != "" && $_POST['is_customer_edit'] == true ? 1 : 0);
                 if ($is_new !== false || $is_edited == 1) {
                     $booking['meta_data']['redirect_to'] = get_edit_post_link($booking['meta_data']['order_id'], '&');
+                }
+                if ($is_new !== false || $is_customer_edit == 1) {
+                    $return_url = $_POST['last_page_url'];
+                    if(isset($_POST['return_id']) && $_POST['return_id']!= ""){
+                        $return_url = get_permalink($_POST['return_id']);
+                    }
+                    $booking['meta_data']['redirect_to'] = $return_url;
                 }
             }
             if(empty($args['time']) && $args['time_option'] ==  'H'){
@@ -271,9 +279,12 @@ class BkxBooking
             $booking_end_date = date("Y-m-d H:i:s", strtotime(sanitize_text_field($post_data['input_date']) . " " . sanitize_text_field($post_data['booking_time_from'])) + sanitize_text_field($post_data['booking_duration_insec']));
         }
         if (isset($_POST['booking_multi_days']) && !empty($post_data['booking_multi_days'])) {
-            $booking_multi_days = explode(",", $post_data['booking_multi_days']);
+
+            $booking_multi_days = wp_unslash($post_data['booking_multi_days']);
             $booking_start_date = date('Y-m-d H:i:s', strtotime($booking_multi_days[0]));
             $booking_end_date = date('Y-m-d H:i:s', strtotime($booking_multi_days[1]));
+            $base_days = get_post_meta($post_data['base_id'], 'base_day', true);
+            $post_data['date'] = date('Y-m-d', strtotime($booking_multi_days[0]));
         }
         $booking_date = !empty($post_data['date']) ? $post_data['date'] : "";
         $booking_time = !empty($total_time) ? $total_time : "";
@@ -286,8 +297,8 @@ class BkxBooking
             'booking_start_date' => $booking_start_date,
             'booking_end_date' => $booking_end_date,
             'booking_time_from' => sanitize_text_field($booking_time_from),
-            'booking_multi_days' => (isset($post_data['booking_multi_days']) ? sanitize_text_field($post_data['booking_multi_days']) : ""),
-            'updated_by' => $current_user->ID,
+            'booking_multi_days' => (isset($booking_multi_days) ? $booking_multi_days : ""),
+             'updated_by' => $current_user->ID,
             'updated_time' => $curr_date,
             'bkx_return_page_url' => $return_url
         );
@@ -1449,7 +1460,9 @@ class BkxBooking
     {
         if (empty($form_post_data))
             return;
+
         global $bkx_booking_data, $wpdb, $current_user;
+
         if (isset($form_post_data['order_id']) && $form_post_data['order_id'] != "" && $form_post_data['order_id'] != 0) {
             $post_data = $this->UpdateBookingData($form_post_data['order_id'], $form_post_data);
         } else {
@@ -1479,9 +1492,11 @@ class BkxBooking
         $bkx_enable_customer_dashboard = bkx_crud_option_multisite('bkx_enable_customer_dashboard');
         // If 1 means enable to create customer
 
-        if (isset($bkx_enable_customer_dashboard) == 1 && !is_user_logged_in()) :
+        if (isset($bkx_enable_customer_dashboard) == 1 && !is_user_logged_in()) {
             $user_id = BkxBooking::create_new_user($post_data);
-        endif;
+        }else{
+            $user_id = BkxBooking::update_new_user( $post_data  );
+        }
 
         $order_data['post_status'] = 'bkx-' . apply_filters('bkx_default_order_status', 'pending');
 
@@ -1590,6 +1605,7 @@ class BkxBooking
         $user_email     = $post_data['email'];
         $first_name     = $post_data['first_name'];
         $last_name      = $post_data['last_name'];
+
         $display_name   = isset($post_data['display_name']) ? $post_data['display_name'] : __( ucwords("{$first_name} {$last_name}"), 'bookingx');
         $check_user_id  = username_exists($user_email);
         $user_id = "";
@@ -1620,6 +1636,39 @@ class BkxBooking
             restore_current_blog();
         endif;
 
+        return $user_id;
+    }
+
+    /**
+     * @param $post_data
+     * @return int|void|WP_Error|null
+     */
+    public function update_new_user( $post_data  )
+    {
+        if(!is_user_logged_in()){
+            return;
+        }
+        if (is_multisite()):
+            $blog_id = apply_filters('bkx_set_blog_id', get_current_blog_id());
+            switch_to_blog($blog_id);
+        endif;
+        $user_id = get_current_user_id();
+        $first_name     = $post_data['first_name'];
+        $last_name      = $post_data['last_name'];
+        $display_name   = isset($post_data['display_name']) ? $post_data['display_name'] : __( ucwords("{$first_name} {$last_name}"), 'bookingx');
+        if (isset($user_id) &&  $user_id > 0 ) {
+            $userdata = array(
+                'ID' => $user_id,
+                'first_name' => $first_name,
+                'last_name' => $last_name,
+                'display_name' => $display_name,
+            );
+            update_user_meta($user_id , 'phone', $post_data['phone']);
+            $user_id = wp_update_user($userdata);
+        }
+        if (is_multisite()):
+            restore_current_blog();
+        endif;
         return $user_id;
     }
 
@@ -1916,10 +1965,9 @@ class BkxBooking
 
         $args = array(
             'post_id' => $order_id,
-            'comment_type' => 'booking_note'
+            'type' => 'booking_note'
         );
-      /* $comments_query = new WP_Comment_Query( $args );
-        echo "<pre>".print_r($comments_query)."</pre>";*/
+       //$comments_query = new WP_Comment_Query( $args );
         $booking_note_data = get_comments($args);
         $booking_notes = '';
         if (!empty($booking_note_data) && !is_wp_error($booking_note_data)) {
@@ -2128,6 +2176,26 @@ class BkxBooking
         if (is_admin()) {
             $seat_id = get_current_user_id();
         }
+        $current_user = get_current_user_id();
+        $search_by_user = array();
+        if( is_user_logged_in() && !current_user_can('administrator') ) {
+            $user_obj = get_user_by('id', $current_user);
+            $user_email = $user_obj->user_email;
+            $search_by_user = array(
+                'relation' => 'OR',
+                array(
+                    'key' => 'email',
+                    'value' => $user_email,
+                    'compare' => '='
+                ),
+                array(
+                    'key' => 'created_by',
+                    'value' => $current_user,
+                    'compare' => '='
+                )
+            );
+
+        }
         //$search_date = date('F j, Y',strtotime($search_date));
         $args = array();
         switch ($search_by) {
@@ -2156,8 +2224,7 @@ class BkxBooking
                             'key' => 'booking_start_date',
                             'value' => $search_date,
                             'compare' => '>='
-
-                        ),
+                        ),$search_by_user
                     ),
                 );
                 break;
@@ -2172,7 +2239,7 @@ class BkxBooking
                             'key' => 'booking_start_date',
                             'value' => $search_date,
                             'compare' => '<'
-                        ),
+                        ),$search_by_user
                     ),
                 );
                 break;
@@ -2188,9 +2255,10 @@ class BkxBooking
                 break;
         }
         $args = apply_filters('bkx_get_bookings_by_user', $args);
-
+        //echo "<pre>".print_r($args, true)."</pre>";
         $booked_result = new WP_Query($args);
 
+        //echo "<pre>".print_r($booked_result, true)."</pre>";
         if ($booked_result->have_posts()) :
             while ($booked_result->have_posts()) : $booked_result->the_post();
                 $order_id = get_the_ID();

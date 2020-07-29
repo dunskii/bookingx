@@ -408,11 +408,23 @@ class Bkx_Script_Loader
             $defaults_params['booking_date'] = ((isset($booking_date) && $booking_date != "") ? $booking_date : "");
             $defaults_params['first_name'] = ((isset($booking_date) && $booking_date != "") ? $booking_date : "");
             $defaults_params['booking_date'] = ((isset($booking_date) && $booking_date != "") ? $booking_date : "");
-            $defaults_params['first_name'] = ((isset($first_name) && $first_name != "") ? $first_name : "");
-            $defaults_params['last_name'] = ((isset($last_name) && $last_name != "") ? $last_name : "");
             $defaults_params['phone'] = ((isset($phone) && $phone != "") ? $phone : "");
             $defaults_params['email'] = ((isset($email) && $email != "") ? $email : "");
+            $defaults_params['return_id'] = ((isset($_GET['return']) && $_GET['return'] != "") ? $_GET['return'] : "");
         }
+
+        if(is_user_logged_in()){
+            $user_id = get_current_user_id();
+            $user_info = get_userdata($user_id);
+            $email = $user_info->user_email;
+            $first_name = get_user_meta( $user_id, 'first_name', true );
+            $last_name = get_user_meta( $user_id, 'last_name', true );
+            $phone = get_user_meta( $user_id, 'phone', true );
+        }
+        $defaults_params['first_name'] = ((isset($first_name) && $first_name != "") ? $first_name : "");
+        $defaults_params['last_name'] = ((isset($last_name) && $last_name != "") ? $last_name : "");
+        $defaults_params['phone'] = ((isset($phone) && $phone != "") ? $phone : "");
+        $defaults_params['email'] = ((isset($email) && $email != "") ? $email : "");
 
         switch ($handle) {
             case 'bkx-booking-form-admin':

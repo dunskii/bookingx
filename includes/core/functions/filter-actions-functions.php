@@ -242,7 +242,7 @@ function bkx_row_actions($actions, $post)
     return $actions;
 }
 
-add_filter('comments_clauses', 'bkx_exclude_order_comments', 10, 1);
+//add_filter('comments_clauses', 'bkx_exclude_order_comments', 10, 1);
 function bkx_exclude_order_comments($clauses)
 {
     global $wpdb;

@@ -29,6 +29,8 @@ $GetPastBookedRecords = $BkxBooking->GetBookedRecordsByUser($search); ?>
             <?php
             if (!empty($GetFutureBookedRecords)) {
                 echo $BkxDashboard->booking_html($GetFutureBookedRecords, $page_id);
+            }else{
+                echo "<tr><td colspan='5'>No Booking's Found</td></tr>";
             }
             ?>
             </tbody>
@@ -39,8 +41,7 @@ $GetPastBookedRecords = $BkxBooking->GetBookedRecordsByUser($search); ?>
             <thead class="thead-light">
             <tr>
                 <?php foreach ($dashboard_columns as $column_id => $column_name) : ?>
-                    <th scope="col"
-                        class="<?php echo esc_attr($column_id); ?>"><?php echo esc_html($column_name); ?></th>
+                    <th scope="col" class="<?php echo esc_attr($column_id); ?>"><?php echo esc_html($column_name); ?></th>
                 <?php endforeach; ?>
             </tr>
             </thead>
@@ -48,6 +49,8 @@ $GetPastBookedRecords = $BkxBooking->GetBookedRecordsByUser($search); ?>
             <?php
             if (!empty($GetPastBookedRecords)) {
                 echo $BkxDashboard->booking_html($GetPastBookedRecords, $page_id);
+            }else{
+                echo "<tr><td colspan='5'>No Booking's Found</td></tr>";
             }
             ?>
             </tbody>

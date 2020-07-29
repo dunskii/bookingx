@@ -52,7 +52,7 @@ if ($is_mobile == 1) {
 $base_id = $order_meta['base_id'];
 $BkxBaseObj = new BkxBase('', $base_id);
 $base_time = $BkxBaseObj->get_time($base_id);
-$base_time_option = get_post_meta($base_id, 'base_time_option', true);
+$base_time_option = get_post_meta($booking_id, 'base_time_option', true);
 $base_time_option = (isset($base_time_option) && $base_time_option != "") ? $base_time_option : "H";
 $date_format = bkx_crud_option_multisite('date_format');
 
