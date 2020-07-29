@@ -99,6 +99,11 @@ jQuery(function ($) {
          */
         init: function () {
             booking_form.update_booking_total();
+            $("input[name=bkx_first_name]").val(bkx_booking_form_params.first_name);
+            $("input[name=bkx_last_name]").val(bkx_booking_form_params.last_name);
+            $("input[name=bkx_phone_number]").val(bkx_booking_form_params.phone);
+            $("input[name=bkx_email_address]").val(bkx_booking_form_params.email);
+
             $(document).on('change select', '.bkx-booking-form .step-1 .bkx-staff', this.seat_change);
             $(document).on('change select', '.bkx-booking-form .step-1 .bkx-services-lists', this.base_change);
             $(document).on('change select', '.bkx-booking-form .step-1 .bkx-services-extend', this.update_booking_total);

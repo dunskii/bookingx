@@ -472,6 +472,8 @@ function SkipStep()
         if ($base == "post" && $post_type == "bkx_booking" && isset($_REQUEST['post']) && $_REQUEST['post'] > 0) {
             $skip_this_step = true;
         }
+    }elseif (isset($_REQUEST['edit_booking_nonce']) && wp_verify_nonce($_REQUEST['edit_booking_nonce'], 'edit_booking_' . $_REQUEST['id'])) {
+        $skip_this_step = true;
     }
     return $skip_this_step;
 }
@@ -970,15 +972,16 @@ function is_bookingx_admin(){
 
 /**
  * @param $booking_id
+ * @param null $retun_page
  * @return string|void
  */
-function edit_booking_url($booking_id)
+function edit_booking_url($booking_id, $retun_page = null)
 {
 
     if (empty($booking_id))
         return;
     $edit_id = bkx_crud_option_multisite('bkx_edit_booking_page_id');
-    $edit_booking = add_query_arg(array('id' => $booking_id), get_permalink($edit_id));
+    $edit_booking = add_query_arg(array('id' => $booking_id, 'return' => $retun_page), get_permalink($edit_id));
     return wp_nonce_url($edit_booking, 'edit_booking_' . $booking_id, 'edit_booking_nonce');
 }
 
