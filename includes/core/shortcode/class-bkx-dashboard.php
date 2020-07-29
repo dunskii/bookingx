@@ -68,12 +68,17 @@ if (!class_exists('BkxDashboard')) {
                     $BkxBooking = new BkxBooking("", $booking['booking_record_id']);
                     $get_order_status = $BkxBooking->get_order_status($booking['booking_record_id']);
                     $booking_id = $booking['booking_record_id'];
+                    $order_meta = array();
                     try {
                         $order_meta = $BkxBooking->get_order_meta_data($booking_id);
                     } catch (Exception $e) {
-
                     }
-                    $current_currency = $order_meta['currency']; ?>
+
+                    $service_name = $order_meta['base_arr']['main_obj']->post->post_title;
+                    $current_currency = $order_meta['currency'];
+                    $datetime  = strtotime($BkxBooking->get_booking_date());
+                    $yesterday = strtotime("-1 days");
+                    ?>
                     <tr class="booking-x-orders-table__row booking-x-orders-table__row--status-<?php echo esc_attr($get_order_status); ?> order">
                         <?php foreach ($dashboard_columns as $column_id => $column_name) : ?>
                             <td class="booking-x-orders-table__cell booking-x-orders-table__cell-<?php echo esc_attr($column_id); ?>"
@@ -89,8 +94,11 @@ if (!class_exists('BkxDashboard')) {
                                 <?php elseif ('booking-date' === $column_id) : ?>
                                     <time datetime="<?php echo esc_attr(date('c', strtotime($BkxBooking->get_booking_date()))); ?>"><?php echo esc_html($BkxBooking->get_booking_date()); ?></time>
 
-                                <?php elseif ('booking-status' === $column_id) : ?>
-                                    <?php echo esc_html($get_order_status); ?>
+<!--                                --><?php //elseif ('booking-status' === $column_id) : ?>
+<!--                                    --><?php //echo esc_html($get_order_status); ?>
+
+                                <?php elseif ('booking-service' === $column_id) : ?>
+                                    <?php echo esc_html($service_name); ?>
 
                                 <?php elseif ('booking-total' === $column_id) : ?>
                                     <?php echo wp_kses_post(sprintf('%1$s%2$s', $current_currency, $order_meta['total_price'])); ?>
@@ -99,7 +107,7 @@ if (!class_exists('BkxDashboard')) {
                                        href="<?php echo esc_url($BkxBooking->get_view_booking_url($booking_id, $page_id)); ?>">
                                         <?php echo esc_html('View', 'bookingx'); ?>
                                     </a>
-                                <?php if ( strtotime($BkxBooking->get_booking_date()) < time()): ?>
+                                <?php if ( $datetime >= $yesterday ) : ?>
                                     <a class="btn btn-dark" href="<?php echo esc_url(edit_booking_url($booking_id)); ?>">
                                         <?php echo esc_html('Edit', 'bookingx'); ?>
                                     </a>

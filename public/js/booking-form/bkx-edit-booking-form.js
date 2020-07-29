@@ -216,7 +216,7 @@ jQuery(function ($) {
             booking_form.update_booking_total();
             booking_form.disable_days_note.html('');
             if (listToArray(".bkx-booking-form .step-1 :input[name^=bkx-extra-service]:checked") != 'None') {
-                booking_form.disable_days_note.html("<div class=\"row\"><div class=\"col-lg-12\"> <strong> Note : </strong> " + bkx_edit_booking_form_params.disable_days_note + "</div></div>");
+                //booking_form.disable_days_note.html("<div class=\"row\"><div class=\"col-lg-12\"> <strong> Note : </strong> " + bkx_edit_booking_form_params.disable_days_note + "</div></div>");
             }
         },
         submit: function (e) {

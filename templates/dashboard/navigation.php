@@ -5,7 +5,7 @@ if (!defined('ABSPATH')) {
 $navigation_menu = bkx_get_dashboard_navigation_menu();
 do_action('bkx_before_dashboard_navigation');
 ?>
-    <div class="col-sm-3">
+    <div class="col-sm-2">
         <div class="nav flex-column nav-pills bkx-dashboard-navigation" id="bkx-dashboard-tab" role="tablist"
              aria-orientation="vertical">
             <?php foreach ($navigation_menu as $key => $menu): ?>

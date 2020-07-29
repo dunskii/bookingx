@@ -269,7 +269,12 @@
     margin-right: 5px;
     border: #ebebeb solid 1px;
 }
-
+.booking-x .read-more{
+    font-size: 15px;
+}
+.booking-x-dashboard .bkx-dashboard-navigation .nav-link{
+    padding: .3rem 0.5rem;
+}
 /* Form */
 .booking-x .form-wrapper {
     padding: 2rem 1.5rem;

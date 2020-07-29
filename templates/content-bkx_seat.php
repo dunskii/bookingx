@@ -20,10 +20,10 @@ $args_data = apply_filters('bkx_listing_post_view_args', array('post_type' => 'b
         <?php endif; ?>
         <div class="card-body">
             <?php do_action('bkx_before_listing_title', $args_data); ?>
-                <h5 class="card-title m-0 text-center"><a href="<?php echo get_permalink($seat_id); ?>"><?php echo get_the_title($seat_id); ?></a></h5>
+                <h5 class="card-title m-0 text-center"><a title="<?php echo get_the_title($seat_id); ?>" href="<?php echo get_permalink($seat_id); ?>"><?php echo get_the_title($seat_id); ?></a></h5>
             <?php do_action('bkx_after_listing_title', $args_data); ?>
             <?php if ($desc == "yes") : ?>
-                <p class="card-text"><?php echo wp_trim_words(get_the_content(), 15, '...'); ?></p>
+                <div class="card-text get-the-content mt-4 mb-4"><?php echo get_the_excerpt(); ?>  <!--<a class="read-more" href="<?php /*echo get_permalink($seat_id); */?>" title="<?php /*echo get_the_title($seat_id); */?>">Read More </a>--></div>
             <?php endif; ?>
             <?php do_action('bkx_after_listing_content', $args_data); ?>
             <div class="text-center"><a href="<?php echo $booking_url; ?>" class="btn btn-primary"><?php echo esc_html('Book now', 'bookingx'); ?></a></div>

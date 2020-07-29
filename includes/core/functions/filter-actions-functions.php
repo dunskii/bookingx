@@ -662,3 +662,25 @@ function bkx_admin_notice_error() {
         printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $message_data['class'] ), esc_html( $message_data['message'] ) );
     }
 }
+function bkx_excerpt_more( $more ) {
+
+    if ( ! is_single() ) {
+        $more = sprintf( '<a class="read-more" href="%1$s">%2$s</a>',
+            get_permalink( get_the_ID() ),
+            __( 'Read More', 'bookingx' )
+        );
+    }
+    return $more;
+}
+add_filter( 'excerpt_more', 'bkx_excerpt_more',999);
+
+/**
+ * Filter the except length to 20 words.
+ *
+ * @param int $length Excerpt length.
+ * @return int (Maybe) modified excerpt length.
+ */
+function bkx_custom_excerpt_length( $length ) {
+    return 5;
+}
+add_filter( 'excerpt_length', 'bkx_custom_excerpt_length',999);

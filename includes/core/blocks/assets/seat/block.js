@@ -84,6 +84,12 @@
             'seatPostId': {
                 type: 'string'
             },
+            'orderBy': {
+                type: 'string'
+            },
+            'order': {
+                type: 'string'
+            },
             'columns': {
                 type: 'integer',
                 default: 3
@@ -125,6 +131,13 @@
             if (props.attributes.seatPosts && props.attributes.seatPosts.length === 0) {
                 options.push({value: 0, label: 'No seats found, Please add new seats.'})
             }
+
+            var order_by = [];
+            order_by.push({value: 'ID', label: 'ID'}, {value: 'title', label: 'Name'});
+            var order = [];
+            order.push({value: 'ASC', label: 'ASC'}, {value: 'DESC', label: 'DESC'});
+
+
             return [
                 /**
                  * Server side render
@@ -221,6 +234,34 @@
                                 ),
                             ),
 
+                            el(PanelRow, {class: 'order-section',},
+                                el(SelectControl,
+                                    {
+                                        label: 'Order By',
+                                        value: props.attributes.orderBy,
+                                        class: 'order-section order-by',
+                                        options: order_by,
+                                        onChange: (value) => {
+                                            props.setAttributes({orderBy: value});
+                                        },
+                                    },
+                                )
+                            ),
+                            el(PanelRow, {class: 'order-section',},
+                                el(SelectControl,
+                                    {
+                                        label: 'Order',
+                                        value: props.attributes.order,
+                                        class: 'order-section order',
+                                        options: order,
+                                        onChange: (value) => {
+                                            props.setAttributes({order: value});
+                                        },
+                                    },
+                                )
+                            ),
+
+
                             /* el( PanelRow, {},
                                  el( ToggleControl,
                                      {
@@ -239,6 +280,8 @@
                         attributes: {
                             seatDescription: (!props.attributes.seatDescription ? 'yes' : props.attributes.seatDescription),
                             seatImageStatus: (!props.attributes.seatImageStatus ? 'yes' : props.attributes.seatImageStatus),
+                            orderBy:  (!props.attributes.orderBy ? 'ID' : props.attributes.orderBy),
+                            order: (!props.attributes.order ? 'ASC' : props.attributes.order),
                             seatPostId: props.attributes.seatPostId,
                             columns: props.attributes.columns,
                             rows: props.attributes.rows,
