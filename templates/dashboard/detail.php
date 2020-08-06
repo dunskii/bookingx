@@ -1,68 +1,10 @@
 <?php
-$user = get_userdata(get_current_user_id());
-$user_id = get_current_user_id();
-$is_mobile = 0;
-if (wp_is_mobile()) {
-    $is_mobile = 1;
-}
-$is_able_review = false;
-
 $booking_id = $_REQUEST['view-booking'];
-$orderObj = new BkxBooking();
-try {
-    $order_meta = $orderObj->get_order_meta_data($booking_id);
-} catch (Exception $e) {
-}
-$booking_created_by = $order_meta['created_by'];
-
-$order_status = $orderObj->get_order_status($booking_id);
-
-
-$payment_meta = get_post_meta($booking_id, 'payment_meta', true);
-$current_currency = $order_meta['currency'];
-$payment_status = isset($payment_meta['payment_status']) && $payment_meta['payment_status'] != "" ? $payment_meta['payment_status'] : "";
-$check_total_payment = isset($payment_meta['pay_amt']) && $payment_meta['pay_amt'] != "" ? $payment_meta['pay_amt'] : 0;
-$transaction_id = isset($payment_meta['transactionID']) && $payment_meta['transactionID'] != "" ? $payment_meta['transactionID'] : "";
-$payment_status = (isset($payment_status)) ? $payment_status : 'Pending';
-if (isset($check_total_payment) && $check_total_payment != '' && $check_total_payment != 0) {
-    $check_remaining_payment = $order_meta['total_price'] - $check_total_payment;
-}
-
-$payment_source_method = $order_meta['bkx_payment_gateway_method'];
-
-list($pending_paypal_message, $payment_source) = getPaymentInfo($payment_source_method, $payment_status);
-
-$booking_date_converted = strtotime(date('Y-m-d', strtotime($order_meta['booking_date']))) . ' ';
-$current_date = strtotime(date('Y-m-d'));
-
-if ($booking_date_converted < $current_date || $order_status == 'Completed') {
-    $is_able_review = true;
-}
-
-$extra_html = getExtraHtml($order_meta);
-list($bkx_business_name, $bkx_business_email, $bkx_business_phone, $bkx_business_address) = getBusinessInfo();
-
-$first_header = esc_html("Booking Information", 'bookingx');
-$second_header = sprintf(__('Your Booking with %s', 'bookingx'), $bkx_business_name);
-if ($is_mobile == 1) {
-    $first_header = sprintf(__('Your Booking with %s', 'bookingx'), $bkx_business_name);
-    $second_header = esc_html("Booking Information", 'bookingx');
-}
-
-$base_id = $order_meta['base_id'];
-$BkxBaseObj = new BkxBase('', $base_id);
-$base_time = $BkxBaseObj->get_time($base_id);
-$base_time_option = get_post_meta($booking_id, 'base_time_option', true);
-$base_time_option = (isset($base_time_option) && $base_time_option != "") ? $base_time_option : "H";
-$date_format = bkx_crud_option_multisite('date_format');
-
-if (isset($base_time_option) && $base_time_option == "H") {
-    $total_time = getDateDuration($order_meta);
-    $duration = getDuration($order_meta);
-    $date_data = sprintf(__('%s', 'bookingx'), date($date_format, strtotime($order_meta['booking_date'])));
-} else {
-    list($date_data, $duration) = getDayDateDuration($booking_id);
-}
+$booking_detail = apply_filters('bkx_booking_detail_load_before', $booking_id );
+extract($booking_detail);
+extract($booking_detail['booking_info']);
+extract($booking_detail['booking_payment']);
+extract($booking_detail['booking_business']);
 ?>
 <div class="bkx-dashboard-booking">
     <div class="container">
@@ -73,10 +15,10 @@ if (isset($base_time_option) && $base_time_option == "H") {
                         <h2 class="title-block"><?php echo $first_header; ?> </h2>
                         <div class="content-block">
                             <?php echo sprintf( __('<p> <label>Booking ID: </label> #%s','bookingx'), $booking_id );?>
-                            <?php echo sprintf( __('<p> <label>Booking Date: </label> %s','bookingx'), $date_data );?>
-                            <?php echo sprintf( __('<p> <label>Service name: </label> %s','bookingx'), $order_meta['base_arr']['main_obj']->post->post_title );?>
-                            <?php echo sprintf( __('%s','bookingx'), $extra_html );?>
-                            <?php echo sprintf( __('<p> <label>Staff name: </label> %s','bookingx'), $order_meta['seat_arr']['main_obj']->post->post_title );?>
+                            <?php echo sprintf( __('<p> <label>Booking Date: </label> %s','bookingx'), $date );?>
+                            <?php echo sprintf( __('<p> <label>Service name: </label> %s','bookingx'), $service );?>
+                            <?php echo sprintf( __('%s','bookingx'), $extra );?>
+                            <?php echo sprintf( __('<p> <label>Staff name: </label> %s','bookingx'), $staff );?>
                         </div>
                     </div>
                 </div>
@@ -98,21 +40,25 @@ if (isset($base_time_option) && $base_time_option == "H") {
                             <?php endif; ?>
                         </div>
                         <div class="content-block booking-info" style="margin: 0;">
-                            <p><label><?php echo esc_html('Booking Date', 'bookingx'); ?> : </label> <?php echo esc_html($date_data, 'bookingx'); ?>   </p>
+                            <p><label><?php echo esc_html('Booking Date', 'bookingx'); ?> : </label> <?php echo esc_html($date, 'bookingx'); ?>   </p>
                             <p><label><?php echo esc_html('Booking Duration', 'bookingx'); ?> : </label> <?php echo esc_html($duration); ?></p>
-                            <p><label><?php echo esc_html('Booking Total', 'bookingx'); ?> : </label> <?php echo esc_html("{$current_currency}{$order_meta['total_price']}"); ?></p>
-                            <p><label><?php echo esc_html('Booking Status', 'bookingx'); ?> : </label> <?php echo esc_html($order_status); ?>   </p>
+                            <p><label><?php echo esc_html('Booking Total', 'bookingx'); ?> : </label> <?php echo esc_html("{$currency}{$total}"); ?></p>
+                            <p><label><?php echo esc_html('Booking Status', 'bookingx'); ?> : </label> <?php echo esc_html($status); ?> <?php
+                                if(isset($is_able_cancelled) && $is_able_cancelled == true ){?>
+                                    <a data-toggle="modal" data-target="#cancelBookingAlert" href="javascript:void(0);"><?php echo esc_html('Cancel', 'bookingx');?></a>
+                                <?php } ?>
+                            </p>
                         </div>
                         <?php do_action('bkx_booking_payment_before', $booking_id); ?>
-                        <?php if (!empty($payment_meta) && is_array($payment_meta)) { ?>
+                        <?php if (!empty($booking_detail['booking_payment']) && is_array($booking_detail['booking_payment'])) { ?>
                             <h2 class="title-block"> <?php echo esc_html('Payment Information', 'bookingx'); ?></h2>
                             <div class="content-block booking-info" style="margin: 0;">
-                                <p><label><?php echo esc_html('Payment Gateway', 'bookingx'); ?> : </label> <?php echo esc_html($payment_source, 'bookingx'); ?>   </p>
-                                <?php if (isset($payment_source) && $payment_source != "Offline Payment") : ?>
+                                <p><label><?php echo esc_html('Payment Gateway', 'bookingx'); ?> : </label> <?php echo esc_html($gateway, 'bookingx'); ?>   </p>
+                                <?php if (isset($transaction_id) && $transaction_id != "") : ?>
                                     <p><label><?php echo esc_html('Transaction ID', 'bookingx'); ?>: </label> <?php echo esc_html($transaction_id, 'bookingx'); ?>  </p>
                                 <?php endif; ?>
                                 <p><label><?php echo esc_html('Payment Status', 'bookingx'); ?>: </label> <?php echo esc_html(ucwords($payment_status), 'bookingx'); ?>  </p>
-                                <?php echo $pending_paypal_message; ?>
+                                <?php echo $message; ?>
                             </div>
                         <?php } ?>
                         <?php do_action('bkx_booking_payment_after', $booking_id); ?>
@@ -120,16 +66,16 @@ if (isset($base_time_option) && $base_time_option == "H") {
                         <h2 class="title-block"> <?php echo esc_html('Business Information', 'bookingx') ?> </h2>
                         <div class="content-block booking-info" style="margin: 0;">
                             <p>
-                                <label> <?php echo esc_html('Business Name :', 'bookingx'); ?> </label> <?php echo esc_html($bkx_business_name); ?>
+                                <label> <?php echo esc_html('Business Name :', 'bookingx'); ?> </label> <?php echo esc_html($name); ?>
                             </p>
                             <p>
-                                <label> <?php echo esc_html('Phone :','bookingx'); ?></label> <?php echo esc_html($bkx_business_phone); ?>
+                                <label> <?php echo esc_html('Phone :','bookingx'); ?></label> <?php echo esc_html($phone); ?>
                             </p>
                             <p>
-                                <label> <?php echo esc_html('Email :','bookingx'); ?> </label> <?php echo esc_html($bkx_business_email); ?>
+                                <label> <?php echo esc_html('Email :','bookingx'); ?> </label> <?php echo esc_html($email); ?>
                             </p>
                             <p>
-                                <label> <?php echo esc_html('Address :','bookingx'); ?></label> <?php echo esc_html($bkx_business_address); ?>
+                                <label> <?php echo esc_html('Address :','bookingx'); ?></label> <?php echo esc_html($address); ?>
                             </p>
                         </div>
                         <?php do_action('bkx_booking_business_info_after', $booking_id); ?>
@@ -146,4 +92,31 @@ if (isset($base_time_option) && $base_time_option == "H") {
             </div>
         </div>
     </div>
+    <?php
+    if(isset($is_able_cancelled) && $is_able_cancelled == true ){
+        $cancel_policy_data = "";
+        if(isset($cancel_policy_url) && $cancel_policy_url !=""){
+            $cancel_policy_data = __("<a target='_blank' href='{$cancel_policy_url}'>You can review our cancellation policy here.</a>", 'bookingx');
+        }
+        ?>
+        <div class="modal fade" id="cancelBookingAlert" tabindex="-1" role="dialog" aria-labelledby="cancelBookingAlert" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Cancel Booking</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p><?php echo __('Are you sure you want to cancel this booking?', 'bookingx');?> <?php echo $cancel_policy_data;?></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-booking-id="<?php echo $booking_id;?>" id="bkx-booking-cancel-modal">Cancel Booking</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php } ?>
 </div>

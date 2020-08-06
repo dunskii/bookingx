@@ -72,6 +72,43 @@ jQuery(function ($) {
         init: function () {
             $(document).on('click button', '.booking-x .bkx-change-password-main .bkx-change-password-btn', this.change_password);
             $(document).on('click button', '.booking-x .bkx-customer-details-main .bkx-customer-details-btn', this.customer_details);
+            //$(document).on('click', '.booking-x .bkx-dashboard-booking .bkx-booking-cancel-view', this.booking_cancel);
+            $(document).on('click button', '.booking-x .bkx-dashboard-booking #bkx-booking-cancel-modal', this.booking_cancel);
+        },
+        booking_cancel : function (){
+            $('#bkx-booking-cancel-view').text('Please wait...');
+                block($('.bkx-dashboard-tabContent'));
+                $('.bkx-booking-cancelled-success-message').hide();
+                $('.bkx-booking-cancelled-success-message').html('');
+                var booking_id = $(this).data('booking-id');
+                var data = {
+                    security: bookingx_params.booking_cancel_nonce,
+                    booking_id: booking_id
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: get_url('booking_cancel'),
+                    data: data,
+                    dataType: 'html',
+                    success: function (response) {
+                        if (response == true) {
+                            $('.bkx-booking-cancelled-success-message').show();
+                            window.location.reload();
+                        }else{
+                            $('.bkx-booking-cancelled-error-message').show();
+                            $('#bkx-booking-cancel-view').text('Cancel Booking');
+                        }
+                        unblock($('.bkx-dashboard-tabContent'));
+                    },
+                    complete: function () {
+                        unblock($('.bkx-dashboard-tabContent'));
+                    },
+                    error: function () {
+                        $('#bkx-booking-cancel-view').text('Cancel Booking');
+                        unblock($('.bkx-dashboard-tabContent'));
+                    }
+                });
+
         },
         change_password: function (e) {
             block($('.bkx-change-password-main'));

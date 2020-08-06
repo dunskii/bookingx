@@ -701,6 +701,29 @@ function bkx_generate_inline_style()
         }
     }
 
+    if(class_exists('BKX_Twenty_Nineteen')){
+        $BKX_Twenty_Nineteen = new BKX_Twenty_Nineteen();
+        $default_colors = $BKX_Twenty_Nineteen->default_colors();
+        if(!empty($default_colors)){
+            $booked = $default_colors['booked'];
+            $open = $default_colors['open'];
+            $current = $default_colors['current'];
+            $selected_time_color = $default_colors['selected_time_color'];
+        }
+    }
+
+    if(class_exists('BKX_Twenty_Seventeen')){
+        $BKX_Twenty_Seventeen = new BKX_Twenty_Seventeen();
+        $default_colors = $BKX_Twenty_Seventeen->default_colors();
+        if(!empty($default_colors)){
+            $booked = $default_colors['booked'];
+            $open = $default_colors['open'];
+            $current = $default_colors['current'];
+            $selected_time_color = $default_colors['selected_time_color'];
+        }
+    }
+
+
     $custom_css = "";
     $text_color = bkx_crud_option_multisite('bkx_form_text_color');
     $text_color = ($text_color) ? $text_color : '';
@@ -1038,7 +1061,7 @@ function getDayDateDuration($booking_id)
         $booking_duration = (sizeof($days_selected) > 1 ? sizeof($days_selected) . " Days" : sizeof($days_selected) . " Day");
         $duration = sprintf(__('%s', 'bookingx'), $booking_duration);
     }
-    return array($date_data, $duration );
+    return array($date_data, $duration, $start_date, $end_date );
 }
 
 /**
@@ -1218,4 +1241,31 @@ function service_hours_formatted( $obj ){
     endif;
 
     return apply_filters('bkx_service_time_formatted', $duration_text, $obj) ;
+}
+
+/**
+ * @param $user_id
+ * @param $booking_id
+ * @return bool|void
+ */
+function check_booking_owner( $user_id, $booking_id ){
+    if(!isset($user_id,$booking_id))
+        return;
+
+    $BkxBooking = new BkxBooking(null, $booking_id);
+    $BkxBooking->booking_cancelled();
+    $user_info = get_userdata( $user_id );
+
+    try {
+        $email = $user_info->data->user_email;
+        $order_meta = $BkxBooking->get_order_meta_data();
+        $created_by = $order_meta['created_by'];
+        $created_email  = $order_meta['email'];
+        if($created_by == $user_id || $created_email == $email ){
+            return true;
+        }
+
+    } catch (Exception $e) {
+        return;
+    }
 }

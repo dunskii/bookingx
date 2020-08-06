@@ -684,3 +684,116 @@ function bkx_custom_excerpt_length( $length ) {
     return 5;
 }
 add_filter( 'excerpt_length', 'bkx_custom_excerpt_length',999);
+
+add_filter('bkx_booking_detail_load_before', 'bkx_booking_detail_load_before_action');
+function bkx_booking_detail_load_before_action( $booking_id ){
+    $user = get_userdata(get_current_user_id());
+    $user_id = get_current_user_id();
+    $is_mobile = 0;
+    if (wp_is_mobile()) {
+        $is_mobile = 1;
+    }
+    $is_able_cancelled = false;
+
+    $orderObj = new BkxBooking(array(),$booking_id);
+    try {
+        $order_meta = $orderObj->get_order_meta_data($booking_id);
+    } catch (Exception $e) {
+    }
+    $booking_created_by = $order_meta['created_by'];
+
+    $order_status = $orderObj->get_order_status($booking_id);
+
+
+    $payment_meta = get_post_meta($booking_id, 'payment_meta', true);
+    $currency = $order_meta['currency'];
+    $payment_status = isset($payment_meta['payment_status']) && $payment_meta['payment_status'] != "" ? $payment_meta['payment_status'] : "";
+    $check_total_payment = isset($payment_meta['pay_amt']) && $payment_meta['pay_amt'] != "" ? $payment_meta['pay_amt'] : 0;
+    $transaction_id = isset($payment_meta['transactionID']) && $payment_meta['transactionID'] != "" ? $payment_meta['transactionID'] : "";
+    $payment_status = (isset($payment_status)) ? $payment_status : 'Pending';
+    if (isset($check_total_payment) && $check_total_payment != '' && $check_total_payment != 0) {
+        $check_remaining_payment = $order_meta['total_price'] - $check_total_payment;
+    }
+
+    $payment_source_method = $order_meta['bkx_payment_gateway_method'];
+    list($pending_paypal_message, $payment_source) = getPaymentInfo($payment_source_method, $payment_status);
+
+    $extra_html = getExtraHtml($order_meta);
+    list($bkx_business_name, $bkx_business_email, $bkx_business_phone, $bkx_business_address) = getBusinessInfo();
+
+    $first_header = esc_html("Booking Information", 'bookingx');
+    $second_header = sprintf(__('Your Booking with %s', 'bookingx'), $bkx_business_name);
+    if ($is_mobile == 1) {
+        $first_header = sprintf(__('Your Booking with %s', 'bookingx'), $bkx_business_name);
+        $second_header = esc_html("Booking Information", 'bookingx');
+    }
+
+    $base_id = $order_meta['base_id'];
+    $BkxBaseObj = new BkxBase('', $base_id);
+    $base_time = $BkxBaseObj->get_time($base_id);
+    $base_time_option = get_post_meta($booking_id, 'base_time_option', true);
+    $base_time_option = (isset($base_time_option) && $base_time_option != "") ? $base_time_option : "H";
+    $date_format = bkx_crud_option_multisite('date_format');
+
+    if (isset($base_time_option) && $base_time_option == "H") {
+        $total_time = getDateDuration($order_meta);
+        $duration = getDuration($order_meta);
+        $date_data = sprintf(__('%s', 'bookingx'), date($date_format, strtotime($order_meta['booking_date'])));
+        $start_date = $order_meta['booking_date'];
+    } else {
+        list($date_data, $duration, $start_date) = getDayDateDuration($booking_id);
+    }
+
+    $cancel_booking_page = bkx_crud_option_multisite('cancellation_policy_page_id');
+    $check_cancel_booking = bkx_crud_option_multisite('enable_cancel_booking');
+    $cancel_policy_url = "";
+    $booking_date_converted = strtotime(date('Y-m-d', strtotime($start_date))) . ' ';
+    $current_date = strtotime(date('Y-m-d'));
+    $status = array('Pending', 'Acknowledged', 'Missed', 'Failed' );
+    if ($booking_date_converted >= $current_date && in_array($order_status, $status) &&  $check_cancel_booking == 1 ) {
+        $is_able_cancelled = true;
+        if(!empty($cancel_booking_page)){
+            $cancel_policy_url = get_permalink($cancel_booking_page);
+        }
+    }
+
+    $booking_detail['first_header'] = $first_header;
+    $booking_detail['second_header'] = $second_header;
+    $booking_detail['currency'] = $currency;
+    $booking_detail['is_mobile'] = $is_mobile;
+    $booking_detail['is_able_cancelled'] = $is_able_cancelled;
+    $booking_detail['cancel_policy_url'] = $cancel_policy_url;
+
+    $booking_detail['booking_info'] = array(
+        'ID' => $booking_id,
+        'date' => $date_data,
+        'extra' => $extra_html,
+        'duration' => $duration,
+        'total' => $order_meta['total_price'],
+        'status' => $order_status,
+        'service' => $order_meta['base_arr']['main_obj']->post->post_title,
+        'staff' => $order_meta['seat_arr']['main_obj']->post->post_title,
+        );
+    $booking_detail['booking_payment'] = array();
+    if(!empty($payment_meta) && is_array($payment_meta)){
+        $booking_detail['booking_payment'] = array(
+            'gateway' => $payment_source,
+            'payment_status' => $payment_status,
+            'extra' => $extra_html,
+            'message' => $pending_paypal_message,
+        );
+        if (isset($payment_source) && $payment_source != "Offline Payment") {
+            $booking_detail['booking_payment']['transaction_id'] = $transaction_id;
+        }
+    }
+
+    $booking_detail['booking_business'] = array(
+        'name' => $bkx_business_name,
+        'phone' => $bkx_business_phone,
+        'email' => $bkx_business_email,
+        'address' => $bkx_business_address,
+        'staff' => $order_meta['seat_arr']['main_obj']->post->post_title,
+    );
+
+    return $booking_detail;
+}

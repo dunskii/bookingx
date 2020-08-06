@@ -684,24 +684,29 @@ public function get_default_subject() {
  * Default content to show below main email content.
  */
 public function get_default_additional_content() {
-
-    return __( 'Thanks {fname} for booking {base_name},
+    $seat_alias = bkx_crud_option_multisite("bkx_alias_seat");
+    $seat_alias = apply_filters('bkx_alias_seat', $seat_alias );
+    $base_alias = bkx_crud_option_multisite("bkx_alias_base");
+    $base_alias = apply_filters('bkx_alias_base', $base_alias );
+    $addition_alias = bkx_crud_option_multisite('bkx_alias_addition');
+    $addition_alias = apply_filters('bkx_alias_seat', $addition_alias );
+    return __( 'Thanks {fname} for booking {base_name},
             Here are your booking details.
     <ul>
         <li>    Booking ID: {order_id}</li>
-        <li>    Resource: {seat_name}</li>
-        <li>    Service: {base_name}</li>
-        <li>    Extras: {additions_list}</li>        
+        <li>    '.$seat_alias.': {seat_name}</li>
+        <li>    '.$base_alias.': {base_name}</li>
+        <li>    '.$addition_alias.': {additions_list} </li>  
         <li>    Time: {time_of_booking}</li>
         <li>    Date: {date_of_booking}</li>
         <li>    Location: {location_of_booking}</li>
         <li>    Price: {total_price}</li>
-        <li>    Amount Paid : {amount_paid}</li>
-        <li>    Amount Pending : {amount_pending}</li>
-        <li>    Business Name : {business_name}</li>
-        <li>    Business Phone : {business_phone}</li>
-        <li>    Business Email : {business_email}</li>
-        <li>    Booking Status : {booking_status}</li>
+        <li>    Amount Paid : {amount_paid}</li>
+        <li>    Amount Pending : {amount_pending}</li>
+        <li>    Business Name : {business_name}</li>
+        <li>    Business Phone : {business_phone}</li>
+        <li>    Business Email : {business_email}</li>
+        <li>    Booking Status : {booking_status}</li>
     </ul>', 'bookingx' );
 }
 

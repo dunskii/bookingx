@@ -1,9 +1,8 @@
 <?php if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 /**
- * Description of BkxBooking
- *
- * @author Divyang Parekh
+ * Class BkxBooking
+ * Core Class for Bookings and Managements
  */
 class BkxBooking
 {
@@ -108,6 +107,19 @@ class BkxBooking
                 die;
             }
         }
+    }
+
+    public function booking_cancelled(){
+        $booking_id = $this->order_id;
+
+        if(empty($booking_id))
+            return;
+
+        $order_status = $this->get_order_status($booking_id);
+        if(isset($order_status) && $order_status == "" || $order_status == "Completed")
+            return;
+
+
     }
 
     public function booking_email($booking_id, $status)
@@ -488,13 +500,15 @@ class BkxBooking
         if (is_admin()) {
             $dl_class = "admin";
         }
+        $seat_name = apply_filters('bkx_form_step_info_seat', $seat_obj->post_title, $seat_obj );
         $step_2_details = "<dl class='{$dl_class}'>
             <dt>{$this->load_global->seat} name : </dt>
-            <dd class=\"seat_name\"> {$seat_obj->post_title} </dd>
+            <dd class=\"seat_name\"> {$seat_name} </dd>
         </dl>";
+        $base_name = apply_filters('bkx_form_step_info_base', $BkxBase->get_title(), $BkxBase );
         $step_2_details .= "<dl>
             <dt>{$this->load_global->base} name : </dt>
-            <dd class=\"base_name\"> {$BkxBase->get_title()} </dd>
+            <dd class=\"base_name\"> {$base_name} </dd>
         </dl>";
         if (isset($extra_data) && !empty($extra_data)) {
             $step_2_details .= "<dl>
@@ -547,13 +561,15 @@ class BkxBooking
             $extra_obj = $BkxExtra->get_extra_by_ids($args['extra_ids'], "string");
             $extra_data = implode(", ", $extra_obj);
         }
+        $seat_name = apply_filters('bkx_form_step_info_seat', $seat_obj->post_title, $seat_obj );
         $step_3_details = "<div class=\"row\"><div class=\"col-sm-12\"><dl class='{$dl_class}'>
             <dt>{$this->load_global->seat} name : </dt>
-            <dd class=\"seat_name\"> {$seat_obj->post_title} </dd>
+            <dd class=\"seat_name\"> {$seat_name} </dd>
         </dl>";
+        $base_name = apply_filters('bkx_form_step_info_base', $BkxBase->get_title(), $BkxBase );
         $step_3_details .= "<dl class='{$dl_class}'>
             <dt>{$this->load_global->base} name : </dt>
-            <dd class=\"base_name\"> {$BkxBase->get_title()} </dd>
+            <dd class=\"base_name\"> {$base_name} </dd>
         </dl>";
 
         if (isset($service_extend) && $service_extend > 0) {
@@ -1793,8 +1809,12 @@ class BkxBooking
      */
     public function get_order_status($order_id)
     {
-        if (empty($order_id))
+        if (empty($order_id) || empty($this->order_id))
             return;
+
+        if(isset($this->order_id) && $this->order_id!=""){
+            $order_id = $this->order_id;
+        }
 
         if (is_multisite()):
             $blog_id = apply_filters('bkx_set_blog_id', get_current_blog_id());
@@ -1813,10 +1833,14 @@ class BkxBooking
      * @return mixed|void
      * @throws Exception
      */
-    public function get_order_meta_data($order_id)
+    public function get_order_meta_data( $order_id = null )
     {
-        if (empty($order_id))
+        if (empty($order_id) && empty($this->order_id))
             return;
+
+        if(isset($this->order_id) && $this->order_id!=""){
+            $order_id = $this->order_id;
+        }
 
         if (is_multisite()):
             $blog_id = apply_filters('bkx_set_blog_id', get_current_blog_id());
@@ -1933,9 +1957,13 @@ class BkxBooking
      */
     public function get_order_time_data($order_id = null, $search = null)
     {
-        if (empty($order_id))
+
+        if (empty($order_id) || empty($this->order_id))
             return;
 
+        if(isset($this->order_id) && $this->order_id!=""){
+            $order_id = $this->order_id;
+        }
         if (is_multisite()):
             $blog_id = apply_filters('bkx_set_blog_id', get_current_blog_id());
             switch_to_blog($blog_id);
@@ -1955,8 +1983,12 @@ class BkxBooking
      */
     public function get_booking_notes($order_id)
     {
-        if (empty($order_id))
+        if (empty($order_id) || empty($this->order_id))
             return;
+
+        if(isset($this->order_id) && $this->order_id!=""){
+            $order_id = $this->order_id;
+        }
 
         if (is_multisite()):
             $blog_id = apply_filters('bkx_set_blog_id', get_current_blog_id());
@@ -1991,8 +2023,12 @@ class BkxBooking
      */
     public function get_booking_notes_for_export($order_id)
     {
-        if (empty($order_id))
+        if (empty($order_id) || empty($this->order_id))
             return;
+
+        if(isset($this->order_id) && $this->order_id!=""){
+            $order_id = $this->order_id;
+        }
 
         if (is_multisite()):
             $blog_id = apply_filters('bkx_set_blog_id', get_current_blog_id());
@@ -2263,15 +2299,19 @@ class BkxBooking
             while ($booked_result->have_posts()) : $booked_result->the_post();
                 $order_id = get_the_ID();
                 if (!empty($order_id)) {
-                    $order_data = self::get_order_meta_data($order_id);
-                    $get_order_time_data = self::get_order_time_data($order_id);
-                    $order_time_data = reset($get_order_time_data);
-                    if (!empty($order_time_data['full_day'])) {
-                        $full_day = explode(',', $order_time_data['full_day']);
-                        if (!empty($full_day)) {
-                            $order_time_data['full_day'] = $full_day[0];
+                    $order_data = $this->get_order_meta_data($order_id);
+                    $get_order_time_data = $this->get_order_time_data($order_id);
+                    $order_time_data = array();
+                    if(!empty($get_order_time_data)){
+                        $order_time_data = reset($get_order_time_data);
+                        if (!empty($order_time_data['full_day'])) {
+                            $full_day = explode(',', $order_time_data['full_day']);
+                            if (!empty($full_day)) {
+                                $order_time_data['full_day'] = $full_day[0];
+                            }
                         }
                     }
+
                     $final_arr[] = $order_time_data + $order_data;
                 }
             endwhile;
