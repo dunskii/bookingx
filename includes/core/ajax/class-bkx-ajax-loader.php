@@ -89,6 +89,7 @@ class Bkx_Ajax_Loader
             'send_email_receipt' => true,
             'check_staff_availability' => true,
             'change_password' => true,
+            'booking_cancel' => true,
             'customer_details' => true,
         );
 
@@ -170,6 +171,23 @@ class Bkx_Ajax_Loader
             }
         }
         echo json_encode($result);
+        wp_die();
+    }
+
+    public function booking_cancel(){
+        check_ajax_referer('booking-cancel', 'security');
+        extract($_POST);
+        $success = false;
+        if(is_user_logged_in()){
+            $user_id = get_current_user_id();
+            $is_owner = check_booking_owner( $user_id, $booking_id );
+            if($is_owner == true ){
+                $order = new BkxBooking(null , $booking_id);
+                $order->update_status('cancelled');
+                $success = true;
+            }
+        }
+        echo $success;
         wp_die();
     }
 
@@ -338,7 +356,10 @@ class Bkx_Ajax_Loader
                 $args['extra_ids'] = array_map('absint', (array)isset($_POST['extra_ids']) ? wp_unslash($_POST['extra_ids']) : array());
             }
             $BkxBooking = new BkxBooking();
-            echo $BkxBooking->get_step_2_booking_form_details($args);
+            $step_detail = $BkxBooking->get_step_2_booking_form_details($args);
+            $step_data = apply_filters('bkx_booking_form_step_data_2', $step_detail, $_POST );
+            echo $step_data;
+
         }
         wp_die();
     }
@@ -364,7 +385,9 @@ class Bkx_Ajax_Loader
             $args['time_option'] = sanitize_text_field(wp_unslash($_POST['time_option']));
             $args['days_selected'] = wp_unslash($_POST['booking_multi_days']);
             $BkxBooking = new BkxBooking();
-            echo $BkxBooking->get_step_3_booking_form_details($args);
+            $step_detail = $BkxBooking->get_step_3_booking_form_details($args);
+            $step_data = apply_filters('bkx_booking_form_step_data_3', $step_detail, $_POST );
+            echo $step_data;
         }
         wp_die();
     }

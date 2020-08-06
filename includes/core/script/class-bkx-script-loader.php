@@ -382,7 +382,8 @@ class Bkx_Script_Loader
             'send_email_receipt_nonce' => wp_create_nonce("send-email-receipt"),
             'check_staff_availability' => wp_create_nonce('check-staff-availability'),
             'change_password_nonce' => wp_create_nonce('change-password'),
-            'customer_details_nonce' => wp_create_nonce('customer-details')
+            'customer_details_nonce' => wp_create_nonce('customer-details'),
+            'booking_cancel_nonce' => wp_create_nonce('booking-cancel')
         );
 
         if (isset($booking_id) && $booking_id > 0) {

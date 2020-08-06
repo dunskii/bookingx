@@ -64,16 +64,10 @@ if (!class_exists('BkxDashboard')) {
                 $page_id = get_the_ID();
             }
             if (!empty($bookings)) {
-                foreach ($bookings as $booking) {
-                    $BkxBooking = new BkxBooking("", $booking['booking_record_id']);
-                    $get_order_status = $BkxBooking->get_order_status($booking['booking_record_id']);
-                    $booking_id = $booking['booking_record_id'];
-                    $order_meta = array();
-                    try {
-                        $order_meta = $BkxBooking->get_order_meta_data($booking_id);
-                    } catch (Exception $e) {
-                    }
-
+                foreach ($bookings as $order_meta) {
+                    $BkxBooking = new BkxBooking(null , $order_meta['order_id']);
+                    $get_order_status = $BkxBooking->get_order_status($order_meta['order_id']);
+                    $booking_id = $order_meta['order_id'];
                     $service_name = $order_meta['base_arr']['main_obj']->post->post_title;
                     $current_currency = $order_meta['currency'];
                     $datetime  = strtotime($BkxBooking->get_booking_date());
@@ -84,7 +78,7 @@ if (!class_exists('BkxDashboard')) {
                             <td class="booking-x-orders-table__cell booking-x-orders-table__cell-<?php echo esc_attr($column_id); ?>"
                                 data-title="<?php echo esc_attr($column_name); ?>">
                                 <?php if (has_action('bkx_dashboard_booking_column_' . $column_id)) : ?>
-                                    <?php do_action('bkx_dashboard_booking_column_' . $column_id, $booking); ?>
+                                    <?php do_action('bkx_dashboard_booking_column_' . $column_id, $order_meta); ?>
 
                                 <?php elseif ('booking-number' === $column_id) : ?>
                                     <a href="<?php echo esc_url($BkxBooking->get_view_booking_url($booking_id, $page_id)); ?>">

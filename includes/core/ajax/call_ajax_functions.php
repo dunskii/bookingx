@@ -146,6 +146,7 @@ add_action('wp_ajax_nopriv_bkx_get_user_data', 'bkx_get_user_data');
 /**
  * Bookings Listing Admin side When Click View Button call this function
  * @return int
+ * @throws Exception
  */
 function bkx_action_view_summary_callback()
 {

@@ -1,8 +1,7 @@
 <?php
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 $screen = get_current_screen();
-wp_enqueue_style('bkx-cal-ui-css', BKX_PLUGIN_PUBLIC_URL . '/css/bkx-cal-ui.css', false, false);
-wp_enqueue_script("bkx-seat-sol", BKX_PLUGIN_DIR_URL . "public/js/admin/sol.js", false, BKX_PLUGIN_VER, true);
+//wp_enqueue_script("bkx-seat-sol", BKX_PLUGIN_DIR_URL . "public/js/admin/sol.js", false, BKX_PLUGIN_VER, true);
 wp_enqueue_style('bkx-seat-sol-style', BKX_PLUGIN_DIR_URL . "public/css/sol.css");
 wp_enqueue_script('iris');
 wp_enqueue_script('thickbox');

@@ -108,14 +108,19 @@ if (!class_exists('BKX_Email_Customer_Ack_Booking')) :
          */
         public function get_default_additional_content()
         {
-
+            $seat_alias = bkx_crud_option_multisite("bkx_alias_seat");
+            $seat_alias = apply_filters('bkx_alias_seat', $seat_alias );
+            $base_alias = bkx_crud_option_multisite("bkx_alias_base");
+            $base_alias = apply_filters('bkx_alias_base', $base_alias );
+            $addition_alias = bkx_crud_option_multisite('bkx_alias_addition');
+            $addition_alias = apply_filters('bkx_alias_seat', $addition_alias );
             return __(' <p>Hi {fname},</p>
                         <p>A quick message to let you know that {site_title} has seen your booking for {base_name}.</p>
                         <p>Here are your booking details: </p>
                         <p>Booking ID: {order_id}</p>
-                        <p>Resource: {seat_name}</p>
-                        <p>Service: {base_name}</p>
-                        <p>Extras: {additions_list} </p>    
+                        <p> '.$seat_alias.': {seat_name}</p>
+                        <p> '.$base_alias.': {base_name}</p>
+                        <p> '.$addition_alias.': {additions_list} </p>    
                         <p>Time: {time_of_booking}</p>
                         <p>Date: {date_of_booking}</p>
                         <p>Location: {location_of_booking}</p>
