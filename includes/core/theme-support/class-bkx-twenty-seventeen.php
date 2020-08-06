@@ -60,6 +60,14 @@ class BKX_Twenty_Seventeen
     }
 
     /**
+     * @return mixed|void
+     */
+    public function default_colors(){
+        $colors = array('booked' => '#666', 'open' => '#fff', 'current' => '#333', 'selected_time_color' => '#fff');
+        return apply_filters('bkx_booking_form_color_schema', $colors);
+    }
+
+    /**
      * Enqueue CSS for this theme.
      *
      * @param array $styles Array of registered styles.

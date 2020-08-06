@@ -447,8 +447,7 @@ if (!function_exists('bkx_dashboard_booking_content')) {
 }
 
 if (!function_exists('bkx_dashboard_booking_view')) {
-    function bkx_dashboard_booking_view()
-    {
+    function bkx_dashboard_booking_view(){
         bkx_get_template('dashboard/detail.php');
     }
 }
