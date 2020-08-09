@@ -43,7 +43,7 @@ class BkxImport
     function __construct($type = 'all')
     {
         if (isset($_POST['import_xml']) && sanitize_text_field($_POST['import_xml']) == "Import Xml") {
-            $this->upload_dir = BKX_PLUGIN_DIR_PATH . 'public/uploads/importXML';
+            $this->upload_dir = BKX_PLUGIN_DIR_PATH . 'public/uploads/importXML/';
             if (isset($this->errors['errors']) && !empty($this->errors['errors'])) {
                 $this->errors = $this->errors['errors'];
             }
@@ -88,7 +88,9 @@ class BkxImport
                         $this->generate_setting($Settings);
                         $this->generate_post($BookingPosts, 'bkx_booking');
                         $this->generate_bkx_users($BkxUsers);
-                        unlink($this->target_file);
+                        //unlink($this->upload_dir.$fileobj["import_file"]["name"]);
+                        //chdir($this->upload_dir); // Comment this out if you are on the same folder
+                        //chown($fileobj["import_file"]["name"],465);
                         $redirect = add_query_arg(array('bkx_success' => 'FIS'), $_SERVER['HTTP_REFERER']);
                         header("Location: {$redirect}");
                     }
@@ -185,60 +187,62 @@ class BkxImport
      */
     function generate_post($xml_data = null, $type = null)
     {
-        if (!empty($xml_data) && !empty($type)) {
-            foreach ($xml_data as $data) {
-                if (!empty($data)) {
-                    foreach ($data as $posts) {
-                        $post_name = $posts->Name;
-                        $description = $posts->Description;
-                        //Create Post
-                        $import_post = array(
-                            'post_title' => wp_strip_all_tags($post_name),
-                            'post_content' => $description,
-                            'post_status' => 'publish',
-                            'post_type' => $type
-                        );
-                        if ($type == 'bkx_booking') {
-                            $import_post['post_status'] = $posts->post_status;
-                            $import_post['comment_status'] = $posts->comment_status;
-                            $import_post['ping_status'] = $posts->ping_status;
-                            $import_post['post_date'] = $posts->post_date;
-                            $import_post['post_date_gmt'] = $posts->post_date_gmt;
-                        }
-                        // Insert the post into the database
-                        $post_id = wp_insert_post($import_post);
-                        $post_data = get_post($post_id);
-                        $post_data_slug = $post_data->post_name;
-                        update_post_meta($post_id, "{$type}_slug", $post_data_slug);
-                        // Generate Post Meta
-                        $postmetaObj = $posts->Postmeta;
+        try {
+            if (!empty($xml_data) && !empty($type)) {
+                foreach ($xml_data as $data) {
+                    if (!empty($data)) {
+                        foreach ($data as $posts) {
+                            $post_name = $posts->Name;
+                            $description = $posts->Description;
+                            //Create Post
+                            $import_post = array(
+                                'post_title' => wp_strip_all_tags($post_name),
+                                'post_content' => wp_strip_all_tags($description),
+                                'post_status' => 'publish',
+                                'post_type' => $type
+                            );
+                            if ($type == 'bkx_booking') {
+                                $import_post['post_status'] = $posts->post_status;
+                                $import_post['comment_status'] = $posts->comment_status;
+                                $import_post['ping_status'] = $posts->ping_status;
+                                $import_post['post_date'] = $posts->post_date;
+                                $import_post['post_date_gmt'] = $posts->post_date_gmt;
+                            }
+                            // Insert the post into the database
+                            $post_id = wp_insert_post($import_post);
+                            $post_data = get_post($post_id);
+                            $post_data_slug = $post_data->post_name;
+                            update_post_meta($post_id, "{$type}_slug", $post_data_slug);
+                            // Generate Post Meta
+                            $postmetaObj = $posts->Postmeta;
 
-                        // Generate Comment
-                        if ($type == 'bkx_booking' && !empty($posts->CommentData)) {
-                            $commentObj = json_decode($posts->CommentData);
-                            $BkxBookingObj = new BkxBooking('', $post_id);
-                            if (!empty($commentObj) && !empty($post_id)) {
-                                foreach ($commentObj as $key => $comment_arr) {
-                                    $BkxBookingObj->add_order_note($comment_arr->comment_content);
+                            // Generate Comment
+                            if ($type == 'bkx_booking' && !empty($posts->CommentData)) {
+                                $commentObj = json_decode($posts->CommentData);
+                                $BkxBookingObj = new BkxBooking('', $post_id);
+                                if (!empty($commentObj) && !empty($post_id)) {
+                                    foreach ($commentObj as $key => $comment_arr) {
+                                        $BkxBookingObj->add_order_note($comment_arr->comment_content);
+                                    }
                                 }
                             }
-                        }
-                        if (!empty($postmetaObj) && !empty($post_id)) {
-                            foreach ($postmetaObj as $postmeta_arr) {
-                                if (!empty($postmeta_arr)) {
-                                    foreach ($postmeta_arr as $key => $postmeta) {
-                                        $postmeta_data = maybe_unserialize(reset($postmeta));
-                                        update_post_meta($post_id, $key, $postmeta_data);
-                                        if ($type == 'bkx_base' && ($key == 'base_seat_all' || $key == 'base_selected_seats')) {
-                                            if ($postmeta_data == 'All') {
-                                                $args = array('fields' => 'ids', 'post_type' => 'bkx_seat', 'numberposts' => -1,);
-                                                $seat_ids = get_posts($args);
-                                                update_post_meta($post_id, 'base_selected_seats', $seat_ids);
-                                            } else {
-                                                if ($key == 'seat_slugs' && !empty($postmeta_data)) {
-                                                    $args = array('fields' => 'ids', 'post_type' => 'bkx_seat', 'post_name__in' => $postmeta_data);
+                            if (!empty($postmetaObj) && !empty($post_id)) {
+                                foreach ($postmetaObj as $postmeta_arr) {
+                                    if (!empty($postmeta_arr)) {
+                                        foreach ($postmeta_arr as $key => $postmeta) {
+                                            $postmeta_data = maybe_unserialize(reset($postmeta));
+                                            update_post_meta($post_id, $key, $postmeta_data);
+                                            if ($type == 'bkx_base' && ($key == 'base_seat_all' || $key == 'base_selected_seats')) {
+                                                if ($postmeta_data == 'All') {
+                                                    $args = array('fields' => 'ids', 'post_type' => 'bkx_seat', 'numberposts' => -1,);
                                                     $seat_ids = get_posts($args);
                                                     update_post_meta($post_id, 'base_selected_seats', $seat_ids);
+                                                } else {
+                                                    if ($key == 'seat_slugs' && !empty($postmeta_data)) {
+                                                        $args = array('fields' => 'ids', 'post_type' => 'bkx_seat', 'post_name__in' => $postmeta_data);
+                                                        $seat_ids = get_posts($args);
+                                                        update_post_meta($post_id, 'base_selected_seats', $seat_ids);
+                                                    }
                                                 }
                                             }
                                         }
@@ -249,7 +253,11 @@ class BkxImport
                     }
                 }
             }
+        }catch (Exception  $exception) {
+            $redirect = add_query_arg(array('bkx_error' => 'FIE', 'error_message' => $exception->getMessage()), $_SERVER['HTTP_REFERER']);
+            header("Location: {$redirect}");
         }
+
     }
 
     /**

@@ -157,6 +157,7 @@ function bkx_action_view_summary_callback()
     $post_id = sanitize_text_field($_POST['post_id']);
     if (empty($post_id))
         return 0;
+
     $get_post = get_post($post_id);
     $Bkx_Meta_Boxes = new Bkx_Meta_Boxes();
     $order_full_output = $Bkx_Meta_Boxes->bookingx_output($get_post, 'ajax');

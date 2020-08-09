@@ -52,6 +52,19 @@ function bkx_process_mail_by_status($booking_id, $subject, $content, $email = nu
     } else {
         $booking_duration = $booking_time_minutes . "Minutes ";
     }
+
+    $base_time_option = get_post_meta($booking_id, 'base_time_option', true);
+    $base_time_option = (isset($base_time_option) && $base_time_option != "") ? $base_time_option : "H";
+
+    if (isset($base_time_option) && $base_time_option == "H") {
+        $booking_duration = getDuration($order_meta);
+    } else {
+        list($date_data, $booking_duration, $start_date) = getDayDateDuration($booking_id);
+    }
+
+    $booking_duration = apply_filters('bkx_booking_duration', $booking_duration, $order_meta );
+    $booking_total_duration = apply_filters('bkx_booking_total_duration', $booking_duration, $order_meta );
+
     // end booking duration calculation 7/4/2013
     $addition_list = '-';
     if (isset($order_meta['addition_ids']) && $order_meta['addition_ids'] != '') {
@@ -113,7 +126,7 @@ function bkx_process_mail_by_status($booking_id, $subject, $content, $email = nu
     $subject = str_replace("{total_price}", $currency . $order_meta['total_price'] . ' ' . bkx_crud_option_multisite('currency_option'), $subject);
     $subject = str_replace("{txn_id}", $transactionID, $subject);
     $subject = str_replace("{order_id}", $order_meta['order_id'], $subject);
-    $subject = str_replace("{total_duration}", $order_meta['total_duration'], $subject);
+    $subject = str_replace("{total_duration}", $booking_total_duration, $subject);
     $subject = str_replace("{total_price}", $total_price , $subject);
     $subject = str_replace("{siteurl}", site_url(), $subject);
     $subject = str_replace("{seat_name}", $order_meta['seat_arr']['title'], $subject);
@@ -138,7 +151,7 @@ function bkx_process_mail_by_status($booking_id, $subject, $content, $email = nu
     $message_body = str_replace("{order_id}", $order_meta['order_id'], $message_body);
     $message_body = str_replace("{phone}", $order_meta['phone'], $message_body);
     $message_body = str_replace("{email}", $order_meta['phone'], $message_body);
-    $message_body = str_replace("{total_duration}", $order_meta['total_duration'], $message_body);
+    $message_body = str_replace("{total_duration}", $booking_total_duration, $message_body);
     $message_body = str_replace("{total_price}", $total_price . ' ' . bkx_crud_option_multisite('currency_option'), $message_body);
     $message_body = str_replace("{siteurl}", site_url(), $message_body);
     $message_body = str_replace("{seat_name}", $order_meta['seat_arr']['title'], $message_body);

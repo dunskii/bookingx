@@ -103,7 +103,7 @@ if (!class_exists('BkxBaseMetabox')) {
             ?>
             <div class="error" id="error_list" style="display:none;"></div>
             <div class="active" id="base_name">
-                <?php printf(esc_html__('%1$s  Price:', 'bookingx'), $base_alias); ?>
+                <?php printf(__('%1$s  Price <span class="bkx-require">(*) Required</span>', 'bookingx'), $base_alias); ?>
                 <div class="plugin-description">
                     <input name="base_price" type="text" value="<?php if (isset($base_price) && $base_price != '') {
                         echo $base_price;
@@ -112,7 +112,7 @@ if (!class_exists('BkxBaseMetabox')) {
             </div>
 
             <div class="active" id="months_days_times">
-                <?php printf(esc_html__('Is %1$s  time in  days, hours or minutes :', 'bookingx'), $base_alias); ?>
+                <?php printf(__('Is %1$s  time in  days, hours or minutes <span class="bkx-require">(*) Required</span>', 'bookingx'), $base_alias); ?>
                 <div class="plugin-description">
                     <select name="base_months_days_times" id="id_base_months_days_times" onchange=""
                             class="medium gfield_select" tabindex="4">
@@ -127,7 +127,7 @@ if (!class_exists('BkxBaseMetabox')) {
                 </div>
             </div>
             <div class="active" id="months" style="display: none">
-                <?php printf(esc_html__('Number of Months for %1$s   Time :', 'bookingx'), $base_alias); ?>
+                <?php printf(__('Number of Months for %1$s Time <span class="bkx-require">(*) Required</span>', 'bookingx'), $base_alias); ?>
                 <div class="plugin-description">
                     <input name="base_months" type="text" value="<?php if (isset($base_month) && $base_month != "") {
                         echo $base_month;
@@ -135,7 +135,7 @@ if (!class_exists('BkxBaseMetabox')) {
                 </div>
             </div>
             <div class="active" id="days" style="display: none">
-                <?php printf(esc_html__('Number of Days for %1$s   Time :', 'bookingx'), $base_alias); ?>
+                <?php printf(__('Number of Days for %1$s Time <span class="bkx-require">(*) Required</span>', 'bookingx'), $base_alias); ?>
 
                 <div class="plugin-description">
                     <input name="base_days" type="text" value="<?php if (isset($base_day) && $base_day != "") {
@@ -145,7 +145,7 @@ if (!class_exists('BkxBaseMetabox')) {
 
             </div>
             <div class="active" id="hours_minutes" style="display: none">
-                <?php printf(esc_html__('%1$s  Time In Hours and Minutes :', 'bookingx'), $base_alias); ?>
+                <?php printf(__('%1$s  Time In Hours and Minutes <span class="bkx-require">(*) Required</span>', 'bookingx'), $base_alias); ?>
                 <div class="plugin-description">
                     <input name="base_hours_minutes" size="1" type="text"
                            value="<?php printf(esc_html__('%1$s', 'bookingx'), $base_hours); ?>"
@@ -171,7 +171,7 @@ if (!class_exists('BkxBaseMetabox')) {
                 </div>
             </div>
             <div class="active" id="extended">
-                <?php printf(esc_html__('Can %1$s time be extended :', 'bookingx'), $base_alias); ?>
+                <?php printf(esc_html__('Can %1$s time be extended', 'bookingx'), $base_alias); ?>
                 <div class="plugin-description">
                     <ul class="bkx_radio" id="input_2_15">
                         <li class="bkx_choice_15_0">
@@ -193,7 +193,7 @@ if (!class_exists('BkxBaseMetabox')) {
             </div>
 
             <div class="active" id="base_extended_input" style="display: none;">
-                <?php printf(esc_html__('Max limit of %1$s extends', 'bookingx'), $base_alias); ?>
+                <?php printf(__('Max limit of %1$s extends', 'bookingx'), $base_alias); ?>
                 <div class="plugin-description">
                     <input name="base_extended_limit" type="number"
                            value="<?php if (isset($base_extended_limit) && $base_extended_limit != "") {
@@ -202,7 +202,7 @@ if (!class_exists('BkxBaseMetabox')) {
                 </div>
             </div>
             <div class="active" id="base_name">
-                <?php printf(esc_html__('This %1$s  is available to the following %2$s :', 'bookingx'), $base_alias, $alias_seat); ?>
+                <?php printf(__('This %1$s  is available to the following %2$s <span class="bkx-require">(*) Required</span>', 'bookingx'), $base_alias, $alias_seat); ?>
                 <div class="plugin-description">
                     <ul class="gfield_checkbox" id="input_2_9">
                         <?php

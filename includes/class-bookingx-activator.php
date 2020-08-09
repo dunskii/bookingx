@@ -4,7 +4,7 @@
  *
  * This class defines all code necessary to run during the plugin's activation.
  *
- * @since      0.7.6.4.1
+ * @since      0.7.6.4.2
  * @package    Bookingx
  * @subpackage Bookingx/includes
  * @author     Dunskii Web Services <divyang@dunskii.com>
@@ -14,10 +14,13 @@ class Bookingx_Activator
     /**
      * Short Description. (use period)
      * Long Description.
-     * @since      0.7.6.4.1
+     * @since      0.7.6.4.2
      */
     public function activate(){
         add_action('init', array($this, 'bkx_basic_set_up'));
+        if ( ! wp_next_scheduled( 'bkx_check_booking_process' ) ) {
+            wp_schedule_event( time(), 'hourly', 'bkx_check_booking_process' );
+        }
     }
 
     /**

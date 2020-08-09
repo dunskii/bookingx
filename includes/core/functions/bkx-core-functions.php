@@ -17,10 +17,12 @@ function bkx_maybe_define_constant($name, $value){
  * @return array
  */
 function bkx_reassign_available_emp_list($seat_id, $start_date, $end_date, $service_id){
+
     if (is_multisite()):
         $blog_id = apply_filters('bkx_set_blog_id', get_current_blog_id());
         switch_to_blog($blog_id);
     endif;
+
     $return = array();
     $booked_seat_id = "";
     $BkxBaseObj = new BkxBase('', $service_id);
@@ -40,17 +42,18 @@ function bkx_reassign_available_emp_list($seat_id, $start_date, $end_date, $serv
                 'meta_query' => array(
                     array(
                         'key' => 'booking_start_date',
-                        'value' => $start_date,
+                        'value' => date('Y-m-d H:i:s', strtotime($start_date)),
                         'compare' => '<=',
                     ),
                     array(
                         'key' => 'booking_end_date',
-                        'value' => $end_date,
+                        'value' => date('Y-m-d H:i:s', strtotime($end_date)),
                         'compare' => '>=',
                     ),
                 ),
             );
             $booked_result = new WP_Query($args);
+            //echo "<pre>".print_r($booked_result, true)."</pre>";
             if ($booked_result->have_posts()) {
                 $BookingObj = $booked_result->post;
                 $booked_seat_id = get_post_meta($BookingObj->ID, 'seat_id', true);

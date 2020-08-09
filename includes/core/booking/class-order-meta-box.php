@@ -320,12 +320,12 @@ class Bkx_Meta_Boxes
             $seat_alias, $order_meta['seat_arr']['permalink'],
             $order_meta['seat_arr']['title'],
             $order_meta['seat_arr']['title']);
-        $source = $order_meta['booking_start_date'];
-        $date = new DateTime($source);
-        $booking_start_date = addslashes($date->format('m/d/Y'));
-        $start_time = addslashes($date->format('H:i:s'));
-        $order_start_date = isset($order_meta['start_date']) ? $order_meta['start_date'] : "";
-        $order_end_date = isset($order_meta['end_date']) ? $order_meta['end_date'] : "";
+        //$source = $order_meta['booking_start_date'];
+        //$date = new DateTime($source);
+        //$booking_start_date = addslashes($date->format('m/d/Y'));
+        //$start_time = addslashes($date->format('H:i:s'));
+        $order_start_date = isset($order_meta['booking_start_date']) ? $order_meta['booking_start_date'] : "";
+        $order_end_date = isset($order_meta['booking_end_date']) ? $order_meta['booking_end_date'] : "";
         $order_base_id = isset($order_meta['base_id']) ? $order_meta['base_id'] : "";
         $get_available_staff = bkx_reassign_available_emp_list($order_meta['seat_id'], $order_start_date, $order_end_date, $order_base_id);
         $reassign_booking .= '<b>Reassign ' . $seat_alias . ' to booking: </b>

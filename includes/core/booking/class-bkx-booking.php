@@ -146,16 +146,13 @@ class BkxBooking
         }
     }
 
-    public function bkx_order_edit_status($booking_id, $status)
-    {
+    public function bkx_order_edit_status($booking_id, $status){
         if ($status) {
             $this->booking_email($booking_id, $status);
         }
     }
 
-    function CalendarJsonData($search)
-    {
-
+    function CalendarJsonData($search){
         $get_posts = $this->GetBookedRecords($search);
         $timezone_string = bkx_crud_option_multisite('timezone_string');
         if (isset($timezone_string) && $timezone_string != "") {
@@ -426,6 +423,15 @@ class BkxBooking
             'base_days' => (isset($base_days) ? sanitize_text_field($base_days) : ""),
             'update_order_slot' => (isset($post_data['update_order_slot']) ? sanitize_text_field($post_data['update_order_slot']) : "")
         );
+        /**
+         * 0 no action Needed
+         * 1 Payment Gateway Load
+         * 2 Payment Done
+         */
+        $arrData['initiated_for_payment'] = 0;
+        if(isset($post_data['bkx_payment_gateway_method']) && $post_data['bkx_payment_gateway_method'] != ""){
+            $arrData['initiated_for_payment'] = 1;
+        }
         return apply_filters('bkx_booking_collection_posts', $arrData, $post_data);
     }
 
@@ -524,9 +530,7 @@ class BkxBooking
         return $step_2_details;
     }
 
-    public function get_step_3_booking_form_details($args)
-    {
-
+    public function get_step_3_booking_form_details($args){
         if (empty($args['base_id']))
             return;
 
@@ -605,8 +609,7 @@ class BkxBooking
         return $step_3_details;
     }
 
-    public function booking_form_generate_total_time($selected_ids)
-    {
+    public function booking_form_generate_total_time($selected_ids){
         if (empty($selected_ids))
             return;
         $base_id = $selected_ids['base_id'];
@@ -639,8 +642,7 @@ class BkxBooking
         return $generate_total_time;
     }
 
-    public function booking_form_generate_total($selected_ids)
-    {
+    public function booking_form_generate_total($selected_ids){
 
         if (empty($selected_ids))
             return;
@@ -718,8 +720,7 @@ class BkxBooking
         return $result;
     }
 
-    public function get_booking_form_calendar_availability($args)
-    {
+    public function get_booking_form_calendar_availability($args){
 
         if (empty($args['seat_id']))
             return;
@@ -1794,8 +1795,9 @@ class BkxBooking
         $order_id = $this->order_id;
         if ((isset($order_id) && $order_id != '') && (!empty($payment_data))) {
             $payment_meta_update = update_post_meta($order_id, 'payment_meta', $payment_data);
-            update_post_meta($order_id, 'payment_status', 'completed');
-
+            if(isset($payment_data['transactionID']) && $payment_data['transactionID'] > 0 ){
+                update_post_meta($order_id, 'payment_status', 'completed');
+            }
             if (!is_wp_error($payment_meta_update))
                 return $order_id;
         }
@@ -1809,7 +1811,8 @@ class BkxBooking
      */
     public function get_order_status($order_id)
     {
-        if (empty($order_id) || empty($this->order_id))
+
+        if (empty($order_id) && empty($this->order_id))
             return;
 
         if(isset($this->order_id) && $this->order_id!=""){
@@ -1821,6 +1824,7 @@ class BkxBooking
             switch_to_blog($blog_id);
         endif;
         $StatusObj = get_post_status_object(get_post_status($order_id));
+
         $order_status = $StatusObj->label;
         if (is_multisite()):
             restore_current_blog();
@@ -1958,7 +1962,7 @@ class BkxBooking
     public function get_order_time_data($order_id = null, $search = null)
     {
 
-        if (empty($order_id) || empty($this->order_id))
+        if (empty($order_id) && empty($this->order_id))
             return;
 
         if(isset($this->order_id) && $this->order_id!=""){
@@ -1983,7 +1987,7 @@ class BkxBooking
      */
     public function get_booking_notes($order_id)
     {
-        if (empty($order_id) || empty($this->order_id))
+        if (empty($order_id) && empty($this->order_id))
             return;
 
         if(isset($this->order_id) && $this->order_id!=""){
@@ -2023,7 +2027,7 @@ class BkxBooking
      */
     public function get_booking_notes_for_export($order_id)
     {
-        if (empty($order_id) || empty($this->order_id))
+        if (empty($order_id) && empty($this->order_id))
             return;
 
         if(isset($this->order_id) && $this->order_id!=""){

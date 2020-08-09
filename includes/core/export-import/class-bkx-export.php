@@ -2,9 +2,7 @@
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
 /**
- * Description of BkxBase
- *
- * @author divyang
+ * Description of BkxExport
  */
 class BkxExport
 {
@@ -239,7 +237,8 @@ class BkxExport
                 $PostTag->appendChild($idAttr);
                 $post_title = str_replace("&ndash;", "-", get_the_title($post->ID));
                 $PostTag->appendChild($this->xmlobj->createElement("Name", esc_html($post_title)));
-                $PostTag->appendChild($this->xmlobj->createElement("Description", $post->post_content));
+                //$PostTag->appendChild($this->xmlobj->createElement("Description", $post->post_content));
+                $PostTag->appendChild($this->xmlobj->createElement("Description", utf8_encode(html_entity_decode($post->post_content))));
 
                 if ($post_type == 'bkx_booking') {
                     $PostTag->appendChild($this->xmlobj->createElement("post_status", $post->post_status));
@@ -292,6 +291,10 @@ class BkxExport
                         } else {
                             $postmeta_value = $meta_value[0];
                         }
+                        if(empty($postmeta_value)){
+                            $postmeta_value = "";
+                        }
+                        $meta_key = str_replace(" ", "_",$meta_key );
                         $postmeta->appendChild($this->xmlobj->createElement($meta_key, $postmeta_value));
                     }
                     if (isset($seat_slug)) {
