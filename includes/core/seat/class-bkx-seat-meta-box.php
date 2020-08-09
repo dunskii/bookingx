@@ -841,7 +841,6 @@ if (!class_exists('BkxSeatMetaBox')) {
                         //echo "seat_wp_user_id: ". $seat_wp_user_id ."<br>";
                         $check_user_id = username_exists($seatEmail);
                         if (!$check_user_id && email_exists($seatEmail) == false) {
-
                             $bkx_user_id = wp_create_user($seatEmail, $random_password, $seatEmail);
                             //echo "wp_create_user: ". $user_id ."<br>";
                             update_post_meta($post_id, 'seat_wp_user_id', $bkx_user_id);
