@@ -14,7 +14,9 @@
     float: left;
     width: 32%;
 }
-
+.bkx-require {
+    color: darkred;
+}
 .bkx-order_summary_full {
     background: #fff;
     min-height: auto;
