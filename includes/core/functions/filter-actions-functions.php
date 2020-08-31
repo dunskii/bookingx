@@ -564,7 +564,7 @@ function bkx_admin_actions()
 
 add_action('admin_menu', 'bkx_admin_actions');
 
-add_filter('custom_menu_order', 'bkx_reorder_admin_menu_pages');
+//add_filter('custom_menu_order', 'bkx_reorder_admin_menu_pages');
 function bkx_reorder_admin_menu_pages($menu_ord)
 {
     global $submenu;
