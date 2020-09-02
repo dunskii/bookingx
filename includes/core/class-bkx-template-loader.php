@@ -15,7 +15,8 @@ class Bkx_Template_Loader
     public static function init()
     {
         add_filter('template_include', array(__CLASS__, 'template_loader'));
-        self::$post_type = array('bkx_seat', 'bkx_base', 'bkx_addition');
+	    $bkx_post_type = array('bkx_seat', 'bkx_base', 'bkx_addition');
+        self::$post_type = apply_filters('bkx_bookingx_template_custom_post_type',$bkx_post_type);
     }
 
     /**
