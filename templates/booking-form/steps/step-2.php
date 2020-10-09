@@ -7,8 +7,9 @@ $skip_this_step = SkipStep();
 $skip_this_step_style = ($skip_this_step == true) ? 'style = "display: none;"' : "";
 ?>
 <div class="step-2 bkx-form-deactivate default" data-active="2" data-booking-style="default">
-    <div class="user-detail">
-    </div>
+	<?php echo do_action("bkx_booking_form_before_user_detail");?>
+    <div class="user-detail"></div>
+	<?php echo do_action("bkx_booking_form_after_user_detail");?>
     <div class="row px-lg-1 py-1">
         <div class="col-5 col-md-6 calender-setup"> <!--remove col-lg-5 lg -->
             <div class="form-group">
@@ -34,6 +35,7 @@ $skip_this_step_style = ($skip_this_step == true) ? 'style = "display: none;"' :
             </div>
         </div>
     </div>
+    <?php echo do_action("bkx_booking_form_after_calendar");?>
     <div class="button-wrapper">
         <?php if ($skip_this_step == true) : ?>
             <button type="submit" class="btn btn-default bkx-form-submission-final">
