@@ -80,7 +80,7 @@
 
             if (!props.attributes.basePosts) {
                 wp.apiFetch({
-                    url: '/wp-json/wp/v2/bkx_base'
+                    url: bkx_block_obj.site_url+'/wp-json/wp/v2/bkx_base'
                 }).then(resource => {
                     props.setAttributes({
                         basePosts: resource

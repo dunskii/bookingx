@@ -76,6 +76,7 @@ class Bkx_Register_Base_Block extends Bkx_Block
                 'deps' => array('wp-blocks', 'wp-element', 'wp-components', 'wp-i18n', 'wp-editor'),
                 'version' => $min ? BKX_PLUGIN_VER : filemtime(BKX_BLOCKS_ASSETS_BASE_PATH . '/base/block.js'),
                 'callback' => array(),
+                'localized' => array( 'site_url' => get_site_url()),
             ),
             array(
                 'handle' => $bootstrap_script,
