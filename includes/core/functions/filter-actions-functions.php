@@ -645,7 +645,7 @@ add_action('bkx_make_booking_hook', 'bkx_make_booking_hook_call_back');
  * @throws Exception
  */
 function bkx_make_booking_hook_call_back($post){
-    if(empty($post))
+	if (empty($_POST['seat_id']) && empty($_POST['base_id']) || empty($_POST['starting_slot']) || empty($_POST['time_option']) )
         return;
 
     $bkx_return_url = get_permalink(bkx_crud_option_multisite('bkx_plugin_page_id'));
