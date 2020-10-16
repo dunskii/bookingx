@@ -1399,7 +1399,7 @@ class BkxBooking
                         if ($counter % $columns == 1) {
                             $results .= "<tr>";
                         }
-                        if (in_array($counter, $booked_slots)) {
+                        if ( !empty($booked_slots) && in_array($counter, $booked_slots)) {
                             $results .= "<td> <a href=\"javascript:void(0);\" class=\"disabled\">" . bkx_secs2hours($cell_start) . "</a></td>";
                         } else {
                             if (!empty($booked_day_dates)) {
