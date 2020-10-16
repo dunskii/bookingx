@@ -113,7 +113,7 @@
 
             if (!props.attributes.additionPosts) {
                 wp.apiFetch({
-                    url: '/wp-json/wp/v2/bkx_addition'
+                    url: bkx_block_obj.site_url+'/wp-json/wp/v2/bkx_addition'
                 }).then(resource => {
                     props.setAttributes({
                         additionPosts: resource

@@ -108,10 +108,17 @@ class Bkx_Block
             $deps = isset($script['deps']) ? $script['deps'] : array();
             $version = isset($script['version']) ? $script['version'] : false;
             $in_footer = isset($script['in_footer']) ? $script['in_footer'] : false;
-
-            // Enqueue script.
-            wp_enqueue_script($script['handle'], $src, $deps, $version, $in_footer);
-
+            $localized = isset($script['localized']) ? $script['localized'] : false;
+            if(!empty($localized)){
+	            wp_register_script( $script['handle'], $src, $deps, $version, $in_footer);
+	            // Localize the script with new data
+	            wp_localize_script( $script['handle'], 'bkx_block_obj', $localized );
+	            // Enqueued script with localized data.
+	            wp_enqueue_script( $script['handle']);
+            }else{
+	            // Enqueue script.
+	            wp_enqueue_script($script['handle'], $src, $deps, $version, $in_footer);
+            }
         }
 
     }
