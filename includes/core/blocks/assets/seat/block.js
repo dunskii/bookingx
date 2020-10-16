@@ -109,7 +109,7 @@
 
             if (!props.attributes.seatPosts) {
                 wp.apiFetch({
-                    url: '/wp-json/wp/v2/bkx_seat'
+                    url: bkx_block_obj.site_url+'/wp-json/wp/v2/bkx_seat'
                 }).then(resource => {
                     props.setAttributes({
                         seatPosts: resource
