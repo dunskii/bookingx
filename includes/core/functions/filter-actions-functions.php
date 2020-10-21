@@ -168,7 +168,7 @@ function bkx_process_mail_by_status($booking_id, $subject, $content, $email = nu
     $message_body = str_replace("{business_phone}", $bkx_business_phone, $message_body);
     $message_body = str_replace("{booking_status}", $order_status, $message_body);
     $message_body = str_replace("{booking_edit_url}", edit_booking_url($booking_id), $message_body);
-	$message_body .= apply_filters('bkx_booking_created_email_content', $message_body, $booking_id );
+	$message_body = apply_filters('bkx_booking_created_email_content', $message_body, $booking_id );
 
     // Mail it
     bkx_mail_format_and_send_process($subject, $message_body, $to, $mail_type);
