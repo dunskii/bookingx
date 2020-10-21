@@ -221,6 +221,7 @@ class BkxPaymentCore
     public function bkx_success_payment($booking_data)
     {
         $payment_success_html = "";
+	    $order_id = "";
         if ($booking_data['success'] == true || $booking_data['success'] == 1) {
             $seat_alias = bkx_crud_option_multisite("bkx_alias_seat");
             $base_alias = bkx_crud_option_multisite("bkx_alias_base");
@@ -319,6 +320,9 @@ class BkxPaymentCore
                     $payment_success_html .= __("<dl><dt>Transaction ID</dt>: <dd>  {$transaction_id}</dd></dl>", 'bookingx');
                 }
                 $payment_success_html .= "</div></div>";
+
+	            $payment_success_html .= apply_filters('bkx_booking_thank_you_content', $payment_success_html, $order_id );
+
             }
             if (is_multisite()):
                 $blog_id = apply_filters('bkx_set_blog_id', get_current_blog_id());
@@ -335,7 +339,7 @@ class BkxPaymentCore
             $payment_success_html .= "<div class=\"button-wrapper\"><button type=\"submit\" class=\"btn btn-default bkx-send-email-receipt\" data-order-id='" . $order_id . "'>Send Email Receipt </button>
                                                                     <button type=\"submit\" class=\"btn btn-default bkx-back-to-booking\">{$back_to_booking_text}</button></div>";
         }
-        return apply_filters('bkx_success_payment', $payment_success_html);
+        return apply_filters('bkx_success_payment', $payment_success_html, $order_id);
     }
 }
 
