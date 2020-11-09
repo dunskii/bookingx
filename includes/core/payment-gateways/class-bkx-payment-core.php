@@ -320,8 +320,7 @@ class BkxPaymentCore
                     $payment_success_html .= __("<dl><dt>Transaction ID</dt>: <dd>  {$transaction_id}</dd></dl>", 'bookingx');
                 }
                 $payment_success_html .= "</div></div>";
-
-	            $payment_success_html .= apply_filters('bkx_booking_thank_you_content', $payment_success_html, $order_id );
+	            $payment_success_html .= apply_filters('bkx_booking_thank_you_content', '', $order_id );
 
             }
             if (is_multisite()):
