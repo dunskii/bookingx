@@ -360,6 +360,11 @@ class Bkx_Script_Loader
         } else {
             $booking_id = (is_admin() ? (isset($_GET['post']) ? $_GET['post'] : 0) : (isset($_GET['booking_id']) ? $_GET['booking_id'] : 0));
         }
+	    $is_mobile = 0;
+	    if ( wp_is_mobile() ) {
+		    $is_mobile = 1;
+	    }
+
         $bkx_legal = bkx_crud_option_multisite('bkx_legal_options');
 	    $privacy_policy = bkx_crud_option_multisite('bkx_privacy_policy_page');
 	    $cancellation = bkx_crud_option_multisite('bkx_cancellation_policy_page');
@@ -368,6 +373,7 @@ class Bkx_Script_Loader
             'last_page_url' => (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]",
             'ajax_url' => admin_url('admin-ajax.php', 'relative'),
             'bkx_legal' => $bkx_legal,
+            'is_mobile' => $is_mobile,
             'bkx_privacy_policy_url' => isset($privacy_policy) && $privacy_policy !="" ? $privacy_policy : '',
             'bkx_cancellation_url' => isset($cancellation) && $cancellation !="" ? $cancellation : '',
             'bkx_term_cond_url' => isset($term_cond) && $term_cond !="" ? $term_cond : '',

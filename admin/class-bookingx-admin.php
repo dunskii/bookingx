@@ -4,7 +4,7 @@
  * The admin-specific functionality of the plugin.
  *
  * @link       https://dunskii.com
- * @since      0.7.6.4.2
+ * @since      0.7.6.4.3
  *
  * @package    Bookingx
  * @subpackage Bookingx/admin
@@ -26,7 +26,7 @@ class Bookingx_Admin
     /**
      * The ID of this plugin.
      *
-     * @since      0.7.6.4.2
+     * @since      0.7.6.4.3
      * @access   private
      * @var      string $plugin_name The ID of this plugin.
      */
@@ -35,7 +35,7 @@ class Bookingx_Admin
     /**
      * The version of this plugin.
      *
-     * @since      0.7.6.4.2
+     * @since      0.7.6.4.3
      * @access   private
      * @var      string $version The current version of this plugin.
      */
@@ -46,7 +46,7 @@ class Bookingx_Admin
      *
      * @param string $plugin_name The name of this plugin.
      * @param string $version The version of this plugin.
-     * @since      0.7.6.4.2
+     * @since      0.7.6.4.3
      */
     public function __construct($plugin_name = null, $version = null)
     {
@@ -303,13 +303,14 @@ class Bookingx_Admin
     }
 
     function bkx_booking_parse_comment_query( $wp ){
-	    $current_screen = get_current_screen();
-	     if(is_admin() && !is_wp_error($current_screen) && $current_screen->base == 'edit-comments'){
-		     $disable_custom_type = apply_filters('bkx_disable_custom_type_in_comment_lists',array('booking_note'));
-		     $wp->query_vars['type__not_in'] = $disable_custom_type;
+	     if(is_admin() ){
+		     $current_screen = get_current_screen();
+		     if(!is_wp_error($current_screen) && $current_screen->base == 'edit-comments'){
+			     $disable_custom_type = apply_filters('bkx_disable_custom_type_in_comment_lists',array('booking_note'));
+			     $wp->query_vars['type__not_in'] = $disable_custom_type;
+		     }
          }
 	    return $wp;
-	     
     }
 
     function bkx_booking_search_custom_fields($wp) {
@@ -554,7 +555,7 @@ class Bookingx_Admin
     /**
      * Register the stylesheets for the admin area.
      *
-     * @since      0.7.6.4.2
+     * @since      0.7.6.4.3
      */
     public function enqueue_styles()
     {
@@ -581,7 +582,7 @@ class Bookingx_Admin
     /**
      * Register the JavaScript for the admin area.
      *
-     * @since      0.7.6.4.2
+     * @since      0.7.6.4.3
      */
     public function enqueue_scripts()
     {
