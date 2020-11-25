@@ -302,14 +302,17 @@ class Bookingx_Admin
         }
     }
 
-    function bkx_booking_parse_comment_query($wp){
-        //echo "<pre>".print_r($wp, true)."</pre>";
+    function bkx_booking_parse_comment_query( $wp ){
+	    $current_screen = get_current_screen();
+	     if(is_admin() && !is_wp_error($current_screen) && $current_screen->base == 'edit-comments'){
+		     $disable_custom_type = apply_filters('bkx_disable_custom_type_in_comment_lists',array('booking_note'));
+		     $wp->query_vars['type__not_in'] = $disable_custom_type;
+         }
+	    return $wp;
     }
 
-    function bkx_booking_search_custom_fields($wp)
-    {
+    function bkx_booking_search_custom_fields($wp) {
         global $pagenow;
-
         if ('edit.php' != $pagenow || empty($wp->query_vars['s']) || $wp->query_vars['post_type'] != 'bkx_booking') {
             return;
         }

@@ -442,6 +442,7 @@ class BkxBooking
      */
     function bkx_comments_clauses($pieces, $wp_query){
         if (is_admin()) {
+        	//echo "<pre>".print_r($wp_query, true)."</pre>";
             $current_screen = get_current_screen();
             if ( isset($current_screen->base) &&  ( 'edit' === $current_screen->base || 'edit' === $current_screen->parent_base) && 'bkx_booking' === $current_screen->post_type
                 ||
