@@ -464,6 +464,9 @@
 .booking-x .schedule-wrap {
     margin-bottom: 1rem;
 }
+.booking-x .step-2 .calender-setup #bkx-calendar .calendar-day .d-flex.btn{
+    margin: 1px;
+}
 
 /**
 Gutenberg Style
@@ -587,8 +590,23 @@ Listing CSS Bootstrap 4
 }
 
 @media (max-width: 600px) {
-    .booking-x .main-container {
-        padding: 15px;
+    .booking-x .main-container .container{
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+    .booking-x .user-detail{
+        padding: 7px;
+    }
+    .booking-x .step-2 .calender-setup, .booking-x .step-2 .slots-setup {
+        max-width : 100%;
+    }
+
+    .booking-x .booking-x .indicator ul{
+        flex-wrap :unset;
+    }
+
+    .booking-x .step-2 .calender-setup #bkx-calendar .calendar-day .d-flex.btn{
+        padding: .2rem .2rem;
     }
 
     .booking-x .form-group label {

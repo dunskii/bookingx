@@ -442,6 +442,7 @@ class BkxBooking
      */
     function bkx_comments_clauses($pieces, $wp_query){
         if (is_admin()) {
+        	//echo "<pre>".print_r($wp_query, true)."</pre>";
             $current_screen = get_current_screen();
             if ( isset($current_screen->base) &&  ( 'edit' === $current_screen->base || 'edit' === $current_screen->parent_base) && 'bkx_booking' === $current_screen->post_type
                 ||
@@ -994,7 +995,6 @@ class BkxBooking
         $end = 24;
         $first = $start * 3600; // Timestamp of the first cell
         $last = $end * 3600; // Timestamp of the last cell
-
         $availability_slots['first'] = $first; // Timestamp of the first cell
         $availability_slots['last'] = $last; // Timestamp of the last cell
         $availability_slots['range'] = $range;
@@ -1353,7 +1353,8 @@ class BkxBooking
     }
 
     public function display_availability_slots_html($args){
-
+	    $default_time_zone = wp_timezone_string();
+	    date_default_timezone_set($default_time_zone);
         $base_time_option = get_post_meta($args['base_id'], 'base_time_option', true);
         $base_day = get_post_meta($args['base_id'], 'base_day', true);
         $availability_slots = "";
@@ -1395,6 +1396,15 @@ class BkxBooking
             $booked_slots = apply_filters('bookingx_booked_slots', $booked_slots, $args);
             if (!empty($range)) {
                 for ($cell_start = $first; $cell_start < $last; $cell_start = $cell_start + $step) {
+
+	                $secs2hours = bkx_secs2hours($cell_start);
+	                $current_time = date("Y-m-d H:i");
+	                $sys_time = date('Y-m-d H:i', strtotime($secs2hours));
+	                //echo "{$current_time} === {$sys_time} Slot Time {$secs2hours} <br>";
+	                $is_past_time = false;
+	                if($sys_time < $current_time && date('Ymd') == date('Ymd', strtotime($args['booking_date']))){
+		                $is_past_time = true;
+	                }
                     if (in_array($counter, $range)) {
                         if ($counter % $columns == 1) {
                             $results .= "<tr>";
@@ -1406,10 +1416,19 @@ class BkxBooking
                                 if (in_array($args['booking_date'], $booked_day_dates)) {
                                     $results .= "<td> <a href=\"javascript:void(0);\" class=\"disabled\">" . bkx_secs2hours($cell_start) . "</a></td>";
                                 } else {
-                                    $results .= "<td> <a href=\"javascript:void(0);\" class=\"available\" data-verify='" . $args['booking_date'] . "-" . $counter . "' data-date='" . $args['booking_date'] . "' data-time='" . bkx_secs2hours($cell_start) . "' data-slot='" . $counter . "'>" . bkx_secs2hours($cell_start) . "</a></td>";
+	                                if($is_past_time == true){
+		                                $results .= "<td> <a href=\"javascript:void(0);\" class=\"disabled\">" . bkx_secs2hours($cell_start) . "</a></td>";
+	                                }else{
+		                                $results .= "<td> <a href=\"javascript:void(0);\" class=\"available\" data-verify='" . $args['booking_date'] . "-" . $counter . "' data-date='" . $args['booking_date'] . "' data-time='" . bkx_secs2hours($cell_start) . "' data-slot='" . $counter . "'>" . bkx_secs2hours($cell_start) . "</a></td>";
+	                                }
                                 }
                             } else {
-                                $results .= "<td> <a href=\"javascript:void(0);\" class=\"available\" data-verify='" . $args['booking_date'] . "-" . $counter . "' data-date='" . $args['booking_date'] . "' data-time='" . bkx_secs2hours($cell_start) . "' data-slot='" . $counter . "'>" . bkx_secs2hours($cell_start) . "</a></td>";
+                                //$results .= "<td> <a href=\"javascript:void(0);\" class=\"available\" data-verify='" . $args['booking_date'] . "-" . $counter . "' data-date='" . $args['booking_date'] . "' data-time='" . bkx_secs2hours($cell_start) . "' data-slot='" . $counter . "'>" . bkx_secs2hours($cell_start) . "</a></td>";
+	                            if($is_past_time == true){
+		                            $results .= "<td> <a href=\"javascript:void(0);\" class=\"disabled\">" . bkx_secs2hours($cell_start) . "</a></td>";
+	                            }else{
+		                            $results .= "<td> <a href=\"javascript:void(0);\" class=\"available\" data-verify='" . $args['booking_date'] . "-" . $counter . "' data-date='" . $args['booking_date'] . "' data-time='" . bkx_secs2hours($cell_start) . "' data-slot='" . $counter . "'>" . bkx_secs2hours($cell_start) . "</a></td>";
+	                            }
                             }
                         }
                         if ($counter % $columns == 0) {

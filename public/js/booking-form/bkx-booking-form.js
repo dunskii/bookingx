@@ -505,7 +505,7 @@ jQuery(function ($) {
                 $error_messages += " <li>" + bkx_booking_form_params.string_select_a_base + "</li>"
             }
 
-            if ($('.booking-slots').data('starting_slot') == 0 && GetCurrentStep() == 2 && booking_form.time_option == "M") {
+            if ($('.booking-slots').data('starting_slot') == 0 && GetCurrentStep() == 2 && booking_form.time_option == "H") {
                 $error_messages += " <li> " + bkx_booking_form_params.string_select_date_time + "</li>"
             }
 
@@ -518,17 +518,16 @@ jQuery(function ($) {
                     $error_messages += " <li> " + bkx_booking_form_params.complete_form + "</li>"
                 }
                 if( bkx_booking_form_params.bkx_legal == "1" ){
-                    if (listToArray(".bkx-booking-form .step-3 :input[name^=bkx_terms_and_conditions]:checked") === 'None') {
+                    if (bkx_booking_form_params.bkx_term_cond_url !="" && listToArray(".bkx-booking-form .step-3 :input[name^=bkx_terms_and_conditions]:checked") === 'None') {
                         $error_messages += " <li> " + bkx_booking_form_params.bkx_terms_and_conditions + "</li>"
                     }
-                    if (listToArray(".bkx-booking-form .step-3 :input[name^=bkx_privacy_policy]:checked") === 'None') {
+                    if (bkx_booking_form_params.bkx_privacy_policy_url !="" && listToArray(".bkx-booking-form .step-3 :input[name^=bkx_privacy_policy]:checked") === 'None') {
                         $error_messages += " <li> " + bkx_booking_form_params.bkx_privacy_policy + "</li>"
                     }
-                    if (listToArray(".bkx-booking-form .step-3 :input[name^=bkx_cancellation_policy]:checked") === 'None') {
+                    if (bkx_booking_form_params.bkx_cancellation_url !="" && listToArray(".bkx-booking-form .step-3 :input[name^=bkx_cancellation_policy]:checked") === 'None') {
                         $error_messages += " <li> " + bkx_booking_form_params.bkx_cancellation_policy + "</li>"
                     }
                 }
-
             }
 
             if (GetCurrentStep() == 4 && booking_form.is_prepayment == true) {

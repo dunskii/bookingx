@@ -7,9 +7,9 @@ defined('ABSPATH') || exit; ?>
 $privacy_policy = bkx_crud_option_multisite('bkx_privacy_policy_page');
 $cancellation = bkx_crud_option_multisite('bkx_cancellation_policy_page');
 $term_cond = bkx_crud_option_multisite('bkx_term_cond_page');
-$privacy_policy_url = (isset($privacy_policy)) && $privacy_policy != "" ? get_permalink($privacy_policy) : "javascript:void(0);";
-$term_cond_url = (isset($term_cond)) && $term_cond != "" ? get_permalink($term_cond) : "javascript:void(0);";
-$cancellation_url = (isset($cancellation)) && $cancellation != "" ? get_permalink($cancellation) : "javascript:void(0);";
+$privacy_policy_url = (isset($privacy_policy)) && $privacy_policy != "" ? get_permalink($privacy_policy) : "";
+$term_cond_url = (isset($term_cond)) && $term_cond != "" ? get_permalink($term_cond) : "";
+$cancellation_url = (isset($cancellation)) && $cancellation != "" ? get_permalink($cancellation) : "";
 $bkx_legal = bkx_crud_option_multisite('bkx_legal_options');
 ?>
 <div class="step-3 bkx-form-deactivate" data-active="3">
@@ -48,6 +48,7 @@ $bkx_legal = bkx_crud_option_multisite('bkx_legal_options');
         </div>
         <?php if (isset($bkx_legal) && $bkx_legal == 1): ?>
             <div class="row mt-4">
+                <?php if(isset($term_cond_url) && $term_cond_url !="" ) : ?>
                 <div class="col-md-4">
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" id="bkx-terms-and-conditions"
@@ -57,6 +58,8 @@ $bkx_legal = bkx_crud_option_multisite('bkx_legal_options');
                             </label>
                     </div>
                 </div>
+                <?php endif;?>
+	            <?php if(isset($privacy_policy_url) && $privacy_policy_url !="" ) : ?>
                 <div class="col-md-4">
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" id="bkx-privacy-policy"
@@ -66,6 +69,8 @@ $bkx_legal = bkx_crud_option_multisite('bkx_legal_options');
                         </label>
                     </div>
                 </div>
+	            <?php endif;?>
+	            <?php if(isset($cancellation_url) && $cancellation_url !="" ) : ?>
                 <div class="col-md-4">
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" id="bkx-cancellation-policy"
@@ -75,6 +80,7 @@ $bkx_legal = bkx_crud_option_multisite('bkx_legal_options');
                         </label>
                     </div>
                 </div>
+	            <?php endif;?>
             </div>
         <?php endif; ?>
     </div>
