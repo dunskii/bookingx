@@ -226,9 +226,15 @@ class Bkx_Meta_Boxes
 	            if(isset($order_summary_note) && $order_summary_note != ""){
 		            $order_summary .= $order_summary_note;
 	            }
-                if ($return_type == 'ajax' && isset($get_order_status,$booking_start_date) && $get_order_status != 'Cancelled' || time() <= strtotime($booking_start_date)) {
-                    $order_summary .= sprintf( __('<a href="%s" class="button button-primary button-large note-btn" name="bkx_reschedule_booking"> Reschedule Booking </a>', 'bookingx'), $reschedule_url);
-                }
+	            $screen = get_current_screen();
+	            if(!is_wp_error($screen) && $screen->parent_file == 'edit.php?post_type=bkx_booking'){
+
+	            }else{
+		            if ($return_type == 'ajax' && isset($get_order_status,$booking_start_date) && $get_order_status != 'Cancelled' || time() <= strtotime($booking_start_date)) {
+			            $order_summary .= sprintf( __('<a href="%s" class="button button-primary button-large note-btn" name="bkx_reschedule_booking"> Reschedule Booking </a>', 'bookingx'), $reschedule_url);
+		            }
+	            }
+
                 $order_summary .= sprintf('</div>',  'bookingx');
             }
             if ($return_type == 'ajax') {
