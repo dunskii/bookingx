@@ -309,6 +309,7 @@ class Bookingx_Admin
 		     $wp->query_vars['type__not_in'] = $disable_custom_type;
          }
 	    return $wp;
+	     
     }
 
     function bkx_booking_search_custom_fields($wp) {
