@@ -37,7 +37,19 @@
 .bkx-content-settings .header th label {
     font-weight: 600;
 }
-
+.wp-admin.post-type-bkx_booking .h3,
+.wp-admin.post-type-bkx_booking h3
+{
+    font-size: 1.3em;
+}
+.wp-admin.post-type-bkx_booking dl dt,
+.wp-admin.post-type-bkx_booking dl dd
+{
+    font-size: 0.9em;
+}
+.wp-admin.post-type-bkx_booking .booking-x .indicator ul li{
+    font-size: 16px;
+}
 .booking-x .bkx-single-post-view hr {
     margin-top: 1rem;
     margin-bottom: 1rem;

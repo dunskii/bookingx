@@ -164,7 +164,9 @@ function bkx_action_view_summary_callback()
     $bookingx_note_output = $Bkx_Meta_Boxes->bookingx_note_output($get_post, 'ajax');
     $bookingx_reassign_output = $Bkx_Meta_Boxes->bookingx_reassign_output($get_post, 'ajax');
     // $order_summary_output = '<div class="bkx-order_summary"> <h3>Booking #'.$post_id.' Notes </h3></div>';
-    $output = '<td class="section-1" colspan="10">' . $order_full_output . '</td>
+	$bkx_booking_columns_data = Bookingx_Admin::bkx_booking_columns_data();
+	$total_cols  = !empty($bkx_booking_columns_data) ? sizeof($bkx_booking_columns_data) - 3 : 10;
+    $output = '<td class="section-1" colspan="'.$total_cols.'">' . $order_full_output . '</td>
        <td colspan="3" class="section-2">' . $bookingx_note_output . '' . $bookingx_reassign_output . '</td>';
     echo apply_filters('bkx_order_summary_output', $output,$post_id);
     wp_die();
