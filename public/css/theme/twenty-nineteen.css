@@ -85,7 +85,19 @@
   .booking-x-form ul, .booking-x-form ol {
     margin: 0 0 2rem 0; }
 
+  .booking-x .form-group {
+    margin-bottom: 10px; }
+
+  .booking-x .step-2 .calender-setup #bkx-calendar {
+    font-size: 0.8em; }
+
+  .booking-x .step-2 .calender-setup #bkx-calendar .calendar-day .d-flex.btn {
+    font-size: 0.7rem; }
+
+  .booking-x .step-2 .calender-setup, .booking-x .step-2 .slots-setup {
+    padding: inherit; }
+
   .booking-x .indicator ul li {
-    margin: auto; } }
+    margin: 10px; } }
 
 /*# sourceMappingURL=twenty-nineteen.css.map */

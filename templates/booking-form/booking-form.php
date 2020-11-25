@@ -70,7 +70,7 @@ $args['status'] = $status;
                         if (!empty($check_payment_data)) {
                             $transactionID = $check_payment_data['transactionID'];
                         }
-                        if ($transactionID == 0) {
+	                    if ($transactionID == 0 && $transactionID == '') {
                             do_action('bkx_payment_gateway_capture_process_hook', $action_data);
                         }
                     }
