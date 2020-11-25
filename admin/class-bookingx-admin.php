@@ -933,7 +933,6 @@ class Bookingx_Admin
                     });
 
                     jQuery('.row-actions').find('span.trash').find('a').text('Cancel');
-                    jQuery('.row-actions').find('span.edit').find('a').text('Reschedule');
                     jQuery('<option>').val('mark_pending').text('<?php _e('Pending', 'bookingx');?>').appendTo('select[name="action"]');
 
                     jQuery('<option>').val('mark_ack').text('<?php _e('Acknowledged', 'bookingx');?>').appendTo('select[name="action"]');

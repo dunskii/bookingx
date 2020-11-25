@@ -50,7 +50,6 @@ $default_seat = apply_filters('bkx_enable_any_seat_id', $default_seat);
                     </select>
                 </div>
                 <span class="bkx-extra-lists"></span>
-                <p>&nbsp;</p>
             </div>
             <div class="col-md-6">
 

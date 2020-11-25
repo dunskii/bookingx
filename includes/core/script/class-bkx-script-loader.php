@@ -361,10 +361,16 @@ class Bkx_Script_Loader
             $booking_id = (is_admin() ? (isset($_GET['post']) ? $_GET['post'] : 0) : (isset($_GET['booking_id']) ? $_GET['booking_id'] : 0));
         }
         $bkx_legal = bkx_crud_option_multisite('bkx_legal_options');
+	    $privacy_policy = bkx_crud_option_multisite('bkx_privacy_policy_page');
+	    $cancellation = bkx_crud_option_multisite('bkx_cancellation_policy_page');
+	    $term_cond = bkx_crud_option_multisite('bkx_term_cond_page');
         $defaults_params = array(
             'last_page_url' => (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]",
             'ajax_url' => admin_url('admin-ajax.php', 'relative'),
             'bkx_legal' => $bkx_legal,
+            'bkx_privacy_policy_url' => isset($privacy_policy) && $privacy_policy !="" ? $privacy_policy : '',
+            'bkx_cancellation_url' => isset($cancellation) && $cancellation !="" ? $cancellation : '',
+            'bkx_term_cond_url' => isset($term_cond) && $term_cond !="" ? $term_cond : '',
             'bkx_ajax_url' => Bkx_Ajax_Loader::get_endpoint('%%endpoint%%'),
             'on_seat_change_nonce' => wp_create_nonce("on-seat-change"),
             'on_base_change_nonce' => wp_create_nonce("on-base-change"),

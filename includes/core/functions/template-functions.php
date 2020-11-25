@@ -462,7 +462,13 @@ if (!function_exists('bkx_dashboard_navigation')) {
 if (!function_exists('bkx_dashboard_content')) {
     function bkx_dashboard_content()
     {
-        bkx_get_template('dashboard/content.php');
+	    $bkx_enable_customer_dashboard = bkx_crud_option_multisite('bkx_enable_customer_dashboard');
+	    if (isset($bkx_enable_customer_dashboard) && $bkx_enable_customer_dashboard== 1 && is_user_logged_in()) {
+		    bkx_get_template('dashboard/content.php');
+	    }else{
+		    bkx_get_template('dashboard/disable-note.php');
+	    }
+
     }
 }
 

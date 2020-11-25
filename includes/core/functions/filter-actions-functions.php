@@ -245,12 +245,36 @@ function bkx_query_vars($qv)
     return $qv;
 }
 
-add_filter('post_row_actions', 'bkx_row_actions', 2, 100);
-function bkx_row_actions($actions, $post)
+add_filter('post_row_actions', 'bkx_modify_list_row_actions', 2, 100);
+function bkx_modify_list_row_actions($actions, $post)
 {
     if (in_array($post->post_type, array('bkx_booking'))) {
         if (isset($actions['inline hide-if-no-js'])) {
             unset($actions['inline hide-if-no-js']);
+        }
+        if(!empty($actions) && isset($actions['edit'])){
+	        $view_link = "";
+	        $orderObj = new BkxBooking();
+	        $order_meta = $orderObj->get_order_meta_data($post->ID);
+	        $get_order_status = $orderObj->get_order_status($post->ID);
+	        $booking_start_date = $order_meta['booking_start_date'];
+	        $edit_link = get_edit_post_link($post->ID);
+	        if(isset($get_order_status,$booking_start_date) && $get_order_status == 'Cancelled' || time() > strtotime($booking_start_date)){
+	        	unset($actions['edit']);
+	        	unset($actions['trash']);
+	        }else{
+		        $actions['edit'] = sprintf( '<a href="%1$s">%2$s</a>',
+			        esc_url( $edit_link ),
+			        esc_html( __( 'Reschedule', 'bookingx' ) ) );
+	        }
+
+	        if (!empty($order_meta) && isset($order_meta['first_name'])) {
+		        $view_link = 'javascript:bkx_view_summary(\'' . $post->ID . '\',\'' . $order_meta['first_name'] . ' ' . $order_meta['last_name'] . '\')';
+	        }
+	        $actions['view'] = sprintf( '<a href="%1$s">%2$s</a>',
+		                $view_link,
+			        esc_html( __( 'View', 'bookingx' ) ) );
+
         }
     }
     return $actions;
