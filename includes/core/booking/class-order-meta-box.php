@@ -79,6 +79,7 @@ class Bkx_Meta_Boxes
         $seat_id = get_post_meta($order_id, 'seat_id', true);
         if (isset($seat_id) && $seat_id != "") {
             $order_summary = "";
+	        $order_summary_note = "";
             $orderObj = new BkxBooking();
             $order_meta = $orderObj->get_order_meta_data($post->ID);
             wp_nonce_field('bookingx_save_data', 'bookingx_meta_nonce');
@@ -168,9 +169,10 @@ class Bkx_Meta_Boxes
 
             if (isset($order_meta['seat_id']) && $order_meta['seat_id'] != '') {
                 $order_summary = sprintf('<div class="bkx-order_summary_full bkx-admin-order-detail">',  'bookingx');
-                $order_summary .= sprintf(__('<h3>Booking #%d details</h3>',  'bookingx'), $post->ID);
+	            $duration = str_replace("(", "", $duration);
+	            $duration = str_replace(")", "", $duration);
+                $order_summary .= sprintf(__('<h3>Booking #%d - %s | %s %s | Duration : %s </h3>',  'bookingx'), $post->ID, $orderObj->get_order_status($post->ID), "{$order_meta['booking_time_from']} - {$end_time}", $date_data, $duration);
                 $order_summary .= sprintf('<div class="bkx-general_full">',  'bookingx');
-                //$order_summary .= sprintf( __('<h4>Customer Information</h4>', 'bookingx'));
                 $order_summary .= sprintf(__('<p>Full Name : <span id="bkx_fname"> %s </span><span id="bkx_lname"> %s </span></p>',  'bookingx'), $order_meta['first_name'], $order_meta['last_name']);
                 $order_summary .= sprintf(__('<p>Phone : <a href="callto:%s" id="bkx_phone"><span id="bkx_phone">%s</span></a></p>',  'bookingx'), $order_meta['phone'], $order_meta['phone']);
                 $order_summary .= sprintf(__('<p>Email : <a href="mailto:%s" id="bkx_email"><span id="bkx_email">%s</span></a></p>',  'bookingx'), $order_meta['email'], $order_meta['email']);
@@ -179,14 +181,11 @@ class Bkx_Meta_Boxes
                 $order_summary .= sprintf('</div>',  'bookingx');
 
                 $order_summary .= sprintf('<div class="bkx-general_full">',  'bookingx');
-                //$order_summary .= sprintf( __('<h4>Booking Details</h4>', 'bookingx'));
-                $order_summary .= sprintf(__('<p>Booking Date : <span id="bkx_booking_date">%s </span> </p>',  'bookingx'), $date_data);
+
                 if (isset($base_time_option) && $base_time_option == "H") {
-                    $order_summary .= sprintf(__('<p> Time : <span id="bkx_booking_time">%s </span> </p>',  'bookingx'), "{$order_meta['booking_time_from']} - {$end_time}");
+                    //$order_summary .= sprintf(__('<p> Time : <span id="bkx_booking_time">%s </span> </p>',  'bookingx'), "{$order_meta['booking_time_from']} - {$end_time}");
                 }
-                $order_summary .= sprintf(__('<p> Duration : <span id="bkx_booking_duration">%s </span> </p>',  'bookingx'), $duration);
-                $order_summary .= sprintf(__('<p>Status : <span id="bkx_booking_status">%s </span> </p>',  'bookingx'), $orderObj->get_order_status($post->ID));
-                $order_summary .= sprintf(__('<p>Total : %s<span id="bkx_booking_total">%s </span> </p> </p>',  'bookingx'), bkx_get_current_currency(), $order_meta['total_price']);
+                 $order_summary .= sprintf(__('<p>Total : %s<span id="bkx_booking_total">%s </span> </p> </p>',  'bookingx'), bkx_get_current_currency(), $order_meta['total_price']);
                 $payment_source = $order_meta['bkx_payment_gateway_method'];
                 if (!empty($payment_source) && $payment_source != "cash" && $payment_source != "N") {
                     $BkxPaymentCore = new BkxPaymentCore();
@@ -201,10 +200,10 @@ class Bkx_Meta_Boxes
                     $order_summary .= sprintf(__('<p>Payment By : %s </p>',  'bookingx'), $payment_source);
                     $order_summary .= sprintf(__('<p>Transaction Id : %s </p>',  'bookingx'), $payment_meta['transactionID']);
                     if (isset($check_remaining_payment) && $check_remaining_payment != 0 && $check_remaining_payment != '') {
-                        $order_summary .= sprintf(__('<p> <b> Note : %s%s %s  </b> </p>',  'bookingx'), bkx_get_current_currency(), $check_remaining_payment, 'payment will be made when the customer comes for the booking');
+	                    $order_summary_note .= sprintf(__('<p> <b> Note : %s%s %s  </b> </p>',  'bookingx'), bkx_get_current_currency(), $check_remaining_payment, 'Payment will be made when the customer comes for the booking.');
                     }
                 } else {
-                    $order_summary .= sprintf(__('<p> Note  : %s </p>',  'bookingx'), "payment will be made when the customer comes for the booking");
+                    $order_summary_note = sprintf(__('<p> Note  : %s </p>',  'bookingx'), "Payment will be made when the customer comes for the booking.");
                 }
                 $order_summary .= sprintf('</div>',  'bookingx');
                 $extra_data = sprintf(__('<p id="bkx_extra_name">%s service\'s :',  'bookingx'), $addition_alias);
@@ -224,7 +223,10 @@ class Bkx_Meta_Boxes
                 $order_summary .= $extra_data;
                 $order_summary .= sprintf('</div>',  'bookingx');
                 $order_summary .= sprintf('<div style="clear:left;">&nbsp;</div>',  'bookingx');
-                if ($return_type == 'ajax') {
+	            if(isset($order_summary_note) && $order_summary_note != ""){
+		            $order_summary .= $order_summary_note;
+	            }
+                if ($return_type == 'ajax' && isset($get_order_status,$booking_start_date) && $get_order_status != 'Cancelled' || time() <= strtotime($booking_start_date)) {
                     $order_summary .= sprintf( __('<a href="%s" class="button button-primary button-large note-btn" name="bkx_reschedule_booking"> Reschedule Booking </a>', 'bookingx'), $reschedule_url);
                 }
                 $order_summary .= sprintf('</div>',  'bookingx');
