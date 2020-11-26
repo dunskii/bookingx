@@ -562,7 +562,6 @@ class Bkx_Ajax_Loader
         }
         $args['allowed_day_book'] = $allowed;
         echo $availability_slots = $BkxBooking->display_availability_slots_html($args);
-        echo '<pre>', print_r($availability_slots, 1), '</pre>';
         wp_die();
     }
 
