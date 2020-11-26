@@ -172,12 +172,14 @@
   }
 
 @media (max-width: 600px){
-
-
   .booking-x-form{
     .entry-content{
       width:100%;
       font-size: 17px;
+    }
+    .booking-x .main-container .container{
+      padding-right: 15px;
+      padding-left: 15px;
     }
     .bkx-booking-form .schedule-indicator{
       width: 100%;
@@ -185,5 +187,9 @@
     .bkx-booking-form .schedule-indicator ul{
       margin: 0 0 2rem 0rem;
     }
+    .booking-x .form-group{
+      width: 325px;
+    }
+
   }
 }
