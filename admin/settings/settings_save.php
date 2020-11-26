@@ -40,19 +40,12 @@ function bkx_setting_save_action()
     }
 
     if (isset($_POST['other_setting_flag']) && ($_POST['other_setting_flag'] == 1)) {
-        if (isset($_POST['bkx_dashboard_column'])) {
-            $bkx_dashboard_column = array_map('sanitize_text_field', wp_unslash($_POST['bkx_dashboard_column']));
-            if (!empty($bkx_dashboard_column)) {
-                bkx_crud_option_multisite("bkx_dashboard_column", $bkx_dashboard_column, 'update');
-            }
-        }
-
+        $bkx_dashboard_column = array_map('sanitize_text_field', wp_unslash($_POST['bkx_dashboard_column']));
+        bkx_crud_option_multisite("bkx_dashboard_column", $bkx_dashboard_column, 'update');
         bkx_crud_option_multisite("enable_cancel_booking", sanitize_text_field($_POST['enable_cancel_booking']), 'update');
         bkx_crud_option_multisite("cancellation_policy_page_id", sanitize_text_field($_POST['page_id']), 'update');
         bkx_crud_option_multisite("enable_any_seat", sanitize_text_field($_POST['enable_any_seat']), 'update');
         bkx_crud_option_multisite("bkx_enable_customer_dashboard", sanitize_text_field($_POST['bkx_enable_customer_dashboard']), 'update');
-
-
         $redirect = add_query_arg(array('bkx_success' => 'OSE'), $_SERVER['HTTP_REFERER']);
         wp_safe_redirect($redirect);
     }

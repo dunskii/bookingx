@@ -683,29 +683,11 @@ class Bookingx_Admin
 
     function bkx_booking_columns($existing_columns)
     {
-        $seat_alias = bkx_crud_option_multisite('bkx_alias_seat');
-        $base_alias = bkx_crud_option_multisite('bkx_alias_base');
-        $addition_alias = bkx_crud_option_multisite('bkx_alias_addition');
         unset($existing_columns);
-        $columns = array();
-        $columns['cb'] = '<input type="checkbox" />';
-        $columns['order_status'] = '<span class="status_head tips" data-tip="' . esc_attr__('Status', 'bookingx') . '">' . esc_attr__('Current Status', 'bookingx') . '</span>';
-        $columns['booking_date'] = __('Date', 'bookingx');
-        $columns['booking_time'] = __('Time', 'bookingx');
-        $columns['duration'] = __('Duration', 'bookingx');
-        $columns['client_name'] = __('Name', 'bookingx');
-        $columns['client_phone'] = __('Phone', 'bookingx');
-        $columns['seat'] = __($seat_alias, 'bookingx');
-        $columns['service'] = __($base_alias, 'bookingx');
-        $columns['extra'] = __('# of ' . $addition_alias, 'bookingx');
-        $columns['order_total'] = __('Total', 'bookingx');
-        $columns['order_actions'] = __('Actions', 'bookingx');
-        $columns['order_view'] = __('View', 'bookingx');
-
+	    $columns = $this->bkx_booking_columns_data();
         // Dashboard Column manage to show data ( Fetch Data from Other Setting Tab)
         $bkx_dashboard_column_selected = bkx_crud_option_multisite("bkx_dashboard_column");
-
-        $bkx_booking_columns_data = $this->bkx_booking_columns_data();
+	    $bkx_booking_columns_data = apply_filters('bkx_dashboard_booking_columns_before', $columns);
         if (!empty($bkx_booking_columns_data)) {
             foreach ($bkx_booking_columns_data as $key => $booking_columns) {
                 if ($key != "cb" && !empty($bkx_dashboard_column_selected) && !in_array($key, $bkx_dashboard_column_selected)) {
@@ -713,8 +695,7 @@ class Bookingx_Admin
                 }
             }
         }
-        $columns = apply_filters('bkx_dashboard_booking_columns', $columns);
-
+        $columns = apply_filters('bkx_dashboard_booking_columns_after', $columns);
         return $columns;
     }
 
