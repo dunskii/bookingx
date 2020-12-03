@@ -22,7 +22,7 @@ $seat_available_months = $bkx_seat->seat_available_months;
 $seat_available_days = $bkx_seat->seat_available_days;
 $seat_notifiaction_info = $bkx_seat->seat_notifiaction_info;
 $seat_payment_info = $bkx_seat->seat_payment_info;
-$seat_address = $bkx_seat->seat_address();
+$seat_address = $bkx_seat->seat_address_html();
 $image = $desc = "yes";
 if (!empty($args)) {
     $desc = $args['description'];

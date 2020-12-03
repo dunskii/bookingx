@@ -322,7 +322,7 @@ class BkxPaymentCore
                 $payment_success_html .= "</div></div>";
                 if($BkxSeatObj->seat_address()){
 	                $payment_success_html .= "<div class=\"row\"><div class=\"col-sm-12 mt-3\">";
-	                $payment_success_html .= __("{$BkxSeatObj->seat_address()}", 'bookingx');
+	                $payment_success_html .= __("{$BkxSeatObj->seat_address_html(false)}", 'bookingx');
 	                $payment_success_html .= "</div></div>";
                 }
 	            $payment_success_html .= apply_filters('bkx_booking_thank_you_content', '', $order_id );
