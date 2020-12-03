@@ -623,6 +623,7 @@ jQuery(function ($) {
             var total_tax = $('.bkx-booking-form .bkx-booking-total .total-tax');
             var grand_total = $('.bkx-booking-form .step-4 .grand-total strong');
             var deposit_note = $('.bkx-booking-form .step-4 .bkx-deposite-note');
+            var seat_address = $('.bkx-booking-form .step-4 .bkx-seat-location-note');
 
             $.ajax({
                 type: 'POST',
@@ -641,6 +642,7 @@ jQuery(function ($) {
                         total_cost.html(result.total_price_formatted);
                         grand_total.html(result.grand_total_formatted);
                         deposit_note.html(result.deposit_note);
+                        seat_address.html(result.seat_address);
                     } else {
 
                     }

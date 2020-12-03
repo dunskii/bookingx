@@ -183,6 +183,16 @@ jQuery(function ($) {
                         extra_list_obj.removeAttr("disabled");
                         var result = $.parseJSON(response);
                         extra_list_obj.html(result.extra_html);
+                        if (result.slot_hide_flag == true) {
+                            $('.bkx-booking-form .step-2 .slots-setup').hide();
+                        } else {
+                            $('.bkx-booking-form .step-2 .slots-setup').show();
+                        }
+
+                        if (result.any_seat && result.any_seat > 0) {
+                            $('.bkx-booking-form .step-1 .bkx-staff-lists').val(result.any_seat)
+                        }
+
                         booking_form.booking_style = result.booking_style;
                         booking_form.time_option = result.time_option;
                         if (result.extended != "") {
@@ -868,12 +878,16 @@ jQuery(function ($) {
             $('.booking-slots').data("total_slots", 0);
             $('.booking-slots').data("starting_slot", 0);
             booking_form.date = calendar.currentSelected;
-
+            var service_extend = "";
+            if(bkx_booking_form_admin_params.extended_base){
+                service_extend = bkx_booking_form_admin_params.extended_base;
+            }
             var data = {
                 security: bkx_booking_form_admin_params.display_availability_slots_nonce,
                 seat_id: booking_form.seat_id,
                 base_id: booking_form.base_id,
                 extra_id: booking_form.extra_id,
+                service_extend: service_extend,
                 booking_date: calendar.currentSelected,
             };
 

@@ -3,6 +3,7 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 global $bkx_seat;
+
 $booking_url = $bkx_seat->booking_page_url;
 $seat_id = $bkx_seat->id;
 $BaseObj = new BkxBase();
@@ -21,6 +22,7 @@ $seat_available_months = $bkx_seat->seat_available_months;
 $seat_available_days = $bkx_seat->seat_available_days;
 $seat_notifiaction_info = $bkx_seat->seat_notifiaction_info;
 $seat_payment_info = $bkx_seat->seat_payment_info;
+$seat_address = $bkx_seat->seat_address();
 $image = $desc = "yes";
 if (!empty($args)) {
     $desc = $args['description'];
@@ -57,9 +59,14 @@ $args_data = apply_filters('bkx_single_post_view_args', array('post_type' => 'bk
                 <hr/>
                 <?php if ($desc == "yes") : ?>
                     <div class="row">
-                        <div class="col-md-12"><?php echo apply_filters('the_content', get_the_content($seat_id)); ?></div>
+                        <div class="col-md-12"><?php echo apply_filters('the_content', get_the_content('',false,$bkx_seat->post)); ?></div>
                     </div>
                 <?php endif; ?>
+
+	            <?php if (!empty($seat_address)): ?>
+                    <div class="seat-address"><?php echo $seat_address; ?></div>
+	            <?php endif; ?>
+
                 <?php if (!empty($available_services)): ?>
                     <div class="available-services"><?php echo $available_services; ?></div>
                 <?php endif; ?>

@@ -272,10 +272,12 @@ class BkxBooking
         $args['extra_ids'] = $post_data['extra_id'];
         $args['service_extend'] = $post_data['service_extend'];
         $total_time = $this->booking_form_generate_total_time($args);
+	    $base_time_option = get_post_meta($args['base_id'], 'base_time_option', true);
         $total_time_formatted = bkx_total_time_of_services_formatted($total_time['in_sec'] / 60);
-        $booking_start_date = date("Y-m-d H:i:s", strtotime(sanitize_text_field($post_data['date']) . " " . sanitize_text_field($post_data['booking_time'])));
-        $booking_end_date = date("Y-m-d H:i:s", strtotime(sanitize_text_field($post_data['date']) . " " . sanitize_text_field($post_data['booking_time'])) + sanitize_text_field($total_time['in_sec']));
-
+	    if(isset($base_time_option) && $base_time_option == "H"){
+		    $booking_start_date = date("Y-m-d H:i:s", strtotime(sanitize_text_field($post_data['date']) . " " . sanitize_text_field($post_data['booking_time'])));
+		    $booking_end_date = date("Y-m-d H:i:s", strtotime(sanitize_text_field($post_data['date']) . " " . sanitize_text_field($post_data['booking_time'])) + sanitize_text_field($total_time['in_sec']));
+	    }
         $return_page_id = !empty($post_data['return_page_id']) ? $post_data['return_page_id'] : "";
         $return_page_url = isset($return_page_id) ? get_permalink($return_page_id) : "";
         $return_url = apply_filters('bkx_return_page_url', $return_page_url);
@@ -327,18 +329,23 @@ class BkxBooking
         if (empty($post_data))
             return;
         global $current_user;
-
+	    $booking_start_date = $booking_end_date = $include_tax = "";
         $curr_date = date("Y-m-d H:i:s");
         $booking_id = isset($post_data['order_id']) ? $post_data['order_id'] : "";
         $args['seat_id'] = $post_data['seat_id'];
         $args['base_id'] = $post_data['base_id'];
         $args['extra_ids'] = $post_data['extra_id'];
         $args['service_extend'] = $post_data['service_extend'];
+	    $base_time_option = get_post_meta($args['base_id'], 'base_time_option', true);
 
         $total_time = $this->booking_form_generate_total_time($args);
         $total_time_formatted = bkx_total_time_of_services_formatted($total_time['in_sec'] / 60);
-        $booking_start_date = date("Y-m-d H:i:s", strtotime(sanitize_text_field($post_data['date']) . " " . sanitize_text_field($post_data['booking_time'])));
-        $booking_end_date = date("Y-m-d H:i:s", strtotime(sanitize_text_field($post_data['date']) . " " . sanitize_text_field($post_data['booking_time'])) + sanitize_text_field($total_time['in_sec']));
+        if(isset($base_time_option) && $base_time_option == "H"){
+	        $booking_start_date = date("Y-m-d H:i:s", strtotime(sanitize_text_field($post_data['date']) . " " . sanitize_text_field($post_data['booking_time'])));
+	        $booking_end_date = date("Y-m-d H:i:s", strtotime(sanitize_text_field($post_data['date']) . " " . sanitize_text_field($post_data['booking_time'])) + sanitize_text_field($total_time['in_sec']));
+        }else{
+	        $post_data['booking_time'] = "";
+        }
         $post_data['bkx_payment_gateway_method'] = isset($post_data['payment_method'][0]) ? $post_data['payment_method'][0] : 'bkx_gateway_pay_later';
 
         $booking_set_array = array('seat_id' => sanitize_text_field($post_data['seat_id']), 'base_id' => sanitize_text_field($post_data['base_id']), 'extra_id' => (!empty($post_data['extra_id']) && $post_data['extra_id'] != "None") ? implode(",", $post_data['extra_id']) : "");
@@ -376,7 +383,7 @@ class BkxBooking
             $total_price = number_format((float)$total_price, 2, '.', '');
             $grand_total = number_format((float)$total_price, 2, '.', '');
         }
-        $base_time_option = get_post_meta($args['base_id'], 'base_time_option', true);
+
         if (isset($_POST['booking_multi_days']) && !empty($post_data['booking_multi_days'])) {
             $booking_multi_days = wp_unslash($post_data['booking_multi_days']);
             $booking_start_date = date('Y-m-d H:i:s', strtotime($booking_multi_days[0]));
@@ -762,10 +769,9 @@ class BkxBooking
             $search['seat_id'] = $seat_id;
             $search['booking_date'] = date('Y-m-d');
             $booked_data = $this->GetBookedRecords($search);
-            //echo '<pre>',print_r($booked_data,1),'</pre>';
             if (!empty($booked_data)) {
                 foreach ($booked_data as $booking) {
-                    $booking_id = $booking['booking_record_id'];
+                    $booking_id = $booking['order_id'];
                     $base_time_option = get_post_meta($booking_id, 'base_time_option', true);
                     $base_time_option = (isset($base_time_option) && $base_time_option != "") ? $base_time_option : "H";
                     if (isset($base_time_option) && $base_time_option == 'D') {
@@ -1478,6 +1484,13 @@ class BkxBooking
         $short_currency_name = substr($result['currency_name'], 0, 1);
         $result['total_price_formatted'] = "{$result['currency_name']}{$result['currency_sym']}{$result['total_price']}";
         $result['grand_total_formatted'] = "{$short_currency_name}{$result['currency_sym']}{$grand_total}";
+	    $seat_address = "";
+        if(isset($selected_ids['seat_id'])){
+	        $SeatObj = new BkxSeat("",$selected_ids['seat_id']);
+	        $seat_address = $SeatObj->seat_address();
+        }
+	    $result['seat_address'] = $seat_address;
+
 
         $result['deposit_note'] = (isset($result['note']) && $result['note']!="") ? sprintf("<div class=\"row\"><div class=\"col-lg-12\"> <strong> Note : </strong> %s</div></div>", $result['note']) : "";
 
@@ -1731,7 +1744,7 @@ class BkxBooking
             $new_status = $new_status_obj->label;
             $old_status = $BkxBookingObj->get_order_status($order_id);
             if ($old_status != $new_status) {
-                $BkxBookingObj->add_order_note(sprintf(__('Successfully update order from %1$s to %2$s.', 'bookingx'), $old_status, $new_status), 0);
+                $BkxBookingObj->add_order_note(sprintf(__('Successfully updated booking from %1$s to %2$s.', 'bookingx'), $old_status, $new_status), 0);
             }
             $post_update = $wpdb->update($wpdb->posts, array('post_status' => 'bkx-' . $status,),
                 array('ID' => $order_id));
@@ -2375,6 +2388,9 @@ class BkxBooking
      */
     public function bkx_bookingTimeRecord($bookingTimeRecord)
     {
+    	if(empty($bookingTimeRecord['booking_time_from']))
+    		return;
+
         $order_id = $bookingTimeRecord['order_id'];
         $bookingdate = $bookingTimeRecord['bookingdate'];
         $bookingtime = $bookingTimeRecord['booking_time_from'];

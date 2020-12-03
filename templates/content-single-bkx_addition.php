@@ -54,7 +54,7 @@ $args_data = apply_filters('bkx_single_post_view_args', array('post_type' => 'bk
                 <hr/>
                 <?php if ($desc == "yes") : ?>
                     <div class="row">
-                        <div class="col-md-12"><?php echo apply_filters('the_content', get_the_content($extra_id)); ?></div>
+                        <div class="col-md-12"><?php echo apply_filters('the_content', get_the_content('',false,$bkx_addition->post)); ?></div>
                     </div>
                 <?php endif; ?>
                 <?php if (!empty($available_seats)): ?>
