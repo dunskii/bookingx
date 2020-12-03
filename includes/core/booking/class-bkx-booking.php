@@ -1487,7 +1487,7 @@ class BkxBooking
 	    $seat_address = "";
         if(isset($selected_ids['seat_id'])){
 	        $SeatObj = new BkxSeat("",$selected_ids['seat_id']);
-	        $seat_address = $SeatObj->seat_address();
+	        $seat_address = $SeatObj->seat_address_html(false);
         }
 	    $result['seat_address'] = $seat_address;
 
