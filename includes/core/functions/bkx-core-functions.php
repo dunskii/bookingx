@@ -701,6 +701,9 @@ function bkx_generate_inline_style()
             $open = $default_colors['open'];
             $current = $default_colors['current'];
             $selected_time_color = $default_colors['selected_time_color'];
+	        $day_selected     = sanitize_hex_color( twentytwenty_get_color_for_area( 'content', 'accent' ) );
+	        $day_selected     = isset($day_selected) && $day_selected!="" ? $day_selected : '#cd2653';
+
         }
     }
 
@@ -712,6 +715,7 @@ function bkx_generate_inline_style()
             $open = $default_colors['open'];
             $current = $default_colors['current'];
             $selected_time_color = $default_colors['selected_time_color'];
+	        $day_selected     = '#0073aa';
         }
     }
 
@@ -723,6 +727,7 @@ function bkx_generate_inline_style()
             $open = $default_colors['open'];
             $current = $default_colors['current'];
             $selected_time_color = $default_colors['selected_time_color'];
+	        $day_selected     = '#222';
         }
     }
 
@@ -819,6 +824,10 @@ function bkx_generate_inline_style()
         $custom_css .= " .booking-x-form .booking-x .bkx-form-submission-final, .booking-x-form .booking-x .bkx-send-email-receipt, .booking-x-form .booking-x .bkx-back-to-booking{ background: {$bkx_pay_now_btn} }";
     }
     $custom_css .= " .booking-x-form .booking-x .bkx-calendar .calendar-month .text-uppercase { color: {$bkx_cal_month_title} }";
+
+	if ( isset($day_selected)   ) {
+		$custom_css .= " .booking-x-form .booking-x .day-click-selected { background: {$day_selected}; color : #fff; }";
+	}
 
     return apply_filters('bkx_generate_inline_style', $custom_css);
 }
