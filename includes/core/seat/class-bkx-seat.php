@@ -300,7 +300,7 @@ class BkxSeat
     public function seat_address(){
 		if(empty($this->id))
 			return;
-		$_different_loc = "";
+		$_different_loc = array();
 		$seat_is_different_loc = get_post_meta($this->id, 'seat_is_different_loc', true );
 		if(isset($seat_is_different_loc) && $seat_is_different_loc == 'Y'){
 			$seat_street = get_post_meta($this->id, 'seat_street', true );
@@ -308,11 +308,11 @@ class BkxSeat
 			$seat_state = get_post_meta($this->id, 'seat_state', true );
 			$seat_country = get_post_meta($this->id, 'seat_country', true );
 			$seat_zip = get_post_meta($this->id, 'seat_zip', true );
-			$_different_loc['street'] = $seat_street;
-			$_different_loc['city'] = $seat_city;
-			$_different_loc['state'] = $seat_state;
-			$_different_loc['country'] = $seat_country;
-			$_different_loc['zip'] = $seat_zip;
+			$_different_loc['street']       = isset($seat_street) ? $seat_street : "";
+			$_different_loc['city']         =  isset($seat_city) ? $seat_city : "";;
+			$_different_loc['state']        =  isset($seat_state) ? $seat_state : "";;
+			$_different_loc['country']      =  isset($seat_country) ? $seat_country : "";;
+			$_different_loc['zip']          =  isset($seat_zip) ? $seat_zip : "";;
 		}
 		return $_different_loc;
     }
@@ -328,7 +328,7 @@ class BkxSeat
 		}
 
 		$_different_loc .= "<p> Please Note: Your booking will be at below location :</p>";
-		$_different_loc .= "<p> {$add_label} {$seat_street}, {$seat_city}, {$seat_state}, {$seat_country} - {$seat_zip}</p>";
+		$_different_loc .= "<p> {$add_label} {$address['street']}, {$address['city']}, {$address['state']}, {$address['country']} - {$address['zip']}</p>";
 
 		return $_different_loc;
 	}
