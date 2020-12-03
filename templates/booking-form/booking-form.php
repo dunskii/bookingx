@@ -43,6 +43,7 @@ $args['status'] = $status;
                         <?php bkx_get_template('booking-form/steps/step-2b.php'); ?>
                         <?php bkx_get_template('booking-form/steps/step-3.php'); ?>
                         <?php bkx_get_template('booking-form/steps/step-4.php'); ?>
+                        <?php bkx_get_template('booking-form/additional/legal-popup.php'); ?>
                         <?php do_action('bookingx_form_additional_fields'); ?>
                     </form>
                 <?php endif; ?>

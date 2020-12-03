@@ -222,8 +222,11 @@ class BkxBase
         $bkx_post = get_post($post_id);
         $base_price = get_post_meta($post_id, 'base_price', true);
         $base_time = $this->get_time($post_id);
-
-        $base_title = "{$bkx_post->post_title} - {$this->load_global->currency_name}{$this->load_global->currency_sym}{$base_price} - {$base_time['formatted']}";
+	    $formatted = "";
+		if(isset($base_time['formatted'])){
+			$formatted = $base_time['formatted'];
+		}
+        $base_title = "{$bkx_post->post_title} - {$this->load_global->currency_name}{$this->load_global->currency_sym}{$base_price} - {$formatted}";
         return apply_filters('bkx_addition_title', $base_title);
     }
 
@@ -281,7 +284,7 @@ class BkxBase
      */
     public function get_description()
     {
-        $post_content = apply_filters('the_content', get_the_content($this->post->ID));
+        $post_content = apply_filters('the_content', get_the_content('',false,$this->post));
         return apply_filters('bkx_base_description', $post_content);
     }
 

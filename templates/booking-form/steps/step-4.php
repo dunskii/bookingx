@@ -8,6 +8,7 @@ defined('ABSPATH') || exit; ?>
     <div class="user-detail bkx-booking-summary bg-gray px-3 py-4">
         <div class="row">
         </div>
+        <div class="bkx-additional-detail"></div>
     </div>
     <div class="bkx-payment-method user-detail bg-white px-3 py-4"></div>
     <div class="user-detail p-0">
@@ -30,6 +31,7 @@ defined('ABSPATH') || exit; ?>
             </div>
         </div>
         <div class="bkx-deposite-note user-detail bg-white px-3 py-4"></div>
+        <div class="bkx-seat-location-note user-detail px-3 py-4"></div>
     </div>
     <div class="button-wrapper">
         <button type="submit" class="btn btn-default bkx-form-submission-final"><?php esc_html_e("Process Booking", 'bookingx'); ?></button>

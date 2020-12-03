@@ -14,8 +14,8 @@ $bkx_legal = bkx_crud_option_multisite('bkx_legal_options');
 ?>
 <div class="step-3 bkx-form-deactivate" data-active="3">
     <div class="user-detail">
-        <div class="row">
-        </div>
+        <div class="row"></div>
+        <div class="bkx-additional-detail"></div>
     </div>
     <div class="form-wrapper">
         <div class="row">
@@ -54,7 +54,7 @@ $bkx_legal = bkx_crud_option_multisite('bkx_legal_options');
                         <input type="checkbox" class="custom-control-input" id="bkx-terms-and-conditions"
                                name="bkx_terms_and_conditions">
                         <label class="custom-control-label" for="bkx-terms-and-conditions">
-                            <?php echo sprintf(__('Do you agree with our <a target="_blank" href="%s">terms and conditions ?</a>', 'bookingx'), $term_cond_url); ?>
+                            <?php echo sprintf(__('Do you agree with our <a href="%s" data-toggle="modal" data-target=".bkx-tc">terms and conditions ?</a>', 'bookingx'), "#"); ?>
                             </label>
                     </div>
                 </div>
@@ -65,7 +65,7 @@ $bkx_legal = bkx_crud_option_multisite('bkx_legal_options');
                         <input type="checkbox" class="custom-control-input" id="bkx-privacy-policy"
                                name="bkx_privacy_policy">
                         <label class="custom-control-label" for="bkx-privacy-policy">
-                            <?php echo sprintf(__('Do you agree with our <a target="_blank" href="%s">privacy policy ?</a>', 'bookingx'), $privacy_policy_url); ?>
+                            <?php echo sprintf(__('Do you agree with our <a href="%s" data-toggle="modal" data-target=".bkx-pp">privacy policy ?</a>', 'bookingx'), "#"); ?>
                         </label>
                     </div>
                 </div>
@@ -76,7 +76,7 @@ $bkx_legal = bkx_crud_option_multisite('bkx_legal_options');
                         <input type="checkbox" class="custom-control-input" id="bkx-cancellation-policy"
                                name="bkx_cancellation_policy">
                         <label class="custom-control-label" for="bkx-cancellation-policy">
-                            <?php echo sprintf(__('Do you agree with our <a target="_blank" href="%s">cancellation policy ?</a>', 'bookingx'), $cancellation_url); ?>
+                            <?php echo sprintf(__('Do you agree with our <a href="%s" data-toggle="modal" data-target=".bkx-cp">cancellation policy ?</a>', 'bookingx'), "#"); ?>
                         </label>
                     </div>
                 </div>

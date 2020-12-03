@@ -68,7 +68,6 @@ class BkxSeat
      */
     public $url_arg_name; // Just Booking Page Url
 
-
     /**
      * @var null
      */
@@ -81,6 +80,10 @@ class BkxSeat
      * @var mixed|void
      */
     public $seat_info;
+	/**
+	 * @var
+	 */
+    public $seat_address;
 
     /**
      * BkxSeat constructor.
@@ -114,6 +117,7 @@ class BkxSeat
         $this->seat_notifiaction_info = $this->get_seat_notifiaction_info();
         $this->booking_url = $this->get_booking_url();
         $this->booking_page_url = $this->get_booking_page_url();
+        $this->seat_address = $this->seat_address();
         $this->id = $post_id;
         if (is_multisite()):
             restore_current_blog();
@@ -292,6 +296,43 @@ class BkxSeat
         }
         return apply_filters('bkx_seat_payment_info', $payment_data, $this);
     }
+
+    public function seat_address(){
+		if(empty($this->id))
+			return;
+		$_different_loc = "";
+		$seat_is_different_loc = get_post_meta($this->id, 'seat_is_different_loc', true );
+		if(isset($seat_is_different_loc) && $seat_is_different_loc == 'Y'){
+			$seat_street = get_post_meta($this->id, 'seat_street', true );
+			$seat_city = get_post_meta($this->id, 'seat_city', true );
+			$seat_state = get_post_meta($this->id, 'seat_state', true );
+			$seat_country = get_post_meta($this->id, 'seat_country', true );
+			$seat_zip = get_post_meta($this->id, 'seat_zip', true );
+			$_different_loc['street'] = $seat_street;
+			$_different_loc['city'] = $seat_city;
+			$_different_loc['state'] = $seat_state;
+			$_different_loc['country'] = $seat_country;
+			$_different_loc['zip'] = $seat_zip;
+		}
+		return $_different_loc;
+    }
+
+	public function seat_address_html( $show = true ){
+		if(empty($this->seat_address()))
+			return;
+		$_different_loc = $add_label = "";
+		$address = $this->seat_address();
+		if($show == true ){
+			$_different_loc .= "<h3> {$this->alias} Location  </h3>";
+			$add_label = "<b>Address :</b>";
+		}
+
+		$_different_loc .= "<p> Please Note: Your booking will be at below location :</p>";
+		$_different_loc .= "<p> {$add_label} {$seat_street}, {$seat_city}, {$seat_state}, {$seat_country} - {$seat_zip}</p>";
+
+		return $_different_loc;
+	}
+
 
     public function get_seat_notifiaction_info()
     {

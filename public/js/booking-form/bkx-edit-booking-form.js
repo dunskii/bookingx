@@ -879,12 +879,16 @@ jQuery(function ($) {
             $('.booking-slots').data("total_slots", 0);
             $('.booking-slots').data("starting_slot", 0);
             booking_form.date = calendar.currentSelected;
-
+            var service_extend = "";
+            if(bkx_edit_booking_form_params.extended_base){
+                service_extend = bkx_edit_booking_form_params.extended_base;
+            }
             var data = {
                 security: bkx_edit_booking_form_params.display_availability_slots_nonce,
                 seat_id: booking_form.seat_id,
                 base_id: booking_form.base_id,
                 extra_id: booking_form.extra_id,
+                service_extend: service_extend,
                 booking_date: calendar.currentSelected,
             };
 
