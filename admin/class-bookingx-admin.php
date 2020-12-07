@@ -304,8 +304,9 @@ class Bookingx_Admin
 
     function bkx_booking_parse_comment_query( $wp ){
 	     if(is_admin() ){
+		     require_once(ABSPATH . 'wp-admin/includes/screen.php');
 		     $current_screen = get_current_screen();
-		     if(!is_wp_error($current_screen) && $current_screen->base == 'edit-comments'){
+		     if(!empty($current_screen) && !is_wp_error($current_screen) && $current_screen->base == 'edit-comments'){
 			     $disable_custom_type = apply_filters('bkx_disable_custom_type_in_comment_lists',array('booking_note'));
 			     $wp->query_vars['type__not_in'] = $disable_custom_type;
 		     }
