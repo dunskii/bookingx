@@ -10,8 +10,8 @@ $settings = apply_filters('bookingx_block_grid_setting', $args);
 $card_width = apply_filters('bookingx_card_width_setting', $args);
 $image = $desc = "yes";
 if (!empty($args)) {
-    $desc = $args['description'];
-    $image = $args['image'];
+	$desc = isset($args['description']) && $args['description'] != "" ? $args['description'] : 'yes';
+	$image = isset($args['image']) && $args['image'] != "" ? $args['image'] : 'yes';
 }
 $args_data = apply_filters('bkx_listing_post_view_args', array('post_type' => 'bkx_base', 'ID' => $base_id) );
 $center_class = "";
