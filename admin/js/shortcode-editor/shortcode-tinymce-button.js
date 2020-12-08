@@ -22,7 +22,13 @@
                             onselect: function (e) {
                                 $selected_id = e.control._id;
                                 var v = e.control.settings.value;
-                                tinyMCE.activeEditor.selection.setContent('{' + v + '}');
+                                //bkx_booking_page_bkx-setting
+                                if(bkx_shortcode_obj.location == 'post'){
+                                    tinyMCE.activeEditor.selection.setContent('[' + v + ']');
+                                }else if(bkx_shortcode_obj.location == 'bkx_booking_page_bkx-setting'){
+                                    tinyMCE.activeEditor.selection.setContent('{' + v + '}');
+                                }
+
                             },
                         }
                     ],

@@ -72,7 +72,7 @@
     updateCategory('booking-x', {icon: main_icon});
 
     blocks.registerBlockType('booking-x/bkx-addition-block', {
-        title: 'Extra Listings',
+        title: bkx_block_obj.e_alias+' Listings',
         icon: icon,
         category: 'booking-x',
         attributes: {
@@ -181,7 +181,7 @@
                             el(PanelRow, {},
                                 el(SelectControl,
                                     {
-                                        label: 'Select addition',
+                                        label: 'Select '+bkx_block_obj.e_alias,
                                         value: props.attributes.additionPostId,
                                         options: options,
                                         onChange: (value) => {

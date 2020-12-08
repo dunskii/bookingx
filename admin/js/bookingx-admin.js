@@ -1,5 +1,6 @@
 
 jQuery(function ($) {
+    extracted_legal(bkx_admin.is_legal_options);
     $(".bkx-booking-style").on('change', function () {
         if ($(this).val() == 'day_style') {
             $(".thickbox").addClass('bkx-preview-' + $(this).val());
@@ -29,6 +30,15 @@ jQuery(function ($) {
 
 });
 
+
+function extracted_legal( val ) {
+    if (val == 1) {
+        jQuery(".legal-dropdown").show();
+    }else{
+        jQuery(".legal-dropdown").hide();
+    }
+}
+
 jQuery(document).ready(function () {
 
 
@@ -50,6 +60,16 @@ jQuery(document).ready(function () {
         } else {
             jQuery('.bkx-dashboard-column-all').prop('checked', false);
         }
+    });
+
+    jQuery('#id_bkx_legal_options_yes').on('click',function () {
+        var legal_options = jQuery("#id_bkx_legal_options_yes").val();
+        extracted_legal(legal_options);
+    });
+
+    jQuery('#id_bkx_legal_options_no').on('click',function () {
+        var legal_options = jQuery("#id_bkx_legal_options_no").val();
+        extracted_legal(legal_options);
     });
 
     /**********************start script for color picker******************************/

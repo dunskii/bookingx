@@ -69,6 +69,9 @@ class Bkx_Register_Base_Block extends Bkx_Block
         $min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
         $bootstrap_script = $this->plugin_name . '-' . $this->type . '-bootstrap-script';
         $this->script_handle = array($script_slug, $bootstrap_script);
+	    $seat_alias = bkx_crud_option_multisite('bkx_alias_seat');
+	    $base_alias = bkx_crud_option_multisite('bkx_alias_base');
+	    $extra_alias = bkx_crud_option_multisite('bkx_alias_addition');
         return array(
             array(
                 'handle' => $script_slug,
@@ -76,7 +79,7 @@ class Bkx_Register_Base_Block extends Bkx_Block
                 'deps' => array('wp-blocks', 'wp-element', 'wp-components', 'wp-i18n', 'wp-editor'),
                 'version' => $min ? BKX_PLUGIN_VER : filemtime(BKX_BLOCKS_ASSETS_BASE_PATH . '/base/block.js'),
                 'callback' => array(),
-                'localized' => array( 'site_url' => get_site_url()),
+                'localized' => array( 'site_url' => get_site_url() , 's_alias' => $seat_alias, 'b_alias' => $base_alias, 'e_alias' => $extra_alias),
             ),
             array(
                 'handle' => $bootstrap_script,

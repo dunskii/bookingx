@@ -259,7 +259,7 @@ function bkx_modify_list_row_actions($actions, $post)
 	        $get_order_status = $orderObj->get_order_status($post->ID);
 	        $booking_start_date = $order_meta['booking_start_date'];
 	        $edit_link = get_edit_post_link($post->ID);
-	        if(isset($get_order_status,$booking_start_date) && $get_order_status == 'Cancelled' || time() > strtotime($booking_start_date)){
+	        if(isset($get_order_status,$booking_start_date) && ( $get_order_status == 'Cancelled' || $get_order_status == 'Completed' || time() > strtotime($booking_start_date) )){
 	        	unset($actions['edit']);
 	        	unset($actions['trash']);
 	        }else{

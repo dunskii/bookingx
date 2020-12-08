@@ -189,8 +189,7 @@ if (!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
             </tr>
 
             <tr class="active">
-                <th scope="row"><label
-                            for="Enable Legal options"> <?php printf(esc_html__('Enable Legal options', 'bookingx'), bkx_crud_option_multisite('bkx_legal_options')); ?></label>
+                <th scope="row"><label for="Enable Legal options"> <?php printf(esc_html__('Enable Legal options', 'bookingx'), bkx_crud_option_multisite('bkx_legal_options')); ?></label>
                 </th>
 
                 <td class="plugin-description">
@@ -203,9 +202,9 @@ if (!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
                 </td>
             </tr>
 
-            <tr class="active">
+            <tr class="active legal-dropdown" >
                 <th scope="row"><label
-                            for="Terms and conditions"> <?php printf(esc_html__('%1$s', 'bookingx'), 'Set Terms & conditions Page'); ?></label>
+                            for="Terms and conditions"> <?php printf(esc_html__('%1$s', 'bookingx'), 'Set Terms & Conditions'); ?></label>
                 </th>
                 <td class="plugin-description">
                     <div class="plugin-description">
@@ -216,9 +215,9 @@ if (!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
                 </td>
             </tr>
 
-            <tr class="active">
+            <tr class="active legal-dropdown">
                 <th scope="row"><label
-                            for="Privacy Policy"><?php printf(esc_html__('%1$s', 'bookingx'), 'Set Privacy policy'); ?> </label>
+                            for="Privacy Policy"><?php printf(esc_html__('%1$s', 'bookingx'), 'Set Privacy Policy'); ?> </label>
                 </th>
                 <td class="plugin-description">
                     <div class="plugin-description">
@@ -229,9 +228,9 @@ if (!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
                 </td>
             </tr>
 
-            <tr class="active">
+            <tr class="active legal-dropdown">
                 <th scope="row"><label
-                            for="Cancellation Policy"><?php printf(esc_html__('%1$s', 'bookingx'), 'Set Cancellation policy'); ?> </label>
+                            for="Cancellation Policy"><?php printf(esc_html__('%1$s', 'bookingx'), 'Set Cancellation Policy'); ?> </label>
                 </th>
                 <td class="plugin-description">
                     <div class="plugin-description">
@@ -242,7 +241,10 @@ if (!empty($current_submenu_active) && $current_submenu_active == 'alias') :?>
                 </td>
             </tr>
 
-            <tr class="active">
+            <tr class="active header">
+                <th scope="row"><label for="Editor Settings"> <?php printf(esc_html__('Editor Settings', 'bookingx')); ?></label></th>
+            </tr>
+            <tr>
                 <th scope="row"><label
                             for="enable_editor"><?php printf(esc_html__('%1$s', 'bookingx'), 'Display Booking X shortcode icon on visual editor and text editor?'); ?></label>
                 </th>

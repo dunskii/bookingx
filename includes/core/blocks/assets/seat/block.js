@@ -64,7 +64,7 @@
     );
 
     blocks.registerBlockType('booking-x/bkx-seat-block', {
-        title: 'Staff Listings',
+        title: bkx_block_obj.s_alias+' Listings',
         icon: main_icon,
         category: 'booking-x',
         attributes: {
@@ -184,7 +184,7 @@
                             el(PanelRow, {},
                                 el(SelectControl,
                                     {
-                                        label: 'Select Seat',
+                                        label: 'Select '+bkx_block_obj.s_alias,
                                         value: props.attributes.seatPostId,
                                         options: options,
                                         onChange: (value) => {
