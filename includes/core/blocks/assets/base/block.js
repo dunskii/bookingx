@@ -39,7 +39,7 @@
 
 
     blocks.registerBlockType('booking-x/bkx-base-block', {
-        title: 'Service Listings',
+        title: bkx_block_obj.b_alias+' Listings',
         icon: main_icon,
         category: 'booking-x',
         attributes: {
@@ -148,7 +148,7 @@
                             el(PanelRow, {},
                                 el(SelectControl,
                                     {
-                                        label: 'Select base',
+                                        label: 'Select '+bkx_block_obj.b_alias,
                                         value: props.attributes.basePostId,
                                         options: options,
                                         onChange: (value) => {

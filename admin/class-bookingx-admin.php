@@ -4,7 +4,7 @@
  * The admin-specific functionality of the plugin.
  *
  * @link       https://dunskii.com
- * @since      0.7.6.4.4
+ * @since      0.7.6.6
  *
  * @package    Bookingx
  * @subpackage Bookingx/admin
@@ -26,7 +26,7 @@ class Bookingx_Admin
     /**
      * The ID of this plugin.
      *
-     * @since      0.7.6.4.4
+     * @since      0.7.6.6
      * @access   private
      * @var      string $plugin_name The ID of this plugin.
      */
@@ -35,7 +35,7 @@ class Bookingx_Admin
     /**
      * The version of this plugin.
      *
-     * @since      0.7.6.4.4
+     * @since      0.7.6.6
      * @access   private
      * @var      string $version The current version of this plugin.
      */
@@ -46,7 +46,7 @@ class Bookingx_Admin
      *
      * @param string $plugin_name The name of this plugin.
      * @param string $version The version of this plugin.
-     * @since      0.7.6.4.4
+     * @since      0.7.6.6
      */
     public function __construct($plugin_name = null, $version = null)
     {
@@ -556,7 +556,7 @@ class Bookingx_Admin
     /**
      * Register the stylesheets for the admin area.
      *
-     * @since      0.7.6.4.4
+     * @since      0.7.6.6
      */
     public function enqueue_styles()
     {
@@ -583,7 +583,7 @@ class Bookingx_Admin
     /**
      * Register the JavaScript for the admin area.
      *
-     * @since      0.7.6.4.4
+     * @since      0.7.6.6
      */
     public function enqueue_scripts()
     {
@@ -607,9 +607,13 @@ class Bookingx_Admin
             $enable_cancel_booking = bkx_crud_option_multisite('enable_cancel_booking');
             $enable_cancel_booking = isset($enable_cancel_booking) ? $enable_cancel_booking : 0;
 
+	        $bkx_legal_options = bkx_crud_option_multisite('bkx_legal_options');
+	        $bkx_legal_options = isset($bkx_legal_options) ? $bkx_legal_options : 0;
+
             $wp_localize_array = array(
                 'ajax_url' => admin_url('admin-ajax.php'),
                 'is_cancel' => $enable_cancel_booking,
+                'is_legal_options' => $bkx_legal_options,
                 'default_style' => BKX_PLUGIN_PUBLIC_URL . "/images/preview/2.jpg",
                 'day_style' => BKX_PLUGIN_PUBLIC_URL . "/images/preview/2b.jpg");
             wp_register_script("bkx-admin-js", plugin_dir_url(__FILE__) . 'js/bookingx-admin.js', array('jquery', 'iris'), BKX_PLUGIN_VER, true);

@@ -22,7 +22,7 @@ if (!function_exists('bkx_setting_tabs')) {
                 'page_setting' => 'Content Settings',
                 'emails' => 'Email notifications',
                 'css' => 'Styling',
-                'other_settings' => 'Other Settings',
+                'other_settings' => 'Page Settings',
                 'exim' => 'Export/Import'),
             'default' => apply_filters('bkx_setting_general_default', 'alias')
         );

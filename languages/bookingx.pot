@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Booking X Plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Booking X 0.7.6.4.4\n"
+"Project-Id-Version: Booking X 0.7.6.6\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/bookingx-master\n"
 "POT-Creation-Date: 2020-06-19 05:13:55+00:00\n"
 "MIME-Version: 1.0\n"

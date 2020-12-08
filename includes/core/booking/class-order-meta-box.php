@@ -230,7 +230,7 @@ class Bkx_Meta_Boxes
 	            if(!is_wp_error($screen) && $screen->parent_file == 'edit.php?post_type=bkx_booking'){
 
 	            }else{
-		            if ($return_type == 'ajax' && isset($get_order_status,$booking_start_date) && $get_order_status != 'Cancelled' || time() <= strtotime($booking_start_date)) {
+		            if ($return_type == 'ajax' && isset($get_order_status,$booking_start_date) && ( $get_order_status != 'Cancelled' || $get_order_status == 'Completed' || time() <= strtotime($booking_start_date))) {
 			            $order_summary .= sprintf( __('<a href="%s" class="button button-primary button-large note-btn" name="bkx_reschedule_booking"> Reschedule Booking </a>', 'bookingx'), $reschedule_url);
 		            }
 	            }
