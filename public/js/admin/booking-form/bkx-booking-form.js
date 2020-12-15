@@ -540,48 +540,49 @@ jQuery(function ($) {
             return error;
         },
         update_booking_total: function () {
-            var extra_service = listToArray(".bkx-booking-form .step-1 :input[name^=bkx-extra-service]:checked");
-            var service_extend = parseInt($('.bkx-booking-form .step-1 .bkx-services-extend').val());
-            var data = {
-                security: bkx_booking_form_admin_params.update_booking_total_nonce,
-                seat_id: $('.bkx-booking-form .step-1 .bkx-staff-lists').val(),
-                base_id: parseInt($('.bkx-services-lists').val()),
-                extra_ids: extra_service,
-                service_extend: service_extend
-            };
-            $('.bkx-booking-form .step-4 .tax-section').hide();
-            var booking_form_total = $('.bkx-booking-form .bkx-booking-total span');
-            var total_cost = $('.bkx-booking-form .bkx-booking-total .total');
-            var tax_name = $('.bkx-booking-form .bkx-booking-total .tax-name span');
-            var total_tax = $('.bkx-booking-form .bkx-booking-total .total-tax');
-            var grand_total = $('.bkx-booking-form .step-4 .grand-total strong');
-            var deposit_note = $('.bkx-booking-form .step-4 .bkx-deposite-note');
+            if($('.bkx-booking-form .step-1 .bkx-staff-lists').val() || $('.bkx-services-lists').val()){
+                var extra_service = listToArray(".bkx-booking-form .step-1 :input[name^=bkx-extra-service]:checked");
+                var service_extend = parseInt($('.bkx-booking-form .step-1 .bkx-services-extend').val());
+                var data = {
+                    security: bkx_booking_form_admin_params.update_booking_total_nonce,
+                    seat_id: $('.bkx-booking-form .step-1 .bkx-staff-lists').val(),
+                    base_id: parseInt($('.bkx-services-lists').val()),
+                    extra_ids: extra_service,
+                    service_extend: service_extend
+                };
+                $('.bkx-booking-form .step-4 .tax-section').hide();
+                var booking_form_total = $('.bkx-booking-form .bkx-booking-total span');
+                var total_cost = $('.bkx-booking-form .bkx-booking-total .total');
+                var tax_name = $('.bkx-booking-form .bkx-booking-total .tax-name span');
+                var total_tax = $('.bkx-booking-form .bkx-booking-total .total-tax');
+                var grand_total = $('.bkx-booking-form .step-4 .grand-total strong');
+                var deposit_note = $('.bkx-booking-form .step-4 .bkx-deposite-note');
+                $.ajax({
+                    type: 'POST',
+                    url: get_url('update_booking_total'),
+                    data: data,
+                    dataType: 'html',
+                    success: function (response) {
+                        if (response != 'NORF') {
+                            var result = $.parseJSON(response);
+                            booking_form_total.html(result.total_price_formatted);
+                            if (result.tax != 0) {
+                                $('.bkx-booking-form .step-4 .tax-section').show();
+                                tax_name.html("(" + result.tax.tax_rate + "% " + result.tax.tax_name + " )");
+                                total_tax.html(result.total_tax_formatted);
+                            }
+                            total_cost.html(result.total_price_formatted);
+                            grand_total.html(result.grand_total_formatted);
+                            deposit_note.html(result.deposit_note);
+                        } else {
 
-            $.ajax({
-                type: 'POST',
-                url: get_url('update_booking_total'),
-                data: data,
-                dataType: 'html',
-                success: function (response) {
-                    if (response != 'NORF') {
-                        var result = $.parseJSON(response);
-                        booking_form_total.html(result.total_price_formatted);
-                        if (result.tax != 0) {
-                            $('.bkx-booking-form .step-4 .tax-section').show();
-                            tax_name.html("(" + result.tax.tax_rate + "% " + result.tax.tax_name + " )");
-                            total_tax.html(result.total_tax_formatted);
                         }
-                        total_cost.html(result.total_price_formatted);
-                        grand_total.html(result.grand_total_formatted);
-                        deposit_note.html(result.deposit_note);
-                    } else {
+                    },
+                    complete: function () {
 
                     }
-                },
-                complete: function () {
-
-                }
-            });
+                });
+            }
         },
         get_step_2_details: function () {
             var extra_service = listToArray(".bkx-booking-form .step-1 :input[name^=bkx-extra-service]:checked");
@@ -759,7 +760,7 @@ jQuery(function ($) {
                         var total_slots = result.no_of_slots;
                         var starting_slot = result.starting_slot;
                         var booking_date = result.booking_date;
-                        var end_slot = (starting_slot + total_slots);
+                        var end_slot = (starting_slot + total_slots) - 1;
                         $('.booking-slots').find('.available').removeClass("selected");
                         $('.booking-slots').data("total_slots", total_slots);
                         $('.booking-slots').data("starting_slot", starting_slot);
