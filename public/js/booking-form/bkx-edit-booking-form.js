@@ -760,7 +760,7 @@ jQuery(function ($) {
                         var total_slots = result.no_of_slots;
                         var starting_slot = result.starting_slot;
                         var booking_date = result.booking_date;
-                        var end_slot = (starting_slot + total_slots);
+                        var end_slot = (starting_slot + total_slots) - 1;
                         $('.booking-slots').find('.available').removeClass("selected");
                         $('.booking-slots').data("total_slots", total_slots);
                         $('.booking-slots').data("starting_slot", starting_slot);

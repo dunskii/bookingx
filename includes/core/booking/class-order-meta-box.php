@@ -78,8 +78,9 @@ class Bkx_Meta_Boxes
             return;
         $seat_id = get_post_meta($order_id, 'seat_id', true);
         if (isset($seat_id) && $seat_id != "") {
-            $order_summary = "";
-	        $order_summary_note = "";
+            $order_summary = $gateways_name = $order_summary_note = "";
+
+
             $orderObj = new BkxBooking();
             $order_meta = $orderObj->get_order_meta_data($post->ID);
             wp_nonce_field('bookingx_save_data', 'bookingx_meta_nonce');
@@ -190,7 +191,9 @@ class Bkx_Meta_Boxes
                 if (!empty($payment_source) && $payment_source != "cash" && $payment_source != "N") {
                     $BkxPaymentCore = new BkxPaymentCore();
                     $bkx_get_available_gateways = $BkxPaymentCore->bkx_get_available_gateways();
-                    $gateways_name = $bkx_get_available_gateways[$payment_source]['title'];
+                    if(!empty($bkx_get_available_gateways)){
+	                    $gateways_name = $bkx_get_available_gateways[$payment_source]['title'];
+                    }
                     $payment_source = sprintf(__("%s",  'bookingx'), $gateways_name);
                 } else {
                     $payment_source = sprintf(__("%s",  'bookingx'), "Offline");
