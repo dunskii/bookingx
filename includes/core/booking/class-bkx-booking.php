@@ -902,6 +902,7 @@ class BkxBooking
                         $get_booked_range[$slot_id][$booking_seat_id] = $booking_slot_range;
                     endforeach;
                 endif;
+
                 if (!empty($get_booked_range)):
                     foreach ($get_booked_range as $slot_id => $get_booked_slot) {
                         if (function_exists('bkx_get_booked_slot')):
@@ -970,8 +971,9 @@ class BkxBooking
                      * Updated By  : Divyang Parekh
                      * For  : Add Any Seat functionality.
                      */
+                    //$seat_slots + 1
                     if ($seat_slots > 1) {
-                        for ($i = 0; $i < $seat_slots + 1; $i++) {
+                        for ($i = 0; $i < $seat_slots; $i++) {
                             if (isset($temp['full_day'])) {
                                 $booking_slot_arr[] = (int)$temp['full_day'] + $i;
                                 $checked_booked_slots[] = array('created_by' => $PostObj->post_author, 'slot_id' => $temp['full_day'] + $i, 'order_id' => $temp['order_id']);
@@ -991,7 +993,7 @@ class BkxBooking
                 }
             }
         }
-        //echo '<pre>', print_r($booking_slot_arr, 1), '</pre>';
+
         $booking_date = sanitize_text_field($args['booking_date']);
         $range = bkx_get_range($booking_date, sanitize_text_field($args['seat_id']));
         //echo '<pre>', print_r($range, 1), '</pre>';
@@ -1016,7 +1018,7 @@ class BkxBooking
             $blog_id = apply_filters('bkx_set_blog_id', get_current_blog_id());
             switch_to_blog($blog_id);
         endif;
-
+	    $lastSlotNumber = 0;
         $start = sanitize_text_field($args['slot']);
         $selected_time = sanitize_text_field($args['time']);
         $args['booking_date'] = sanitize_text_field($args['date']);
@@ -1213,8 +1215,8 @@ class BkxBooking
 
         if (!empty($resBookingTime)) {
             foreach ($resBookingTime as $temp) {
-                $order_id_by_date[] = $temp['booking_record_id'];
-                if (isset($current_order_id) && $current_order_id != "" && $current_order_id != $temp['booking_record_id']) {
+                $order_id_by_date[] = $temp['order_id'];
+                if (isset($current_order_id) && $current_order_id != "" && $current_order_id != $temp['order_id']) {
                     $bookingSlot .= $temp['full_day'];
                 }
             }
@@ -1227,7 +1229,6 @@ class BkxBooking
         $res = 1;
         $numberOfSlotsToBeBooked = 0;
 
-
         /**
          * Return false if the start time exist in the booked slots
          */
@@ -1236,7 +1237,7 @@ class BkxBooking
         } else {
             $bookingDurationMinutes = ($booking_duration / 60);
             $numberOfSlotsToBeBooked = ($bookingDurationMinutes / 15);
-            $lastSlotNumber = $startingSlotNumber + $numberOfSlotsToBeBooked;
+            $lastSlotNumber = ( $startingSlotNumber + $numberOfSlotsToBeBooked ) - 1;
 
             if (isset($base_time_option) && $base_time_option == 'D' && isset($base_day) && $base_day > 0) {
                 $booking_duration = ($range_total * $base_day * 15);
@@ -1328,8 +1329,9 @@ class BkxBooking
                 }
             }
         }
-        //echo $startingSlotNumber;
+
         $get_require_free_range = range($startingSlotNumber, $lastSlotNumber);
+        //echo "<pre>".print_r($get_require_free_range, true)."</pre>";
         //echo '<pre>',print_r($availability_slots,1),'</pre>';die;
         if (!empty($get_require_free_range)) {
             foreach ($get_require_free_range as $req_slot) {
@@ -1416,14 +1418,14 @@ class BkxBooking
                             $results .= "<tr>";
                         }
                         if ( !empty($booked_slots) && in_array($counter, $booked_slots)) {
-                            $results .= "<td> <a href=\"javascript:void(0);\" class=\"disabled\">" . bkx_secs2hours($cell_start) . "</a></td>";
+                            $results .= "<td> <a href=\"javascript:void(0);\" class=\"disabled\" data-date='" . $args['booking_date'] . "' data-time='" . bkx_secs2hours($cell_start) . "' data-slot='" . $counter . "'>" . bkx_secs2hours($cell_start) . "</a></td>";
                         } else {
                             if (!empty($booked_day_dates)) {
                                 if (in_array($args['booking_date'], $booked_day_dates)) {
-                                    $results .= "<td> <a href=\"javascript:void(0);\" class=\"disabled\">" . bkx_secs2hours($cell_start) . "</a></td>";
+                                    $results .= "<td> <a href=\"javascript:void(0);\" class=\"disabled\" data-date='" . $args['booking_date'] . "' data-time='" . bkx_secs2hours($cell_start) . "' data-slot='" . $counter . "'>" . bkx_secs2hours($cell_start) . "</a></td>";
                                 } else {
 	                                if($is_past_time == true){
-		                                $results .= "<td> <a href=\"javascript:void(0);\" class=\"disabled\">" . bkx_secs2hours($cell_start) . "</a></td>";
+		                                $results .= "<td> <a href=\"javascript:void(0);\" class=\"disabled\" data-date='" . $args['booking_date'] . "' data-time='" . bkx_secs2hours($cell_start) . "' data-slot='" . $counter . "'>" . bkx_secs2hours($cell_start) . "</a></td>";
 	                                }else{
 		                                $results .= "<td> <a href=\"javascript:void(0);\" class=\"available\" data-verify='" . $args['booking_date'] . "-" . $counter . "' data-date='" . $args['booking_date'] . "' data-time='" . bkx_secs2hours($cell_start) . "' data-slot='" . $counter . "'>" . bkx_secs2hours($cell_start) . "</a></td>";
 	                                }
@@ -1431,7 +1433,7 @@ class BkxBooking
                             } else {
                                 //$results .= "<td> <a href=\"javascript:void(0);\" class=\"available\" data-verify='" . $args['booking_date'] . "-" . $counter . "' data-date='" . $args['booking_date'] . "' data-time='" . bkx_secs2hours($cell_start) . "' data-slot='" . $counter . "'>" . bkx_secs2hours($cell_start) . "</a></td>";
 	                            if($is_past_time == true){
-		                            $results .= "<td> <a href=\"javascript:void(0);\" class=\"disabled\">" . bkx_secs2hours($cell_start) . "</a></td>";
+		                            $results .= "<td> <a href=\"javascript:void(0);\" class=\"disabled\" data-date='" . $args['booking_date'] . "' data-time='" . bkx_secs2hours($cell_start) . "' data-slot='" . $counter . "'>" . bkx_secs2hours($cell_start) . "</a></td>";
 	                            }else{
 		                            $results .= "<td> <a href=\"javascript:void(0);\" class=\"available\" data-verify='" . $args['booking_date'] . "-" . $counter . "' data-date='" . $args['booking_date'] . "' data-time='" . bkx_secs2hours($cell_start) . "' data-slot='" . $counter . "'>" . bkx_secs2hours($cell_start) . "</a></td>";
 	                            }
@@ -2420,7 +2422,7 @@ class BkxBooking
             $passed_full_day = intval($hours_temp) * 4 + $counter;
             $actual_full_day = '';
             $counter_full_day = $passed_full_day + 1;
-            for ($i = 0; $i <= intval($bookingduration); $i = $i + (15 * 60)) {
+            for ($i = 0; $i < intval($bookingduration); $i = $i + (15 * 60)) {
                 $actual_full_day = $actual_full_day . $counter_full_day . ",";
                 $counter_full_day = $counter_full_day + 1;
             }
@@ -2430,8 +2432,9 @@ class BkxBooking
             //for the current day booking
             $passed_full_day = intval($hours_temp) * 4 + $counter;
             $actual_full_day = '';
-            $counter_full_day = $passed_full_day + 1;
-            for ($i = 0; $i <= intval($remainingtime); $i = $i + (15 * 60)) {
+            //$counter_full_day = $passed_full_day + 1;
+	        $counter_full_day = $passed_full_day;
+            for ($i = 0; $i < intval($remainingtime); $i = $i + (15 * 60)) {
                 $actual_full_day = $actual_full_day . $counter_full_day . ",";
                 $counter_full_day = $counter_full_day + 1;
             }
@@ -2471,6 +2474,7 @@ class BkxBooking
                     for ($j = 1; $j <= $remainingtime_temp_slot; $j++) {
                         $actual_full_day .= $j . ",";
                     }
+
                     //$actual_full_day;
                     $arrBookingtimeNext = array('booking_record_id' => $order_id, 'booking_date' => $nextDate, 'booking_time_from' => '00:00', 'booking_time_till' => '', 'full_day' => $actual_full_day, 'created_date' => $currentdate);
 
@@ -2480,6 +2484,7 @@ class BkxBooking
                 }
             }
         }
+
         return $bookingTime;
     }
 
