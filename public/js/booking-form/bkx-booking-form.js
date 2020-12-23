@@ -77,6 +77,8 @@ jQuery(function ($) {
     const GatewayFlag = function () {
         return parseInt(bkx_gateway_flag.val());
     }
+
+    const user_time_zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     /**
      * Object to handle Booking form Ajax Call.
      */
@@ -98,6 +100,7 @@ jQuery(function ($) {
          * Initialize Booking Form UI events.
          */
         init: function () {
+            $('#bkx_user_time_zone').val(user_time_zone);
             booking_form.update_booking_total();
             $("input[name=bkx_first_name]").val(bkx_booking_form_params.first_name);
             $("input[name=bkx_last_name]").val(bkx_booking_form_params.last_name);
@@ -105,6 +108,7 @@ jQuery(function ($) {
             $("input[name=bkx_email_address]").val(bkx_booking_form_params.email);
 
             $(document).on('change select', '.bkx-booking-form .step-1 .bkx-staff', this.seat_change);
+            $(document).on('click a', '.bkx-booking-form .bkx-timezone-onclick-event', this.timezone_update);
             $(document).on('change select', '.bkx-booking-form .step-1 .bkx-services-lists', this.base_change);
             $(document).on('change select', '.bkx-booking-form .step-1 .bkx-services-extend', this.update_booking_total);
             $(document).on('click button', '.bkx-booking-form  .step-2 .owl-next', this.available_days_next);
@@ -294,6 +298,14 @@ jQuery(function ($) {
             e.preventDefault();
             booking_form.form_progress();
         },
+        timezone_update :function (){
+            var time_zone = $('#bkx_user_time_zone').val();
+            if(time_zone && time_zone != ''){
+                if (GetCurrentStep() == 2 && booking_form.booking_style == 'default') {
+                    booking_form.BookingFormGetCalendarAvailability(moment().format("Y-M-D"));
+                }
+            }
+        },
         form_progress: function () {
             var extra_service = listToArray(".bkx-booking-form .step-1 :input[name^=bkx-extra-service]:checked");
             booking_form.seat_id = $('.bkx-booking-form .step-1 .bkx-staff-lists').val();
@@ -340,6 +352,7 @@ jQuery(function ($) {
             block($('div.step-4'));
             bkx_error_flag.val(0);
             booking_form.validate_form_fields();
+            var user_time_zone = $('#bkx_user_time_zone').val();
 
             var bkx_payment_gateway_method = listToArray(".bkx-booking-form .step-4 :input[name^=bkx_payment_gateway_method]:checked");
             var service_extend = parseInt($('.bkx-booking-form .step-1 .bkx-services-extend').val());
@@ -365,6 +378,7 @@ jQuery(function ($) {
                 starting_slot: booking_form.starting_slot,
                 total_slots: booking_form.total_slots,
                 service_extend: service_extend,
+                user_time_zone : user_time_zone,
                 payment_method: bkx_payment_gateway_method,
                 bkx_first_name: $("input[name=bkx_first_name]").val(),
                 bkx_last_name: $("input[name=bkx_last_name]").val(),
@@ -408,11 +422,11 @@ jQuery(function ($) {
                             }).appendTo('#bkx-booking-generate');
                             document.bkx_booking_generate.submit();
                         } else if (response == 'SWR') {
-                            booking_form.$error_group.prepend('<div class="row"><div class="col-md-12"><ul class="bookingx-error">' + bkx_booking_form_admin_params.string_something_went + '</ul></div></div>');
+                            booking_form.$error_group.prepend('<div class="row"><div class="col-md-12"><ul class="bookingx-error">' + bkx_booking_form_params.string_something_went + '</ul></div></div>');
                             booking_form.scroll_to_notices();
                             $('.bkx-form-submission-final').prop('disabled', false);
                         } else {
-                            booking_form.$error_group.prepend('<div class="row"><div class="col-md-12"><ul class="bookingx-error">' + bkx_booking_form_admin_params.string_something_went + '</ul></div></div>');
+                            booking_form.$error_group.prepend('<div class="row"><div class="col-md-12"><ul class="bookingx-error">' + bkx_booking_form_params.string_something_went + '</ul></div></div>');
                             booking_form.scroll_to_notices();
                             $('.bkx-form-submission-final').prop('disabled', false);
                         }
@@ -800,6 +814,7 @@ jQuery(function ($) {
         },
         verify_slots: function () {
             block($('div.step-' + GetCurrentStep()));
+            var user_time_zone = $('#bkx_user_time_zone').val();
             var data = {
                 security: bkx_booking_form_params.get_verify_slot_nonce,
                 seat_id: booking_form.seat_id,
@@ -808,6 +823,7 @@ jQuery(function ($) {
                 slot: $(this).data('slot'),
                 date: $(this).data('date'),
                 time: $(this).data('time'),
+                user_time_zone: user_time_zone
             };
 
             $.ajax({
@@ -849,7 +865,8 @@ jQuery(function ($) {
             var availability_slots = $('.bkx-booking-form .step-2 .schedule-wrap .bkx-available-days');
             $('.booking-slots').data("total_slots", 0);
             $('.booking-slots').data("starting_slot", 0);
-            booking_form.date = currentSelected
+            booking_form.date = currentSelected;
+
 
             var data = {
                 security: bkx_booking_form_params.display_availability_slots_by_dates_nonce,
@@ -857,6 +874,7 @@ jQuery(function ($) {
                 base_id: booking_form.base_id,
                 extra_id: booking_form.extra_id,
                 booking_date: currentSelected,
+                user_time_zone: user_time_zone,
                 type: type
             };
 
@@ -943,7 +961,7 @@ jQuery(function ($) {
             $('.booking-slots').data("starting_slot", 0);
             booking_form.date = calendar.currentSelected;
             var service_extend = $('.bkx-booking-form .step-1 .bkx-services-extend').val();
-
+            var user_time_zone = $('#bkx_user_time_zone').val();
             var data = {
                 security: bkx_booking_form_params.display_availability_slots_nonce,
                 seat_id: booking_form.seat_id,
@@ -951,6 +969,7 @@ jQuery(function ($) {
                 extra_id: booking_form.extra_id,
                 service_extend: service_extend,
                 booking_date: calendar.currentSelected,
+                user_time_zone : user_time_zone
             };
             if (availability_slots == "") {
                 availability_slots = $('.bkx-booking-form .step-2 .select-time .booking-slots');
@@ -1001,4 +1020,5 @@ jQuery(function ($) {
     };
 
     booking_form.init();
+
 });

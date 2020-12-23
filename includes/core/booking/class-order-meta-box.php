@@ -186,7 +186,8 @@ class Bkx_Meta_Boxes
                 if (isset($base_time_option) && $base_time_option == "H") {
                     //$order_summary .= sprintf(__('<p> Time : <span id="bkx_booking_time">%s </span> </p>',  'bookingx'), "{$order_meta['booking_time_from']} - {$end_time}");
                 }
-                 $order_summary .= sprintf(__('<p>Total : %s<span id="bkx_booking_total">%s </span> </p> </p>',  'bookingx'), bkx_get_current_currency(), $order_meta['total_price']);
+	            $total_price = apply_filters("bkx_booking_total_price_update", $order_meta['total_price'] , $post->ID);
+                 $order_summary .= sprintf(__('<p>Total : %s<span id="bkx_booking_total">%s </span> </p> </p>',  'bookingx'), bkx_get_current_currency(), $total_price);
                 $payment_source = $order_meta['bkx_payment_gateway_method'];
                 if (!empty($payment_source) && $payment_source != "cash" && $payment_source != "N") {
                     $BkxPaymentCore = new BkxPaymentCore();
