@@ -790,7 +790,7 @@ class Bookingx_Admin
                 break;
             case 'order_total':
                 $currency = isset($order_meta['currency']) && $order_meta['currency'] != '' ? $order_meta['currency'] : bkx_get_current_currency();
-                $total_price = $order_meta['total_price'];
+	            $total_price = apply_filters("bkx_booking_total_price_update", $order_meta['total_price'] , $post->ID);
                 echo sprintf(__('%s%d %s', 'bookingx'), $currency, $total_price, bkx_crud_option_multisite('currency_option'));
                 break;
             case 'order_actions':

@@ -25,6 +25,9 @@ if (isset($args['order_id']) && $args['order_id'] > 0) {
 }
 $args['order_id'] = $order_id;
 $args['status'] = $status;
+//echo "<pre>".print_r(get_post_meta(134,'order_meta_data', true), true)."</pre>";
+//echo "<pre>".print_r(get_post_meta(134,'bookingTimeRecord', true), true)."</pre>";
+//echo "<pre>".print_r(get_post_meta(134), true)."</pre>";
 ?>
 <div class="booking-x">
     <div class="main-container">

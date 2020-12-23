@@ -302,13 +302,19 @@ class BkxPaymentCore
                 $payment_success_html .= "<div class=\"col-sm-6\">";
                 $payment_success_html .= "<dl> <dt> Date </dt> : <dd>  {$date_format} </dd></dl>";
                 if (isset($base_time_option) && $base_time_option == "H") {
-                    $payment_success_html .= __("<dl> <dt> Time </dt> : <dd>  {$booking_meta_data['booking_time_from']} - {$end_time} </dd></dl>", 'bookingx');
+	                $booking_time_from = __("<dl> <dt> Time </dt> : <dd>  {$booking_meta_data['booking_time_from']} - {$end_time} </dd></dl>", 'bookingx');
+ 	                $payment_success_html .= $booking_time_from;
+	                $payment_success_html .= apply_filters('bkx_booking_time_after_content', '', $booking_meta_data );
                 }
                 $payment_success_html .= __("<dl> <dt> Duration </dt> :  <dd> {$booking_duration}  </dd></dl>", 'bookingx');
                 $payment_success_html .= "</div></div>";
+	            $total_price    = apply_filters("bkx_booking_total_price_update", $booking_meta_data['total_price'] , $order_id);
+	            $remaining_cost = apply_filters("bkx_booking_remaining_cost_update", $remaining_cost , $order_id);
+	            $pay_amt        = apply_filters("bkx_booking_payment_amount_update", $pay_amt , $order_id);
+
 
                 $payment_success_html .= "<div class=\"row\"><div class=\"col-sm-6\">";
-                $payment_success_html .= __("<dl> <dt> Total Cost </dt>: <dd> {$current_currency}{$booking_meta_data['total_price']}</dd></dl>", 'bookingx');
+                $payment_success_html .= __("<dl> <dt> Total Cost </dt>: <dd> {$current_currency}{$total_price}</dd></dl>", 'bookingx');
                 $payment_success_html .= __("<dl> <dt> Remaining Cost </dt>: <dd> {$current_currency}{$remaining_cost}</dd></dl>", 'bookingx');
                 if (isset($payment_status) && $payment_status != "") {
                     $payment_success_html .= __("<dl> <dt> Payment Status</dt>: <dd> {$payment_status}</dd></dl>", 'bookingx');

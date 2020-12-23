@@ -209,6 +209,7 @@ class BkxBooking
         $_POST = $data;
         $booking = array();
         $booking['meta_data']['redirect_to'] = "";
+	    $default_time_zone = wp_timezone_string();
         if (isset($_POST['seat_id'], $_POST['base_id'], $_POST['starting_slot'], $_POST['time_option'])) {
             $args['seat_id'] = sanitize_text_field(wp_unslash($_POST['seat_id']));
             $args['base_id'] = sanitize_text_field(wp_unslash($_POST['base_id']));
@@ -219,7 +220,20 @@ class BkxBooking
             $args['time'] = isset($_POST['booking_time']) ? sanitize_text_field(wp_unslash($_POST['booking_time'])) : "";
             $args['time_option'] = sanitize_text_field(wp_unslash($_POST['time_option']));
             $args['booking_multi_days'] = wp_unslash($_POST['booking_multi_days']);
+            $args['user_time_zone'] = wp_unslash($_POST['user_time_zone']);
 
+            if(isset($_POST['user_time_zone']) && !empty($_POST['user_time_zone']) && $default_time_zone != $_POST['user_time_zone'] ){
+	            $_POST['user_booking_time'] = $args['time'];
+	            $_POST['user_selected_slot']  = $args['slot'];
+	            $booking_start_date = date("Y-m-d H:i:s", strtotime(sanitize_text_field($args['date']) . " " . sanitize_text_field($args['time'])));
+	            $datetime = new DateTime($booking_start_date, new DateTimeZone($_POST['user_time_zone']));
+
+	            $datetime->setTimezone(new DateTimeZone($default_time_zone));
+	            $new_time_hours = $datetime->format('H');
+	            $new_time_mins = $datetime->format('i');
+	            $args['time'] = isset($new_time_hours) ? sanitize_text_field("{$new_time_hours}:$new_time_mins") : "";
+	            $_POST['booking_time'] = $args['time'];
+            }
             $get_verify_slot = json_decode($this->get_verify_slot($args, false));
             if (!empty($get_verify_slot) && $get_verify_slot->result == 1 || !empty($args['booking_multi_days'])) {
                 $booking = $this->generate_order($_POST, null, true);
@@ -391,7 +405,11 @@ class BkxBooking
             $base_days = get_post_meta($post_data['base_id'], 'base_day', true);
             $post_data['date'] = date('Y-m-d', strtotime($booking_multi_days[0]));
         }
-
+	    if(isset($post_data['user_time_zone'])){
+		    $user_booking_time =  sanitize_text_field($post_data['user_booking_time']);
+		    $user_selected_slot =  sanitize_text_field($post_data['user_selected_slot']);
+		    $user_time_zone =  sanitize_text_field($post_data['user_time_zone']);
+	    }
         $arrData = array(
             'seat_id' => sanitize_text_field($post_data['seat_id']),
             'base_id' => sanitize_text_field($post_data['base_id']),
@@ -426,6 +444,9 @@ class BkxBooking
             'currency_option' => bkx_crud_option_multisite('currency_option'),
             'order_id' => isset($booking_id) ? $booking_id : "",
             'base_time_option' => (isset($base_time_option) ? sanitize_text_field($base_time_option) : ""),
+            'user_time_zone' => (isset($user_time_zone) ? sanitize_text_field($user_time_zone) : ""),
+            'user_selected_slot' => (isset($user_selected_slot) ? sanitize_text_field($user_selected_slot) : ""),
+            'user_booking_time' => (isset($user_booking_time) ? sanitize_text_field($user_booking_time) : ""),
             'booking_multi_days' => (isset($booking_multi_days) ? $booking_multi_days : ""),
             'base_days' => (isset($base_days) ? sanitize_text_field($base_days) : ""),
             'update_order_slot' => (isset($post_data['update_order_slot']) ? sanitize_text_field($post_data['update_order_slot']) : "")
@@ -975,7 +996,13 @@ class BkxBooking
                     if ($seat_slots > 1) {
                         for ($i = 0; $i < $seat_slots; $i++) {
                             if (isset($temp['full_day'])) {
-                                $booking_slot_arr[] = (int)$temp['full_day'] + $i;
+                            	if(isset($temp['user_time_zone'],$temp['user_selected_slot'],$temp['user_booking_time']) && $temp['user_time_zone']!="" && $temp['user_selected_slot'] != ""
+	                               && $temp['user_time_zone'] == $args['user_time_zone'] ){
+		                            $booking_slot_arr[] = (int)$temp['user_selected_slot'] + $i;
+	                            }else{
+		                            $booking_slot_arr[] = (int)$temp['full_day'] + $i;
+	                            }
+                                //echo "<pre> 111 >>> ".print_r($booking_slot_arr, true)."</pre>";
                                 $checked_booked_slots[] = array('created_by' => $PostObj->post_author, 'slot_id' => $temp['full_day'] + $i, 'order_id' => $temp['order_id']);
                             }
                         }
@@ -1361,7 +1388,10 @@ class BkxBooking
     }
 
     public function display_availability_slots_html($args){
-	    $default_time_zone = wp_timezone_string();
+	    $default_time_zone = apply_filters('bkx_set_custom_time_zone', wp_timezone_string());
+	    if(isset($args['user_time_zone']) && !empty($args['user_time_zone'])){
+		    $default_time_zone = $args['user_time_zone'];
+	    }
 	    date_default_timezone_set($default_time_zone);
         $base_time_option = get_post_meta($args['base_id'], 'base_time_option', true);
         $base_day = get_post_meta($args['base_id'], 'base_day', true);
@@ -1492,10 +1522,7 @@ class BkxBooking
 	        $seat_address = $SeatObj->seat_address_html(false);
         }
 	    $result['seat_address'] = $seat_address;
-
-
         $result['deposit_note'] = (isset($result['note']) && $result['note']!="") ? sprintf("<div class=\"row\"><div class=\"col-lg-12\"> <strong> Note : </strong> %s</div></div>", $result['note']) : "";
-
 
         return $result;
     }
