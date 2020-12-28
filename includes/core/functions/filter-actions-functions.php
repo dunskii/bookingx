@@ -790,7 +790,7 @@ function bkx_booking_detail_load_before_action( $booking_id ){
     } else {
         list($date_data, $duration, $start_date) = getDayDateDuration($booking_id);
     }
-
+	$order_timezone = apply_filters('bkx_booking_time_zone_admin_content', '', $order_meta );
     $cancel_booking_page = bkx_crud_option_multisite('cancellation_policy_page_id');
     $check_cancel_booking = bkx_crud_option_multisite('enable_cancel_booking');
     $cancel_policy_url = "";
@@ -820,6 +820,7 @@ function bkx_booking_detail_load_before_action( $booking_id ){
         'status' => $order_status,
         'service' => $order_meta['base_arr']['main_obj']->post->post_title,
         'staff' => $order_meta['seat_arr']['main_obj']->post->post_title,
+	    'timezone_data' => $order_timezone
         );
     $booking_detail['booking_payment'] = array();
     if(!empty($payment_meta) && is_array($payment_meta)){

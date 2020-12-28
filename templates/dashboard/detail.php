@@ -41,6 +41,10 @@ extract($booking_detail['booking_business']);
                         </div>
                         <div class="content-block booking-info" style="margin: 0;">
                             <p><label><?php echo esc_html('Booking Date', 'bookingx'); ?> : </label> <?php echo esc_html($date, 'bookingx'); ?>   </p>
+	                        <?php if(!empty($timezone_data)){ ?>
+		                        <?php echo sprintf( __('<p> <label>Your Time : </label> %s (%s)','bookingx'), $timezone_data['user']['booking_time'] ,$timezone_data['user']['time_zone']);?>
+		                        <?php echo sprintf( __('<p> <label>%s Time : </label> %s (%s)','bookingx'), $booking_detail['booking_business']['name'],$timezone_data['system']['booking_time'],$timezone_data['system']['time_zone'] );?>
+	                        <?php } ?>
                             <p><label><?php echo esc_html('Booking Duration', 'bookingx'); ?> : </label> <?php echo esc_html($duration); ?></p>
                             <p><label><?php echo esc_html('Booking Total', 'bookingx'); ?> : </label> <?php echo esc_html("{$currency}{$total}"); ?></p>
                             <p><label><?php echo esc_html('Booking Status', 'bookingx'); ?> : </label> <?php echo esc_html($status); ?> <?php
