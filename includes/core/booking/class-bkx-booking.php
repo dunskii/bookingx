@@ -343,7 +343,8 @@ class BkxBooking
         if (empty($post_data))
             return;
         global $current_user;
-	    $booking_start_date = $booking_end_date = $include_tax = "";
+	    $booking_start_date = $booking_end_date = $include_tax  = $user_booking_time = $user_selected_slot = $user_time_zone = "";
+
         $curr_date = date("Y-m-d H:i:s");
         $booking_id = isset($post_data['order_id']) ? $post_data['order_id'] : "";
         $args['seat_id'] = $post_data['seat_id'];
@@ -405,7 +406,7 @@ class BkxBooking
             $base_days = get_post_meta($post_data['base_id'], 'base_day', true);
             $post_data['date'] = date('Y-m-d', strtotime($booking_multi_days[0]));
         }
-	    if(isset($post_data['user_time_zone'])){
+	    if(isset($post_data['user_time_zone'],$post_data['user_booking_time'],$post_data['user_selected_slot'])){
 		    $user_booking_time =  sanitize_text_field($post_data['user_booking_time']);
 		    $user_selected_slot =  sanitize_text_field($post_data['user_selected_slot']);
 		    $user_time_zone =  sanitize_text_field($post_data['user_time_zone']);
