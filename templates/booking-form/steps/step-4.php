@@ -10,7 +10,9 @@ defined('ABSPATH') || exit; ?>
         </div>
         <div class="bkx-additional-detail"></div>
     </div>
+	<?php do_action('bkx_booking_form_before_payment_method'); ?>
     <div class="bkx-payment-method user-detail bg-white px-3 py-4"></div>
+	<?php do_action('bkx_booking_form_after_payment_method'); ?>
     <div class="user-detail p-0">
         <div class="row">
             <div class="col-lg-7">
