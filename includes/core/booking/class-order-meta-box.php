@@ -79,8 +79,6 @@ class Bkx_Meta_Boxes
         $seat_id = get_post_meta($order_id, 'seat_id', true);
         if (isset($seat_id) && $seat_id != "") {
             $order_summary = $gateways_name = $order_summary_note = "";
-
-
             $orderObj = new BkxBooking();
             $order_meta = $orderObj->get_order_meta_data($post->ID);
             wp_nonce_field('bookingx_save_data', 'bookingx_meta_nonce');
@@ -227,6 +225,14 @@ class Bkx_Meta_Boxes
                 $order_summary .= $extra_data;
                 $order_summary .= sprintf('</div>',  'bookingx');
                 $order_summary .= sprintf('<div style="clear:left;">&nbsp;</div>',  'bookingx');
+
+	            $order_timezone = apply_filters('bkx_booking_time_zone_admin_content', '', $order_meta );
+	            if(!empty($order_timezone)){
+		            $order_summary .= '<h3>Timezone Details</h3>';
+		            $order_summary .= sprintf(__('<p id="bkx_time_zone"> Your Time : %s</p>',  'bookingx'), $order_timezone['system']['booking_time']);
+		            $order_summary .= sprintf(__('<p id="bkx_time_zone"> Customer Time : %s (%s)</p>',  'bookingx'), $order_timezone['user']['booking_time'], $order_timezone['user']['time_zone']);
+	            }
+
 	            if(isset($order_summary_note) && $order_summary_note != ""){
 		            $order_summary .= $order_summary_note;
 	            }
