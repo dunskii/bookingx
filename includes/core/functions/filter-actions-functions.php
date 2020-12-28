@@ -785,7 +785,7 @@ function bkx_booking_detail_load_before_action( $booking_id ){
     if (isset($base_time_option) && $base_time_option == "H") {
         $total_time = getDateDuration($order_meta);
         $duration = getDuration($order_meta);
-        $date_data = sprintf(__('%s', 'bookingx'), date($date_format, strtotime($order_meta['booking_date'])));
+        $date_data = sprintf(__('%s %s', 'bookingx'), date($date_format, strtotime($order_meta['booking_date'])),$order_meta['booking_time_from'] );
         $start_date = $order_meta['booking_date'];
     } else {
         list($date_data, $duration, $start_date) = getDayDateDuration($booking_id);
