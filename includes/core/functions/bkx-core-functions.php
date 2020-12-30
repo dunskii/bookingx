@@ -137,7 +137,7 @@ function bkx_get_booked_slot($slot_id, $get_booked_slot, $get_free_seats, $total
  * @param $seatid
  * @return array
  */
-function bkx_get_range($booking_date, $seatid){
+function bkx_get_range($booking_date, $seatid, $array = false){
     if (is_multisite()):
         $blog_id = apply_filters('bkx_set_blog_id', get_current_blog_id());
         switch_to_blog($blog_id);
@@ -235,6 +235,10 @@ function bkx_get_range($booking_date, $seatid){
         $minsCounterTill = bkx_getMinsSlot($timetillArr[1]);
         $timetill_slot = $timetillArr[0] * 4 + $minsCounterTill;
         $range = range($timefrom_slot, $timetill_slot - 1);
+        if($array == true){
+	        $range['range'] = $range;
+	        $range['time_data'] = $res_seat_time_arr;
+        }
     } else {
         //$range = range(1, 96);
         $range = array();
