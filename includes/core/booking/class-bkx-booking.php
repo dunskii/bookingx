@@ -220,8 +220,9 @@ class BkxBooking
             $args['time'] = isset($_POST['booking_time']) ? sanitize_text_field(wp_unslash($_POST['booking_time'])) : "";
             $args['time_option'] = sanitize_text_field(wp_unslash($_POST['time_option']));
             $args['booking_multi_days'] = wp_unslash($_POST['booking_multi_days']);
-            $args['user_time_zone'] = wp_unslash($_POST['user_time_zone']);
-
+	        if(isset($_POST['user_time_zone'])){
+		        $args['user_time_zone'] = sanitize_text_field($_POST['user_time_zone']);
+	        }
             if(isset($_POST['user_time_zone']) && !empty($_POST['user_time_zone']) && $default_time_zone != $_POST['user_time_zone'] ){
 	            $_POST['user_booking_time'] = $args['time'];
 	            $_POST['user_selected_slot']  = $args['slot'];
@@ -1359,14 +1360,46 @@ class BkxBooking
             }
         }
 
+        //echo "<pre>".print_r($args, true)."</pre>";
+	    $is_time_zone_checking = false;
+	    $user_max_times_allowed = "";
         $get_require_free_range = range($startingSlotNumber, $lastSlotNumber);
+	    $sys_time_zone = wp_timezone_string();
+
+	    if(isset($args['user_time_zone']) && !empty($args['user_time_zone']) && $sys_time_zone != $args['user_time_zone'] ){
+		    $sys_time_end = date('H:i',strtotime($availability_slots['time_data']['time_till']) );
+		    $datetime = new DateTime($sys_time_end, new DateTimeZone($sys_time_zone));
+		    $datetime->setTimezone(new DateTimeZone($args['user_time_zone']));
+		    $user_max_times_allowed = $datetime->format('Y-m-d H:i');
+		    $is_time_zone_checking = true;
+	    }
+
+		//echo $user_max_times_allowed;
+	    //var_dump($is_time_zone_checking);
         //echo "<pre>".print_r($get_require_free_range, true)."</pre>";
         //echo '<pre>',print_r($availability_slots,1),'</pre>';die;
         if (!empty($get_require_free_range)) {
+        	$slot_counter = 0;
+	        $slot_time_counter = 0;
             foreach ($get_require_free_range as $req_slot) {
+            	if($slot_counter > 0 ){
+		            $endTime = strtotime("+{$slot_time_counter} minutes", strtotime($args['time']));
+		            $sys_time =  date('Y-m-d H:i', $endTime);
+		            if(isset($is_time_zone_checking) && $is_time_zone_checking == true &&
+		               $user_max_times_allowed < $sys_time && date('Ymd') == date('Ymd', strtotime($args['booking_date']))){
+			            $res = 0;
+			            break;
+		            }
+	            }
                 $res = (in_array($req_slot, $availability_slots['booked_slots'])) ? 0 : 1;
                 if ($res == 0)
                     break;
+
+	            $slot_counter++;
+	            if($slot_counter > 0 ){
+		            $slot_time_counter = $slot_time_counter + 15;
+	            }
+
             }
         }
         if ($res == 1) {
