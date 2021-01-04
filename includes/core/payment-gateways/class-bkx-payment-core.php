@@ -349,6 +349,7 @@ class BkxPaymentCore
             $payment_success_html .= "<div class=\"button-wrapper\"><button type=\"submit\" class=\"btn btn-default bkx-send-email-receipt\" data-order-id='" . $order_id . "'>Send Email Receipt </button>
                                                                     <button type=\"submit\" class=\"btn btn-default bkx-back-to-booking\">{$back_to_booking_text}</button></div>";
         }
+	    do_action('bkx_booking_after_success_action', $order_id);
         return apply_filters('bkx_success_payment', $payment_success_html, $order_id);
     }
 }
