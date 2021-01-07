@@ -700,6 +700,7 @@ class BkxBooking
         $result['total_price'] = number_format((float)$generate_total, 2, '.', '');
 
         $total_with_tax = bkx_cal_total_tax($generate_total);
+
         if (!empty($total_with_tax)) {
             $generate_total = $total_with_tax['grand_total'];
         }
@@ -1564,6 +1565,9 @@ class BkxBooking
         if (!empty($result['tax'])) {
             $grand_total = $result['tax']['grand_total'];
             $result['total_tax_formatted'] = "{$result['currency_name']}{$result['currency_sym']}{$result['tax']['total_tax']}";
+	        $result['sub_total_tax_formatted'] = "{$result['currency_name']}{$result['currency_sym']}{$result['tax']['total_price']}";
+        }else{
+	        $result['sub_total_tax_formatted'] = "{$result['currency_name']}{$result['currency_sym']}{$result['total_price']}";
         }
         $short_currency_name = substr($result['currency_name'], 0, 1);
         $result['total_price_formatted'] = "{$result['currency_name']}{$result['currency_sym']}{$result['total_price']}";
