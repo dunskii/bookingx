@@ -572,9 +572,10 @@ jQuery(function ($) {
                             tax_name.html("(" + result.tax.tax_rate + "% " + result.tax.tax_name + " )");
                             total_tax.html(result.total_tax_formatted);
                         }
-                        total_cost.html(result.total_price_formatted);
+                        total_cost.html(result.sub_total_tax_formatted);
                         grand_total.html(result.grand_total_formatted);
                         deposit_note.html(result.deposit_note);
+                        seat_address.html(result.seat_address);
                     } else {
 
                     }
