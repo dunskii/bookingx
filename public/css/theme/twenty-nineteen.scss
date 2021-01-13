@@ -51,7 +51,7 @@
     }
 }
 
-        .booking-x-form .booking-x .select-time .table td a {
+   .booking-x-form .booking-x .select-time .table td a {
         padding: 3px 5px;
         font-size: 18px;
     }
@@ -71,6 +71,7 @@
             background: #b22222;
             color: #ffffff;
         }
+
     }
 
     /* Detail */
@@ -80,6 +81,9 @@
         .booking-x .user-detail dl dd {
             margin: 0px 5px 0px 10px;
         }
+        .bkx-booking-form .indicator ul li.booked::before, .bkx-booking-form .select-time .table td a.disabled{
+            color: #fff;
+        }
         .btn-primary {
             color: inherit;
             background-color: inherit;
@@ -88,6 +92,7 @@
         .calendar-yvv .calendar-month .btn {
             color: #333;
         }
+        .bkx-booking-form .on-click-selected { background: #0073aa;color:#fff; }
     }
     .booking-x-dashboard {
         .form-group label {
