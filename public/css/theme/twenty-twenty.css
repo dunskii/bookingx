@@ -24,6 +24,9 @@
   text-decoration: none; }
 .booking-x .bkx-booking-form .custom-select {
   height: calc(4.25rem + 2px); }
+.booking-x .bkx-booking-form .on-click-selected {
+  background: #cd2653;
+  color: #fff; }
 .booking-x .booking-x-lists .card-block a {
   font-size: 2rem;
   text-decoration: none; }
