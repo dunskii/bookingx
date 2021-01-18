@@ -320,9 +320,10 @@ class Bkx_Script_Loader
         } elseif (isset($_REQUEST['edit_booking_nonce']) && wp_verify_nonce($_REQUEST['edit_booking_nonce'], 'edit_booking_' . $_REQUEST['id'])) {
             self::enqueue_script('bkx-edit-booking-form');
         } else {
-            if (is_booking_page()) {
-                self::enqueue_script('bkx-booking-form');
-            }
+	        $is_booking_page = apply_filters('bkx_check_is_booking_form', false );
+	        if (is_booking_page() || $is_booking_page == true) {
+		        self::enqueue_script('bkx-booking-form');
+	        }
         }
 
         if (is_admin() && isset($_GET['listing_view'])) {
