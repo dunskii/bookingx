@@ -301,6 +301,7 @@ class BkxPaymentCore
 
                 $payment_success_html .= "<div class=\"col-sm-6\">";
                 $payment_success_html .= "<dl> <dt> Date </dt> : <dd>  {$date_format} </dd></dl>";
+
                 if (isset($base_time_option) && $base_time_option == "H") {
 	                $booking_time_from = __("<dl> <dt> Time </dt> : <dd>  {$booking_meta_data['booking_time_from']} - {$end_time} </dd></dl>", 'bookingx');
  	                $payment_success_html .= $booking_time_from;
