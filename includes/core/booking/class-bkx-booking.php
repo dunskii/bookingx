@@ -223,18 +223,18 @@ class BkxBooking
 	        if(isset($_POST['user_time_zone'])){
 		        $args['user_time_zone'] = sanitize_text_field($_POST['user_time_zone']);
 	        }
-            if(isset($_POST['user_time_zone']) && !empty($_POST['user_time_zone']) && $default_time_zone != $_POST['user_time_zone'] ){
-	            $_POST['user_booking_time'] = $args['time'];
-	            $_POST['user_selected_slot']  = $args['slot'];
-	            $booking_start_date = date("Y-m-d H:i:s", strtotime(sanitize_text_field($args['date']) . " " . sanitize_text_field($args['time'])));
-	            $datetime = new DateTime($booking_start_date, new DateTimeZone($_POST['user_time_zone']));
-
-	            $datetime->setTimezone(new DateTimeZone($default_time_zone));
-	            $new_time_hours = $datetime->format('H');
-	            $new_time_mins = $datetime->format('i');
-	            $args['time'] = isset($new_time_hours) ? sanitize_text_field("{$new_time_hours}:$new_time_mins") : "";
-	            $_POST['booking_time'] = $args['time'];
-            }
+//            if(isset($_POST['user_time_zone']) && !empty($_POST['user_time_zone']) && $default_time_zone != $_POST['user_time_zone'] ){
+//	            $_POST['user_booking_time'] = $args['time'];
+//	            $_POST['user_selected_slot']  = $args['slot'];
+//	            $booking_start_date = date("Y-m-d H:i:s", strtotime(sanitize_text_field($args['date']) . " " . sanitize_text_field($args['time'])));
+//	            $datetime = new DateTime($booking_start_date, new DateTimeZone($_POST['user_time_zone']));
+//
+//	            $datetime->setTimezone(new DateTimeZone($default_time_zone));
+//	            $new_time_hours = $datetime->format('H');
+//	            $new_time_mins = $datetime->format('i');
+//	            $args['time'] = isset($new_time_hours) ? sanitize_text_field("{$new_time_hours}:$new_time_mins") : "";
+//	            $_POST['booking_time'] = $args['time'];
+//            }
             $get_verify_slot = json_decode($this->get_verify_slot($args, false));
             if (!empty($get_verify_slot) && $get_verify_slot->result == 1 || !empty($args['booking_multi_days'])) {
                 $booking = $this->generate_order($_POST, null, true);
@@ -407,10 +407,8 @@ class BkxBooking
             $base_days = get_post_meta($post_data['base_id'], 'base_day', true);
             $post_data['date'] = date('Y-m-d', strtotime($booking_multi_days[0]));
         }
-	    if(isset($post_data['user_time_zone'],$post_data['user_booking_time'],$post_data['user_selected_slot'])){
-		    $user_booking_time =  sanitize_text_field($post_data['user_booking_time']);
-		    $user_selected_slot =  sanitize_text_field($post_data['user_selected_slot']);
-		    $user_time_zone =  sanitize_text_field($post_data['user_time_zone']);
+	    if(isset($post_data['user_time_zone'])){
+	    	$user_time_zone =  sanitize_text_field($post_data['user_time_zone']);
 	    }
         $arrData = array(
             'seat_id' => sanitize_text_field($post_data['seat_id']),
@@ -1367,13 +1365,13 @@ class BkxBooking
         $get_require_free_range = range($startingSlotNumber, $lastSlotNumber);
 	    $sys_time_zone = wp_timezone_string();
 
-	    if(isset($args['user_time_zone']) && !empty($args['user_time_zone']) && $sys_time_zone != $args['user_time_zone'] ){
-		    $sys_time_end = date('H:i',strtotime($availability_slots['time_data']['time_till']) );
-		    $datetime = new DateTime($sys_time_end, new DateTimeZone($sys_time_zone));
-		    $datetime->setTimezone(new DateTimeZone($args['user_time_zone']));
-		    $user_max_times_allowed = $datetime->format('Y-m-d H:i');
-		    $is_time_zone_checking = true;
-	    }
+//	    if(isset($args['user_time_zone']) && !empty($args['user_time_zone']) && $sys_time_zone != $args['user_time_zone'] ){
+//		    $sys_time_end = date('H:i',strtotime($availability_slots['time_data']['time_till']) );
+//		    $datetime = new DateTime($sys_time_end, new DateTimeZone($sys_time_zone));
+//		    $datetime->setTimezone(new DateTimeZone($args['user_time_zone']));
+//		    $user_max_times_allowed = $datetime->format('Y-m-d H:i');
+//		    $is_time_zone_checking = true;
+//	    }
 
 		//echo $user_max_times_allowed;
 	    //var_dump($is_time_zone_checking);
@@ -1481,44 +1479,63 @@ class BkxBooking
             $booked_slots = apply_filters('bookingx_booked_slots', $booked_slots, $args);
             if (!empty($range)) {
                 for ($cell_start = $first; $cell_start < $last; $cell_start = $cell_start + $step) {
-
 	                $secs2hours = bkx_secs2hours($cell_start);
-
 	                $sys_time = date('Y-m-d H:i', strtotime($secs2hours));
+
+	                if($is_time_zone_checking == true ){
+		                //$sys_time = $user_max_times_allowed;
+	                }
+
 	                //echo var_dump($is_restricted_time)." {$current_time} === {$sys_time} Slot Time {$secs2hours} <br>";
 	                $is_past_time = false;
 	                if($sys_time < $current_time && date('Ymd') == date('Ymd', strtotime($args['booking_date']))){
 		                $is_past_time = true;
 	                }
+
+	                //echo date('Ymd') ." == ".date('Ymd', strtotime($args['booking_date']))."<br> Hellll";
 	                // Slot restricted while timezone wise slots init
-	                if(isset($is_time_zone_checking) && $is_time_zone_checking == true &&
-	                   $user_max_times_allowed < $sys_time && date('Ymd') == date('Ymd', strtotime($args['booking_date']))){
-		                $is_restricted_time = true;
-	                }
+
 
                     if (in_array($counter, $range)) {
                         if ($counter % $columns == 1) {
                             $results .= "<tr>";
                         }
+	                    if($is_time_zone_checking == true){
+		                    $date = new \DateTime(date($secs2hours), new DateTimeZone($sys_time_zone));
+		                    $date->setTimezone(new \DateTimeZone($args['user_time_zone']));
+		                    $secs2hours = $date->format('H:i');
+		                    $slot_sys_time = $date->format('Y-m-d H:i');
+	                    }
+
+
+	                    if(isset($is_time_zone_checking) && $is_time_zone_checking == true &&
+	                       strtotime($slot_sys_time) < strtotime($current_time)   && date('Ymd') == date('Ymd', strtotime($args['booking_date']))){
+		                    $is_restricted_time = true;
+	                    }else{
+		                    $is_restricted_time = false;
+	                    }
+//	                    echo " $slot_sys_time  < $current_time    <br><br><br>";
+//						var_dump($is_restricted_time);
+	                    //echo "{$sys_time} < {$current_time}";
                         if ( !empty($booked_slots) && in_array($counter, $booked_slots)) {
-                            $results .= "<td> <a href=\"javascript:void(0);\" class=\"disabled\" data-date='" . $args['booking_date'] . "' data-time='" . bkx_secs2hours($cell_start) . "' data-slot='" . $counter . "'>" . bkx_secs2hours($cell_start) . "</a></td>";
+                            $results .= "<td> <a href=\"javascript:void(0);\" class=\"disabled\" data-date='" . $args['booking_date'] . "' data-time='" . bkx_secs2hours($cell_start) . "' data-slot='" . $counter . "'>" . $secs2hours . "</a></td>";
                         } else {
                             if (!empty($booked_day_dates)) {
                                 if (in_array($args['booking_date'], $booked_day_dates)) {
-                                    $results .= "<td> <a href=\"javascript:void(0);\" class=\"disabled\" data-date='" . $args['booking_date'] . "' data-time='" . bkx_secs2hours($cell_start) . "' data-slot='" . $counter . "'>" . bkx_secs2hours($cell_start) . "</a></td>";
+                                    $results .= "<td> <a href=\"javascript:void(0);\" class=\"disabled\" data-date='" . $args['booking_date'] . "' data-time='" . bkx_secs2hours($cell_start) . "' data-slot='" . $counter . "'>" . $secs2hours . "</a></td>";
                                 } else {
 	                                if($is_past_time == true || $is_restricted_time == true){
-		                                $results .= "<td> <a href=\"javascript:void(0);\" class=\"disabled\" data-date='" . $args['booking_date'] . "' data-time='" . bkx_secs2hours($cell_start) . "' data-slot='" . $counter . "'>" . bkx_secs2hours($cell_start) . "</a></td>";
+		                                $results .= "<td> <a href=\"javascript:void(0);\" class=\"disabled\" data-date='" . $args['booking_date'] . "' data-time='" . bkx_secs2hours($cell_start) . "' data-slot='" . $counter . "'>" . $secs2hours . "</a></td>";
 	                                }else{
-		                                $results .= "<td> <a href=\"javascript:void(0);\" class=\"available\" data-verify='" . $args['booking_date'] . "-" . $counter . "' data-date='" . $args['booking_date'] . "' data-time='" . bkx_secs2hours($cell_start) . "' data-slot='" . $counter . "'>" . bkx_secs2hours($cell_start) . "</a></td>";
+		                                $results .= "<td> <a href=\"javascript:void(0);\" class=\"available\" data-verify='" . $args['booking_date'] . "-" . $counter . "' data-date='" . $args['booking_date'] . "' data-time='" . bkx_secs2hours($cell_start) . "' data-slot='" . $counter . "'>" . $secs2hours . "</a></td>";
 	                                }
                                 }
                             } else {
                                 //$results .= "<td> <a href=\"javascript:void(0);\" class=\"available\" data-verify='" . $args['booking_date'] . "-" . $counter . "' data-date='" . $args['booking_date'] . "' data-time='" . bkx_secs2hours($cell_start) . "' data-slot='" . $counter . "'>" . bkx_secs2hours($cell_start) . "</a></td>";
 	                            if($is_past_time == true || $is_restricted_time == true){
-		                            $results .= "<td> <a href=\"javascript:void(0);\" class=\"disabled\" data-date='" . $args['booking_date'] . "' data-time='" . bkx_secs2hours($cell_start) . "' data-slot='" . $counter . "'>" . bkx_secs2hours($cell_start) . "</a></td>";
+		                            $results .= "<td> <a href=\"javascript:void(0);\" class=\"disabled\" data-date='" . $args['booking_date'] . "' data-time='" . bkx_secs2hours($cell_start) . "' data-slot='" . $counter . "'>" . $secs2hours . "</a></td>";
 	                            }else{
-		                            $results .= "<td> <a href=\"javascript:void(0);\" class=\"available\" data-verify='" . $args['booking_date'] . "-" . $counter . "' data-date='" . $args['booking_date'] . "' data-time='" . bkx_secs2hours($cell_start) . "' data-slot='" . $counter . "'>" . bkx_secs2hours($cell_start) . "</a></td>";
+		                            $results .= "<td> <a href=\"javascript:void(0);\" class=\"available\" data-verify='" . $args['booking_date'] . "-" . $counter . "' data-date='" . $args['booking_date'] . "' data-time='" . bkx_secs2hours($cell_start) . "' data-slot='" . $counter . "'>" . $secs2hours . "</a></td>";
 	                            }
                             }
                         }
