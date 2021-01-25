@@ -30,7 +30,7 @@ class BKX_Listing_ShortCodes
             } elseif (isset($atts['extra-id']) && $atts['extra-id'] != "") {
                 $id = isset($atts['extra-id']) && $atts['extra-id'] > 0 ? $atts['extra-id'] : 0;
             }
-            $id = apply_filters('bkx_set_custom_id_by_post_type', $atts);
+            $id = apply_filters('bkx_set_custom_id_by_post_type', $id, $atts );
             $order = "ASC";
             if (isset($atts['order']) && $atts['order'] != "") {
                 $order = $atts['order'];
