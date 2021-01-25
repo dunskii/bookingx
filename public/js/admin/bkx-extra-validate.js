@@ -143,13 +143,8 @@ jQuery(document).ready(function () {
     });
 
     //to change the addition unavailability form input type visibility
-    jQuery("input[name=addition_is_unavailable]").bind("change", function (event, ui) {
-        if (jQuery(this).attr('checked') == "checked") {
-            jQuery("#unavailable_from").show();
-        }
-        if (jQuery(this).attr('checked') == undefined) {
-            jQuery("#unavailable_from").hide();
-        }
+    jQuery("#id_addition_is_unavailable").on("click", function (event, ui) {
+        jQuery("#unavailable_from").toggle();
     });
     if (jQuery("input[name=addition_is_unavailable]").attr('checked') == "checked") {
         jQuery("#unavailable_from").show();
