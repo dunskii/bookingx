@@ -11,6 +11,15 @@ jQuery(document).ready(function () {
         jQuery("#unavailable_till").hide();
     }
 
+    if (jQuery("input[name=base_is_unavailable]").prop('checked') == "checked") {
+        jQuery("#unavailable_from").show();
+        jQuery("#unavailable_till").show();
+    }
+    if (jQuery("input[name=base_is_unavailable]").prop('checked') == undefined) {
+        jQuery("#unavailable_from").hide();
+        jQuery("#unavailable_till").hide();
+    }
+
     jQuery('#id_base_colour').iris({
         width: 300,
         hide: true,
@@ -71,15 +80,8 @@ jQuery(document).ready(function () {
         jQuery('.base-seat-checkboxes').prop('checked', this.checked);
     });
     //to change the addition unavailability form input type visibility
-    jQuery("input[name=base_is_unavailable]").bind("change", function (event, ui) {
-        if (jQuery(this).attr('checked') == "checked") {
-            jQuery("#unavailable_from").show();
-            jQuery("#unavailable_till").show();
-        }
-        if (jQuery(this).attr('checked') == undefined) {
-            jQuery("#unavailable_from").hide();
-            jQuery("#unavailable_till").hide();
-        }
+    jQuery("#id_base_is_unavailable").on("click", function (event, ui) {
+        jQuery("#unavailable_from").toggle();
     });
     jQuery("#id_base_unavailable_from").datepicker({
         onSelect: function (date) {
