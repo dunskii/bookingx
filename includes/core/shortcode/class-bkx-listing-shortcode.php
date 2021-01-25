@@ -54,8 +54,10 @@ class BKX_Listing_ShortCodes
                         <?php while ($query->have_posts()) : $query->the_post();
                             if ($id > 0) {
                                 bkx_get_template("content-single-{$post_type}.php", $atts);
+	                            do_action('bkx_load_template_content_single_file',$post_type );
                             } else {
                                 bkx_get_template("content-{$post_type}.php", $atts);
+	                            do_action('bkx_load_template_content_file',$post_type );
                             }
                         endwhile; ?>
                     </div>
