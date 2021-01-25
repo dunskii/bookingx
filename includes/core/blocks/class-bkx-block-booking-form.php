@@ -3,7 +3,7 @@
 /**
  * @class Bkx_Register_Booking_Form_Block
  * @extend Bkx_Block
- * @version 0.7.6.7
+ * @version 0.7.6.8
  */
 class Bkx_Register_Booking_Form_Block extends Bkx_Block
 {
