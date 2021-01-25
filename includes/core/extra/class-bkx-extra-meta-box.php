@@ -211,7 +211,7 @@ if (!class_exists('BkxExtraMetaBox')) {
                                 ?>
                                 <li class="bkx_choice_9_2">
                                     <input name="addition_base[]" type="checkbox" value="<?php echo $value->ID; ?>"
-                                           tabindex="13" class="myCheckbox" <?php if ($selected == true) {
+                                           tabindex="13" class="extra-base-checkboxes" <?php if ($selected == true) {
                                         echo "checked='checked'";
                                     } ?>>
                                     <label for="choice_9_2"><?php echo $value->post_title; ?></label>
@@ -243,7 +243,7 @@ if (!class_exists('BkxExtraMetaBox')) {
                                 } ?>
                                 <li class="bkx_choice_9_2">
                                     <input name="seat_on_extra[]" type="checkbox" value="<?php echo $value->ID; ?>"
-                                           tabindex="13" class="seat_checked" <?php if ($selected == '1') {
+                                           tabindex="13" class="extra-seat-checkboxes" <?php if ($selected == '1') {
                                         echo "checked='checked'";
                                     } ?>>
                                     <label for="choice_9_2"><?php echo $value->post_title; ?></label>

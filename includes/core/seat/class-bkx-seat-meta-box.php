@@ -812,7 +812,7 @@ if (!class_exists('BkxSeatMetaBox')) {
             if (isset($bkx_seat_role) && $bkx_seat_role != '') {
                 $role = $bkx_seat_role;
             } else {
-                $role = 'resource';
+                $role = 'subscriber';
             }
 
             if ($bkx_user_auto == 'N') {

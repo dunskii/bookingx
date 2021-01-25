@@ -211,7 +211,7 @@ if (!empty($current_submenu_active) && $current_submenu_active == 'user_opt') :?
     if (isset($bkx_seat_role) && $bkx_seat_role != '') {
         $default_seat_role = $bkx_seat_role;
     } else {
-        $default_seat_role = 'resource';
+        $default_seat_role = 'subscriber';
     }
     ?>
     <h3> <?php printf(esc_html__('%1$s', 'bookingx'), 'Role Assignment'); ?> </h3>
