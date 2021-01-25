@@ -618,6 +618,7 @@ class Bookingx_Admin
                 'ajax_url' => admin_url('admin-ajax.php'),
                 'is_cancel' => $enable_cancel_booking,
                 'is_legal_options' => $bkx_legal_options,
+                'wp_date_format' => "mm/dd/yy",
                 'default_style' => BKX_PLUGIN_PUBLIC_URL . "/images/preview/2.jpg",
                 'day_style' => BKX_PLUGIN_PUBLIC_URL . "/images/preview/2b.jpg");
             wp_register_script("bkx-admin-js", plugin_dir_url(__FILE__) . 'js/bookingx-admin.js', array('jquery', 'iris'), BKX_PLUGIN_VER, true);

@@ -224,7 +224,7 @@ if (!class_exists('BkxBaseMetabox')) {
                                 } ?>
                                 <li class="bkx_choice_9_2">
                                     <input name="base_seats[]" type="checkbox" value="<?php echo $value->ID; ?>"
-                                           tabindex="13" class="myCheckbox" <?php if ($selected == true) {
+                                           tabindex="13" class="base-seat-checkboxes" <?php if ($selected == true) {
                                         echo "checked='checked'";
                                     } ?>>
                                     <label for="choice_9_2"><?php echo $value->post_title; ?></label>

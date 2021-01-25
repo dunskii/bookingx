@@ -35,7 +35,7 @@ jQuery(document).on('submit', '#post', function (e) {
         }
     }
     var counter = 0;
-    jQuery(".myCheckbox").each(function () {
+    jQuery(".extra-base-checkboxes").each(function () {
         if (jQuery(this).attr('checked')) {
             counter += 1;
         }
@@ -132,26 +132,16 @@ jQuery(document).ready(function () {
             jQuery("#overlap").hide();
         }
     });
-    jQuery("input[name=addition_base_all]").bind("change", function (event, ui) {
-        if (jQuery(this).attr('checked')) {
-            jQuery('.myCheckbox').attr('checked', 'checked');
-        } else {
-            jQuery('.myCheckbox').removeAttr('checked', 'checked');
-        }
+
+
+    jQuery('#id_addition_base_all').click(function () {
+        jQuery('.extra-base-checkboxes').prop('checked', this.checked);
     });
-    if (jQuery("input[name=addition_base_all]").attr('checked')) {
-        jQuery('.myCheckbox').attr('checked', 'checked');
-    }
-    jQuery("input[name=seat_all]").bind("change", function (event, ui) {
-        if (jQuery(this).attr('checked')) {
-            jQuery('.seat_checked').attr('checked', 'checked');
-        } else {
-            jQuery('.seat_checked').removeAttr('checked', 'checked');
-        }
+
+    jQuery('#id_seat_all').click(function () {
+        jQuery('.extra-seat-checkboxes').prop('checked', this.checked);
     });
-    if (jQuery("input[name=seat_all]").attr('checked')) {
-        jQuery('.seat_checked').attr('checked', 'checked');
-    }
+
     //to change the addition unavailability form input type visibility
     jQuery("input[name=addition_is_unavailable]").bind("change", function (event, ui) {
         if (jQuery(this).attr('checked') == "checked") {
