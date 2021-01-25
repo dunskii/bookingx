@@ -67,12 +67,8 @@ jQuery(document).ready(function () {
             jQuery("#hours_minutes").show();
         }
     });
-    jQuery("input[name=base_seat_all]").bind("change", function (event, ui) {
-        if (jQuery(this).attr('checked')) {
-            jQuery('.myCheckbox').attr('checked', 'checked');
-        } else {
-            jQuery('.myCheckbox').removeAttr('checked', 'checked');
-        }
+    jQuery('#id_base_seat_all').click(function () {
+        jQuery('.base-seat-checkboxes').prop('checked', this.checked);
     });
     //to change the addition unavailability form input type visibility
     jQuery("input[name=base_is_unavailable]").bind("change", function (event, ui) {
