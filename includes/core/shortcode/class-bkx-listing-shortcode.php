@@ -30,6 +30,7 @@ class BKX_Listing_ShortCodes
             } elseif (isset($atts['extra-id']) && $atts['extra-id'] != "") {
                 $id = isset($atts['extra-id']) && $atts['extra-id'] > 0 ? $atts['extra-id'] : 0;
             }
+            $id = apply_filters('bkx_set_custom_id_by_post_type', $atts);
             $order = "ASC";
             if (isset($atts['order']) && $atts['order'] != "") {
                 $order = $atts['order'];
@@ -45,6 +46,7 @@ class BKX_Listing_ShortCodes
                 $query = new WP_Query(array('post_type' => $post_type, 'order_by' => $order_by , 'order'=>  $order));
                 $class = "booking-x-lists";
             }
+	        $class = apply_filters('bkx_set_class_shortcode_by_post_type', $class);
             //echo "<pre>".print_r($query, true)."</pre>";
             if ($query->have_posts()) :?>
                 <div class="container <?php echo $class; ?>">
@@ -72,6 +74,8 @@ class BKX_Listing_ShortCodes
         if (empty($atts))
             return;
         $find_archive = array('seat-id' => 'bkx_seat', 'base-id' => 'bkx_base', 'extra-id' => 'bkx_addition');
+        $find_archive = apply_filters('bkx_shortcode_archive_list',$find_archive );
+
         foreach ($find_archive as $key => $data) {
             if (array_key_exists($key, $atts)) {
                 return $find_archive[$key];
