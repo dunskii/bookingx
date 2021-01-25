@@ -142,7 +142,7 @@ class CalendarYvv {
             }
             //End Less than today date will be disable
 
-            if (this.staffAvailableCertainMonths.length > 0) {
+            if (this.staffAvailableCertainMonths && this.staffAvailableCertainMonths.length > 0) {
                 if (this.staffAvailableCertainMonths.indexOf(current_month) > -1) {
                     //div = $("<div class='" + current_date_selected + "d-flex flex-fill w-100 justify-content-center btn " + this.btnD + "' data-date='" + fechNow + "'>").html(i + 1);
                 } else {
@@ -150,7 +150,7 @@ class CalendarYvv {
                 }
             }
 
-            if (this.staffAvailableCertainDays.length > 0) {
+            if (this.staffAvailableCertainDays && this.staffAvailableCertainDays.length > 0) {
                 if (this.staffAvailableCertainDays.indexOf(current_day) > -1) {
                     //div = $("<div class='" + current_date_selected + "d-flex flex-fill w-100 justify-content-center btn " + this.btnD + "' data-date='" + fechNow + "'>").html(i + 1);
                 } else {
@@ -164,7 +164,7 @@ class CalendarYvv {
             }
 
             //Unavailable Days
-            if (this.unavailable_days.indexOf(moment(fechNow).format("MM/DD/Y")) != -1) {
+            if (this.unavailable_days && this.unavailable_days.indexOf(moment(fechNow).format("MM/DD/Y")) != -1) {
                 div = $("<div class='d-flex flex-fill w-100 justify-content-center btn " + this.btnDisable + "' data-date='" + fechNow + "' style='background: " + this.colorResal + "; color: " + this.textResalt + "; font-weight: bold;'>").html(i + 1);
             }
 
