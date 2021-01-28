@@ -38,13 +38,13 @@ $skip_this_step_style = ($skip_this_step == true) ? 'style = "display: none;"' :
     <?php do_action("bkx_booking_form_after_calendar");?>
     <div class="button-wrapper">
         <?php if ($skip_this_step == true) : ?>
-            <button type="submit" class="btn btn-default bkx-form-submission-final">
+            <button type="submit" class="btn btn-default button bkx-form-submission-final">
                 <?php esc_html_e("Booking Update", 'bookingx'); ?></button>
         <?php else : ?>
-            <button type="submit" class="btn btn-default bkx-form-submission-next">
+            <button type="submit" class="btn btn-default button bkx-form-submission-next">
                 <?php esc_html_e("Next", 'bookingx'); ?></button>
         <?php endif; ?>
-        <button <?php echo $skip_this_step_style; ?> type="submit" class="btn btn-default bkx-form-submission-previous">
+        <button <?php echo $skip_this_step_style; ?> type="submit" class="btn btn-default button bkx-form-submission-previous">
             <?php esc_html_e("Previous", 'bookingx'); ?>
         </button>
     </div>
