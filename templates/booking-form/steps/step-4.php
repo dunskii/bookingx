@@ -36,7 +36,7 @@ defined('ABSPATH') || exit; ?>
         <div class="bkx-seat-location-note user-detail px-3 py-4"></div>
     </div>
     <div class="button-wrapper">
-        <button type="submit" class="btn btn-default bkx-form-submission-final"><?php esc_html_e("Process Booking", 'bookingx'); ?></button>
-        <button type="submit" class="btn btn-default bkx-form-submission-previous"><?php esc_html_e("Previous", 'bookingx'); ?></button>
+        <button type="submit" class="btn btn-default button bkx-form-submission-final"><?php esc_html_e("Process Booking", 'bookingx'); ?></button>
+        <button type="submit" class="btn btn-default button bkx-form-submission-previous"><?php esc_html_e("Previous", 'bookingx'); ?></button>
     </div>
 </div>

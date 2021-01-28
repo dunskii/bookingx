@@ -99,7 +99,9 @@ class Bkx_Script_Loader
         );
 
         foreach ($register_scripts as $name => $props) {
-            self::register_script($name, $props['src'], $props['deps'], $props['version']);
+	        if(is_bookingx()){
+		        self::register_script($name, $props['src'], $props['deps'], $props['version']);
+	        }
         }
     }
 
@@ -150,7 +152,10 @@ class Bkx_Script_Loader
         );
 
         foreach ($register_styles as $name => $props) {
-            self::register_style($name, $props['src'], $props['deps'], $props['version'], 'all', $props['has_rtl']);
+	        if(is_bookingx()){
+		        self::register_style($name, $props['src'], $props['deps'], $props['version'], 'all', $props['has_rtl']);
+	        }
+
         }
     }
 
@@ -206,7 +211,10 @@ class Bkx_Script_Loader
                 ),
             )
         );
-        return $register_styles;
+        if(is_bookingx()){
+	        return $register_styles;
+        }
+
     }
 
     /**
@@ -298,13 +306,14 @@ class Bkx_Script_Loader
         self::register_scripts();
         self::register_styles();
         // Global frontend scripts.
-        self::enqueue_script('bookingx');
-        self::enqueue_script('moment-with-locales');
-        self::enqueue_script('bootstrap');
-        self::enqueue_script('owl.carousel');
-        self::enqueue_script('calendar');
-        self::enqueue_script('jquery-blockui');
-
+	    if(is_bookingx()){
+		    self::enqueue_script('bookingx');
+		    self::enqueue_script('moment-with-locales');
+		    self::enqueue_script('bootstrap');
+		    self::enqueue_script('owl.carousel');
+		    self::enqueue_script('calendar');
+		    self::enqueue_script('jquery-blockui');
+	    }
 
         if (is_admin()) {
             $screen = get_current_screen();

@@ -735,6 +735,18 @@ function bkx_generate_inline_style()
         }
     }
 
+	if(class_exists('BKX_Twenty_Twenty_One')){
+		$BKX_Twenty_Seventeen = new BKX_Twenty_Twenty_One();
+		$default_colors = $BKX_Twenty_Seventeen->default_colors();
+		if(!empty($default_colors)){
+			$booked = $default_colors['booked'];
+			$open = $default_colors['open'];
+			$current = $default_colors['current'];
+			$selected_time_color = $default_colors['selected_time_color'];
+			$day_selected     = '#222';
+		}
+	}
+
 
     $custom_css = "";
     $text_color = bkx_crud_option_multisite('bkx_form_text_color');
@@ -920,7 +932,7 @@ function is_bookingx()
     return apply_filters('is_bookingx', is_bkx_singular() ||
         is_singular(array('bkx_seat', 'bkx_base', 'bkx_addition')) ||
         is_my_account() ||
-        is_booking_page() || is_service() || is_staff() || is_extra() || is_dashboard());
+        is_booking_page() || is_bkx_service() || is_bkx_staff() || is_bkx_extra() || is_dashboard());
 }
 
 /**
@@ -970,7 +982,7 @@ function is_my_account()
 /**
  * @return bool
  */
-function is_service()
+function is_bkx_service()
 {
     return (is_post_type_archive('bkx_base') || is_singular('bkx_base'));
 }
@@ -978,7 +990,7 @@ function is_service()
 /**
  * @return bool
  */
-function is_extra()
+function is_bkx_extra()
 {
     return (is_post_type_archive('bkx_addition') || is_singular('bkx_addition'));
 }
@@ -986,7 +998,7 @@ function is_extra()
 /**
  * @return bool
  */
-function is_staff()
+function is_bkx_staff()
 {
     return (is_post_type_archive('bkx_seat') || is_singular('bkx_seat'));
 }
