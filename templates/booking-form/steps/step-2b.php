@@ -26,7 +26,7 @@ defined('ABSPATH') || exit;
         </div>
     </div>
     <div class="button-wrapper">
-        <button type="submit" class="btn btn-default bkx-form-submission-next"><?php esc_html_e("Next", 'bookingx'); ?></button></button>
-        <button type="submit" class="btn btn-default bkx-form-submission-previous"><?php esc_html_e("Previous", 'bookingx'); ?></button>
+        <button type="submit" class="btn btn-default button bkx-form-submission-next"><?php esc_html_e("Next", 'bookingx'); ?></button></button>
+        <button type="submit" class="btn btn-default button bkx-form-submission-previous"><?php esc_html_e("Previous", 'bookingx'); ?></button>
     </div>
 </div>

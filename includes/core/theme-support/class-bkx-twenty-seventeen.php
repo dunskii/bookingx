@@ -39,7 +39,7 @@ class BKX_Twenty_Seventeen
     }
 
     /**
-     * Open the Twenty Twenty wrapper.
+     * Open the Twenty Seventeen wrapper.
      */
     public static function output_content_wrapper()
     {
@@ -49,7 +49,7 @@ class BKX_Twenty_Seventeen
     }
 
     /**
-     * Close the Twenty Twenty wrapper.
+     * Close the Twenty Seventeen wrapper.
      */
     public static function output_content_wrapper_end()
     {
