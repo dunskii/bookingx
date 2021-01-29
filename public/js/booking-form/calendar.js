@@ -18,7 +18,6 @@ class CalendarYvv {
         this.funcNext = false; // funcion a ejecutar al lanzar el evento click
         this.funcPrev = false; // funcion a ejecutar al lanzar el evento click
         this.currentSelected = moment().format("Y-M-D"); // elemento seleccionado
-
         this.staffAvailableCertainMonths = []; //Resource only be available certain months of the year
         this.staffAvailableCertainDays = []; //Resource be available at certain days only
         this.unavailable_days = []; //Resource be available at certain days only
@@ -35,7 +34,7 @@ class CalendarYvv {
 
     startElements() {
         this.diaSeleccionado = this.corregirMesA(this.diaSeleccionado);
-        this.inicioDia = moment(this.diaSeleccionado).format("dddd"); // start day of the month
+        this.inicioDia = moment(this.diaSeleccionado).format("DDDD"); // start day of the month
         this.mesSeleccionado = this.diaSeleccionado.split("-")[1]; // selected month
         this.anioSeleccionado = this.diaSeleccionado.split("-")[0] * 1; // selected year
         this.cantDias = moment(this.diaSeleccionado).daysInMonth(); // number of days of the month
@@ -70,8 +69,9 @@ class CalendarYvv {
         arrowL.on("click", function (e) {
             var dtPrev = new Date();
             var day = _this.diaSeleccionado.split("-")[2] * 1;
-            dtPrev.setFullYear(_this.anioSeleccionado, _this.mesSeleccionado - 2, day);
+            dtPrev.setFullYear(_this.anioSeleccionado, _this.mesSeleccionado - 1, day);
             var dtToday = new Date();
+            //console.log(dtPrev +"===="+ dtToday)
             if (dtPrev < dtToday) {
             } else {
                 _this.mesAnterior(_this) // Previous Month
@@ -278,8 +278,9 @@ class CalendarYvv {
 
     corregirMesA(_f) {
         var fec = _f.split("-");
+        var day = 1;
         fec[1] = (fec[1] < 10 && fec[1].length == 1) ? ("0" + fec[1]) : fec[1];
-        fec[2] = (fec[2] < 10 && fec[2].length == 1) ? ("0" + fec[2]) : fec[2];
-        return fec.join("-");
+        fec[2] = (fec[2] < 10 && fec[2].length == 1) ? ("0" + fec[2]) : day;
+        return moment(fec.join("-")).format('Y-M-D');
     }
 }
