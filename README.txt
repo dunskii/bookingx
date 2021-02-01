@@ -1,8 +1,8 @@
 === Booking X ===
 Contributors: dunskii, dparekh19
 Tags: bookings, appointments, booking calendar, booking system
-Requires at least: 4.0
-Tested up to: 4.9.1
+Requires at least: 5.0
+Tested up to: 5.6
 Requires PHP: 5.0
 Stable tag: 1
 License: GPLv2 or later
