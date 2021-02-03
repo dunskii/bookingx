@@ -35,14 +35,10 @@ if (!class_exists('BkxExtraMetaBox')) {
             $base_alias = bkx_crud_option_multisite('bkx_alias_base');
             $translation_array = array('plugin_url' => BKX_PLUGIN_DIR_URL, 'extra_alias' => $addition_alias, 'base_alias' => $base_alias);
             wp_enqueue_script('iris');
-            wp_enqueue_script('jquery-ui-core');
-            wp_enqueue_script('jquery-ui-datepicker');
+	        wp_enqueue_style( 'jquery-ui-style' );
             wp_register_script("bkx-extra-validate", BKX_PLUGIN_DIR_URL . "public/js/admin/bkx-extra-validate.js", false, BKX_PLUGIN_VER, true);
             wp_localize_script('bkx-extra-validate', 'extra_obj', $translation_array);
             wp_enqueue_script('bkx-extra-validate');
-            $wp_scripts = wp_scripts();
-            wp_enqueue_style('bkx-admin-ui-css', '//ajax.googleapis.com/ajax/libs/jqueryui/' . $wp_scripts->registered['jquery-ui-core']->ver . '/themes/smoothness/jquery-ui.css',
-                false, BKX_PLUGIN_VER, false);
         }
 
         public function add_bkx_extra_metaboxes()
@@ -366,24 +362,29 @@ if (!class_exists('BkxExtraMetaBox')) {
                 update_post_meta($post_id, 'addition_unavailable_from', $additionUnavailableFrom);
             if (isset($additionUnavailableTo))
                 update_post_meta($post_id, 'addition_unavailable_to', $additionUnavailableTo);
-            if (!empty($_POST['addition_base'])) {
-                foreach ($_POST['addition_base'] as $key => $base_id) {
+
+	        $addition_base = array_map('sanitize_text_field', wp_unslash($_POST['addition_base']));
+            if (!empty($addition_base)) {
+                foreach ($addition_base as $key => $base_id) {
                     $base_data = get_post($base_id);
                     $base_slug[] = $base_data->post_name;
                 }
                 update_post_meta($post_id, 'extra_selected_base_slugs', $base_slug);
             }
-            if (!empty($_POST['seat_on_extra'])) {
-                foreach ($_POST['seat_on_extra'] as $key => $seat_id) {
+
+	        $seat_on_extra = array_map('sanitize_text_field', wp_unslash($_POST['seat_on_extra']));
+            if (!empty($seat_on_extra)) {
+	            $seat_slug = array();
+                foreach ($seat_on_extra as $key => $seat_id) {
                     $seat_data = get_post($seat_id);
                     $seat_slug[] = $seat_data->post_name;
                 }
                 update_post_meta($post_id, 'extra_selected_seats_slugs', $seat_slug);
             }
             if (!empty($extraSeatsValue))
-                update_post_meta($post_id, 'extra_selected_base', $_POST['addition_base']);
+                update_post_meta($post_id, 'extra_selected_base', sanitize_text_field($_POST['addition_base']));
             if (!empty($checked_seats))
-                update_post_meta($post_id, 'extra_selected_seats', $_POST['seat_on_extra']);
+                update_post_meta($post_id, 'extra_selected_seats', sanitize_text_field($_POST['seat_on_extra']));
         }
 
         public function bkx_addition_columns_head($defaults)

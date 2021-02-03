@@ -313,7 +313,7 @@ function bkx_count_comments($stats, $post_id)
         $stats = get_transient('bkx_count_comments');
         if (!$stats) {
             $stats = array();
-            $count = $wpdb->get_results("SELECT comment_approved, COUNT( * ) AS num_comments FROM {$wpdb->comments} WHERE comment_type != 'booking_note' GROUP BY comment_approved", ARRAY_A);
+	        $count = $wpdb->get_results($wpdb->prepare("SELECT comment_approved, COUNT( * ) AS num_comments FROM {$wpdb->comments} WHERE comment_type != 'booking_note' GROUP BY comment_approved"), ARRAY_A);
             $total = 0;
             $approved = array(
                 '0' => 'moderated',
@@ -358,7 +358,7 @@ function bkx_bulk_action()
 {
     if (empty($_REQUEST['action']))
         return;
-    $action = $_REQUEST['action'];
+    $action = sanitize_text_field($_REQUEST['action']);
     $order_statuses = bkx_get_order_statuses();
     $new_status = substr($action, 5); // get the status name from action
     $report_action = 'marked_' . $new_status;
@@ -366,7 +366,9 @@ function bkx_bulk_action()
         return;
     }
     $changed = 0;
+
     $post_ids = array_map('absint', (array)$_REQUEST['post']);
+	$post_ids = array_map('sanitize_text_field', wp_unslash($post_ids));
     foreach ($post_ids as $post_id) {
         $order = new BkxBooking('', $post_id);
         $order->update_status($new_status);
@@ -427,14 +429,14 @@ function bkx_list_table_views_filter($view)
             unset($view);
             $seat_post_id = get_user_meta($current_seat_id, 'seat_post_id', true);
             if (isset($seat_post_id) && $seat_post_id != '') {
-                $querystr = " 
-                SELECT $wpdb->posts.post_status, COUNT( * ) AS num_posts FROM $wpdb->posts, $wpdb->postmeta
-                WHERE $wpdb->posts.ID = $wpdb->postmeta.post_id 
-                AND $wpdb->posts.post_type = 'bkx_booking'
-                AND $wpdb->postmeta.meta_key = 'seat_id' 
-                AND $wpdb->postmeta.meta_value = $seat_post_id 
-                AND $wpdb->posts.post_status IN ('bkx-pending', 'bkx-ack', 'bkx-completed', 'bkx-missed', 'bkx-cancelled')
-                GROUP BY $wpdb->posts.post_status";
+	            $querystr = $wpdb->prepare(
+		            "SELECT $wpdb->posts.post_status, COUNT( * ) AS num_posts FROM {$wpdb->posts}, {$wpdb->postmeta}
+						  WHERE $wpdb->posts.ID = $wpdb->postmeta.post_id 
+						  AND $wpdb->posts.post_type = 'bkx_booking'
+						  AND $wpdb->postmeta.meta_key = 'seat_id' 
+						  AND  $wpdb->postmeta.meta_value = %s
+						  AND $wpdb->posts.post_status IN ('bkx-pending', 'bkx-ack', 'bkx-completed', 'bkx-missed', 'bkx-cancelled')
+						  GROUP BY $wpdb->posts.post_status", $seat_post_id );
                 $bkx_post_count = $wpdb->get_results($querystr, OBJECT);
                 $query_request = $wp_query->query['post_status'];
                 $status_counts = array();
@@ -692,7 +694,7 @@ add_action( 'admin_notices', 'bkx_admin_notice_error' );
 function bkx_admin_notice_error() {
     $message_data = array();
     $admin_screen = get_current_screen();
-    if(isset($_REQUEST['bkx_tab']) && $_REQUEST['bkx_tab'] == 'bkx_payment' || $admin_screen->id == 'bkx_seat' || $admin_screen->post_type == 'bkx_seat'){
+    if(isset($_REQUEST['bkx_tab']) && sanitize_text_field($_REQUEST['bkx_tab']) == 'bkx_payment' || $admin_screen->id == 'bkx_seat' || $admin_screen->post_type == 'bkx_seat'){
         $BkxPaymentCore = new BkxPaymentCore();
         $bkx_get_available_gateways = $BkxPaymentCore->is_activate_payment_gateway();
         $gateway_status = apply_filters('bkx_is_payment_gateway_activate', $bkx_get_available_gateways );

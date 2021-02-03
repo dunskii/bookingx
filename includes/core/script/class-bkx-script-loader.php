@@ -46,11 +46,6 @@ class Bkx_Script_Loader
     private static function register_scripts()
     {
         $register_scripts = array(
-            'moment-with-locales' => array(
-                'src' => BKX_PLUGIN_PUBLIC_URL . '/js/booking-form/moment-with-locales.min.js',
-                'deps' => array('jquery'),
-                'version' => BKX_PLUGIN_VER,
-            ),
             'bootstrap' => array(
                 'src' => BKX_PLUGIN_PUBLIC_URL . '/js/booking-form/bootstrap.min.js',
                 'deps' => array('jquery'),
@@ -92,7 +87,7 @@ class Bkx_Script_Loader
                 'version' => BKX_PLUGIN_VER,
             ),
             'fullcalendar' => array(
-                'src' => '//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.3/fullcalendar.min.js',
+                'src' => BKX_PLUGIN_PUBLIC_URL . '/js/fullcalendar/min.js',
                 'deps' => array('jquery'),
                 'version' => BKX_PLUGIN_VER,
             )
@@ -144,7 +139,7 @@ class Bkx_Script_Loader
                 'has_rtl' => false,
             ),*/
             'fullcalendarcss' => array(
-                'src' => '//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.3/fullcalendar.min.css',
+	            'src' => BKX_PLUGIN_PUBLIC_URL . '/css/fullcalendar/min.css',
                 'deps' => array('style-main'),
                 'version' => BKX_PLUGIN_VER,
                 'has_rtl' => false,
@@ -204,7 +199,7 @@ class Bkx_Script_Loader
                     'has_rtl' => false,
                 ),
                 'fullcalendarcss' => array(
-                    'src' => '//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.3/fullcalendar.min.css',
+	                'src' => BKX_PLUGIN_PUBLIC_URL . '/css/fullcalendar/min.css',
                     'deps' => array('style-main'),
                     'version' => BKX_PLUGIN_VER,
                     'has_rtl' => false,
@@ -307,12 +302,14 @@ class Bkx_Script_Loader
         self::register_styles();
         // Global frontend scripts.
 	    if(is_bookingx()){
+		    wp_enqueue_script('moment');
 		    self::enqueue_script('bookingx');
-		    self::enqueue_script('moment-with-locales');
+		    self::enqueue_script('Moment');
 		    self::enqueue_script('bootstrap');
 		    self::enqueue_script('owl.carousel');
 		    self::enqueue_script('calendar');
 		    self::enqueue_script('jquery-blockui');
+
 	    }
 
         if (is_admin()) {
@@ -321,12 +318,12 @@ class Bkx_Script_Loader
             $post_type = $screen->post_type;
             if ($base == "post" && $post_type == "bkx_booking") {
                 self::enqueue_script('bkx-booking-form-admin');
-            } elseif (isset($_GET['listing_view']) && ($_GET['listing_view'] == "monthly" || $_GET['listing_view'] == "weekly")) {
+            } elseif (isset($_GET['listing_view']) && (sanitize_text_field($_GET['listing_view']) == "monthly" || sanitize_text_field($_GET['listing_view']) == "weekly")) {
                 self::enqueue_script('fullcalendar');
             } else {
                 return;
             }
-        } elseif (isset($_REQUEST['edit_booking_nonce']) && wp_verify_nonce($_REQUEST['edit_booking_nonce'], 'edit_booking_' . $_REQUEST['id'])) {
+        } elseif (isset($_REQUEST['edit_booking_nonce']) && wp_verify_nonce($_REQUEST['edit_booking_nonce'], 'edit_booking_' . sanitize_text_field($_REQUEST['id']))) {
             self::enqueue_script('bkx-edit-booking-form');
         } else {
 	        $is_booking_page = apply_filters('bkx_check_is_booking_form', false );
@@ -368,7 +365,7 @@ class Bkx_Script_Loader
         if (isset($_REQUEST['edit_booking_nonce']) && wp_verify_nonce($_REQUEST['edit_booking_nonce'], 'edit_booking_' . $_REQUEST['id'])) {
             $booking_id = $_REQUEST['id'];
         } else {
-            $booking_id = (is_admin() ? (isset($_GET['post']) ? $_GET['post'] : 0) : (isset($_GET['booking_id']) ? $_GET['booking_id'] : 0));
+            $booking_id = (is_admin() ? (isset($_GET['post']) ? sanitize_text_field($_GET['post']) : 0) : (isset($_GET['booking_id']) ? sanitize_text_field($_GET['booking_id']) : 0));
         }
 	    $is_mobile = 0;
 	    if ( wp_is_mobile() ) {

@@ -8,7 +8,7 @@ if(empty($args) || !isset($args)){
     $args = array();
 }
 $args['type'] = 'new';
-$order_id = (isset($_REQUEST['order_id']) ? $_REQUEST['order_id'] : 0);
+$order_id = (isset($_REQUEST['order_id']) ? sanitize_text_field($_REQUEST['order_id']) : 0);
 if ((isset($order_id) && $order_id != "")) {
     $status = (true);
 } else {
@@ -16,18 +16,15 @@ if ((isset($order_id) && $order_id != "")) {
 }
 
 $booking_edit = false;
-if (isset($_POST['order_id']) && isset($_REQUEST['edit_booking_nonce']) && wp_verify_nonce($_REQUEST['edit_booking_nonce'], 'edit_booking_' . $_REQUEST['id'])) {
+if (isset($_POST['order_id']) && isset($_REQUEST['edit_booking_nonce']) && wp_verify_nonce($_REQUEST['edit_booking_nonce'], 'edit_booking_' . sanitize_text_field($_REQUEST['id']))) {
     $booking_edit = true;
     $args['type'] = 'edit';
 }
 if (isset($args['order_id']) && $args['order_id'] > 0) {
-    $args['order_id'] = $order_id;
+    $args['order_id'] = sanitize_text_field($order_id);
 }
 $args['order_id'] = $order_id;
 $args['status'] = $status;
-//echo "<pre>".print_r(get_post_meta(134,'order_meta_data', true), true)."</pre>";
-//echo "<pre>".print_r(get_post_meta(134,'bookingTimeRecord', true), true)."</pre>";
-//echo "<pre>".print_r(get_post_meta(134), true)."</pre>";
 ?>
 <div class="booking-x">
     <div class="main-container">
@@ -51,7 +48,7 @@ $args['status'] = $status;
                     </form>
                 <?php endif; ?>
                 <?php if (isset($_POST['order_id']) && (isset($_POST['bkx_payment_gateway_method']) || $booking_edit === true) && !empty($_POST['order_id'])) {
-                    $args = array('order_id' => $_POST['order_id'], 'bkx_payment_gateway_method' => $_POST['bkx_payment_gateway_method']);
+                    $args = array('order_id' => sanitize_text_field($_POST['order_id']), 'bkx_payment_gateway_method' => sanitize_text_field($_POST['bkx_payment_gateway_method']));
                     do_action('bkx_payment_gateway_process_hook', $args);
                 }else{
                     /**
@@ -61,18 +58,19 @@ $args['status'] = $status;
                         do_action('bkx_make_booking_hook', $_POST);
                     }
                 } ?>
-                <?php if (!isset($status) || $status != true || !isset($_GET['order_id']) || $_GET['order_id'] == "") {
+                <?php if (!isset($status) || $status != true || !isset($_GET['order_id']) || sanitize_text_field($_GET['order_id']) == "") {
 
                 } else {
 
                     $order_id = base64_decode($_GET['order_id']);
+                    $order_id = sanitize_text_field($order_id);
                     $action_data = array('order_id' => $order_id);
                     $payment_method = get_post_meta($order_id, 'payment_method', true);
                     if (!isset($payment_method) || $payment_method != 'bkx_gateway_pay_later') {
                         $check_payment_data = get_post_meta($order_id, 'payment_meta', true);
                         $transactionID = 0;
                         if (!empty($check_payment_data)) {
-                            $transactionID = $check_payment_data['transactionID'];
+                            $transactionID = sanitize_text_field($check_payment_data['transactionID']);
                         }
 	                    if ($transactionID == 0 && $transactionID == '') {
                             do_action('bkx_payment_gateway_capture_process_hook', $action_data);

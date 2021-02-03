@@ -214,13 +214,11 @@ jQuery(document).ready(function () {
         hide: true,
         palettes: true
     });
-    jQuery("input[name=seat_certain_month_all]").bind("change", function (event, ui) {
-        if (jQuery(this).attr('checked')) {
-            jQuery('.month_checkbox').attr('checked', 'checked');
-        } else {
-            jQuery('.month_checkbox').removeAttr('checked', 'checked');
-        }
+
+    jQuery('#choice_month_all').click(function () {
+        jQuery('.month_checkbox').prop('checked', this.checked);
     });
+
     var payment_type = jQuery("#id_seat_deposit_full").val();
     if (payment_type == "Deposit") {
     }

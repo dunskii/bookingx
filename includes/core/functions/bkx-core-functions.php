@@ -476,10 +476,10 @@ function SkipStep()
         $screen = get_current_screen();
         $base = $screen->base;
         $post_type = $screen->post_type;
-        if ($base == "post" && $post_type == "bkx_booking" && isset($_REQUEST['post']) && $_REQUEST['post'] > 0) {
+        if ($base == "post" && $post_type == "bkx_booking" && isset($_REQUEST['post']) && sanitize_text_field($_REQUEST['post']) > 0) {
             $skip_this_step = true;
         }
-    }elseif (isset($_REQUEST['edit_booking_nonce']) && wp_verify_nonce($_REQUEST['edit_booking_nonce'], 'edit_booking_' . $_REQUEST['id'])) {
+    }elseif (isset($_REQUEST['edit_booking_nonce']) && wp_verify_nonce($_REQUEST['edit_booking_nonce'], 'edit_booking_' . sanitize_text_field($_REQUEST['id']))) {
         $skip_this_step = true;
     }
     return $skip_this_step;

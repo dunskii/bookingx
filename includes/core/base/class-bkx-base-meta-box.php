@@ -44,6 +44,7 @@ if (!class_exists('BkxBaseMetabox')) {
             $seat_alias = bkx_crud_option_multisite('bkx_alias_seat');
             $base_alias = bkx_crud_option_multisite('bkx_alias_base');
             wp_enqueue_script('iris');
+	        wp_enqueue_style( 'jquery-ui-style' );
             wp_register_script("bkx-base-validate", BKX_PLUGIN_DIR_URL . "public/js/admin/bkx-base-validate.js", false, BKX_PLUGIN_VER, true);
             $translation_array = array('plugin_url' => BKX_PLUGIN_DIR_URL, 'seat_alias' => $seat_alias, 'base_alias' => $base_alias);
             wp_localize_script('bkx-base-validate', 'base_obj', $translation_array);

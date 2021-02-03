@@ -5,6 +5,8 @@
   margin: 0 0 1rem 1rem; }
 
 /* Detail */
+.booking-x select {
+  font-size: 1em; }
 .booking-x .user-detail {
   background: #f4f4f4; }
 .booking-x .booking-x .user-detail dl dt {
