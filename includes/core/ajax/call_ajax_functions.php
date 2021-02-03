@@ -187,7 +187,7 @@ function bkx_action_add_custom_note_callback()
         switch_to_blog($blog_id);
     endif;
     $booking_id = sanitize_text_field($_POST['booking_id']);
-    $bkx_custom_note = $_POST['bkx_custom_note'];
+    $bkx_custom_note = sanitize_text_field($_POST['bkx_custom_note']);
 
     if (empty($booking_id) || empty($bkx_custom_note))
         return 0;

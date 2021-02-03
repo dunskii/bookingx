@@ -3,7 +3,7 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
 add_action("init", "bkx_setting_save_init");
 function bkx_setting_save_init()
 {
-    if (isset($_POST['bkx_setting_form_init']) && $_POST['bkx_setting_form_init'] == 1) {
+    if (isset($post_data['bkx_setting_form_init']) && sanitize_text_field($post_data['bkx_setting_form_init']) == 1) {
         bkx_setting_save_action();
     }
 }

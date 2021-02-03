@@ -27,6 +27,10 @@ jQuery(function ($) {
             $(".shortcode-section").hide();
         }
     });
+    $('.datepicker').on('click', function(e) {
+        e.preventDefault();
+        $(this).attr("autocomplete", "off");
+    });
 
 });
 
@@ -40,8 +44,10 @@ function extracted_legal( val ) {
 }
 
 jQuery(document).ready(function () {
-
-
+    jQuery('.datepicker').on('click', function(e) {
+        e.preventDefault();
+        jQuery(this).attr("autocomplete", "off");
+    });
     jQuery('.bkx-dashboard-column-all').on('click', function () {
         if (this.checked) {
             jQuery('.bkx-dashboard-column').each(function () {

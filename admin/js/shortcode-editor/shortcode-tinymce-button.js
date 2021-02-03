@@ -10,7 +10,7 @@
 
         editor.addButton('pushortcodes', {
             title: 'Bookingx',
-            image: '../wp-content/plugins/bookingx/public/images/dashicons-calendar.png',
+            image: bkx_public_url+'/images/dashicons-calendar.png',
             onclick: function () {
                 editor.windowManager.open({
                     title: 'Bookingx Shortcodes',

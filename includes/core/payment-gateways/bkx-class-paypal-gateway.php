@@ -12,6 +12,7 @@ class BkxPaymentPayPalExpress
         endif;
         if (isset($_GET['order_id']) && $_GET['order_id'] != "") {
             $order_id = base64_decode($_GET['order_id']);
+            $order_id = sanitize_text_field($order_id);
         }
         //set paypal configuration here
         $api_mode = bkx_crud_option_multisite('bkx_api_paypal_paypalmode'); // sandbox or live

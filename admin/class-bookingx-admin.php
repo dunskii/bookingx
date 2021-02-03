@@ -480,8 +480,8 @@ class Bookingx_Admin
 
     function bkx_bulk_action_admin_notice(){
         if ( ! empty( $_REQUEST['bulk_status_changed'] ) ) {
-            $count     = intval($_REQUEST['bulk_status_count']);
-            $status = ucwords($_REQUEST['bulk_status_changed']);
+            $count     = sanitize_text_field(intval($_REQUEST['bulk_status_count']));
+            $status = sanitize_text_field(ucwords($_REQUEST['bulk_status_changed']));
             printf( '<div id="message" class="updated fade">' .
                 _n( "Booking have changed status to {$status}.",
                     '%d of bookings have changed status to %s.',
@@ -577,9 +577,6 @@ class Bookingx_Admin
          * class.
          */
             if(is_bookingx_admin() === true ){
-                $wp_scripts = wp_scripts();
-                wp_enqueue_style('bkx-admin-ui-css', '//ajax.googleapis.com/ajax/libs/jqueryui/' . $wp_scripts->registered['jquery-ui-core']->ver . '/themes/smoothness/jquery-ui.css',
-                    false, BKX_PLUGIN_VER, false);
                 wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/bookingx-admin.css', array(), $this->version, 'all');
             }
     }
@@ -605,6 +602,7 @@ class Bookingx_Admin
          */
         if(is_bookingx_admin() === true ){
             wp_enqueue_script('jquery-ui-datepicker');
+	        wp_register_style( 'jquery-ui-style', BKX_PLUGIN_DIR_URL . 'admin/css/jquery-ui/jquery-ui.min.css', array(), BKX_PLUGIN_VER );
             wp_enqueue_script("bkx-seat-sol", BKX_PLUGIN_DIR_URL . "public/js/admin/sol.js", false, BKX_PLUGIN_VER, true);
             wp_enqueue_style('bkx-seat-sol-style', BKX_PLUGIN_DIR_URL . "public/css/sol.css");
 

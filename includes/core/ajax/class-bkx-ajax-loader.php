@@ -127,20 +127,25 @@ class Bkx_Ajax_Loader
         $user = get_user_by('ID', $user_id);
         $errors = array();
         $result = array();
-        if (isset($post_data['first_name'], $post_data['last_name'], $post_data['email_address'])) {
-            if (empty($post_data['first_name'])) {
+	    $post_data = array_map('sanitize_text_field', wp_unslash($post_data));
+	    $first_name     = sanitize_text_field($post_data['first_name']);
+	    $last_name      = sanitize_text_field($post_data['last_name']);
+	    $email_address  = sanitize_email($post_data['email_address']);
+	    $phone_number   = sanitize_text_field($post_data['phone_number']);
+        if (isset($first_name, $last_name, $email_address)) {
+            if (empty($first_name)) {
                 $errors['first_name'] = __('Please enter your first name.', 'bookingx');
             }
 
-            if (empty($post_data['last_name'])) {
+            if (empty($last_name)) {
                 $errors['last_name'] = __('Please enter your last name.', 'bookingx');
             }
 
-            if (empty($post_data['email_address'])) {
+            if (empty($email_address)) {
                 $errors['email_address'] = __('Please enter your email address.', 'bookingx');
             }
 
-            if (!empty($post_data['email_address']) && !is_email($post_data['email_address'])) {
+            if (!empty($email_address) && !is_email($email_address)) {
                 $errors['email_address'] = __('Please enter valid email address.', 'bookingx');
             }
 
@@ -155,16 +160,18 @@ class Bkx_Ajax_Loader
         } else {
             $user_data = wp_update_user(array(
                 'ID' => $user_id,
-                'first_name' => $post_data['first_name'],
-                'last_name' => $post_data['last_name'],
-                'user_email' => $post_data['email_address']
+                'first_name' => $first_name,
+                'last_name' => $last_name,
+                'user_email' => $email_address
             ));
             if (is_wp_error($user_data)) {
                 // There was an error; possibly this user doesn't exist.
                 $errors['top_error'] = __('Something went wrong, Please try again.', 'bookingx');
             } else {
                 // Success!
-                update_user_meta($user_id, 'bkx_phone_number', $post_data['phone_number']);
+	            if(isset($phone_number) && !empty($phone_number)){
+		            update_user_meta($user_id, 'bkx_phone_number', $phone_number);
+	            }
                 do_action('bkx_update_customer_details', $user, $post_data);
                 $result['success'] = array('feedback' => __('Your profile updated successfully.', 'bookingx'));
                 $result = apply_filters('bkx_customer_details_success', $result, $user);
@@ -180,6 +187,7 @@ class Bkx_Ajax_Loader
         $success = false;
         if(is_user_logged_in()){
             $user_id = get_current_user_id();
+	        $booking_id = sanitize_text_field($booking_id);
             $is_owner = check_booking_owner( $user_id, $booking_id );
             if($is_owner == true ){
                 $order = new BkxBooking(null , $booking_id);
@@ -209,6 +217,7 @@ class Bkx_Ajax_Loader
         $user = get_user_by('ID', $user_id);
         $errors = array();
         $result = array();
+	    $post_data = array_map('sanitize_text_field', wp_unslash($post_data));
         if (isset($post_data['current_password'], $post_data['new_password'], $post_data['confirm_password'])) {
             if (empty($post_data['current_password'])) {
                 $errors['current_password'] = __('Please enter your current password.', 'bookingx');
@@ -278,6 +287,7 @@ class Bkx_Ajax_Loader
     public static function on_base_change()
     {
         check_ajax_referer('on-base-change', 'security');
+	    $_POST = array_map('sanitize_text_field', wp_unslash($_POST));
         if (!empty($_POST['base_id'])) {
             $base_id = sanitize_text_field(wp_unslash($_POST['base_id']));
             $extra_obj = new BkxExtra();
@@ -516,7 +526,6 @@ class Bkx_Ajax_Loader
         if(isset($_POST['user_time_zone'])){
 	        $args['user_time_zone'] = sanitize_text_field($_POST['user_time_zone']);
         }
-
         //$bkx_booking_style = bkx_crud_option_multisite('bkx_booking_style');
         //$booking_style = ( ( !isset($bkx_booking_style) || $bkx_booking_style == "" ) ? "default" : $bkx_booking_style);
         $base_time_option = get_post_meta($args['base_id'], 'base_time_option', true);

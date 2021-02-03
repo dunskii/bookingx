@@ -16,6 +16,7 @@ class BkxPaymentCore
 
         if (isset($_GET['order_id']) && $_GET['order_id'] != "") {
             $order_id = base64_decode($_GET['order_id']);
+	        $order_id = sanitize_text_field($order_id);
         }
 
         if (is_multisite()):
@@ -41,8 +42,8 @@ class BkxPaymentCore
         $this->order_id = $args['order_id'];
         $booking_meta = array('order_id' => $order_id);
         $process_response = array('success' => true, 'data' => $booking_meta);
-        if ($order_id != "" && isset($_POST['bkx_payment_gateway_method']) && $_POST['bkx_payment_gateway_method'] == 'bkx_gateway_paypal_express'
-            && (!isset($_GET['token']) || $_GET['token'] == '')) {
+        if ($order_id != "" && isset($_POST['bkx_payment_gateway_method']) && sanitize_text_field($_POST['bkx_payment_gateway_method']) == 'bkx_gateway_paypal_express'
+            && (!isset($_GET['token']) || sanitize_text_field($_GET['token']) == '')) {
             $BkxPaymentPayPalExpress = new BkxPaymentPayPalExpress($this->order_id);
             $payment_request_call = $BkxPaymentPayPalExpress->payment_request_call($this->order_id, 'SetExpressCheckout');
             if (!empty($payment_request_call) && !isset($payment_request_call['error'])) {
@@ -83,6 +84,7 @@ class BkxPaymentCore
     {
         if (isset($_GET['order_id']) && $_GET['order_id'] != "") {
             $order_id = base64_decode($_GET['order_id']);
+	        $order_id = sanitize_text_field($order_id);
         }
         $capture_payment = get_post_meta($order_id, 'bkx_capture_payment', true);
         if (!empty($capture_payment))
@@ -347,8 +349,8 @@ class BkxPaymentCore
             $back_to_booking_text = apply_filters('bkx_back_booking_text', "Back to Booking Page");
             $payment_success_html .= "</div></div><div>  </div>";
             $payment_success_html .= "<div class='bkx-email-sent'></div>";
-            $payment_success_html .= "<div class=\"button-wrapper\"><button type=\"submit\" class=\"btn btn-default bkx-send-email-receipt\" data-order-id='" . $order_id . "'>Send Email Receipt </button>
-                                                                    <button type=\"submit\" class=\"btn btn-default bkx-back-to-booking\">{$back_to_booking_text}</button></div>";
+            $payment_success_html .= "<div class=\"button-wrapper\"><button type=\"submit\" class=\"btn btn-default button bkx-send-email-receipt\" data-order-id='" . $order_id . "'>Send Email Receipt </button>
+                                                                    <button type=\"submit\" class=\"btn btn-default button bkx-back-to-booking\">{$back_to_booking_text}</button></div>";
         }
 	    do_action('bkx_booking_after_success_action', $order_id);
         return apply_filters('bkx_success_payment', $payment_success_html, $order_id);

@@ -75,16 +75,16 @@ if (!class_exists('BkxSeatMetaBox')) {
             $bkx_business_state = bkx_crud_option_multisite("bkx_business_state");
             $bkx_business_zip = bkx_crud_option_multisite("bkx_business_zip");
             $bkx_business_country = bkx_crud_option_multisite("bkx_business_country");
-            $seat_street = isset($business_address_1) ? esc_attr("{$business_address_1},{$business_address_2}") : "";
-            $seat_city = isset($bkx_business_city) ? esc_attr($bkx_business_city) : "";
-            $seat_state = isset($bkx_business_state) ? esc_attr($bkx_business_state) : "";
-            $seat_zip = isset($bkx_business_zip) ? esc_attr($bkx_business_zip) : "";
-            $seat_country = isset($bkx_business_country) ? esc_attr($bkx_business_country) : "";
-            $seat_street = isset($values['seat_street']) ? esc_attr($values['seat_street'][0]) : $seat_street;
-            $seat_city = isset($values['seat_city']) ? esc_attr($values['seat_city'][0]) : $seat_city;
-            $seat_state = isset($values['seat_state']) ? esc_attr($values['seat_state'][0]) : $seat_state;
-            $seat_zip = isset($values['seat_zip']) ? esc_attr($values['seat_zip'][0]) : $seat_zip;
-            $seat_is_certain_month = isset($values['seat_is_certain_month']) ? esc_attr($values['seat_is_certain_month'][0]) : "";
+            $seat_street = isset($business_address_1) ? sanitize_text_field("{$business_address_1},{$business_address_2}") : "";
+            $seat_city = isset($bkx_business_city) ? sanitize_text_field($bkx_business_city) : "";
+            $seat_state = isset($bkx_business_state) ? sanitize_text_field($bkx_business_state) : "";
+            $seat_zip = isset($bkx_business_zip) ? sanitize_text_field($bkx_business_zip) : "";
+            $seat_country = isset($bkx_business_country) ? sanitize_text_field($bkx_business_country) : "";
+            $seat_street = isset($values['seat_street']) ? sanitize_text_field($values['seat_street'][0]) : $seat_street;
+            $seat_city = isset($values['seat_city']) ? sanitize_text_field($values['seat_city'][0]) : $seat_city;
+            $seat_state = isset($values['seat_state']) ? sanitize_text_field($values['seat_state'][0]) : $seat_state;
+            $seat_zip = isset($values['seat_zip']) ? sanitize_text_field($values['seat_zip'][0]) : $seat_zip;
+            $seat_is_certain_month = isset($values['seat_is_certain_month']) ? sanitize_text_field($values['seat_is_certain_month'][0]) : "";
             if (!empty($values)) {
 
                 $seat_days_time = !empty($values['seat_days_time'][0]) ? maybe_unserialize($values['seat_days_time'][0]) : "";
@@ -93,9 +93,9 @@ if (!class_exists('BkxSeatMetaBox')) {
                 $seat_days = isset($values['seat_days'][0]) && $values['seat_days'][0] != '' ? $temp_seat_days = explode(',', $seat_days_arr) : '';
                 $seat_months = isset($values['seat_months'][0]) && $values['seat_months'][0] != '' ? $temp_seat_months = explode(',', $values['seat_months'][0]) : '';
             }
-            $associate_with_user = isset($values['associate_with_user']) ? esc_attr($values['associate_with_user'][0]) : "N";
-            $associate_with_user_role = isset($values['associate_with_user_role']) ? esc_attr($values['associate_with_user_role'][0]) : "";
-            $associate_with_username = isset($values['associate_with_username']) ? esc_attr($values['associate_with_username'][0]) : "";
+            $associate_with_user = isset($values['associate_with_user']) ? sanitize_text_field($values['associate_with_user'][0]) : "N";
+            $associate_with_user_role = isset($values['associate_with_user_role']) ? sanitize_text_field($values['associate_with_user_role'][0]) : "";
+            $associate_with_username = isset($values['associate_with_username']) ? sanitize_text_field($values['associate_with_username'][0]) : "";
             if (!empty($res_seat_time)) {
                 $res_seat_time_arr = array();
                 foreach ($res_seat_time as $temp) {
@@ -103,20 +103,20 @@ if (!class_exists('BkxSeatMetaBox')) {
                     $res_seat_time_arr[strtolower($temp['day'])]['time_till'] = $temp['time_till'];
                 }
             }
-            $seat_is_pre_payment = isset($values['seatIsPrePayment']) ? esc_attr($values['seatIsPrePayment'][0]) : "";
-            $seat_payment_type = isset($values['seat_payment_type']) ? esc_attr($values['seat_payment_type'][0]) : ""; //Payment Type
-            $seat_deposite_type = isset($values['seat_payment_option']) ? esc_attr($values['seat_payment_option'][0]) : ""; // Deposite Type
-            $seat_fixed_amount = isset($values['seat_amount']) ? esc_attr($values['seat_amount'][0]) : "";
-            $seat_percentage = isset($values['seat_percentage']) ? esc_attr($values['seat_percentage'][0]) : "";
-            $seat_phone = isset($values['seatPhone']) ? esc_attr($values['seatPhone'][0]) : "";
-            $seat_notification_email = isset($values['seatEmail']) ? esc_attr($values['seatEmail'][0]) : "";
-            $seat_notification_alternate_email = isset($values['seatIsAlternateEmail']) ? esc_attr($values['seatIsAlternateEmail'][0]) : "";
-            $seatAlternateEmail = isset($values['seatAlternateEmail']) ? esc_attr($values['seatAlternateEmail'][0]) : "";
-            $seat_ical_address = isset($values['seatIsIcal']) ? esc_attr($values['seatIsIcal'][0]) : "";
-            $seatIcalAddress = isset($values['seatIcalAddress']) ? esc_attr($values['seatIcalAddress'][0]) : "";
-            $bkx_user_auto = isset($values['bkx_user_auto']) ? esc_attr($values['bkx_user_auto'][0]) : "N";
-            $seat_is_different_loc = isset($values['seat_is_different_loc']) ? esc_attr($values['seat_is_different_loc'][0]) : "N";
-            $seat_is_certain_day = isset($values['seat_is_certain_day']) ? esc_attr($values['seat_is_certain_day'][0]) : "N";
+            $seat_is_pre_payment = isset($values['seatIsPrePayment']) ? sanitize_text_field($values['seatIsPrePayment'][0]) : "";
+            $seat_payment_type = isset($values['seat_payment_type']) ? sanitize_text_field($values['seat_payment_type'][0]) : ""; //Payment Type
+            $seat_deposite_type = isset($values['seat_payment_option']) ? sanitize_text_field($values['seat_payment_option'][0]) : ""; // Deposite Type
+            $seat_fixed_amount = isset($values['seat_amount']) ? sanitize_text_field($values['seat_amount'][0]) : "";
+            $seat_percentage = isset($values['seat_percentage']) ? sanitize_text_field($values['seat_percentage'][0]) : "";
+            $seat_phone = isset($values['seatPhone']) ? sanitize_text_field($values['seatPhone'][0]) : "";
+            $seat_notification_email = isset($values['seatEmail']) ? sanitize_text_field($values['seatEmail'][0]) : "";
+            $seat_notification_alternate_email = isset($values['seatIsAlternateEmail']) ? sanitize_text_field($values['seatIsAlternateEmail'][0]) : "";
+            $seatAlternateEmail = isset($values['seatAlternateEmail']) ? sanitize_text_field($values['seatAlternateEmail'][0]) : "";
+            $seat_ical_address = isset($values['seatIsIcal']) ? sanitize_text_field($values['seatIsIcal'][0]) : "";
+            $seatIcalAddress = isset($values['seatIcalAddress']) ? sanitize_text_field($values['seatIcalAddress'][0]) : "";
+            $bkx_user_auto = isset($values['bkx_user_auto']) ? sanitize_text_field($values['bkx_user_auto'][0]) : "N";
+            $seat_is_different_loc = isset($values['seat_is_different_loc']) ? sanitize_text_field($values['seat_is_different_loc'][0]) : "N";
+            $seat_is_certain_day = isset($values['seat_is_certain_day']) ? sanitize_text_field($values['seat_is_certain_day'][0]) : "N";
             $selected_days = get_post_meta($post->ID, 'selected_days', true);
             //$seat_colour = get_post_meta($post->ID, 'seat_colour', true);
             if (empty($selected_days)) {
@@ -758,23 +758,23 @@ if (!class_exists('BkxSeatMetaBox')) {
             if (isset($associate_with_username))
                 update_post_meta($post_id, 'associate_with_username', $associate_with_username);
             if (isset($_POST['seat_street']))
-                update_post_meta($post_id, 'seat_street', esc_attr($_POST['seat_street']));
+                update_post_meta($post_id, 'seat_street', sanitize_text_field($_POST['seat_street']));
             if (isset($_POST['seat_city']))
-                update_post_meta($post_id, 'seat_city', esc_attr($_POST['seat_city']));
+                update_post_meta($post_id, 'seat_city', sanitize_text_field($_POST['seat_city']));
             if (isset($_POST['seat_state']))
-                update_post_meta($post_id, 'seat_state', esc_attr($_POST['seat_state']));
+                update_post_meta($post_id, 'seat_state', sanitize_text_field($_POST['seat_state']));
             if (isset($_POST['seat_zip']))
-                update_post_meta($post_id, 'seat_zip', esc_attr($_POST['seat_zip']));
+                update_post_meta($post_id, 'seat_zip', sanitize_text_field($_POST['seat_zip']));
             if (isset($_POST['seat_country']))
-                update_post_meta($post_id, 'seat_country', esc_attr($_POST['seat_country']));
+                update_post_meta($post_id, 'seat_country', sanitize_text_field($_POST['seat_country']));
             if (isset($_POST['seat_city']))
-                update_post_meta($post_id, 'seat_city', esc_attr($_POST['seat_city']));
+                update_post_meta($post_id, 'seat_city', sanitize_text_field($_POST['seat_city']));
             if (isset($_POST['seat_is_certain_month']))
-                update_post_meta($post_id, 'seat_is_certain_month', esc_attr($_POST['seat_is_certain_month']));
+                update_post_meta($post_id, 'seat_is_certain_month', sanitize_text_field($_POST['seat_is_certain_month']));
             if (isset($seatCertainMonth))
-                update_post_meta($post_id, 'seat_months', esc_attr($seatCertainMonth));
+                update_post_meta($post_id, 'seat_months', sanitize_text_field($seatCertainMonth));
             if (isset($_POST['seat_is_certain_day']))
-                update_post_meta($post_id, 'seat_is_certain_day', esc_attr($_POST['seat_is_certain_day']));
+                update_post_meta($post_id, 'seat_is_certain_day', sanitize_text_field($_POST['seat_is_certain_day']));
             if (isset($seatCertainDay))
                 update_post_meta($post_id, 'seat_days', $seatCertainDay);
             if (isset($seat_days_time_data))
@@ -871,23 +871,23 @@ if (!class_exists('BkxSeatMetaBox')) {
                 update_user_meta($bkx_user_id, 'seat_post_id', $post_id);
                 update_post_meta($post_id, 'seat_user_id', $bkx_user_id);
                 if (isset($_POST['seat_street']))
-                    update_user_meta($bkx_user_id, 'seat_street', esc_attr($_POST['seat_street']));
+                    update_user_meta($bkx_user_id, 'seat_street', sanitize_text_field($_POST['seat_street']));
                 if (isset($_POST['seat_city']))
-                    update_user_meta($bkx_user_id, 'seat_city', esc_attr($_POST['seat_city']));
+                    update_user_meta($bkx_user_id, 'seat_city', sanitize_text_field($_POST['seat_city']));
                 if (isset($_POST['seat_state']))
-                    update_user_meta($bkx_user_id, 'seat_state', esc_attr($_POST['seat_state']));
+                    update_user_meta($bkx_user_id, 'seat_state', sanitize_text_field($_POST['seat_state']));
                 if (isset($_POST['seat_zip']))
-                    update_user_meta($bkx_user_id, 'seat_zip', esc_attr($_POST['seat_zip']));
+                    update_user_meta($bkx_user_id, 'seat_zip', sanitize_text_field($_POST['seat_zip']));
                 if (isset($_POST['seat_country']))
-                    update_user_meta($bkx_user_id, 'seat_country', esc_attr($_POST['seat_country']));
+                    update_user_meta($bkx_user_id, 'seat_country', sanitize_text_field($_POST['seat_country']));
                 if (isset($_POST['seat_city']))
-                    update_user_meta($bkx_user_id, 'seat_city', esc_attr($_POST['seat_city']));
+                    update_user_meta($bkx_user_id, 'seat_city', sanitize_text_field($_POST['seat_city']));
                 if (isset($_POST['seat_is_certain_month']))
-                    update_user_meta($bkx_user_id, 'seat_is_certain_month', esc_attr($_POST['seat_is_certain_month']));
+                    update_user_meta($bkx_user_id, 'seat_is_certain_month', sanitize_text_field($_POST['seat_is_certain_month']));
                 if (isset($seatCertainMonth))
-                    update_user_meta($bkx_user_id, 'seat_months', esc_attr($seatCertainMonth));
+                    update_user_meta($bkx_user_id, 'seat_months', sanitize_text_field($seatCertainMonth));
                 if (isset($_POST['seat_is_certain_day']))
-                    update_user_meta($bkx_user_id, 'seat_is_certain_day', esc_attr($_POST['seat_is_certain_day']));
+                    update_user_meta($bkx_user_id, 'seat_is_certain_day', sanitize_text_field($_POST['seat_is_certain_day']));
                 if (isset($seatCertainDay))
                     update_user_meta($bkx_user_id, 'seat_days', $seatCertainDay);
                 if (isset($seat_days_time_data))

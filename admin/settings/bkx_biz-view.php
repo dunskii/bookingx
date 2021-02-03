@@ -12,7 +12,7 @@ if (!empty($current_submenu_active) && $current_submenu_active == 'biz_info') :?
                 <td class="plugin-description">
                     <div class="plugin-description">
                         <input type="text" name="bkx_business_name" id="bkx_business_name"
-                               value="<?php echo bkx_crud_option_multisite('bkx_business_name'); ?>">
+                               value="<?php echo esc_attr(bkx_crud_option_multisite('bkx_business_name')); ?>">
                     </div>
                 </td>
             </tr>
@@ -22,7 +22,7 @@ if (!empty($current_submenu_active) && $current_submenu_active == 'biz_info') :?
                 <td class="plugin-description">
                     <div class="plugin-description">
                         <input type="text" name="bkx_business_email" id="bkx_business_email"
-                               value="<?php echo bkx_crud_option_multisite('bkx_business_email'); ?>">
+                               value="<?php echo esc_attr(bkx_crud_option_multisite('bkx_business_email')); ?>">
                     </div>
                 </td>
             </tr>
@@ -32,7 +32,7 @@ if (!empty($current_submenu_active) && $current_submenu_active == 'biz_info') :?
                 <td class="plugin-description">
                     <div class="plugin-description">
                         <input type="text" name="bkx_business_phone" id="bkx_business_phone"
-                               value="<?php echo bkx_crud_option_multisite('bkx_business_phone'); ?>">
+                               value="<?php echo esc_attr(bkx_crud_option_multisite('bkx_business_phone')); ?>">
                     </div>
                 </td>
             </tr>
@@ -42,7 +42,7 @@ if (!empty($current_submenu_active) && $current_submenu_active == 'biz_info') :?
                 <td class="plugin-description">
                     <div class="plugin-description">
                         <input type="text" name="bkx_business_address_1" id="bkx_business_address_1"
-                               value="<?php echo bkx_crud_option_multisite('bkx_business_address_1'); ?>">
+                               value="<?php echo esc_attr(bkx_crud_option_multisite('bkx_business_address_1')); ?>">
                     </div>
                 </td>
             </tr>
@@ -52,7 +52,7 @@ if (!empty($current_submenu_active) && $current_submenu_active == 'biz_info') :?
                 <td class="plugin-description">
                     <div class="plugin-description">
                         <input type="text" name="bkx_business_address_2" id="bkx_business_address_2"
-                               value="<?php echo bkx_crud_option_multisite('bkx_business_address_2'); ?>">
+                               value="<?php echo esc_attr(bkx_crud_option_multisite('bkx_business_address_2')); ?>">
                     </div>
                 </td>
             </tr>
@@ -63,7 +63,7 @@ if (!empty($current_submenu_active) && $current_submenu_active == 'biz_info') :?
                 <td class="plugin-description">
                     <div class="plugin-description">
                         <input type="text" name="bkx_business_city" id="bkx_business_city"
-                               value="<?php echo bkx_crud_option_multisite('bkx_business_city'); ?>">
+                               value="<?php echo esc_attr(bkx_crud_option_multisite('bkx_business_city')); ?>">
                     </div>
                 </td>
             </tr>
@@ -72,7 +72,7 @@ if (!empty($current_submenu_active) && $current_submenu_active == 'biz_info') :?
                 <td class="plugin-description">
                     <div class="plugin-description">
                         <input type="text" name="bkx_business_state" id="bkx_business_state"
-                               value="<?php echo bkx_crud_option_multisite('bkx_business_state'); ?>">
+                               value="<?php echo esc_attr(bkx_crud_option_multisite('bkx_business_state')); ?>">
                     </div>
                 </td>
             </tr>
@@ -83,7 +83,7 @@ if (!empty($current_submenu_active) && $current_submenu_active == 'biz_info') :?
                 <td class="plugin-description">
                     <div class="plugin-description">
                         <input type="text" name="bkx_business_zip" id="bkx_business_zip"
-                               value="<?php echo bkx_crud_option_multisite('bkx_business_zip'); ?>">
+                               value="<?php echo esc_attr(bkx_crud_option_multisite('bkx_business_zip')); ?>">
                     </div>
                 </td>
             </tr>
@@ -95,7 +95,7 @@ if (!empty($current_submenu_active) && $current_submenu_active == 'biz_info') :?
                         <select name="bkx_business_country">
                             <?php if (!empty($country)) {
                                 foreach ($country as $code => $country_name) { ?>
-                                    <option value="<?php echo $code; ?>" <?php if ($code == bkx_crud_option_multisite('bkx_business_country')) {
+                                    <option value="<?php echo esc_attr($code); ?>" <?php if ($code == bkx_crud_option_multisite('bkx_business_country')) {
                                         echo "selected";
                                     } ?>><?php echo $country_name; ?></option>
                                     <?php
@@ -134,8 +134,8 @@ if (!empty($current_submenu_active) && $current_submenu_active == 'biz_info') :?
     <form name="bkx_form_alias" id="id_form_alias" method="post">
         <input type="hidden" name="bkx_setting_form_init" value="1">
         <input type="hidden" name="days_operation_flag" value="1">
-        <input type="hidden" id="current_value" name="current_value_index" value="<?php echo $selected; ?>">
-        <input type="hidden" id="temp_pu_h_cnt" value="<?php echo $temp_pu_h_cnt; ?>">
+        <input type="hidden" id="current_value" name="current_value_index" value="<?php echo esc_attr($selected); ?>">
+        <input type="hidden" id="temp_pu_h_cnt" value="<?php echo esc_attr($temp_pu_h_cnt); ?>">
         <ul class="setting-bookingx">
             <?php echo bkx_generate_days_section(7, $bkx_business_days); ?>
             <li class="standard" id="add_more_days" style="<?php echo $add_more_status; ?>;">
@@ -145,14 +145,14 @@ if (!empty($current_submenu_active) && $current_submenu_active == 'biz_info') :?
         <div class="clear"></div>
         <h3> Business Vacation </h3>
         <label for="business start date" class="lable"> <b> Start date </b> </label>
-        <input type="text" name="bkx_biz_vac_sd" id="id_biz_vac_sd"
-               value="<?php echo bkx_crud_option_multisite('bkx_biz_vac_sd'); ?>">
+        <input type="text" autocomplete="off" name="bkx_biz_vac_sd" id="id_biz_vac_sd"
+               value="<?php echo esc_attr(bkx_crud_option_multisite('bkx_biz_vac_sd')); ?>">
         <label for="business end date" class="lable"> <b> End date </b> </label>
-        <input type="text" name="bkx_biz_vac_ed" id="id_biz_vac_ed"
-               value="<?php echo bkx_crud_option_multisite('bkx_biz_vac_ed'); ?>">
+        <input type="text" autocomplete="off" name="bkx_biz_vac_ed" id="id_biz_vac_ed"
+               value="<?php echo esc_attr(bkx_crud_option_multisite('bkx_biz_vac_ed')); ?>">
         <div class="clear"></div>
         <h3> Public Holidays </h3>
-        <input type="text" name="biz_ph[]" id="id_biz_ph_1" value="<?php echo $bkx_biz_pub_holiday_data; ?>">
+        <input type="text" name="biz_ph[]" id="id_biz_ph_1" value="<?php echo esc_attr($bkx_biz_pub_holiday_data); ?>">
         <a href="javascript:add_more_ph()" class='button-primary'> Add more </a>
         <div class="clear"></div>
         <?php
@@ -161,7 +161,7 @@ if (!empty($current_submenu_active) && $current_submenu_active == 'biz_info') :?
             foreach ($bkx_biz_pub_holiday as $key => $pub_holiday) {
                 if ($key > 0) {
                     $key = $key + 1;
-                    echo '<input type="text" name="biz_ph[]" id="id_clone_ph_' . $key . '" value="' . $pub_holiday . '"><div class="clear"></div>';
+                    echo '<input type="text" autocomplete="off" name="biz_ph[]" id="id_clone_ph_' . esc_attr($key) . '" value="' . esc_attr($pub_holiday) . '"><div class="clear"></div>';
                     echo '<script type="text/javascript">jQuery( document ).ready(function() {
     			 		jQuery( "#id_clone_ph_' . $key . '" ).datepicker({ dateFormat: "mm/dd/yy" });
     			 	});</script>';
@@ -228,9 +228,9 @@ if (!empty($current_submenu_active) && $current_submenu_active == 'user_opt') :?
                     <select name="bkx_seat_role">
                         <?php if (!empty($roles)) {
                             foreach ($roles as $role_name => $role_info): ?>
-                                <option value="<?php echo $role_name; ?>" <?php if ($role_name == $default_seat_role) {
+                                <option value="<?php echo esc_attr($role_name); ?>" <?php if ($role_name == $default_seat_role) {
                                     echo "selected";
-                                } ?>><?php echo ucwords($role_name); ?></option>
+                                } ?>><?php echo esc_attr(ucwords($role_name)); ?></option>
                             <?php endforeach;
                         } ?>
                     </select>

@@ -557,7 +557,7 @@ jQuery(function ($) {
             var total_tax = $('.bkx-booking-form .bkx-booking-total .total-tax');
             var grand_total = $('.bkx-booking-form .step-4 .grand-total strong');
             var deposit_note = $('.bkx-booking-form .step-4 .bkx-deposite-note');
-
+            var seat_address = $('.bkx-booking-form .step-4 .bkx-seat-location-note');
             $.ajax({
                 type: 'POST',
                 url: get_url('update_booking_total'),
