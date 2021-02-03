@@ -206,7 +206,6 @@ class BkxBooking
         if(empty($data))
             return;
         $result = "";
-        $_POST = $data;
         $booking = array();
         $booking['meta_data']['redirect_to'] = "";
 	    $default_time_zone = wp_timezone_string();
@@ -474,7 +473,7 @@ class BkxBooking
             $current_screen = get_current_screen();
             if ( isset($current_screen->base) &&  ( 'edit' === $current_screen->base || 'edit' === $current_screen->parent_base) && 'bkx_booking' === $current_screen->post_type
                 ||
-                ( isset($_POST['action'], $_POST['post_id']) && $_POST['action'] == 'bkx_action_view_summary')) {
+                ( isset($_POST['action'], $_POST['post_id']) && sanitize_text_field($_POST['action']) == 'bkx_action_view_summary')) {
                 global $wpdb;
                 $post_id = $wp_query->query_vars['post_id'];
                 $pieces['where'] = "( ( comment_approved = '0' OR comment_approved = '1' ) ) AND comment_post_ID = {$post_id} AND  {$wpdb->prefix}posts.post_type NOT IN ('bkx_seat','bkx_base','bkx_addition') ";
@@ -874,7 +873,7 @@ class BkxBooking
 
         $base_alias = bkx_crud_option_multisite("bkx_alias_base");
         $order_statuses = array('bkx-pending', 'bkx-ack', 'bkx-completed', 'bkx-missed', 'bkx-ack');
-        $current_order_id = isset($_POST['order_id']) && $_POST['order_id'] != "" ? $_POST['order_id'] : 0;
+        $current_order_id = isset($_POST['order_id']) && $_POST['order_id'] != "" ? sanitize_text_field($_POST['order_id']) : 0;
         $checked_booked_slots = array();
 
         if (isset($args['booking_date'])) {
@@ -953,7 +952,6 @@ class BkxBooking
                     'seat_id' => $seat_id,
                     'display' => 1
                 );
-                //echo '<pre>', print_r($search, 1), '</pre>';
                 $BkxBooking = new BkxBooking();
                 $BookingTime = $BkxBooking->GetBookedRecords($search);
                 if (!empty($BookingTime)) {
@@ -970,7 +968,6 @@ class BkxBooking
         $booking_slot = array();
         $BookingTime = !empty($BookingTime) || isset($BookingTime) ? $BookingTime : "";
         $BookingTime = apply_filters('bkx_customise_display_booking_data', $BookingTime);
-
         if (!empty($BookingTime)) {
             foreach ($BookingTime as $temp) {
                 //echo '<pre>', print_r($temp, 1), '</pre>';
@@ -1427,6 +1424,7 @@ class BkxBooking
 	    if(isset($args['user_time_zone']) && !empty($args['user_time_zone'])){
 		    $default_time_zone = $args['user_time_zone'];
 	    }
+
 	    date_default_timezone_set($default_time_zone);
         $base_time_option = get_post_meta($args['base_id'], 'base_time_option', true);
         $base_day = get_post_meta($args['base_id'], 'base_day', true);
@@ -1443,7 +1441,6 @@ class BkxBooking
         } else {
             $args['allowed_day_book'][] = 0;
             $availability_slots = $this->get_display_availability_slots($args);
-            //echo "<pre>".print_r($availability_slots, true)."</pre>";
 
 	        if(isset($args['user_time_zone']) && !empty($args['user_time_zone']) && $sys_time_zone != $args['user_time_zone'] ){
 	        	$sys_time_end = date('H:i',strtotime($availability_slots['time_data']['time_till']) );
@@ -1841,6 +1838,7 @@ class BkxBooking
         $date = date("Y-m-d H:i:s");
 
         if ((isset($order_id) && $order_id != '') && (isset($status) && $status != '')) {
+	        $status = sanitize_text_field($status);
             $BkxBookingObj = new BkxBooking('', $order_id);
             $new_status_obj = get_post_status_object('bkx-' . $status);
             $new_status = $new_status_obj->label;
@@ -1848,8 +1846,7 @@ class BkxBooking
             if ($old_status != $new_status) {
                 $BkxBookingObj->add_order_note(sprintf(__('Successfully updated booking from %1$s to %2$s.', 'bookingx'), $old_status, $new_status), 0);
             }
-            $post_update = $wpdb->update($wpdb->posts, array('post_status' => 'bkx-' . $status,),
-                array('ID' => $order_id));
+            $post_update = $wpdb->update($wpdb->posts, array('post_status' => 'bkx-' . $status), array('ID' => $order_id));
             update_post_meta($order_id, 'last_updated_date', $date);
             update_post_meta($order_id, 'updated_by', $current_user_id);
             do_action('bkx_order_edit_status', $order_id, "customer_{$status}");
@@ -2202,7 +2199,10 @@ class BkxBooking
             $BkxBase = new BkxBase('', $base_id);
             $seat_by_base = $BkxBase->get_seat_by_base();
         }
-        $seat_id = ($search['seat_id'] == 'any') ? $seat_by_base : $search['seat_id'];
+        if(isset($search['seat_id']) && $search['seat_id'] != "" ){
+	        $seat_id = ( $search['seat_id'] == 'any') ? $seat_by_base : $search['seat_id'];
+        }
+
 
         $args = array(
             'post_type' => $this->post_type,
@@ -2227,6 +2227,11 @@ class BkxBooking
                         'value' => date('Y-m-d', strtotime($date)),
                         'compare' => '=',
                     ),
+	                array(
+		                'key' => 'booking_date',
+		                'value' => date('Y-n-d', strtotime($date)),
+		                'compare' => '=',
+	                ),
                     array(
                         'key' => 'booking_date',
                         'value' => date('Y-m-j', strtotime($date)),
@@ -2301,7 +2306,7 @@ class BkxBooking
             );
         }
         $bookedresult = new WP_Query($args);
-        //echo '<pre>',print_r($bookedresult,1),'</pre>';
+
         if ($bookedresult->have_posts()) :
             while ($bookedresult->have_posts()) : $bookedresult->the_post();
                 $order_id = get_the_ID();

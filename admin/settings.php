@@ -7,6 +7,7 @@ wp_enqueue_script('iris');
 wp_enqueue_script('thickbox');
 wp_enqueue_style('thickbox');
 wp_enqueue_script('jquery-ui-datepicker');
+wp_enqueue_style( 'jquery-ui-style' );
 wp_enqueue_script('jquery-ui-autocomplete');
 $temp_option = bkx_crud_option_multisite('bkx_siteuser_canedit_seat');
 $temp_css = bkx_crud_option_multisite('bkx_siteclient_canedit_css'); ?>
@@ -18,7 +19,8 @@ $temp_css = bkx_crud_option_multisite('bkx_siteclient_canedit_css'); ?>
      *  Print the error or success messages if any while processing.
     */
     if (isset($_REQUEST['bkx_success']) && $_REQUEST['bkx_success'] != '') {
-        echo '<div class="updated"><p><strong>' . bkx_admin_success_message($_REQUEST['bkx_success']) . '</strong></p></div>';
+	    $bkx_success = sanitize_text_field($_REQUEST['bkx_success']);
+        echo '<div class="updated"><p><strong>' . bkx_admin_success_message($bkx_success) . '</strong></p></div>';
     }
     $bkx_prices_include_tax = bkx_crud_option_multisite('bkx_prices_include_tax');
     $bkx_prices_include_tax = ($bkx_prices_include_tax) ? $bkx_prices_include_tax : 0;

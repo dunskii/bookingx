@@ -68,7 +68,8 @@ class BKXShortcode_Tinymce
         $shortcode_tags = $this->get_shortcodes();
 
         echo '<script type="text/javascript">
-        var shortcodes_button = [];';
+        var shortcodes_button = [];var bkx_public_url = "'.BKX_PLUGIN_PUBLIC_URL.'";';
+
         $count = 0;
         if (!empty($shortcode_tags)) {
             foreach ($shortcode_tags as $tag => $code) {

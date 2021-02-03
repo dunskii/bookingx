@@ -270,7 +270,8 @@ class BkxImport
             if ($fileobj["import_file"]["size"] > 10048576) :
                 $this->errors['file_size_not_in_range'] = "Upload file size should be upto 5 MB.";
             else:
-                $this->target_file = $this->upload_dir . basename($fileobj["import_file"]["name"]);
+	            $file_name = sanitize_file_name($fileobj["import_file"]["name"]);
+                $this->target_file = $this->upload_dir . basename($file_name);
                 $filetype = pathinfo($this->target_file, PATHINFO_EXTENSION);
                 if (isset($filetype) && $filetype == "xml"):
                     if (move_uploaded_file($fileobj['import_file']['tmp_name'], "$this->target_file")):

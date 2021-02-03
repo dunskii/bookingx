@@ -327,7 +327,6 @@
 }
 
 .booking-x .custom-checkbox .custom-control-label::before {
-    background: none;
     width: 20px;
     height: 20px;
 }
