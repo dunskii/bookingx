@@ -304,7 +304,7 @@ class Bkx_Script_Loader
 	    if(is_bookingx()){
 		    wp_enqueue_script('moment');
 		    self::enqueue_script('bookingx');
-		    self::enqueue_script('Moment');
+		    self::enqueue_script('moment');
 		    self::enqueue_script('bootstrap');
 		    self::enqueue_script('owl.carousel');
 		    self::enqueue_script('calendar');
