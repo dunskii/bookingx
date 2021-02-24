@@ -1,8 +1,13 @@
 <?php
 /**
- * Sidebar
+ * BookingX Side Bar Template Page
+ *
+ * @link  https://dunskii.com
+ * @since 1.0
+ *
+ * @package    Bookingx
+ * @subpackage Bookingx/Templates
  */
-if (!defined('ABSPATH')) {
-    exit; // Exit if accessed directly
-}
-get_sidebar('bkx');
+
+defined( 'ABSPATH' ) || exit;
+get_sidebar( 'bkx' );

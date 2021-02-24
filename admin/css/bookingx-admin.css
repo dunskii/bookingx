@@ -1,106 +1,106 @@
 .wp-admin h1, h2, h3, h4, h5 {
-    color: #23282d;
+	color: #23282d;
 }
 
 .post-type-bkx_booking #post-body-content, .post-type-bkx_booking #titlediv {
-    display: none
+	display: none
 }
 
 .post-type-bkx_seat #slugdiv {
-    display: none
+	display: none
 }
 
 .bkx-general_full {
-    float: left;
-    width: 32%;
+	float: left;
+	width: 32%;
 }
 .bkx-require {
-    color: darkred;
+	color: darkred;
 }
 .bkx-order_summary_full {
-    background: #fff;
-    min-height: auto;
+	background: #fff;
+	min-height: auto;
 }
 
 .bkx-order_summary_full a {
-    color: #0073aa;
+	color: #0073aa;
 }
 
 .bkx-admin-paypal-settings input[type="text"] {
-    width: 70%;
+	width: 70%;
 }
 
 .bkx-content-settings th label {
-    font-weight: normal;
+	font-weight: normal;
 }
 
 .bkx-content-settings .header th label {
-    font-weight: 600;
+	font-weight: 600;
 }
 .wp-admin.post-type-bkx_booking .h3,
 .wp-admin.post-type-bkx_booking h3
 {
-    font-size: 1.3em;
+	font-size: 1.3em;
 }
 .wp-admin.post-type-bkx_booking dl dt,
 .wp-admin.post-type-bkx_booking dl dd
 {
-    font-size: 0.9em;
+	font-size: 0.9em;
 }
 .wp-admin.post-type-bkx_booking .booking-x .indicator ul li{
-    font-size: 16px;
+	font-size: 16px;
 }
 .booking-x .bkx-single-post-view hr {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    border: 0;
-    height: 0px;
-    border-top: 1px solid rgba(0, 0, 0, .1);
-    background-color: rgba(0, 0, 0, .1);
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+	border: 0;
+	height: 0px;
+	border-top: 1px solid rgba(0, 0, 0, .1);
+	background-color: rgba(0, 0, 0, .1);
 }
 
 .setting-bookingx {
-    background: #fff;
-    border: 1px solid #e5e5e5;
-    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
-    box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
-    margin-top: 20px;
-    height: auto
+	background: #fff;
+	border: 1px solid #e5e5e5;
+	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
+	box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
+	margin-top: 20px;
+	height: auto
 }
 
 .booking-x-setting .widefat th {
-    vertical-align: top;
-    text-align: left;
-    width: 300px;
-    line-height: 1.3;
-    font-weight: 600;
-    font-size: 14px;
-    color: #555;
-    padding: 8px 10px
+	vertical-align: top;
+	text-align: left;
+	width: 300px;
+	line-height: 1.3;
+	font-weight: 600;
+	font-size: 14px;
+	color: #555;
+	padding: 8px 10px
 }
 
 .setting-bookingx .standard {
-    vertical-align: top;
-    text-align: left;
-    width: 240px;
-    line-height: 2.3;
-    font-weight: 600;
-    font-size: 14px;
-    color: #555;
-    padding: 3px 5px;
-    float: left
+	vertical-align: top;
+	text-align: left;
+	width: 240px;
+	line-height: 2.3;
+	font-weight: 600;
+	font-size: 14px;
+	color: #555;
+	padding: 3px 5px;
+	float: left
 }
 
 .setting-bookingx .lable {
-    vertical-align: top;
-    text-align: left;
-    width: 96%;
-    line-height: 2.3;
-    font-weight: 600;
-    font-size: 14px;
-    color: #555;
-    padding: 8px 10px;
-    float: left
+	vertical-align: top;
+	text-align: left;
+	width: 96%;
+	line-height: 2.3;
+	font-weight: 600;
+	font-size: 14px;
+	color: #555;
+	padding: 8px 10px;
+	float: left
 }
 .bkx-notice {font-style: italic;}
 .bkx-notice b{color:#00a0d2;}
@@ -108,37 +108,37 @@
 /* .column-order_status{ display:block !important;}*/
 #order_actions { width: 80px; }
 #calendar {
-    max-width: 900px;
-    margin: 0 auto;
-    background: #fff;
-    padding: 20px;
+	max-width: 900px;
+	margin: 0 auto;
+	background: #fff;
+	padding: 20px;
 }
 .bkx-order_summary, .bkx-order_summary_full {
-    background-color: #fefefe;
-    margin: auto;
-    border: none;
-    margin : 3px;
-    position: relative;
+	background-color: #fefefe;
+	margin: auto;
+	border: none;
+	margin : 3px;
+	position: relative;
 }
 
 .bkx-order-note .bkx-note-actions .note-btn.button{
-    color: #fff;
-    cursor:pointer;
+	color: #fff;
+	cursor:pointer;
 }
 
 .bkx-customer-dashboard-main .radio-button-section{ width: 20% ; float: left;}
 .bkx-customer-dashboard-main .shortcode-section{ width: 50% ; float: left;}
 .edit-php.post-type-bkx_booking .bkx-order_summary , .edit-php.post-type-bkx_booking .bkx-order_summary_full{
-    border: 1px solid #ccd0d4;
-    padding:15px;
+	border: 1px solid #ccd0d4;
+	padding:15px;
 }
 .search_by_dates_section input {
-    width: 93px;
-    margin-right: 5px;
+	width: 93px;
+	margin-right: 5px;
 }
 
 .post-type-bkx_booking .day-style .select-time .table td a{
-    padding: 6px 5px;
-    font-size: 11px;
-    font-weight: bold;
+	padding: 6px 5px;
+	font-size: 11px;
+	font-weight: bold;
 }

@@ -2,4 +2,4 @@
 /**
  * Booking Form Step 5
  */
-defined('ABSPATH') || exit;
+defined( 'ABSPATH' ) || exit;

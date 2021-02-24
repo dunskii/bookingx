@@ -1,7 +1,12 @@
 <?php
 /**
- * Single Post title
+ * BookingX Single Post Title Template Page
+ *
+ * @link  https://dunskii.com
+ * @since 1.0
+ *
+ * @package    Bookingx
+ * @subpackage Bookingx/Templates
  */
 
-if (!defined('ABSPATH')) exit; // Exit if accessed directly
-
+defined( 'ABSPATH' ) || exit;
