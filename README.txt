@@ -1,6 +1,6 @@
 === Booking X ===
 Contributors: dunskii, dparekh19
-Tags: bookings, appointments, booking calendar, booking system
+Tags: bookings, appointments, reservations, booking calendar, booking system
 Requires at least: 5.0
 Tested up to: 5.6
 Requires PHP: 5.0
@@ -8,25 +8,22 @@ Stable tag: 1
 License: GPLv2 or later
 License URI: https://booking-x.com/gpl-licence/
 
-Booking-X is a flexible Wordpress plugin that allows you to create, accept, and manage bookings for your business. 
+Booking X is a flexible WordPress plugin that allows you to create, accept, and manage bookings for your business. 
 
 == Description ==
-Booking-X is a flexible Wordpress plugin that allows you to create, accept, and manage bookings for your business. You can access and arrange bookings all in one place. The seamless workflow from posting your bookings to managing payments are just a few clicks away. 
+Booking X is a flexible WordPress plugin that allows you to create, accept, and manage bookings for your business. You can access and arrange bookings all in one place. The seamless workflow from posting your bookings to managing payments are just a few clicks away. 
 
 *See Everything in Your Schedule*
-The calendar with multiple views makes it easy to manage your resources. Having an agenda, weekly, and monthly view allows you to focus on what’s important. Integrate your bookings to your Google calendar as well. 
+The calendar with multiple views makes it easy to manage your resources. Having an agenda, weekly, and monthly view allows you to focus on whatâ€™s important. Integrate your bookings to your Google calendar as well. 
 
 *Remind Your Customers Through Email*
-Remind your customers through Booking-X’s easy email notifications. Make sure that they don’t miss a thing with the customizable email templates. You can quickly add your business branding and marketing right at their inbox.
+Remind your customers through Booking Xâ€™s easy email notifications. Make sure that they donâ€™t miss a thing with the customizable email templates. You can quickly add your business branding and marketing right at their inbox.
 
 *Manage Bookings in Your Personalized Dashboards*
-The personalized dashboards will help you focus on each resources and bookings. Manage staff, products, or space on different dashboards. You won’t miss a business opportunity as you can see all bookings clearly. 
+The personalized dashboards will help you focus on each resources and bookings. Manage staff, products, or space on different dashboards. You wonâ€™t miss a business opportunity as you can see all bookings clearly. 
 
-*Do More With Booking-X*
-Add mobile or fixed locations to your bookings to help customers find you. The flexible payment offers full or deposit plans. The secure and flexible payment system is powered by Paypal. More payment gateways will be coming your way!
-
-*Develop For Booking-X*
-Built to be customizable and work with your Wordpress theme and branding. Booking-X is developer friendly with its custom post types and extensive documentation. Develop your own add-on to extend the functionalities for your business. Booking-X grows with you as your business takes off.
+*Develop For Booking X*
+Built to be customizable and work with your WordPress theme and branding. Booking X is developer friendly with its custom post types and extensive documentation. Develop your own add-on to extend the functionalities for your business. Booking X grows with you as your business takes off.
 
 
 
@@ -42,57 +39,57 @@ Built to be customizable and work with your Wordpress theme and branding. Bookin
 To have a basic install of Booking X, that will enable you to take bookings on your web site you will need to complete the following settings.
 
 *Add your General Settings*
-1. To add your businesses basic details go to BookingX -> Business Information -> General Details.
+1. To add your businesses basic details go to Booking X -> Settings -> Business Information -> General Details.
 2. The email and phone details will be how your customer gets in contact.
 3. The address is where the customer will go for fixed location bookings. (Yes, there is an option for mobile bookings.)
 
 *Add you Days of Operation*
-To set your business hours go to BookingX -> Business Information -> Days of Operation
+To set your business hours go to Booking X -> Settings -> Business Information -> Days of Operation
 As most businesses have the same operating hours for each day you can group these by:
 1. Clicking the Choose a day drop down box and selecting the days that have the same operating hours.
 2. Then setting the open and close times.
 If you want to have another group of hours click the Add another set of hours button.
-Days that aren’t selected will be set as closed on the booking form.
+Days that arenâ€™t selected will be set as closed on the booking form.
 
 **To take payment at time of booking** 
 
 *Setup PayPal Express*
-To take prepayment or deposits for a booking using PalPal Express go to BookingX -> Payment -> PayPal Express
-If you haven’t got your API credentials, you can learn how to create them here.
+To take prepayment or deposits for a booking using PalPal Express go to Booking X -> Settings -> Payment -> PayPal Express
+If you havenâ€™t got your API credentials, you can learn how to create them here.
 If you are currently developing your website, you can use the sandbox option to text the system without processing a real payment.
 
 *Tax Settings*
-You can add you regions tax settings by going to BookingX -> Payment -> Tax Settings
+You can add you regions tax settings by going to Booking X -> Settings -> Payment -> Tax Settings
 
 *Set Currency*
-You can set your countries currency by going to BookingX -> Settings -> Payment -> Currency
+You can set your countries currency by going to Booking X -> Settings -> Payment -> Currency
 
 
 **Once you have confirmed your basic settings you will need to add at least 1 resource and 1 services**
 
 *Add A Resrouce*
-To add a resource go to BookingX -> Resource (This label will differ depending on what you set it as in your Alias settings)
+To add a resource go to Booking X -> Resource (This label will differ depending on what you set it as in your Alias settings)
 Adding the Resource Name, Description and Image works the same as creating a page or post in WordPress.
-1. Resource Name is the form field “Enter Title Here”
+1. Resource Name is the form field â€œEnter Title Hereâ€
 2. Description in the visual editor
 3. Set the feature image for the resource image.
 
 In the Details section you can do the follow:
-1. If the resource does the service at a different fixed location (not mobile), you can change it here. The default will be address set in Business Information -> General Details
-2. When a resource is only available certain months of the year, set “Will this Seat only be available certain months of the year:” to Yes and then select the months it is available.
+1. If the resource does the service at a different fixed location, you can change it here. The default will be address set in Business Information -> General Details
+2. When a resource is only available certain months of the year, set â€œWill this Seat only be available certain months of the year:â€ to Yes and then select the months it is available.
 3. By default Resources will use the Days of Operation as their availability. You can customise this by changing the days and hours. If you set this to No the resource will be available 24/7.
-4. When a customer makes a booking and you want to take a deposit or full payment set “Will the booking require pre payment” to Yes.
+4. When a customer makes a booking and you want to take a deposit or full payment set â€œWill the booking require pre paymentâ€ to Yes.
 4.a. You can then select if you want to take full payment or a deposit.
 4.b. If you select deposit you can set payment as a fixed amount or Percent
 5. If the resource is going to be a site user, set Do you want to associate this with a user to Yes.
-5.a. If you would like the system to automatically create the user set :”Create User automatically” to Yes
+5.a. If you would like the system to automatically create the user set :â€Create User automaticallyâ€ to Yes
 6. Extra Notification details can be added
 
 
 *Add A Service*
 To add a resource go to BookingX -> Service (This label will differ depending on what you set it as in your Alias settings)
 Adding the Service Name, Description and Image works the same as creating a page or post in WordPress.
-1. Service Name is the form field “Enter Title Here”
+1. Service Name is the form field â€œEnter Title Hereâ€
 2. Description in the visual editor
 3. Set the feature image for the service image.
 
