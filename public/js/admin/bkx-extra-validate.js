@@ -36,7 +36,7 @@ jQuery(document).on('submit', '#post', function (e) {
     }
     var counter = 0;
     jQuery(".extra-base-checkboxes").each(function () {
-        if (jQuery(this).attr('checked')) {
+        if (jQuery(this).attr('checked') || jQuery(this).prop('checked')) {
             counter += 1;
         }
     });
