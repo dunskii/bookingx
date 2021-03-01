@@ -78,14 +78,22 @@ function bkx_setting_save_action() {
 
 	$alias_flag = ! empty( $_POST['alias_flag'] ) ? sanitize_text_field( wp_unslash( $_POST['alias_flag'] ) ) : ''; // phpcs:ignore
 	if ( isset( $alias_flag ) && ( 1 === $alias_flag || '1' === $alias_flag ) ) {
-		if ( isset( $_POST['seat_alias'], $_POST['base_alias'], $_POST['addition_alias'], $_POST['notification_alias'], $_POST['bkx_notice_time_extended_text_alias'], $_POST['bkx_label_of_step1'] ) ) { // phpcs:ignore
+		if ( isset( $_POST['seat_alias'] ) ) { // phpcs:ignore
 			bkx_crud_option_multisite( 'bkx_alias_seat', sanitize_text_field( $_POST['seat_alias'] ), 'update' ); // phpcs:ignore
-			bkx_crud_option_multisite( 'bkx_alias_base', sanitize_text_field( $_POST['base_alias'] ), 'update' ); // phpcs:ignore
-			bkx_crud_option_multisite( 'bkx_alias_addition', sanitize_text_field( $_POST['addition_alias'] ), 'update' ); // phpcs:ignore
-			bkx_crud_option_multisite( 'bkx_alias_notification', sanitize_text_field( $_POST['notification_alias'] ), 'update' ); // phpcs:ignore
-			bkx_crud_option_multisite( 'bkx_notice_time_extended_text_alias', sanitize_text_field( $_POST['bkx_notice_time_extended_text_alias'] ), 'update' ); // phpcs:ignore
-			bkx_crud_option_multisite( 'bkx_label_of_step1', sanitize_text_field( $_POST['bkx_label_of_step1'] ), 'update' ); // phpcs:ignore
 		}
+		if ( isset( $_POST['base_alias'] ) ) { // phpcs:ignore
+ 			bkx_crud_option_multisite( 'bkx_alias_base', sanitize_text_field( $_POST['base_alias'] ), 'update' ); // phpcs:ignore
+		}
+		if ( isset(  $_POST['addition_alias'] ) ) { // phpcs:ignore
+ 			bkx_crud_option_multisite( 'bkx_alias_addition', sanitize_text_field( $_POST['addition_alias'] ), 'update' ); // phpcs:ignore
+		}
+		if ( isset( $_POST['bkx_notice_time_extended_text_alias'] ) ) { // phpcs:ignore
+ 			bkx_crud_option_multisite( 'bkx_notice_time_extended_text_alias', sanitize_text_field( $_POST['bkx_notice_time_extended_text_alias'] ), 'update' ); // phpcs:ignore
+		}
+		if ( isset( $_POST['bkx_label_of_step1'] ) ) { // phpcs:ignore
+ 			bkx_crud_option_multisite( 'bkx_label_of_step1', sanitize_text_field( $_POST['bkx_label_of_step1'] ), 'update' ); // phpcs:ignore
+		}
+
 		$redirect = add_query_arg( array( 'bkx_success' => 'ALU' ), sanitize_text_field( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) );
 		wp_safe_redirect( $redirect );
 	}
