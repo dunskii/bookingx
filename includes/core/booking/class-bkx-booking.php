@@ -406,6 +406,7 @@ class BkxBooking {
 			$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
 			switch_to_blog( $blog_id );
 		endif;
+
 		$finalarr     = array();
 		$date         = $search['booking_date'];
 		$status       = ( empty( $search['status'] ) ) ? 'bkx-pending' : $search['status'];
@@ -418,7 +419,6 @@ class BkxBooking {
 		if ( isset( $search['seat_id'] ) && $search['seat_id'] != '' ) {
 			$seat_id = ( $search['seat_id'] == 'any' ) ? $seat_by_base : $search['seat_id'];
 		}
-
 		$args = array(
 			'post_type'      => $this->post_type,
 			'post_status'    => $status,
@@ -445,6 +445,11 @@ class BkxBooking {
 					array(
 						'key'     => 'booking_date',
 						'value'   => date( 'Y-n-d', strtotime( $date ) ),
+						'compare' => '=',
+					),
+					array(
+						'key'     => 'booking_date',
+						'value'   => date( 'Y-n-j', strtotime( $date ) ),
 						'compare' => '=',
 					),
 					array(
@@ -1228,10 +1233,11 @@ class BkxBooking {
 			switch_to_blog( $blog_id );
 		endif;
 
-		$booking_default_date   = date( 'd/m/Y' );
-		$args['booking_date']   = isset( $args['booking_date'] ) ? $args['booking_date'] : $booking_default_date;
-		$selected_date          = date( 'm/d/Y', strtotime( $args['booking_date'] ) );
-		$availability           = $this->get_booking_form_calendar_availability( $args );
+		$booking_default_date = date( 'd/m/Y' );
+		$args['booking_date'] = isset( $args['booking_date'] ) ? $args['booking_date'] : $booking_default_date;
+		$selected_date        = date( 'm/d/Y', strtotime( $args['booking_date'] ) );
+		$availability         = $this->get_booking_form_calendar_availability( $args );
+
 		$availability_slot_flag = true;
 		if ( ! empty( $availability['unavailable_days'] ) && in_array( $selected_date, $availability['unavailable_days'] ) ) {
 			$availability_slot_flag = false;
@@ -1340,6 +1346,7 @@ class BkxBooking {
 		$booking_slot     = array();
 		$BookingTime      = ! empty( $BookingTime ) || isset( $BookingTime ) ? $BookingTime : '';
 		$BookingTime      = apply_filters( 'bkx_customise_display_booking_data', $BookingTime );
+
 		if ( ! empty( $BookingTime ) ) {
 			foreach ( $BookingTime as $temp ) {
 				$PostObj = get_post( $temp['order_id'] );
@@ -2359,8 +2366,10 @@ class BkxBooking {
 		if ( isset( $args['user_time_zone'] ) && ! empty( $args['user_time_zone'] ) ) {
 			$default_time_zone = $args['user_time_zone'];
 		}
+		if ( class_exists( 'DateTimeZone' ) && in_array( $default_time_zone, DateTimeZone::listIdentifiers(), true ) ) {
+			date_default_timezone_set( $default_time_zone );
+		}
 
-		date_default_timezone_set( $default_time_zone );
 		$base_time_option       = get_post_meta( $args['base_id'], 'base_time_option', true );
 		$base_day               = get_post_meta( $args['base_id'], 'base_day', true );
 		$availability_slots     = '';
@@ -2381,7 +2390,6 @@ class BkxBooking {
 		} else {
 			$args['allowed_day_book'][] = 0;
 			$availability_slots         = $this->get_display_availability_slots( $args );
-
 			if ( isset( $args['user_time_zone'] ) && ! empty( $args['user_time_zone'] ) && $sys_time_zone != $args['user_time_zone'] ) {
 				$sys_time_end = date( 'H:i', strtotime( $availability_slots['time_data']['time_till'] ) );
 				$datetime     = new DateTime( $sys_time_end, new DateTimeZone( $sys_time_zone ) );
@@ -2445,6 +2453,7 @@ class BkxBooking {
 						} else {
 							$is_restricted_time = false;
 						}
+
 						if ( ! empty( $booked_slots ) && in_array( $counter, $booked_slots ) ) {
 							$results .= "<td> <a href=\"javascript:void(0);\" class=\"disabled\" data-date='" . $args['booking_date'] . "' data-time='" . bkx_secs2hours( $cell_start ) . "' data-slot='" . $counter . "'>" . $secs2hours . '</a></td>';
 						} else {
