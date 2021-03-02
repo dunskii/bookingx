@@ -129,11 +129,12 @@ function bkx_setting_save_action() {
 		wp_safe_redirect( $redirect );
 	}
 	$template_flag = ! empty( $_POST['template_flag'] ) ? sanitize_text_field( wp_unslash( $_POST['template_flag'] ) ) : ''; // phpcs:ignore
+
 	if ( isset( $template_flag ) && ( 1 === $template_flag || '1' === $template_flag ) ) {
 		if ( isset( $_POST['bkx_seat_taxonomy_status'] ) ) {  // phpcs:ignore
 			bkx_crud_option_multisite( 'bkx_seat_taxonomy_status', sanitize_text_field( $_POST['bkx_seat_taxonomy_status'] ), 'update' ); // phpcs:ignore
 		}
-		if ( isset( $_POST['bkx_set_booking_page'], $_POST['bkx_base_taxonomy_status'], $_POST['bkx_addition_taxonomy_status'], $_POST['bkx_legal_options'], $_POST['bkx_term_cond_page'], $_POST['bkx_cancellation_policy_page'], $_POST['bkx_privacy_policy_page'], $_POST['enable_editor'], $_POST['bkx_set_booking_page'] ) ) {  // phpcs:ignore
+		if ( isset( $_POST['bkx_set_booking_page'] ) ) {  // phpcs:ignore
 			bkx_crud_option_multisite( 'bkx_set_booking_page', sanitize_text_field( $_POST['bkx_set_booking_page'] ), 'update' ); // phpcs:ignore
 		}
 		if ( isset( $_POST['bkx_base_taxonomy_status'] ) ) {  // phpcs:ignore
