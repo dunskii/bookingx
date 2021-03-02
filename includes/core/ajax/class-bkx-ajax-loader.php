@@ -551,6 +551,7 @@ class Bkx_Ajax_Loader {
          $end_date       = date( 'Y-m-d', strtotime( $start_date . " + {$base_day} days" ) );
          $get_date_range = bkx_getDatesFromRange( $start_date, $end_date, 'Y-m-d' ); // 2019-6-3
          $availability   = $BkxBooking->get_booking_form_calendar_availability( $args );
+
          if ( ! empty( $get_date_range ) && $availability_slot_flag == true ) {
                 $allowed = array();
                 foreach ( $get_date_range as $date ) {
