@@ -28,14 +28,16 @@ if ( ! empty( $current_submenu_active ) && 'bkx_gateway_paypal_express' === $cur
 					<div class="plugin-description">
 						<input type="radio" name="paypal_status" id="id_paypal_status_on" value="1"
 							<?php
-							if ( 1 === bkx_crud_option_multisite( 'bkx_gateway_paypal_express_status' ) ) {
+							if ( 1 === bkx_crud_option_multisite( 'bkx_gateway_paypal_express_status' ) ||
+							     '1' === bkx_crud_option_multisite( 'bkx_gateway_paypal_express_status' )) {
 								echo 'checked';
 							}
 							?>
 						>Enable
 						<input type="radio" name="paypal_status" id="id_paypal_status_off" value="0"
 							<?php
-							if ( 0 === bkx_crud_option_multisite( 'bkx_gateway_paypal_express_status' ) ) {
+							if ( 0 === bkx_crud_option_multisite( 'bkx_gateway_paypal_express_status' ) ||
+							     '0' === bkx_crud_option_multisite( 'bkx_gateway_paypal_express_status' )) {
 								echo 'checked';
 							}
 							?>

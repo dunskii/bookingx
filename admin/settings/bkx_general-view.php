@@ -132,14 +132,16 @@ if ( ! empty( $current_submenu_active ) && 'alias' === $current_submenu_active )
 					<div class="plugin-description">
 						<input type="radio" name="bkx_seat_taxonomy_status" id="id_enable_seat_taxonomy_yes" value="1"
 							<?php
-							if ( bkx_crud_option_multisite( 'bkx_seat_taxonomy_status' ) === 1 ) {
+							if ( bkx_crud_option_multisite( 'bkx_seat_taxonomy_status' ) === 1
+								 || bkx_crud_option_multisite( 'bkx_seat_taxonomy_status' ) === '1' ) {
 								echo 'checked';
 							}
 							?>
 						><?php echo esc_html__( 'Yes', 'bookingx' ); ?>
 						<input type="radio" name="bkx_seat_taxonomy_status" id="id_enable_seat_taxonomy_no" value="0"
 							<?php
-							if ( bkx_crud_option_multisite( 'bkx_seat_taxonomy_status' ) === 0 ) {
+							if ( bkx_crud_option_multisite( 'bkx_seat_taxonomy_status' ) === 0 ||
+								 bkx_crud_option_multisite( 'bkx_seat_taxonomy_status' ) === '0' ) {
 								echo 'checked';
 							}
 							?>
@@ -166,14 +168,16 @@ if ( ! empty( $current_submenu_active ) && 'alias' === $current_submenu_active )
 					<div class="plugin-description">
 						<input type="radio" name="bkx_base_taxonomy_status" id="id_enable_base_taxonomy_yes" value="1"
 							<?php
-							if ( bkx_crud_option_multisite( 'bkx_base_taxonomy_status' ) === 1 ) {
+							if ( bkx_crud_option_multisite( 'bkx_base_taxonomy_status' ) === 1
+								 || bkx_crud_option_multisite( 'bkx_base_taxonomy_status' ) === '1' ) {
 								echo 'checked';
 							}
 							?>
 							><?php printf( esc_html__( 'Yes', 'bookingx' ) ); ?>
 						<input type="radio" name="bkx_base_taxonomy_status" id="id_enable_base_taxonomy_no" value="0"
 							<?php
-							if ( bkx_crud_option_multisite( 'bkx_base_taxonomy_status' ) === 0 ) {
+							if ( bkx_crud_option_multisite( 'bkx_base_taxonomy_status' ) === 0 ||
+								 bkx_crud_option_multisite( 'bkx_base_taxonomy_status' ) === '0' ) {
 								echo 'checked';
 							}
 							?>
@@ -201,14 +205,16 @@ if ( ! empty( $current_submenu_active ) && 'alias' === $current_submenu_active )
 					<div class="plugin-description">
 						<input type="radio" name="bkx_addition_taxonomy_status" id="id_bkx_addition_taxonomy_status_yes" value="1"
 							<?php
-							if ( bkx_crud_option_multisite( 'bkx_addition_taxonomy_status' ) === 1 ) {
+							if ( bkx_crud_option_multisite( 'bkx_addition_taxonomy_status' ) === 1 ||
+								 bkx_crud_option_multisite( 'bkx_addition_taxonomy_status' ) === '1' ) {
 								echo 'checked';
 							}
 							?>
 						><?php printf( esc_html__( 'Yes', 'bookingx' ) ); ?>
 						<input type="radio" name="bkx_addition_taxonomy_status" id="id_bkx_addition_taxonomy_status_no" value="0"
 							<?php
-							if ( bkx_crud_option_multisite( 'bkx_addition_taxonomy_status' ) === 0 ) {
+							if ( bkx_crud_option_multisite( 'bkx_addition_taxonomy_status' ) === 0 ||
+								 bkx_crud_option_multisite( 'bkx_addition_taxonomy_status' ) === '0' ) {
 								echo 'checked';
 							}
 							?>
@@ -254,14 +260,16 @@ if ( ! empty( $current_submenu_active ) && 'alias' === $current_submenu_active )
 					<div class="plugin-description">
 						<input type="radio" name="bkx_legal_options" id="id_bkx_legal_options_yes" value="1"
 							<?php
-							if ( bkx_crud_option_multisite( 'bkx_legal_options' ) === 1 ) {
+							if ( bkx_crud_option_multisite( 'bkx_legal_options' ) === 1 ||
+								 bkx_crud_option_multisite( 'bkx_legal_options' ) === '1' ) {
 								echo 'checked';
 							}
 							?>
 						><?php echo esc_html__( 'Yes', 'bookingx' ); ?>
 						<input type="radio" name="bkx_legal_options" id="id_bkx_legal_options_no" value="0"
 							<?php
-							if ( bkx_crud_option_multisite( 'bkx_legal_options' ) === 0 ) {
+							if ( bkx_crud_option_multisite( 'bkx_legal_options' ) === 0 ||
+								 bkx_crud_option_multisite( 'bkx_legal_options' ) === '0' ) {
 								echo 'checked';
 							}
 							?>
@@ -341,14 +349,17 @@ if ( ! empty( $current_submenu_active ) && 'alias' === $current_submenu_active )
 					<div class="plugin-description">
 						<input type="radio" name="enable_editor" id="id_enable_editor_yes" value="1"
 							<?php
-							if ( bkx_crud_option_multisite( 'enable_editor' ) === 1 ) {
+							if ( bkx_crud_option_multisite( 'enable_editor' ) === 1 ||
+								 bkx_crud_option_multisite( 'enable_editor' ) === '1' ) {
 								echo 'checked';
 							}
 							?>
 						><?php echo esc_html__( 'Yes', 'bookingx' ); ?>
 						<input type="radio" name="enable_editor" id="id_enable_editor_no" value="0"
 							<?php
-							if ( bkx_crud_option_multisite( 'enable_editor' ) === 0 ) {
+							if ( bkx_crud_option_multisite( 'enable_editor' ) === 0 ||
+								 bkx_crud_option_multisite( 'enable_editor' ) === '0' ) {
+
 								echo 'checked';
 							}
 							?>
@@ -538,14 +549,15 @@ if ( ! empty( $current_submenu_active ) && 'alias' === $current_submenu_active )
 					<div class="plugin-description">
 						<input type="radio" name="enable_cancel_booking" id="id_enable_cancel_booking_yes" value="1"
 							<?php
-							if ( bkx_crud_option_multisite( 'enable_cancel_booking' ) === 1 ) {
+							if ( bkx_crud_option_multisite( 'enable_cancel_booking' ) === 1 ||
+								 bkx_crud_option_multisite( 'enable_cancel_booking' ) === '1' ) {
 								echo 'checked';
 							}
 							?>
 						><?php printf( esc_html__( 'Yes', 'bookingx' ) ); ?>
 						<input type="radio" name="enable_cancel_booking" id="id_enable_cancel_booking_no" value="0"
 							<?php
-							if ( bkx_crud_option_multisite( 'enable_cancel_booking' ) === 0 ) {
+							if ( bkx_crud_option_multisite( 'enable_cancel_booking' ) === 0 || bkx_crud_option_multisite( 'enable_cancel_booking' ) === '0' ) {
 								echo 'checked';
 							}
 							?>
@@ -575,14 +587,16 @@ if ( ! empty( $current_submenu_active ) && 'alias' === $current_submenu_active )
 					<div class="plugin-description">
 						<input type="radio" name="enable_any_seat" id="id_enable_any_seat_yes" value="1"
 							<?php
-							if ( bkx_crud_option_multisite( 'enable_any_seat' ) === 1 ) {
+							if ( bkx_crud_option_multisite( 'enable_any_seat' ) === 1 ||
+								 bkx_crud_option_multisite( 'enable_any_seat' ) === '1' ) {
 								echo 'checked';
 							}
 							?>
 						><?php printf( esc_html__( 'Yes', 'bookingx' ) ); ?>
 						<input type="radio" name="enable_any_seat" id="id_enable_any_seat_no" value="0"
 							<?php
-							if ( bkx_crud_option_multisite( 'enable_any_seat' ) === 0 ) {
+							if ( bkx_crud_option_multisite( 'enable_any_seat' ) === 0 ||
+								 bkx_crud_option_multisite( 'enable_any_seat' ) === '0' ) {
 								echo 'checked';
 							}
 							?>
@@ -598,14 +612,16 @@ if ( ! empty( $current_submenu_active ) && 'alias' === $current_submenu_active )
 					<div class="radio-button-section">
 						<input type="radio" name="bkx_enable_customer_dashboard" id="id_bkx_enable_customer_dashboard_yes" value="1"
 							<?php
-							if ( bkx_crud_option_multisite( 'bkx_enable_customer_dashboard' ) === 1 ) {
+							if ( bkx_crud_option_multisite( 'bkx_enable_customer_dashboard' ) === 1 ||
+								 bkx_crud_option_multisite( 'bkx_enable_customer_dashboard' ) === '1' ) {
 								echo 'checked';
 							}
 							?>
 						><?php printf( esc_html__( 'Yes', 'bookingx' ) ); ?>
 						<input type="radio" name="bkx_enable_customer_dashboard" id="id_bkx_enable_customer_dashboard_no" value="0"
 							<?php
-							if ( bkx_crud_option_multisite( 'bkx_enable_customer_dashboard' ) === 0 ) {
+							if ( bkx_crud_option_multisite( 'bkx_enable_customer_dashboard' ) === 0 ||
+								 bkx_crud_option_multisite( 'bkx_enable_customer_dashboard' ) === '0' ) {
 								echo 'checked';
 							}
 							?>
