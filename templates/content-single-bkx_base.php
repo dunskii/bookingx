@@ -55,7 +55,12 @@ $args_data = apply_filters(
 				<div class="col-md-<?php echo esc_attr( $image == 'yes' ) ? 8 : 12; ?>">
 				<div class="row">
 					<div class="col-md-8"><h1><?php echo esc_html( get_the_title( $base_id ) ); ?></h1>
-						<h4><?php echo esc_html( "{$price_duration['time']} {$price_duration['price']}" ); ?></h4></div>
+						<h4>
+						<?php
+						echo esc_html( "{$price_duration['time']}" );
+						echo "{$price_duration['price']}"; // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped 
+						?>
+						</h4></div>
 					<div class="col-md-4">
 						<form method="post" enctype='multipart/form-data' action="<?php echo esc_url( $booking_url ); ?>">
 							<input type="hidden" name="type" value="bkx_base"/>
