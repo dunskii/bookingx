@@ -6,8 +6,8 @@
  *  Version: 1.0
  *  Requires at least: 5.0
  *  Requires PHP: 5.0
- *  Author: Dunskii Web Services
- *  Author URI: https://dunskii.com
+ *  Author: Booking X
+ *  Author URI: https://booking-x.com/
  *  Text Domain: bookingx
  *  Domain Path: /i18n/languages/
  *  License:     GPL v3
