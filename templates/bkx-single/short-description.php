@@ -72,6 +72,6 @@ if ( ! empty( $bkx_addition ) ) {
 }
 $num_words       = apply_filters( 'bkx_excerpt_num_words', 15 );
 $trimmed_content = wp_trim_words( get_the_excerpt(), $num_words, $more = null );
-echo '<div class="col-2"><span itemprop="name" class="serviceName"><a href="' . esc_url( get_permalink() ) . '" ><em class="title">' . esc_html( get_the_title() ) . '' . esc_html( $duration_text ) . ' ' . esc_html( $currencyBlock ) . '</em></a></span><div class="clearfix"></div>' . $trimmed_content . '</div>'; // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped
+echo '<div class="col-2"><span itemprop="name" class="serviceName"><a href="' . esc_url( get_permalink() ) . '" ><em class="title">' . esc_html( get_the_title() ) . '' . esc_html( $duration_text ) . ' ' . $currencyBlock . '</em></a></span><div class="clearfix"></div>' . $trimmed_content . '</div>'; // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped
 
 
