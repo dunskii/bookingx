@@ -413,8 +413,8 @@ class BkxBase {
 
 		$base_time_option = isset( $meta_data['base_time_option'] ) ? esc_html( $meta_data['base_time_option'][0] ) : '';
 		$base_day         = isset( $meta_data['base_day'] ) ? esc_html( $meta_data['base_day'][0] ) : '';
-		$base_hours       = isset( $meta_data['base_hours'] ) ? esc_html( $meta_data['base_hours'][0] ) : '';
-		$base_minutes     = isset( $meta_data['base_minutes'] ) ? esc_html( $meta_data['base_minutes'][0] ) : '';
+		$base_hours       = isset( $meta_data['base_hours'] ) ? intval( esc_html( $meta_data['base_hours'][0] ) ) : '';
+		$base_minutes     = isset( $meta_data['base_minutes'] ) ? intval( esc_html( $meta_data['base_minutes'][0] ) ) : '';
 		$time_data        = array();
 
 		if ( 'H' === $base_time_option ) :

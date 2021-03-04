@@ -97,14 +97,13 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
 			$get_seat_array = get_posts( $args );
 			$values         = get_post_custom( $post->ID );
 
-			$base_price          = isset( $values['base_price'] ) ? esc_html( $values['base_price'][0] ) : '';
-			$base_time_option    = isset( $values['base_time_option'] ) ? esc_html( $values['base_time_option'][0] ) : '';
-			$base_month          = isset( $values['base_month'] ) ? esc_html( $values['base_month'][0] ) : '';
-			$base_day            = isset( $values['base_day'] ) ? esc_html( $values['base_day'][0] ) : '';
-			$base_hours          = isset( $values['base_hours'] ) ? esc_html( $values['base_hours'][0] ) : 0;
-			$base_extended_limit = isset( $values['base_extended_limit'] ) ? esc_html( $values['base_extended_limit'][0] ) : '';
-
-			$base_minutes           = isset( $values['base_minutes'] ) ? esc_html( $values['base_minutes'][0] ) : '';
+			$base_price             = isset( $values['base_price'] ) ? esc_html( $values['base_price'][0] ) : '';
+			$base_time_option       = isset( $values['base_time_option'] ) ? esc_html( $values['base_time_option'][0] ) : '';
+			$base_month             = isset( $values['base_month'] ) ? esc_html( $values['base_month'][0] ) : '';
+			$base_day               = isset( $values['base_day'] ) ? esc_html( $values['base_day'][0] ) : '';
+			$base_hours             = isset( $values['base_hours'] ) ? intval( esc_html( $values['base_hours'][0] ) ) : 0;
+			$base_extended_limit    = isset( $values['base_extended_limit'] ) ? esc_html( $values['base_extended_limit'][0] ) : '';
+			$base_minutes           = isset( $values['base_minutes'] ) ? intval( esc_html( $values['base_minutes'][0] ) ) : '';
 			$base_is_extended       = isset( $values['base_is_extended'] ) ? esc_html( $values['base_is_extended'][0] ) : 'N';
 			$base_is_allow_addition = isset( $values['base_is_allow_addition'] ) ? esc_html( $values['base_is_allow_addition'][0] ) : 'Y';
 			$base_is_unavailable    = isset( $values['base_is_unavailable'] ) ? esc_html( $values['base_is_unavailable'][0] ) : '';
@@ -190,36 +189,31 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
 			?>
 				<div class="plugin-description">
 					<input name="base_hours_minutes" size="1" type="text" value="<?php echo esc_attr( $base_hours_html ); ?>" id="id_base_hours_minutes">
-			<?php
-			if ( isset( $base_minutes ) ) {
-				$base_minute = $base_minutes;
-			}
-			?>
-					<select name="base_minutes" id="id_base_minutes">
+								<select name="base_minutes" id="id_base_minutes">
 						<option value=00 
 			<?php
-			if ( 15 === $base_minute ) {
+			if ( 15 === $base_minutes ) {
 				echo 'selected';
 			}
 			?>
 						><?php esc_html_e( '00', 'bookingx' ); ?></option>
 						<option value=15 
 			<?php
-			if ( 15 === $base_minute ) {
+			if ( 15 === $base_minutes ) {
 				echo 'selected';
 			}
 			?>
 						><?php esc_html_e( '15', 'bookingx' ); ?></option>
 						<option value=30 
 			<?php
-			if ( 30 === $base_minute ) {
+			if ( 30 === $base_minutes ) {
 				echo 'selected';
 			}
 			?>
 						><?php esc_html_e( '30', 'bookingx' ); ?></option>
 						<option value=45 
 			<?php
-			if ( 45 === $base_minute ) {
+			if ( 45 === $base_minutes ) {
 				echo 'selected';
 			}
 			?>
