@@ -46,7 +46,7 @@ $args_data = apply_filters(
 				<p class="card-text"><?php echo wp_trim_words( get_the_content(), 15, '...' ); //phpcs:ignore ?></p>
 			<?php endif; ?>
 			<?php do_action( 'bkx_after_listing_content', $args_data ); ?>
-			<p class="card-text mb-2 mt-2 text-center font-weight-bold"><?php echo esc_html( $price_duration['price'] ); ?></p>
+			<p class="card-text mb-2 mt-2 text-center font-weight-bold"><?php echo $price_duration['price']; // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped ?></p>
 			<div class="text-center">
 				<a href="<?php echo esc_url( $booking_url ); ?>" class="btn btn-primary"><?php echo esc_html__( 'Book now', 'bookingx' ); ?></a>
 			</div>
