@@ -20,6 +20,10 @@
 }
 
 .booking-x{
+  .img-thumbnail{
+    max-width: 100% !important;
+    height: auto !important;
+  }
   h2, .heading-size-2 {
     font-size: 1.9rem;
   }
@@ -41,8 +45,10 @@
     text-decoration: none;
   }
   .entry-content > *:not(.alignwide):not(.alignfull):not(.alignleft):not(.alignright):not(.is-style-wide) {
-    max-width: 90rem;
-    width: calc(80% - 4rem);
+    max-width: 90rem !important;
+    width: calc(100%);
+    margin-left: unset !important;
+    margin-right: unset !important;
   }
   .booking-x-bkx-seat .row .card .card-body .btn,
   .booking-x-bkx-base .row .card .card-body .btn,
