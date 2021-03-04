@@ -134,8 +134,8 @@ if ( ! class_exists( 'BkxExtraMetaBox' ) ) {
 			$addition_overlap        = isset( $values['addition_overlap'] ) ? esc_attr( $values['addition_overlap'][0] ) : '';
 			$addition_months         = isset( $values['addition_months'] ) ? esc_attr( $values['addition_months'][0] ) : '';
 			$addition_days           = isset( $values['addition_days'] ) ? esc_attr( $values['addition_days'][0] ) : '';
-			$addition_hours          = isset( $values['addition_hours'] ) ? esc_attr( $values['addition_hours'][0] ) : '';
-			$addition_minutes        = isset( $values['addition_minutes'] ) ? esc_attr( $values['addition_minutes'][0] ) : '';
+			$addition_hours          = isset( $values['addition_hours'] ) ? intval( esc_attr( $values['addition_hours'][0] ) ) : '';
+			$addition_minutes        = isset( $values['addition_minutes'] ) ? intval( esc_attr( $values['addition_minutes'][0] ) ) : '';
 			$addition_is_unavailable = isset( $values['addition_is_unavailable'] ) ? esc_attr( $values['addition_is_unavailable'][0] ) : '';
 			$addition_available_from = isset( $values['addition_unavailable_from'] ) ? esc_attr( $values['addition_unavailable_from'][0] ) : '';
 			$addition_available_to   = isset( $values['addition_unavailable_to'] ) ? esc_attr( $values['addition_unavailable_to'][0] ) : '';

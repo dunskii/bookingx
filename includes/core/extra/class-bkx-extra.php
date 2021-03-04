@@ -287,8 +287,8 @@ class BkxExtra {
 		$addition_time_option = isset( $meta_data['addition_time_option'] ) ? esc_attr( $meta_data['addition_time_option'][0] ) : '';
 		$addition_months      = isset( $meta_data['addition_months'] ) ? esc_attr( $meta_data['addition_months'][0] ) : '';
 		$addition_days        = isset( $meta_data['addition_days'] ) ? esc_attr( $meta_data['addition_days'][0] ) : '';
-		$addition_hours       = isset( $meta_data['addition_hours'] ) ? esc_attr( $meta_data['addition_hours'][0] ) : '';
-		$addition_minutes     = isset( $meta_data['addition_minutes'] ) ? esc_attr( $meta_data['addition_minutes'][0] ) : '';
+		$addition_hours       = isset( $meta_data['addition_hours'] ) ? intval( esc_attr( $meta_data['addition_hours'][0] ) ) : '';
+		$addition_minutes     = isset( $meta_data['addition_minutes'] ) ? intval( esc_attr( $meta_data['addition_minutes'][0] ) ) : '';
 		$time_data            = array();
 		if ( $addition_time_option == 'H' ) :
 			$time_data[ $addition_time_option ]['hours'] = $addition_hours;
