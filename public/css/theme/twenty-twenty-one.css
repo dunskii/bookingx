@@ -106,7 +106,10 @@
 
   .booking-x-dashboard .dashboard-bookings {
     display: block;
-    overflow-x: auto; } }
+    overflow-x: auto; }
+
+  .booking-x-form .entry-content > .booking-x:not(.alignwide):not(.alignfull):not(.alignleft):not(.alignright):not(.is-style-wide) {
+    width: 100%; } }
 @media only screen and (min-width: 1168px) {
   .booking-x .content-area {
     max-width: 1600px;
@@ -141,9 +144,6 @@
   .booking-x-form .entry-content {
     width: 100%;
     font-size: 17px; }
-  .booking-x-form .booking-x .main-container .container {
-    padding-right: 15px;
-    padding-left: 15px; }
   .booking-x-form .bkx-booking-form .schedule-indicator {
     width: 100%; }
   .booking-x-form .bkx-booking-form .schedule-indicator ul {
