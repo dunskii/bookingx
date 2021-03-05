@@ -17,6 +17,8 @@
 .booking-x .img-thumbnail {
   max-width: 100% !important;
   height: auto !important; }
+.booking-x .container {
+  width: 85%; }
 .booking-x h2, .booking-x .heading-size-2 {
   font-size: 1.9rem; }
 .booking-x hr {
