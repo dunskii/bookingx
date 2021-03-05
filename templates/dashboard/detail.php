@@ -36,7 +36,7 @@ extract( $booking_detail['booking_business'] );
 							<?php echo sprintf( '<p> <label>Service name: </label> %s', esc_html( $service ) ); ?>
 							<?php
 							// translators: Extra Label.
-							echo sprintf( esc_html__( '%s', 'bookingx' ), esc_html( $extra ) );
+							echo sprintf( esc_html__( '%s', 'bookingx' ), $extra );
 							?>
 							<?php echo sprintf( '<p> <label>Staff name: </label> %s', esc_html( $staff ) ); ?>
 						</div>
