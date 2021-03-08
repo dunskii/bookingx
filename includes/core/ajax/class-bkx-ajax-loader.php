@@ -605,13 +605,14 @@ class Bkx_Ajax_Loader {
 	public static function get_payment_method() {
         check_ajax_referer( 'get-payment-method', 'security' );
         $BkxPaymentCore             = new BkxPaymentCore();
-        $bkx_get_available_gateways = $BkxPaymentCore->bkx_get_available_gateways( $_POST );
         $prepayment                 = false;
         if ( isset( $_POST['seat_id'] ) && $_POST['seat_id'] != 0 ) {
-         $seat_id          = sanitize_text_field( wp_unslash( $_POST['seat_id'] ) );
-         $seatIsPrePayment = get_post_meta( $seat_id, 'seatIsPrePayment', true );
-         $prepayment       = isset( $seatIsPrePayment ) && esc_attr( $seatIsPrePayment ) == 'Y' ? true : false;
-              }
+	        $seat_id          = sanitize_text_field( wp_unslash( $_POST['seat_id'] ) );
+	        $post_data = array( 'seat_id' => $seat_id );
+	        $bkx_get_available_gateways = $BkxPaymentCore->bkx_get_available_gateways( $post_data );
+            $seatIsPrePayment = get_post_meta( $seat_id, 'seatIsPrePayment', true );
+            $prepayment       = isset( $seatIsPrePayment ) && esc_attr( $seatIsPrePayment ) == 'Y' ? true : false;
+        }
         if ( ! empty( $bkx_get_available_gateways ) ) {
          echo $BkxPaymentCore->bkx_get_available_gateways_html( $prepayment );
               }
@@ -627,7 +628,12 @@ class Bkx_Ajax_Loader {
          check_ajax_referer( 'payment-method-on-change', 'security' );
         $result                     = array();
         $BkxPaymentCore             = new BkxPaymentCore();
-        $bkx_get_available_gateways = $BkxPaymentCore->bkx_get_available_gateways( $_POST );
+		$post_data = array();
+		if ( isset( $_POST['seat_id'] ) && $_POST['seat_id'] != 0 ) {
+			$seat_id          = sanitize_text_field( wp_unslash( $_POST['seat_id'] ) );
+			$post_data = array( 'seat_id' => $seat_id );
+		}
+        $bkx_get_available_gateways = $BkxPaymentCore->bkx_get_available_gateways( $post_data );
         $payment_id                 = sanitize_text_field( wp_unslash( $_POST['payment_id'] ) );
         if ( ! empty( $payment_id ) ) {
          $gateway = $bkx_get_available_gateways[ $payment_id ];

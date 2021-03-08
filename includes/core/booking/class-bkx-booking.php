@@ -822,7 +822,7 @@ class BkxBooking {
 			 && bkx_crud_option_multisite( 'enable_any_seat' ) == 1
 			 && bkx_crud_option_multisite( 'select_default_seat' ) != ''
 		) :
-			$base_id = $_SESSION['_session_base_id'];
+			$base_id = sanitize_text_field( wp_unslash( $_SESSION['_session_base_id'] ));
 			// get current booking start time slot.
 			$bookinghour  = explode( ':', $selected_time );
 			$hours_temp   = $bookinghour[0];
@@ -877,7 +877,8 @@ class BkxBooking {
 				endforeach;
 
 				if ( $_SESSION['_seatslots'] > 1 ) {
-					for ( $i = 0; $i < $_SESSION['_seatslots']; $i ++ ) {
+					$_seatslots = array_map( 'sanitize_text_field', wp_unslash( $_SESSION['_seatslots'] ) );
+					for ( $i = 0; $i < $_seatslots; $i ++ ) {
 						$find_slot_value_in_booked_array[] = ( $startingSlotNumber + 1 ) + $i;
 					}
 				} else {

@@ -89,7 +89,8 @@ function bkx_get_booked_slot( $slot_id, $get_booked_slot, $get_free_seats, $tota
 	$send_seat_block_data = array();
 	$slots_blocked        = array();
 	if ( $_SESSION['_display_seat_slots'] > 1 ) {
-		for ( $i = 0; $i < $_SESSION['_display_seat_slots']; $i++ ) {
+		$_display_seat_slots = array_map( 'sanitize_text_field', wp_unslash( $_SESSION['_display_seat_slots'] ) );
+		for ( $i = 0; $i < $_display_seat_slots; $i++ ) {
 			$find_slot_value_in_booked_array[] = ( $slot_id ) + $i;
 		}
 	} else {
