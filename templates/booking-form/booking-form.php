@@ -74,8 +74,7 @@ $args['status']   = $status;
 
 				} else {
 
-					$order_id       = base64_decode( wp_unslash( $_GET['order_id'] ) );
-					$order_id       = sanitize_text_field( $order_id );
+					$order_id       = sanitize_text_field( base64_decode( wp_unslash( $_GET['order_id'] ) ) );
 					$action_data    = array( 'order_id' => $order_id );
 					$payment_method = get_post_meta( $order_id, 'payment_method', true );
 					if ( ! isset( $payment_method ) || $payment_method != 'bkx_gateway_pay_later' ) {

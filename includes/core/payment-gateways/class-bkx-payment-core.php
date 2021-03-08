@@ -34,8 +34,7 @@ class BkxPaymentCore {
 	 */
 	public function __construct( $order_id = null ) {
 		if ( isset( $_GET['order_id'] ) && $_GET['order_id'] != '' ) { // phpcs:ignore WordPress.Security.NonceVerification
-			$order_id = base64_decode( wp_unslash( $_GET['order_id'] ) ); // phpcs:disable WordPress.Security.NonceVerification
-			$order_id = sanitize_text_field( $order_id );
+			$order_id = sanitize_text_field ( base64_decode( wp_unslash( $_GET['order_id'] ) ) ); // phpcs:disable WordPress.Security.NonceVerification
 		}
 
 		if ( is_multisite() ) :
@@ -107,8 +106,7 @@ class BkxPaymentCore {
 	 */
 	public function bkx_paypal_payment_gateway_capture_action() {
 		if ( isset( $_GET['order_id'] ) && $_GET['order_id'] != '' ) { // phpcs:ignore WordPress.Security.NonceVerification
-			$order_id = base64_decode( $_GET['order_id'] ); // phpcs:ignore WordPress.Security.NonceVerification
-			$order_id = sanitize_text_field( $order_id );
+			$order_id = sanitize_text_field( base64_decode( wp_unslash( $_GET['order_id'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification
 		}
 		$capture_payment = get_post_meta( $order_id, 'bkx_capture_payment', true );
 		if ( ! empty( $capture_payment ) ) {
