@@ -612,7 +612,7 @@ class Bkx_Ajax_Loader {
 	        $bkx_get_available_gateways = $BkxPaymentCore->bkx_get_available_gateways( $post_data );
 	        $seatIsPrePayment = get_post_meta( $seat_id, 'seatIsPrePayment', true );
 	        $prepayment       = isset( $seatIsPrePayment ) && esc_attr( $seatIsPrePayment ) == 'Y' ? true : false;
-              }
+        }
         if ( ! empty( $bkx_get_available_gateways ) ) {
          echo $BkxPaymentCore->bkx_get_available_gateways_html( $prepayment );
               }

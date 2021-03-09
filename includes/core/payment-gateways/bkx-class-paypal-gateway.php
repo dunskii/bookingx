@@ -32,11 +32,11 @@ class BkxPaymentPayPalExpress {
 			$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
 			switch_to_blog( $blog_id );
 		endif;
-     // phpcs:disable WordPress.Security.NonceVerification
+        // phpcs:disable WordPress.Security.NonceVerification
 		if ( isset( $_GET['order_id'] ) && $_GET['order_id'] != '' ) {
 			$order_id = sanitize_text_field ( base64_decode( wp_unslash( $_GET['order_id'] ) ) );
 		}
-     // phpcs:enable WordPress.Security.NonceVerification
+        // phpcs:enable WordPress.Security.NonceVerification
 
 		// set paypal configuration here.
 		$api_mode        = bkx_crud_option_multisite( 'bkx_api_paypal_paypalmode' ); // sandbox or live.
