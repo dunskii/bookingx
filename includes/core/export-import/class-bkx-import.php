@@ -61,15 +61,20 @@ class BkxImport {
 	 * @param  null $post_data
 	 * @return array
 	 */
-	function import_now( $fileobj = null, $post_data = null ) {
+	function import_now() {
+
 		try {
-			if ( isset( $_POST['import_xml'] ) && sanitize_text_field( wp_unslash( $_POST['import_xml'] ) ) == 'Import Xml' ) {
-				$file_data = $this->check_file_is_ok( $fileobj );
+			$truncate_records = isset( $_POST['truncate_records'] ) ? sanitize_text_field( wp_unslash( $_POST['truncate_records'] ) ) : ''; // phpcs:ignore
+			$import_xml       = isset( $_POST['import_xml'] ) ? sanitize_text_field( wp_unslash( $_POST['import_xml'] ) ) : ''; // phpcs:ignore
+			$import_file      = ! empty( $_FILES['import_file'] ) ? $_FILES['import_file'] : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized,WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+
+			if ( isset( $import_xml ) && $import_xml == 'Import Xml' ) {
+				$file_data = $this->check_file_is_ok( $import_file );
 				if ( ! empty( $this->errors ) ) {
 					return $this->errors;
 				}
-				if ( isset( $post_data['truncate_records'] ) ) {
-					$truncate_records = apply_filters( 'bkx_truncate_records', $post_data['truncate_records'] );
+				if ( isset( $truncate_records ) ) {
+					$truncate_records = apply_filters( 'bkx_truncate_records', $truncate_records );
 					$this->truncate_old_data( $truncate_records );
 				}
 				$http_referer = isset( $_SERVER['HTTP_REFERER'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) : '';

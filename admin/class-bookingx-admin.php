@@ -754,8 +754,8 @@ class Bookingx_Admin {
 	 */
 	public function import_now() {
 		if ( isset( $_POST['import_xml'] ) && 'Import Xml' === sanitize_text_field( $_POST['import_xml'] ) ) : //phpcs:ignore
-			$bkx_import = new BkxImport();
-			$bkx_import->import_now( $_FILES, $_POST ); //phpcs:ignore
+			$bkx_import       = new BkxImport();
+			$bkx_import->import_now();
 		endif;
 	}
 
