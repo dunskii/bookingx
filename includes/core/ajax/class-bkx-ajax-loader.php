@@ -716,7 +716,8 @@ class Bkx_Ajax_Loader {
 	public static function book_now() {
         check_ajax_referer( 'book-now', 'security' );
         $bkx_booking = new BkxBooking();
-        $bkx_booking->MakeBookingProcess( $_POST );
+        $booking_post_data = apply_filters('bkx_booking_post_all_data', $_POST );
+        $bkx_booking->MakeBookingProcess( $booking_post_data );
         wp_die();
 	}
 

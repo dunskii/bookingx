@@ -67,7 +67,7 @@ add_action( 'wp_ajax_get_time_format', 'bkx_ajax_get_time_format' );
 /**
  * Set Any Seat ID On Resource Listing Area
  */
-function bkx_bookingx_set_as_any_seat_callback() { 	$seat_id             = absint( sanitize_text_field( $_GET['seat_id'] ) ); //phpcs:ignore
+function bkx_bookingx_set_as_any_seat_callback() { 	$seat_id             = absint( sanitize_text_field( wp_unslash( $_GET['seat_id'] ) ) ); //phpcs:ignore
 	$select_default_seat                                     = bkx_crud_option_multisite( 'select_default_seat' );
 
 	if ( 'bkx_seat' === get_post_type( $seat_id ) && '' === $select_default_seat ) {
