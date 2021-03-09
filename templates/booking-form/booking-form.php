@@ -73,7 +73,6 @@ $args['status']   = $status;
 				if ( ! isset( $status ) || $status != true || ! isset( $_GET['order_id'] ) || sanitize_text_field( wp_unslash( $_GET['order_id'] ) ) == '' ) {
 
 				} else {
-
 					$order_id       = sanitize_text_field( base64_decode( wp_unslash( $_GET['order_id'] ) ) );
 					$action_data    = array( 'order_id' => $order_id );
 					$payment_method = get_post_meta( $order_id, 'payment_method', true );

@@ -610,8 +610,8 @@ class Bkx_Ajax_Loader {
 	        $seat_id          = sanitize_text_field( wp_unslash( $_POST['seat_id'] ) );
 	        $post_data = array( 'seat_id' => $seat_id );
 	        $bkx_get_available_gateways = $BkxPaymentCore->bkx_get_available_gateways( $post_data );
-            $seatIsPrePayment = get_post_meta( $seat_id, 'seatIsPrePayment', true );
-            $prepayment       = isset( $seatIsPrePayment ) && esc_attr( $seatIsPrePayment ) == 'Y' ? true : false;
+	        $seatIsPrePayment = get_post_meta( $seat_id, 'seatIsPrePayment', true );
+	        $prepayment       = isset( $seatIsPrePayment ) && esc_attr( $seatIsPrePayment ) == 'Y' ? true : false;
         }
         if ( ! empty( $bkx_get_available_gateways ) ) {
          echo $BkxPaymentCore->bkx_get_available_gateways_html( $prepayment );
@@ -633,7 +633,7 @@ class Bkx_Ajax_Loader {
 			$seat_id          = sanitize_text_field( wp_unslash( $_POST['seat_id'] ) );
 			$post_data = array( 'seat_id' => $seat_id );
 		}
-        $bkx_get_available_gateways = $BkxPaymentCore->bkx_get_available_gateways( $post_data );
+		$bkx_get_available_gateways = $BkxPaymentCore->bkx_get_available_gateways( $post_data );
         $payment_id                 = sanitize_text_field( wp_unslash( $_POST['payment_id'] ) );
         if ( ! empty( $payment_id ) ) {
          $gateway = $bkx_get_available_gateways[ $payment_id ];
