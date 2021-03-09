@@ -34,8 +34,7 @@ class BkxPaymentPayPalExpress {
 		endif;
      // phpcs:disable WordPress.Security.NonceVerification
 		if ( isset( $_GET['order_id'] ) && $_GET['order_id'] != '' ) {
-			$order_id = base64_decode( wp_unslash( $_GET['order_id'] ) );
-			$order_id = sanitize_text_field( $order_id );
+			$order_id = sanitize_text_field ( base64_decode( wp_unslash( $_GET['order_id'] ) ) );
 		}
      // phpcs:enable WordPress.Security.NonceVerification
 

@@ -42,12 +42,12 @@ function bkx_reassign_available_emp_list( $seat_id, $start_date, $end_date, $ser
 					array(
 						'key'   => 'booking_start_date',
 						'value' => date( 'Y-m-d H:i:s', strtotime( $start_date ) ), // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
-					'compare'   => '<=',
+						'compare'   => '<=',
 					),
 					array(
 						'key'   => 'booking_end_date',
 						'value' => date( 'Y-m-d H:i:s', strtotime( $end_date ) ), // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
-					'compare'   => '>=',
+						'compare'   => '>=',
 					),
 				),
 			);
@@ -89,7 +89,8 @@ function bkx_get_booked_slot( $slot_id, $get_booked_slot, $get_free_seats, $tota
 	$send_seat_block_data = array();
 	$slots_blocked        = array();
 	if ( $_SESSION['_display_seat_slots'] > 1 ) {
-		for ( $i = 0; $i < $_SESSION['_display_seat_slots']; $i++ ) {
+		$_display_seat_slots = array_map( 'sanitize_text_field', wp_unslash( $_SESSION['_display_seat_slots'] ) );
+		for ( $i = 0; $i < $_display_seat_slots; $i++ ) {
 			$find_slot_value_in_booked_array[] = ( $slot_id ) + $i;
 		}
 	} else {
@@ -379,258 +380,258 @@ function bkx_placeholder_img( $size = 'service-thumb' ) {
  * @return mixed|void
  */
 function bkx_get_wp_country() {
-	 $all_countries = array(
-		 'AF' => 'Afghanistan',
-		 'AX' => 'Aland Islands',
-		 'AL' => 'Albania',
-		 'DZ' => 'Algeria',
-		 'AS' => 'American Samoa',
-		 'AD' => 'Andorra',
-		 'AO' => 'Angola',
-		 'AI' => 'Anguilla',
-		 'AQ' => 'Antarctica',
-		 'AG' => 'Antigua and Barbuda',
-		 'AR' => 'Argentina',
-		 'AM' => 'Armenia',
-		 'AW' => 'Aruba',
-		 'AU' => 'Australia',
-		 'AT' => 'Austria',
-		 'AZ' => 'Azerbaijan',
-		 'BS' => 'Bahamas',
-		 'BH' => 'Bahrain',
-		 'BD' => 'Bangladesh',
-		 'BB' => 'Barbados',
-		 'BY' => 'Belarus',
-		 'BE' => 'Belgium',
-		 'BZ' => 'Belize',
-		 'BJ' => 'Benin',
-		 'BM' => 'Bermuda',
-		 'BT' => 'Bhutan',
-		 'BO' => 'Bolivia, Plurinational State of',
-		 'BQ' => 'Bonaire, Sint Eustatius and Saba',
-		 'BA' => 'Bosnia and Herzegovina',
-		 'BW' => 'Botswana',
-		 'BV' => 'Bouvet Island',
-		 'BR' => 'Brazil',
-		 'IO' => 'British Indian Ocean Territory',
-		 'BN' => 'Brunei Darussalam',
-		 'BG' => 'Bulgaria',
-		 'BF' => 'Burkina Faso',
-		 'BI' => 'Burundi',
-		 'KH' => 'Cambodia',
-		 'CM' => 'Cameroon',
-		 'CA' => 'Canada',
-		 'CV' => 'Cape Verde',
-		 'KY' => 'Cayman Islands',
-		 'CF' => 'Central African Republic',
-		 'TD' => 'Chad',
-		 'CL' => 'Chile',
-		 'CN' => 'China',
-		 'CX' => 'Christmas Island',
-		 'CC' => 'Cocos (Keeling) Islands',
-		 'CO' => 'Colombia',
-		 'KM' => 'Comoros',
-		 'CG' => 'Congo',
-		 'CD' => 'Congo, the Democratic Republic of the',
-		 'CK' => 'Cook Islands',
-		 'CR' => 'Costa Rica',
-		 'CI' => "Cote d'Ivoire",
-		 'HR' => 'Croatia',
-		 'CU' => 'Cuba',
-		 'CW' => 'Curacao',
-		 'CY' => 'Cyprus',
-		 'CZ' => 'Czech Republic',
-		 'DK' => 'Denmark',
-		 'DJ' => 'Djibouti',
-		 'DM' => 'Dominica',
-		 'DO' => 'Dominican Republic',
-		 'EC' => 'Ecuador',
-		 'EG' => 'Egypt',
-		 'SV' => 'El Salvador',
-		 'GQ' => 'Equatorial Guinea',
-		 'ER' => 'Eritrea',
-		 'EE' => 'Estonia',
-		 'ET' => 'Ethiopia',
-		 'FK' => 'Falkland Islands (Malvinas)',
-		 'FO' => 'Faroe Islands',
-		 'FJ' => 'Fiji',
-		 'FI' => 'Finland',
-		 'FR' => 'France',
-		 'GF' => 'French Guiana',
-		 'PF' => 'French Polynesia',
-		 'TF' => 'French Southern Territories',
-		 'GA' => 'Gabon',
-		 'GM' => 'Gambia',
-		 'GE' => 'Georgia',
-		 'DE' => 'Germany',
-		 'GH' => 'Ghana',
-		 'GI' => 'Gibraltar',
-		 'GR' => 'Greece',
-		 'GL' => 'Greenland',
-		 'GD' => 'Grenada',
-		 'GP' => 'Guadeloupe',
-		 'GU' => 'Guam',
-		 'GT' => 'Guatemala',
-		 'GG' => 'Guernsey',
-		 'GN' => 'Guinea',
-		 'GW' => 'Guinea-Bissau',
-		 'GY' => 'Guyana',
-		 'HT' => 'Haiti',
-		 'HM' => 'Heard Island and McDonald Islands',
-		 'VA' => 'Holy See (Vatican City State)',
-		 'HN' => 'Honduras',
-		 'HK' => 'Hong Kong',
-		 'HU' => 'Hungary',
-		 'IS' => 'Iceland',
-		 'IN' => 'India',
-		 'ID' => 'Indonesia',
-		 'IR' => 'Iran, Islamic Republic of',
-		 'IQ' => 'Iraq',
-		 'IE' => 'Ireland',
-		 'IM' => 'Isle of Man',
-		 'IL' => 'Israel',
-		 'IT' => 'Italy',
-		 'JM' => 'Jamaica',
-		 'JP' => 'Japan',
-		 'JE' => 'Jersey',
-		 'JO' => 'Jordan',
-		 'KZ' => 'Kazakhstan',
-		 'KE' => 'Kenya',
-		 'KI' => 'Kiribati',
-		 'KP' => "Korea, Democratic People's Republic",
-		 'KR' => 'Korea, Republic of',
-		 'KW' => 'Kuwait',
-		 'KG' => 'Kyrgyzstan',
-		 'LA' => "Lao People's Democratic Republic",
-		 'LV' => 'Latvia',
-		 'LB' => 'Lebanon',
-		 'LS' => 'Lesotho',
-		 'LR' => 'Liberia',
-		 'LY' => 'Libya',
-		 'LI' => 'Liechtenstein',
-		 'LT' => 'Lithuania',
-		 'LU' => 'Luxembourg',
-		 'MO' => 'Macao',
-		 'MK' => 'Macedonia',
-		 'MG' => 'Madagascar',
-		 'MW' => 'Malawi',
-		 'MY' => 'Malaysia',
-		 'MV' => 'Maldives',
-		 'ML' => 'Mali',
-		 'MT' => 'Malta',
-		 'MH' => 'Marshall Islands',
-		 'MQ' => 'Martinique',
-		 'MR' => 'Mauritania',
-		 'MU' => 'Mauritius',
-		 'YT' => 'Mayotte',
-		 'MX' => 'Mexico',
-		 'FM' => 'Micronesia, Federated States of',
-		 'MD' => 'Moldova',
-		 'MC' => 'Monaco',
-		 'MN' => 'Mongolia',
-		 'ME' => 'Montenegro',
-		 'MS' => 'Montserrat',
-		 'MA' => 'Morocco',
-		 'MZ' => 'Mozambique',
-		 'MM' => 'Myanmar',
-		 'NA' => 'Namibia',
-		 'NR' => 'Nauru',
-		 'NP' => 'Nepal',
-		 'NL' => 'Netherlands',
-		 'NC' => 'New Caledonia',
-		 'NZ' => 'New Zealand',
-		 'NI' => 'Nicaragua',
-		 'NE' => 'Niger',
-		 'NG' => 'Nigeria',
-		 'NU' => 'Niue',
-		 'NF' => 'Norfolk Island',
-		 'MP' => 'Northern Mariana Islands',
-		 'NO' => 'Norway',
-		 'OM' => 'Oman',
-		 'PK' => 'Pakistan',
-		 'PW' => 'Palau',
-		 'PS' => 'Palestine, State of',
-		 'PA' => 'Panama',
-		 'PG' => 'Papua New Guinea',
-		 'PY' => 'Paraguay',
-		 'PE' => 'Peru',
-		 'PH' => 'Philippines',
-		 'PN' => 'Pitcairn',
-		 'PL' => 'Poland',
-		 'PT' => 'Portugal',
-		 'PR' => 'Puerto Rico',
-		 'QA' => 'Qatar',
-		 'RE' => 'Reunion',
-		 'RO' => 'Romania',
-		 'RU' => 'Russian Federation',
-		 'RW' => 'Rwanda',
-		 'BL' => 'Saint-Barthelemy',
-		 'SH' => 'Saint Helena, Ascension and Tristan da Cunha',
-		 'KN' => 'Saint Kitts and Nevis',
-		 'LC' => 'Saint Lucia',
-		 'MF' => 'Saint Martin (French part)',
-		 'PM' => 'Saint Pierre and Miquelon',
-		 'VC' => 'Saint Vincent and the Grenadines',
-		 'WS' => 'Samoa',
-		 'SM' => 'San Marino',
-		 'ST' => 'Sao Tome and Principe',
-		 'SA' => 'Saudi Arabia',
-		 'SN' => 'Senegal',
-		 'RS' => 'Serbia',
-		 'SC' => 'Seychelles',
-		 'SL' => 'Sierra Leone',
-		 'SG' => 'Singapore',
-		 'SX' => 'Sint Maarten (Dutch part)',
-		 'SK' => 'Slovakia',
-		 'SI' => 'Slovenia',
-		 'SB' => 'Solomon Islands',
-		 'SO' => 'Somalia',
-		 'ZA' => 'South Africa',
-		 'GS' => 'South Georgia and the South Sandwich Islands',
-		 'SS' => 'South Sudan',
-		 'ES' => 'Spain',
-		 'LK' => 'Sri Lanka',
-		 'SD' => 'Sudan',
-		 'SR' => 'Suriname',
-		 'SJ' => 'Svalbard and Jan Mayen',
-		 'SZ' => 'Swaziland',
-		 'SE' => 'Sweden',
-		 'CH' => 'Switzerland',
-		 'SY' => 'Syrian Arab Republic',
-		 'TW' => 'Taiwan, Province of China',
-		 'TJ' => 'Tajikistan',
-		 'TZ' => 'Tanzania, United Republic of',
-		 'TH' => 'Thailand',
-		 'TL' => 'Timor-Leste',
-		 'TG' => 'Togo',
-		 'TK' => 'Tokelau',
-		 'TO' => 'Tonga',
-		 'TT' => 'Trinidad and Tobago',
-		 'TN' => 'Tunisia',
-		 'TR' => 'Turkey',
-		 'TM' => 'Turkmenistan',
-		 'TC' => 'Turks and Caicos Islands',
-		 'TV' => 'Tuvalu',
-		 'UG' => 'Uganda',
-		 'UA' => 'Ukraine',
-		 'AE' => 'United Arab Emirates',
-		 'GB' => 'United Kingdom',
-		 'US' => 'United States',
-		 'UM' => 'United States Minor Outlying Islands',
-		 'UY' => 'Uruguay',
-		 'UZ' => 'Uzbekistan',
-		 'VU' => 'Vanuatu',
-		 'VE' => 'Venezuela',
-		 'VN' => 'Viet Nam',
-		 'VG' => 'Virgin Islands, British',
-		 'VI' => 'Virgin Islands, U.S.',
-		 'WF' => 'Wallis and Futuna',
-		 'EH' => 'Western Sahara',
-		 'YE' => 'Yemen',
-		 'ZM' => 'Zambia',
-		 'ZW' => 'Zimbabwe',
-	 );
-	 return array_unique( apply_filters( 'bookingx_country', $all_countries ) );
+	$all_countries = array(
+		'AF' => 'Afghanistan',
+		'AX' => 'Aland Islands',
+		'AL' => 'Albania',
+		'DZ' => 'Algeria',
+		'AS' => 'American Samoa',
+		'AD' => 'Andorra',
+		'AO' => 'Angola',
+		'AI' => 'Anguilla',
+		'AQ' => 'Antarctica',
+		'AG' => 'Antigua and Barbuda',
+		'AR' => 'Argentina',
+		'AM' => 'Armenia',
+		'AW' => 'Aruba',
+		'AU' => 'Australia',
+		'AT' => 'Austria',
+		'AZ' => 'Azerbaijan',
+		'BS' => 'Bahamas',
+		'BH' => 'Bahrain',
+		'BD' => 'Bangladesh',
+		'BB' => 'Barbados',
+		'BY' => 'Belarus',
+		'BE' => 'Belgium',
+		'BZ' => 'Belize',
+		'BJ' => 'Benin',
+		'BM' => 'Bermuda',
+		'BT' => 'Bhutan',
+		'BO' => 'Bolivia, Plurinational State of',
+		'BQ' => 'Bonaire, Sint Eustatius and Saba',
+		'BA' => 'Bosnia and Herzegovina',
+		'BW' => 'Botswana',
+		'BV' => 'Bouvet Island',
+		'BR' => 'Brazil',
+		'IO' => 'British Indian Ocean Territory',
+		'BN' => 'Brunei Darussalam',
+		'BG' => 'Bulgaria',
+		'BF' => 'Burkina Faso',
+		'BI' => 'Burundi',
+		'KH' => 'Cambodia',
+		'CM' => 'Cameroon',
+		'CA' => 'Canada',
+		'CV' => 'Cape Verde',
+		'KY' => 'Cayman Islands',
+		'CF' => 'Central African Republic',
+		'TD' => 'Chad',
+		'CL' => 'Chile',
+		'CN' => 'China',
+		'CX' => 'Christmas Island',
+		'CC' => 'Cocos (Keeling) Islands',
+		'CO' => 'Colombia',
+		'KM' => 'Comoros',
+		'CG' => 'Congo',
+		'CD' => 'Congo, the Democratic Republic of the',
+		'CK' => 'Cook Islands',
+		'CR' => 'Costa Rica',
+		'CI' => "Cote d'Ivoire",
+		'HR' => 'Croatia',
+		'CU' => 'Cuba',
+		'CW' => 'Curacao',
+		'CY' => 'Cyprus',
+		'CZ' => 'Czech Republic',
+		'DK' => 'Denmark',
+		'DJ' => 'Djibouti',
+		'DM' => 'Dominica',
+		'DO' => 'Dominican Republic',
+		'EC' => 'Ecuador',
+		'EG' => 'Egypt',
+		'SV' => 'El Salvador',
+		'GQ' => 'Equatorial Guinea',
+		'ER' => 'Eritrea',
+		'EE' => 'Estonia',
+		'ET' => 'Ethiopia',
+		'FK' => 'Falkland Islands (Malvinas)',
+		'FO' => 'Faroe Islands',
+		'FJ' => 'Fiji',
+		'FI' => 'Finland',
+		'FR' => 'France',
+		'GF' => 'French Guiana',
+		'PF' => 'French Polynesia',
+		'TF' => 'French Southern Territories',
+		'GA' => 'Gabon',
+		'GM' => 'Gambia',
+		'GE' => 'Georgia',
+		'DE' => 'Germany',
+		'GH' => 'Ghana',
+		'GI' => 'Gibraltar',
+		'GR' => 'Greece',
+		'GL' => 'Greenland',
+		'GD' => 'Grenada',
+		'GP' => 'Guadeloupe',
+		'GU' => 'Guam',
+		'GT' => 'Guatemala',
+		'GG' => 'Guernsey',
+		'GN' => 'Guinea',
+		'GW' => 'Guinea-Bissau',
+		'GY' => 'Guyana',
+		'HT' => 'Haiti',
+		'HM' => 'Heard Island and McDonald Islands',
+		'VA' => 'Holy See (Vatican City State)',
+		'HN' => 'Honduras',
+		'HK' => 'Hong Kong',
+		'HU' => 'Hungary',
+		'IS' => 'Iceland',
+		'IN' => 'India',
+		'ID' => 'Indonesia',
+		'IR' => 'Iran, Islamic Republic of',
+		'IQ' => 'Iraq',
+		'IE' => 'Ireland',
+		'IM' => 'Isle of Man',
+		'IL' => 'Israel',
+		'IT' => 'Italy',
+		'JM' => 'Jamaica',
+		'JP' => 'Japan',
+		'JE' => 'Jersey',
+		'JO' => 'Jordan',
+		'KZ' => 'Kazakhstan',
+		'KE' => 'Kenya',
+		'KI' => 'Kiribati',
+		'KP' => "Korea, Democratic People's Republic",
+		'KR' => 'Korea, Republic of',
+		'KW' => 'Kuwait',
+		'KG' => 'Kyrgyzstan',
+		'LA' => "Lao People's Democratic Republic",
+		'LV' => 'Latvia',
+		'LB' => 'Lebanon',
+		'LS' => 'Lesotho',
+		'LR' => 'Liberia',
+		'LY' => 'Libya',
+		'LI' => 'Liechtenstein',
+		'LT' => 'Lithuania',
+		'LU' => 'Luxembourg',
+		'MO' => 'Macao',
+		'MK' => 'Macedonia',
+		'MG' => 'Madagascar',
+		'MW' => 'Malawi',
+		'MY' => 'Malaysia',
+		'MV' => 'Maldives',
+		'ML' => 'Mali',
+		'MT' => 'Malta',
+		'MH' => 'Marshall Islands',
+		'MQ' => 'Martinique',
+		'MR' => 'Mauritania',
+		'MU' => 'Mauritius',
+		'YT' => 'Mayotte',
+		'MX' => 'Mexico',
+		'FM' => 'Micronesia, Federated States of',
+		'MD' => 'Moldova',
+		'MC' => 'Monaco',
+		'MN' => 'Mongolia',
+		'ME' => 'Montenegro',
+		'MS' => 'Montserrat',
+		'MA' => 'Morocco',
+		'MZ' => 'Mozambique',
+		'MM' => 'Myanmar',
+		'NA' => 'Namibia',
+		'NR' => 'Nauru',
+		'NP' => 'Nepal',
+		'NL' => 'Netherlands',
+		'NC' => 'New Caledonia',
+		'NZ' => 'New Zealand',
+		'NI' => 'Nicaragua',
+		'NE' => 'Niger',
+		'NG' => 'Nigeria',
+		'NU' => 'Niue',
+		'NF' => 'Norfolk Island',
+		'MP' => 'Northern Mariana Islands',
+		'NO' => 'Norway',
+		'OM' => 'Oman',
+		'PK' => 'Pakistan',
+		'PW' => 'Palau',
+		'PS' => 'Palestine, State of',
+		'PA' => 'Panama',
+		'PG' => 'Papua New Guinea',
+		'PY' => 'Paraguay',
+		'PE' => 'Peru',
+		'PH' => 'Philippines',
+		'PN' => 'Pitcairn',
+		'PL' => 'Poland',
+		'PT' => 'Portugal',
+		'PR' => 'Puerto Rico',
+		'QA' => 'Qatar',
+		'RE' => 'Reunion',
+		'RO' => 'Romania',
+		'RU' => 'Russian Federation',
+		'RW' => 'Rwanda',
+		'BL' => 'Saint-Barthelemy',
+		'SH' => 'Saint Helena, Ascension and Tristan da Cunha',
+		'KN' => 'Saint Kitts and Nevis',
+		'LC' => 'Saint Lucia',
+		'MF' => 'Saint Martin (French part)',
+		'PM' => 'Saint Pierre and Miquelon',
+		'VC' => 'Saint Vincent and the Grenadines',
+		'WS' => 'Samoa',
+		'SM' => 'San Marino',
+		'ST' => 'Sao Tome and Principe',
+		'SA' => 'Saudi Arabia',
+		'SN' => 'Senegal',
+		'RS' => 'Serbia',
+		'SC' => 'Seychelles',
+		'SL' => 'Sierra Leone',
+		'SG' => 'Singapore',
+		'SX' => 'Sint Maarten (Dutch part)',
+		'SK' => 'Slovakia',
+		'SI' => 'Slovenia',
+		'SB' => 'Solomon Islands',
+		'SO' => 'Somalia',
+		'ZA' => 'South Africa',
+		'GS' => 'South Georgia and the South Sandwich Islands',
+		'SS' => 'South Sudan',
+		'ES' => 'Spain',
+		'LK' => 'Sri Lanka',
+		'SD' => 'Sudan',
+		'SR' => 'Suriname',
+		'SJ' => 'Svalbard and Jan Mayen',
+		'SZ' => 'Swaziland',
+		'SE' => 'Sweden',
+		'CH' => 'Switzerland',
+		'SY' => 'Syrian Arab Republic',
+		'TW' => 'Taiwan, Province of China',
+		'TJ' => 'Tajikistan',
+		'TZ' => 'Tanzania, United Republic of',
+		'TH' => 'Thailand',
+		'TL' => 'Timor-Leste',
+		'TG' => 'Togo',
+		'TK' => 'Tokelau',
+		'TO' => 'Tonga',
+		'TT' => 'Trinidad and Tobago',
+		'TN' => 'Tunisia',
+		'TR' => 'Turkey',
+		'TM' => 'Turkmenistan',
+		'TC' => 'Turks and Caicos Islands',
+		'TV' => 'Tuvalu',
+		'UG' => 'Uganda',
+		'UA' => 'Ukraine',
+		'AE' => 'United Arab Emirates',
+		'GB' => 'United Kingdom',
+		'US' => 'United States',
+		'UM' => 'United States Minor Outlying Islands',
+		'UY' => 'Uruguay',
+		'UZ' => 'Uzbekistan',
+		'VU' => 'Vanuatu',
+		'VE' => 'Venezuela',
+		'VN' => 'Viet Nam',
+		'VG' => 'Virgin Islands, British',
+		'VI' => 'Virgin Islands, U.S.',
+		'WF' => 'Wallis and Futuna',
+		'EH' => 'Western Sahara',
+		'YE' => 'Yemen',
+		'ZM' => 'Zambia',
+		'ZW' => 'Zimbabwe',
+	);
+	return array_unique( apply_filters( 'bookingx_country', $all_countries ) );
 }
 
 /**
@@ -1026,7 +1027,7 @@ function bkx_sanitize_text_or_array_field( $array_or_string ) {
  * @return mixed
  */
 function bkx_crud_option_multisite( $option_name, $option_val = null, $type = 'get' ) {
-	 $get_current_blog_id = get_current_blog_id();
+	$get_current_blog_id = get_current_blog_id();
 	if ( is_multisite() ) {
 		switch_to_blog( $get_current_blog_id );
 	}
@@ -1048,7 +1049,7 @@ function bkx_crud_option_multisite( $option_name, $option_val = null, $type = 'g
  * @return string
  */
 function bkx_get_loader() {
-	 return '<div class="bookingx-loader" style="display:none">Loading&#8230;</div>';
+	return '<div class="bookingx-loader" style="display:none">Loading&#8230;</div>';
 }
 
 /**
@@ -1078,11 +1079,11 @@ function SkipStep() {
 		$screen    = get_current_screen();
 		$base      = $screen->base;
 		$post_type = $screen->post_type;
-     if ( $base == 'post' && $post_type == 'bkx_booking' && isset( $_REQUEST['post'] ) && sanitize_text_field( $_REQUEST['post'] ) > 0 ) { // phpcs:disable
-            $skip_this_step = true;
-     }
+		if ( $base == 'post' && $post_type == 'bkx_booking' && isset( $_REQUEST['post'] ) && sanitize_text_field( $_REQUEST['post'] ) > 0 ) { // phpcs:disable
+			$skip_this_step = true;
+		}
 	} elseif ( isset( $_REQUEST['edit_booking_nonce'] ) && wp_verify_nonce( $_REQUEST['edit_booking_nonce'], 'edit_booking_' . sanitize_text_field( $_REQUEST['id'] ) ) ) {
-        $skip_this_step = true;
+		$skip_this_step = true;
 	}
 	return $skip_this_step;
 }
@@ -1121,7 +1122,7 @@ function bkx_sanitize_tooltip( $var ) {
  */
 function bkx_getDatesFromRange( $start, $end, $format = 'm/d/Y' ) {
 	if ( empty( $start ) && empty( $end ) ) {
-        return;
+		return;
 	}
 	$range         = array();
 	$start         = strtotime( $start );
@@ -1132,7 +1133,7 @@ function bkx_getDatesFromRange( $start, $end, $format = 'm/d/Y' ) {
 	$date_interval = DateInterval::createFromDateString( $interval );
 	$periods       = new DatePeriod( new DateTime( $new['first'] ), $date_interval, new DateTime( $new['last'] ) );
 	foreach ( $periods as $period ) {
-        $range[] = $period->format( $format );
+		$range[] = $period->format( $format );
 	}
 	return $range;
 }
@@ -1144,9 +1145,9 @@ function bkx_getDatesFromRange( $start, $end, $format = 'm/d/Y' ) {
  */
 function bkx_clean( $var ) {
 	if ( is_array( $var ) ) {
-        return array_map( 'bkx_clean', $var );
+		return array_map( 'bkx_clean', $var );
 	} else {
-        return is_scalar( $var ) ? sanitize_text_field( $var ) : $var;
+		return is_scalar( $var ) ? sanitize_text_field( $var ) : $var;
 	}
 }
 
@@ -1154,15 +1155,15 @@ function bkx_clean( $var ) {
  *
  */
 function bkx_get_order_statuses() {
-	 $order_statuses = array(
-		 'bkx-pending'   => _x( 'Pending', 'Order status', 'bookingx' ),
-		 'bkx-ack'       => _x( 'Acknowledged', 'Order status', 'bookingx' ),
-		 'bkx-completed' => _x( 'Completed', 'Order status', 'bookingx' ),
-		 'bkx-missed'    => _x( 'Missed', 'Order status', 'bookingx' ),
-		 'bkx-cancelled' => _x( 'Cancelled', 'Order status', 'bookingx' ),
-		 'bkx-failed'    => _x( 'Failed', 'Order status', 'bookingx' ),
-	 );
-	 // return apply_filters('bkx_order_statuses', $order_statuses);
+	$order_statuses = array(
+		'bkx-pending'   => _x( 'Pending', 'Order status', 'bookingx' ),
+		'bkx-ack'       => _x( 'Acknowledged', 'Order status', 'bookingx' ),
+		'bkx-completed' => _x( 'Completed', 'Order status', 'bookingx' ),
+		'bkx-missed'    => _x( 'Missed', 'Order status', 'bookingx' ),
+		'bkx-cancelled' => _x( 'Cancelled', 'Order status', 'bookingx' ),
+		'bkx-failed'    => _x( 'Failed', 'Order status', 'bookingx' ),
+	);
+	// return apply_filters('bkx_order_statuses', $order_statuses);
 }
 
 /**
@@ -1180,17 +1181,17 @@ function bkx_setting_page_callback() {
  */
 function bkx_mail_format_and_send_process( $subject, $data_html, $to_mail, $mail_type ) {
 	if ( isset( $to_mail ) ) {
-        $admin_email = bkx_crud_option_multisite( 'admin_email' );
-        $headers[]   = 'Content-Type: ' . $mail_type . '; charset=UTF-8';
-        $headers[]   = 'From: ' . get_bloginfo() . ' <' . $admin_email . '>';
-        /*
-        if ($cc_mail != '') {
-         $headers[] = 'Cc: ' . $cc_mail . ' <' . $cc_mail . '>';
-        }
-        if ($bcc_mail != '') {
-         $headers[] = 'Bcc: ' . $bcc_mail;
-        }*/
-        wp_mail( $to_mail, $subject, $data_html, $headers );
+		$admin_email = bkx_crud_option_multisite( 'admin_email' );
+		$headers[]   = 'Content-Type: ' . $mail_type . '; charset=UTF-8';
+		$headers[]   = 'From: ' . get_bloginfo() . ' <' . $admin_email . '>';
+		/*
+		if ($cc_mail != '') {
+		 $headers[] = 'Cc: ' . $cc_mail . ' <' . $cc_mail . '>';
+		}
+		if ($bcc_mail != '') {
+		 $headers[] = 'Bcc: ' . $bcc_mail;
+		}*/
+		wp_mail( $to_mail, $subject, $data_html, $headers );
 	}
 }
 
@@ -1252,33 +1253,33 @@ function bkx_localize_string_text() {
  * @throws Exception
  */
 function bkx_total_time_of_services_formatted( $get_total_time_of_services = 0, $type = 'H' ): string {
-	 $total_time_of_services_formatted = '';
+	$total_time_of_services_formatted = '';
 	if ( ! empty( $get_total_time_of_services ) && $get_total_time_of_services != 0 ) {
-        $minutes = $get_total_time_of_services;
+		$minutes = $get_total_time_of_services;
 
-        if ( $type == 'H' ) {
-         $zero   = new DateTime( '@0' );
-         $offset = new DateTime( '@' . $minutes * 60 );
-         $diff   = $zero->diff( $offset );
-         if ( $minutes > 60 ) {
-                $total_time_of_services_formatted = " ({$diff->format('%h Hours %i Minutes')})";
-         } elseif ( $minutes == 60 ) {
-                $total_time_of_services_formatted = " ({$diff->format('%h Hour')})";
-         } else {
-                $total_time_of_services_formatted = " ({$diff->format('%i Minutes')})";
-         }
-              }
-        if ( $type == 'D' ) {
-         // $base_day = $minutes / 24;
-         $total_time_of_services_formatted = bkx_convert_seconds( $get_total_time_of_services );
-         /*
-         if(isset($base_day) && $base_day > 0 && $base_day < 2 ){
-          $total_time_of_services_formatted  = sprintf(__('%1$s Day', 'bookingx'), $base_day);
-         }
-         if(isset($base_day) && $base_day > 0 && $base_day > 1 ){
-          $total_time_of_services_formatted  = sprintf(__('%1$s Days', 'bookingx'), $base_day);
-         }*/
-              }
+		if ( $type == 'H' ) {
+			$zero   = new DateTime( '@0' );
+			$offset = new DateTime( '@' . $minutes * 60 );
+			$diff   = $zero->diff( $offset );
+			if ( $minutes > 60 ) {
+				$total_time_of_services_formatted = " ({$diff->format('%h Hours %i Minutes')})";
+			} elseif ( $minutes == 60 ) {
+				$total_time_of_services_formatted = " ({$diff->format('%h Hour')})";
+			} else {
+				$total_time_of_services_formatted = " ({$diff->format('%i Minutes')})";
+			}
+		}
+		if ( $type == 'D' ) {
+			// $base_day = $minutes / 24;
+			$total_time_of_services_formatted = bkx_convert_seconds( $get_total_time_of_services );
+			/*
+			if(isset($base_day) && $base_day > 0 && $base_day < 2 ){
+			 $total_time_of_services_formatted  = sprintf(__('%1$s Day', 'bookingx'), $base_day);
+			}
+			if(isset($base_day) && $base_day > 0 && $base_day > 1 ){
+			 $total_time_of_services_formatted  = sprintf(__('%1$s Days', 'bookingx'), $base_day);
+			}*/
+		}
 	}
 
 	return $total_time_of_services_formatted;
@@ -1297,17 +1298,17 @@ function bkx_convert_seconds( $seconds ): string {
 	$minutes   = $dt1->diff( $dt2 )->i;
 	$formatted = '';
 	if ( $hours > 0 && $minutes < 1 ) {
-        $formatted = $dt1->diff( $dt2 )->format( ' %a Days %h Hours ' );
+		$formatted = $dt1->diff( $dt2 )->format( ' %a Days %h Hours ' );
 	} elseif ( $hours > 0 && $minutes > 0 ) {
-        $formatted = $dt1->diff( $dt2 )->format( ' %a Days %h Hours and %i Minutes ' );
+		$formatted = $dt1->diff( $dt2 )->format( ' %a Days %h Hours and %i Minutes ' );
 	} elseif ( $hours < 1 && $minutes > 0 ) {
-        $formatted = $dt1->diff( $dt2 )->format( ' %a Days %i Minutes ' );
+		$formatted = $dt1->diff( $dt2 )->format( ' %a Days %i Minutes ' );
 	} elseif ( $hours < 1 && $minutes < 1 && $days > 1 ) {
-        $formatted = $dt1->diff( $dt2 )->format( ' %a Days ' );
+		$formatted = $dt1->diff( $dt2 )->format( ' %a Days ' );
 	} elseif ( $days == 1 ) {
-        $formatted = $dt1->diff( $dt2 )->format( ' %a Day ' );
+		$formatted = $dt1->diff( $dt2 )->format( ' %a Day ' );
 	} else {
-        $formatted = $dt1->diff( $dt2 )->format( ' %a Days %h Hours and %i Minutes ' );
+		$formatted = $dt1->diff( $dt2 )->format( ' %a Days %h Hours and %i Minutes ' );
 	}
 	return $formatted;
 }
@@ -1332,53 +1333,53 @@ function bkx_generate_inline_style() {
 	$booked      = $open = $current = $selected_time_color = '';
 	// if(!empty($my_theme) && $text_domain == 'twentytwenty'){
 	if ( class_exists( 'BKX_Twenty_Twenty' ) ) {
-        $BKX_Twenty_Twenty = new BKX_Twenty_Twenty();
-        $default_colors    = $BKX_Twenty_Twenty->default_colors();
-        if ( ! empty( $default_colors ) ) {
-         $booked              = $default_colors['booked'];
-         $open                = $default_colors['open'];
-         $current             = $default_colors['current'];
-         $selected_time_color = $default_colors['selected_time_color'];
-         $day_selected        = sanitize_hex_color( twentytwenty_get_color_for_area( 'content', 'accent' ) );
-         $day_selected        = isset( $day_selected ) && $day_selected != '' ? $day_selected : '#cd2653';
+		$BKX_Twenty_Twenty = new BKX_Twenty_Twenty();
+		$default_colors    = $BKX_Twenty_Twenty->default_colors();
+		if ( ! empty( $default_colors ) ) {
+			$booked              = $default_colors['booked'];
+			$open                = $default_colors['open'];
+			$current             = $default_colors['current'];
+			$selected_time_color = $default_colors['selected_time_color'];
+			$day_selected        = sanitize_hex_color( twentytwenty_get_color_for_area( 'content', 'accent' ) );
+			$day_selected        = isset( $day_selected ) && $day_selected != '' ? $day_selected : '#cd2653';
 
-              }
+		}
 	}
 
 	if ( class_exists( 'BKX_Twenty_Nineteen' ) ) {
-        $BKX_Twenty_Nineteen = new BKX_Twenty_Nineteen();
-        $default_colors      = $BKX_Twenty_Nineteen->default_colors();
-        if ( ! empty( $default_colors ) ) {
-         $booked              = $default_colors['booked'];
-         $open                = $default_colors['open'];
-         $current             = $default_colors['current'];
-         $selected_time_color = $default_colors['selected_time_color'];
-         $day_selected        = '#0073aa';
-              }
+		$BKX_Twenty_Nineteen = new BKX_Twenty_Nineteen();
+		$default_colors      = $BKX_Twenty_Nineteen->default_colors();
+		if ( ! empty( $default_colors ) ) {
+			$booked              = $default_colors['booked'];
+			$open                = $default_colors['open'];
+			$current             = $default_colors['current'];
+			$selected_time_color = $default_colors['selected_time_color'];
+			$day_selected        = '#0073aa';
+		}
 	}
 
 	if ( class_exists( 'BKX_Twenty_Seventeen' ) ) {
-        $BKX_Twenty_Seventeen = new BKX_Twenty_Seventeen();
-        $default_colors       = $BKX_Twenty_Seventeen->default_colors();
-        if ( ! empty( $default_colors ) ) {
-         $booked              = $default_colors['booked'];
-         $open                = $default_colors['open'];
-         $current             = $default_colors['current'];
-         $selected_time_color = $default_colors['selected_time_color'];
-         $day_selected        = '#222';
-              }
+		$BKX_Twenty_Seventeen = new BKX_Twenty_Seventeen();
+		$default_colors       = $BKX_Twenty_Seventeen->default_colors();
+		if ( ! empty( $default_colors ) ) {
+			$booked              = $default_colors['booked'];
+			$open                = $default_colors['open'];
+			$current             = $default_colors['current'];
+			$selected_time_color = $default_colors['selected_time_color'];
+			$day_selected        = '#222';
+		}
 	}
 
 	if ( class_exists( 'BKX_Twenty_Twenty_One' ) ) {
-        $BKX_Twenty_Seventeen = new BKX_Twenty_Twenty_One();
-        $default_colors       = $BKX_Twenty_Seventeen->default_colors();
-        if ( ! empty( $default_colors ) ) {
-         $booked              = $default_colors['booked'];
-         $open                = $default_colors['open'];
-         $current             = $default_colors['current'];
-         $selected_time_color = $default_colors['selected_time_color'];
-         $day_selected        = '#222';
-              }
+		$BKX_Twenty_Seventeen = new BKX_Twenty_Twenty_One();
+		$default_colors       = $BKX_Twenty_Seventeen->default_colors();
+		if ( ! empty( $default_colors ) ) {
+			$booked              = $default_colors['booked'];
+			$open                = $default_colors['open'];
+			$current             = $default_colors['current'];
+			$selected_time_color = $default_colors['selected_time_color'];
+			$day_selected        = '#222';
+		}
 	}
 
 	$custom_css = '';
@@ -1417,65 +1418,65 @@ function bkx_generate_inline_style() {
 	$bkx_pay_now_btn  = ( $bkx_pay_now_btn ) ? $bkx_pay_now_btn : '';
 
 	if ( is_user_logged_in() && is_admin() ) {
-        $color_schema = adminColorSchema();
-        if ( ! empty( $color_schema ) ) {
-         $bkx_previous_btn       = $color_schema['button'];
-         $bkx_previous_btn       = ( $bkx_previous_btn ) ? $bkx_previous_btn : 'currentColor';
-         $bkx_next_btn           = $color_schema['button'];
-         $bkx_next_btn           = ( $bkx_next_btn ) ? $bkx_next_btn : '';
-         $time_available_color   = $color_schema['open'];
-         $time_unavailable_color = $color_schema['booked'];
-         $time_selected_color    = $color_schema['current'];
-         $bkx_active_step_color  = $color_schema['button'];
-              }
+		$color_schema = adminColorSchema();
+		if ( ! empty( $color_schema ) ) {
+			$bkx_previous_btn       = $color_schema['button'];
+			$bkx_previous_btn       = ( $bkx_previous_btn ) ? $bkx_previous_btn : 'currentColor';
+			$bkx_next_btn           = $color_schema['button'];
+			$bkx_next_btn           = ( $bkx_next_btn ) ? $bkx_next_btn : '';
+			$time_available_color   = $color_schema['open'];
+			$time_unavailable_color = $color_schema['booked'];
+			$time_selected_color    = $color_schema['current'];
+			$bkx_active_step_color  = $color_schema['button'];
+		}
 	}
 
 	if ( isset( $time_available_color, $slot_time_color ) && $slot_time_color != '' && $time_available_color != '' ) {
-        $custom_css .= " .booking-x .indicator ul li.open::before, .booking-x .select-time .table td a.available { background: {$time_available_color}; color: {$slot_time_color} } ";
+		$custom_css .= " .booking-x .indicator ul li.open::before, .booking-x .select-time .table td a.available { background: {$time_available_color}; color: {$slot_time_color} } ";
 	}
 	if ( isset( $time_unavailable_color ) && $time_unavailable_color != '' ) {
-        $custom_css .= " .booking-x .indicator ul li.booked::before, .booking-x .select-time .table td a.disabled { background: {$time_unavailable_color};} ";
+		$custom_css .= " .booking-x .indicator ul li.booked::before, .booking-x .select-time .table td a.disabled { background: {$time_unavailable_color};} ";
 	}
 	if ( is_user_logged_in() && is_admin() ) {
-        $custom_css .= " .booking-x .indicator ul li.current::before, .booking-x .select-time .table td a.selected { background: linear-gradient(to bottom right, {$time_available_color} 0%, {$time_available_color} 50%, {$time_selected_color} 50%, {$time_selected_color} 100%); } ";
-        $custom_css .= ' .booking-x .select-time .table td a.selected { color : #fff; } ';
+		$custom_css .= " .booking-x .indicator ul li.current::before, .booking-x .select-time .table td a.selected { background: linear-gradient(to bottom right, {$time_available_color} 0%, {$time_available_color} 50%, {$time_selected_color} 50%, {$time_selected_color} 100%); } ";
+		$custom_css .= ' .booking-x .select-time .table td a.selected { color : #fff; } ';
 	} else {
-        $custom_css .= " .booking-x .indicator ul li.current::before, .booking-x .select-time .table td a.selected { background: {$time_selected_color}; } ";
+		$custom_css .= " .booking-x .indicator ul li.current::before, .booking-x .select-time .table td a.selected { background: {$time_selected_color}; } ";
 	}
 	if ( isset( $text_color ) && $text_color != '' ) {
-        $custom_css .= " .booking-x-form h1 ,.booking-x-form h2, .booking-x-form h3, .booking-x-form h4, .booking-x-form h5 , .booking-x-form .progress-title, .booking-x-form .form-group label, .booking-x-form .user-detail dl dt, .booking-x .indicator ul li, .booking-x .total-text { color: {$text_color} }";
+		$custom_css .= " .booking-x-form h1 ,.booking-x-form h2, .booking-x-form h3, .booking-x-form h4, .booking-x-form h5 , .booking-x-form .progress-title, .booking-x-form .form-group label, .booking-x-form .user-detail dl dt, .booking-x .indicator ul li, .booking-x .total-text { color: {$text_color} }";
 	}
 	if ( isset( $bkx_active_step_color ) && $bkx_active_step_color != '' ) {
-        $custom_css .= " .booking-x-form .booking-x .progress-step.is-active::after { background-color: {$bkx_active_step_color} }";
+		$custom_css .= " .booking-x-form .booking-x .progress-step.is-active::after { background-color: {$bkx_active_step_color} }";
 	}
 	if ( isset( $cal_day_selected_color ) && $cal_day_selected_color != '' ) {
-        $custom_css .= " .booking-x-form .booking-x .on-click-selected { background: {$cal_day_selected_color} }";
+		$custom_css .= " .booking-x-form .booking-x .on-click-selected { background: {$cal_day_selected_color} }";
 	}
 	if ( isset( $cal_day_color ) && $cal_day_color != '' ) {
-        $custom_css .= " .booking-x-form .booking-x .bkx-cal-enable { background: {$cal_day_color} }";
+		$custom_css .= " .booking-x-form .booking-x .bkx-cal-enable { background: {$cal_day_color} }";
 	}
 	if ( isset( $bkx_active_step_color ) && $bkx_active_step_color != '' ) {
-        $custom_css .= " .booking-x .progress-step.is-active .progress-title, .booking-x-form .booking-x .progress-step.is-active::after { color: {$bkx_active_step_color} }";
+		$custom_css .= " .booking-x .progress-step.is-active .progress-title, .booking-x-form .booking-x .progress-step.is-active::after { color: {$bkx_active_step_color} }";
 	}
 	if ( isset( $bkx_active_step_color ) && $bkx_active_step_color != '' ) {
-        $custom_css .= " .booking-x .progress-step.is-active .progress-title, .booking-x-form .booking-x .progress-step.is-active::after { color: {$bkx_active_step_color} }";
+		$custom_css .= " .booking-x .progress-step.is-active .progress-title, .booking-x-form .booking-x .progress-step.is-active::after { color: {$bkx_active_step_color} }";
 	}
 	if ( isset( $bkx_next_btn ) && $bkx_next_btn != '' ) {
-        $custom_css .= " .booking-x-form .booking-x .bkx-form-submission-next { background: {$bkx_next_btn} }";
+		$custom_css .= " .booking-x-form .booking-x .bkx-form-submission-next { background: {$bkx_next_btn} }";
 	}
 	if ( isset( $bkx_previous_btn ) && $bkx_previous_btn != '' ) {
-        $custom_css .= " .booking-x-form .booking-x .bkx-form-submission-previous { background: {$bkx_previous_btn} }";
+		$custom_css .= " .booking-x-form .booking-x .bkx-form-submission-previous { background: {$bkx_previous_btn} }";
 	}
 	if ( isset( $bkx_pay_now_btn ) && $bkx_pay_now_btn != '' ) {
-        $custom_css .= " .post-type-bkx_booking .bkx-booking-form .bkx-form-submission-final { background: {$bkx_pay_now_btn} }";
+		$custom_css .= " .post-type-bkx_booking .bkx-booking-form .bkx-form-submission-final { background: {$bkx_pay_now_btn} }";
 	}
 	if ( isset( $bkx_pay_now_btn ) && $bkx_pay_now_btn != '' ) {
-        $custom_css .= " .booking-x-form .booking-x .bkx-form-submission-final, .booking-x-form .booking-x .bkx-send-email-receipt, .booking-x-form .booking-x .bkx-back-to-booking{ background: {$bkx_pay_now_btn} }";
+		$custom_css .= " .booking-x-form .booking-x .bkx-form-submission-final, .booking-x-form .booking-x .bkx-send-email-receipt, .booking-x-form .booking-x .bkx-back-to-booking{ background: {$bkx_pay_now_btn} }";
 	}
 	$custom_css .= " .booking-x-form .booking-x .bkx-calendar .calendar-month .text-uppercase { color: {$bkx_cal_month_title} }";
 
 	if ( isset( $day_selected ) ) {
-        $custom_css .= " .booking-x-form .booking-x .day-click-selected { background: {$day_selected}; color : #fff; }";
+		$custom_css .= " .booking-x-form .booking-x .day-click-selected { background: {$day_selected}; color : #fff; }";
 	}
 
 	return apply_filters( 'bkx_generate_inline_style', $custom_css );
@@ -1488,21 +1489,21 @@ function bkx_generate_inline_style() {
  */
 function bkx_generate_thumbnail( $post ) {
 	if ( empty( $post ) ) {
-        return;
+		return;
 	}
 
 	if ( has_post_thumbnail( $post ) ) {
-        $image = get_the_post_thumbnail(
-         $post->post->ID,
-         apply_filters( 'bkx_single_post_large_thumbnail_size', 'bkx_single' ),
-         array(
-          'title' => $post->get_title(),
-          'class' => 'img-thumbnail',
-          'alt'   => $post->get_title(),
-         )
-           );
+		$image = get_the_post_thumbnail(
+			$post->post->ID,
+			apply_filters( 'bkx_single_post_large_thumbnail_size', 'bkx_single' ),
+			array(
+				'title' => $post->get_title(),
+				'class' => 'img-thumbnail',
+				'alt'   => $post->get_title(),
+			)
+		);
 	} else {
-        $image = '<img width="250" height="180" src="' . BKX_PLUGIN_PUBLIC_URL . '"/images/placeholder.png\'" class="img-thumbnail wp-post-image" alt="' . $post->get_title() . '" title="' . $post->get_title() . '">';
+		$image = '<img width="250" height="180" src="' . BKX_PLUGIN_PUBLIC_URL . '"/images/placeholder.png\'" class="img-thumbnail wp-post-image" alt="' . $post->get_title() . '" title="' . $post->get_title() . '">';
 	}
 
 	return apply_filters(
@@ -1537,14 +1538,14 @@ function date_format_correct( $date, $format = 'm/d/Y' ) {
  */
 function GenerateSlotByTime( $selected_time ) {
 	if ( empty( $selected_time ) ) {
-        return;
+		return;
 	}
 	$counter      = 0;
 	$booking_hour = explode( ':', $selected_time );
 	$hours_temp   = $booking_hour[0];
 	if ( isset( $booking_hour[1] ) ) {
-        $minutes_temp = $booking_hour[1];
-        $counter      = BkxGenerateCounter( $minutes_temp );
+		$minutes_temp = $booking_hour[1];
+		$counter      = BkxGenerateCounter( $minutes_temp );
 	}
 	return intval( $hours_temp ) * 4 + $counter;
 }
@@ -1556,13 +1557,13 @@ function GenerateSlotByTime( $selected_time ) {
 function BkxGenerateCounter( $minutes_temp ) {
 	$counter = 0;
 	if ( intval( $minutes_temp ) == 0 ) {
-        $counter = 1;
+		$counter = 1;
 	} elseif ( intval( $minutes_temp ) == 15 ) {
-        $counter = 2;
+		$counter = 2;
 	} elseif ( intval( $minutes_temp ) == 30 ) {
-        $counter = 3;
+		$counter = 3;
 	} elseif ( intval( $minutes_temp ) == 45 ) {
-        $counter = 4;
+		$counter = 4;
 	}
 	return $counter;
 }
@@ -1585,8 +1586,8 @@ function is_bookingx() {
  */
 function is_booking_page() {
 	if ( is_page() || is_single() ) {
-        global $post;
-        return ( has_shortcode( $post->post_content, 'bkx_booking_form' ) );
+		global $post;
+		return ( has_shortcode( $post->post_content, 'bkx_booking_form' ) );
 	}
 }
 
@@ -1595,8 +1596,8 @@ function is_booking_page() {
  */
 function is_bkx_singular() {
 	if ( is_page() || is_single() ) {
-        global $post;
-        return ( has_shortcode( $post->post_content, 'bookingx' ) );
+		global $post;
+		return ( has_shortcode( $post->post_content, 'bookingx' ) );
 	}
 }
 
@@ -1605,8 +1606,8 @@ function is_bkx_singular() {
  */
 function is_dashboard() {
 	if ( is_page() || is_single() ) {
-        global $post;
-        return ( has_shortcode( $post->post_content, 'bkx_dashboard' ) );
+		global $post;
+		return ( has_shortcode( $post->post_content, 'bkx_dashboard' ) );
 	}
 }
 
@@ -1615,8 +1616,8 @@ function is_dashboard() {
  */
 function is_my_account() {
 	if ( is_page() || is_single() ) {
-        global $post;
-        return ( has_shortcode( $post->post_content, 'bkx_my_account' ) );
+		global $post;
+		return ( has_shortcode( $post->post_content, 'bkx_my_account' ) );
 	}
 }
 
@@ -1624,7 +1625,7 @@ function is_my_account() {
  * @return bool
  */
 function is_bkx_service() {
-	 return ( is_post_type_archive( 'bkx_base' ) || is_singular( 'bkx_base' ) );
+	return ( is_post_type_archive( 'bkx_base' ) || is_singular( 'bkx_base' ) );
 }
 
 /**
@@ -1653,8 +1654,8 @@ function is_bookingx_admin() {
 	);
 	$admin_base_screens = apply_filters( 'bkx_admin_screens_access', $admin_base_screens );
 	if ( is_admin() && in_array( $current_screen->base, $admin_base_screens['base'] )
-		|| in_array( $current_screen->post_type, $admin_base_screens['post_type'] ) ) {
-        $status = true;
+	     || in_array( $current_screen->post_type, $admin_base_screens['post_type'] ) ) {
+		$status = true;
 	}
 	return $status;
 }
@@ -1666,7 +1667,7 @@ function is_bookingx_admin() {
  */
 function edit_booking_url( $booking_id, $retun_page = null ) {
 	if ( empty( $booking_id ) ) {
-        return;
+		return;
 	}
 	$edit_id      = bkx_crud_option_multisite( 'bkx_edit_booking_page_id' );
 	$edit_booking = add_query_arg(
@@ -1727,12 +1728,12 @@ function bkx_get_dashboard_navigation_menu() {
 function getDayDateDuration( $booking_id ) {
 	$days_selected = get_post_meta( $booking_id, 'booking_multi_days', true );
 	if ( isset( $days_selected ) && ! empty( $days_selected ) ) {
-        $last_key         = count( $days_selected ) - 1;
-        $start_date       = date( 'F d, Y', strtotime( $days_selected[0] ) );
-        $end_date         = date( 'F d, Y', strtotime( $days_selected[ $last_key ] ) );
-        $date_data        = "{$start_date} To {$end_date}";
-        $booking_duration = ( count( $days_selected ) > 1 ? count( $days_selected ) . ' Days' : count( $days_selected ) . ' Day' );
-        $duration         = sprintf( __( '%s', 'bookingx' ), $booking_duration );
+		$last_key         = count( $days_selected ) - 1;
+		$start_date       = date( 'F d, Y', strtotime( $days_selected[0] ) );
+		$end_date         = date( 'F d, Y', strtotime( $days_selected[ $last_key ] ) );
+		$date_data        = "{$start_date} To {$end_date}";
+		$booking_duration = ( count( $days_selected ) > 1 ? count( $days_selected ) . ' Days' : count( $days_selected ) . ' Day' );
+		$duration         = sprintf( __( '%s', 'bookingx' ), $booking_duration );
 	}
 	return array( $date_data, $duration, $start_date, $end_date );
 }
@@ -1783,15 +1784,15 @@ function getBusinessInfo() {
 function getExtraHtml( $order_meta ) {
 	$extra_html = '';
 	if ( ! empty( $order_meta['addition_ids'] ) && ! empty( $order_meta['extra_arr'] ) ) {
-        $extra_html = sprintf( __( '%s', 'bookingx' ), '<p><label>Extra Services : </label>' );
-        $extra_data = '';
-        foreach ( $order_meta['extra_arr'] as $extra_obj ) {
-         $main_obj    = $extra_obj['main_obj']->post;
-         $extra_title = $main_obj->post_title;
-         $extra_data .= " {$extra_title} " . ',';
-              }
-        $extra_data  = rtrim( $extra_data, ',' );
-        $extra_html .= $extra_data . '</p>';
+		$extra_html = sprintf( __( '%s', 'bookingx' ), '<p><label>Extra Services : </label>' );
+		$extra_data = '';
+		foreach ( $order_meta['extra_arr'] as $extra_obj ) {
+			$main_obj    = $extra_obj['main_obj']->post;
+			$extra_title = $main_obj->post_title;
+			$extra_data .= " {$extra_title} " . ',';
+		}
+		$extra_data  = rtrim( $extra_data, ',' );
+		$extra_html .= $extra_data . '</p>';
 	}
 	return $extra_html;
 }
@@ -1804,20 +1805,20 @@ function getExtraHtml( $order_meta ) {
 function getPaymentInfo( $payment_source_method, $payment_status ) {
 	$pending_paypal_message = '';
 	if ( isset( $payment_source_method ) && $payment_source_method == 'bkx_gateway_paypal_express' && $payment_status == 'Pending' ) {
-        $pending_paypal_message = sprintf( __( '%s', 'bookingx' ), '<p> <label>Note : </label> Transaction Incomplete and payment is still in pending status! You need to manually authorize this payment in your Paypal Account </p>' );
+		$pending_paypal_message = sprintf( __( '%s', 'bookingx' ), '<p> <label>Note : </label> Transaction Incomplete and payment is still in pending status! You need to manually authorize this payment in your Paypal Account </p>' );
 	}
 
 	if ( ! empty( $payment_source_method ) ) {
-        $BkxPaymentCore             = new BkxPaymentCore();
-        $bkx_get_available_gateways = $BkxPaymentCore->PaymentGateways();
-        if ( ! empty( $bkx_get_available_gateways[ $payment_source_method ] ) ) {
-         $payment_source_name = $bkx_get_available_gateways[ $payment_source_method ]['title'];
-              } else {
-         $payment_source_name = esc_html__( 'Offline Payment', 'bookingx' );
-              }
-        $payment_source = sprintf( __( '%s', 'Bookingx' ), $payment_source_name );
+		$BkxPaymentCore             = new BkxPaymentCore();
+		$bkx_get_available_gateways = $BkxPaymentCore->PaymentGateways();
+		if ( ! empty( $bkx_get_available_gateways[ $payment_source_method ] ) ) {
+			$payment_source_name = $bkx_get_available_gateways[ $payment_source_method ]['title'];
+		} else {
+			$payment_source_name = esc_html__( 'Offline Payment', 'bookingx' );
+		}
+		$payment_source = sprintf( __( '%s', 'Bookingx' ), $payment_source_name );
 	} else {
-        $payment_source = sprintf( __( '%s', 'Bookingx' ), 'Offline Payment' );
+		$payment_source = sprintf( __( '%s', 'Bookingx' ), 'Offline Payment' );
 	}
 	return array( $pending_paypal_message, $payment_source );
 }
@@ -1827,52 +1828,52 @@ function getPaymentInfo( $payment_source_method, $payment_status ) {
  */
 function adminColorSchema() {
 	if ( is_user_logged_in() && is_admin() ) {
-        global $_wp_admin_css_colors;
-        $admin_color = get_user_option( 'admin_color' );
-        $colors      = $_wp_admin_css_colors[ $admin_color ]->colors;
-        switch ( $admin_color ) {
-         case 'fresh':
-				  $button  = $colors[2];
-				  $booked  = $colors[1];
-				  $open    = $colors[3];
-				  $current = $colors[0];
-          break;
-      case 'light':
-				  $button  = $colors[3];
-				  $booked  = $colors[1];
-				  $open    = $colors[2];
-				  $current = $colors[0];
-          break;
-      case 'blue':
-				  $button  = '#e1a948';
-				  $booked  = $colors[1];
-				  $open    = $colors[2];
-				  $current = $colors[0];
-          break;
+		global $_wp_admin_css_colors;
+		$admin_color = get_user_option( 'admin_color' );
+		$colors      = $_wp_admin_css_colors[ $admin_color ]->colors;
+		switch ( $admin_color ) {
+			case 'fresh':
+				$button  = $colors[2];
+				$booked  = $colors[1];
+				$open    = $colors[3];
+				$current = $colors[0];
+				break;
+			case 'light':
+				$button  = $colors[3];
+				$booked  = $colors[1];
+				$open    = $colors[2];
+				$current = $colors[0];
+				break;
+			case 'blue':
+				$button  = '#e1a948';
+				$booked  = $colors[1];
+				$open    = $colors[2];
+				$current = $colors[0];
+				break;
 			case 'ectoplasm':
-      case 'coffee':
-      case 'ocean':
-      case 'sunrise':
-				  $button  = $colors[2];
-				  $booked  = $colors[0];
-				  $open    = $colors[3];
-				  $current = $colors[1];
-       break;
+			case 'coffee':
+			case 'ocean':
+			case 'sunrise':
+				$button  = $colors[2];
+				$booked  = $colors[0];
+				$open    = $colors[3];
+				$current = $colors[1];
+				break;
 			case 'midnight':
-              $button  = $colors[3];
-              $booked  = $colors[0];
-              $open    = $colors[2];
-              $current = $colors[1];
-       break;
-        }
-        $color_schema = array(
-         'button'  => $button,
-         'booked'  => $booked,
-         'open'    => $open,
-         'current' => $current,
-        );
+				$button  = $colors[3];
+				$booked  = $colors[0];
+				$open    = $colors[2];
+				$current = $colors[1];
+				break;
+		}
+		$color_schema = array(
+			'button'  => $button,
+			'booked'  => $booked,
+			'open'    => $open,
+			'current' => $current,
+		);
 
-        return apply_filters( 'bkx_admin_form_color_schema', $color_schema );
+		return apply_filters( 'bkx_admin_form_color_schema', $color_schema );
 	}
 }
 
@@ -1882,38 +1883,38 @@ function adminColorSchema() {
  */
 function service_hours_formatted( $obj ) {
 	if ( empty( $obj ) ) {
-        return;
+		return;
 	}
 	$duration_text = '';
 	if ( ( isset( $obj['H'] ) ) ) {
-        $hour_min_obj = $obj['H'];
+		$hour_min_obj = $obj['H'];
 	}
 	if ( ( isset( $obj['D'] ) ) ) {
-        $day_obj = $obj['D'];
+		$day_obj = $obj['D'];
 	}
 
 	if ( ! empty( $hour_min_obj ) ) :
-        $hours_val   = (int) $hour_min_obj['hours'];
-        $minutes_val = (int) $hour_min_obj['minutes'];
-        if ( isset( $hours_val ) && $hours_val != '' && $hours_val > 1 ) {
-         $hours = "{$hours_val} Hours";
-              } elseif ( isset( $hours_val ) && $hours_val != '' && $hours_val == 1 ) {
-         $hours = "{$hours_val} Hour";
-              }
-        $mins = '';
-        if ( isset( $minutes_val ) && $minutes_val != '' && $minutes_val > 1 ) {
-         $mins = "{$minutes_val} minutes";
-              }
-        $duration_text = "{$hours} {$mins}";
+		$hours_val   = (int) $hour_min_obj['hours'];
+		$minutes_val = (int) $hour_min_obj['minutes'];
+		if ( isset( $hours_val ) && $hours_val != '' && $hours_val > 1 ) {
+			$hours = "{$hours_val} Hours";
+		} elseif ( isset( $hours_val ) && $hours_val != '' && $hours_val == 1 ) {
+			$hours = "{$hours_val} Hour";
+		}
+		$mins = '';
+		if ( isset( $minutes_val ) && $minutes_val != '' && $minutes_val > 1 ) {
+			$mins = "{$minutes_val} minutes";
+		}
+		$duration_text = "{$hours} {$mins}";
 	endif;
 	if ( ! empty( $day_obj ) ) :
-        $days_val = (int) $day_obj['days'];
-        if ( isset( $days_val ) && $days_val != '' && $days_val > 1 ) {
-         $day = "{$days_val} Days";
-              } elseif ( isset( $days_val ) && $days_val != '' && $days_val == 1 ) {
-         $day = "{$days_val} Day";
-              }
-        $duration_text = $day;
+		$days_val = (int) $day_obj['days'];
+		if ( isset( $days_val ) && $days_val != '' && $days_val > 1 ) {
+			$day = "{$days_val} Days";
+		} elseif ( isset( $days_val ) && $days_val != '' && $days_val == 1 ) {
+			$day = "{$days_val} Day";
+		}
+		$duration_text = $day;
 	endif;
 
 	return apply_filters( 'bkx_service_time_formatted', $duration_text, $obj );
@@ -1926,7 +1927,7 @@ function service_hours_formatted( $obj ) {
  */
 function check_booking_owner( $user_id, $booking_id ) {
 	if ( ! isset( $user_id, $booking_id ) ) {
-        return;
+		return;
 	}
 
 	$BkxBooking = new BkxBooking( null, $booking_id );
@@ -1934,14 +1935,14 @@ function check_booking_owner( $user_id, $booking_id ) {
 	$user_info = get_userdata( $user_id );
 
 	try {
-        $email         = $user_info->data->user_email;
-        $order_meta    = $BkxBooking->get_order_meta_data();
-        $created_by    = $order_meta['created_by'];
-        $created_email = $order_meta['email'];
-        if ( $created_by == $user_id || $created_email == $email ) {
-         return true;
-              }
+		$email         = $user_info->data->user_email;
+		$order_meta    = $BkxBooking->get_order_meta_data();
+		$created_by    = $order_meta['created_by'];
+		$created_email = $order_meta['email'];
+		if ( $created_by == $user_id || $created_email == $email ) {
+			return true;
+		}
 	} catch ( Exception $e ) {
-        return;
+		return;
 	}
 }
