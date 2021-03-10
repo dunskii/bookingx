@@ -759,21 +759,22 @@ class BkxBooking {
 					$this->booking_email( $booking['meta_data']['order_id'], 'customer_pending' );
 				}
 				$is_new           = strpos( $booking['meta_data']['last_page_url'], 'post-new.php' );
-				$is_admin_new     = $is_new ? 1 : 0;
-				$is_edited        = ( isset( $_POST['is_admin_edit'] ) && '' !== $_POST['is_admin_edit'] && true === $_POST['is_admin_edit'] ? 1 : 0 );
-				$is_customer_edit = ( isset( $_POST['is_customer_edit'] ) && '' !== $_POST['is_customer_edit'] && true === $_POST['is_customer_edit'] ? 1 : 0 );
-				if ( false !== $is_new || 1 === $is_customer_edit ) {
-					$return_url = ! empty( $_POST['last_page_url'] ) ? sanitize_text_field( wp_unslash( $_POST['last_page_url'] ) ) : '';
-					if ( isset( $_POST['return_id'] ) && '' !== $_POST['return_id'] ) {
-						$return_url = get_permalink( sanitize_term_field( wp_unslash( $_POST['return_id'] ) ) );
-					}
-					$booking['meta_data']['redirect_to'] = $return_url;
-				}
+				$is_admin_new     = strpos( sanitize_text_field( wp_unslash( $_SERVER['HTTP_REFERER'] ) ), 'post-new.php' ) ? 1 : 0;
+				$is_edited        = ( isset( $_POST['is_admin_edit'] ) && '' !== $_POST['is_admin_edit'] && 'true' === $_POST['is_admin_edit'] ? 1 : 0 );
+				$is_customer_edit = ( isset( $_POST['is_customer_edit'] ) && '' !== $_POST['is_customer_edit'] && 'true' === $_POST['is_customer_edit'] ? 1 : 0 );
 				if ( false !== $is_new || 1 === $is_edited ) {
 					$booking['meta_data']['redirect_to'] = get_edit_post_link( $booking['meta_data']['order_id'], '&' );
 				}
 
-				if ( $is_admin_new ) {
+				if ( false !== $is_new || 1 === $is_customer_edit && 0 === $is_edited ) {
+					$return_url = ! empty( $_POST['last_page_url'] ) ? sanitize_text_field( wp_unslash( $_POST['last_page_url'] ) ) : '';
+					if ( isset( $_POST['return_id'] ) && '' !== $_POST['return_id'] ) {
+						$return_id  = sanitize_text_field( wp_unslash( $_POST['return_id'] ) );
+						$return_url = get_permalink( $return_id );
+					}
+					$booking['meta_data']['redirect_to'] = $return_url;
+				}
+				if ( $is_admin_new == 1 ) {
 					$booking['meta_data']['redirect_to'] = admin_url( 'edit.php?post_type=bkx_booking' );
 				}
 			}
