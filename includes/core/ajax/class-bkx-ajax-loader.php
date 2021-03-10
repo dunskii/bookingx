@@ -625,7 +625,7 @@ class Bkx_Ajax_Loader {
 	 * In js/admin/booking-form/bkx-booking-form.js
 	 */
 	public static function payment_method_on_change() {
-         check_ajax_referer( 'payment-method-on-change', 'security' );
+		check_ajax_referer( 'payment-method-on-change', 'security' );
         $result                     = array();
         $BkxPaymentCore             = new BkxPaymentCore();
 		$post_data = array();
