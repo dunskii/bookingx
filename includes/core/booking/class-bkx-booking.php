@@ -758,19 +758,18 @@ class BkxBooking {
 					$this->booking_email( $booking['meta_data']['order_id'], 'pending' );
 					$this->booking_email( $booking['meta_data']['order_id'], 'customer_pending' );
 				}
-
 				$is_new           = strpos( $booking['meta_data']['last_page_url'], 'post-new.php' );
 				$is_edited        = ( isset( $_POST['is_admin_edit'] ) && '' !== $_POST['is_admin_edit'] && true === $_POST['is_admin_edit'] ? 1 : 0 );
 				$is_customer_edit = ( isset( $_POST['is_customer_edit'] ) && '' !== $_POST['is_customer_edit'] && true === $_POST['is_customer_edit'] ? 1 : 0 );
-				if ( false !== $is_new || 1 === $is_edited ) {
-					$booking['meta_data']['redirect_to'] = get_edit_post_link( $booking['meta_data']['order_id'], '&' );
-				}
 				if ( false !== $is_new || 1 === $is_customer_edit ) {
 					$return_url = ! empty( $_POST['last_page_url'] ) ? sanitize_text_field( wp_unslash( $_POST['last_page_url'] ) ) : '';
 					if ( isset( $_POST['return_id'] ) && '' !== $_POST['return_id'] ) {
 						$return_url = get_permalink( sanitize_term_field( wp_unslash( $_POST['return_id'] ) ) );
 					}
 					$booking['meta_data']['redirect_to'] = $return_url;
+				}
+				if ( false !== $is_new || 1 === $is_edited ) {
+					$booking['meta_data']['redirect_to'] = get_edit_post_link( $booking['meta_data']['order_id'], '&' );
 				}
 			}
 			// phpcs:enable WordPress.Security.NonceVerification.Missing
@@ -822,7 +821,7 @@ class BkxBooking {
 			 && bkx_crud_option_multisite( 'enable_any_seat' ) == 1
 			 && bkx_crud_option_multisite( 'select_default_seat' ) != ''
 		) :
-			$base_id = sanitize_text_field( wp_unslash( $_SESSION['_session_base_id'] ));
+			$base_id = sanitize_text_field( wp_unslash( $_SESSION['_session_base_id'] ) );
 			// get current booking start time slot.
 			$bookinghour  = explode( ':', $selected_time );
 			$hours_temp   = $bookinghour[0];

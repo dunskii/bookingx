@@ -368,14 +368,15 @@ class Bkx_Script_Loader {
 			$is_mobile = 1;
 		}
 
-		$bkx_legal      = bkx_crud_option_multisite( 'bkx_legal_options' );
-		$privacy_policy = bkx_crud_option_multisite( 'bkx_privacy_policy_page' );
-		$cancellation   = bkx_crud_option_multisite( 'bkx_cancellation_policy_page' );
-		$term_cond      = bkx_crud_option_multisite( 'bkx_term_cond_page' );
-		$http_host_uri  = isset( $_SERVER['HTTP_HOST'], $_SERVER['REQUEST_URI'] ) ? esc_url( sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) . '' . sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) ) : '';
-
+		$is_admin_new    = strpos( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ), 'post-new.php' ) ? 1 : 0;
+		$bkx_legal       = bkx_crud_option_multisite( 'bkx_legal_options' );
+		$privacy_policy  = bkx_crud_option_multisite( 'bkx_privacy_policy_page' );
+		$cancellation    = bkx_crud_option_multisite( 'bkx_cancellation_policy_page' );
+		$term_cond       = bkx_crud_option_multisite( 'bkx_term_cond_page' );
+		$http_host_uri   = isset( $_SERVER['HTTP_HOST'], $_SERVER['REQUEST_URI'] ) ? esc_url( sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) . '' . sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) ) : '';
 		$defaults_params = array(
-			'last_page_url'                             => ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http' ) . "://{$http_host_uri}",
+			'last_page_url'                             => $http_host_uri,
+			'is_admin_new'                              => $is_admin_new,
 			'ajax_url'                                  => admin_url( 'admin-ajax.php', 'relative' ),
 			'bkx_legal'                                 => $bkx_legal,
 			'is_mobile'                                 => $is_mobile,
