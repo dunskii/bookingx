@@ -759,6 +759,7 @@ class BkxBooking {
 					$this->booking_email( $booking['meta_data']['order_id'], 'customer_pending' );
 				}
 				$is_new           = strpos( $booking['meta_data']['last_page_url'], 'post-new.php' );
+				$is_admin_new     = $is_new ? 1 : 0;
 				$is_edited        = ( isset( $_POST['is_admin_edit'] ) && '' !== $_POST['is_admin_edit'] && true === $_POST['is_admin_edit'] ? 1 : 0 );
 				$is_customer_edit = ( isset( $_POST['is_customer_edit'] ) && '' !== $_POST['is_customer_edit'] && true === $_POST['is_customer_edit'] ? 1 : 0 );
 				if ( false !== $is_new || 1 === $is_customer_edit ) {
@@ -770,6 +771,10 @@ class BkxBooking {
 				}
 				if ( false !== $is_new || 1 === $is_edited ) {
 					$booking['meta_data']['redirect_to'] = get_edit_post_link( $booking['meta_data']['order_id'], '&' );
+				}
+
+				if ( $is_admin_new ) {
+					$booking['meta_data']['redirect_to'] = admin_url( 'edit.php?post_type=bkx_booking' );
 				}
 			}
 			// phpcs:enable WordPress.Security.NonceVerification.Missing
