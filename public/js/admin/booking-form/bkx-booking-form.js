@@ -281,7 +281,19 @@ jQuery(function ($) {
             }
         },
         book_now: function () {
-            if (confirm('Are you sure want to update booking?')) {
+            if ( bkx_booking_form_admin_params.is_admin_new == 1 ) {
+                booking_form.booking_process_method();
+            } else {
+                if(confirm('Are you sure want to update booking?')){
+                    booking_form.booking_process_method();
+                }else{
+                    $('.bkx-form-submission-final').prop('disabled', false);
+                    $('.bkx-form-submission-final').text('Booking Update');
+                    return false;
+                }
+            }
+        },
+        booking_process_method : function (){
                 booking_form.validate_form_fields();
                 $('.bkx-form-submission-final').text('Please wait..');
                 $('.bkx-form-submission-final').prop('disabled', true);
@@ -368,11 +380,6 @@ jQuery(function ($) {
 
                     }
                 });
-            } else {
-                $('.bkx-form-submission-final').prop('disabled', false);
-                $('.bkx-form-submission-final').text('Booking Update');
-                return false;
-            }
         },
         payment_method: function () {
             var data = {
