@@ -58,6 +58,8 @@ To take prepayment or deposits for a booking using PalPal Express go to Booking 
 If you haven’t got your API credentials, you can learn how to create them here.
 If you are currently developing your website, you can use the sandbox option to text the system without processing a real payment.
 
+If you require another payment merchant, e.g. Stripe, you can download these from our [add-on marketplace](https://booking-x.com/add-ons/)
+
 *Tax Settings*
 You can add you regions tax settings by going to Booking X -> Settings -> Payment -> Tax Settings
 
@@ -67,11 +69,11 @@ You can set your countries currency by going to Booking X -> Settings -> Payment
 
 **Once you have confirmed your basic settings you will need to add at least 1 resource and 1 services**
 
-*Add A Resrouce*
+*Add A Resource*
 To add a resource go to Booking X -> Resource (This label will differ depending on what you set it as in your Alias settings)
 Adding the Resource Name, Description and Image works the same as creating a page or post in WordPress.
-1. Resource Name is the form field “Enter Title Here”
-2. Description in the visual editor
+1. Resource Name is the form field “Add Title”
+2. Description in the block editor (or classic editor).
 3. Set the feature image for the resource image.
 
 In the Details section you can do the follow:
@@ -107,7 +109,7 @@ In the Details section you can do the following:
 == Frequently Asked Questions ==
 = Do you have a premium version? =
 
-No, our goal is for Booking X to have all the core features that a service business requires to manage bookings. To extend its functionality we will be releasing add-ons.
+No, our goal is for Booking X to have all the core features that a service business requires to manage bookings. To extend its functionality we will be selling [add-ons](https://booking-x.com/add-ons/).
 
 = Where can I get support? =
 
@@ -115,11 +117,11 @@ If you need help with Booking X, head over to booking-x.com.
 
 = Is Booking X multisite compatible? =
 
-Yes, we love multisite. Our demo of Booking X is running it. (https://demo.booking-x.com)
+Yes, we love multisite. Our [demo](https://demo.booking-x.com) of Booking X is running it. 
 
 = Is Booking X compatible with my theme? =
 
-It should be, you get set the colours to fit your site by going Settings -> General tab -> Styling
+It should be, remember you can set the colours to fit your site by going Settings -> General tab -> Styling
 
 == Screenshots ==
 
@@ -139,4 +141,4 @@ Automatic updates should work smoothly, but we still recommend you back up your 
 
 == Changelog ==
 
-= 1.0 - Let's get this party started! 2021-16-03 =
+= 1.0 - Let's get this party started! 2021-03-16 =
