@@ -120,3 +120,32 @@ Yes, we love multisite. Our demo of Booking X is running it. (https://demo.booki
 = Is Booking X compatible with my theme? =
 
 It should be, you get set the colours to fit your site by going Settings -> General tab -> Styling
+
+== Screenshots ==
+
+1. Unavailable dates and times are highlighted when making a booking.
+2. Tell customers as much as you can about your resources using the power of blocks (or the classic editor).
+3. Let customers see everything about the services you offer.
+4. As well as setting days of operation you can also set when you are closed for public holidays and business vacations.
+5. Use Booking X blocks to display the booking form, as well as create resource, service and extras listing pages.
+
+== Blocks ==
+
+This plugin provides 4 blocks.
+
+* Display booking form
+* Display resource listings
+* Display services listings
+* Display extras listings
+
+== Upgrade Notice ==
+
+= 1.0 =
+This is version 1.0, no upgrades yet.
+
+== Updating ==
+Automatic updates should work smoothly, but we still recommend you back up your site.
+
+== Changelog ==
+
+= 1.0 - Let's get this party started! 2021-16-03 =
