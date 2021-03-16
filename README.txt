@@ -129,15 +129,6 @@ It should be, you get set the colours to fit your site by going Settings -> Gene
 4. As well as setting days of operation you can also set when you are closed for public holidays and business vacations.
 5. Use Booking X blocks to display the booking form, as well as create resource, service and extras listing pages.
 
-== Blocks ==
-
-This plugin provides 4 blocks.
-
-* Display booking form
-* Display resource listings
-* Display services listings
-* Display extras listings
-
 == Upgrade Notice ==
 
 = 1.0 =
