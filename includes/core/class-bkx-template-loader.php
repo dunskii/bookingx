@@ -76,6 +76,7 @@ class Bkx_Template_Loader {
 
 			if ( ! $template ) {
 				$template = $template_path . '/templates/' . $default_file;
+				$template = apply_filters( 'bkx_template_loader_path_return', $template, $default_file );
 			}
 		}
 		return $template;
