@@ -131,9 +131,10 @@ class Bkx_Block {
 			$in_footer = isset( $script['in_footer'] ) ? $script['in_footer'] : false;
 			$localized = isset( $script['localized'] ) ? $script['localized'] : false;
 			if ( ! empty( $localized ) ) {
+				$js_object = isset( $script['js_object'] ) && ! empty( $script['js_object'] ) ? $script['js_object'] : 'bkx_block_obj';
 				wp_register_script( $script['handle'], $src, $deps, $version, $in_footer );
 				// Localize the script with new data.
-				wp_localize_script( $script['handle'], 'bkx_block_obj', $localized );
+				wp_localize_script( $script['handle'], $js_object, $localized );
 				// Enqueued script with localized data.
 				wp_enqueue_script( $script['handle'] );
 			} else {

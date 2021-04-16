@@ -40,14 +40,14 @@ function bkx_reassign_available_emp_list( $seat_id, $start_date, $end_date, $ser
 				'meta_value'  => $get_employee,
 				'meta_query'  => array(
 					array(
-						'key'   => 'booking_start_date',
-						'value' => date( 'Y-m-d H:i:s', strtotime( $start_date ) ), // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
-						'compare'   => '<=',
+						'key'     => 'booking_start_date',
+						'value'   => date( 'Y-m-d H:i:s', strtotime( $start_date ) ), // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+						'compare' => '<=',
 					),
 					array(
-						'key'   => 'booking_end_date',
-						'value' => date( 'Y-m-d H:i:s', strtotime( $end_date ) ), // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
-						'compare'   => '>=',
+						'key'     => 'booking_end_date',
+						'value'   => date( 'Y-m-d H:i:s', strtotime( $end_date ) ), // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+						'compare' => '>=',
 					),
 				),
 			);
@@ -266,8 +266,9 @@ function bkx_get_range( $booking_date, $seatid, $array = false ) {
  */
 function bkx_get_template( $template_name, $args = '' ) {
 	if ( isset( $template_name ) && $template_name != '' ) {
-		$plugin_path = BKX_PLUGIN_DIR_PATH . 'templates/';
-		$file_path   = $plugin_path . '' . $template_name;
+		$bkx_plugin_dir_path = apply_filters( 'bkx_plugin_dir_path_override', BKX_PLUGIN_DIR_PATH );
+		$plugin_path         = $bkx_plugin_dir_path . 'templates/';
+		$file_path           = $plugin_path . '' . $template_name;
 		if ( ! file_exists( $file_path ) ) {
 			return;
 		}
@@ -284,9 +285,7 @@ function bkx_get_template( $template_name, $args = '' ) {
 			}
 			extract( $args );
 		}
-
 		do_action( 'bkx_before_template_part', $action_args['template_name'], $action_args['template_path'], $action_args['located'], $action_args['args'] );
-
 		include $action_args['located'];
 
 		do_action( 'bkx_after_template_part', $action_args['template_name'], $action_args['template_path'], $action_args['located'], $action_args['args'] );
