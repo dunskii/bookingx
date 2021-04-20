@@ -1895,6 +1895,7 @@ function service_hours_formatted( $obj ) {
 	if ( ! empty( $hour_min_obj ) ) :
 		$hours_val   = (int) $hour_min_obj['hours'];
 		$minutes_val = (int) $hour_min_obj['minutes'];
+		$hours = "";
 		if ( isset( $hours_val ) && $hours_val != '' && $hours_val > 1 ) {
 			$hours = "{$hours_val} Hours";
 		} elseif ( isset( $hours_val ) && $hours_val != '' && $hours_val == 1 ) {
