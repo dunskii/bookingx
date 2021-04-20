@@ -11,15 +11,16 @@
 
 defined( 'ABSPATH' ) || exit;
 global $bkx_base;
-$booking_url    = $bkx_base->booking_page_url;
-$alias_base     = bkx_crud_option_multisite( 'bkx_alias_base' );
-$base_id        = $bkx_base->id;
-$price_duration = bkx_get_post_price_duration_plain( $bkx_base, $alias_base );
-$args           = ! empty( $args ) ? $args : array();
-$settings       = apply_filters( 'bookingx_block_grid_setting', $args );
-$card_width     = apply_filters( 'bookingx_card_width_setting', $args );
-$image          = 'yes';
-$desc           = 'yes';
+$booking_url        = $bkx_base->booking_page_url;
+$alias_base         = bkx_crud_option_multisite( 'bkx_alias_base' );
+$base_id            = $bkx_base->id;
+$sale_price_details = $bkx_base->sale_price_details;
+$price_duration     = bkx_get_post_price_duration_plain( $bkx_base, $alias_base );
+$args               = ! empty( $args ) ? $args : array();
+$settings           = apply_filters( 'bookingx_block_grid_setting', $args );
+$card_width         = apply_filters( 'bookingx_card_width_setting', $args );
+$image              = 'yes';
+$desc               = 'yes';
 if ( ! empty( $args ) ) {
 	$desc  = isset( $args['description'] ) && $args['description'] != '' ? $args['description'] : 'yes';
 	$image = isset( $args['image'] ) && $args['image'] != '' ? $args['image'] : 'yes';
@@ -47,7 +48,11 @@ $center_class = '';
 				<p class="card-text"><?php echo wp_trim_words( get_the_content( $base_id ), 15, '...' ); //phpcs:ignore ?></p>
 			<?php endif; ?>
 			<?php do_action( 'bkx_after_listing_content', $args_data ); ?>
+			<?php if ( ! empty( $sale_price_details ) ) : ?>
+				<p class="card-text mb-2 mt-2 text-center font-weight-bold price-section"><del><?php echo $sale_price_details['currency'] . $sale_price_details['base_price']; // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped ?></del> <a href="javascript:void(0);"><?php echo $sale_price_details['currency'] . $sale_price_details['base_sale_price']; // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped ?></a> </p>
+			<?php else : ?>
 			<p class="card-text mb-2 mt-2 text-center font-weight-bold"><?php echo $price_duration['price']; // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped ?></p>
+			<?php endif; ?>
 			<div class="text-center">
 				<a href="<?php echo esc_url( $booking_url ); ?>" class="btn btn-primary"><?php echo esc_html__( 'Book now', 'bookingx' ); ?></a>
 			</div>
