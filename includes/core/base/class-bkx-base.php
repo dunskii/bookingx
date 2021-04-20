@@ -260,7 +260,7 @@ class BkxBase {
 			return;
 		}
 		$bkx_post   = get_post( $post_id );
-		$base_price = get_post_meta( $post_id, 'base_price', true );
+		$base_price = $this->get_price();
 		$base_time  = $this->get_time( $post_id );
 		$formatted  = '';
 		if ( isset( $base_time['formatted'] ) ) {
@@ -338,7 +338,7 @@ class BkxBase {
 	 */
 	public function get_excerpts() {
 		$post_excerpt = $this->post->post_excerpt;
-		return apply_filters( 'bkx_base_price', $post_excerpt );
+		return apply_filters( 'bkx_base_post_excerpt', $post_excerpt );
 	}
 
 	/**
@@ -381,9 +381,16 @@ class BkxBase {
 	 * @return string
 	 */
 	public function get_price(): string {
-		$meta_data  = $this->meta_data;
-		$base_price = isset( $meta_data['base_price'] ) ? esc_html( $meta_data['base_price'][0] ) : 0;
-		return apply_filters( 'bkx_base_price', $base_price, $this );
+		$meta_data                      = $this->meta_data;
+		$base_price                     = isset( $meta_data['base_price'] ) ? esc_html( $meta_data['base_price'][0] ) : 0;
+		$base_sale_price                = isset( $meta_data['base_sale_price'] ) ? esc_html( $meta_data['base_sale_price'][0] ) : 0;
+		$price_array['base_price']      = $base_price;
+		$price_array['base_sale_price'] = $base_sale_price;
+		$price_array['meta_data']       = $meta_data;
+		if ( isset( $base_sale_price ) && $base_sale_price > 0 ) {
+			$base_price = $base_sale_price;
+		}
+		return apply_filters( 'bkx_base_price', $base_price, $price_array );
 	}
 
 	/**
