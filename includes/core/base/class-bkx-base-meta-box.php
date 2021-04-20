@@ -96,8 +96,8 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
 			);
 			$get_seat_array = get_posts( $args );
 			$values         = get_post_custom( $post->ID );
-
-			$base_price             = isset( $values['base_price'] ) ? esc_html( $values['base_price'][0] ) : '';
+			$base_price             = isset( $values['base_price'] ) ? esc_html( $values['base_price'][0] ) : 0;
+			$base_sale_price        = isset( $values['base_sale_price'] ) ? esc_html( $values['base_sale_price'][0] ) : 0;
 			$base_time_option       = isset( $values['base_time_option'] ) ? esc_html( $values['base_time_option'][0] ) : '';
 			$base_month             = isset( $values['base_month'] ) ? esc_html( $values['base_month'][0] ) : '';
 			$base_day               = isset( $values['base_day'] ) ? esc_html( $values['base_day'][0] ) : '';
@@ -129,6 +129,20 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
 			?>
 				<div class="plugin-description">
 					<input name="base_price" type="text" value="<?php echo esc_attr( $base_price_html ); ?>" id="id_base_price">
+				</div>
+			</div>
+
+			<div class="active" id="base_sale_price">
+				<?php
+				// translators: Base Sale Price Label.
+				printf( __( '%1$s  Sale Price', 'bookingx' ), esc_html( $base_alias ) ); // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped
+				$base_sale_price_html = 0;
+				if ( isset( $base_sale_price ) && '' !== $base_sale_price ) {
+					$base_sale_price_html = esc_html( $base_sale_price );
+				}
+				?>
+				<div class="plugin-description">
+					<input name="base_sale_price" type="text" value="<?php echo esc_attr( $base_sale_price_html ); ?>" id="id_base_sale_price">
 				</div>
 			</div>
 
@@ -408,6 +422,7 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
 			do_action( 'bkx_base_meta_box_save', $post_id );
          // phpcs:disable WordPress.Security.NonceVerification.Missing
 			$base_price                = isset( $_POST['base_price'] ) ? sanitize_text_field( wp_unslash( $_POST['base_price'] ) ) : '';
+			$base_sale_price           = isset( $_POST['base_sale_price'] ) ? sanitize_text_field( wp_unslash( $_POST['base_sale_price'] ) ) : '';
 			$base_month_days_time      = isset( $_POST['base_months_days_times'] ) ? sanitize_text_field( wp_unslash( $_POST['base_months_days_times'] ) ) : '';
 			$base_months               = isset( $_POST['base_months'] ) ? sanitize_text_field( wp_unslash( $_POST['base_months'] ) ) : '';
 			$base_days                 = isset( $_POST['base_days'] ) ? sanitize_text_field( wp_unslash( $_POST['base_days'] ) ) : '';
@@ -463,6 +478,10 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
 			// Make sure your data is set before trying to save .
 			if ( isset( $base_price ) ) {
 				update_post_meta( $post_id, 'base_price', $base_price );
+			}
+
+			if ( isset( $base_sale_price ) ) {
+				update_post_meta( $post_id, 'base_sale_price', $base_sale_price );
 			}
 
 			if ( isset( $base_time_option ) ) {

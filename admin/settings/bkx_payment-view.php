@@ -3,7 +3,7 @@
  * Template load for Payment Gateway Section and Settings
  *
  * @package Bookingx/admin
- * @since      1.0.2
+ * @since      1.0.3
  */
 
 defined( 'ABSPATH' ) || exit;
