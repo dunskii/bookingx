@@ -1872,7 +1872,8 @@ class BkxBooking {
 		$generate_total       = 0;
 		$service_extend_total = 0;
 		if ( ! empty( $base_id ) && $base_id != '' && $base_id != 'NaN' ) {
-			$base_price = get_post_meta( $base_id, 'base_price', true );
+			$BkxBase    = new BkxBase( null, $base_id );
+			$base_price = $BkxBase->get_price;
 			if ( isset( $service_extend ) && $service_extend > 0 ) {
 				$service_extend_total = $base_price * $service_extend;
 			}
