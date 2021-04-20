@@ -18,6 +18,10 @@
 .booking-x .select-time .table td a{
 	text-align: center;
 }
+.single-bkx_base .price-section a, .booking-x .price-section a{
+	text-decoration: none;
+	cursor: auto;
+}
 
 /* ProgressBar */
 .booking-x .progress-tracker {
