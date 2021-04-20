@@ -94,6 +94,13 @@ class BkxBase {
 	public $get_service_unavailable;
 
 	/**
+	 * Sale_price_details
+	 *
+	 * @var
+	 */
+	public $sale_price_details;
+
+	/**
 	 * $booking_url Booking url with arguments
 	 *
 	 * @var mixed|void
@@ -163,6 +170,7 @@ class BkxBase {
 		$this->post                    = $bkx_post;
 		$this->meta_data               = get_post_custom( $post_id );
 		$this->get_price               = $this->get_price();
+		$this->sale_price_details      = $this->sale_price_details();
 		$this->get_service_time        = $this->get_service_time();
 		$this->get_seat_by_base        = $this->get_seat_by_base();
 		$this->service_extended        = $this->service_extended();
@@ -392,6 +400,59 @@ class BkxBase {
 		}
 		return apply_filters( 'bkx_base_price', $base_price, $price_array );
 	}
+
+	public function is_on_sale() {
+		$meta_data       = $this->meta_data;
+		$base_sale_price = isset( $meta_data['base_sale_price'] ) ? esc_html( $meta_data['base_sale_price'][0] ) : 0;
+		$is_sale         = false;
+		if ( isset( $base_sale_price ) && $base_sale_price > 0 ) {
+			$is_sale = true;
+		}
+		return $is_sale;
+	}
+
+	/**
+	 * @return array|void
+	 */
+	public function sale_price_details() {
+
+		if ( $this->is_on_sale() == false ) {
+			return;
+		}
+		$meta_data                      = $this->meta_data;
+		$base_price                     = isset( $meta_data['base_price'] ) ? esc_html( $meta_data['base_price'][0] ) : 0;
+		$base_sale_price                = isset( $meta_data['base_sale_price'] ) ? esc_html( $meta_data['base_sale_price'][0] ) : 0;
+		$calculate_discount             = $this->calculate_discount();
+		$price_array['base_price']      = $base_price;
+		$price_array['base_sale_price'] = $base_sale_price;
+		$price_array['discount']        = $calculate_discount['amount'];
+		$price_array['percentage']      = round( $calculate_discount['percentage'] );
+		$price_array['currency']        = $this->load_global->currency_sym;
+
+		return $price_array;
+	}
+
+	/**
+	 * @return mixed|void
+	 */
+	public function calculate_discount() {
+
+		if ( $this->is_on_sale() == false ) {
+			return;
+		}
+		$meta_data       = $this->meta_data;
+		$base_price      = isset( $meta_data['base_price'] ) ? esc_html( $meta_data['base_price'][0] ) : 0;
+		$base_sale_price = isset( $meta_data['base_sale_price'] ) ? esc_html( $meta_data['base_sale_price'][0] ) : 0;
+		$discount        = array();
+		if ( isset( $base_price ) && isset( $base_sale_price ) && $base_sale_price > 0 ) {
+			$discount['amount'] = ( $base_price - $base_sale_price );
+			if ( isset( $discount['amount'] ) && $discount['amount'] > 0 ) {
+				$discount['percentage'] = ( $discount['amount'] * 100 / $base_price );
+			}
+		}
+		return apply_filters( 'base_discount', $discount, $meta_data );
+	}
+
 
 	/**
 	 * GetMetData()

@@ -11,15 +11,15 @@
 
 defined( 'ABSPATH' ) || exit;
 global $bkx_base;
-$alias_base  = bkx_crud_option_multisite( 'bkx_alias_base' );
-$alias_extra = bkx_crud_option_multisite( 'bkx_alias_addition' );
-$alias_seat  = bkx_crud_option_multisite( 'bkx_alias_seat' );
-
-$booking_url      = $bkx_base->booking_page_url;
-$base_id          = $bkx_base->id;
-$BaseObj          = new BkxBase( null, $base_id );
-$price_duration   = bkx_get_post_price_duration_plain( $bkx_base, $alias_base );
-$get_seat_by_base = $BaseObj->get_seat_obj_by_base( $base_id );
+$alias_base         = bkx_crud_option_multisite( 'bkx_alias_base' );
+$alias_extra        = bkx_crud_option_multisite( 'bkx_alias_addition' );
+$alias_seat         = bkx_crud_option_multisite( 'bkx_alias_seat' );
+$sale_price_details = $bkx_base->sale_price_details;
+$booking_url        = $bkx_base->booking_page_url;
+$base_id            = $bkx_base->id;
+$BaseObj            = new BkxBase( null, $base_id );
+$price_duration     = bkx_get_post_price_duration_plain( $bkx_base, $alias_base );
+$get_seat_by_base   = $BaseObj->get_seat_obj_by_base( $base_id );
 
 $bkx_extra_obj     = new BkxExtra();
 $get_extra_by_base = $bkx_extra_obj->get_extra_by_base( $base_id );
@@ -54,20 +54,26 @@ $args_data = apply_filters(
 			<?php do_action( 'bkx_before_col_single_post', $args_data ); ?>
 				<div class="col-md-<?php echo esc_attr( $image == 'yes' ) ? 8 : 12; ?>">
 				<div class="row">
-					<div class="col-md-8"><h1><?php echo esc_html( get_the_title( $base_id ) ); ?></h1>
-						<h4>
+                    <div class="col-md-9"><h1><?php echo esc_html( get_the_title( $base_id ) ); ?></h1></div>
+                    <div class="col-md-3">
+                        <form method="post" enctype='multipart/form-data' action="<?php echo esc_url( $booking_url ); ?>">
+                            <input type="hidden" name="type" value="bkx_base"/>
+                            <input type="hidden" name="id" value="<?php echo esc_attr( $base_id ); ?>"/>
+                            <button type="submit" class="btn btn-primary"><?php esc_html_e( 'Book now', 'bookingx' ); ?></button>
+                        </form>
+                    </div>
+                    <div class="col-md-12">
+						<h4 class="price-section">
 						<?php
 						echo esc_html( "{$price_duration['time']}" );
-						echo "{$price_duration['price']}"; // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped 
 						?>
-						</h4></div>
-					<div class="col-md-4">
-						<form method="post" enctype='multipart/form-data' action="<?php echo esc_url( $booking_url ); ?>">
-							<input type="hidden" name="type" value="bkx_base"/>
-							<input type="hidden" name="id" value="<?php echo esc_attr( $base_id ); ?>"/>
-							<button type="submit" class="btn btn-primary"><?php esc_html_e( 'Book now', 'bookingx' ); ?></button>
-						</form>
-					</div>
+						<?php if ( ! empty( $sale_price_details ) ) : ?>
+							<del><?php echo $sale_price_details['currency'] . $sale_price_details['base_price']; // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped ?></del> <a href="javascript:void(0);"><?php echo $sale_price_details['currency'] . $sale_price_details['base_sale_price']; // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped ?></a> (You save <?php echo $sale_price_details['percentage']; ?>%)
+						<?php else : ?>
+							<?php echo $price_duration['price']; // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped ?>
+						<?php endif; ?></h4>
+                    </div>
+
 				</div>
 				<hr/>
 				<?php if ( $desc == 'yes' ) : ?>

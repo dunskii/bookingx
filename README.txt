@@ -4,7 +4,7 @@ Tags: bookings, appointments, reservations, booking calendar, booking system
 Requires at least: 5.0
 Tested up to: 5.7
 Requires PHP: 5.0
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 License: GPLv2 or later
 License URI: https://booking-x.com/gpl-licence/
 
@@ -133,11 +133,8 @@ It should be, remember you can set the colours to fit your site by going Setting
 
 == Upgrade Notice ==
 
-= 1.0.3 =
+= 1.0.4 =
 Adding Sale Price functionality.
-
-= 1.0.2 =
-Latest WP version 5.7 capability update.
 
 == Updating ==
 Automatic updates should work smoothly, but we still recommend you back up your site.
@@ -148,3 +145,4 @@ Automatic updates should work smoothly, but we still recommend you back up your 
 = 1.0.1 - Latest WP version 5.7 capability update. 2021-30-03 =
 = 1.0.2 - Latest WP version 5.7 capability update. 2021-30-03 =
 = 1.0.3 - Adding Sale Price functionality. 2021-20-04 =
+= 1.0.4 - Latest WP version 5.7 capability update. 2021-20-04 =
