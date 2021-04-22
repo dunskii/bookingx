@@ -106,7 +106,7 @@ class BkxPaymentCore {
 	 */
 	public function bkx_paypal_payment_gateway_capture_action() {
 		if ( isset( $_GET['order_id'] ) && $_GET['order_id'] != '' ) { // phpcs:ignore WordPress.Security.NonceVerification
-			$order_id = sanitize_text_field ( base64_decode( wp_unslash( $_GET['order_id'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification
+			$order_id = sanitize_text_field( base64_decode( wp_unslash( $_GET['order_id'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification
 		}
 		$capture_payment = get_post_meta( $order_id, 'bkx_capture_payment', true );
 		if ( ! empty( $capture_payment ) ) {
@@ -269,17 +269,24 @@ class BkxPaymentCore {
 			$payment_status     = isset( $booking_order_data['payment_status'] ) ? $booking_order_data['payment_status'] : '';
 			$pay_amt            = isset( $booking_order_data['pay_amt'] ) ? $booking_order_data['pay_amt'] : 0;
 			$order_id           = $booking_order_data['order_id'];
+
 			if ( empty( $order_id ) ) {
 				return;
 			}
+
 			$BkxBookingObj     = new BkxBooking();
 			$booking_meta_data = $BkxBookingObj->get_order_meta_data( $order_id );
 			$base_id           = $booking_meta_data['base_id'];
 			$seat_id           = $booking_meta_data['seat_id'];
 			$addition_ids      = rtrim( $booking_meta_data['addition_ids'], ',' );
 
+			$args['seat_id']        = $seat_id;
+			$args['base_id']        = $base_id;
+			$args['extra_ids']      = $addition_ids;
+			$args['service_extend'] = $booking_meta_data['extended_base_time'];
+			$generate_total         = $BkxBookingObj->booking_form_generate_total( $args );
 			$bkx_baseObj                  = new BkxBase( '', $base_id );
-			$base_name                    = $bkx_baseObj->get_title();
+			$base_name                    = $bkx_baseObj->get_title( true );
 			$base_time                    = $bkx_baseObj->get_time( $base_id );
 			$bkx_seatObj                  = new BkxSeat( '', $seat_id );
 			$seat_address                 = $bkx_seatObj->seat_personal_info;
@@ -289,9 +296,10 @@ class BkxPaymentCore {
 			$business_address['postcode'] = bkx_crud_option_multisite( 'bkx_business_zip' );
 			$business_address['country']  = bkx_crud_option_multisite( 'bkx_business_country' );
 			// $seat_address       = array('street' => $booking_meta_data['street'],'city' => $booking_meta_data['city'], 'state' => $booking_meta_data['state'], 'postcode' => $booking_meta_data['postcode'], 'country' => $booking_meta_data['seat_country']);
-			$seat_name      = $bkx_seatObj->get_title();
-			$extra_data     = '';
-			$remaining_cost = ( $booking_meta_data['total_price'] - $pay_amt );
+			$seat_name  = $bkx_seatObj->get_title();
+			$extra_data = '';
+
+			$remaining_cost = ( $generate_total['total_price'] - $pay_amt );
 			if ( ! empty( $addition_ids ) ) {
 				$BkxExtra      = new BkxExtra();
 				$bkx_extra_obj = $BkxExtra->get_extra_by_ids( $addition_ids );
@@ -344,9 +352,10 @@ class BkxPaymentCore {
 				}
 				$payment_success_html .= __( "<dl> <dt> Duration </dt> :  <dd> {$booking_duration}  </dd></dl>", 'bookingx' );
 				$payment_success_html .= '</div></div>';
-				$total_price           = apply_filters( 'bkx_booking_total_price_update', $booking_meta_data['total_price'], $order_id );
-				$remaining_cost        = apply_filters( 'bkx_booking_remaining_cost_update', $remaining_cost, $order_id );
-				$pay_amt               = apply_filters( 'bkx_booking_payment_amount_update', $pay_amt, $order_id );
+				// echo "<pre>".print_r($booking_meta_data, true)."</pre>";
+				$total_price    = apply_filters( 'bkx_booking_total_price_update', $generate_total['total_price'], $order_id );
+				$remaining_cost = apply_filters( 'bkx_booking_remaining_cost_update', $remaining_cost, $order_id );
+				$pay_amt        = apply_filters( 'bkx_booking_payment_amount_update', $pay_amt, $order_id );
 
 				$payment_success_html .= '<div class="row"><div class="col-sm-6">';
 				$payment_success_html .= __( "<dl> <dt> Total Cost </dt>: <dd> {$current_currency}{$total_price}</dd></dl>", 'bookingx' );

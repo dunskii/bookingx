@@ -262,7 +262,7 @@ class BkxBase {
 	 * @return mixed|void
 	 * @throws Exception Throwable.
 	 */
-	public function get_title() {
+	public function get_title( $plain = false ) {
 		$post_id = $this->id;
 		if ( empty( $post_id ) ) {
 			return;
@@ -275,6 +275,9 @@ class BkxBase {
 			$formatted = $base_time['formatted'];
 		}
 		$base_title = "{$bkx_post->post_title} - {$this->load_global->currency_name}{$this->load_global->currency_sym}{$base_price} - {$formatted}";
+		if( $plain == true ){
+			$base_title = $bkx_post->post_title;
+		}
 		return apply_filters( 'bkx_addition_title', $base_title );
 	}
 
