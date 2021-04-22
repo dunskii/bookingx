@@ -54,15 +54,15 @@ $args_data = apply_filters(
 			<?php do_action( 'bkx_before_col_single_post', $args_data ); ?>
 				<div class="col-md-<?php echo esc_attr( $image == 'yes' ) ? 8 : 12; ?>">
 				<div class="row">
-                    <div class="col-md-9"><h1><?php echo esc_html( get_the_title( $base_id ) ); ?></h1></div>
-                    <div class="col-md-3">
-                        <form method="post" enctype='multipart/form-data' action="<?php echo esc_url( $booking_url ); ?>">
-                            <input type="hidden" name="type" value="bkx_base"/>
-                            <input type="hidden" name="id" value="<?php echo esc_attr( $base_id ); ?>"/>
-                            <button type="submit" class="btn btn-primary"><?php esc_html_e( 'Book now', 'bookingx' ); ?></button>
-                        </form>
-                    </div>
-                    <div class="col-md-12">
+					<div class="col-md-9"><h1><?php echo esc_html( get_the_title( $base_id ) ); ?></h1></div>
+					<div class="col-md-3">
+						<form method="post" enctype='multipart/form-data' action="<?php echo esc_url( $booking_url ); ?>">
+							<input type="hidden" name="type" value="bkx_base"/>
+							<input type="hidden" name="id" value="<?php echo esc_attr( $base_id ); ?>"/>
+							<button type="submit" class="btn btn-primary"><?php esc_html_e( 'Book now', 'bookingx' ); ?></button>
+						</form>
+					</div>
+					<div class="col-md-12">
 						<h4 class="price-section">
 						<?php
 						echo esc_html( "{$price_duration['time']}" );
@@ -72,7 +72,7 @@ $args_data = apply_filters(
 						<?php else : ?>
 							<?php echo $price_duration['price']; // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped ?>
 						<?php endif; ?></h4>
-                    </div>
+					</div>
 
 				</div>
 				<hr/>
