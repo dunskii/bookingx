@@ -253,9 +253,9 @@ class Bkx_Meta_Boxes {
 				$order_summary .= sprintf( '</div>', 'bookingx' );
 			}
 			if ( $return_type == 'ajax' ) {
-				return $order_summary;
+				return apply_filters( 'booking_form_extra_summary', $order_summary, $post->ID );
 			}
-			echo $order_summary; // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped
+			echo apply_filters( 'booking_form_extra_summary', $order_summary, $post->ID ); // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped
 			echo do_shortcode( '[bkx_booking_form order_post_id=' . $post->ID . ']' );
 		} else {
 			echo do_shortcode( '[bkx_booking_form]' );
@@ -308,7 +308,7 @@ class Bkx_Meta_Boxes {
 		}		
 	});});</script>';
 		$order_summary  = sprintf( '<div class="bkx-order_summary bkx-order-note">', 'bookingx' );
-		$order_summary .= sprintf( '<h3>'.esc_html( 'Booking #%d Notes' ).'</h3>', $post->ID );
+		$order_summary .= sprintf( '<h3>' . esc_html( 'Booking #%d Notes' ) . '</h3>', $post->ID );
 		$order_summary .= sprintf( '<span id="bkx_add_custom_note_err"></span><textarea rows="4" id="bkx_custom_note"></textarea>' );
 		$order_summary .= sprintf( '<input type="hidden" id="bkx_booking_id" value="%d">', esc_attr( $post->ID ) );
 		$order_summary .= sprintf( '<div class="bkx-note-actions"><a class="button button-primary button-large note-btn" id="bkx_id_add_custom_note" name="bkx_add_custom_note"> Add note </a> <span id="bkx_add_custom_note_loader" style="display:none;"> Please wait.. </span></div>' );
