@@ -305,7 +305,7 @@ class BkxPaymentCore {
 				$bkx_extra_obj = $BkxExtra->get_extra_by_ids( $addition_ids );
 				if ( ! empty( $bkx_extra_obj ) ) {
 					foreach ( $bkx_extra_obj as $addition ) {
-						$extra_temp  = $addition->get_title();
+						$extra_temp  = $addition->get_title(true);
 						$extra_temp  = str_replace( '(', '', $extra_temp );
 						$extra_temp  = str_replace( ')', '', $extra_temp );
 						$extra_data .= $extra_temp . ',';

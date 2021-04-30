@@ -40,6 +40,10 @@ class BkxExtra {
 	 * @var type
 	 */
 	public $get_price;
+	/**
+	 * @var type
+	 */
+	public $sale_price_details;
 
 	/**
 	 * @var type
@@ -91,6 +95,9 @@ class BkxExtra {
 		if ( ! empty( $bkx_post ) ) {
 			$post_id = $bkx_post->ID;
 		}
+		// Load Global Variables
+		$bkx_booking_form_shortcode = new BkxBookingFormShortCode();
+		$this->load_global          = $bkx_booking_form_shortcode->load_global_variables();
 
 		if ( is_multisite() ) {
 			$current_blog_id = get_current_blog_id();
@@ -105,6 +112,7 @@ class BkxExtra {
 			$this->meta_data = get_post_custom( $post_id );
 		}
 		$this->get_price                = $this->get_price();
+		$this->sale_price_details       = $this->sale_price_details();
 		$this->get_extra_time           = $this->get_extra_time();
 		$this->get_extra_overlap        = $this->get_extra_overlap();
 		$this->get_service_by_extra     = $this->get_service_by_extra();
@@ -112,20 +120,20 @@ class BkxExtra {
 		$this->booking_page_url         = $this->get_booking_page_url();
 		$this->id                       = $post_id;
 
-		// Load Global Variables
-		$bkx_booking_form_shortcode = new BkxBookingFormShortCode();
-		$this->load_global          = $bkx_booking_form_shortcode->load_global_variables();
 	}
 
 	/**
 	 * @return mixed|void
 	 */
-	public function get_title() {
+	public function get_title( $plain = false ) {
 		$extra_id    = $this->post->ID;
-		$extra_price = get_post_meta( $extra_id, 'addition_price', true );
+		$extra_price = $this->get_price();
 		$extra_time  = $this->get_time();
 
 		$extra_title = "{$this->post->post_title} - {$this->load_global->currency_name}{$this->load_global->currency_sym}{$extra_price} - {$extra_time['formatted']}";
+		if ( $plain == true ) {
+			$extra_title = $this->post->post_title;
+		}
 		return apply_filters( 'bkx_addition_title', $extra_title, $this );
 	}
 
@@ -193,9 +201,69 @@ class BkxExtra {
 	 * @return type
 	 */
 	public function get_price() {
-		$meta_data  = $this->meta_data;
-		$base_price = isset( $meta_data['addition_price'] ) ? esc_attr( $meta_data['addition_price'][0] ) : 0;
-		return apply_filters( 'bkx_addition_price', $base_price, $this );
+		$meta_data                       = $this->meta_data;
+		$addition_price                  = isset( $meta_data['addition_price'] ) ? esc_html( $meta_data['addition_price'][0] ) : 0;
+		$extra_sale_price                = isset( $meta_data['extra_sale_price'] ) ? esc_html( $meta_data['extra_sale_price'][0] ) : 0;
+		$price_array['addition_price']   = $addition_price;
+		$price_array['extra_sale_price'] = $extra_sale_price;
+		$price_array['meta_data']        = $meta_data;
+		if ( isset( $extra_sale_price ) && $extra_sale_price > 0 ) {
+			$addition_price = $extra_sale_price;
+		}
+		return apply_filters( 'bkx_addition_price', $addition_price, $price_array );
+
+	}
+
+	/**
+	 * @return mixed|void
+	 */
+	public function calculate_discount() {
+
+		if ( $this->is_on_sale() == false ) {
+			return;
+		}
+		$meta_data        = $this->meta_data;
+		$addition_price   = isset( $meta_data['addition_price'] ) ? esc_html( $meta_data['addition_price'][0] ) : 0;
+		$extra_sale_price = isset( $meta_data['extra_sale_price'] ) ? esc_html( $meta_data['extra_sale_price'][0] ) : 0;
+		$discount         = array();
+		if ( isset( $addition_price ) && isset( $extra_sale_price ) && $extra_sale_price > 0 ) {
+			$discount['amount'] = ( $addition_price - $extra_sale_price );
+			if ( isset( $discount['amount'] ) && $discount['amount'] > 0 ) {
+				$discount['percentage'] = ( $discount['amount'] * 100 / $addition_price );
+			}
+		}
+		return apply_filters( 'addition_discount', $discount, $meta_data );
+	}
+
+	/**
+	 * @return array|void
+	 */
+	public function sale_price_details() {
+
+		if ( $this->is_on_sale() == false ) {
+			return;
+		}
+		$meta_data                       = $this->meta_data;
+		$addition_price                  = isset( $meta_data['addition_price'] ) ? esc_html( $meta_data['addition_price'][0] ) : 0;
+		$extra_sale_price                = isset( $meta_data['extra_sale_price'] ) ? esc_html( $meta_data['extra_sale_price'][0] ) : 0;
+		$calculate_discount              = $this->calculate_discount();
+		$price_array['addition_price']   = $addition_price;
+		$price_array['extra_sale_price'] = $extra_sale_price;
+		$price_array['discount']         = $calculate_discount['amount'];
+		$price_array['percentage']       = round( $calculate_discount['percentage'] );
+		$price_array['currency']         = $this->load_global->currency_sym;
+
+		return $price_array;
+	}
+
+	public function is_on_sale() {
+		$meta_data        = $this->meta_data;
+		$extra_sale_price = isset( $meta_data['extra_sale_price'] ) ? esc_html( $meta_data['extra_sale_price'][0] ) : 0;
+		$is_sale          = false;
+		if ( isset( $extra_sale_price ) && $extra_sale_price > 0 ) {
+			$is_sale = true;
+		}
+		return $is_sale;
 	}
 
 	public function get_time() {
@@ -395,7 +463,7 @@ class BkxExtra {
 				$extra_time  = $BkxExtra->get_time();
 				$total_time  = $extra_time['in_sec'] / 60;
 
-				$extra_price       = get_post_meta( $extra_id, 'addition_price', true );
+				$extra_price       = $BkxExtra->get_price();
 				$extra_time_option = get_post_meta( $extra_id, 'addition_time_option', true );
 				$extra_day         = get_post_meta( $extra_id, 'addition_days', true );
 				$extra_hours       = get_post_meta( $extra_id, 'addition_hours', true );
