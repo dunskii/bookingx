@@ -241,8 +241,9 @@ if ( ! class_exists( 'BkxSeatMetaBox' ) ) {
 
 			<strong> <?php esc_html_e( 'Set Times, Days and Months Available', 'bookingx' ); ?></strong>
 			<p>
-				<label for="seat_country"><?php esc_html_e( 'Will this Seat only be available certain months of the year', 'bookingx' ); ?>
-					:</label></p>
+				<label for="seat_country">
+					<?php printf( esc_html__( 'Will this %1$s only be available certain months of the year :', 'bookingx' ), esc_html( $alias_seat ) ); ?>
+					</label></p>
 			<p><input type="radio" name="seat_is_certain_month" value="Y" 
 			<?php
 			if ( $seat_is_certain_month == 'Y' ) {

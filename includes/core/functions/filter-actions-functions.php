@@ -322,7 +322,7 @@ function bkx_modify_list_row_actions( $actions, $post ) {
 	return $actions;
 }
 
-// add_filter('comments_clauses', 'bkx_exclude_order_comments', 10, 1);
+add_filter( 'comments_clauses', 'bkx_exclude_order_comments', 10, 1 );
 /**
  * @param $clauses
  *
@@ -330,22 +330,27 @@ function bkx_modify_list_row_actions( $actions, $post ) {
  */
 function bkx_exclude_order_comments( $clauses ) {
 	global $wpdb;
-	$type_array = array(
-		'bkx_seat',
-		'bkx_base',
-		'bkx_addition',
-		'bkx_booking',
-	);
-	if ( ! $clauses['join'] ) {
-		$clauses['join'] = '';
+	if ( is_user_logged_in() && is_admin() ) {
+		$get_current_screen = get_current_screen();
+		if ( ! empty( $get_current_screen ) && $get_current_screen->base == 'dashboard' ) {
+			$type_array = array(
+				'bkx_seat',
+				'bkx_base',
+				'bkx_addition',
+				'bkx_booking',
+			);
+			if ( ! $clauses['join'] ) {
+				$clauses['join'] = '';
+			}
+			if ( ! stristr( $clauses['join'], "JOIN $wpdb->posts ON" ) ) {
+				$clauses['join'] .= " LEFT JOIN $wpdb->posts ON comment_post_ID = $wpdb->posts.ID ";
+			}
+			if ( $clauses['where'] ) {
+				$clauses['where'] .= ' AND ';
+			}
+			$clauses['where'] .= " $wpdb->posts.post_type NOT IN ('" . implode( "','", $type_array ) . "') ";
+		}
 	}
-	if ( ! stristr( $clauses['join'], "JOIN $wpdb->posts ON" ) ) {
-		$clauses['join'] .= " LEFT JOIN $wpdb->posts ON comment_post_ID = $wpdb->posts.ID ";
-	}
-	if ( $clauses['where'] ) {
-		$clauses['where'] .= ' AND ';
-	}
-	$clauses['where'] .= " $wpdb->posts.post_type NOT IN ('" . implode( "','", $type_array ) . "') ";
 
 	return $clauses;
 }

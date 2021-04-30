@@ -68,7 +68,7 @@ $args_data = apply_filters(
 						echo esc_html( "{$price_duration['time']}" );
 						?>
 						<?php if ( ! empty( $sale_price_details ) ) : ?>
-							<del><?php echo $sale_price_details['currency'] . $sale_price_details['base_price']; // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped ?></del> <a href="javascript:void(0);"><?php echo $sale_price_details['currency'] . $sale_price_details['base_sale_price']; // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped ?></a> (You save <?php echo $sale_price_details['percentage']; ?>%)
+							<del><?php echo $sale_price_details['currency'] . $sale_price_details['base_price']; // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped ?></del> <span class="bkx-sale-price"><?php echo $sale_price_details['currency'] . $sale_price_details['base_sale_price']; // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped ?></span> (You save <?php echo $sale_price_details['percentage']; ?>%)
 						<?php else : ?>
 							<?php echo $price_duration['price']; // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped ?>
 						<?php endif; ?></h4>

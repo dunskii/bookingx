@@ -130,6 +130,7 @@ if ( ! class_exists( 'BkxExtraMetaBox' ) ) {
 			$values                  = get_post_custom( $post->ID );
 			$alias_seat              = bkx_crud_option_multisite( 'bkx_alias_seat' );
 			$addition_price          = isset( $values['addition_price'] ) ? esc_attr( $values['addition_price'][0] ) : '';
+			$extra_sale_price        = isset( $values['extra_sale_price'] ) ? esc_html( $values['extra_sale_price'][0] ) : 0;
 			$addition_time_option    = isset( $values['addition_time_option'] ) ? esc_attr( $values['addition_time_option'][0] ) : '';
 			$addition_overlap        = isset( $values['addition_overlap'] ) ? esc_attr( $values['addition_overlap'][0] ) : '';
 			$addition_months         = isset( $values['addition_months'] ) ? esc_attr( $values['addition_months'][0] ) : '';
@@ -161,6 +162,20 @@ if ( ! class_exists( 'BkxExtraMetaBox' ) ) {
 			<?php echo esc_html( $addition_alias ); ?> Price:
 				<div class="plugin-description">
 					<input name="addition_price" type="text" id="id_addition_price" value="<?php echo isset( $addition_price ) ? esc_attr( $addition_price ) : ''; ?>">
+				</div>
+			</div>
+
+			<div class="active" id="extra_sale_price">
+				<?php
+				// translators: Base Sale Price Label.
+				printf( __( '%1$s  Sale Price', 'bookingx' ), esc_html( $addition_alias ) ); // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped
+				$extra_sale_price_html = 0;
+				if ( isset( $extra_sale_price ) && '' !== $extra_sale_price ) {
+					$extra_sale_price_html = esc_html( $extra_sale_price );
+				}
+				?>
+				<div class="plugin-description">
+					<input name="extra_sale_price" type="text" value="<?php echo esc_attr( $extra_sale_price_html ); ?>" id="id_extra_sale_price">
 				</div>
 			</div>
 			<div class="active" id="months_days_times">
@@ -424,6 +439,7 @@ if ( ! class_exists( 'BkxExtraMetaBox' ) ) {
 			}
          // phpcs:disable WordPress.Security.NonceVerification.Missing
 			$addition_price                = isset( $_POST['addition_price'] ) ? sanitize_text_field( wp_unslash( $_POST['addition_price'] ) ) : '';
+			$extra_sale_price              = isset( $_POST['extra_sale_price'] ) ? sanitize_text_field( wp_unslash( $_POST['extra_sale_price'] ) ) : '';
 			$addition_month_days_time      = isset( $_POST['addition_time_option'] ) ? sanitize_text_field( wp_unslash( $_POST['addition_time_option'] ) ) : '';
 			$addition_months               = isset( $_POST['addition_months'] ) ? sanitize_text_field( wp_unslash( $_POST['addition_months'] ) ) : '';
 			$addition_days                 = isset( $_POST['addition_days'] ) ? sanitize_text_field( wp_unslash( $_POST['addition_days'] ) ) : '';
@@ -476,6 +492,9 @@ if ( ! class_exists( 'BkxExtraMetaBox' ) ) {
 
 			if ( isset( $addition_price ) ) {
 				update_post_meta( $post_id, 'addition_price', $addition_price );
+			}
+			if ( isset( $extra_sale_price ) ) {
+				update_post_meta( $post_id, 'extra_sale_price', $extra_sale_price );
 			}
 			if ( isset( $addition_time_option ) ) {
 				update_post_meta( $post_id, 'addition_time_option', $addition_time_option );
