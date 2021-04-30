@@ -49,7 +49,7 @@ $center_class = '';
 			<?php endif; ?>
 			<?php do_action( 'bkx_after_listing_content', $args_data ); ?>
 			<?php if ( ! empty( $sale_price_details ) ) : ?>
-				<p class="card-text mb-2 mt-2 text-center font-weight-bold price-section"><del><?php echo $sale_price_details['currency'] . $sale_price_details['base_price']; // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped ?></del> <a href="javascript:void(0);"><?php echo $sale_price_details['currency'] . $sale_price_details['base_sale_price']; // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped ?></a> </p>
+				<p class="card-text mb-2 mt-2 text-center font-weight-bold price-section"><del><?php echo $sale_price_details['currency'] . $sale_price_details['base_price']; // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped ?></del> <span class="bkx-sale-price"><?php echo $sale_price_details['currency'] . $sale_price_details['base_sale_price']; // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped ?></span> </p>
 			<?php else : ?>
 			<p class="card-text mb-2 mt-2 text-center font-weight-bold"><?php echo $price_duration['price']; // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped ?></p>
 			<?php endif; ?>
