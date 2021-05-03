@@ -388,12 +388,14 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
 				</div>
 			</div>
 			<div class="active" id="unavailable_till">
-			<?php
-			// translators: Base available Label.
-			printf( esc_html__( '%1$s  Unavailable Till :', 'bookingx' ), esc_html( $base_alias ) );
-			$base_unavailable_till = isset( $base_unavailable_till ) ? $base_unavailable_till : '';
-			?>
 				<div class="plugin-description">
+                    <label for="id_base_unavailable_till">
+						<?php
+						// translators: Base available Label.
+						printf( esc_html__( '%1$s  Unavailable Till :', 'bookingx' ), esc_html( $base_alias ) );
+						$base_unavailable_till = isset( $base_unavailable_till ) ? $base_unavailable_till : '';
+						?>
+                    </label>
 					<input autocomplete="off" type="text" name="base_unavailable_till" id="id_base_unavailable_till" value="<?php echo esc_attr( $base_unavailable_till ); ?>">
 				</div>
 			</div>

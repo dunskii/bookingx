@@ -82,6 +82,7 @@ jQuery(document).ready(function () {
     //to change the addition unavailability form input type visibility
     jQuery("#id_base_is_unavailable").on("click", function (event, ui) {
         jQuery("#unavailable_from").toggle();
+        jQuery("#unavailable_till").toggle();
     });
     jQuery("#id_base_unavailable_from").datepicker({
         onSelect: function (date) {
