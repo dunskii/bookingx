@@ -34,7 +34,7 @@ $args_data = apply_filters(
 );
 ?>
 <div class="<?php echo esc_attr( $settings['class'] ); ?>  addition-<?php echo esc_attr( $addition_id ); ?>">
-	<div class="card<?php echo esc_attr( $settings['block'] ); ?>" >
+	<div class="card <?php echo esc_attr( $settings['block'] ); ?> text-center mt-2">
 		<?php if ( $image == 'yes' ) : ?>
 			<?php echo $bkx_addition->get_thumb(); // phpcs:ignore ?>
 		<?php endif; ?>
