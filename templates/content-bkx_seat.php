@@ -31,7 +31,7 @@ $args_data = apply_filters(
 );
 ?>
 <div class="<?php echo esc_attr( $settings['class'] ); ?>">
-	<div class="card<?php echo esc_attr( $settings['block'] ); ?>">
+	<div class="card <?php echo esc_attr( $settings['block'] ); ?> text-center mt-2">
 		<?php if ( $image == 'yes' ) : ?>
 			<?php echo $bkx_seat->get_thumb(); //phpcs:ignore ?>
 		<?php endif; ?>
