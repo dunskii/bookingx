@@ -1176,9 +1176,9 @@ function bkx_setting_page_callback() {
  * @param $subject
  * @param $data_html
  * @param $to_mail
- * @param string    $mail_type
+ * @param string $mail_type
  */
-function bkx_mail_format_and_send_process( $subject, $data_html, $to_mail, $mail_type ) {
+function bkx_mail_format_and_send_process( $subject, $data_html, $to_mail, $mail_type = 'text/html' ) {
 	if ( isset( $to_mail ) ) {
 		$admin_email = bkx_crud_option_multisite( 'admin_email' );
 		$headers[]   = 'Content-Type: ' . $mail_type . '; charset=UTF-8';
