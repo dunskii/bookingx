@@ -392,50 +392,55 @@ jQuery(function ($) {
                     booking_form.generate_hidden_field(key, value);
                 }
             });
-
+            var submission_skip = false;
             if (GetCurrentStep() == 4 && 1 === flag() && 1 === GatewayFlag()) {
+                submission_skip = true;
             } else {
                 return false;
             }
             setTimeout(function () {
                 block($('div.step-4'));
-                console.log('trigger now');
-                $.ajax({
-                    type: 'POST',
-                    url: get_url('book_now'),
-                    data: data,
-                    dataType: 'html',
-                    success: function (response) {
-                        if (response != 'NORF' && response != 'SWR') {
-                            var result = $.parseJSON(response);
-                            $('<input>').attr({
-                                type: 'hidden',
-                                id: 'order-id',
-                                name: 'order_id',
-                                value: result.meta_data.order_id
-                            }).appendTo('#bkx-booking-generate');
-                            $('<input>').attr({
-                                type: 'hidden',
-                                id: 'payment-gateway',
-                                name: 'bkx_payment_gateway_method',
-                                value: result.meta_data.bkx_payment_gateway_method
-                            }).appendTo('#bkx-booking-generate');
-                            document.bkx_booking_generate.submit();
-                        } else if (response == 'SWR') {
-                            booking_form.$error_group.prepend('<div class="row"><div class="col-md-12"><ul class="bookingx-error">' + bkx_booking_form_params.string_something_went + '</ul></div></div>');
-                            booking_form.scroll_to_notices();
-                            $('.bkx-form-submission-final').prop('disabled', false);
-                        } else {
-                            booking_form.$error_group.prepend('<div class="row"><div class="col-md-12"><ul class="bookingx-error">' + bkx_booking_form_params.string_something_went + '</ul></div></div>');
-                            booking_form.scroll_to_notices();
-                            $('.bkx-form-submission-final').prop('disabled', false);
+                console.log('Line 403 trigger now');
+                if(submission_skip == false ){
+                    console.log('submission_skip ==> trigger now');
+                    $.ajax({
+                        type: 'POST',
+                        url: get_url('book_now'),
+                        data: data,
+                        dataType: 'html',
+                        success: function (response) {
+                            if (response != 'NORF' && response != 'SWR') {
+                                var result = $.parseJSON(response);
+                                $('<input>').attr({
+                                    type: 'hidden',
+                                    id: 'order-id',
+                                    name: 'order_id',
+                                    value: result.meta_data.order_id
+                                }).appendTo('#bkx-booking-generate');
+                                $('<input>').attr({
+                                    type: 'hidden',
+                                    id: 'payment-gateway',
+                                    name: 'bkx_payment_gateway_method',
+                                    value: result.meta_data.bkx_payment_gateway_method
+                                }).appendTo('#bkx-booking-generate');
+                                document.bkx_booking_generate.submit();
+                            } else if (response == 'SWR') {
+                                booking_form.$error_group.prepend('<div class="row"><div class="col-md-12"><ul class="bookingx-error">' + bkx_booking_form_params.string_something_went + '</ul></div></div>');
+                                booking_form.scroll_to_notices();
+                                $('.bkx-form-submission-final').prop('disabled', false);
+                            } else {
+                                booking_form.$error_group.prepend('<div class="row"><div class="col-md-12"><ul class="bookingx-error">' + bkx_booking_form_params.string_something_went + '</ul></div></div>');
+                                booking_form.scroll_to_notices();
+                                $('.bkx-form-submission-final').prop('disabled', false);
+                            }
+                        },
+                        complete: function () {
+                            unblock($('div.step-4'));
                         }
-                    },
-                    complete: function () {
-                        unblock($('div.step-4'));
-                    }
-                });
-            }, 2000);
+                    });
+                }
+
+                }, 2000);
         },
         payment_method: function () {
             var form = $('#bkx-booking-generate');
