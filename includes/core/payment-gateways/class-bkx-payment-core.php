@@ -280,11 +280,11 @@ class BkxPaymentCore {
 			$seat_id           = $booking_meta_data['seat_id'];
 			$addition_ids      = rtrim( $booking_meta_data['addition_ids'], ',' );
 
-			$args['seat_id']        = $seat_id;
-			$args['base_id']        = $base_id;
-			$args['extra_ids']      = $addition_ids;
-			$args['service_extend'] = $booking_meta_data['extended_base_time'];
-			$generate_total         = $BkxBookingObj->booking_form_generate_total( $args );
+			$args['seat_id']              = $seat_id;
+			$args['base_id']              = $base_id;
+			$args['extra_ids']            = $addition_ids;
+			$args['service_extend']       = $booking_meta_data['extended_base_time'];
+			$generate_total               = $BkxBookingObj->booking_form_generate_total( $args );
 			$bkx_baseObj                  = new BkxBase( '', $base_id );
 			$base_name                    = $bkx_baseObj->get_title( true );
 			$base_time                    = $bkx_baseObj->get_time( $base_id );
@@ -305,7 +305,7 @@ class BkxPaymentCore {
 				$bkx_extra_obj = $BkxExtra->get_extra_by_ids( $addition_ids );
 				if ( ! empty( $bkx_extra_obj ) ) {
 					foreach ( $bkx_extra_obj as $addition ) {
-						$extra_temp  = $addition->get_title(true);
+						$extra_temp  = $addition->get_title( true );
 						$extra_temp  = str_replace( '(', '', $extra_temp );
 						$extra_temp  = str_replace( ')', '', $extra_temp );
 						$extra_data .= $extra_temp . ',';
@@ -361,7 +361,7 @@ class BkxPaymentCore {
 				$payment_success_html .= __( "<dl> <dt> Total Cost </dt>: <dd> {$current_currency}{$total_price}</dd></dl>", 'bookingx' );
 				$payment_success_html .= __( "<dl> <dt> Remaining Cost </dt>: <dd> {$current_currency}{$remaining_cost}</dd></dl>", 'bookingx' );
 				if ( isset( $payment_status ) && $payment_status != '' ) {
-					$payment_success_html .= __( "<dl> <dt> Payment Status</dt>: <dd> {$payment_status}</dd></dl>", 'bookingx' );
+					$payment_success_html .= __( '<dl> <dt> Payment Status</dt>: <dd>' . ucwords( $payment_status ) . '</dd></dl>', 'bookingx' );
 				}
 				$payment_success_html .= '</div>';
 				$payment_success_html .= '<div class="col-sm-6">';
