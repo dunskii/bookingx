@@ -1801,10 +1801,17 @@ class BkxBooking {
 		if ( isset( $post_data['user_time_zone'] ) ) {
 			$user_time_zone = sanitize_text_field( $post_data['user_time_zone'] );
 		}
+
+		if ( is_array( $post_data['extra_id'] ) ) {
+			$extra_ids = $post_data['extra_id'];
+		} else {
+			$extra_ids = array_filter( array_unique( explode( ',', $post_data['extra_id'] ) ) );
+		}
+
 		$arrData = array(
 			'seat_id'                    => sanitize_text_field( $post_data['seat_id'] ),
 			'base_id'                    => sanitize_text_field( $post_data['base_id'] ),
-			'addition_ids'               => ( ! empty( $post_data['extra_id'] ) && $post_data['extra_id'] != 'None' ) ? implode( ',', $post_data['extra_id'] ) : '',
+			'addition_ids'               => ( ! empty( $extra_ids ) && $extra_ids != 'None' ) ? implode( ',', $extra_ids ) : '',
 			'first_name'                 => sanitize_text_field( $post_data['bkx_first_name'] ),
 			'last_name'                  => sanitize_text_field( $post_data['bkx_last_name'] ),
 			'phone'                      => sanitize_text_field( $post_data['bkx_phone_number'] ),
