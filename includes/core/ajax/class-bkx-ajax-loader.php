@@ -752,9 +752,10 @@ class Bkx_Ajax_Loader {
 	public static function check_staff_availability() {
          check_ajax_referer( 'check-staff-availability', 'security' );
         if ( is_multisite() ) :
-         $blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
-         switch_to_blog( $blog_id );
-              endif;
+            $blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+            switch_to_blog( $blog_id );
+		endif;
+
         $seat_id                     = sanitize_text_field( wp_unslash( $_POST['seat_id'] ) );
         $booking_record_id           = sanitize_text_field( wp_unslash( $_POST['booking_record_id'] ) );
         $status['booking_record_id'] = $booking_record_id;
@@ -764,34 +765,51 @@ class Bkx_Ajax_Loader {
         $start_date                  = sanitize_text_field( $order_meta_data['booking_start_date'] );
         $end_date                    = sanitize_text_field( $order_meta_data['booking_end_date'] );
         $old_seat_id                 = $order_meta_data['seat_id'];
-        if ( $booking_record_id != '' ) :
-         update_post_meta( $booking_record_id, 'seat_id', $seat_id );
-         $order_meta_data            = get_post_meta( $booking_record_id, 'order_meta_data', true );
-         $base_id                    = get_post_meta( $booking_record_id, 'base_id', true );
-         $order_meta_data['seat_id'] = $seat_id;
-         update_post_meta( $booking_record_id, 'order_meta_data', $order_meta_data );
-         $alias_seat = bkx_crud_option_multisite( 'bkx_alias_seat' );
-         $old_seat   = get_the_title( $old_seat_id );
-         $new_seat   = get_the_title( $seat_id );
-         $BkxBookingObj->add_order_note( sprintf( __( 'Successfully updated %1$s from %2$s to %3$s.', 'bookingx' ), $alias_seat, $old_seat, $new_seat ), 0 );
-         $status['name'] = $order_meta_data['first_name'] . ' ' . $order_meta_data['last_name'];
-         $status['data'] = 1;
-              else :
-               $status['data'] = 4;
-                    endif;
-              if ( function_exists( 'bkx_reassign_available_emp_list' ) ) :
-               $get_available_staff = bkx_reassign_available_emp_list( $seat_id, $start_date, $end_date, $base_id );
-               if ( ! empty( $get_available_staff ) ) :
-                      $counter = 0;
-                      foreach ( $get_available_staff as $get_employee ) :
-                             $status['staff'][ $counter ]['seat_id'] = $get_employee['id'];
-                             $status['staff'][ $counter ]['name']    = $get_employee['name'];
-                             $counter++;
-                            endforeach;
-               endif;
-                    endif;
-              echo wp_json_encode( $status );
-              wp_die();
+		$booking_time = $order_meta_data['bookingTimeRecord'][0];
+		$slots = explode( ",", $booking_time['full_day'] );
+		$get_verify_slot = '';
+		if(!empty($slots)){
+			 $args['seat_id']            = $seat_id;
+			 $args['base_id']            = $base_id;
+			 $args['extra_ids']          = $order_meta_data['addition_ids'];
+			 $args['service_extend']     = $order_meta_data['extended_base_time'];
+			 $args['date']               = $booking_time['booking_date'];
+			 $args['slot']               = $slots[0];
+			 $args['time']               = $booking_time['booking_time_from'];
+			 $args['time_option']        = $order_meta_data['base_time_option'];
+			 $args['booking_multi_days'] = $order_meta_data['booking_multi_days'];
+			 $get_verify_slot   = $BkxBookingObj->get_verify_slot( $args, false );
+		}
+		if ( $booking_record_id != '' && $get_verify_slot != "NORF" ) :
+	         update_post_meta( $booking_record_id, 'seat_id', $seat_id );
+	         $order_meta_data            = get_post_meta( $booking_record_id, 'order_meta_data', true );
+	         $base_id                    = get_post_meta( $booking_record_id, 'base_id', true );
+	         $order_meta_data['seat_id'] = $seat_id;
+	         update_post_meta( $booking_record_id, 'order_meta_data', $order_meta_data );
+	         $alias_seat = bkx_crud_option_multisite( 'bkx_alias_seat' );
+	         $old_seat   = get_the_title( $old_seat_id );
+	         $new_seat   = get_the_title( $seat_id );
+	         $BkxBookingObj->add_order_note( sprintf( __( 'Successfully updated %1$s from %2$s to %3$s.', 'bookingx' ), $alias_seat, $old_seat, $new_seat ), 0 );
+	         $status['name'] = $order_meta_data['first_name'] . ' ' . $order_meta_data['last_name'];
+	         $status['data'] = 1;
+         else :
+	        $status['data'] = 4;
+        endif;
+
+		if ( function_exists( 'bkx_reassign_available_emp_list' ) ) :
+			$get_available_staff = bkx_reassign_available_emp_list( $seat_id, $start_date, $end_date, $base_id );
+				if ( ! empty( $get_available_staff ) ) :
+					$counter = 0;
+					foreach ( $get_available_staff as $get_employee ) :
+						$status['staff'][ $counter ]['seat_id'] = $get_employee['id'];
+						$status['staff'][ $counter ]['name']    = $get_employee['name'];
+						$counter++;
+					endforeach;
+				endif;
+		endif;
+
+		echo wp_json_encode( $status );
+		wp_die();
 	}
 }
 
