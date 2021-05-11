@@ -393,15 +393,15 @@ jQuery(function ($) {
                 }
             });
             var submission_skip = false;
-            if (GetCurrentStep() == 4 && 1 === flag() && 1 === GatewayFlag()) {
+            if (GetCurrentStep() == 4 && 1 === flag() && 1 === GatewayFlag() && ( booking_form.is_prepayment == true || booking_form.is_prepayment == 'true' ) ) {
                 submission_skip = true;
-            } else {
-                return false;
             }
+
+            console.log(submission_skip)
             setTimeout(function () {
                 block($('div.step-4'));
                 console.log('Line 403 trigger now');
-                if(submission_skip == false ){
+                if( submission_skip == false ){
                     console.log('submission_skip ==> trigger now');
                     $.ajax({
                         type: 'POST',
