@@ -126,10 +126,11 @@ class BkxExtra {
 	 * @return mixed|void
 	 */
 	public function get_title( $plain = false ) {
-		$extra_id    = $this->post->ID;
+		if ( empty( $this->post ) ) {
+			return '';
+		}
 		$extra_price = $this->get_price();
 		$extra_time  = $this->get_time();
-
 		$extra_title = "{$this->post->post_title} - {$this->load_global->currency_name}{$this->load_global->currency_sym}{$extra_price} - {$extra_time['formatted']}";
 		if ( $plain == true ) {
 			$extra_title = $this->post->post_title;
@@ -267,6 +268,11 @@ class BkxExtra {
 	}
 
 	public function get_time() {
+
+		if ( empty( $this->post ) ) {
+			return '';
+		}
+
 		$extra_id          = $this->post->ID;
 		$extra_time_option = get_post_meta( $extra_id, 'addition_time_option', true );
 		$extra_day         = get_post_meta( $extra_id, 'addition_days', true );

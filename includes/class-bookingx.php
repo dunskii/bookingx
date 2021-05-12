@@ -347,7 +347,7 @@ class Bookingx {
 		$this->loader->add_filter( 'manage_bkx_booking_posts_columns', $plugin_admin, 'bkx_booking_columns', 99, 2 );
 		// $this->loader->add_filter('post_type_link', $plugin_admin, 'bkx_change_view_link', 10, 2);
 		$this->loader->add_filter( 'bulk_actions-edit-bkx_booking', $plugin_admin, 'bkx_booking_bulk_actions' );
-		$this->loader->add_filter( 'handle_bulk_actions-edit-bkx_booking', $plugin_admin, 'bkx_booking_handle_bulk_actions', 10, 3 );
+		$this->loader->add_filter( 'handle_bulk_actions-edit-bkx_booking', $plugin_admin, 'bkx_booking_handle_bulk_actions', 99, 3 );
 	}
 
 	/**

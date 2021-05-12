@@ -505,9 +505,10 @@ class Bookingx_Admin {
 					switch_to_blog( $blog_id );
 				endif;
 				$bkx_booking = new BkxBooking( '', $post_id );
-				$bkx_booking->update_status( $order_status );
+				$bkx_booking->update_status( $order_status, false );
 			}
 		}
+
 		$redirect_to = add_query_arg(
 			array(
 				'bulk_status_changed' => $order_status,
@@ -515,6 +516,7 @@ class Bookingx_Admin {
 			),
 			$redirect_to
 		);
+
 		return $redirect_to;
 	}
 
