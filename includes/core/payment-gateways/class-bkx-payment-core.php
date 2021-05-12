@@ -300,7 +300,7 @@ class BkxPaymentCore {
 			$extra_data = '';
 
 			$remaining_cost = ( $generate_total['total_price'] - $pay_amt );
-			if ( ! empty( $addition_ids ) ) {
+			if ( ! empty( $addition_ids ) && $addition_ids != "None" ) {
 				$BkxExtra      = new BkxExtra();
 				$bkx_extra_obj = $BkxExtra->get_extra_by_ids( $addition_ids );
 				if ( ! empty( $bkx_extra_obj ) ) {
