@@ -157,7 +157,7 @@ class BkxBooking {
 	 *
 	 * @return null
 	 */
-	public function update_status( $status ) {
+	public function update_status( $status , $email = true ) {
 		//phpcs:disable WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase
 		if ( is_multisite() ) :
 			$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
@@ -183,8 +183,10 @@ class BkxBooking {
 			$post_update = $wpdb->update( $wpdb->posts, array( 'post_status' => 'bkx-' . $status ), array( 'ID' => $order_id ) );
 			update_post_meta( $order_id, 'last_updated_date', $date );
 			update_post_meta( $order_id, 'updated_by', $current_user_id );
-			do_action( 'bkx_order_edit_status', $order_id, "customer_{$status}" );
-			do_action( 'bkx_order_edit_status', $order_id, $status );
+			if(isset( $email ) && $email == true ){
+				do_action( 'bkx_order_edit_status', $order_id, "customer_{$status}" );
+				do_action( 'bkx_order_edit_status', $order_id, $status );
+			}
 
 			if ( ! is_wp_error( $post_update ) ) {
 				return $order_id;

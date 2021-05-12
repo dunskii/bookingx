@@ -416,7 +416,7 @@ function bkx_disable_view_mode_options( $post_types ) {
 	return $post_types;
 }
 
-add_action( 'load-edit.php', 'bkx_bulk_action' );
+//add_action( 'load-edit.php', 'bkx_bulk_action' );
 /**
  * @throws Exception
  */
@@ -444,16 +444,16 @@ function bkx_bulk_action() {
 	$sendback = add_query_arg(
 		array(
 			'post_type'    => 'bkx_booking',
-			$report_action => true,
+			$report_action => false,
 			'changed'      => $changed,
-			'ids'          => join( ',', $post_ids ),
+			//'ids'          => join( ',', $post_ids ),
 		),
 		''
 	);
-
 	if ( isset( $_GET['post_status'] ) ) {
 		$sendback = add_query_arg( 'post_status', sanitize_text_field( wp_unslash( $_GET['post_status'] ) ), $sendback );
 	}
+	echo "<pre>".print_r($sendback, true)."</pre>";die;
 	wp_redirect( esc_url_raw( $sendback ) );
 	exit();
 }
