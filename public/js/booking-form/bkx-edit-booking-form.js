@@ -748,6 +748,8 @@ jQuery(function ($) {
                 slot: $(this).data('slot'),
                 date: $(this).data('date'),
                 time: $(this).data('time'),
+                self_edit : $(this).data('self-edit'),
+                edit_booking_id: bkx_edit_booking_form_params.booking_id,
             };
 
             $.ajax({
@@ -767,7 +769,6 @@ jQuery(function ($) {
                         $('.booking-slots').data("starting_slot", starting_slot);
                         $('.booking-slots').data("date", booking_date);
                         for (var slot = starting_slot; slot <= end_slot; slot++) {
-                            //var slot_elem = $('.booking-slots').find("a[data-slot='" + slot + "']").addClass('selected');
                             if ($('.booking-slots').find("a[data-date='" + booking_date + "']").attr('data-date') == booking_date) {
                                 $('.booking-slots').find("a[data-verify='" + booking_date + "-" + slot + "']").addClass('selected');
                             }
@@ -891,6 +892,7 @@ jQuery(function ($) {
                 extra_id: booking_form.extra_id,
                 service_extend: service_extend,
                 booking_date: calendar.currentSelected,
+                edit_booking_id: bkx_edit_booking_form_params.booking_id,
             };
 
             if (availability_slots == "") {

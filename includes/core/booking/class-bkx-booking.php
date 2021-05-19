@@ -157,7 +157,7 @@ class BkxBooking {
 	 *
 	 * @return null
 	 */
-	public function update_status( $status , $email = true ) {
+	public function update_status( $status, $email = true ) {
 		//phpcs:disable WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase
 		if ( is_multisite() ) :
 			$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
@@ -183,7 +183,7 @@ class BkxBooking {
 			$post_update = $wpdb->update( $wpdb->posts, array( 'post_status' => 'bkx-' . $status ), array( 'ID' => $order_id ) );
 			update_post_meta( $order_id, 'last_updated_date', $date );
 			update_post_meta( $order_id, 'updated_by', $current_user_id );
-			if(isset( $email ) && $email == true ){
+			if ( isset( $email ) && $email == true ) {
 				do_action( 'bkx_order_edit_status', $order_id, "customer_{$status}" );
 				do_action( 'bkx_order_edit_status', $order_id, $status );
 			}
@@ -748,6 +748,9 @@ class BkxBooking {
 			if ( isset( $_POST['user_time_zone'] ) ) {
 				$args['user_time_zone'] = sanitize_text_field( wp_unslash( $_POST['user_time_zone'] ) );
 			}
+			if ( isset( $_POST['order_id'] ) ) {
+				$args['edit_booking_id'] = sanitize_text_field( wp_unslash( $_POST['order_id'] ) );
+			}
 			$get_verify_slot = json_decode( $this->get_verify_slot( $args, false ) );
 			if ( ! empty( $get_verify_slot ) && 1 === $get_verify_slot->result || ! empty( $args['booking_multi_days'] ) ) {
 				$booking = $this->generate_order( $_POST, null, true );
@@ -1146,6 +1149,15 @@ class BkxBooking {
 		if ( ! empty( $get_require_free_range ) ) {
 			$slot_counter      = 0;
 			$slot_time_counter = 0;
+			if ( isset( $args['edit_booking_id'] ) && ! empty( $args['edit_booking_id'] ) ) {
+				$current_booked_slots      = $this->get_order_time_data( $args['edit_booking_id'] );
+				$current_edit_booked_slots = explode( ',', rtrim( $current_booked_slots[0]['full_day'], ',' ) );
+				if ( ! empty( $current_edit_booked_slots ) ) {
+					foreach ( $current_edit_booked_slots as $self_booked_slot ) {
+						$this->remove_element( $availability_slots['booked_slots'], $self_booked_slot );
+					}
+				}
+			}
 			foreach ( $get_require_free_range as $req_slot ) {
 				if ( $slot_counter > 0 ) {
 					$endTime  = strtotime( "+{$slot_time_counter} minutes", strtotime( $args['time'] ) );
@@ -1186,6 +1198,12 @@ class BkxBooking {
 		}
 		wp_die();
 
+	}
+
+	public function remove_element( &$array, $value ) {
+		if ( ( $key = array_search( $value, $array ) ) !== false ) {
+			unset( $array[ $key ] );
+		}
 	}
 
 	/**
@@ -2378,8 +2396,9 @@ class BkxBooking {
 	 * @throws Exception
 	 */
 	public function display_availability_slots_html( $args ) {
-		$default_time_zone = apply_filters( 'bkx_set_custom_time_zone', wp_timezone_string() );
-		$sys_time_zone     = wp_timezone_string();
+		$default_time_zone         = apply_filters( 'bkx_set_custom_time_zone', wp_timezone_string() );
+		$sys_time_zone             = wp_timezone_string();
+		$current_edit_booked_slots = array();
 		if ( isset( $args['user_time_zone'] ) && ! empty( $args['user_time_zone'] ) ) {
 			$default_time_zone = $args['user_time_zone'];
 		}
@@ -2437,6 +2456,12 @@ class BkxBooking {
 			$columns                 = 4;
 			$booked_day_dates        = $this->find_booked_dates_in_days( $args );
 			$booked_slots            = apply_filters( 'bookingx_booked_slots', $booked_slots, $args );
+			// echo "<pre>".print_r($args, true)."</pre>";
+			if ( isset( $args['edit_booking_id'] ) && ! empty( $args['edit_booking_id'] ) ) {
+				$current_booked_slots      = $this->get_order_time_data( $args['edit_booking_id'] );
+				$current_edit_booked_slots = explode( ',', rtrim( $current_booked_slots[0]['full_day'], ',' ) );
+			}
+
 			if ( ! empty( $range ) ) {
 				for ( $cell_start = $first; $cell_start < $last; $cell_start = $cell_start + $step ) {
 					$secs2hours = bkx_secs2hours( $cell_start );
@@ -2471,8 +2496,17 @@ class BkxBooking {
 							$is_restricted_time = false;
 						}
 
+						$edit_current_class = 'disabled';
+						$self_edit          = " data-self-edit='0' ";
+						$data_verify        = '';
+						if ( ! empty( $current_edit_booked_slots ) && in_array( $counter, $current_edit_booked_slots ) ) {
+							$edit_current_class = ' bkx-current-edit-slot available ';
+							$self_edit          = " data-self-edit='1' ";
+							$data_verify        = ' data-verify=' . $args['booking_date'] . '-' . $counter;
+						}
+
 						if ( ! empty( $booked_slots ) && in_array( $counter, $booked_slots ) ) {
-							$results .= "<td> <a href=\"javascript:void(0);\" class=\"disabled\" data-date='" . $args['booking_date'] . "' data-time='" . bkx_secs2hours( $cell_start ) . "' data-slot='" . $counter . "'>" . $secs2hours . '</a></td>';
+							$results .= "<td> <a href=\"javascript:void(0);\" class=\"{$edit_current_class}\" {$self_edit} {$data_verify} data-date='" . $args['booking_date'] . "' data-time='" . bkx_secs2hours( $cell_start ) . "' data-slot='" . $counter . "'>" . $secs2hours . '</a></td>';
 						} else {
 							if ( ! empty( $booked_day_dates ) ) {
 								if ( in_array( $args['booking_date'], $booked_day_dates ) ) {
