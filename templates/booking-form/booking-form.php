@@ -23,17 +23,25 @@ if ( ( isset( $order_id ) && $order_id != '' ) ) {
 }
 
 $booking_edit = false;
-if ( isset( $_POST['order_id'], $_REQUEST['id'] ) && isset( $_REQUEST['edit_booking_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['edit_booking_nonce'] ) ), 'edit_booking_' . sanitize_text_field( wp_unslash( $_REQUEST['id'] ) ) ) ) {
+if ( isset( $_REQUEST['id'] ) && isset( $_REQUEST['edit_booking_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['edit_booking_nonce'] ) ), 'edit_booking_' . sanitize_text_field( wp_unslash( $_REQUEST['id'] ) ) ) ) {
 	$booking_edit = true;
 	$args['type'] = 'edit';
+	$order_id = sanitize_text_field( wp_unslash( $_REQUEST['id'] ) );
+	$args['order_post_id'] = $order_id;
 }
 if ( isset( $args['order_id'] ) && $args['order_id'] > 0 ) {
 	$args['order_id'] = sanitize_text_field( $order_id );
 }
 $args['order_id'] = $order_id;
 $args['status']   = $status;
+$form_mode        = 'bkx-front-new-booking';
+if ( ! empty( $args ) && isset($args['order_post_id'])) {
+	$order_id           = $args['order_post_id'];
+	$args['admin_edit'] = 1;
+	$form_mode          = 'bkx-front-edit-booking';
+}
 ?>
-<div class="booking-x">
+<div class="booking-x <?php echo $form_mode; ?>">
 	<div class="main-container">
 		<div class="booking-x container">
 			<div class="bkx-booking-form">
@@ -45,7 +53,7 @@ $args['status']   = $status;
 					<form method="post" name="bkx_booking_generate" id="bkx-booking-generate" class="bkx-booking-generate bkx-book-now">
 						<!-- Start Initialized Steps -->
 					<?php bkx_get_template( 'booking-form/steps/step-1.php' ); ?>
-					<?php bkx_get_template( 'booking-form/steps/step-2.php' ); ?>
+					<?php bkx_get_template( 'booking-form/steps/step-2.php', $args ); ?>
 					<?php bkx_get_template( 'booking-form/steps/step-2b.php' ); ?>
 					<?php bkx_get_template( 'booking-form/steps/step-3.php' ); ?>
 					<?php bkx_get_template( 'booking-form/steps/step-4.php' ); ?>

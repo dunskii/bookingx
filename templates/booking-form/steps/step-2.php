@@ -12,6 +12,10 @@
 defined( 'ABSPATH' ) || exit;
 $skip_this_step       = SkipStep();
 $skip_this_step_style = ( $skip_this_step == true ) ? 'style = "display: none;"' : '';
+$admin_edit           = 0;
+if ( ! empty( $args ) && isset( $args['admin_edit'] ) ) {
+	$admin_edit = $args['admin_edit'];
+}
 ?>
 <div class="step-2 bkx-form-deactivate default" data-active="2" data-booking-style="default">
 	<?php do_action( 'bkx_booking_form_before_user_detail' ); ?>
@@ -32,7 +36,12 @@ $skip_this_step_style = ( $skip_this_step == true ) ? 'style = "display: none;"'
 				<ul>
 					<li class="booked"><?php esc_html_e( 'Booked', 'bookingx' ); ?></li>
 					<li class="open"><?php esc_html_e( 'Open', 'bookingx' ); ?></li>
-					<li class="current"><?php esc_html_e( 'Current', 'bookingx' ); ?></li>
+					<?php if ( $admin_edit == 1 ) : ?>
+						<li class="current"><?php esc_html_e( 'Current', 'bookingx' ); ?></li>
+						<li class="selected"><?php esc_html_e( 'Selected', 'bookingx' ); ?></li>
+					<?php else : ?>
+						<li class="current"><?php esc_html_e( 'Selected', 'bookingx' ); ?></li>
+					<?php endif; ?>
 				</ul>
 			</div>
 			<div class="select-time">
