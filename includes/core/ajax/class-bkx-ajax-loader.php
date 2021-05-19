@@ -505,6 +505,9 @@ class Bkx_Ajax_Loader {
         $BkxBooking      = new BkxBooking();
         $args['seat_id'] = sanitize_text_field( wp_unslash( $_POST['seat_id'] ) );
         $args['base_id'] = sanitize_text_field( wp_unslash( $_POST['base_id'] ) );
+		if ( isset( $_POST['edit_booking_id'] ) ) {
+			$args['edit_booking_id'] = sanitize_text_field( wp_unslash( $_POST['edit_booking_id'] ) );
+		}
         if ( isset( $_POST['service_extend'] ) ) {
          $args['service_extend'] = sanitize_text_field( wp_unslash( $_POST['service_extend'] ) );
               }
@@ -586,11 +589,15 @@ class Bkx_Ajax_Loader {
         $args['base_id'] = sanitize_text_field( wp_unslash( $_POST['base_id'] ) );
         if ( isset( $_POST['extra_id'] ) && ! empty( $_POST['extra_id'] ) && $_POST['extra_id'] != 'None' ) {
          $args['extra_ids'] = array_map( 'absint', (array) isset( $_POST['extra_id'] ) ? wp_unslash( $_POST['extra_id'] ) : array() );
-              }
+        }
         $args['date']           = sanitize_text_field( wp_unslash( $_POST['date'] ) );
         $args['slot']           = sanitize_text_field( wp_unslash( $_POST['slot'] ) );
         $args['time']           = sanitize_text_field( wp_unslash( $_POST['time'] ) );
+        $args['self_edit']      = isset( $_POST['self_edit'] ) && ! empty( $_POST['self_edit'] ) ? sanitize_text_field( wp_unslash( $_POST['self_edit'] ) ) : 0;
         $args['user_time_zone'] = '';
+		if ( isset( $_POST['edit_booking_id'] ) ) {
+			$args['edit_booking_id'] = sanitize_text_field( wp_unslash( $_POST['edit_booking_id'] ) );
+		}
         if ( isset( $_POST['user_time_zone'] ) ) {
          $args['user_time_zone'] = sanitize_text_field( $_POST['user_time_zone'] );
               }

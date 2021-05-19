@@ -1437,11 +1437,20 @@ function bkx_generate_inline_style() {
 		$custom_css .= " .booking-x .indicator ul li.booked::before, .booking-x .select-time .table td a.disabled { background: {$time_unavailable_color};} ";
 	}
 	if ( is_user_logged_in() && is_admin() ) {
-		$custom_css .= " .booking-x .indicator ul li.current::before, .booking-x .select-time .table td a.selected { background: linear-gradient(to bottom right, {$time_available_color} 0%, {$time_available_color} 50%, {$time_selected_color} 50%, {$time_selected_color} 100%); } ";
-		$custom_css .= ' .booking-x .select-time .table td a.selected { color : #fff; } ';
+		$custom_css .= " .bkx-admin-new-booking .indicator ul li.current::before, .bkx-admin-new-booking .select-time .table td a.selected { background: linear-gradient(to bottom right, {$time_available_color} 0%, {$time_available_color} 50%, {$time_selected_color} 50%, {$time_selected_color} 100%); } ";
+		//$custom_css .= " .booking-x .indicator ul li.current::before, .booking-x .select-time .table td a.selected { background: {$time_selected_color}; } ";
+		$custom_css .= " .booking-x .indicator ul li.current::before, .booking-x .select-time .table td a.bkx-current-edit-slot { background: linear-gradient(to bottom right, {$time_available_color} 0%, {$time_available_color} 50%, {$time_selected_color} 50%, {$time_selected_color} 100%); } ";
+		$custom_css .= " .bkx-admin-edit-booking .select-time .table td a.selected { color : #fff;background: {$time_available_color}; } ";
+		$custom_css .= " .booking-x .indicator ul li.selected::before { background: {$time_available_color}; }";
+		$custom_css .= " .bkx-admin-edit-booking .indicator ul li::before { width: 30px !important; } .bkx-admin-edit-booking .indicator ul li {margin-right : 5px !important; font-size: 13px !important;}";
 	} else {
 		$custom_css .= " .booking-x .indicator ul li.current::before, .booking-x .select-time .table td a.selected { background: {$time_selected_color}; } ";
 	}
+	$custom_css .= " .bkx-front-edit-booking .indicator ul li.selected::before { background: {$time_selected_color}; }";
+	$custom_css .= " .bkx-front-new-booking .indicator ul li.selected::before { background: {$time_selected_color}; }";
+	$custom_css .= " .bkx-front-edit-booking .indicator ul li::before { width: 44px !important; } .bkx-front-edit-booking .indicator ul li {margin-right : 5px !important; font-size: 18px !important;}";
+	$custom_css .= " .bkx-front-edit-booking .indicator ul li.current::before, .bkx-front-edit-booking .select-time .table td a.bkx-current-edit-slot { color:#fff; background: linear-gradient(to bottom right, {$time_selected_color} 0%, {$time_selected_color} 50%, {$time_unavailable_color} 50%, {$time_unavailable_color} 100%); } ";
+	$custom_css .= " .bkx-front-edit-booking .select-time .table td a.selected { color : #fff;background: {$time_selected_color}; } ";
 	if ( isset( $text_color ) && $text_color != '' ) {
 		$custom_css .= " .booking-x-form h1 ,.booking-x-form h2, .booking-x-form h3, .booking-x-form h4, .booking-x-form h5 , .booking-x-form .progress-title, .booking-x-form .form-group label, .booking-x-form .user-detail dl dt, .booking-x .indicator ul li, .booking-x .total-text { color: {$text_color} }";
 	}
