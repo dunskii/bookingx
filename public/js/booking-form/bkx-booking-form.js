@@ -350,7 +350,7 @@ jQuery(function ($) {
             var $form = $(this);
             e.preventDefault();
             block($('div.step-4'));
-            bkx_error_flag.val(0);
+            //bkx_error_flag.val(0);
             booking_form.validate_form_fields();
             var user_time_zone = $('#bkx_user_time_zone').val();
 
@@ -393,11 +393,12 @@ jQuery(function ($) {
                 }
             });
             var submission_skip = false;
-            if (GetCurrentStep() == 4 && 1 === flag() && 1 === GatewayFlag() && ( booking_form.is_prepayment == true || booking_form.is_prepayment == 'true' ) ) {
+            if ( (4 ===GetCurrentStep() || '4' ===GetCurrentStep() )  && 1 === flag() && 1 === GatewayFlag() && ( booking_form.is_prepayment == true || booking_form.is_prepayment == 'true' ) ) {
                 submission_skip = true;
             }
-
-            console.log(submission_skip)
+            if( $('#bkx_gateway_flag').val() == 'skip' ){
+                submission_skip = true;
+            }
             setTimeout(function () {
                 block($('div.step-4'));
                 console.log('Line 403 trigger now');
