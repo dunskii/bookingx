@@ -157,12 +157,12 @@ class Bkx_Ajax_Loader {
          $result['errors'] = $errors;
               } else {
          $user_data = wp_update_user(
-    array(
-     'ID'         => $user_id,
-     'first_name' => $first_name,
-     'last_name'  => $last_name,
-     'user_email' => $email_address,
-    )
+			    array(
+			     'ID'         => $user_id,
+			     'first_name' => $first_name,
+			     'last_name'  => $last_name,
+			     'user_email' => $email_address,
+			    )
          );
          if ( is_wp_error( $user_data ) ) {
                 // There was an error; possibly this user doesn't exist.
