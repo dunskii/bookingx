@@ -4,7 +4,7 @@ Tags: bookings, appointments, reservations, booking calendar, booking system
 Requires at least: 5.0
 Tested up to: 5.7.2
 Requires PHP: 5.0
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 License: GPLv2 or later
 License URI: https://booking-x.com/gpl-licence/
 
@@ -133,7 +133,7 @@ It should be, remember you can set the colours to fit your site by going Setting
 
 == Upgrade Notice ==
 
-= 1.0.4 =
+= 1.0.5 =
 Improvements to edit booking UI and UX
 
 == Updating ==

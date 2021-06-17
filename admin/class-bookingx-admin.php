@@ -3,7 +3,7 @@
  * The admin-specific functionality of the plugin.
  *
  * @link       https://dunskii.com
- * @since      1.0.4
+ * @since      1.0.5
  *
  * @package    Bookingx
  * @subpackage Bookingx/admin
@@ -13,7 +13,7 @@ class Bookingx_Admin {
 	/**
 	 * The ID of this plugin.
 	 *
-	 * @since      1.0.4
+	 * @since      1.0.5
 	 * @access   private
 	 * @var      string $plugin_name The ID of this plugin.
 	 */
@@ -22,7 +22,7 @@ class Bookingx_Admin {
 	/**
 	 * The version of this plugin.
 	 *
-	 * @since      1.0.4
+	 * @since      1.0.5
 	 * @access   private
 	 * @var      string $version The current version of this plugin.
 	 */
@@ -33,7 +33,7 @@ class Bookingx_Admin {
 	 *
 	 * @param string $plugin_name The name of this plugin.
 	 * @param string $version The version of this plugin.
-	 * @since      1.0.4
+	 * @since      1.0.5
 	 */
 	public function __construct( $plugin_name = null, $version = null ) {
 		$this->plugin_name = $plugin_name;
@@ -621,7 +621,7 @@ class Bookingx_Admin {
 	/**
 	 * Register the stylesheets for the admin area.
 	 *
-	 * @since      1.0.4
+	 * @since      1.0.5
 	 */
 	public function enqueue_styles() {
 		/**
@@ -643,7 +643,7 @@ class Bookingx_Admin {
 	/**
 	 * Register the JavaScript for the admin area.
 	 *
-	 * @since      1.0.4
+	 * @since      1.0.5
 	 */
 	public function enqueue_scripts() {
 		/**
@@ -1210,46 +1210,43 @@ class Bookingx_Admin {
 	 */
 	public function bkx_generate_listing_view( $type ) {
 		if ( 'weekly' === $type || 'monthly' === $type ) {
-			$default_view = 'weekly' === $type ? 'agendaWeek' : 'month';
+			$default_view = 'weekly' === $type ? 'timeGridWeek' : 'dayGridMonth';
 			// $bkx_calendar_json_data = bkx_crud_option_multisite( 'bkx_calendar_json_data' );
 			$bkx_booking            = new BkxBooking();
 			$search['booking_date'] = date( 'Y-m-d' ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 			$search['by']           = 'this_month';
 			$search['type']         = $type;
+
 			$bkx_calendar_json_data = $bkx_booking->CalendarJsonData( $search );
+
 
 			if ( isset( $bkx_calendar_json_data ) && ! empty( $bkx_calendar_json_data ) ) {
 				?>
-				jQuery(document).ready(function() {
-				jQuery('#calendar').fullCalendar({
-				plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
-				header: {
-				left: 'prev,next',
-				center: 'title',
-				right: 'dayGridMonth,timeGridWeek,timeGridDay'
-				},
-				defaultView: '<?php echo esc_attr( $default_view ); ?>',
-				defaultDate: '<?php echo date( 'Y-m-d' ); //phpcs:ignore ?>',
-				navLinks: true, // can click day/week names to navigate views
-				editable: false,
-				eventLimit: true,
-				viewRender: function(currentView){
-				var minDate = moment(),
-				maxDate = moment().add(2,'weeks');
-				// Past
-				if (minDate >= currentView.start && minDate <= currentView.end) {
-				jQuery(".fc-prev-button").prop('disabled', true);
-				jQuery(".fc-prev-button").addClass('fc-state-disabled');
-				}
-				else {
-				jQuery(".fc-prev-button").removeClass('fc-state-disabled');
-				jQuery(".fc-prev-button").prop('disabled', false);
-				}
 
-				},
-				events: [<?php echo $bkx_calendar_json_data; //phpcs:ignore ?>]
-				});
-				});
+                document.addEventListener('DOMContentLoaded', function() {
+                var calendarEl = document.getElementById('calendar');
+
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialDate: '<?php echo date('Y-m-d'); ?>',
+                initialView: '<?php echo $default_view;?>',
+                nowIndicator: true,
+                headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                },
+                navLinks: true, // can click day/week names to navigate views
+                editable: true,
+                selectable: true,
+                selectMirror: true,
+                dayMaxEvents: true, // allow "more" link when too many events
+                events: [
+				<?php echo $bkx_calendar_json_data; //phpcs:ignore ?>
+                ]
+                });
+
+                calendar.render();
+                });
 				<?php
 			}
 		}

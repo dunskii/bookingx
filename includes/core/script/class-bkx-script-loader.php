@@ -92,7 +92,7 @@ class Bkx_Script_Loader {
 				'version' => BKX_PLUGIN_VER,
 			),
 			'fullcalendar'           => array(
-				'src'     => BKX_PLUGIN_PUBLIC_URL . '/js/fullcalendar/min.js',
+				'src'     => BKX_PLUGIN_PUBLIC_URL . '/js/fullcalendar/lib/main.js',
 				'deps'    => array( 'jquery' ),
 				'version' => BKX_PLUGIN_VER,
 			),
@@ -143,7 +143,7 @@ class Bkx_Script_Loader {
 			'has_rtl' => false,
 			),*/
 			'fullcalendarcss'  => array(
-				'src'     => BKX_PLUGIN_PUBLIC_URL . '/css/fullcalendar/min.css',
+				'src'     => BKX_PLUGIN_PUBLIC_URL . '/js/fullcalendar/lib/main.css',
 				'deps'    => array( 'style-main' ),
 				'version' => BKX_PLUGIN_VER,
 				'has_rtl' => false,
@@ -201,7 +201,7 @@ class Bkx_Script_Loader {
 					'has_rtl' => false,
 				),
 				'fullcalendarcss'  => array(
-					'src'     => BKX_PLUGIN_PUBLIC_URL . '/css/fullcalendar/min.css',
+					'src'     => BKX_PLUGIN_PUBLIC_URL . '/js/fullcalendar/lib/main.css',
 					'deps'    => array( 'style-main' ),
 					'version' => BKX_PLUGIN_VER,
 					'has_rtl' => false,
