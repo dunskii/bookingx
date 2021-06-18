@@ -1214,7 +1214,7 @@ class Bookingx_Admin {
 			// $bkx_calendar_json_data = bkx_crud_option_multisite( 'bkx_calendar_json_data' );
 			$bkx_booking            = new BkxBooking();
 			$search['booking_date'] = date( 'Y-m-d' ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
-			$search['by']           = 'this_month';
+			$search['by']           = 'future';
 			$search['type']         = $type;
 
 			$bkx_calendar_json_data = $bkx_booking->CalendarJsonData( $search );
