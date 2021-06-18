@@ -134,7 +134,7 @@ It should be, remember you can set the colours to fit your site by going Setting
 == Upgrade Notice ==
 
 = 1.0.5 =
-Improvements to edit booking UI and UX
+Improvements to administration monthly and weekly booking views
 
 == Updating ==
 Automatic updates should work smoothly, but we still recommend you back up your site.
@@ -146,3 +146,4 @@ Automatic updates should work smoothly, but we still recommend you back up your 
 = 1.0.2 - Latest WP version 5.7 capability update. 2021-30-03 =
 = 1.0.3 - Adding Sale Price functionality. 2021-20-04 =
 = 1.0.4 - Improvements to edit booking UI and UX. 2021-04-06 =
+= 1.0.5 - Improvements to administration monthly and weekly booking views. 2021-18-06 =
