@@ -515,10 +515,12 @@ class Bkx_Ajax_Loader {
          $args['extra_ids'] = array_map( 'absint', (array) isset( $_POST['extra_id'] ) ? wp_unslash( $_POST['extra_id'] ) : array() );
               }
         $args['booking_date']   = sanitize_text_field( wp_unslash( $_POST['booking_date'] ) );
-        $args['user_time_zone'] = '';
+        $args['bkx_selected_slots']  = isset($_POST['bkx_selected_slots']) ? sanitize_text_field( wp_unslash( $_POST['bkx_selected_slots'] ) ) : '';
+
+		$args['user_time_zone'] = '';
         if ( isset( $_POST['user_time_zone'] ) ) {
          $args['user_time_zone'] = sanitize_text_field( $_POST['user_time_zone'] );
-              }
+        }
         // $bkx_booking_style = bkx_crud_option_multisite('bkx_booking_style');
         // $booking_style = ( ( !isset($bkx_booking_style) || $bkx_booking_style == "" ) ? "default" : $bkx_booking_style);
         $base_time_option = get_post_meta( $args['base_id'], 'base_time_option', true );
@@ -585,6 +587,7 @@ class Bkx_Ajax_Loader {
 	public static function get_verify_slot() {
         check_ajax_referer( 'get-verify-slot', 'security' );
         $BkxBooking      = new BkxBooking();
+        $timezone = array();
         $args['seat_id'] = sanitize_text_field( wp_unslash( $_POST['seat_id'] ) );
         $args['base_id'] = sanitize_text_field( wp_unslash( $_POST['base_id'] ) );
         if ( isset( $_POST['extra_id'] ) && ! empty( $_POST['extra_id'] ) && $_POST['extra_id'] != 'None' ) {
@@ -595,12 +598,13 @@ class Bkx_Ajax_Loader {
         $args['time']           = sanitize_text_field( wp_unslash( $_POST['time'] ) );
         $args['self_edit']      = isset( $_POST['self_edit'] ) && ! empty( $_POST['self_edit'] ) ? sanitize_text_field( wp_unslash( $_POST['self_edit'] ) ) : 0;
         $args['user_time_zone'] = '';
+        $args['type_data'] = sanitize_text_field( wp_unslash( $_POST['type_data'] ) );
 		if ( isset( $_POST['edit_booking_id'] ) ) {
 			$args['edit_booking_id'] = sanitize_text_field( wp_unslash( $_POST['edit_booking_id'] ) );
 		}
         if ( isset( $_POST['user_time_zone'] ) ) {
-         $args['user_time_zone'] = sanitize_text_field( $_POST['user_time_zone'] );
-              }
+            $args['user_time_zone'] = sanitize_text_field( $_POST['user_time_zone'] );
+        }
         $BkxBooking->get_verify_slot( $args );
 	}
 

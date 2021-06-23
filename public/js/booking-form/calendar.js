@@ -22,6 +22,7 @@ class CalendarYvv {
 		this.staffAvailableCertainDays   = []; // Resource be available at certain days only
 		this.unavailable_days            = []; // Resource be available at certain days only
 		this.diasResal                   = []; // dias importantes
+		this.bkx_selected_date			 = "";
 		this.colorResal                  = "#ebebeb"; // Color of important days
 		this.textResalt                  = "#fff"; // Preload Selected Days Color
 
@@ -131,7 +132,8 @@ class CalendarYvv {
 
 			var fechNow = this.anioSeleccionado + "-" + this.mesSeleccionado + "-" + (i + 1);
 			// dia seleccionado
-			if (this.diaSeleccionado == moment( fechNow ).format( "Y-MM-DD" )) {
+
+			if (this.diaSeleccionado == moment( fechNow ).format( "Y-MM-DD" ) ) {
 				current_date_selected = ' current-date-selected ';
 			}
 			var div           = $( "<div class='d-flex flex-fill w-100 justify-content-center btn " + this.btnD + "' data-date='" + fechNow + "'>" ).html( i + 1 );
@@ -140,10 +142,13 @@ class CalendarYvv {
 			var current_month = moment( this.diaSeleccionado ).format( "MMMM" );
 			var current_day   = moment( fechNow ).format( "dddd" );
 
-			if (this.diaSeleccionado == moment( fechNow ).format( "Y-MM-DD" )) {
+			if (fechNow == moment().format( "Y-MM-DD" ) || fechNow == moment().format( "Y-M-D" )) {
 				div = $( "<div class='current-date-selected d-flex flex-fill w-100 justify-content-center btn " + this.btnD + "' data-date='" + fechNow + "'>" ).html( i + 1 );
 			}
 
+			if (fechNow == this.bkx_selected_date) {
+				div = $( "<div class='on-click-selected d-flex flex-fill w-100 justify-content-center btn " + this.btnD + "' data-date='" + fechNow + "'>" ).html( i + 1 );
+			}
 			// Start Less than today date will be disable
 			if (moment( fechNow ).format( "Y-MM-DD" ) < moment().format( "Y-MM-DD" )) {
 				div = $( "<div class='d-flex flex-fill w-100 justify-content-center btn " + this.btnDisable + "' data-date='" + fechNow + "' style='background: " + this.colorResal + "; color: " + this.textResalt + "; font-weight: bold;'>" ).html( i + 1 );
