@@ -4,7 +4,7 @@
  *
  * @package    Bookingx
  * @subpackage bookingx
- * @since      1.0.5
+ * @since      1.0.6
  */
 
 defined( 'ABSPATH' ) || exit;
