@@ -302,7 +302,12 @@ jQuery(function ($) {
             var time_zone = $('#bkx_user_time_zone').val();
             if(time_zone && time_zone != ''){
                 if (GetCurrentStep() == 2 && booking_form.booking_style == 'default') {
-                    booking_form.BookingFormGetCalendarAvailability(moment().format("Y-M-D"));
+                    var selected_date = $('#bkx_date_selected_date').val();
+                    var s_date = selected_date.split("-");
+                    var date = new Date(s_date[0], s_date[1]-1, s_date[2]);
+                    var bkx_selected_slots = $('#bkx_selected_slots_no').val();
+                    booking_form.BookingFormGetCalendarAvailability(moment(date).format("Y-M-D"), bkx_selected_slots);
+
                 }
             }
         },
@@ -829,7 +834,8 @@ jQuery(function ($) {
                 slot: $(this).data('slot'),
                 date: $(this).data('date'),
                 time: $(this).data('time'),
-                user_time_zone: user_time_zone
+                user_time_zone: user_time_zone,
+                type_data : ''
             };
 
             $.ajax({
@@ -848,12 +854,19 @@ jQuery(function ($) {
                         $('.booking-slots').data("total_slots", total_slots);
                         $('.booking-slots').data("starting_slot", starting_slot);
                         $('.booking-slots').data("date", booking_date);
-                        booking_form.date = booking_date
+                        $('#bkx_selected_slots').val(result.json_args);
+                        booking_form.date = booking_date;
+                        var bkx_selected_slots_no = [];
                         for (var slot = starting_slot; slot <= end_slot; slot++) {
                             if ($('.booking-slots').find("a[data-date='" + booking_date + "']").attr('data-date') == booking_date) {
+                                bkx_selected_slots_no.push(slot);
                                 $('.booking-slots').find("a[data-verify='" + booking_date + "-" + slot + "']").addClass('selected');
                             }
                         }
+                        if(bkx_selected_slots_no.length > 0){
+                            $('#bkx_selected_slots_no').val(JSON.stringify(bkx_selected_slots_no));
+                        }
+
                         booking_form.get_step_3_details();
                     } else {
 
@@ -919,7 +932,7 @@ jQuery(function ($) {
                 }
             });
         },
-        BookingFormGetCalendarAvailability: function (currentSelected) {
+        BookingFormGetCalendarAvailability: function (currentSelected, bkx_selected_slots) {
             block($('div.step-2'));
             var data = {
                 security: bkx_booking_form_params.get_calendar_availability_nonce,
@@ -927,9 +940,10 @@ jQuery(function ($) {
                 base_id: booking_form.base_id,
                 extra_id: booking_form.extra_id
             };
+
             var current_day = {};
             current_day.currentSelected = currentSelected;
-            booking_form.BookingFormGetAvailableSlotByDate(current_day);
+            booking_form.BookingFormGetAvailableSlotByDate(current_day, '', bkx_selected_slots);
             $.ajax({
                 type: 'POST',
                 url: get_url('get_calendar_availability'),
@@ -946,6 +960,7 @@ jQuery(function ($) {
                             booking_form.BookingFormGetAvailableSlotByDate(ev);
                         };
                         //calendar.diasResal = [4, 15, 26]; //Selected Days
+                        calendar.bkx_selected_date = currentSelected;
                         calendar.staffAvailableCertainMonths = staffAvailableCertainMonths;
                         calendar.staffAvailableCertainDays = staffAvailableCertainDays;
                         calendar.unavailable_days = availability.unavailable_days;
@@ -959,15 +974,18 @@ jQuery(function ($) {
                 }
             });
         },
-        BookingFormGetAvailableSlotByDate: function (calendar, availability_slots = "") {
+        BookingFormGetAvailableSlotByDate: function (calendar, availability_slots = "", bkx_selected_slots = "") {
             block($('div.step-2'));
-            booking_form.total_slots = 0;
-            booking_form.starting_slot = 0;
-            $('.booking-slots').data("total_slots", 0);
-            $('.booking-slots').data("starting_slot", 0);
+            if(bkx_selected_slots == '' ){
+                booking_form.total_slots = 0;
+                booking_form.starting_slot = 0;
+                $('.booking-slots').data("total_slots", 0);
+                $('.booking-slots').data("starting_slot", 0);
+            }
             booking_form.date = calendar.currentSelected;
             var service_extend = $('.bkx-booking-form .step-1 .bkx-services-extend').val();
             var user_time_zone = $('#bkx_user_time_zone').val();
+            $('#bkx_date_selected_date').val(calendar.currentSelected);
             var data = {
                 security: bkx_booking_form_params.display_availability_slots_nonce,
                 seat_id: booking_form.seat_id,
@@ -975,7 +993,8 @@ jQuery(function ($) {
                 extra_id: booking_form.extra_id,
                 service_extend: service_extend,
                 booking_date: calendar.currentSelected,
-                user_time_zone : user_time_zone
+                user_time_zone : user_time_zone,
+                bkx_selected_slots : bkx_selected_slots
             };
             if (availability_slots == "") {
                 availability_slots = $('.bkx-booking-form .step-2 .select-time .booking-slots');

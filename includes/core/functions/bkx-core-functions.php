@@ -1795,9 +1795,11 @@ function getExtraHtml( $order_meta ) {
 		$extra_html = sprintf( __( '%s', 'bookingx' ), '<p><label>Extra Services : </label>' );
 		$extra_data = '';
 		foreach ( $order_meta['extra_arr'] as $extra_obj ) {
-			$main_obj    = $extra_obj['main_obj']->post;
-			$extra_title = $main_obj->post_title;
-			$extra_data .= " {$extra_title} " . ',';
+			if(!empty($extra_obj) && !empty($extra_obj['main_obj']->post)){
+				$main_obj    = $extra_obj['main_obj']->post;
+				$extra_title = $main_obj->post_title;
+				$extra_data .= " {$extra_title} " . ',';
+			}
 		}
 		$extra_data  = rtrim( $extra_data, ',' );
 		$extra_html .= $extra_data . '</p>';
