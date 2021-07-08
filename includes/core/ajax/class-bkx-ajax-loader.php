@@ -92,6 +92,7 @@ class Bkx_Ajax_Loader {
          'change_password'             => true,
          'booking_cancel'              => true,
          'customer_details'            => true,
+         'dashboard_sort'              => true
         );
 
         foreach ( $ajax_events as $ajax_event => $nopriv ) {
@@ -111,17 +112,39 @@ class Bkx_Ajax_Loader {
         return esc_url_raw( apply_filters( 'bookingx_ajax_get_endpoint', add_query_arg( 'bkx-ajax', $request, remove_query_arg( array( '_wpnonce' ), home_url( '/', 'relative' ) ) ), $request ) );
 	}
 
+	public function dashboard_sort(){
+		check_ajax_referer( 'dashboard-sort', 'security' );
+		if ( ! is_user_logged_in() ) {
+			return;
+		}
+		$sort_by   = sanitize_text_field( $_POST['sort_by'] );
+		$type     = sanitize_text_field( $_POST['type'] );
+		$BkxBooking                 = new BkxBooking();
+		$search_args['search_date'] = date( 'Y-m-d' ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+		$search_args['search_by']   = $type;
+		$search_args['user_id']     = get_current_user_id();
+		$search_args['sort_by']     = isset($sort_by) && $sort_by == 'up' ? 'DESC' : 'ASC';
+		$BkxDashboard               = new BkxDashboard();
+		$BookedRecords =  $BkxBooking->GetBookedRecordsByUser( $search_args );
+		if ( ! empty( $BookedRecords ) ) {
+			echo $BkxDashboard->booking_html( $BookedRecords ); // phpcs:ignore
+		} else {
+			echo "<tr><td colspan='5'>No Booking's Found</td></tr>";
+		}
+		wp_die();
+	}
+
 	/**
 	 * On My account Page Save Customer Details on Submit events
 	 * Page Template Path  : \templates\dashboard\my-account\customer-details.php
 	 */
 	public static function customer_details() {
-         check_ajax_referer( 'customer-details', 'security' );
+		check_ajax_referer( 'customer-details', 'security' );
         parse_str( $_POST['form_data'], $post_data );
         $nonce_value = $post_data['bkx-customer-details-nonce'];
         if ( ! wp_verify_nonce( $nonce_value, 'bkx-customer-details' ) && ! is_user_logged_in() ) {
-         return;
-              }
+          return;
+        }
         $user_id       = get_current_user_id();
         $user          = get_user_by( 'ID', $user_id );
         $errors        = array();

@@ -2735,6 +2735,7 @@ class BkxBooking {
 		$role          = ( empty( $search['role'] ) ) ? '' : $search['role'];
 		$search_by     = ( empty( $search['search_by'] ) ) ? '' : $search['search_by'];
 		$search_date   = ( empty( $search['search_date'] ) ) ? '' : $search['search_date'];
+		$sort_by   = ( empty( $search['sort_by'] ) ) ? 'DESC' : $search['sort_by'];
 		if ( is_admin() ) {
 			$seat_id = get_current_user_id();
 		}
@@ -2815,6 +2816,10 @@ class BkxBooking {
 				);
 				break;
 		}
+
+		$args['meta_key'] = 'booking_start_date';
+		$args['orderby'] = 'meta_value';
+		$args['order'] = $sort_by;
 		$args          = apply_filters( 'bkx_get_bookings_by_user', $args );
 		$booked_result = new WP_Query( $args );
 		if ( $booked_result->have_posts() ) :

@@ -74,6 +74,10 @@ jQuery(function ($) {
             $(document).on('click button', '.booking-x .bkx-customer-details-main .bkx-customer-details-btn', this.customer_details);
             //$(document).on('click', '.booking-x .bkx-dashboard-booking .bkx-booking-cancel-view', this.booking_cancel);
             $(document).on('click button', '.booking-x .bkx-dashboard-booking #bkx-booking-cancel-modal', this.booking_cancel);
+            $(document).on('click a', '.booking-x #bkx-dashboard-bookings .bkx-dashboard-sort-up-future', this.dashboard_sort);
+            $(document).on('click a', '.booking-x #bkx-dashboard-bookings .bkx-dashboard-sort-down-future', this.dashboard_sort);
+            $(document).on('click a', '.booking-x #bkx-dashboard-bookings .bkx-dashboard-sort-up-past', this.dashboard_sort);
+            $(document).on('click a', '.booking-x #bkx-dashboard-bookings .bkx-dashboard-sort-down-past', this.dashboard_sort);
         },
         booking_cancel : function (){
             $('#bkx-booking-cancel-view').text('Please wait...');
@@ -212,6 +216,36 @@ jQuery(function ($) {
                 }
             });
         },
+        dashboard_sort : function () {
+            block($('.bkx-dashboard-tabContent'));
+            var sort_by = $(this).data('sort');
+            var type = $(this).data('type');
+            $('.bkx-dashboard-bookings-tbody.'+type).html('Please wait...');
+            var data = {
+                security: bookingx_params.dashboard_sort_nonce,
+                sort_by: sort_by,
+                type : type
+            }
+            $.ajax({
+                type: 'POST',
+                url: get_url('dashboard_sort'),
+                data: data,
+                dataType: 'html',
+                success: function (response) {
+                    if (response) {
+                        $('.bkx-dashboard-bookings-tbody.'+type).html(response)
+                    }
+                    unblock($('.bkx-dashboard-tabContent'));
+                },
+                complete: function () {
+                    unblock($('.bkx-dashboard-tabContent'));
+                },
+                error: function () {
+
+                    unblock($('.bkx-dashboard-tabContent'));
+                }
+            });
+        }
     }
 
     my_account.init();
