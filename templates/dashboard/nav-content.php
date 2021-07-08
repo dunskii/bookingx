@@ -28,11 +28,12 @@ $GetPastBookedRecords     = $BkxBooking->GetBookedRecordsByUser( $search_args );
 			<thead class="thead-light">
 			<tr>
 				<?php foreach ( $dashboard_columns as $column_id => $column_name ) : ?>
-					<th scope="col" class="<?php echo esc_attr( $column_id ); ?>"><?php echo esc_html( $column_name ); ?></th>
+					<th scope="col" class="<?php echo esc_attr( $column_id ); ?>"><?php echo esc_html( $column_name ); ?> <?php do_action('bkx_dashboard_lable_action', $column_id, 'future'); ?></th>
+
 				<?php endforeach; ?>
 			</tr>
 			</thead>
-			<tbody>
+			<tbody class="bkx-dashboard-bookings-tbody future">
 			<?php
 			if ( ! empty( $GetFutureBookedRecords ) ) {
              echo $BkxDashboard->booking_html( $GetFutureBookedRecords, esc_html( $page_id ) ); // phpcs:ignore
@@ -48,11 +49,11 @@ $GetPastBookedRecords     = $BkxBooking->GetBookedRecordsByUser( $search_args );
 			<thead class="thead-light">
 			<tr>
 				<?php foreach ( $dashboard_columns as $column_id => $column_name ) : ?>
-					<th scope="col" class="<?php echo esc_attr( $column_id ); ?>"><?php echo esc_html( $column_name ); ?></th>
+					<th scope="col" class="<?php echo esc_attr( $column_id ); ?>"><?php echo esc_html( $column_name ); ?><?php do_action('bkx_dashboard_lable_action', $column_id, 'past'); ?></th>
 				<?php endforeach; ?>
 			</tr>
 			</thead>
-			<tbody>
+			<tbody class="bkx-dashboard-bookings-tbody past">
 			<?php
 			if ( ! empty( $GetPastBookedRecords ) ) {
              echo $BkxDashboard->booking_html( $GetPastBookedRecords, esc_html( $page_id ) ); // phpcs:ignore

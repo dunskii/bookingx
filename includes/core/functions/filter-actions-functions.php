@@ -416,7 +416,7 @@ function bkx_disable_view_mode_options( $post_types ) {
 	return $post_types;
 }
 
-//add_action( 'load-edit.php', 'bkx_bulk_action' );
+// add_action( 'load-edit.php', 'bkx_bulk_action' );
 /**
  * @throws Exception
  */
@@ -446,14 +446,15 @@ function bkx_bulk_action() {
 			'post_type'    => 'bkx_booking',
 			$report_action => false,
 			'changed'      => $changed,
-			//'ids'          => join( ',', $post_ids ),
+			// 'ids'          => join( ',', $post_ids ),
 		),
 		''
 	);
 	if ( isset( $_GET['post_status'] ) ) {
 		$sendback = add_query_arg( 'post_status', sanitize_text_field( wp_unslash( $_GET['post_status'] ) ), $sendback );
 	}
-	echo "<pre>".print_r($sendback, true)."</pre>";die;
+	echo '<pre>' . print_r( $sendback, true ) . '</pre>';
+	die;
 	wp_redirect( esc_url_raw( $sendback ) );
 	exit();
 }
@@ -993,4 +994,14 @@ function bkx_booking_detail_load_before_action( $booking_id ) {
 	);
 
 	return $booking_detail;
+}
+
+add_action( 'bkx_dashboard_lable_action', 'bkx_dashboard_lable_action_call_back', 10, 2  );
+function bkx_dashboard_lable_action_call_back( $column_id, $tab ) {
+	if ( empty( $column_id ) ) {
+		return;
+	}
+	if ( $column_id == 'booking-date' ) {
+		echo '<a href="javascript:void(0);" data-sort="up" data-type="'.$tab.'"  class="bkx-dashboard-sort-up-'.$tab.'"><span>&#8593;</span> </a> <a href="javascript:void(0);" data-sort="down" data-type="'.$tab.'" class="bkx-dashboard-sort-down-'.$tab.'"><span>&#8595;</span></a>';
+	}
 }

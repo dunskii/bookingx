@@ -402,6 +402,7 @@ class Bkx_Script_Loader {
 			'change_password_nonce'                     => wp_create_nonce( 'change-password' ),
 			'customer_details_nonce'                    => wp_create_nonce( 'customer-details' ),
 			'booking_cancel_nonce'                      => wp_create_nonce( 'booking-cancel' ),
+			'dashboard_sort_nonce'                      => wp_create_nonce( 'dashboard-sort' ),
 		);
 
 		if ( isset( $booking_id ) && $booking_id > 0 ) {
