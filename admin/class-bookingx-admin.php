@@ -1216,7 +1216,8 @@ class Bookingx_Admin {
 			$search['booking_date'] = date( 'Y-m-d' ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 			$search['by']           = 'future';
 			$search['type']         = $type;
-
+			$order_statuses = array( 'bkx-pending', 'bkx-ack', 'bkx-completed', 'bkx-missed' );
+			$search['status']         = $order_statuses;
 			$bkx_calendar_json_data = $bkx_booking->CalendarJsonData( $search );
 
 
