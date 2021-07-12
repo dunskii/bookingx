@@ -824,7 +824,6 @@ class Bookingx_Admin {
 	 */
 	public function render_bkx_booking_columns( $column ) {
 		global $post;
-
 		if ( empty( $post->ID ) ) {
 			return;
 		}
@@ -837,7 +836,7 @@ class Bookingx_Admin {
 		if ( isset( $base_time_option ) && 'H' === $base_time_option ) {
 			$total_time = getDateDuration( $order_meta );
 			$duration   = getDuration( $order_meta );
-			$date_data  = sprintf( __( '%s', 'bookingx' ), date( $date_format, strtotime( $order_meta['booking_date'] ) ) ); //phpcs:ignore
+			$date_data  = sprintf( __( '%s', 'bookingx' ), date( $date_format, strtotime( $order_meta['booking_start_date'] ) ) ); //phpcs:ignore
 		} else {
 			list($date_data, $duration) = getDayDateDuration( $post->ID );
 		}
@@ -1219,11 +1218,8 @@ class Bookingx_Admin {
 			$order_statuses = array( 'bkx-pending', 'bkx-ack', 'bkx-completed', 'bkx-missed' );
 			$search['status']         = $order_statuses;
 			$bkx_calendar_json_data = $bkx_booking->CalendarJsonData( $search );
-
-
 			if ( isset( $bkx_calendar_json_data ) && ! empty( $bkx_calendar_json_data ) ) {
 				?>
-
                 document.addEventListener('DOMContentLoaded', function() {
                 var calendarEl = document.getElementById('calendar');
 
