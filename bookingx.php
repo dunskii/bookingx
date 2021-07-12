@@ -5,7 +5,7 @@
  *  Description: Booking X is a booking and appointments plugin for WordPress
  *  Version: 1.0.6
  *  Requires at least: 5.0
- *  Requires PHP: 5.0
+ *  Requires PHP: 7.0 or higher
  *  Author: Booking X
  *  Author URI: https://booking-x.com/
  *  Text Domain: bookingx
