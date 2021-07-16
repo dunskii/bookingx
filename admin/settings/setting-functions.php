@@ -17,6 +17,9 @@ function bkx_setting_save_init() {
 	if ( isset( $_POST['bkx_setting_form_init'] ) && ( 1 === sanitize_text_field( wp_unslash( $_POST['bkx_setting_form_init'] ) ) || '1' === sanitize_text_field( wp_unslash( $_POST['bkx_setting_form_init'] ) ) ) ) { // phpcs:ignore
 		bkx_setting_save_action();
 	}
+	if ( isset( $_POST['bkx_license_activation'] ) ) {
+		bookingx_addon_activate_license();
+	}
 }
 
 if ( ! function_exists( 'bkx_setting_tabs' ) ) {
@@ -59,6 +62,14 @@ if ( ! function_exists( 'bkx_setting_tabs' ) ) {
 				'user_opt' => esc_html( 'User Options' ),
 			),
 			'default' => apply_filters( 'bkx_setting_biz_default', 'biz_info' ),
+		);
+
+		$tab['bkx_licence'] = array(
+			'label'   => 'Licences',
+			'submenu' => array(
+				'all_license' => esc_html( 'Addon Licences' ),
+			),
+			'default' => apply_filters( 'bkx_setting_licence_default', 'all_license' ),
 		);
 
 		return apply_filters( 'bkx_setting_tabs', $tab );
