@@ -40,6 +40,7 @@ define( 'BKX_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
 define( 'BKX_PLUGIN_PUBLIC_URL', BKX_PLUGIN_DIR_URL . 'public' );
 define( 'BKX_PLUGIN_PUBLIC_PATH', BKX_PLUGIN_DIR_PATH . 'public' );
 define( 'BKX_PLUGIN_VER', '1.0.6' );
+define( 'BKX_STORE_URL', 'https://booking-x.com' );
 define( 'BKX_BLOCKS_ASSETS', BKX_PLUGIN_DIR_URL . 'includes/core/blocks/assets/' );
 define( 'BKX_BLOCKS_ASSETS_BASE_PATH', BKX_PLUGIN_DIR_PATH . "includes\core\blocks\assets" );
 

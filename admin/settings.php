@@ -68,7 +68,7 @@ $temp_css    = bkx_crud_option_multisite( 'bkx_siteclient_canedit_css' ); ?>
 			}
 			$bkx_general_submenu_html .= '</ul><p> &nbsp;</p>';
 		}
-     echo $bkx_general_submenu_html; //phpcs:ignore
+        echo $bkx_general_submenu_html; //phpcs:ignore
 		$bkx_general_submenu_label = $bkx_general_submenu[ $current_submenu_active ];
 		$bkx_submenu_active_label  = explode( '|', $bkx_general_submenu_label );
 		$bkx_general_submenu_label = $bkx_submenu_active_label[0];
