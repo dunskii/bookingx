@@ -41,7 +41,19 @@ class Bookingx_Admin {
 
 		add_filter( 'bkx_calender_unavailable_days', array( $this, 'bkx_calender_unavailable_days' ) );
 		add_filter( 'register_post_type_args', array( $this, 'bkx_seat_post_type_args' ), 10, 2 );
+		add_filter( 'bkx_activate_plugin_lists', array( $this, 'bkx_activate_plugin_lists' ), 10, 1 );
 	}
+
+	/**
+	 * @param $plugins
+	 */
+	public function bkx_activate_plugin_lists( $plugins ) {
+		if ( empty( $plugins ) ) {
+			return;
+		}
+
+	}
+
 
 	/**
 	 * Bkx_seat_post_type_args
@@ -555,6 +567,8 @@ class Bookingx_Admin {
 		return $actions;
 	}
 
+
+
 	/**
 	 * Register_bookingx_post_status
 	 */
@@ -756,7 +770,7 @@ class Bookingx_Admin {
 	 */
 	public function import_now() {
 		if ( isset( $_POST['import_xml'] ) && 'Import Xml' === sanitize_text_field( $_POST['import_xml'] ) ) : //phpcs:ignore
-			$bkx_import       = new BkxImport();
+			$bkx_import = new BkxImport();
 			$bkx_import->import_now();
 		endif;
 	}
@@ -824,7 +838,6 @@ class Bookingx_Admin {
 	 */
 	public function render_bkx_booking_columns( $column ) {
 		global $post;
-
 		if ( empty( $post->ID ) ) {
 			return;
 		}
@@ -837,7 +850,7 @@ class Bookingx_Admin {
 		if ( isset( $base_time_option ) && 'H' === $base_time_option ) {
 			$total_time = getDateDuration( $order_meta );
 			$duration   = getDuration( $order_meta );
-			$date_data  = sprintf( __( '%s', 'bookingx' ), date( $date_format, strtotime( $order_meta['booking_date'] ) ) ); //phpcs:ignore
+			$date_data  = sprintf( __( '%s', 'bookingx' ), date( $date_format, strtotime( $order_meta['booking_start_date'] ) ) ); //phpcs:ignore
 		} else {
 			list($date_data, $duration) = getDayDateDuration( $post->ID );
 		}
@@ -1216,38 +1229,35 @@ class Bookingx_Admin {
 			$search['booking_date'] = date( 'Y-m-d' ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 			$search['by']           = 'future';
 			$search['type']         = $type;
-			$order_statuses = array( 'bkx-pending', 'bkx-ack', 'bkx-completed', 'bkx-missed' );
-			$search['status']         = $order_statuses;
+			$order_statuses         = array( 'bkx-pending', 'bkx-ack', 'bkx-completed', 'bkx-missed' );
+			$search['status']       = $order_statuses;
 			$bkx_calendar_json_data = $bkx_booking->CalendarJsonData( $search );
-
-
 			if ( isset( $bkx_calendar_json_data ) && ! empty( $bkx_calendar_json_data ) ) {
 				?>
+				document.addEventListener('DOMContentLoaded', function() {
+				var calendarEl = document.getElementById('calendar');
 
-                document.addEventListener('DOMContentLoaded', function() {
-                var calendarEl = document.getElementById('calendar');
-
-                var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialDate: '<?php echo date('Y-m-d'); ?>',
-                initialView: '<?php echo $default_view;?>',
-                nowIndicator: true,
-                headerToolbar: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-                },
-                navLinks: true, // can click day/week names to navigate views
-                editable: true,
-                selectable: true,
-                selectMirror: true,
-                dayMaxEvents: true, // allow "more" link when too many events
-                events: [
+				var calendar = new FullCalendar.Calendar(calendarEl, {
+				initialDate: '<?php echo date( 'Y-m-d' ); ?>',
+				initialView: '<?php echo $default_view; ?>',
+				nowIndicator: true,
+				headerToolbar: {
+				left: 'prev,next today',
+				center: 'title',
+				right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+				},
+				navLinks: true, // can click day/week names to navigate views
+				editable: true,
+				selectable: true,
+				selectMirror: true,
+				dayMaxEvents: true, // allow "more" link when too many events
+				events: [
 				<?php echo $bkx_calendar_json_data; //phpcs:ignore ?>
-                ]
-                });
+				]
+				});
 
-                calendar.render();
-                });
+				calendar.render();
+				});
 				<?php
 			}
 		}

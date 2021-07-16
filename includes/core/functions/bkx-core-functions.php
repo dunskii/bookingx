@@ -1957,3 +1957,147 @@ function check_booking_owner( $user_id, $booking_id ) {
 		return;
 	}
 }
+
+function bkx_check_is_active_addons( $info ){
+	if(empty($info))
+		return;
+	$is_our_addon = false;
+	if( trim( $info['AuthorName'] ) == 'Booking X' && trim($info['AuthorURI']) == 'https://dunskii.com' && $info['Name'] != 'Booking X'){
+		$is_our_addon = true;
+	}
+	return $is_our_addon;
+}
+
+function generate_addon_license_section_fields( $info ){
+	$license = get_option( $info['key_name'] );
+	$status  = get_option( $info['status'] );
+	if ( $status !== false && $status == 'valid' ) {
+		$addon_status_text = '<span style="color:green;">'.__('Active').'</span>';
+	}else{
+		$addon_status_text = '<input type="submit" class="button-secondary" name="bkx_license_activation" value="'.__( 'Activate License' ).'"/>';
+	}
+
+		return '<tr valign="top">
+				<th scope="row" valign="top">
+					'.__( $info['addon_name']).'
+				</th>
+				<td>
+					<input placeholder="'.__( 'Enter your license key' ).'" id="'.$info['key_name'].'" name="'.$info['key_name'].'" type="text" class="regular-text" value="'.esc_attr( $license ).'" />
+					<input name="'.$info['key_name'].'_data" type="hidden" value="'.esc_attr( $license ).'|'.$info['key_name'].'|'.$info['status'].'|'.$info['addon_name'].'" />
+					'.$addon_status_text.'
+				</td>
+			</tr>';
+}
+
+function bookingx_sanitize_license( $new , $key ,$status) {
+	$old = get_option( $key );
+	if ( $old != $new ) {
+		delete_option( $status ); // new license has been entered, so must reactivate
+		update_option( $key, $new );
+	}
+	return $new;
+}
+
+function bookingx_addon_activate_license() {
+
+	// listen for our activate button to be clicked
+	if ( isset( $_POST['bkx_license_activation'] ) ) {
+		// run a quick security check
+		if ( ! check_admin_referer( 'bkx_license_activation_nonce', 'bkx_license_activation_nonce' ) ) {
+			return; // get out if we didn't click the Activate button
+		}
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		if(!empty($_POST)){
+			foreach ($_POST as $key => $license_value ){
+
+				if (strpos($key, 'license_key_data') !== false) {
+					$license_key_data = explode("|", $license_value );
+					$license_key       = $license_key_data[1];
+					$license_status    = $license_key_data[2];
+					$addon_name        = $license_key_data[3];
+					if ( isset( $_POST[$license_key] ) ) {
+						bookingx_sanitize_license( $_POST[$license_key], $license_key, $license_status );
+					}
+					// retrieve the license from the database
+					$license = trim( get_option( $license_key ) );
+
+					// data to send in our API request
+					$api_params = array(
+						'edd_action' => 'activate_license',
+						'license'    => $license,
+						'item_name'  => urlencode( $addon_name ), // the name of our product in EDD
+						'url'        => home_url(),
+					);
+					// Call the custom API.
+					$response = wp_remote_post(
+						BKX_STORE_URL,
+						array(
+							'timeout'   => 15,
+							'sslverify' => false,
+							'body'      => $api_params,
+						)
+					);
+
+					// make sure the response came back okay
+					if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
+
+						if ( is_wp_error( $response ) ) {
+							$message = $response->get_error_message();
+						} else {
+							$message = __( 'An error occurred, please try again.' );
+						}
+					} else {
+						$license_data = json_decode( wp_remote_retrieve_body( $response ) );
+						if ( false === $license_data->success ) {
+
+							switch ( $license_data->error ) {
+
+								case 'expired':
+									$message = sprintf(
+										__( 'Your license key expired on %s.' ),
+										date_i18n( get_option( 'date_format' ), strtotime( $license_data->expires, current_time( 'timestamp' ) ) )
+									);
+									break;
+
+								case 'disabled':
+								case 'revoked':
+									$message = __( 'Your license key has been disabled.' );
+									break;
+
+								case 'missing':
+									$message = __( 'Invalid license.' );
+									break;
+
+								case 'invalid':
+								case 'site_inactive':
+									$message = __( 'Your license is not active for this URL.' );
+									break;
+
+								case 'item_name_mismatch':
+									$message = sprintf( __( 'This appears to be an invalid license key for %s.' ), TIMEZONE_ITEM_NAME );
+									break;
+
+								case 'no_activations_left':
+									$message = __( 'Your license key has reached its activation limit.' );
+									break;
+
+								default:
+									$message = __( 'An error occurred, please try again.' );
+									break;
+							}
+						}
+						update_option( $license_status, $license_data->license );
+					}
+				}
+			}
+		}
+	}
+}
+
+function booking_license_setting_page(){
+	return admin_url('edit.php?post_type=bkx_booking&page=bkx-setting&bkx_tab=bkx_licence');
+}
