@@ -67,7 +67,7 @@ if ( ! function_exists( 'bkx_setting_tabs' ) ) {
 		$tab['bkx_licence'] = array(
 			'label'   => 'Licences',
 			'submenu' => array(
-				'all_license' => esc_html( 'Addon Licences' ),
+				'all_license' => esc_html( 'Booking X Addon Licences' ),
 			),
 			'default' => apply_filters( 'bkx_setting_licence_default', 'all_license' ),
 		);
