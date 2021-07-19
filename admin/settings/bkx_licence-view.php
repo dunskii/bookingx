@@ -43,11 +43,11 @@ if ( ! empty( $current_submenu_active ) && 'all_license' === $current_submenu_ac
 			?>
 			<tr valign="top">
 				<th scope="row" valign="top">
-					<?php _e( 'Activate License' ); ?>
+					 &nbsp;
 				</th>
 				<td>
 					<?php wp_nonce_field( 'bkx_license_activation_nonce', 'bkx_license_activation_nonce' ); ?>
-					<input type="submit" class="button-secondary" name="bkx_license_activation" value="<?php _e( 'Activate License' ); ?>"/>
+					<input type="submit" class="button-secondary" name="bkx_license_activation" value="<?php _e( 'Activate All Licenses' ); ?>"/>
 				</td>
 			</tr>
 			<?php
