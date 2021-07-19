@@ -1971,10 +1971,11 @@ function bkx_check_is_active_addons( $info ){
 function generate_addon_license_section_fields( $info ){
 	$license = get_option( $info['key_name'] );
 	$status  = get_option( $info['status'] );
+	$error   = get_option( "{$info['status']}_errors" );
 	if ( $status !== false && $status == 'valid' ) {
 		$addon_status_text = '<span style="color:green;">'.__('Active').'</span>';
 	}else{
-		$addon_status_text = '<input type="submit" class="button-secondary" name="bkx_license_activation" value="'.__( 'Activate License' ).'"/>';
+		$addon_status_text = '<span style="color:red;">'.__($error).'</span>';
 	}
 
 		return '<tr valign="top">
@@ -1982,13 +1983,20 @@ function generate_addon_license_section_fields( $info ){
 					'.__( $info['addon_name']).'
 				</th>
 				<td>
-					<input placeholder="'.__( 'Enter your license key' ).'" id="'.$info['key_name'].'" name="'.$info['key_name'].'" type="text" class="regular-text" value="'.esc_attr( $license ).'" />
-					<input name="'.$info['key_name'].'_data" type="hidden" value="'.esc_attr( $license ).'|'.$info['key_name'].'|'.$info['status'].'|'.$info['addon_name'].'" />
+					<input placeholder="'.__( 'Enter your license key' ).'" id="'.esc_attr($info['key_name']).'" name="'.esc_attr($info['key_name']).'" type="text" class="regular-text" value="'.esc_attr( $license ).'" />
+					<input name="'.esc_attr($info['key_name']).'_data" type="hidden" value="'.esc_attr( $license ).'|'.esc_attr($info['key_name']).'|'.esc_attr($info['status']).'|'.esc_attr($info['addon_name']).'" />
 					'.$addon_status_text.'
 				</td>
 			</tr>';
 }
 
+/**
+ * @param $new
+ * @param $key
+ * @param $status
+ *
+ * @return mixed
+ */
 function bookingx_sanitize_license( $new , $key ,$status) {
 	$old = get_option( $key );
 	if ( $old != $new ) {
@@ -2041,7 +2049,7 @@ function bookingx_addon_activate_license() {
 							'body'      => $api_params,
 						)
 					);
-
+					$message = "";
 					// make sure the response came back okay
 					if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
 
@@ -2052,6 +2060,7 @@ function bookingx_addon_activate_license() {
 						}
 					} else {
 						$license_data = json_decode( wp_remote_retrieve_body( $response ) );
+
 						if ( false === $license_data->success ) {
 
 							switch ( $license_data->error ) {
@@ -2091,6 +2100,7 @@ function bookingx_addon_activate_license() {
 							}
 						}
 						update_option( $license_status, $license_data->license );
+						update_option( "{$license_status}_errors", $message );
 					}
 				}
 			}
@@ -2101,3 +2111,4 @@ function bookingx_addon_activate_license() {
 function booking_license_setting_page(){
 	return admin_url('edit.php?post_type=bkx_booking&page=bkx-setting&bkx_tab=bkx_licence');
 }
+
