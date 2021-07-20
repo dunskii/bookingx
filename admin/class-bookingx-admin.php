@@ -41,18 +41,10 @@ class Bookingx_Admin {
 
 		add_filter( 'bkx_calender_unavailable_days', array( $this, 'bkx_calender_unavailable_days' ) );
 		add_filter( 'register_post_type_args', array( $this, 'bkx_seat_post_type_args' ), 10, 2 );
-		add_filter( 'bkx_activate_plugin_lists', array( $this, 'bkx_activate_plugin_lists' ), 10, 1 );
-	}
-
-	/**
-	 * @param $plugins
-	 */
-	public function bkx_activate_plugin_lists( $plugins ) {
-		if ( empty( $plugins ) ) {
-			return;
-		}
 
 	}
+
+
 
 
 	/**
@@ -369,6 +361,10 @@ class Bookingx_Admin {
 	function bkx_add_meta_query( $query ) {
 		// phpcs:disable WordPress.DateTime.RestrictedFunctions.date_date
 		global $pagenow;
+		if ( ! is_admin() || ! $query->is_main_query() ) {
+			return;
+		}
+
 		if ( isset( $pagenow ) && 'edit.php' !== $pagenow || 'bkx_booking' !== $query->query_vars['post_type'] ) {
 			return;
 		}
@@ -942,6 +938,14 @@ class Bookingx_Admin {
 				echo '<div class="loader-' . esc_attr( $post->ID ) . '" style="display:none;"> Please wait..</div>';
 				break;
 		}
+	}
+
+	/**
+	 * @return string
+	 */
+	public function sorting_bkx_booking_columns() {
+		$columns['booking_date'] = 'booking_date';
+		return $columns;
 	}
 
 	/**
