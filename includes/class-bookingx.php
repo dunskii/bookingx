@@ -331,6 +331,7 @@ class Bookingx {
 		$this->loader->add_action( 'init', $plugin_admin, 'bkx_create_booking_post_type' );
 		$this->loader->add_action( 'init', $plugin_admin, 'register_bookingx_post_status' );
 		$this->loader->add_action( 'manage_bkx_booking_posts_custom_column', $plugin_admin, 'render_bkx_booking_columns' );
+		$this->loader->add_action( 'manage_edit-bkx_booking_sortable_columns', $plugin_admin, 'sorting_bkx_booking_columns' );
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'bkx_notification_bubble_menu' );
 
 		$this->loader->add_action( 'admin_footer', $plugin_admin, 'bkx_booking_bulk_admin_footer', 10 );

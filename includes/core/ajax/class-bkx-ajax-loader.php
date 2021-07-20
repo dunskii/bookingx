@@ -621,7 +621,7 @@ class Bkx_Ajax_Loader {
         $args['time']           = sanitize_text_field( wp_unslash( $_POST['time'] ) );
         $args['self_edit']      = isset( $_POST['self_edit'] ) && ! empty( $_POST['self_edit'] ) ? sanitize_text_field( wp_unslash( $_POST['self_edit'] ) ) : 0;
         $args['user_time_zone'] = '';
-        $args['type_data'] = sanitize_text_field( wp_unslash( $_POST['type_data'] ) );
+        $args['type_data'] = isset($_POST['type_data']) ? sanitize_text_field( wp_unslash( $_POST['type_data'] ) ) : '';
 		if ( isset( $_POST['edit_booking_id'] ) ) {
 			$args['edit_booking_id'] = sanitize_text_field( wp_unslash( $_POST['edit_booking_id'] ) );
 		}
