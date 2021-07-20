@@ -409,10 +409,11 @@ class BkxBooking {
 			switch_to_blog( $blog_id );
 		endif;
 
-		$finalarr     = array();
-		$date         = $search['booking_date'];
-		$status       = ( empty( $search['status'] ) ) ? 'bkx-pending' : $search['status'];
-		$seat_by_base = '';
+		$finalarr       = array();
+		$date           = $search['booking_date'];
+		$order_statuses = array( 'bkx-pending', 'bkx-ack', 'bkx-completed', 'bkx-missed' );
+		$status         = ( empty( $search['status'] ) ) ? $order_statuses : $search['status'];
+		$seat_by_base   = '';
 		if ( isset( $search['service_id'] ) && $search['service_id'] != '' ) {
 			$base_id      = $search['service_id'];
 			$bkx_base     = new BkxBase( '', $base_id );
@@ -2509,8 +2510,8 @@ class BkxBooking {
 							$self_edit          = " data-self-edit='1' ";
 							$data_verify        = ' data-verify=' . $args['booking_date'] . '-' . $counter;
 						}
-						$bkx_selected_slots = json_decode($args['bkx_selected_slots']);
-						$selected_class = '';
+						$bkx_selected_slots = json_decode( $args['bkx_selected_slots'] );
+						$selected_class     = '';
 						if ( ! empty( $bkx_selected_slots ) && in_array( $counter, $bkx_selected_slots ) ) {
 							$selected_class = ' selected ';
 						}
@@ -2735,7 +2736,7 @@ class BkxBooking {
 		$role          = ( empty( $search['role'] ) ) ? '' : $search['role'];
 		$search_by     = ( empty( $search['search_by'] ) ) ? '' : $search['search_by'];
 		$search_date   = ( empty( $search['search_date'] ) ) ? '' : $search['search_date'];
-		$sort_by   = ( empty( $search['sort_by'] ) ) ? 'DESC' : $search['sort_by'];
+		$sort_by       = ( empty( $search['sort_by'] ) ) ? 'DESC' : $search['sort_by'];
 		if ( is_admin() ) {
 			$seat_id = get_current_user_id();
 		}
@@ -2818,10 +2819,10 @@ class BkxBooking {
 		}
 
 		$args['meta_key'] = 'booking_start_date';
-		$args['orderby'] = 'meta_value';
-		$args['order'] = $sort_by;
-		$args          = apply_filters( 'bkx_get_bookings_by_user', $args );
-		$booked_result = new WP_Query( $args );
+		$args['orderby']  = 'meta_value';
+		$args['order']    = $sort_by;
+		$args             = apply_filters( 'bkx_get_bookings_by_user', $args );
+		$booked_result    = new WP_Query( $args );
 		if ( $booked_result->have_posts() ) :
 			while ( $booked_result->have_posts() ) :
 				$booked_result->the_post();
