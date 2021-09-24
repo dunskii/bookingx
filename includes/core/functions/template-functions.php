@@ -227,6 +227,7 @@ if ( ! function_exists( 'bookingx_form_additional_fields' ) ) {
  */
 function bkx_get_formatted_price( $price ) {
 	$currencyBlock   = '';
+	$price           = number_format( (float) $price, 2, '.', '' );
 	$currency_option = ( bkx_crud_option_multisite( 'currency_option' ) ? bkx_crud_option_multisite( 'currency_option' ) : 'AUD' );
 	if ( ! empty( $price ) ) :
 		$currencyBlock = '<span class="currencyBlock"><currency itemprop="priceCurrency price" content="' . $currency_option . '' . $price . '" > ' . get_bookingx_currency_symbol( $currency_option ) . '' . $price . '</currency></span>';
