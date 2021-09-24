@@ -21,7 +21,7 @@
  * Also maintains the unique identifier of this plugin as well as the current
  * version of the plugin.
  *
- * @since      1.0.6
+ * @since      1.0.7
  * @package    Bookingx
  * @subpackage Bookingx/includes
  * @author     Dunskii Web Services <divyang@dunskii.com>
@@ -254,30 +254,6 @@ class Bookingx {
 		$this->loader->run();
 	}
 
-	public static function glob( $pattern, $base_path = '' ) {
-		if ( empty( $base_path ) ) {
-			$base_path = BKX_PLUGIN_DIR_PATH;
-		}
-
-		// Escape any brackets in the base path.
-		$base_path = str_replace( array( '[', ']' ), array( '\[', '\]' ), $base_path );
-		$base_path = str_replace( array( '\[', '\]' ), array( '[[]', '[]]' ), $base_path );
-
-		return glob( $base_path . $pattern );
-	}
-
-	public static function glob_require_once( $pattern, $base_path = '' ) {
-		$files = self::glob( $pattern, $base_path );
-
-		if ( is_array( $files ) ) {
-			foreach ( $files as $file ) {
-				include_once $file;
-			}
-		}
-
-		return $files;
-	}
-
 	public function load_plugin_textdomain() {
 
 		if ( function_exists( 'determine_locale' ) ) {
@@ -360,7 +336,7 @@ class Bookingx {
 	 */
 	private function define_public_hooks() {
 		$plugin_public = new Bookingx_Public( $this->get_plugin_name(), $this->get_version() );
-
+		$this->loader->add_action( 'init', $plugin_public, 'register_bookingx_blocks_settings' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 		add_filter(

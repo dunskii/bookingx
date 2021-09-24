@@ -1,0 +1,54 @@
+{
+	"apiVersion": 2,
+	"name": "booking-x/bkx-seat",
+	"version": "0.1.0",
+	"title": "Booking X Resource Listings",
+    "category": "booking-x",
+	"icon": "smiley",
+	"description": "Display the resources that you offer using Blocks. Set the number of columns, plus if descriptions and images are shown.",
+	"supports": {
+		"html": false
+	},
+  "attributes": {
+	"show_desc": {
+	  "type": "string",
+	  "default": "yes"
+	},
+	 "showImage": {
+	 	"type": "string",
+	 	"default": "yes"
+	 },
+	 "seatPostId": {
+	 	"type": "string",
+	 	"default": "none"
+	 },
+	 "orderBy": {
+	 	"type": "string",
+	 	"default": "none"
+	 },
+	 "order": {
+	 	"type": "string",
+	 	"default": "none"
+	 },
+	 "columns": {
+	 	"type": "string",
+	 	"default": "none"
+	 },
+	 "rows": {
+	 	"type": "string",
+	 	"default": "none"
+	 },
+	 "seatDescription": {
+	 	"type": "string",
+	 	"default": "none"
+	 },
+	 "seatImageStatus": {
+	 	"type": "string",
+	 	"default": "none"
+	 }
+  },
+	"textdomain": "bkx-seat",
+	"editorScript": "file:./build/index.js",
+	"editorStyle": "file:./build/index.css",
+	"style": "file:./build/style-index.css"
+}

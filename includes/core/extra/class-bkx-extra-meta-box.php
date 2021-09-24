@@ -130,7 +130,7 @@ if ( ! class_exists( 'BkxExtraMetaBox' ) ) {
 			$values                  = get_post_custom( $post->ID );
 			$alias_seat              = bkx_crud_option_multisite( 'bkx_alias_seat' );
 			$addition_price          = isset( $values['addition_price'] ) ? esc_attr( $values['addition_price'][0] ) : '';
-			$extra_sale_price        = isset( $values['extra_sale_price'] ) ? esc_html( $values['extra_sale_price'][0] ) : 0;
+			//$extra_sale_price        = isset( $values['extra_sale_price'] ) ? esc_html( $values['extra_sale_price'][0] ) : 0;
 			$addition_time_option    = isset( $values['addition_time_option'] ) ? esc_attr( $values['addition_time_option'][0] ) : '';
 			$addition_overlap        = isset( $values['addition_overlap'] ) ? esc_attr( $values['addition_overlap'][0] ) : '';
 			$addition_months         = isset( $values['addition_months'] ) ? esc_attr( $values['addition_months'][0] ) : '';
@@ -165,19 +165,19 @@ if ( ! class_exists( 'BkxExtraMetaBox' ) ) {
 				</div>
 			</div>
 
-			<div class="active" id="extra_sale_price">
-				<?php
-				// translators: Base Sale Price Label.
-				printf( __( '%1$s  Sale Price', 'bookingx' ), esc_html( $addition_alias ) ); // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped
-				$extra_sale_price_html = 0;
-				if ( isset( $extra_sale_price ) && '' !== $extra_sale_price ) {
-					$extra_sale_price_html = esc_html( $extra_sale_price );
-				}
-				?>
-				<div class="plugin-description">
-					<input name="extra_sale_price" type="text" value="<?php echo esc_attr( $extra_sale_price_html ); ?>" id="id_extra_sale_price">
-				</div>
-			</div>
+<!--			<div class="active" id="extra_sale_price">-->
+<!--				--><?php
+//				// translators: Base Sale Price Label.
+//				printf( __( '%1$s  Sale Price', 'bookingx' ), esc_html( $addition_alias ) ); // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped
+//				$extra_sale_price_html = 0;
+//				if ( isset( $extra_sale_price ) && '' !== $extra_sale_price ) {
+//					$extra_sale_price_html = esc_html( $extra_sale_price );
+//				}
+//				?>
+<!--				<div class="plugin-description">-->
+<!--					<input name="extra_sale_price" type="text" value="--><?php //echo esc_attr( $extra_sale_price_html ); ?><!--" id="id_extra_sale_price">-->
+<!--				</div>-->
+<!--			</div>-->
 			<div class="active" id="months_days_times">
 				Is <?php echo esc_html( $addition_alias ); ?> time in days, hours & minutes:
 				<div class="plugin-description">

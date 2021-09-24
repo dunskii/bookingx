@@ -3,7 +3,7 @@
  * Booking Setting Save
  *
  * @package Bookingx/admin
- * @since      1.0.6
+ * @since      1.0.7
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -74,6 +74,7 @@ function bkx_setting_save_action() {
 		$redirect = add_query_arg( array( 'bkx_success' => 'OSE' ), sanitize_text_field( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) );
 		wp_safe_redirect( $redirect );
 	}
+
 	$payment_option_flag = ! empty( $_POST['payment_option_flag'] ) ? sanitize_text_field( wp_unslash( $_POST['payment_option_flag'] ) ) : ''; // phpcs:ignore
 	if ( isset( $payment_option_flag ) && ( 1 === $payment_option_flag || '1' === $payment_option_flag ) && isset( $_POST['currency_option'] ) ) { // phpcs:ignore
 		bkx_crud_option_multisite( 'currency_option', sanitize_text_field( $_POST['currency_option'] ), 'update' ); // phpcs:ignore
@@ -303,6 +304,16 @@ function bkx_setting_save_action() {
 
 		}
 		$redirect = add_query_arg( array( 'bkx_success' => 'TSU' ), sanitize_text_field( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) );
+		wp_safe_redirect( $redirect );
+	}
+
+	$other_settings_flag = ! empty( $_POST['other_settings_flag'] ) ? sanitize_text_field( wp_unslash( $_POST['other_settings_flag'] ) ) : ''; // phpcs:ignore
+	if ( isset( $other_settings_flag ) && ( 1 === $other_settings_flag || '1' === $other_settings_flag ) ) {
+		if ( isset( $_POST['enable_price_booking'] ) ) { // phpcs:ignore
+			$enable_price_booking = sanitize_text_field( $_POST['enable_price_booking'] ); // phpcs:ignore
+			bkx_crud_option_multisite( 'enable_price_booking', $enable_price_booking, 'update' );
+		}
+		$redirect = add_query_arg( array( 'bkx_success' => 'OTHS' ), sanitize_text_field( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) );
 		wp_safe_redirect( $redirect );
 	}
 }

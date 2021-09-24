@@ -275,7 +275,7 @@ class BkxBase {
 			$formatted = $base_time['formatted'];
 		}
 		$base_title = "{$bkx_post->post_title} - {$this->load_global->currency_name}{$this->load_global->currency_sym}{$base_price} - {$formatted}";
-		if( $plain == true ){
+		if ( $plain == true ) {
 			$base_title = $bkx_post->post_title;
 		}
 		return apply_filters( 'bkx_addition_title', $base_title );
@@ -395,11 +395,11 @@ class BkxBase {
 		$meta_data                      = $this->meta_data;
 		$base_price                     = isset( $meta_data['base_price'] ) ? esc_html( $meta_data['base_price'][0] ) : 0;
 		$base_sale_price                = isset( $meta_data['base_sale_price'] ) ? esc_html( $meta_data['base_sale_price'][0] ) : 0;
-		$price_array['base_price']      = $base_price;
-		$price_array['base_sale_price'] = $base_sale_price;
+		$price_array['base_price']      = number_format( (float) $base_price, 2, '.', '' );
+		$price_array['base_sale_price'] = number_format( (float) $base_sale_price, 2, '.', '' );
 		$price_array['meta_data']       = $meta_data;
 		if ( isset( $base_sale_price ) && $base_sale_price > 0 ) {
-			$base_price = $base_sale_price;
+			$base_price = number_format( (float) $base_sale_price, 2, '.', '' );
 		}
 		return apply_filters( 'bkx_base_price', $base_price, $price_array );
 	}
@@ -426,8 +426,8 @@ class BkxBase {
 		$base_price                     = isset( $meta_data['base_price'] ) ? esc_html( $meta_data['base_price'][0] ) : 0;
 		$base_sale_price                = isset( $meta_data['base_sale_price'] ) ? esc_html( $meta_data['base_sale_price'][0] ) : 0;
 		$calculate_discount             = $this->calculate_discount();
-		$price_array['base_price']      = $base_price;
-		$price_array['base_sale_price'] = $base_sale_price;
+		$price_array['base_price']      = number_format( (float) $base_price, 2, '.', '' );
+		$price_array['base_sale_price'] = number_format( (float) $base_sale_price, 2, '.', '' );
 		$price_array['discount']        = $calculate_discount['amount'];
 		$price_array['percentage']      = round( $calculate_discount['percentage'] );
 		$price_array['currency']        = $this->load_global->currency_sym;

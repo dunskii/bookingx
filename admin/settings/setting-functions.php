@@ -3,7 +3,7 @@
  * Template load for Save all setting action
  *
  * @package Bookingx/admin
- * @since      1.0.6
+ * @since      1.0.7
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -34,12 +34,13 @@ if ( ! function_exists( 'bkx_setting_tabs' ) ) {
 		$tab['bkx_general'] = array(
 			'label'   => 'General',
 			'submenu' => array(
-				'alias'          => 'Alias',
-				'page_setting'   => 'Content Settings',
-				'emails'         => 'Email notifications',
-				'css'            => 'Styling',
-				'other_settings' => 'Page Settings',
-				'exim'           => 'Export/Import',
+				'alias'           => 'Alias',
+				'content_setting' => 'Content Settings',
+				'emails'          => 'Email notifications',
+				'css'             => 'Styling',
+				'page_settings'   => 'Page Settings',
+				'exim'            => 'Export/Import',
+				//'other'           => 'Other Settings',
 			),
 			'default' => apply_filters( 'bkx_setting_general_default', 'alias' ),
 		);
@@ -195,21 +196,22 @@ function bkx_generate_days_section( $set = 7, $selected = array() ): string {
  */
 function bkx_admin_success_message( $key = null ) {
 	$admin_success_msg = array(
-		'FIS' => esc_html__( 'File Imported successfully', 'bookingx' ),
-		'PAU' => esc_html__( 'PayPal API Settings updated successfully.', 'bookingx' ),
-		'GAI' => esc_html__( 'Google Map API Settings updated successfully.', 'bookingx' ),
-		'OSE' => esc_html__( 'Other Settings updated successfully.', 'bookingx' ),
-		'COU' => esc_html__( 'Currency Settings updated successfully.', 'bookingx' ),
-		'RAU' => esc_html__( 'Role Assignment Settings updated successfully.', 'bookingx' ),
-		'ALU' => esc_html__( 'Alias Settings updated successfully.', 'bookingx' ),
-		'GCD' => esc_html__( 'Google Calendar Settings updated successfully.', 'bookingx' ),
-		'CSU' => esc_html__( 'Content Setting updated successfully.', 'bookingx' ),
-		'OSU' => esc_html__( 'Option Settings updated successfully.', 'bookingx' ),
-		'STU' => esc_html__( 'Styling Settings updated successfully.', 'bookingx' ),
-		'BIU' => esc_html__( 'Business Information Settings updated successfully.', 'bookingx' ),
-		'TSU' => esc_html__( 'Tax Settings updated successfully.', 'bookingx' ),
-		'DOP' => esc_html__( 'Days of Operations Settings updated successfully.', 'bookingx' ),
-		'ESS' => esc_html__( 'Email Settings updated successfully.', 'bookingx' ),
+		'FIS'  => esc_html__( 'File Imported successfully', 'bookingx' ),
+		'PAU'  => esc_html__( 'PayPal API Settings updated successfully.', 'bookingx' ),
+		'GAI'  => esc_html__( 'Google Map API Settings updated successfully.', 'bookingx' ),
+		'OSE'  => esc_html__( 'Other Settings updated successfully.', 'bookingx' ),
+		'COU'  => esc_html__( 'Currency Settings updated successfully.', 'bookingx' ),
+		'RAU'  => esc_html__( 'Role Assignment Settings updated successfully.', 'bookingx' ),
+		'ALU'  => esc_html__( 'Alias Settings updated successfully.', 'bookingx' ),
+		'GCD'  => esc_html__( 'Google Calendar Settings updated successfully.', 'bookingx' ),
+		'CSU'  => esc_html__( 'Content Setting updated successfully.', 'bookingx' ),
+		'OSU'  => esc_html__( 'Option Settings updated successfully.', 'bookingx' ),
+		'STU'  => esc_html__( 'Styling Settings updated successfully.', 'bookingx' ),
+		'BIU'  => esc_html__( 'Business Information Settings updated successfully.', 'bookingx' ),
+		'TSU'  => esc_html__( 'Tax Settings updated successfully.', 'bookingx' ),
+		'DOP'  => esc_html__( 'Days of Operations Settings updated successfully.', 'bookingx' ),
+		'ESS'  => esc_html__( 'Email Settings updated successfully.', 'bookingx' ),
+		'OTHS' => esc_html__( 'Other Settings updated successfully.', 'bookingx' ),
 	);
 	$admin_success_msg = apply_filters( 'bkx_admin_success_message', $admin_success_msg );
 
