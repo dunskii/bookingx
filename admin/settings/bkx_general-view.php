@@ -3,7 +3,7 @@
  * Template load for Business Information Section and Settings
  *
  * @package Bookingx/admin
- * @since      1.0.6
+ * @since      1.0.7
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -86,7 +86,7 @@ if ( ! empty( $current_submenu_active ) && 'alias' === $current_submenu_active )
 	<!---End Alias settings-->
 <?php endif; ?>
 
-<?php if ( ! empty( $current_submenu_active ) && 'page_setting' === $current_submenu_active ) : ?>
+<?php if ( ! empty( $current_submenu_active ) && 'content_setting' === $current_submenu_active ) : ?>
 	<!--Page Setting-->
 	<h3> 
 	<?php
@@ -368,7 +368,7 @@ if ( ! empty( $current_submenu_active ) && 'alias' === $current_submenu_active )
 					</div>
 				</td>
 			</tr>
-	<?php do_action( 'bkx_general_page_settings' ); ?>
+	<?php do_action( 'bkx_general_content_setting' ); ?>
 			</tbody>
 		</table>
 		<p class="submit"><input type="submit" onclick="" class='button-primary' name="save_template" id="id_save_template" value="Save Changes"/></p>
@@ -530,8 +530,7 @@ if ( ! empty( $current_submenu_active ) && 'alias' === $current_submenu_active )
 	</form>
 <?php endif; ?>
 
-
-<?php if ( ! empty( $current_submenu_active ) && 'other_settings' === $current_submenu_active ) : ?>
+<?php if ( ! empty( $current_submenu_active ) && 'page_settings' === $current_submenu_active ) : ?>
 	<!---Other settings-->
 	<h3> 
 	<?php
@@ -668,7 +667,7 @@ if ( ! empty( $current_submenu_active ) && 'alias' === $current_submenu_active )
 				<td class="plugin-title" colspan="2" style="border-style: none;padding: 10px 200px;">
 				</td>
 			</tr>
-	<?php do_action( 'bkx_general_other_settings' ); ?>
+			<?php do_action( 'bkx_general_page_settings' ); ?>
 			</tbody>
 		</table>
 		<input type="hidden" name="other_setting_flag" value="1">
@@ -723,4 +722,48 @@ if ( ! empty( $current_submenu_active ) && 'alias' === $current_submenu_active )
 	</div>
 	<!--End Import Functionality-->
 	<?php
-endif;
+endif; ?>
+
+<?php if ( ! empty( $current_submenu_active ) && 'other' === $current_submenu_active ) : ?>
+	<!---Other settings-->
+	<h3>
+	<?php
+	// Translators: $s General View.
+		printf( esc_html__( '%1$s', 'bookingx' ), $bkx_general_submenu_label ); //phpcs:ignore
+	?>
+	</h3>
+	<form name="form_other_settings_section" id="id_other_setting" method="post">
+		<table cellspacing="0" class="widefat" style="margin-top:20px;">
+			<tbody>
+				<input type="hidden" name="bkx_setting_form_init" value="1">
+				<tr class="active">
+					<th scope="row"><label for="Display & Require Price Booking"><?php printf( esc_html__( 'Display & Require Price for %1$ss', 'bookingx' ), $base_alias ); ?></label></th>
+					<td class="plugin-description">
+						<div class="plugin-description">
+							<input type="radio" name="enable_price_booking" id="id_enable_price_booking_yes" value="1"
+								<?php
+								if ( bkx_crud_option_multisite( 'enable_price_booking' ) === 1 ||
+								     bkx_crud_option_multisite( 'enable_price_booking' ) == '' ||
+									 bkx_crud_option_multisite( 'enable_price_booking' ) === '1' ) {
+									echo 'checked';
+								}
+								?>
+							><?php printf( esc_html__( 'Yes', 'bookingx' ) ); ?>
+							<input type="radio" name="enable_price_booking" id="id_enable_price_booking_no" value="0"
+								<?php
+								if ( bkx_crud_option_multisite( 'enable_price_booking' ) === 0 || bkx_crud_option_multisite( 'enable_price_booking' ) === '0' ) {
+									echo 'checked';
+								}
+								?>
+							><?php printf( esc_html__( 'No', 'bookingx' ) ); ?>
+						</div>
+					</td>
+				</tr>
+				<?php do_action( 'bkx_general_other_settings' ); ?>
+			</tbody>
+		</table>
+		<input type="hidden" name="other_settings_flag" value="1">
+		<p class="submit"><input type="submit" onclick="" class='button-primary' name="save_other_setting" id="id_save_other_setting" value="Save Changes"/></p>
+	</form>
+	<!---End Other settings-->
+<?php endif; ?>

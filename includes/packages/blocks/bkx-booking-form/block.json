@@ -1,0 +1,16 @@
+{
+	"apiVersion": 2,
+	"name": "booking-x/bkx-booking-form",
+	"version": "0.1.0",
+	"title": "Bkx Booking Form",
+	"category": "booking-x",
+	"icon": "smiley",
+	"description": "Use the Booking X form block to add a booking form to any page",
+	"supports": {
+		"html": false
+	},
+	"textdomain": "bkx-booking-form",
+	"editorScript": "file:./build/index.js",
+	"editorStyle": "file:./build/index.css",
+	"style": "file:./build/style-index.css"
+}

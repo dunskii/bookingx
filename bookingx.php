@@ -3,9 +3,9 @@
  *  Plugin Name: Booking X
  *  Plugin URI: https://booking-x.com/
  *  Description: Booking X is a booking and appointments plugin for WordPress
- *  Version: 1.0.6
+ *  Version: 1.0.7
  *  Requires at least: 5.0
- *  Requires PHP: 7.0 or higher
+ *  Requires PHP: 7.0
  *  Author: Booking X
  *  Author URI: https://booking-x.com/
  *  Text Domain: bookingx
@@ -39,8 +39,10 @@ define( 'BKX_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
 define( 'BKX_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
 define( 'BKX_PLUGIN_PUBLIC_URL', BKX_PLUGIN_DIR_URL . 'public' );
 define( 'BKX_PLUGIN_PUBLIC_PATH', BKX_PLUGIN_DIR_PATH . 'public' );
-define( 'BKX_PLUGIN_VER', '1.0.6' );
+define( 'BKX_PLUGIN_VER', '1.0.7' );
 define( 'BKX_STORE_URL', 'https://booking-x.com' );
+define( 'BKX_PACKAGES_BLOCKS', BKX_PLUGIN_DIR_PATH . 'includes/packages/blocks' );
+define( 'BKX_PACKAGES_BLOCKS_URL', BKX_PLUGIN_DIR_URL . 'includes/packages/blocks' );
 define( 'BKX_BLOCKS_ASSETS', BKX_PLUGIN_DIR_URL . 'includes/core/blocks/assets/' );
 define( 'BKX_BLOCKS_ASSETS_BASE_PATH', BKX_PLUGIN_DIR_PATH . "includes\core\blocks\assets" );
 
@@ -81,20 +83,6 @@ function run_bookingx() {
 	$plugin->run();
 	// Global for backwards compatibility.
 	$GLOBALS['bkx'] = BKX();
-
-	/**
-	 * Gutenberg Blocks for Load this Class
-	 */
-	// Load Editor Blocks if WordPress is 5.0+.
-	if ( function_exists( 'register_block_type' ) ) {
-
-		// Load block framework.
-		if ( ! class_exists( 'Bkx_Blocks' ) ) {
-			include_once BKX_PLUGIN_DIR_PATH . '/includes/core/blocks/class-bkx-blocks.php';
-		}
-		// Load included Blocks.
-		Bookingx::glob_require_once( '/includes/core/blocks/class-bkx-block-*.php' );
-	}
 }
 
 /**

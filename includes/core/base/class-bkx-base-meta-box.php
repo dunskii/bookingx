@@ -97,7 +97,7 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
 			$get_seat_array = get_posts( $args );
 			$values         = get_post_custom( $post->ID );
 			$base_price             = isset( $values['base_price'] ) ? esc_html( $values['base_price'][0] ) : 0;
-			$base_sale_price        = isset( $values['base_sale_price'] ) ? esc_html( $values['base_sale_price'][0] ) : 0;
+			//$base_sale_price        = isset( $values['base_sale_price'] ) ? esc_html( $values['base_sale_price'][0] ) : 0;
 			$base_time_option       = isset( $values['base_time_option'] ) ? esc_html( $values['base_time_option'][0] ) : '';
 			$base_month             = isset( $values['base_month'] ) ? esc_html( $values['base_month'][0] ) : '';
 			$base_day               = isset( $values['base_day'] ) ? esc_html( $values['base_day'][0] ) : '';
@@ -132,19 +132,19 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
 				</div>
 			</div>
 
-			<div class="active" id="base_sale_price">
-				<?php
-				// translators: Base Sale Price Label.
-				printf( __( '%1$s  Sale Price', 'bookingx' ), esc_html( $base_alias ) ); // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped
-				$base_sale_price_html = 0;
-				if ( isset( $base_sale_price ) && '' !== $base_sale_price ) {
-					$base_sale_price_html = esc_html( $base_sale_price );
-				}
-				?>
-				<div class="plugin-description">
-					<input name="base_sale_price" type="text" value="<?php echo esc_attr( $base_sale_price_html ); ?>" id="id_base_sale_price">
-				</div>
-			</div>
+<!--			<div class="active" id="base_sale_price">-->
+<!--				--><?php
+//				// translators: Base Sale Price Label.
+//				printf( __( '%1$s  Sale Price', 'bookingx' ), esc_html( $base_alias ) ); // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped
+//				$base_sale_price_html = 0;
+//				if ( isset( $base_sale_price ) && '' !== $base_sale_price ) {
+//					$base_sale_price_html = esc_html( $base_sale_price );
+//				}
+//				?>
+<!--				<div class="plugin-description">-->
+<!--					<input name="base_sale_price" type="text" value="--><?php //echo esc_attr( $base_sale_price_html ); ?><!--" id="id_base_sale_price">-->
+<!--				</div>-->
+<!--			</div>-->
 
 			<div class="active" id="months_days_times">
 			<?php

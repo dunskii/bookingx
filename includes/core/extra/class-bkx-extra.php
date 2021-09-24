@@ -205,8 +205,8 @@ class BkxExtra {
 		$meta_data                       = $this->meta_data;
 		$addition_price                  = isset( $meta_data['addition_price'] ) ? esc_html( $meta_data['addition_price'][0] ) : 0;
 		$extra_sale_price                = isset( $meta_data['extra_sale_price'] ) ? esc_html( $meta_data['extra_sale_price'][0] ) : 0;
-		$price_array['addition_price']   = $addition_price;
-		$price_array['extra_sale_price'] = $extra_sale_price;
+		$price_array['addition_price']   = number_format( (float) $addition_price, 2, '.', '' );
+		$price_array['extra_sale_price'] = number_format( (float) $extra_sale_price, 2, '.', '' );
 		$price_array['meta_data']        = $meta_data;
 		if ( isset( $extra_sale_price ) && $extra_sale_price > 0 ) {
 			$addition_price = $extra_sale_price;
@@ -248,8 +248,8 @@ class BkxExtra {
 		$addition_price                  = isset( $meta_data['addition_price'] ) ? esc_html( $meta_data['addition_price'][0] ) : 0;
 		$extra_sale_price                = isset( $meta_data['extra_sale_price'] ) ? esc_html( $meta_data['extra_sale_price'][0] ) : 0;
 		$calculate_discount              = $this->calculate_discount();
-		$price_array['addition_price']   = $addition_price;
-		$price_array['extra_sale_price'] = $extra_sale_price;
+		$price_array['addition_price']   = number_format( (float) $addition_price, 2, '.', '' );
+		$price_array['extra_sale_price'] = number_format( (float) $extra_sale_price, 2, '.', '' );
 		$price_array['discount']         = $calculate_discount['amount'];
 		$price_array['percentage']       = round( $calculate_discount['percentage'] );
 		$price_array['currency']         = $this->load_global->currency_sym;

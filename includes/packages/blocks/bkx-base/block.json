@@ -1,0 +1,54 @@
+{
+	"apiVersion": 2,
+	"name": "booking-x/bkx-base",
+	"version": "0.1.0",
+	"title": "Booking X Service Listings",
+    "category": "booking-x",
+	"icon": "smiley",
+	"description": "Display the Services that you offer using Blocks. Set the number of columns, plus if descriptions and images are shown.",
+	"supports": {
+		"html": false
+	},
+  "attributes": {
+	"show_desc": {
+	  "type": "string",
+	  "default": "yes"
+	},
+	 "showImage": {
+	 	"type": "string",
+	 	"default": "yes"
+	 },
+	 "basePostId": {
+	 	"type": "string",
+	 	"default": "none"
+	 },
+	 "orderBy": {
+	 	"type": "string",
+	 	"default": "none"
+	 },
+	 "order": {
+	 	"type": "string",
+	 	"default": "none"
+	 },
+	 "columns": {
+	 	"type": "string",
+	 	"default": "none"
+	 },
+	 "rows": {
+	 	"type": "string",
+	 	"default": "none"
+	 },
+	 "baseDescription": {
+	 	"type": "string",
+	 	"default": "none"
+	 },
+	 "baseImageStatus": {
+	 	"type": "string",
+	 	"default": "none"
+	 }
+  },
+	"textdomain": "bkx-base",
+	"editorScript": "file:./build/index.js",
+	"editorStyle": "file:./build/index.css",
+	"style": "file:./build/style-index.css"
+}

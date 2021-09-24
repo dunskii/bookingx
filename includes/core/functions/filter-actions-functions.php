@@ -996,12 +996,109 @@ function bkx_booking_detail_load_before_action( $booking_id ) {
 	return $booking_detail;
 }
 
-add_action( 'bkx_dashboard_lable_action', 'bkx_dashboard_lable_action_call_back', 10, 2  );
+add_action( 'bkx_dashboard_lable_action', 'bkx_dashboard_lable_action_call_back', 10, 2 );
 function bkx_dashboard_lable_action_call_back( $column_id, $tab ) {
 	if ( empty( $column_id ) ) {
 		return;
 	}
 	if ( $column_id == 'booking-date' ) {
-		echo '<a href="javascript:void(0);" data-sort="up" data-type="'.$tab.'"  class="bkx-dashboard-sort-up-'.$tab.'"><span>&#8593;</span> </a> <a href="javascript:void(0);" data-sort="down" data-type="'.$tab.'" class="bkx-dashboard-sort-down-'.$tab.'"><span>&#8595;</span></a>';
+		echo '<a href="javascript:void(0);" data-sort="up" data-type="' . $tab . '"  class="bkx-dashboard-sort-up-' . $tab . '"><span>&#8593;</span> </a> <a href="javascript:void(0);" data-sort="down" data-type="' . $tab . '" class="bkx-dashboard-sort-down-' . $tab . '"><span>&#8595;</span></a>';
 	}
+}
+
+
+add_filter( 'block_categories_all', 'bkx_block_categories', 10, 2 );
+/**
+ * Adding Block Category For Blocks
+ *
+ * @param $categories
+ *
+ * @return array
+ */
+function bkx_block_categories( $block_categories, $editor_context ) {
+	// echo "<pre>".print_r($block_categories, true)."</pre>";die;
+	if ( ! empty( $editor_context->post ) ) {
+		//$svg = '<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 124 124"><defs><style>.cls-1{fill:#333;}</style></defs><title>IconBlocks</title><path class="cls-1" d="M88.81,32.38a10.79,10.79,0,0,0-3.66-.17c-2.84.34-5,2-7.22,3.81l-.5.4c-3.64,2.87-6.3,6.7-8.87,10.4-.49.7-1,1.41-1.48,2.1-.25.36-.51.71-.82,1.12l-1.12,1.52-.89-3.48c-.44-1.71-.85-3.3-1.25-4.9A25.78,25.78,0,0,0,57.87,32.5a2,2,0,0,0-2.1-.85c-3,.49-6,1-8.9,1.4l-5.41.84c-.48.07-1.29.2-1.42.39a2.9,2.9,0,0,0,.16,1.31l1,0c1,0,2.1,0,3.16.09a9.76,9.76,0,0,1,9.3,6.71,28.09,28.09,0,0,1,1,3.25l0,.15C55.85,50.44,57,55.23,58,60a4.55,4.55,0,0,1-.45,3.16c-4.32,6.52-8.31,12.4-12.21,18a16.18,16.18,0,0,1-2.83,2.84c-.26.23-.53.45-.78.68a2.6,2.6,0,0,1-3.68,0l-.57-.47a21.58,21.58,0,0,0-2.16-1.68,5.08,5.08,0,0,0-2.68-.86,4.43,4.43,0,0,0-3.72,1.86A4.89,4.89,0,0,0,30,90.16c2.29,1.75,4.83,1.9,8,.48a19.72,19.72,0,0,0,7.73-6.47c2.84-3.85,5.61-7.86,8.28-11.73,1.06-1.53,2.11-3.06,3.18-4.58.22-.32.42-.65.68-1.08l.5-.81L59,65l.44,1.74c.06.27.11.44.14.61q.68,3,1.3,6c1,4.48,2,9.12,3.14,13.62.69,2.64,2,4.41,3.84,5.12s4.06.31,6.39-1.19A38.2,38.2,0,0,0,86.47,77.69l-1.39-.78c0,.08-.09.16-.14.24a7,7,0,0,1-.89,1.26c-.52.56-1,1.14-1.56,1.72a44,44,0,0,1-4.73,4.73,3.58,3.58,0,0,1-3.21,1,4,4,0,0,1-2.45-2.8,20.11,20.11,0,0,1-.72-2.43c-.47-2.1-.91-4.21-1.35-6.31-1-4.61-2-9.38-3.23-14-1.17-4.27-.5-7.5,2.19-10.47,1.05-1.16,2.09-2.36,3.09-3.52,1.45-1.68,3-3.42,4.51-5.06a5.43,5.43,0,0,1,6.09-1.18,23.66,23.66,0,0,0,4.48,1.27c2.56.38,4.81-1,5.24-3.25A4.7,4.7,0,0,0,88.81,32.38Z"/></svg>';
+		return array_merge(
+			$block_categories,
+			array(
+				array(
+					'slug'  => 'booking-x',
+					'title' => esc_html__( 'Booking X', 'bookingx' ),
+					'icon'  => '', // Slug of a WordPress Dashicon or custom SVG
+				),
+			)
+		);
+
+	}
+}
+
+/**
+ * @param $block_attributes
+ * @param $content
+ *
+ * @return string
+ */
+function render_booking_form_block( $block_attributes, $content ) {
+	wp_enqueue_script( 'bkx-booking-form' );
+	$booking_forms_data = do_shortcode( '[bkx_booking_form]' ); // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped
+	return "<div class=\"gutenberg-booking-x-booking_forms-data\">{$booking_forms_data}</div>";
+}
+
+/**
+ * @param $attributes
+ * @param $content
+ *
+ * @return string
+ */
+function render_bkx_resource_block( $attributes, $content ): string {
+	$desc       = isset( $attributes['seatDescription'] ) && '' !== $attributes['seatDescription'] ? $attributes['seatDescription'] : 'yes';
+	$image      = isset( $attributes['seatImageStatus'] ) && '' !== $attributes['seatImageStatus'] ? $attributes['seatImageStatus'] : 'yes';
+	$order_by   = isset( $attributes['orderBy'] ) ? $attributes['orderBy'] : 'ID';
+	$order_type = isset( $attributes['order'] ) ? $attributes['order'] : 'ASC';
+	$seat_id    = isset( $attributes['seatPostId'] ) && $attributes['seatPostId'] > 0 ? $attributes['seatPostId'] : 'all';
+	$columns    = isset( $attributes['columns'] ) ? $attributes['columns'] : 3;
+	$rows       = isset( $attributes['rows'] ) ? $attributes['rows'] : 1;
+	// echo "<pre>".print_r($attributes, true)."</pre>";
+	$seats_data = do_shortcode( '[bookingx block="1" order="' . $order_type . '" order-by="' . $order_by . '" seat-id="' . $seat_id . '" columns="' . $columns . '" rows="' . $rows . '"  description="' . $desc . '" image="' . $image . '"]' );
+	return "<div class=\"gutenberg-booking-x-seats-data\">{$seats_data}</div>";
+}
+
+/**
+ * @param $attributes
+ * @param $content
+ *
+ * @return string
+ */
+function render_bkx_service_block( $attributes, $content ): string {
+	$desc       = isset( $attributes['baseDescription'] ) && '' !== $attributes['baseDescription'] ? $attributes['baseDescription'] : 'yes';
+	$image      = isset( $attributes['baseImageStatus'] ) && '' !== $attributes['baseImageStatus'] ? $attributes['baseImageStatus'] : 'yes';
+	$order_by   = isset( $attributes['orderBy'] ) ? $attributes['orderBy'] : 'ID';
+	$order_type = isset( $attributes['order'] ) ? $attributes['order'] : 'ASC';
+	$seat_id    = isset( $attributes['basePostId'] ) && $attributes['basePostId'] > 0 ? $attributes['basePostId'] : 'all';
+	$columns    = isset( $attributes['columns'] ) ? $attributes['columns'] : 3;
+	$rows       = isset( $attributes['rows'] ) ? $attributes['rows'] : 1;
+	// echo "<pre>".print_r($attributes, true)."</pre>";
+	$seats_data = do_shortcode( '[bookingx block="1" order="' . $order_type . '" order-by="' . $order_by . '" base-id="' . $seat_id . '" columns="' . $columns . '" rows="' . $rows . '"  description="' . $desc . '" image="' . $image . '"]' );
+	return "<div class=\"gutenberg-booking-x-seats-data\">{$seats_data}</div>";
+}
+
+/**
+ * @param $attributes
+ * @param $content
+ *
+ * @return string
+ */
+function render_bkx_addition_block( $attributes, $content ): string {
+	// Prepare variables.
+	$desc  = isset( $attributes['additionDescription'] ) && '' !== $attributes['additionDescription'] ? $attributes['additionDescription'] : 'yes';
+	$image = isset( $attributes['additionImageStatus'] ) && '' !== $attributes['additionImageStatus'] ? $attributes['additionImageStatus'] : 'yes';
+	// $info       = isset( $attributes['showaddition'] ) ? $attributes['showaddition'] : true;
+	$addition_id = isset( $attributes['additionPostId'] ) && $attributes['additionPostId'] > 0 ? $attributes['additionPostId'] : 'all';
+	$columns     = isset( $attributes['columns'] ) ? $attributes['columns'] : 3;
+	$rows        = isset( $attributes['rows'] ) ? $attributes['rows'] : 1;
+	ob_start();
+	echo do_shortcode( '[bookingx block="1" extra-id="' . esc_attr( $addition_id ) . '" columns="' . esc_attr( $columns ) . '" rows="' . esc_attr( $rows ) . '"  description="' . esc_attr( $desc ) . '" image="' . esc_attr( $image ) . '"]' );
+	$additions_data = ob_get_clean();
+	return "<div class=\"gutenberg-booking-x-additions-data\">{$additions_data}</div>";
 }

@@ -1,0 +1,29 @@
+{
+	"name": "bkx-addition",
+	"version": "0.1.0",
+	"description": "Display the Extra Service that you offer using Blocks. Set the number of columns, plus if descriptions and images are shown.",
+	"author": "Dunskii",
+	"license": "GPL-2.0-or-later",
+	"main": "build/index.js",
+	"scripts": {
+		"build": "wp-scripts build",
+		"format": "wp-scripts format",
+		"lint:css": "wp-scripts lint-style",
+		"lint:js": "wp-scripts lint-js",
+		"start": "wp-scripts start",
+		"packages-update": "wp-scripts packages-update"
+	},
+	"dependencies": {
+		"@wordpress/block-editor": "^7.0.2",
+		"@wordpress/blocks": "^11.1.0",
+		"@wordpress/components": "^17.0.0",
+		"@wordpress/editor": "^11.0.2",
+		"@wordpress/element": "^4.0.1",
+		"@wordpress/i18n": "^4.2.2",
+		"@wordpress/icons": "^5.0.2"
+	},
+	"devDependencies": {
+		"@wordpress/scripts": "^18.0.1",
+		"prettier": "^2.4.1"
+	}
+}
