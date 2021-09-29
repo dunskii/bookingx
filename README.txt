@@ -44,7 +44,6 @@ The personalized dashboards will help you focus on each staff member and **booki
 
 == Installation ==
 
-**To install do the following: **
 1. Backup your site completely before proceeding.
 2. Download Booking X to your desktop. Extract the Booking X folder to your desktop.
 3. With your FTP program, upload the Booking X folder to the wp-content/plugins folder in your WordPress directory online.
