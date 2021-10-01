@@ -2,7 +2,7 @@
 	"apiVersion": 2,
 	"name": "booking-x/bkx-booking-form",
 	"version": "0.1.0",
-	"title": "Bkx Booking Form",
+	"title": "Booking X Booking Form",
 	"category": "booking-x",
 	"icon": "smiley",
 	"description": "Use the Booking X form block to add a booking form to any page",

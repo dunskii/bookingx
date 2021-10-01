@@ -11,7 +11,7 @@ License URI: https://booking-x.com/gpl-licence/
 Booking X is a simple to use booking system that allows you to take appointments and reservations for multiple business types on WordPress.
 
 == Description ==
-**Booking X** is a flexible *WordPress plugin* that allows you to create, accept, and **manage bookings** for your business. 
+**Booking X** is a flexible *WordPress plugin* that allows you to create, accept, and **manage bookings** for your business.
 
 It's your complete **booking plugin** for your **service** business, allowing for **unlimited** resources, staff and services.
 
@@ -24,13 +24,13 @@ Use it for your **Product Hire** and **Room Bookings**.
 Helping **Personal Trainers** and Consultants stay organised.
 **Schedule** that next business meeting or training session. Display your services and take payment all from the same, simple to use platform.
 
-It is a flexible WordPress **booking plugin** that allows you to create, accept, and **manage bookings** for your business. You can access and arrange **bookings** all in one place. The seamless workflow from posting your **bookings** to managing payments are just a few clicks away. 
+It is a flexible WordPress **booking plugin** that allows you to create, accept, and **manage bookings** for your business. You can access and arrange **bookings** all in one place. The seamless workflow from posting your **bookings** to managing payments are just a few clicks away.
 
 See Everything in Your **Schedule**.
-The **booking calendar** with multiple views makes it easy to manage your resources and staff. Having an agenda, weekly, and monthly view allows you to focus on what’s important. 
+The **booking calendar** with multiple views makes it easy to manage your resources and staff. Having an agenda, weekly, and monthly view allows you to focus on what’s important.
 
 **Manage Bookings** in Your Personalized Dashboards.
-The personalized dashboards will help you focus on each staff member and **booking**. Manage staff, products, or space on different dashboards. You won’t miss a business opportunity as you can see all **bookings** clearly. 
+The personalized dashboards will help you focus on each staff member and **booking**. Manage staff, products, or space on different dashboards. You won’t miss a business opportunity as you can see all **bookings** clearly.
 
 **Expand the functionality of Booking X by installing [Add ons](https://booking-x.com/add-ons/)**
 
@@ -55,7 +55,7 @@ To have a basic install of Booking X, that will enable you to take bookings on y
 *Add your General Settings*
 1. To add your businesses basic details go to Booking X -> Settings -> Business Information -> General Details.
 2. The email and phone details will be how your customer gets in contact.
-3. The address is where the customer will go for fixed location bookings. 
+3. The address is where the customer will go for fixed location bookings.
 
 *Add you Days of Operation*
 To set your business hours go to Booking X -> Settings -> Business Information -> Days of Operation
@@ -65,7 +65,7 @@ As most businesses have the same operating hours for each day you can group thes
 If you want to have another group of hours click the Add another set of hours button.
 Days that aren’t selected will be set as closed on the booking form.
 
-**To take payment at time of booking** 
+**To take payment at time of booking**
 
 *Setup PayPal Express*
 To take prepayment or deposits for a booking using PalPal Express go to Booking X -> Settings -> Payment -> PayPal Express
@@ -131,7 +131,7 @@ If you need help with Booking X, we recommend visiting our [website](https://boo
 
 = Is Booking X multisite compatible? =
 
-Yes, we love multisite. Our [demo](https://demo.booking-x.com) of Booking X is running it. 
+Yes, we love multisite. Our [demo](https://demo.booking-x.com) of Booking X is running it.
 
 = Is Booking X compatible with my theme? =
 
