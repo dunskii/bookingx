@@ -1,6 +1,6 @@
 <?php
 /**
- *  Plugin Name: Booking X
+ *  Plugin Name: Booking X - Appointment and Reservation Availability Calendar
  *  Plugin URI: https://booking-x.com/
  *  Description: Booking X is a booking and appointments plugin for WordPress
  *  Version: 1.0.7
