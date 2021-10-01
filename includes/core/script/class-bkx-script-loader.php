@@ -232,7 +232,7 @@ class Bkx_Script_Loader {
 	 * @param int    $version
 	 * @param bool   $in_footer
 	 */
-	private static function enqueue_script( $handle, $path = '', $deps = array( 'jquery' ), $version = BKX_PLUGIN_VER, $in_footer = true ) {
+	public static function enqueue_script( $handle, $path = '', $deps = array( 'jquery' ), $version = BKX_PLUGIN_VER, $in_footer = true ) {
 		if ( ! in_array( $handle, self::$scripts, true ) && $path ) {
 			self::register_script( $handle, $path, $deps, $version, $in_footer );
 		}

@@ -1,4 +1,4 @@
-=== Bkx addition ===
+=== Booking X addition ===
 Contributors:      The WordPress Contributors
 Tags:              block
 Tested up to:      5.8.0
