@@ -1040,8 +1040,9 @@ function bkx_block_categories( $block_categories, $editor_context ) {
  * @return string
  */
 function render_booking_form_block( $block_attributes, $content ) {
-	wp_enqueue_script( 'bkx-booking-form' );
-	$booking_forms_data = do_shortcode( '[bkx_booking_form]' ); // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped
+	ob_start();
+	echo $booking_forms_data = do_shortcode( '[bkx_booking_form]' ); // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped
+	$booking_forms_data      = ob_get_clean();
 	return "<div class=\"gutenberg-booking-x-booking_forms-data\">{$booking_forms_data}</div>";
 }
 

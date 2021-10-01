@@ -102,12 +102,13 @@ class Bookingx_Public {
 	 */
 	public function register_bookingx_blocks_settings() {
 		if ( function_exists( 'register_block_type' ) ) {
-			$seat_block     = 'bkx-seat-booking-x';
-			$base_block     = 'bkx-base-booking-x';
-			$addition_block = 'bkx-addition-booking-x';
-			$seat_alias     = bkx_crud_option_multisite( 'bkx_alias_seat' );
-			$base_alias     = bkx_crud_option_multisite( 'bkx_alias_base' );
-			$extra_alias    = bkx_crud_option_multisite( 'bkx_alias_addition' );
+			$seat_block         = 'bkx-seat-booking-x';
+			$base_block         = 'bkx-base-booking-x';
+			$addition_block     = 'bkx-addition-booking-x';
+			$booking_form_block = 'bkx-booking-form-booking-x';
+			$seat_alias         = bkx_crud_option_multisite( 'bkx_alias_seat' );
+			$base_alias         = bkx_crud_option_multisite( 'bkx_alias_base' );
+			$extra_alias        = bkx_crud_option_multisite( 'bkx_alias_addition' );
 
 			$localized = array(
 				'end_point_seat'     => get_rest_url( null, 'wp/v2/bkx_seat' ),
@@ -175,12 +176,12 @@ class Bookingx_Public {
 					),
 				)
 			);
+			bkx_block_enqueue_styles_loader();
+			wp_enqueue_script( $base_block, BKX_PACKAGES_BLOCKS_URL . '/bkx-base/build/index.js', array(), BKX_PLUGIN_VER, true );
+			wp_localize_script( $base_block, 'bkx_base_block_obj', $localized );
 
 			wp_enqueue_script( $seat_block, BKX_PACKAGES_BLOCKS_URL . '/bkx-seat/build/index.js', array(), BKX_PLUGIN_VER, true );
 			wp_localize_script( $seat_block, 'bkx_seat_block_obj', $localized );
-
-			wp_enqueue_script( $base_block, BKX_PACKAGES_BLOCKS_URL . '/bkx-base/build/index.js', array(), BKX_PLUGIN_VER, true );
-			wp_localize_script( $base_block, 'bkx_base_block_obj', $localized );
 
 			wp_enqueue_script( $addition_block, BKX_PACKAGES_BLOCKS_URL . '/bkx-addition/build/index.js', array(), BKX_PLUGIN_VER, true );
 			wp_localize_script( $addition_block, 'bkx_addition_block_obj', $localized );

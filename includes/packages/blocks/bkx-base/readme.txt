@@ -1,4 +1,4 @@
-=== Bkx base ===
+=== Booking X Services ===
 Contributors:      The WordPress Contributors
 Tags:              block
 Tested up to:      5.8.0

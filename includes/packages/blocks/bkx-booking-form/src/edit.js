@@ -43,10 +43,6 @@ export default function Edit() {
 			) }
 			<ServerSideRender
 				block="booking-x/bkx-booking-form"
-				attributes={ {
-					showPostCounts: true,
-					displayAsDropdown: false,
-				} }
 			/>
 		</div>
 	);

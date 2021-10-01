@@ -1580,12 +1580,26 @@ function BkxGenerateCounter( $minutes_temp ) {
  * @return mixed|void
  */
 function is_bookingx() {
+
+	$post = get_post();
+	$is_block_called = false;
+	if ( has_blocks( $post->post_content ) ) {
+		$blocks = parse_blocks( $post->post_content );
+
+		if ( $blocks[0]['blockName'] === 'booking-x/bkx-booking-form'
+		     || $blocks[0]['blockName'] === 'booking-x/bkx-seat'
+		     || $blocks[0]['blockName'] === 'booking-x/bkx-base'
+		     || $blocks[0]['blockName'] === 'booking-x/bkx-addition') {
+			$is_block_called = true;
+		}
+	}
+
 	return apply_filters(
 		'is_bookingx',
 		is_bkx_singular() ||
 		is_singular( array( 'bkx_seat', 'bkx_base', 'bkx_addition' ) ) ||
 		is_my_account() ||
-		is_booking_page() || is_bkx_service() || is_bkx_staff() || is_bkx_extra() || is_dashboard()
+		is_booking_page() || is_bkx_service() || is_bkx_staff() || is_bkx_extra() || is_dashboard() || $is_block_called
 	);
 }
 
@@ -1593,6 +1607,14 @@ function is_bookingx() {
  * @return bool
  */
 function is_booking_page() {
+	$post = get_post();
+	if ( has_blocks( $post->post_content ) ) {
+		$blocks = parse_blocks( $post->post_content );
+		if ( $blocks[0]['blockName'] === 'booking-x/bkx-booking-form' ) {
+			return true;
+		}
+	}
+
 	if ( is_page() || is_single() ) {
 		global $post;
 		return ( has_shortcode( $post->post_content, 'bkx_booking_form' ) );
@@ -2110,5 +2132,52 @@ function bookingx_addon_activate_license() {
 
 function booking_license_setting_page(){
 	return admin_url('edit.php?post_type=bkx_booking&page=bkx-setting&bkx_tab=bkx_licence');
+}
+
+/**
+ * @return array[]
+ */
+function bkx_block_enqueue_styles(): array {
+	$bootstrap_style = 'bkx-block-bootstrap-style';
+	$style_main      = 'bkx-block-style-main';
+	return array(
+
+		array(
+			'handle'  => $style_main,
+			'src'     => BKX_PLUGIN_PUBLIC_URL . '/css/style.css',
+			'deps'    => array(),
+			'version' => defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? filemtime( BKX_PLUGIN_DIR_PATH . '\public/css/style.css' ) : BKX_PLUGIN_VER,
+		),
+		array(
+			'handle'  => $bootstrap_style,
+			'src'     => BKX_PLUGIN_PUBLIC_URL . '/css/bootstrap.min.css',
+			'deps'    => array(),
+			'version' => defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? filemtime( BKX_PLUGIN_DIR_PATH . '\public/css/bootstrap.min.css' ) : BKX_PLUGIN_VER,
+		),
+	);
+}
+
+function bkx_block_enqueue_styles_loader() {
+	// Get registered styles.
+	$styles = bkx_block_enqueue_styles();
+
+	if ( empty( $styles ) ) {
+		return;
+	}
+
+	// Loop through styles.
+	foreach ( $styles as $style ) {
+
+		// Prepare parameters.
+		$src     = isset( $style['src'] ) ? $style['src'] : false;
+		$deps    = isset( $style['deps'] ) ? $style['deps'] : array();
+		$version = isset( $style['version'] ) ? $style['version'] : false;
+		$media   = isset( $style['media'] ) ? $style['media'] : 'all';
+
+		// Enqueue style.
+		wp_enqueue_style( $style['handle'], $src, $deps, $version, $media );
+
+	}
+
 }
 
