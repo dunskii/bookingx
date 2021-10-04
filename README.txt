@@ -1,5 +1,3 @@
-=== Booking X - Appointment and Reservation Availability Calendar ===
-Contributors: dunskii, dparekh19
 Tags: appointments, appointment booking, availability calendar, booking calendar, booking system, reservations, reservation calendar
 Requires at least: 5.0
 Tested up to: 5.8.1
@@ -163,3 +161,5 @@ Automatic updates should work smoothly, but we still recommend you back up your 
 = 1.0.5 - Improvements to administration monthly and weekly booking views. 2021-18-06 =
 = 1.0.6 - Added functionality to handle add-on licensing. UI improvements - including booking ordering. 2021-20-07 =
 = 1.0.7 - Improved block functionality. 2021-24-09 =
+=== Booking X - Appointment and Reservation Availability Calendar ===
+Contributors: dunskii, dparekh19
