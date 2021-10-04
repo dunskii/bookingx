@@ -1,3 +1,5 @@
+=== Booking X - Appointment and Reservation Availability Calendar ===
+Contributors: dunskii, dparekh19
 Tags: appointments, appointment booking, availability calendar, booking calendar, booking system, reservations, reservation calendar
 Requires at least: 5.0
 Tested up to: 5.8.1
