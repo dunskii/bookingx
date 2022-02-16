@@ -3,7 +3,7 @@
  * Template load for Business Information Section and Settings
  *
  * @package Bookingx/admin
- * @since      1.0.7
+ * @since      1.0.8
  */
 
 defined( 'ABSPATH' ) || exit;

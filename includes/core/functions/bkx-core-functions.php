@@ -2141,7 +2141,6 @@ function bkx_block_enqueue_styles(): array {
 	$bootstrap_style = 'bkx-block-bootstrap-style';
 	$style_main      = 'bkx-block-style-main';
 	return array(
-
 		array(
 			'handle'  => $style_main,
 			'src'     => BKX_PLUGIN_PUBLIC_URL . '/css/style.css',
@@ -2157,7 +2156,10 @@ function bkx_block_enqueue_styles(): array {
 	);
 }
 
+
 function bkx_block_enqueue_styles_loader() {
+
+
 	// Get registered styles.
 	$styles = bkx_block_enqueue_styles();
 

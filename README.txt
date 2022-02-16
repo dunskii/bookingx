@@ -2,9 +2,9 @@
 Contributors: dunskii, dparekh19
 Tags: appointments, appointment booking, availability calendar, booking calendar, booking system, reservations, reservation calendar
 Requires at least: 5.0
-Tested up to: 5.8.1
+Tested up to: 5.9
 Requires PHP: 7.0
-Stable tag: 1.0.7
+Stable tag: 1.0.8
 License: GPLv2 or later
 License URI: https://booking-x.com/gpl-licence/
 
@@ -147,8 +147,8 @@ It should be, remember you can set the colours to fit your site by going Setting
 
 == Upgrade Notice ==
 
-= 1.0.7 =
-Improved block functionality.
+= 1.0.8 =
+Minor Bug Fixes.
 
 == Updating ==
 Automatic updates should work smoothly, but we still recommend you back up your site.
@@ -163,3 +163,4 @@ Automatic updates should work smoothly, but we still recommend you back up your 
 = 1.0.5 - Improvements to administration monthly and weekly booking views. 2021-18-06 =
 = 1.0.6 - Added functionality to handle add-on licensing. UI improvements - including booking ordering. 2021-20-07 =
 = 1.0.7 - Improved block functionality. 2021-24-09 =
+= 1.0.8 - Minor Bug Fixes. 2022-24-02 =

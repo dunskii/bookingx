@@ -2001,13 +2001,13 @@ class BkxBooking {
 
 			$dashboard_id  = bkx_crud_option_multisite( 'bkx_dashboard_page_id' );
 			$dashboard_url = isset( $dashboard_id ) && $dashboard_id != '' ? get_permalink( $dashboard_id ) : get_site_url();
-			$subject       = 'BookingX | Congratulation! Your Account created Successfully';
+			$subject       = 'BookingX | Congratulations! Your Account created Successfully';
 			$data_html     = '';
 			$data_html    .= '<p> Dear ' . esc_html( ucwords( "{$first_name} {$last_name}" ) ) . ',<p>';
 			$data_html    .= '<p>' . __( 'Your Account created Successfully and check below details', 'bookingx' ) . ' : </p>';
 			$data_html    .= '<p> Username : ' . sanitize_user( $user_email, true ) . '</p>';
 			$data_html    .= '<p> Password : ' . $random_password . '</p>';
-			$data_html    .= '<p>' . __( 'Also now you can check your order details on My Dashboard section', 'bookingx' ) . ' <a href="' . $dashboard_url . '" target="_blank">' . esc_html__( 'click here', 'bookingx' ) . '</a>.</p>';
+			$data_html    .= '<p>' . __( 'Also now you can check your booking details on My Dashboard section', 'bookingx' ) . ' <a href="' . $dashboard_url . '" target="_blank">' . esc_html__( 'click here', 'bookingx' ) . '</a>.</p>';
 			bkx_mail_format_and_send_process( $subject, $data_html, $user_email );
 		}
 
