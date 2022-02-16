@@ -3,7 +3,7 @@
  *  Plugin Name: Booking X - Appointment and Reservation Availability Calendar
  *  Plugin URI: https://booking-x.com/
  *  Description: A simple to use booking system that allows you to take appointments and reservations for multiple business types on WordPress.
- *  Version: 1.0.7
+ *  Version: 1.0.8
  *  Requires at least: 5.0
  *  Requires PHP: 7.0
  *  Author: Booking X
@@ -37,14 +37,16 @@ if ( ! defined( 'BKX_PLUGIN_FILE' ) ) {
 }
 define( 'BKX_PLUGIN_DIR_PATH', plugin_dir_path( __FILE__ ) );
 define( 'BKX_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
-define( 'BKX_PLUGIN_PUBLIC_URL', BKX_PLUGIN_DIR_URL . 'public' );
-define( 'BKX_PLUGIN_PUBLIC_PATH', BKX_PLUGIN_DIR_PATH . 'public' );
-define( 'BKX_PLUGIN_VER', '1.0.7' );
-define( 'BKX_STORE_URL', 'https://booking-x.com' );
-define( 'BKX_PACKAGES_BLOCKS', BKX_PLUGIN_DIR_PATH . 'includes/packages/blocks' );
-define( 'BKX_PACKAGES_BLOCKS_URL', BKX_PLUGIN_DIR_URL . 'includes/packages/blocks' );
-define( 'BKX_BLOCKS_ASSETS', BKX_PLUGIN_DIR_URL . 'includes/core/blocks/assets/' );
-define( 'BKX_BLOCKS_ASSETS_BASE_PATH', BKX_PLUGIN_DIR_PATH . "includes\core\blocks\assets" );
+const BKX_PLUGIN_PUBLIC_URL = BKX_PLUGIN_DIR_URL . 'public';
+const BKX_PLUGIN_PUBLIC_PATH = BKX_PLUGIN_DIR_PATH . 'public';
+const BKX_PLUGIN_VER = '1.0.8';
+const BKX_STORE_URL = 'https://booking-x.com';
+const BKX_PACKAGES_BLOCKS = BKX_PLUGIN_DIR_PATH . 'includes/packages/blocks';
+const BKX_PACKAGES_BLOCKS_URL = BKX_PLUGIN_DIR_URL . 'includes/packages/blocks';
+const BKX_BLOCKS_ASSETS = BKX_PLUGIN_DIR_URL . 'includes/core/blocks/assets/';
+const BKX_BLOCKS_ASSETS_BASE_PATH = BKX_PLUGIN_DIR_PATH . "includes\core\blocks\assets";
+
+
 
 /**
  * The code that runs during plugin activation.
