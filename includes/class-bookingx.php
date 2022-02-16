@@ -21,7 +21,7 @@
  * Also maintains the unique identifier of this plugin as well as the current
  * version of the plugin.
  *
- * @since      1.0.7
+ * @since      1.0.8
  * @package    Bookingx
  * @subpackage Bookingx/includes
  * @author     Dunskii Web Services <divyang@dunskii.com>
@@ -29,8 +29,6 @@
 defined( 'ABSPATH' ) || exit;
 
 class Bookingx {
-
-
 
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
