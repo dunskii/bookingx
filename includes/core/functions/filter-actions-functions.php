@@ -128,6 +128,21 @@ function bkx_process_mail_by_status( $booking_id, $subject, $content, $email = n
 	$total_price    = bkx_get_formatted_price( $total_price );
 	$amount_pending = bkx_get_formatted_price( $amount_pending );
 
+    $dashboard_id  = bkx_crud_option_multisite( 'bkx_dashboard_page_id' );
+    $dashboard_url = isset( $dashboard_id ) && $dashboard_id != '' ? get_permalink( $dashboard_id ) : get_site_url();
+
+    $booking_post   = get_post( $booking_id );
+    $reset_password_link = "";
+    if(!empty($booking_post)){
+        $user_id = $booking_post->post_author;
+        if(isset($user_id) && $user_id > 0 ){
+            $user = new WP_User( (int) $user_id );
+            $reset_key = get_password_reset_key( $user );
+            $user_login = $user->user_login;
+            $reset_password_link = network_site_url("wp-login.php?action=rp&key=$reset_key&login=" . rawurlencode($user_login), 'login');
+        }
+    }
+
 	$subject = str_replace( '{booking_number}', $order_meta['order_id'], $subject );
 	$subject = str_replace( '{site_title}', get_bloginfo(), $subject );
 	$subject = str_replace( '{site_address}', get_site_url(), $subject );
@@ -177,6 +192,8 @@ function bkx_process_mail_by_status( $booking_id, $subject, $content, $email = n
 	$message_body = str_replace( '{business_phone}', $bkx_business_phone, $message_body );
 	$message_body = str_replace( '{booking_status}', $order_status, $message_body );
 	$message_body = str_replace( '{booking_edit_url}', edit_booking_url( $booking_id ), $message_body );
+	$message_body = str_replace( '{dashboard_url}', $dashboard_url, $message_body );
+	$message_body = str_replace( '{reset_password_link}', $reset_password_link, $message_body );
 	$message_body = apply_filters( 'bkx_booking_created_email_content', $message_body, $booking_id );
 
 	// Mail it.

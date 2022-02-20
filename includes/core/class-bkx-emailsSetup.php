@@ -52,7 +52,9 @@ class BKX_Emails_Setup {
 		$this->emails['BKX_Email_Customer_Ack_Booking']       = include BKX_PLUGIN_DIR_PATH . '/includes/core/emails/class-bkx-email-customer-ack-booking.php';
 		$this->emails['BKX_Email_Customer_Cancelled_Booking'] = include BKX_PLUGIN_DIR_PATH . '/includes/core/emails/class-bkx-email-customer-cancelled-booking.php';
 		$this->emails['BKX_Email_Customer_Completed_Booking'] = include BKX_PLUGIN_DIR_PATH . '/includes/core/emails/class-bkx-email-customer-completed-booking.php';
-		$this->emails = apply_filters( 'bookingx_email_classes', $this->emails );
+		$this->emails['BKX_Email_New_Customer_Notification_Booking'] = include BKX_PLUGIN_DIR_PATH . '/includes/core/emails/class-bkx-email-customer-notification-booking.php';
+
+        $this->emails = apply_filters( 'bookingx_email_classes', $this->emails );
 	}
 
 	/**
