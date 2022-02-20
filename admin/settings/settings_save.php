@@ -71,6 +71,11 @@ function bkx_setting_save_action() {
 		if ( isset( $_POST['bkx_enable_customer_dashboard'] ) ) { // phpcs:ignore
  			bkx_crud_option_multisite( 'bkx_enable_customer_dashboard', sanitize_text_field( $_POST['bkx_enable_customer_dashboard'] ), 'update' ); // phpcs:ignore
 		}
+
+        if ( isset( $_POST['bkx_allow_signup_during_booking'] ) ) { // phpcs:ignore
+            bkx_crud_option_multisite( 'bkx_allow_signup_during_booking', sanitize_text_field( $_POST['bkx_allow_signup_during_booking'] ), 'update' ); // phpcs:ignore
+        }
+
 		$redirect = add_query_arg( array( 'bkx_success' => 'OSE' ), sanitize_text_field( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) );
 		wp_safe_redirect( $redirect );
 	}
