@@ -89,6 +89,7 @@ class BkxBooking {
 		$this->post_type = 'bkx_booking';
 		add_action( 'transition_post_status', array( $this, 'bkx_on_all_status_transitions' ), 10, 3 );
 		add_action( 'bkx_order_edit_status', array( $this, 'bkx_order_edit_status' ), 10, 2 );
+		add_action( 'bkx_send_new_customer_email', array( $this, 'bkx_send_new_customer_email' ), 10, 1 );
 	}
 
 	/**
@@ -321,9 +322,10 @@ class BkxBooking {
     /**
      * @throws Exception
      */
-    private function bkx_send_new_customer_email($booking_id ){
+    public function bkx_send_new_customer_email($booking_id ){
         if(empty($booking_id))
             return;
+
         //Key = bkx_email_new_customer_notification_booking
         $this->booking_email( esc_html( $booking_id ), esc_html( 'new_customer_notification' ) );
     }
@@ -1617,16 +1619,6 @@ class BkxBooking {
 			$order_id = $post_data['update_order_slot'];
 		}
 
-		$bkx_enable_customer_dashboard = bkx_crud_option_multisite( 'bkx_enable_customer_dashboard' );
-		$bkx_allow_signup_during_booking = bkx_crud_option_multisite( 'bkx_allow_signup_during_booking' );
-
-		// If 1 means enable to create customer.
-
-		if ( isset( $bkx_enable_customer_dashboard, $bkx_allow_signup_during_booking )  && ( $bkx_allow_signup_during_booking == 1 && $bkx_enable_customer_dashboard == 1 ) && ! is_user_logged_in() ) {
-			$user_id = self::create_new_user( $post_data );
-		} else {
-			$user_id = self::update_new_user( $post_data );
-		}
 
 		$order_data['post_status'] = 'bkx-' . apply_filters( 'bkx_default_order_status', 'pending' );
 
@@ -1642,13 +1634,12 @@ class BkxBooking {
 			$wpdb->query(
 				$wpdb->prepare(
 					"INSERT INTO $wpdb->posts
-                                    ( post_type, post_date, post_date_gmt, post_author, post_status, ping_status, post_password, post_title, post_name)
-                                    VALUES ( %s, %s, %s ,%s, %s, %s ,%s, %s, %s)
+                                    ( post_type, post_date, post_date_gmt, post_status, ping_status, post_password, post_title, post_name)
+                                    VALUES ( %s, %s ,%s, %s, %s ,%s, %s, %s)
                                 ",
 					$this->post_type,
 					$post_date,
 					$post_date_gmt,
-                    (isset($user_id) && $user_id > 0 ) ? $user_id : $current_user->ID,
 					'bkx-' . apply_filters( 'bkx_default_order_status', 'pending' ),
 					'closed',
 					uniqid( 'order_' ),
@@ -1662,7 +1653,29 @@ class BkxBooking {
 		}
 		$post_data['post_status'] = $order_data['post_status'];
 
-		if ( empty( $order_id ) ) {
+        $bkx_enable_customer_dashboard = bkx_crud_option_multisite( 'bkx_enable_customer_dashboard' );
+        $bkx_allow_signup_during_booking = bkx_crud_option_multisite( 'bkx_allow_signup_during_booking' );
+
+        // If 1 means enable to create customer.
+        $customer_email_allow = 0;
+        if ( isset( $bkx_enable_customer_dashboard, $bkx_allow_signup_during_booking )  && ( $bkx_allow_signup_during_booking == 1 && $bkx_enable_customer_dashboard == 1 ) && ! is_user_logged_in() ) {
+            $user_id = self::create_new_user( $post_data );
+            $customer_email_allow = 1;
+        }
+
+        //Update Post Author in Booking
+        if(isset($order_id) && $order_id > 0 ){
+            $update_booking_post = array(
+                'ID'           => $order_id,
+                'post_author'   =>  (isset($user_id) && $user_id > 0 ) ? $user_id : $current_user->ID,
+            );
+            wp_update_post( $update_booking_post );
+            if($customer_email_allow == 1 ){
+                do_action( 'bkx_send_new_customer_email', $order_id );
+            }
+        }
+
+        if ( empty( $order_id ) ) {
 			return;
 		}
 
@@ -2002,7 +2015,6 @@ class BkxBooking {
 		$user_id       = '';
 		if ( ! $check_user_id && email_exists( $user_email ) == false ) {
             $order_id      = $post_data['order_id'];
-
 			$random_password = wp_generate_password( $length = 12, $include_standard_special_chars = false );
 			$user_id         = wp_create_user( $user_email, $random_password, $user_email );
 			$userdata        = array(
@@ -2012,7 +2024,7 @@ class BkxBooking {
 				'display_name' => esc_html( $display_name ),
 			);
 			$user_id         = wp_update_user( $userdata );
-            do_action( 'bkx_send_new_customer_email', $order_id );
+
 		}
 
 		if ( is_multisite() ) :
