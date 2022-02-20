@@ -20,7 +20,7 @@ if ( ! class_exists( 'BKX_Email_New_Customer_Notification_Booking' ) ) :
          * Constructor.
          */
         public function __construct() {
-            $this->id             = 'new_customer_notification';
+            $this->id             = 'new_customer_notification_booking';
             $this->customer_email = true;
             $this->title          = __( 'New Customer Notification', 'bookingx' );
             $this->description    = __( 'New Customer Notification.', 'bookingx' );
@@ -33,7 +33,6 @@ if ( ! class_exists( 'BKX_Email_New_Customer_Notification_Booking' ) ) :
 
             // Call parent constructor.
             parent::__construct();
-
             // Other settings.
             // $this->recipient = $this->get_option( 'admin_email');
             $this->email_type         = $this->get_option( $this->plugin_id . $this->id . '_email_type' );
