@@ -2159,7 +2159,6 @@ function bkx_block_enqueue_styles(): array {
 
 function bkx_block_enqueue_styles_loader() {
 
-
 	// Get registered styles.
 	$styles = bkx_block_enqueue_styles();
 
@@ -2178,8 +2177,5 @@ function bkx_block_enqueue_styles_loader() {
 
 		// Enqueue style.
 		wp_enqueue_style( $style['handle'], $src, $deps, $version, $media );
-
 	}
-
 }
-

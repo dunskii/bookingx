@@ -318,6 +318,16 @@ class BkxBooking {
 		}
 	}
 
+    /**
+     * @throws Exception
+     */
+    private function bkx_send_new_customer_email($booking_id ){
+        if(empty($booking_id))
+            return;
+        //Key = bkx_email_new_customer_notification_booking
+        $this->booking_email( esc_html( $booking_id ), esc_html( 'new_customer_notification' ) );
+    }
+
 	/**
 	 * @param $booking_id
 	 * @param $status
@@ -1608,9 +1618,11 @@ class BkxBooking {
 		}
 
 		$bkx_enable_customer_dashboard = bkx_crud_option_multisite( 'bkx_enable_customer_dashboard' );
+		$bkx_allow_signup_during_booking = bkx_crud_option_multisite( 'bkx_allow_signup_during_booking' );
+
 		// If 1 means enable to create customer.
 
-		if ( isset( $bkx_enable_customer_dashboard ) == 1 && ! is_user_logged_in() ) {
+		if ( isset( $bkx_enable_customer_dashboard, $bkx_allow_signup_during_booking )  && ( $bkx_allow_signup_during_booking == 1 && $bkx_enable_customer_dashboard == 1 ) && ! is_user_logged_in() ) {
 			$user_id = self::create_new_user( $post_data );
 		} else {
 			$user_id = self::update_new_user( $post_data );
@@ -1636,7 +1648,7 @@ class BkxBooking {
 					$this->post_type,
 					$post_date,
 					$post_date_gmt,
-					$current_user->ID,
+                    (isset($user_id) && $user_id > 0 ) ? $user_id : $current_user->ID,
 					'bkx-' . apply_filters( 'bkx_default_order_status', 'pending' ),
 					'closed',
 					uniqid( 'order_' ),
@@ -1989,6 +2001,8 @@ class BkxBooking {
 		$check_user_id = username_exists( $user_email );
 		$user_id       = '';
 		if ( ! $check_user_id && email_exists( $user_email ) == false ) {
+            $order_id      = $post_data['order_id'];
+
 			$random_password = wp_generate_password( $length = 12, $include_standard_special_chars = false );
 			$user_id         = wp_create_user( $user_email, $random_password, $user_email );
 			$userdata        = array(
@@ -1998,16 +2012,7 @@ class BkxBooking {
 				'display_name' => esc_html( $display_name ),
 			);
 			$user_id         = wp_update_user( $userdata );
-            $blog_title = get_bloginfo ( 'name' );
-			$dashboard_id  = bkx_crud_option_multisite( 'bkx_dashboard_page_id' );
-			$dashboard_url = isset( $dashboard_id ) && $dashboard_id != '' ? get_permalink( $dashboard_id ) : get_site_url();
-			$subject       = $blog_title.' - Congratulations! Your Account has been created Successfully.';
-            $data_html     = '<p> Dear ' . esc_html(ucwords("{$first_name} {$last_name}")) . ',<p>';
-			$data_html    .= '<p>' . __( 'Your account has been created successfully. Please check below details : ', 'bookingx' ) . ' : </p>';
-			$data_html    .= '<p> Username : ' . sanitize_user( $user_email, true ) . '</p>';
-			$data_html    .= '<p> Password : ' . $random_password . '</p>';
-			$data_html    .= '<p>' . __( 'Also now you can check your booking details on My Dashboard section', 'bookingx' ) . ' <a href="' . $dashboard_url . '" target="_blank">' . esc_html__( 'click here', 'bookingx' ) . '</a>.</p>';
-			bkx_mail_format_and_send_process( $subject, $data_html, $user_email );
+            do_action( 'bkx_send_new_customer_email', $order_id );
 		}
 
 		if ( is_multisite() ) :

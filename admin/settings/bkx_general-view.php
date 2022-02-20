@@ -3,7 +3,7 @@
  * Template load for Business Information Section and Settings
  *
  * @package Bookingx/admin
- * @since      1.0.8
+ * @since      1.0.9
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -629,6 +629,31 @@ if ( ! empty( $current_submenu_active ) && 'alias' === $current_submenu_active )
 					<div class="shortcode-section" style="display: none;"><label>Shortcode : </label><code spellcheck="false">['bkx_my_account']</code></div>
 				</td>
 			</tr>
+
+            <tr class="active ">
+                <th scope="row"><label for="Allow customer to register during booking process"><?php echo esc_html__( 'Allow customer to register during booking process', 'bookingx' ); ?></label></th>
+
+                <td class="plugin-description">
+                    <div class="radio-button-section">
+                        <input type="radio" name="bkx_allow_signup_during_booking" id="bkx_allow_signup_during_booking_yes" value="1"
+                            <?php
+                            if ( bkx_crud_option_multisite( 'bkx_allow_signup_during_booking' ) === 1 ||
+                                bkx_crud_option_multisite( 'bkx_allow_signup_during_booking' ) === '1' ) {
+                                echo 'checked';
+                            }
+                            ?>
+                        ><?php printf( esc_html__( 'Yes', 'bookingx' ) ); ?>
+                        <input type="radio" name="bkx_allow_signup_during_booking" id="bkx_allow_signup_during_booking_no" value="0"
+                            <?php
+                            if ( bkx_crud_option_multisite( 'bkx_allow_signup_during_booking' ) === 0 ||
+                                bkx_crud_option_multisite( 'bkx_allow_signup_during_booking' ) === '0' ) {
+                                echo 'checked';
+                            }
+                            ?>
+                        > <?php printf( esc_html__( 'No', 'bookingx' ) ); ?>
+                    </div>
+                 </td>
+            </tr>
 
 			<tr class="active">
 				<th scope="row"><label for="dashboard column's bookings"><?php echo esc_html__( 'Dashboard Column\'s', 'bookingx' ); ?></label></th>
