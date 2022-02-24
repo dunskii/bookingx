@@ -89,7 +89,6 @@ class BkxBooking {
 		$this->post_type = 'bkx_booking';
 		add_action( 'transition_post_status', array( $this, 'bkx_on_all_status_transitions' ), 10, 3 );
 		add_action( 'bkx_order_edit_status', array( $this, 'bkx_order_edit_status' ), 10, 2 );
-		add_action( 'bkx_send_new_customer_email', array( $this, 'bkx_send_new_customer_email' ), 10, 1 );
 	}
 
 	/**
@@ -318,17 +317,6 @@ class BkxBooking {
 			$this->booking_email( esc_html( $booking_id ), esc_html( $status ) );
 		}
 	}
-
-    /**
-     * @throws Exception
-     */
-    public function bkx_send_new_customer_email($booking_id ){
-        if(empty($booking_id))
-            return;
-
-        //Key = bkx_email_new_customer_notification_booking
-        $this->booking_email( esc_html( $booking_id ), esc_html( 'new_customer_notification' ) );
-    }
 
 	/**
 	 * @param $booking_id
@@ -775,6 +763,37 @@ class BkxBooking {
 					// send email that new booking confirmed.
 					$this->booking_email( $booking['meta_data']['order_id'], 'pending' );
 					$this->booking_email( $booking['meta_data']['order_id'], 'customer_pending' );
+
+                    global $current_user;
+                    $booking_id = $booking['meta_data']['order_id'];
+                    $bkx_customer_email_trigger = get_post_meta($booking_id, 'bkx_customer_email_trigger', true );
+                    if(!isset($bkx_customer_email_trigger) || $bkx_customer_email_trigger == 0 ){
+                        update_post_meta( $booking_id, 'bkx_customer_email_trigger', 1 );
+                        $bkx_enable_customer_dashboard = bkx_crud_option_multisite( 'bkx_enable_customer_dashboard' );
+                        $bkx_allow_signup_during_booking = bkx_crud_option_multisite( 'bkx_allow_signup_during_booking' );
+
+                        // If 1 means enable to create customer.
+                        $customer_email_allow = 0;
+                        if ( isset( $bkx_enable_customer_dashboard, $bkx_allow_signup_during_booking )  && ( $bkx_allow_signup_during_booking == 1 && $bkx_enable_customer_dashboard == 1 ) && ! is_user_logged_in() ) {
+                            $post_data['email'] = get_post_meta($booking_id, 'email', true );
+                            $post_data['first_name'] = get_post_meta($booking_id, 'first_name', true );
+                            $post_data['last_name'] = get_post_meta($booking_id, 'last_name', true );
+                            $user_id = self::create_new_user( $post_data );
+                            $customer_email_allow = 1;
+                        }
+
+                        //Update Post Author in Booking
+                        if($booking_id > 0){
+                            $update_booking_post = array(
+                                'ID'           => $booking_id,
+                                'post_author'   =>  (isset($user_id) && $user_id > 0 ) ? $user_id : $current_user->ID,
+                            );
+                            wp_update_post( $update_booking_post );
+                            if($customer_email_allow == 1 ){
+                                $this->booking_email( esc_html( $booking_id ), esc_html( 'new_customer_notification' ) );
+                            }
+                        }
+                    }
 				}
 				$is_new           = strpos( $booking['meta_data']['last_page_url'], 'post-new.php' );
 				$is_admin_new     = strpos( sanitize_text_field( wp_unslash( $_SERVER['HTTP_REFERER'] ) ), 'post-new.php' ) ? 1 : 0;
@@ -1653,34 +1672,14 @@ class BkxBooking {
 		}
 		$post_data['post_status'] = $order_data['post_status'];
 
-        $bkx_enable_customer_dashboard = bkx_crud_option_multisite( 'bkx_enable_customer_dashboard' );
-        $bkx_allow_signup_during_booking = bkx_crud_option_multisite( 'bkx_allow_signup_during_booking' );
-
-        // If 1 means enable to create customer.
-        $customer_email_allow = 0;
-        if ( isset( $bkx_enable_customer_dashboard, $bkx_allow_signup_during_booking )  && ( $bkx_allow_signup_during_booking == 1 && $bkx_enable_customer_dashboard == 1 ) && ! is_user_logged_in() ) {
-            $user_id = self::create_new_user( $post_data );
-            $customer_email_allow = 1;
-        }
-
-        //Update Post Author in Booking
-        if(isset($order_id) && $order_id > 0 ){
-            $update_booking_post = array(
-                'ID'           => $order_id,
-                'post_author'   =>  (isset($user_id) && $user_id > 0 ) ? $user_id : $current_user->ID,
-            );
-            wp_update_post( $update_booking_post );
-            if($customer_email_allow == 1 ){
-                do_action( 'bkx_send_new_customer_email', $order_id );
-            }
-        }
-
         if ( empty( $order_id ) ) {
 			return;
 		}
 
 		$post_data['order_id']       = $order_id;
 		$GLOBALS['bkx_booking_data'] = $post_data;
+
+        update_post_meta( $order_id, 'bkx_customer_email_trigger', 0 );
 
 		if ( is_multisite() ) :
 			restore_current_blog();
@@ -2082,7 +2081,7 @@ class BkxBooking {
 
 		$order_id = $post_data['order_id']; // Parent Id.
 
-		global $bkx_booking_data;
+		global $bkx_booking_data, $current_user;
 
 		if ( empty( $order_id ) ) {
 			return;

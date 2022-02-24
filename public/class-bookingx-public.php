@@ -175,6 +175,7 @@ class Bookingx_Public {
 					),
 				)
 			);
+
 			bkx_block_enqueue_styles_loader();
 			wp_enqueue_script( $base_block, BKX_PACKAGES_BLOCKS_URL . '/bkx-base/build/index.js', array(), BKX_PLUGIN_VER, true );
 			wp_localize_script( $base_block, 'bkx_base_block_obj', $localized );
