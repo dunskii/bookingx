@@ -53,6 +53,25 @@ $bkx_legal          = bkx_crud_option_multisite( 'bkx_legal_options' );
 				</div>
 			</div>
 		</div>
+        <?php
+        $bkx_enable_customer_dashboard = bkx_crud_option_multisite( 'bkx_enable_customer_dashboard' );
+        $bkx_allow_signup_during_booking = bkx_crud_option_multisite( 'bkx_allow_signup_during_booking' );
+        if ( isset( $bkx_enable_customer_dashboard, $bkx_allow_signup_during_booking )
+        && ( $bkx_allow_signup_during_booking == 1 && $bkx_enable_customer_dashboard == 1 )
+        && ! is_user_logged_in() ) :
+           $blog_name =  wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
+        ?>
+        <div class="row mt-4 bkx-create-an-account">
+                <div class="col-md-12">
+                    <div class="custom-control custom-checkbox p-0">
+                        <input type="checkbox" class="custom-control-input" id="bkx-create-an-account" name="bkx_create_an_account" value="1">
+                        <label class="custom-control-label pl-3" for="bkx-create-an-account">
+                            <?php echo sprintf( esc_html__( 'I would like to create an account with %1$s.', 'bookingx' ), $blog_name  ); ?>
+                        </label>
+                    </div>
+                </div>
+        </div>
+        <?php endif; ?>
 		<?php if ( isset( $bkx_legal ) && $bkx_legal == 1 ) : ?>
 			<div class="row mt-4">
 			<?php if ( isset( $term_cond_url ) && $term_cond_url != '' ) : ?>

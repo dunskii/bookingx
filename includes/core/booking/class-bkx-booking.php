@@ -771,10 +771,10 @@ class BkxBooking {
                         update_post_meta( $booking_id, 'bkx_customer_email_trigger', 1 );
                         $bkx_enable_customer_dashboard = bkx_crud_option_multisite( 'bkx_enable_customer_dashboard' );
                         $bkx_allow_signup_during_booking = bkx_crud_option_multisite( 'bkx_allow_signup_during_booking' );
-
+                        $is_allowed_new_user = get_post_meta($booking_id, 'is_allowed_new_user', true );
                         // If 1 means enable to create customer.
                         $customer_email_allow = 0;
-                        if ( isset( $bkx_enable_customer_dashboard, $bkx_allow_signup_during_booking )  && ( $bkx_allow_signup_during_booking == 1 && $bkx_enable_customer_dashboard == 1 ) && ! is_user_logged_in() ) {
+                        if ( isset( $bkx_enable_customer_dashboard, $bkx_allow_signup_during_booking, $is_allowed_new_user )  && ( $bkx_allow_signup_during_booking == 1 && $bkx_enable_customer_dashboard == 1 && $is_allowed_new_user == 1 ) && ! is_user_logged_in() ) {
                             $post_data['email'] = get_post_meta($booking_id, 'email', true );
                             $post_data['first_name'] = get_post_meta($booking_id, 'first_name', true );
                             $post_data['last_name'] = get_post_meta($booking_id, 'last_name', true );
@@ -1866,6 +1866,7 @@ class BkxBooking {
 			'city'                       => ( isset( $post_data['input_city'] ) ? sanitize_text_field( $post_data['input_city'] ) : '' ),
 			'state'                      => ( isset( $post_data['input_state'] ) ? sanitize_text_field( $post_data['input_state'] ) : '' ),
 			'postcode'                   => ( isset( $post_data['input_postcode'] ) ? sanitize_text_field( $post_data['input_postcode'] ) : '' ),
+			'is_allowed_new_user'        => ( isset( $post_data['bkx_create_an_account'] ) ? sanitize_text_field( $post_data['bkx_create_an_account'] ) : 0 ),
 			'total_price'                => $grand_total,
 			'total_tax'                  => $total_tax,
 			'tax_rate'                   => isset( $tax_rate ) ? $tax_rate : '',
