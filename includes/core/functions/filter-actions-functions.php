@@ -245,6 +245,8 @@ function bkx_create_default_template() {
 	bkx_generate_template_page( 'bkx_set_booking_page', '[bkx_booking_form]', __( 'Booking Form', 'bookingx' ), $bkx_set_booking_page );
 	bkx_generate_template_page( 'bkx_edit_booking_page_id', '[bkx_booking_form]', __( 'Edit Booking', 'bookingx' ), $bkx_edit_booking_page_id, $bkx_dashboard_page_id );
 	bkx_generate_template_page( 'bkx_my_account_page_id', '[bkx_my_account]', __( 'My Account', 'bookingx' ), $my_account_id, $bkx_dashboard_page_id );
+    bkx_crud_option_multisite( 'enable_cancel_booking', 0, 'update' );
+    bkx_crud_option_multisite( 'enable_any_seat', 0, 'update' );
 }
 
 // Add settings link on plugin page.

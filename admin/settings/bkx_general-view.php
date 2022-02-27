@@ -669,8 +669,12 @@ if ( ! empty( $current_submenu_active ) && 'alias' === $current_submenu_active )
 						if ( ! empty( $bkx_booking_columns ) ) {
 							foreach ( $bkx_booking_columns as $key => $booking_columns ) {
 								if ( 'cb' !== $key ) {
-											   $bkx_booking_column_checked = ( ! empty( $bkx_dashboard_column_selected ) && in_array( $key, $bkx_dashboard_column_selected, true ) ? " checked='checked' " : '' );
-											   $bkx_dashboard_column_html .= '<input type="checkbox" class="bkx-dashboard-column" name="bkx_dashboard_column[]" value="' . esc_attr( $key ) . '" ' . esc_attr( $bkx_booking_column_checked ) . '>' . esc_html( $booking_columns ) . '<br />';
+                                    $bkx_booking_column_checked = ( ! empty( $bkx_dashboard_column_selected ) && in_array( $key, $bkx_dashboard_column_selected, true ) ? " checked='checked' " : '' );
+                                    if($key== 'order_status'){
+                                        $bkx_dashboard_column_html .= '<input type="checkbox" class="bkx-dashboard-column" name="bkx_dashboard_column[]" value="' . esc_attr( $key ) . '" ' . esc_attr( $bkx_booking_column_checked ) . '>' . $booking_columns  . '<br />';
+                                    }else{
+                                        $bkx_dashboard_column_html .= '<input type="checkbox" class="bkx-dashboard-column" name="bkx_dashboard_column[]" value="' . esc_attr( $key ) . '" ' . esc_attr( $bkx_booking_column_checked ) . '>' . esc_html( $booking_columns ) . '<br />';
+                                    }
 								}
 							}
 						}
