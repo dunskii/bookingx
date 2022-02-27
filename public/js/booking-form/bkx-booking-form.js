@@ -366,6 +366,7 @@ jQuery(function ($) {
                 {'key': 'bkx_last_name', 'val': bkx_booking_form_params.bkx_last_name},
                 {'key': 'bkx_phone_number', 'val': bkx_booking_form_params.bkx_phone_number},
                 {'key': 'bkx_email_address', 'val': bkx_booking_form_params.bkx_email_address},
+                {'key': 'bkx_email_address', 'val': bkx_booking_form_params.bkx_email_address},
                 {'key': 'bkx_terms_and_conditions', 'val': bkx_booking_form_params.bkx_terms_and_conditions},
                 {'key': 'bkx_privacy_policy', 'val': bkx_booking_form_params.bkx_privacy_policy},
                 {'key': 'bkx_cancellation_policy', 'val': bkx_booking_form_params.bkx_cancellation_policy}
@@ -389,6 +390,7 @@ jQuery(function ($) {
                 bkx_last_name: $("input[name=bkx_last_name]").val(),
                 bkx_phone_number: $("input[name=bkx_phone_number]").val(),
                 bkx_email_address: $("input[name=bkx_email_address]").val(),
+                bkx_create_an_account: $("input[name=bkx_create_an_account]").val(),
                 last_page_url: bkx_booking_form_params.last_page_url,
                 post_data: form.serializeArray()
             };

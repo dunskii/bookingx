@@ -321,11 +321,11 @@ jQuery(function ($) {
                     total_slots: booking_form.total_slots,
                     service_extend: service_extend,
                     is_admin_edit: is_admin_edit,
-                    //payment_method : bkx_payment_gateway_method,
                     bkx_first_name: $("input[name=bkx_first_name]").val(),
                     bkx_last_name: $("input[name=bkx_last_name]").val(),
                     bkx_phone_number: $("input[name=bkx_phone_number]").val(),
                     bkx_email_address: $("input[name=bkx_email_address]").val(),
+                    bkx_create_an_account: $("input[name=bkx_create_an_account]").val(),
                     last_page_url: bkx_booking_form_admin_params.last_page_url,
                     order_id: bkx_booking_form_admin_params.booking_id,
                     post_data: form.serializeArray()

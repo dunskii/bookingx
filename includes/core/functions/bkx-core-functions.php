@@ -2149,15 +2149,14 @@ function bkx_block_enqueue_styles(): array {
 		),
 		array(
 			'handle'  => $bootstrap_style,
-			'src'     => BKX_PLUGIN_PUBLIC_URL . '/css/bootstrap.min.css',
+			'src'     => BKX_PLUGIN_PUBLIC_URL . '/css/block-bootstrap.min.css',
 			'deps'    => array(),
 			'version' => defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? filemtime( BKX_PLUGIN_DIR_PATH . '\public/css/bootstrap.min.css' ) : BKX_PLUGIN_VER,
 		),
 	);
 }
 
-
-function bkx_block_enqueue_styles_loader() {
+function bkx_block_enqueue_styles_loader( ) {
 
 	// Get registered styles.
 	$styles = bkx_block_enqueue_styles();
