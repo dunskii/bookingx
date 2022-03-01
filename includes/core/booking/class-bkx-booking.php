@@ -737,22 +737,24 @@ class BkxBooking {
 		$default_time_zone                   = wp_timezone_string();
 		// phpcs:disable WordPress.Security.NonceVerification.Missing
 		if ( isset( $_POST['seat_id'], $_POST['base_id'], $_POST['starting_slot'], $_POST['time_option'] ) ) {
-			$args['seat_id']            = sanitize_text_field( wp_unslash( $_POST['seat_id'] ) );
-			$args['base_id']            = sanitize_text_field( wp_unslash( $_POST['base_id'] ) );
-			$args['extra_ids']          = isset( $_POST['extra_id'] ) ? sanitize_text_field( wp_unslash( $_POST['extra_id'] ) ) : '';
-			$args['service_extend']     = isset( $_POST['service_extend'] ) ? sanitize_text_field( wp_unslash( $_POST['service_extend'] ) ) : '';
+			$args['seat_id']            = wp_unslash( $_POST['seat_id'] ) ;
+			$args['base_id']            = wp_unslash( $_POST['base_id'] ) ;
+			$args['extra_ids']          = isset( $_POST['extra_id'] ) ?  wp_unslash( $_POST['extra_id'] ) : '';
+			$args['service_extend']     = isset( $_POST['service_extend'] ) ? wp_unslash( $_POST['service_extend']  ) : '';
 			$args['date']               = isset( $_POST['date'] ) ? sanitize_text_field( wp_unslash( $_POST['date'] ) ) : '';
 			$args['slot']               = sanitize_text_field( wp_unslash( $_POST['starting_slot'] ) );
 			$args['time']               = isset( $_POST['booking_time'] ) ? sanitize_text_field( wp_unslash( $_POST['booking_time'] ) ) : '';
 			$args['time_option']        = sanitize_text_field( wp_unslash( $_POST['time_option'] ) );
-			$args['booking_multi_days'] = isset( $_POST['booking_multi_days'] ) ? sanitize_text_field( wp_unslash( $_POST['booking_multi_days'] ) ) : '';
-			if ( isset( $_POST['user_time_zone'] ) ) {
+			$args['booking_multi_days'] = !empty( $_POST['booking_multi_days'] ) ?  wp_unslash( $_POST['booking_multi_days']  ) : '';
+
+            if ( isset( $_POST['user_time_zone'] ) ) {
 				$args['user_time_zone'] = sanitize_text_field( wp_unslash( $_POST['user_time_zone'] ) );
 			}
 			if ( isset( $_POST['order_id'] ) ) {
 				$args['edit_booking_id'] = sanitize_text_field( wp_unslash( $_POST['order_id'] ) );
 			}
 			$get_verify_slot = json_decode( $this->get_verify_slot( $args, false ) );
+
 			if ( ! empty( $get_verify_slot ) && 1 === $get_verify_slot->result || ! empty( $args['booking_multi_days'] ) ) {
 				$booking = $this->generate_order( $_POST, null, true );
 				// send email that edit booking confirmed.
@@ -1838,7 +1840,7 @@ class BkxBooking {
 		}
 
 		if ( isset( $_POST['booking_multi_days'] ) && ! empty( $post_data['booking_multi_days'] ) ) {
-			$booking_multi_days = sanitize_term_field( wp_unslash( $post_data['booking_multi_days'] ) );
+			$booking_multi_days = wp_unslash( $post_data['booking_multi_days'] ) ;
 			$booking_start_date = date( 'Y-m-d H:i:s', strtotime( $booking_multi_days[0] ) );
 			$booking_end_date   = date( 'Y-m-d H:i:s', strtotime( $booking_multi_days[1] ) );
 			$base_days          = get_post_meta( $post_data['base_id'], 'base_day', true );
