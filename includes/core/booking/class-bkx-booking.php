@@ -1257,7 +1257,11 @@ class BkxBooking {
 		if ( ! empty( $base_id ) ) {
 			$bkx_base  = new BkxBase( '', $base_id );
 			$base_time = $bkx_base->get_time();
-			if ( $base_time['type'] == 'D' ) {
+			if ( $base_time['type'] == 'D' && isset($selected_ids['service_extend']) && $selected_ids['service_extend'] > 0 ) {
+				$service_extend_in = $selected_ids['service_extend'] * 86400;
+				$total_time += ( $service_extend_in + $base_time['in_sec'] ) * 60;
+			}
+			elseif ( $base_time['type'] == 'D' && isset($selected_ids['service_extend']) && $selected_ids['service_extend'] == 0 ) {
 				$total_time += $base_time['in_sec'] * 60;
 			} else {
 				$total_time += $base_time['in_sec'];
