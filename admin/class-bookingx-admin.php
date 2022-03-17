@@ -74,12 +74,14 @@ class Bookingx_Admin {
 		$alias_addition = bkx_crud_option_multisite( 'bkx_alias_addition' );
 		$extended_text  = bkx_crud_option_multisite( 'bkx_notice_time_extended_text_alias' );
 		$bkx_step_1     = bkx_crud_option_multisite( 'bkx_label_of_step1' );
+		$bkx_notice_create_an_account     = bkx_crud_option_multisite( 'bkx_notice_create_an_account' );
 
 		( false === $alias_seat ) ? bkx_crud_option_multisite( 'bkx_alias_seat', 'Resource', 'update' ) : '';
 		( false === $alias_base ) ? bkx_crud_option_multisite( 'bkx_alias_base', 'Service', 'update' ) : '';
 		( false === $alias_addition ) ? bkx_crud_option_multisite( 'bkx_alias_addition', 'Extra', 'update' ) : '';
 		( false === $extended_text ) ? bkx_crud_option_multisite( 'bkx_notice_time_extended_text_alias', 'How many times you want to extend this service?', 'update' ) : '';
 		( false === $bkx_step_1 ) ? bkx_crud_option_multisite( 'bkx_label_of_step1', 'Please select what you would like to book', 'update' ) : '';
+		( false === $bkx_notice_create_an_account ) ? bkx_crud_option_multisite( 'bkx_notice_create_an_account', 'You have selected to create an account with us. We will email your log in credentials.', 'update' ) : '';
 		$bkx_booking_style = bkx_crud_option_multisite( 'bkx_booking_style' );
 		if ( ( ! isset( $bkx_booking_style ) || '' === $bkx_booking_style ) ) {
 			bkx_crud_option_multisite( 'bkx_booking_style', 'default', 'update' );

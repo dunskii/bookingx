@@ -1201,8 +1201,10 @@ function bkx_localize_string_text() {
 	$seat_alias          = bkx_crud_option_multisite( 'bkx_alias_seat' );
 	$base_alias          = bkx_crud_option_multisite( 'bkx_alias_base' );
 	$extra_alias         = bkx_crud_option_multisite( 'bkx_alias_addition' );
+	$bkx_notice_create_an_account = bkx_crud_option_multisite( 'bkx_notice_create_an_account' );
 	$validation_js_array = array(
 		'string_enter_other_day'       => sprintf( __( '%s.', 'bookingx' ), 'Please select other day to booking' ),
+		'allow_signup_during_booking_note' => sprintf( __( '<b>%1$s</b> %2$s', 'bookingx' ), 'Please Note : ', esc_html__( $bkx_notice_create_an_account, 'bookingx' ) ),
 		'string_booking_dates'         => sprintf( __( '%s', 'bookingx' ), 'Booking Dates' ),
 		'string_selecte_a_time'        => sprintf( __( '%s', 'bookingx' ), 'Select a time' ),
 		'email_sent'                   => sprintf( __( '%s', 'bookingx' ), 'Email sent successfully.' ),
@@ -1240,7 +1242,7 @@ function bkx_localize_string_text() {
 		'paypal_error'                 => sprintf( __( '%s', 'bookingx' ), 'Payment was cancelled via PayPal.' ),
 		'string_do_you_want_to_cont'   => sprintf( __( '%s', 'bookingx' ), 'Do you want to continue update booking?' ),
 		'string_something_went'        => sprintf( __( '%s', 'bookingx' ), 'Sorry ! Something went wrong , Please try again.' ),
-		'string_you_require'           => sprintf( __( '%s', 'bookingx' ), 'you require' ),
+		'string_you_require'           => sprintf( __( '%s', 'bookingx' ), 'you require' )
 	);
 	return apply_filters( 'bkx_localized_validation_js_array', $validation_js_array );
 }
