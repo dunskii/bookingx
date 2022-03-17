@@ -96,7 +96,8 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
 			);
 			$get_seat_array = get_posts( $args );
 			$values         = get_post_custom( $post->ID );
-			$base_price             = isset( $values['base_price'] ) ? esc_html( $values['base_price'][0] ) : 0;
+			$base_price = 0;
+			$base_price             += isset( $values['base_price'] ) ? esc_html( $values['base_price'][0] ) : 0;
 			//$base_sale_price        = isset( $values['base_sale_price'] ) ? esc_html( $values['base_sale_price'][0] ) : 0;
 			$base_time_option       = isset( $values['base_time_option'] ) ? esc_html( $values['base_time_option'][0] ) : '';
 			$base_month             = isset( $values['base_month'] ) ? esc_html( $values['base_month'][0] ) : '';
@@ -422,8 +423,9 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
 				return '';
 			}
 			do_action( 'bkx_base_meta_box_save', $post_id );
+			$base_price = 0;
          // phpcs:disable WordPress.Security.NonceVerification.Missing
-			$base_price                = isset( $_POST['base_price'] ) ? sanitize_text_field( wp_unslash( $_POST['base_price'] ) ) : '';
+			$base_price                += isset( $_POST['base_price'] ) ? sanitize_text_field( wp_unslash( $_POST['base_price'] ) ) : '';
 			$base_sale_price           = isset( $_POST['base_sale_price'] ) ? sanitize_text_field( wp_unslash( $_POST['base_sale_price'] ) ) : '';
 			$base_month_days_time      = isset( $_POST['base_months_days_times'] ) ? sanitize_text_field( wp_unslash( $_POST['base_months_days_times'] ) ) : '';
 			$base_months               = isset( $_POST['base_months'] ) ? sanitize_text_field( wp_unslash( $_POST['base_months'] ) ) : '';

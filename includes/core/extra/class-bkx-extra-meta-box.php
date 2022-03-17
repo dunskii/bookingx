@@ -129,7 +129,8 @@ if ( ! class_exists( 'BkxExtraMetaBox' ) ) {
 			$get_base_array          = get_posts( $args );
 			$values                  = get_post_custom( $post->ID );
 			$alias_seat              = bkx_crud_option_multisite( 'bkx_alias_seat' );
-			$addition_price          = isset( $values['addition_price'] ) ? esc_attr( $values['addition_price'][0] ) : '';
+			$addition_price = 0;
+			$addition_price          += isset( $values['addition_price'] ) ? esc_attr( $values['addition_price'][0] ) : '';
 			//$extra_sale_price        = isset( $values['extra_sale_price'] ) ? esc_html( $values['extra_sale_price'][0] ) : 0;
 			$addition_time_option    = isset( $values['addition_time_option'] ) ? esc_attr( $values['addition_time_option'][0] ) : '';
 			$addition_overlap        = isset( $values['addition_overlap'] ) ? esc_attr( $values['addition_overlap'][0] ) : '';
@@ -438,7 +439,8 @@ if ( ! class_exists( 'BkxExtraMetaBox' ) ) {
 				return;
 			}
          // phpcs:disable WordPress.Security.NonceVerification.Missing
-			$addition_price                = isset( $_POST['addition_price'] ) ? sanitize_text_field( wp_unslash( $_POST['addition_price'] ) ) : '';
+			$addition_price = 0;
+			$addition_price                += isset( $_POST['addition_price'] ) ? sanitize_text_field( wp_unslash( $_POST['addition_price'] ) ) : '';
 			$extra_sale_price              = isset( $_POST['extra_sale_price'] ) ? sanitize_text_field( wp_unslash( $_POST['extra_sale_price'] ) ) : '';
 			$addition_month_days_time      = isset( $_POST['addition_time_option'] ) ? sanitize_text_field( wp_unslash( $_POST['addition_time_option'] ) ) : '';
 			$addition_months               = isset( $_POST['addition_months'] ) ? sanitize_text_field( wp_unslash( $_POST['addition_months'] ) ) : '';
