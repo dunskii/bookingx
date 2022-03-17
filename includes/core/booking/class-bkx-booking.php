@@ -1257,7 +1257,11 @@ class BkxBooking {
 		if ( ! empty( $base_id ) ) {
 			$bkx_base  = new BkxBase( '', $base_id );
 			$base_time = $bkx_base->get_time();
-			if ( $base_time['type'] == 'D' ) {
+			if ( $base_time['type'] == 'D' && isset($selected_ids['service_extend']) && $selected_ids['service_extend'] > 0 ) {
+				$service_extend_in = $selected_ids['service_extend'] * 86400;
+				$total_time += ( $service_extend_in + $base_time['in_sec'] ) * 60;
+			}
+			elseif ( $base_time['type'] == 'D' && isset($selected_ids['service_extend']) && $selected_ids['service_extend'] == 0 ) {
 				$total_time += $base_time['in_sec'] * 60;
 			} else {
 				$total_time += $base_time['in_sec'];
@@ -1394,7 +1398,9 @@ class BkxBooking {
 					'display'      => 1,
 				);
 				$BkxBooking  = new BkxBooking();
+				 
 				$BookingTime = $BkxBooking->GetBookedRecords( $search );
+							 
 				if ( ! empty( $BookingTime ) ) {
 					if ( isset( $BookingTime[0]->full_day ) ) {
 						$full_day = $BookingTime[0]->full_day;
@@ -1525,15 +1531,30 @@ class BkxBooking {
 		$availability['extra']['unavailable'] = $extra_unavailable;
 		$base_time_option                     = get_post_meta( $base_id, 'base_time_option', true );
 		$base_day                             = get_post_meta( $base_id, 'base_day', true );
-		$booked_days                          = array();
 		$days_selected                        = array();
-		if ( isset( $base_time_option ) && $base_time_option == 'D' && isset( $base_day ) && $base_day > 0 ) {
-			$search['by']           = 'future';
+		$booked_days = $this->getBookedDaysBySeatId($seat_id);
+		$unavailable_days                 = $this->get_all_unavailable_days( $availability );
+		$availability['unavailable_days'] = array_merge( $unavailable_days, $booked_days );
+		$availability['seat_id']          = $args['seat_id'];
+		$availability['base_id']          = $args['base_id'];
+		$availability['extra_ids']        = ! empty( $args['extra_ids'] ) ? $args['extra_ids'] : '';
+
+		return apply_filters( 'bkx_calender_unavailable_days', $availability );
+	}
+
+	public function getBookedDaysBySeatId($seat_id){
+		if(empty($seat_id))
+		     return;
+			$booked_days[]  = array();
+		    $search['by']           = 'future';
 			$search['seat_id']      = $seat_id;
 			$search['booking_date'] = date( 'Y-m-d' );
+			
 			$booked_data            = $this->GetBookedRecords( $search );
+			
 			if ( ! empty( $booked_data ) ) {
 				foreach ( $booked_data as $booking ) {
+					$booked_days[]  = array();
 					$booking_id       = $booking['order_id'];
 					$base_time_option = get_post_meta( $booking_id, 'base_time_option', true );
 					$base_time_option = ( isset( $base_time_option ) && $base_time_option != '' ) ? $base_time_option : 'H';
@@ -1555,14 +1576,7 @@ class BkxBooking {
 				}
 				$booked_days = array_unique( $booked_days );
 			}
-		}
-		$unavailable_days                 = $this->get_all_unavailable_days( $availability );
-		$availability['unavailable_days'] = array_merge( $unavailable_days, $booked_days );
-		$availability['seat_id']          = $args['seat_id'];
-		$availability['base_id']          = $args['base_id'];
-		$availability['extra_ids']        = ! empty( $args['extra_ids'] ) ? $args['extra_ids'] : '';
-
-		return apply_filters( 'bkx_calender_unavailable_days', $availability );
+			return $booked_days;
 	}
 
 	/**

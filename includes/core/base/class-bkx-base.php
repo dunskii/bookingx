@@ -267,8 +267,9 @@ class BkxBase {
 		if ( empty( $post_id ) ) {
 			return;
 		}
+		$base_price = 0;
 		$bkx_post   = get_post( $post_id );
-		$base_price = $this->get_price();
+		$base_price += $this->get_price();
 		$base_time  = $this->get_time( $post_id );
 		$formatted  = '';
 		if ( isset( $base_time['formatted'] ) ) {

@@ -46,7 +46,7 @@ function bkx_process_mail_by_status( $booking_id, $subject, $content, $email = n
 	$to          = isset( $is_customer ) && $is_customer == true ? $order_meta['email'] : $admin_email;
 	$mail_type   = isset( $email->email_type ) && ! empty( $email->email_type ) ? $email->get_content_type( $email->email_type ) : 'text/html';
 	// multiple recipients.
-
+ 
 	// change request for template tags calculate booking duration 7/4/2013.
 	$booking_time = $order_meta['booking_time']['in_sec'];
 	// conver second into minutes.

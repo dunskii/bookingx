@@ -45,5 +45,6 @@ class Bookingx_Activator {
 		bkx_crud_option_multisite( 'bkx_alias_notification', esc_html__( 'Extra', 'Notification' ), 'update' );
 		bkx_crud_option_multisite( 'bkx_notice_time_extended_text_alias', esc_html__( 'How many times you want to extend this service?', 'bookingx' ), 'update' );
 		bkx_crud_option_multisite( 'bkx_label_of_step1', esc_html__( 'Please select what you would like to book', 'bookingx' ), 'update' );
+		bkx_crud_option_multisite( 'bkx_notice_create_an_account', esc_html__( 'You have selected to create an account with us. We will email your log in credentials.', 'bookingx' ), 'update' );
 	}
 }
