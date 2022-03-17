@@ -114,6 +114,7 @@ jQuery(function ($) {
             $(document).on('click button', '.bkx-booking-form  .step-2 .owl-next', this.available_days_next);
             $(document).on('click button', '.bkx-booking-form  .step-2 .owl-prev', this.available_days_prev);
             $(document).on('change', '.bkx-booking-form .step-1 :input[name^=bkx-extra-service][type=checkbox]', this.extra_checked);
+            $(document).on('change', '.bkx-booking-form .step-3 :input[name^=bkx_create_an_account][type=checkbox]', this.allowToCreateSignUp);
             $(document).on('click button', '.bkx-booking-form .bkx-form-submission-next', this.submit);
             $(document).on('click button', '.bkx-booking-form .bkx-form-submission-final', this.submit);
             $(document).on('click button', '.bkx-booking-form .bkx-form-submission-previous', this.submit_previous);
@@ -228,6 +229,10 @@ jQuery(function ($) {
                     unblock($('div.step-1'));
                 }
             });
+        },
+        allowToCreateSignUp: function (){
+            var check_create_account = $('.bkx-booking-form .step-3 #bkx-create-an-account:checkbox:checked').length;
+            $('.bkx-booking-form .step-3 #bkx-create-an-account').val(check_create_account);
         },
         extra_checked: function () {
             block($('div.step-1'));

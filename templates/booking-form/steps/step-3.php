@@ -64,7 +64,7 @@ $bkx_legal          = bkx_crud_option_multisite( 'bkx_legal_options' );
         <div class="row mt-4 bkx-create-an-account">
                 <div class="col-md-12">
                     <div class="custom-control custom-checkbox p-0">
-                        <input type="checkbox" class="custom-control-input" id="bkx-create-an-account" name="bkx_create_an_account" value="1">
+                        <input type="checkbox" class="custom-control-input" id="bkx-create-an-account" name="bkx_create_an_account" value="0">
                         <label class="custom-control-label pl-3" for="bkx-create-an-account">
                             <?php echo sprintf( esc_html__( 'I would like to create an account with %1$s.', 'bookingx' ), $blog_name  ); ?>
                         </label>

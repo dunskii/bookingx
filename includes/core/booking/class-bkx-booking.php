@@ -1545,15 +1545,16 @@ class BkxBooking {
 	public function getBookedDaysBySeatId($seat_id){
 		if(empty($seat_id))
 		     return;
-			$booked_days  = array();
+			$booked_days[]  = array();
 		    $search['by']           = 'future';
 			$search['seat_id']      = $seat_id;
 			$search['booking_date'] = date( 'Y-m-d' );
 			
 			$booked_data            = $this->GetBookedRecords( $search );
-			 
+			
 			if ( ! empty( $booked_data ) ) {
 				foreach ( $booked_data as $booking ) {
+					$booked_days[]  = array();
 					$booking_id       = $booking['order_id'];
 					$base_time_option = get_post_meta( $booking_id, 'base_time_option', true );
 					$base_time_option = ( isset( $base_time_option ) && $base_time_option != '' ) ? $base_time_option : 'H';
