@@ -129,7 +129,8 @@ class BkxExtra {
 		if ( empty( $this->post ) ) {
 			return '';
 		}
-		$extra_price = $this->get_price();
+		$extra_price = 0;
+		$extra_price += $this->get_price();
 		$extra_time  = $this->get_time();
 		$extra_title = "{$this->post->post_title} - {$this->load_global->currency_name}{$this->load_global->currency_sym}{$extra_price} - {$extra_time['formatted']}";
 		if ( $plain == true ) {

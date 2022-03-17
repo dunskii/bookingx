@@ -76,6 +76,18 @@ if ( ! empty( $current_submenu_active ) && 'alias' === $current_submenu_active )
 					</div>
 				</td>
 			</tr>
+			<?php  $bkx_allow_signup_during_booking = bkx_crud_option_multisite( 'bkx_allow_signup_during_booking' ); ?>
+			<?php if ( isset(  $bkx_allow_signup_during_booking ) &&  $bkx_allow_signup_during_booking == 1  ) : ?>
+				<tr class="active">
+					<th scope="row"><label for="extended Text"> Create an account message at Step 4 </label></th>
+					<td class="plugin-description">
+						<div class="plugin-description">
+							<textarea name="bkx_notice_create_an_account" cols="50"><?php echo esc_html( bkx_crud_option_multisite( 'bkx_notice_create_an_account' ) ); ?></textarea>
+						</div>
+					</td>
+				</tr>
+			<?php endif; ?>
+
 	<?php do_action( 'bkx_general_alias_settings' ); ?>
 			</tbody>
 		</table>

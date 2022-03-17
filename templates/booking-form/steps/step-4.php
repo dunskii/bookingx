@@ -39,8 +39,9 @@ defined( 'ABSPATH' ) || exit; ?>
 				</div>
 			</div>
 		</div>
-		<div class="bkx-deposite-note user-detail bg-white px-3 py-4"></div>
-		<div class="bkx-seat-location-note user-detail px-3 py-4"></div>
+		<div class="bkx-deposite-note bg-white "></div>
+		<div class="bkx-seat-location-note"></div>
+		<div class="bkx-create-an-account-note"></div>
 	</div>
 	<div class="button-wrapper">
 		<button type="submit" class="btn btn-default button bkx-form-submission-final"><?php esc_html_e( 'Process Booking', 'bookingx' ); ?></button>

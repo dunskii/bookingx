@@ -114,6 +114,7 @@ jQuery(function ($) {
             $(document).on('click button', '.bkx-booking-form  .step-2 .owl-next', this.available_days_next);
             $(document).on('click button', '.bkx-booking-form  .step-2 .owl-prev', this.available_days_prev);
             $(document).on('change', '.bkx-booking-form .step-1 :input[name^=bkx-extra-service][type=checkbox]', this.extra_checked);
+            $(document).on('change', '.bkx-booking-form .step-3 :input[name^=bkx_create_an_account][type=checkbox]', this.allowToCreateSignUp);
             $(document).on('click button', '.bkx-booking-form .bkx-form-submission-next', this.submit);
             $(document).on('click button', '.bkx-booking-form .bkx-form-submission-final', this.submit);
             $(document).on('click button', '.bkx-booking-form .bkx-form-submission-previous', this.submit_previous);
@@ -228,6 +229,19 @@ jQuery(function ($) {
                     unblock($('div.step-1'));
                 }
             });
+        },
+        allowToCreateSignUp: function (){
+           
+            var bkx_create_an_account_note = $('.bkx-booking-form .step-4 .bkx-create-an-account-note');
+            var check_create_account = $('.bkx-booking-form .step-3 #bkx-create-an-account:checkbox:checked').length;
+            $('.bkx-booking-form .step-3 #bkx-create-an-account').val(check_create_account);
+            bkx_create_an_account_note.html("");
+            bkx_create_an_account_note.removeClass("user-detail px-3 py-4");
+            if(check_create_account == 1 ){
+                bkx_create_an_account_note.html(bkx_booking_form_params.allow_signup_during_booking_note);
+                bkx_create_an_account_note.addClass("user-detail px-3 py-4");
+            }          
+
         },
         extra_checked: function () {
             block($('div.step-1'));
@@ -652,6 +666,8 @@ jQuery(function ($) {
                 var grand_total = $('.bkx-booking-form .step-4 .grand-total strong');
                 var deposit_note = $('.bkx-booking-form .step-4 .bkx-deposite-note');
                 var seat_address = $('.bkx-booking-form .step-4 .bkx-seat-location-note');
+                deposit_note.removeClass('user-detail px-3 py-4');
+                seat_address.removeClass('user-detail px-3 py-4');
                 $.ajax({
                     type: 'POST',
                     url: get_url('update_booking_total'),
@@ -668,8 +684,17 @@ jQuery(function ($) {
                             }
                             total_cost.html(result.sub_total_tax_formatted);
                             grand_total.html(result.grand_total_formatted);
-                            deposit_note.html(result.deposit_note);
-                            seat_address.html(result.seat_address);
+                            //user-detail px-3 py-4
+                            if(result.deposit_note != ''){
+                                deposit_note.addClass('user-detail px-3 py-4');
+                                deposit_note.html(result.deposit_note);
+                            }
+
+                            if(result.seat_address != ''){
+                                seat_address.addClass('user-detail px-3 py-4');
+                                seat_address.html(result.seat_address);
+                            }
+
                         } else {
 
                         }

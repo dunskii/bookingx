@@ -111,6 +111,9 @@ function bkx_setting_save_action() {
 		if ( isset( $_POST['bkx_label_of_step1'] ) ) { // phpcs:ignore
  			bkx_crud_option_multisite( 'bkx_label_of_step1', sanitize_text_field( $_POST['bkx_label_of_step1'] ), 'update' ); // phpcs:ignore
 		}
+		if ( isset( $_POST['bkx_notice_create_an_account'] ) ) { // phpcs:ignore
+			bkx_crud_option_multisite( 'bkx_notice_create_an_account', sanitize_text_field( $_POST['bkx_notice_create_an_account'] ), 'update' ); // phpcs:ignore
+	   }
 
 		$redirect = add_query_arg( array( 'bkx_success' => 'ALU' ), sanitize_text_field( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) );
 		wp_safe_redirect( $redirect );
