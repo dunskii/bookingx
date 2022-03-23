@@ -305,7 +305,7 @@ class Bkx_Script_Loader {
 			self::enqueue_script( 'owl.carousel' );
 			self::enqueue_script( 'calendar' );
 			self::enqueue_script( 'jquery-blockui' );
-
+            self::enqueue_script( 'bkx-booking-form' );
 		}
 
 		if ( is_admin() ) {

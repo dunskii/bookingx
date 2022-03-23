@@ -175,15 +175,18 @@ class Bookingx_Public {
 					),
 				)
 			);
-
+            $base_asset_file = include( BKX_PACKAGES_BLOCKS . '/bkx-base/build/index.asset.php');
+            $seat_asset_file = include( BKX_PACKAGES_BLOCKS . '/bkx-seat/build/index.asset.php');
+            $addition_asset_file = include( BKX_PACKAGES_BLOCKS . '/bkx-addition/build/index.asset.php');
 			bkx_block_enqueue_styles_loader();
-			wp_enqueue_script( $base_block, BKX_PACKAGES_BLOCKS_URL . '/bkx-base/build/index.js', array(), BKX_PLUGIN_VER, true );
+
+			wp_enqueue_script( $base_block, BKX_PACKAGES_BLOCKS_URL . '/bkx-base/build/index.js', $base_asset_file['dependencies'] , $base_asset_file['version'], true );
 			wp_localize_script( $base_block, 'bkx_base_block_obj', $localized );
 
-			wp_enqueue_script( $seat_block, BKX_PACKAGES_BLOCKS_URL . '/bkx-seat/build/index.js', array(), BKX_PLUGIN_VER, true );
+			wp_enqueue_script( $seat_block, BKX_PACKAGES_BLOCKS_URL . '/bkx-seat/build/index.js', $seat_asset_file['dependencies'] , $seat_asset_file['version'], true );
 			wp_localize_script( $seat_block, 'bkx_seat_block_obj', $localized );
 
-			wp_enqueue_script( $addition_block, BKX_PACKAGES_BLOCKS_URL . '/bkx-addition/build/index.js', array(), BKX_PLUGIN_VER, true );
+			wp_enqueue_script( $addition_block, BKX_PACKAGES_BLOCKS_URL . '/bkx-addition/build/index.js', $addition_asset_file['dependencies'] , $addition_asset_file['version'], true );
 			wp_localize_script( $addition_block, 'bkx_addition_block_obj', $localized );
 
 		}

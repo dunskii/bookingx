@@ -6,7 +6,7 @@
 import { __ } from '@wordpress/i18n';
 const { serverSideRender: ServerSideRender } = wp;
 const {
-	PanelBody, SelectControl, TextControl, ToggleControl,  RangeControl
+	PanelBody, SelectControl, ToggleControl,  RangeControl
 } = wp.components;
 
 
@@ -48,6 +48,7 @@ export default function Edit({ attributes, setAttributes } ) {
 	};
 
 	const onSeatChange = ( seat_id ) => {
+		console.log(seat_id)
 		setAttributes( { seatPostId: seat_id } );
 	};
 	const onOrderByChange = ( order_by ) => {

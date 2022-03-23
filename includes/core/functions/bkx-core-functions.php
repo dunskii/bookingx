@@ -2180,3 +2180,14 @@ function bkx_block_enqueue_styles_loader( ) {
 		wp_enqueue_style( $style['handle'], $src, $deps, $version, $media );
 	}
 }
+
+/**
+ * @param $value
+ * @return float|int|void
+ */
+function bkx_clean_price_format( $value ){
+    if(empty($value))
+        return;
+
+    return intval(($value*100))/100;
+}
