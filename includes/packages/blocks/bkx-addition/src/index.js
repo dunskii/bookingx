@@ -41,6 +41,7 @@ import save from './save';
 } )();
 
 registerBlockType( 'booking-x/bkx-addition', {
+	title: 'Booking X Extra Listing', // Block name visible to user
 	icon: <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" id="Layer_1" viewBox="0 0 124 124"
 			   className="bkx-svg" role="img" aria-hidden="true" focusable="false">
 		<path className="bkx-svg"

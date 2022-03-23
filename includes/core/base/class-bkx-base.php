@@ -394,14 +394,11 @@ class BkxBase {
 	 */
 	public function get_price(): string {
 		$meta_data                      = $this->meta_data;
-		$base_price                     = isset( $meta_data['base_price'] ) ? esc_html( $meta_data['base_price'][0] ) : 0;
-		$base_sale_price                = isset( $meta_data['base_sale_price'] ) ? esc_html( $meta_data['base_sale_price'][0] ) : 0;
-		$price_array['base_price']      = number_format( (float) $base_price, 2, '.', '' );
-		$price_array['base_sale_price'] = number_format( (float) $base_sale_price, 2, '.', '' );
+		$base_price                     = isset( $meta_data['base_price'] ) ? esc_html( bkx_clean_price_format( $meta_data['base_price'][0] ) ) : 0;
+		$base_sale_price                = isset( $meta_data['base_sale_price'] ) ? esc_html( bkx_clean_price_format( $meta_data['base_sale_price'][0] ) ) : 0;
+		$price_array['base_price']      = bkx_clean_price_format($base_price );
+		$price_array['base_sale_price'] = bkx_clean_price_format($base_sale_price );
 		$price_array['meta_data']       = $meta_data;
-		if ( isset( $base_sale_price ) && $base_sale_price > 0 ) {
-			$base_price = number_format( (float) $base_sale_price, 2, '.', '' );
-		}
 		return apply_filters( 'bkx_base_price', $base_price, $price_array );
 	}
 
