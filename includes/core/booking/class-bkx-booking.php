@@ -1574,7 +1574,10 @@ class BkxBooking {
 					}
 					$booked_days = array_merge( $booked_days, $days_selected );
 				}
-				$booked_days = array_unique( $booked_days );
+
+               $booked_days = array_filter($booked_days);
+                //echo "<pre>".print_r($booked_days, true)."</pre>";die;
+                $booked_days = array_unique( $booked_days );
 			}
 			return $booked_days;
 	}

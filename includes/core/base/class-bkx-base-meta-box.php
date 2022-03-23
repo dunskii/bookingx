@@ -125,11 +125,11 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
 			printf( __( '%1$s  Price <span class="bkx-require">(*) Required</span>', 'bookingx' ), esc_html( $base_alias ) ); // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped 
 			$base_price_html = 0;
 			if ( isset( $base_price ) && '' !== $base_price ) {
-				$base_price_html = esc_html( $base_price );
+				$base_price_html = esc_html( bkx_clean_price_format($base_price) );
 			}
 			?>
 				<div class="plugin-description">
-					<input name="base_price" type="text" value="<?php echo esc_attr( $base_price_html ); ?>" id="id_base_price">
+					<input name="base_price" type="number" value="<?php echo esc_attr( $base_price_html ); ?>" id="id_base_price">
 				</div>
 			</div>
 
@@ -425,7 +425,8 @@ if ( ! class_exists( 'BkxBaseMetabox' ) ) {
 			do_action( 'bkx_base_meta_box_save', $post_id );
 			$base_price = 0;
          // phpcs:disable WordPress.Security.NonceVerification.Missing
-			$base_price                += isset( $_POST['base_price'] ) ? sanitize_text_field( wp_unslash( $_POST['base_price'] ) ) : '';
+			$base_price                = isset( $_POST['base_price'] ) ? sanitize_text_field( wp_unslash( $_POST['base_price'] ) ) : '';
+            $base_price                = bkx_clean_price_format($base_price);
 			$base_sale_price           = isset( $_POST['base_sale_price'] ) ? sanitize_text_field( wp_unslash( $_POST['base_sale_price'] ) ) : '';
 			$base_month_days_time      = isset( $_POST['base_months_days_times'] ) ? sanitize_text_field( wp_unslash( $_POST['base_months_days_times'] ) ) : '';
 			$base_months               = isset( $_POST['base_months'] ) ? sanitize_text_field( wp_unslash( $_POST['base_months'] ) ) : '';

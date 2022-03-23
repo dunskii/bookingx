@@ -204,10 +204,10 @@ class BkxExtra {
 	 */
 	public function get_price() {
 		$meta_data                       = $this->meta_data;
-		$addition_price                  = isset( $meta_data['addition_price'] ) ? esc_html( $meta_data['addition_price'][0] ) : 0;
-		$extra_sale_price                = isset( $meta_data['extra_sale_price'] ) ? esc_html( $meta_data['extra_sale_price'][0] ) : 0;
-		$price_array['addition_price']   = number_format( (float) $addition_price, 2, '.', '' );
-		$price_array['extra_sale_price'] = number_format( (float) $extra_sale_price, 2, '.', '' );
+		$addition_price                  = isset( $meta_data['addition_price'] ) ? esc_html( bkx_clean_price_format( $meta_data['addition_price'][0] ) ) : 0;
+		$extra_sale_price                = isset( $meta_data['extra_sale_price'] ) ? esc_html( bkx_clean_price_format( $meta_data['extra_sale_price'][0] ) ) : 0;
+		$price_array['addition_price']   = bkx_clean_price_format( $addition_price );
+		$price_array['extra_sale_price'] = bkx_clean_price_format( $extra_sale_price );
 		$price_array['meta_data']        = $meta_data;
 		if ( isset( $extra_sale_price ) && $extra_sale_price > 0 ) {
 			$addition_price = $extra_sale_price;

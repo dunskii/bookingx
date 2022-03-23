@@ -26,6 +26,7 @@ import save from './save';
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
  */
 registerBlockType( 'booking-x/bkx-seat', {
+	title: 'Booking X Resource Listing', // Block name visible to user
 	icon : <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" id="Layer_1" viewBox="0 0 124 124"
 				className="bkx-svg" role="img" aria-hidden="true" focusable="false">
 		<path fill="#333"
