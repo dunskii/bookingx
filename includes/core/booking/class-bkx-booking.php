@@ -1553,6 +1553,7 @@ class BkxBooking {
 			$booked_data            = $this->GetBookedRecords( $search );
 			
 			if ( ! empty( $booked_data ) ) {
+                $days_selected = array();
 				foreach ( $booked_data as $booking ) {
 					$booked_days[]  = array();
 					$booking_id       = $booking['order_id'];
@@ -1859,7 +1860,10 @@ class BkxBooking {
 		if ( isset( $_POST['booking_multi_days'] ) && ! empty( $post_data['booking_multi_days'] ) ) {
 			$booking_multi_days = wp_unslash( $post_data['booking_multi_days'] ) ;
 			$booking_start_date = date( 'Y-m-d H:i:s', strtotime( $booking_multi_days[0] ) );
-			$booking_end_date   = date( 'Y-m-d H:i:s', strtotime( $booking_multi_days[1] ) );
+            $booking_end_date = "";
+            if(isset($booking_multi_days[1]) && $booking_multi_days[1] != "" ){
+                $booking_end_date   = date( 'Y-m-d H:i:s', strtotime( $booking_multi_days[1] ) );
+            }
 			$base_days          = get_post_meta( $post_data['base_id'], 'base_day', true );
 			$post_data['date']  = date( 'Y-m-d', strtotime( $booking_multi_days[0] ) );
 		}
