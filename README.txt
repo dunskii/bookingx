@@ -148,8 +148,9 @@ It should be, remember you can set the colours to fit your site by going Setting
 == Upgrade Notice ==
 
 = 1.0.9 =
-Allow customer to register during booking process.
-Adding Guest Checkout.
+Minor bug fixes.
+Added option for customer to register during booking process.
+Custom email for customer registration.
 
 == Updating ==
 Automatic updates should work smoothly, but we still recommend you back up your site.
@@ -165,4 +166,4 @@ Automatic updates should work smoothly, but we still recommend you back up your 
 = 1.0.6 - Added functionality to handle add-on licensing. UI improvements - including booking ordering. 2021-20-07 =
 = 1.0.7 - Improved block functionality. 2021-24-09 =
 = 1.0.8 - Minor Bug Fixes. 2022-19-02 =
-= 1.0.9 - Allow customer to register during booking process. Adding Guest Checkout. 2022-20-02 =
+= 1.0.9 - Minor bug fixes. Added option for customer to register during booking process. Custom email for customer registration.. 2022-24-03 =
