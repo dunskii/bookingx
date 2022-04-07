@@ -267,9 +267,10 @@ class BkxBase {
 		if ( empty( $post_id ) ) {
 			return;
 		}
+
 		$base_price = 0;
 		$bkx_post   = get_post( $post_id );
-		$base_price += $this->get_price();
+        $base_price += $this->get_price();
 		$base_time  = $this->get_time( $post_id );
 		$formatted  = '';
 		if ( isset( $base_time['formatted'] ) ) {
@@ -390,9 +391,8 @@ class BkxBase {
 	/**
 	 * Get_price()
 	 *
-	 * @return string
 	 */
-	public function get_price(): string {
+	public function get_price() {
 		$meta_data                      = $this->meta_data;
 		$base_price                     = isset( $meta_data['base_price'] ) ? esc_html( bkx_clean_price_format( $meta_data['base_price'][0] ) ) : 0;
 		$base_sale_price                = isset( $meta_data['base_sale_price'] ) ? esc_html( bkx_clean_price_format( $meta_data['base_sale_price'][0] ) ) : 0;

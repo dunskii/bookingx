@@ -99,9 +99,21 @@ class Bkx_Script_Loader {
 		);
 
 		foreach ( $register_scripts as $name => $props ) {
-			if ( is_bookingx() ) {
-				self::register_script( $name, $props['src'], $props['deps'], $props['version'] );
-			}
+
+            if ( is_admin() && ! isset( $_GET['listing_view'] ) ) {
+                $screen = get_current_screen();
+                $base = $screen->base;
+                $post_type = $screen->post_type;
+                if ( ( $base == 'edit' || $base == 'post') && $post_type == 'bkx_booking') {
+                    self::register_script( $name, $props['src'], $props['deps'], $props['version'] );
+                }
+            }else{
+                if ( is_bookingx() ) {
+                    self::register_script( $name, $props['src'], $props['deps'], $props['version'] );
+                }
+            }
+
+
 		}
 	}
 
@@ -207,10 +219,19 @@ class Bkx_Script_Loader {
 				),
 			)
 		);
-		if ( is_bookingx() ) {
-			return $register_styles;
-		}
 
+        if ( is_admin() && ! isset( $_GET['listing_view'] ) ) {
+            $screen = get_current_screen();
+            $base = $screen->base;
+            $post_type = $screen->post_type;
+            if ( ( $base == 'edit' || $base == 'post') && $post_type == 'bkx_booking') {
+                return $register_styles;
+            }
+        }else{
+            if ( is_bookingx() ) {
+                return $register_styles;
+            }
+        }
 	}
 
 	/**
@@ -313,6 +334,7 @@ class Bkx_Script_Loader {
 			$base      = $screen->base;
 			$post_type = $screen->post_type;
 			if ( $base == 'post' && $post_type == 'bkx_booking' ) {
+                self::enqueue_script( 'calendar' );
 				self::enqueue_script( 'bkx-booking-form-admin' );
 			} elseif ( isset( $_GET['listing_view'] ) && ( sanitize_text_field( wp_unslash( $_GET['listing_view'] ) ) == 'monthly' || sanitize_text_field( wp_unslash( $_GET['listing_view'] ) ) == 'weekly' ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 				self::enqueue_script( 'fullcalendar' );

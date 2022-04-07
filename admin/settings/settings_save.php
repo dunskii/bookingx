@@ -3,7 +3,7 @@
  * Booking Setting Save
  *
  * @package Bookingx/admin
- * @since      1.0.9
+ * @since      1.0.10
  */
 
 defined( 'ABSPATH' ) || exit;
