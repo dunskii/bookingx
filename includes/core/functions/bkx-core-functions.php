@@ -1587,13 +1587,16 @@ function is_bookingx() {
 	$is_block_called = false;
 	if ( has_blocks( $post->post_content ) ) {
 		$blocks = parse_blocks( $post->post_content );
-
-		if ( $blocks[0]['blockName'] === 'booking-x/bkx-booking-form'
-		     || $blocks[0]['blockName'] === 'booking-x/bkx-seat'
-		     || $blocks[0]['blockName'] === 'booking-x/bkx-base'
-		     || $blocks[0]['blockName'] === 'booking-x/bkx-addition') {
-			$is_block_called = true;
-		}
+        if(!empty($blocks)){
+            foreach ($blocks as $block ){
+                if ( $block['blockName'] === 'booking-x/bkx-booking-form'
+                    || $block['blockName'] === 'booking-x/bkx-seat'
+                    || $block['blockName'] === 'booking-x/bkx-base'
+                    || $block['blockName'] === 'booking-x/bkx-addition') {
+                    $is_block_called = true;
+                }
+            }
+        }
 	}
 
 	return apply_filters(
