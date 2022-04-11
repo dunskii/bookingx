@@ -1532,7 +1532,7 @@ class BkxBooking {
 		$base_time_option                     = get_post_meta( $base_id, 'base_time_option', true );
 		$base_day                             = get_post_meta( $base_id, 'base_day', true );
 		$days_selected                        = array();
-		$booked_days = $this->getBookedDaysBySeatId($seat_id);
+		$booked_days = $this->getBookedDaysBySeatId( $seat_id, $args );
 		$unavailable_days                 = $this->get_all_unavailable_days( $availability );
 		$availability['unavailable_days'] = array_merge( $unavailable_days, $booked_days );
 		$availability['seat_id']          = $args['seat_id'];
@@ -1542,42 +1542,66 @@ class BkxBooking {
 		return apply_filters( 'bkx_calender_unavailable_days', $availability );
 	}
 
-	public function getBookedDaysBySeatId($seat_id){
+	public function getBookedDaysBySeatId($seat_id, $args ){
 		if(empty($seat_id))
 		     return;
 			$booked_days[]  = array();
 		    $search['by']           = 'future';
 			$search['seat_id']      = $seat_id;
 			$search['booking_date'] = date( 'Y-m-d' );
-			
+
 			$booked_data            = $this->GetBookedRecords( $search );
-			
+			$selected_base =  $args['base_id'];
 			if ( ! empty( $booked_data ) ) {
                 $days_selected = array();
 				foreach ( $booked_data as $booking ) {
 					$booked_days[]  = array();
 					$booking_id       = $booking['order_id'];
 					$base_time_option = get_post_meta( $booking_id, 'base_time_option', true );
+					$selected_base_time = get_post_meta( $selected_base, 'base_time_option', true );
 					$base_time_option = ( isset( $base_time_option ) && $base_time_option != '' ) ? $base_time_option : 'H';
-					if ( isset( $base_time_option ) && $base_time_option == 'D' ) {
-						$days_booked = get_post_meta( $booking_id, 'booking_multi_days', true );
-						if ( ! empty( $days_booked ) ) {
-							$last_key      = count( $days_booked ) - 1;
-							$start_date    = date( 'F d, Y', strtotime( $days_booked[0] ) );
-							$end_date      = date( 'F d, Y', strtotime( $days_booked[ $last_key ] ) );
-							$days_selected = bkx_getDatesFromRange( $start_date, $end_date, 'm/d/Y' );
-						}
-					}
-					$date = new DateTime( $booking['booking_date'] );
-					$now  = new DateTime();
-					if ( $date >= $now ) {
-						$booked_days[] = date( 'm/d/Y', strtotime( $booking['booking_date'] ) );
-					}
-					$booked_days = array_merge( $booked_days, $days_selected );
+                    $selected_base_time = ( isset( $selected_base_time ) && $selected_base_time != '' ) ? $selected_base_time : 'H';
+                    if(isset($selected_base_time) && $selected_base_time == "D"){
+                        if ( isset( $base_time_option ) && $base_time_option == 'D' ) {
+                            $days_booked = get_post_meta( $booking_id, 'booking_multi_days', true );
+                            if ( ! empty( $days_booked ) ) {
+                                $last_key      = count( $days_booked ) - 1;
+                                $start_date    = date( 'F d, Y', strtotime( $days_booked[0] ) );
+                                $end_date      = date( 'F d, Y', strtotime( $days_booked[ $last_key ] ) );
+                                $days_selected = bkx_getDatesFromRange( $start_date, $end_date, 'm/d/Y' );
+                            }
+                            $date = new DateTime( $booking['booking_date'] );
+                            $now  = new DateTime();
+                            if ( $date >= $now ) {
+                                $booked_days[] = date( 'm/d/Y', strtotime( $booking['booking_date'] ) );
+                            }
+                            $booked_days = array_merge( $booked_days, $days_selected );
+                        }
+                        if(isset($base_time_option) && $base_time_option == "H" ){
+                            $booked_days[] = date( 'm/d/Y', strtotime( $booking['booking_date'] ) );
+                            $booked_days = array_merge( $booked_days, $days_selected );
+                        }
+                    }
+                    if(isset($selected_base_time) && $selected_base_time == "H"){
+                        if ( isset( $base_time_option ) && $base_time_option == 'D' ) {
+                            $days_booked = get_post_meta( $booking_id, 'booking_multi_days', true );
+                            if ( ! empty( $days_booked ) ) {
+                                $last_key      = count( $days_booked ) - 1;
+                                $start_date    = date( 'F d, Y', strtotime( $days_booked[0] ) );
+                                $end_date      = date( 'F d, Y', strtotime( $days_booked[ $last_key ] ) );
+                                $days_selected = bkx_getDatesFromRange( $start_date, $end_date, 'm/d/Y' );
+                            }
+                            $date = new DateTime( $booking['booking_date'] );
+                            $now  = new DateTime();
+                            if ( $date >= $now ) {
+                                $booked_days[] = date( 'm/d/Y', strtotime( $booking['booking_date'] ) );
+                            }
+                            $booked_days = array_merge( $booked_days, $days_selected );
+                        }
+                    }
 				}
 
-               $booked_days = array_filter($booked_days);
-                //echo "<pre>".print_r($booked_days, true)."</pre>";die;
+                $booked_days = array_filter($booked_days);
                 $booked_days = array_unique( $booked_days );
 			}
 			return $booked_days;
