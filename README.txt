@@ -165,5 +165,5 @@ Automatic updates should work smoothly, but we still recommend you back up your 
 = 1.0.7 - Improved block functionality. 2021-24-09 =
 = 1.0.8 - Minor Bug Fixes. 2022-19-02 =
 = 1.0.9 - Minor bug fixes. Added option for customer to register during booking process. Custom email for customer registration. 2022-24-03 =
-= 1.0.10 - Fixed backend booking form bug (Support Request). Fixed booking form block service selection issue. Fixed WP Debug error displaying on dashboard booking list.  2022-07-12 =
+= 1.0.11 - Fixed backend booking form bug (Support Request). Fixed booking form block service selection issue. Fixed WP Debug error displaying on dashboard booking list.  2022-07-12 =
 = 1.0.11 - Latest WP version 6.0 capability update.  2022-05-27 =
