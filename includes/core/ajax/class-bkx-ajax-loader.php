@@ -550,20 +550,20 @@ class Bkx_Ajax_Loader {
         $base_day         = get_post_meta( $args['base_id'], 'base_day', true );
         $extra_day        = 0;
         if ( ! empty( $args['extra_ids'] ) ) {
-         $extra_ids = $args['extra_ids'];
-         if ( ! empty( $extra_ids ) && $extra_ids != 'None' ) {
+             $extra_ids = $args['extra_ids'];
+             if ($extra_ids != 'None') {
                 foreach ( $extra_ids as $extra_id ) {
                     $BkxExtra   = new BkxExtra( '', $extra_id );
                     $extra_time = $BkxExtra->get_time();
                     if ( $extra_time['type'] == 'D' ) {
-                  $seconds    = $extra_time['in_sec'] / 60 * 60;
-                  $dt1        = new DateTime( '@0' );
-                  $dt2        = new DateTime( "@$seconds" );
-                  $extra_day += $dt1->diff( $dt2 )->d;
-                       }
-                      }
-         }
-              }
+                      $seconds    = $extra_time['in_sec'] / 60 * 60;
+                      $dt1        = new DateTime( '@0' );
+                      $dt2        = new DateTime( "@$seconds" );
+                      $extra_day += $dt1->diff( $dt2 )->d;
+                    }
+                }
+             }
+        }
 
         $allowed[]              = 0;
         $availability_slot_flag = true;
@@ -585,7 +585,8 @@ class Bkx_Ajax_Loader {
                 foreach ( $get_date_range as $date ) {
                  $args['booking_date'] = $date;
                  $weekday              = date( 'l', strtotime( $date ) );
-                 if ( ! empty( $availability['unavailable_days'] ) && in_array( date( 'm/d/Y', strtotime( $date ) ), $availability['unavailable_days'] ) ) {
+                 if ( ! empty( $availability['unavailable_days'] )
+                     && in_array( date( 'm/d/Y', strtotime( $date ) ), $availability['unavailable_days'] ) ) {
                         $already_booked = array( 0 );
                  } elseif ( ! in_array( $weekday, $availability['seat']['days'] ) ) {
                         $already_booked = array( 0 );
@@ -593,12 +594,12 @@ class Bkx_Ajax_Loader {
                         $already_booked = $BkxBooking->GetBookedRecords( $args );
                  }
                  $allowed[] = empty( $already_booked ) ? 1 : 0;
-                      }
+                }
          }
          $args['days_range'] = bkx_getDatesFromRange( $start_date, $end_date, 'Y-m-j' ); // 2019-6-3;
-              }
+        }
         $args['allowed_day_book'] = $allowed;
-        echo $availability_slots  = $BkxBooking->display_availability_slots_html( $args );
+        echo $BkxBooking->display_availability_slots_html( $args );
         wp_die();
 	}
 
