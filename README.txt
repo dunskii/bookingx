@@ -2,9 +2,9 @@
 Contributors: dunskii, dparekh19
 Tags: appointments, appointment booking, availability calendar, booking calendar, booking system, reservations, reservation calendar
 Requires at least: 5.0
-Tested up to: 6.0.1
+Tested up to: 6.0.2
 Requires PHP: 7.0
-Stable tag: 1.0.12
+Stable tag: 1.0.13
 License: GPLv2 or later
 License URI: https://booking-x.com/gpl-licence/
 
@@ -147,8 +147,8 @@ It should be, remember you can set the colours to fit your site by going Setting
 
 == Upgrade Notice ==
 
-= 1.0.12 =
-Minor Bug Fixes.
+= 1.0.13 =
+Latest WP version 6.0.2 capability update.
 
 == Updating ==
 Automatic updates should work smoothly, but we still recommend you back up your site.
@@ -168,3 +168,4 @@ Automatic updates should work smoothly, but we still recommend you back up your 
 = 1.0.10 - Fixed backend booking form bug (Support Request). Fixed booking form block service selection issue. Fixed WP Debug error displaying on dashboard booking list.  2022-07-12 =
 = 1.0.11 - Latest WP version 6.0 capability update.  2022-05-27 =
 = 1.0.12 - Minor Bug Fixes.  2022-07-18 =
+= 1.0.13 - Latest WP version 6.0.2 capability update.  2022-09-13 =
