@@ -21,7 +21,7 @@
  * Also maintains the unique identifier of this plugin as well as the current
  * version of the plugin.
  *
- * @since      1.0.12
+ * @since      1.0.13
  * @package    Bookingx
  * @subpackage Bookingx/includes
  * @author     Dunskii Web Services <divyang@dunskii.com>
