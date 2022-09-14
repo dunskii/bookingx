@@ -891,9 +891,9 @@ class Bookingx_Admin {
 				break;
 			case 'order_total':
 				$currency        = isset( $order_meta['currency'] ) && '' !== $order_meta['currency'] ? $order_meta['currency'] : bkx_get_current_currency();
-				$currency_option = bkx_crud_option_multisite( 'currency_option' );
+				//$currency_option = bkx_crud_option_multisite( 'currency_option' );
 				$total_price     = apply_filters( 'bkx_booking_total_price_update', $order_meta['total_price'], $post->ID );
-				echo sprintf( esc_html( __( '%1$s%2$d %3$s', 'bookingx' ) ), esc_html( $currency ), esc_html( $total_price ), esc_html( $currency_option ) ); //phpcs:ignore
+				echo sprintf( esc_html( __( '%1$s%2$d %3$s', 'bookingx' ) ), esc_html( $currency ), esc_html( $total_price ), "" ); //phpcs:ignore
 				break;
 			case 'order_actions':
 				$order_status   = strtolower( $order_obj->get_order_status( $post->ID ) );
