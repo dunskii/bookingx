@@ -132,7 +132,7 @@ class BkxExtra {
 		$extra_price = 0;
 		$extra_price += $this->get_price();
 		$extra_time  = $this->get_time();
-		$extra_title = "{$this->post->post_title} - {$this->load_global->currency_name}{$this->load_global->currency_sym}{$extra_price} - {$extra_time['formatted']}";
+		$extra_title = "{$this->post->post_title} - {$this->load_global->currency_sym}{$extra_price} - {$extra_time['formatted']}";
 		if ( $plain == true ) {
 			$extra_title = $this->post->post_title;
 		}
@@ -484,7 +484,7 @@ class BkxExtra {
 				// translators: Extra ID Label.
 				$extra_html .= sprintf( __( '<input type="checkbox" class="custom-control-input" id="bkx-extra-service-%1$d" value="%2$d" name="bkx-extra-service">', 'bookingx' ), $extra_id, $extra_id );
 				// translators: Extra Information Label.
-				$extra_html .= sprintf( __( '<label class="custom-control-label" for="bkx-extra-service-%1$d"> %2$s - %3$s%4$s%5$d - %6$s </label>', 'bookingx' ), esc_html( $extra_id ), esc_html( $extra_name ), $this->load_global->currency_name, $this->load_global->currency_sym, esc_html( $extra_price ), $total_time_formatted );
+				$extra_html .= sprintf( __( '<label class="custom-control-label" for="bkx-extra-service-%1$d"> %2$s - %3$s%4$s%5$d - %6$s </label>', 'bookingx' ), esc_html( $extra_id ), esc_html( $extra_name ), "", $this->load_global->currency_sym, esc_html( $extra_price ), $total_time_formatted );
 				$extra_html .= sprintf( '</div>' );
 			}
 		}
