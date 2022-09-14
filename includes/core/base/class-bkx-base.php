@@ -276,7 +276,7 @@ class BkxBase {
 		if ( isset( $base_time['formatted'] ) ) {
 			$formatted = $base_time['formatted'];
 		}
-		$base_title = "{$bkx_post->post_title} - {$this->load_global->currency_name}{$this->load_global->currency_sym}{$base_price} - {$formatted}";
+		$base_title = "{$bkx_post->post_title} - {$this->load_global->currency_sym}{$base_price} - {$formatted}";
 		if ( $plain == true ) {
 			$base_title = $bkx_post->post_title;
 		}
