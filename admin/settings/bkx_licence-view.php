@@ -3,7 +3,7 @@
  * Template load for Addon License Section and Settings
  *
  * @package Bookingx/admin
- * @since      1.0.13
+ * @since      1.0.14
  */
 
 defined( 'ABSPATH' ) || exit;

@@ -2654,19 +2654,19 @@ class BkxBooking {
 	 */
 	public function booking_form_generate_total_formatted( $selected_ids ) {
 		$result                  = $this->booking_form_generate_total( $selected_ids );
-		$result['currency_name'] = $this->load_global->currency_name;
+		//$result['currency_name'] = $this->load_global->currency_name;
 		$result['currency_sym']  = $this->load_global->currency_sym;
 		$grand_total             = $result['total_price'];
 		if ( ! empty( $result['tax'] ) ) {
 			$grand_total                       = $result['tax']['grand_total'];
-			$result['total_tax_formatted']     = "{$result['currency_name']}{$result['currency_sym']}{$result['tax']['total_tax']}";
-			$result['sub_total_tax_formatted'] = "{$result['currency_name']}{$result['currency_sym']}{$result['tax']['total_price']}";
+			$result['total_tax_formatted']     = "{$result['currency_sym']}{$result['tax']['total_tax']}";
+			$result['sub_total_tax_formatted'] = "{$result['currency_sym']}{$result['tax']['total_price']}";
 		} else {
-			$result['sub_total_tax_formatted'] = "{$result['currency_name']}{$result['currency_sym']}{$result['total_price']}";
+			$result['sub_total_tax_formatted'] = "{$result['currency_sym']}{$result['total_price']}";
 		}
-		$short_currency_name             = substr( $result['currency_name'], 0, 1 );
-		$result['total_price_formatted'] = "{$result['currency_name']}{$result['currency_sym']}{$result['total_price']}";
-		$result['grand_total_formatted'] = "{$short_currency_name}{$result['currency_sym']}{$grand_total}";
+		//$short_currency_name             = substr( $result['currency_name'], 0, 1 );
+		$result['total_price_formatted'] = "{$result['currency_sym']}{$result['total_price']}";
+		$result['grand_total_formatted'] = "{$result['currency_sym']}{$grand_total}";
 		$seat_address                    = '';
 		if ( isset( $selected_ids['seat_id'] ) ) {
 			$SeatObj      = new BkxSeat( '', $selected_ids['seat_id'] );
