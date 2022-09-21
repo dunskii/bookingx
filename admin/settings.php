@@ -3,7 +3,7 @@
  * Page Load for BookingX Settings
  *
  * @package Bookingx/admin
- * @since      1.0.14
+ * @since      1.0.15
  */
 
 defined( 'ABSPATH' ) || exit;

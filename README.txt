@@ -4,7 +4,7 @@ Tags: appointments, appointment booking, availability calendar, booking calendar
 Requires at least: 5.0
 Tested up to: 6.0.2
 Requires PHP: 7.0
-Stable tag: 1.0.14
+Stable tag: 1.0.15
 License: GPLv2 or later
 License URI: https://booking-x.com/gpl-licence/
 
@@ -147,8 +147,8 @@ It should be, remember you can set the colours to fit your site by going Setting
 
 == Upgrade Notice ==
 
-= 1.0.14 =
-Fixed currency display issue - bug request by Roy.
+= 1.0.15 =
+Changed Uganda currency symbol to UGX - user request.
 
 == Updating ==
 Automatic updates should work smoothly, but we still recommend you back up your site.
@@ -170,3 +170,4 @@ Automatic updates should work smoothly, but we still recommend you back up your 
 = 1.0.12 - Minor Bug Fixes.  2022-07-18 =
 = 1.0.13 - Latest WP version 6.0.2 capability update.  2022-09-13 =
 = 1.0.14 - Fixed currency display issue - bug request by Roy.  2022-09-14 =
+= 1.0.15 - Changed Uganda currency symbol to UGX - user request.  2022-09-21 =
