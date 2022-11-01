@@ -2803,10 +2803,14 @@ class BkxBooking {
 		if ( is_admin() ) {
 			$seat_id = get_current_user_id();
 		}
-		$current_user   = get_current_user_id();
+		$_user_id   = get_current_user_id();
+        $current_user  = wp_get_current_user();
+        $current_role  = $current_user->roles[0];
+
 		$search_by_user = array();
+        $search_by_seat = array();
 		if ( is_user_logged_in() && ! current_user_can( 'administrator' ) ) {
-			$user_obj       = get_user_by( 'id', $current_user );
+			$user_obj       = get_user_by( 'id', $_user_id );
 			$user_email     = $user_obj->user_email;
 			$search_by_user = array(
 				'relation' => 'OR',
@@ -2817,28 +2821,28 @@ class BkxBooking {
 				),
 				array(
 					'key'     => 'created_by',
-					'value'   => $current_user,
+					'value'   => $_user_id,
 					'compare' => '=',
 				),
 			);
 
 		}
+
+        if ( $bkx_seat_role === $current_role ){
+            $seat_id =  get_user_meta($_user_id, 'seat_post_id', true );
+            $search_by_user = array();
+            $search_by_seat = array(
+                'relation' => 'AND',
+                    array(
+                        'key'     => 'seat_id',
+                        'value'   => $seat_id,
+                        'compare' => 'IN',
+                    )
+            );
+        } // Query for Seat user booking data.
+
 		$args = array();
 		switch ( $search_by ) {
-			case $bkx_seat_role: // Query for Seat user booking data.
-				$args = array(
-					'post_type'      => $this->post_type,
-					'post_status'    => $status,
-					'posts_per_page' => - 1,
-					'meta_query'     => array(
-						array(
-							'key'     => 'seat_id',
-							'value'   => $seat_id,
-							'compare' => 'IN',
-						),
-					),
-				);
-				break;
 			case ( $search_by == 'future' ):
 				$args = array(
 					'post_type'      => $this->post_type,
@@ -2851,6 +2855,7 @@ class BkxBooking {
 							'compare' => '>=',
 						),
 						$search_by_user,
+                        $search_by_seat
 					),
 				);
 				break;
@@ -2866,6 +2871,7 @@ class BkxBooking {
 							'compare' => '<',
 						),
 						$search_by_user,
+                        $search_by_seat
 					),
 				);
 				break;

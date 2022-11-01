@@ -101,7 +101,6 @@ class Bkx_Meta_Boxes {
 			$seat_alias         = bkx_crud_option_multisite( 'bkx_alias_seat' );
 			$base_alias         = bkx_crud_option_multisite( 'bkx_alias_base' );
 			$addition_alias     = bkx_crud_option_multisite( 'bkx_alias_addition' );
-
 			$payment_status      = '';
 			$check_total_payment = 0;
 			$payment_meta        = get_post_meta( $order_id, 'payment_meta', true );
