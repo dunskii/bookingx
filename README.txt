@@ -4,7 +4,7 @@ Tags: appointments, appointment booking, availability calendar, booking calendar
 Requires at least: 5.0
 Tested up to: 6.0.2
 Requires PHP: 7.0
-Stable tag: 1.0.15
+Stable tag: 1.0.16
 License: GPLv2 or later
 License URI: https://booking-x.com/gpl-licence/
 
@@ -147,7 +147,7 @@ It should be, remember you can set the colours to fit your site by going Setting
 
 == Upgrade Notice ==
 
-= 1.0.15 =
+= 1.0.16 =
 Changed Uganda currency symbol to UGX - user request.
 
 == Updating ==
