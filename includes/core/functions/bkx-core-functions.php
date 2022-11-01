@@ -1585,7 +1585,7 @@ function is_bookingx() {
 
 	$post = get_post();
 	$is_block_called = false;
-	if ( has_blocks( $post->post_content ) ) {
+	if ( !empty($post) && has_blocks( $post->post_content ) ) {
 		$blocks = parse_blocks( $post->post_content );
         if(!empty($blocks)){
             foreach ($blocks as $block ){
@@ -1613,7 +1613,7 @@ function is_bookingx() {
  */
 function is_booking_page() {
 	$post = get_post();
-	if ( has_blocks( $post->post_content ) ) {
+	if ( !empty($post) && has_blocks( $post->post_content ) ) {
 		$blocks = parse_blocks( $post->post_content );
 		if ( $blocks[0]['blockName'] === 'booking-x/bkx-booking-form' ) {
 			return true;

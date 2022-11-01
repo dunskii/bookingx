@@ -3,7 +3,7 @@
  * Template load for Business Information Section and Settings
  *
  * @package Bookingx/admin
- * @since      1.0.15
+ * @since      1.0.16
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -617,7 +617,7 @@ if ( ! empty( $current_submenu_active ) && 'alias' === $current_submenu_active )
 			</tr>
 
 			<tr class="active bkx-customer-dashboard-main">
-				<th scope="row"><label for="edit and delete bookings"><?php echo esc_html__( 'Enable Customer Dashboard', 'bookingx' ); ?></label></th>
+				<th scope="row"><label for="edit and delete bookings"><?php echo esc_html__( 'Enable Frontend Dashboard', 'bookingx' ); ?></label></th>
 
 				<td class="plugin-description">
 					<div class="radio-button-section">

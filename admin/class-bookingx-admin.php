@@ -3,7 +3,7 @@
  * The admin-specific functionality of the plugin.
  *
  * @link       https://dunskii.com
- * @since      1.0.15
+ * @since      1.0.16
  *
  * @package    Bookingx
  * @subpackage Bookingx/admin
@@ -13,7 +13,7 @@ class Bookingx_Admin {
 	/**
 	 * The ID of this plugin.
 	 *
-	 * @since      1.0.15
+	 * @since      1.0.16
 	 * @access   private
 	 * @var      string $plugin_name The ID of this plugin.
 	 */
@@ -22,7 +22,7 @@ class Bookingx_Admin {
 	/**
 	 * The version of this plugin.
 	 *
-	 * @since      1.0.15
+	 * @since      1.0.16
 	 * @access   private
 	 * @var      string $version The current version of this plugin.
 	 */
@@ -33,7 +33,7 @@ class Bookingx_Admin {
 	 *
 	 * @param string $plugin_name The name of this plugin.
 	 * @param string $version The version of this plugin.
-	 * @since      1.0.15
+	 * @since      1.0.16
 	 */
 	public function __construct( $plugin_name = null, $version = null ) {
 		$this->plugin_name = $plugin_name;
@@ -41,10 +41,7 @@ class Bookingx_Admin {
 
 		add_filter( 'bkx_calender_unavailable_days', array( $this, 'bkx_calender_unavailable_days' ) );
 		add_filter( 'register_post_type_args', array( $this, 'bkx_seat_post_type_args' ), 10, 2 );
-
 	}
-
-
 
 
 	/**
@@ -362,6 +359,7 @@ class Bookingx_Admin {
 	 */
 	function bkx_add_meta_query( $query ) {
 		// phpcs:disable WordPress.DateTime.RestrictedFunctions.date_date
+
 		global $pagenow;
 		if ( ! is_admin() || ! $query->is_main_query() ) {
 			return;
@@ -370,6 +368,7 @@ class Bookingx_Admin {
 		if ( isset( $pagenow ) && 'edit.php' !== $pagenow || 'bkx_booking' !== $query->query_vars['post_type'] ) {
 			return;
 		}
+
 		$seat_view               = isset( $query->query_vars['seat_view'] ) ? $query->query_vars['seat_view'] : '';
 		$search_by_dates         = isset( $query->query_vars['search_by_dates'] ) ? $query->query_vars['search_by_dates'] : '';
 		$search_by_selected_date = isset( $query->query_vars['search_by_selected_date'] ) ? $query->query_vars['search_by_selected_date'] : '';
@@ -404,19 +403,21 @@ class Bookingx_Admin {
 			);
 			$query->set( 'meta_query', $seat_view_query );
 		}
+
 		if ( isset( $search_by_dates ) && '' !== $search_by_dates ) {
 			switch ( $search_by_dates ) {
 				case 'today':
+                    $today             = date( 'Y-m-j' );
 					$search_by_dates_meta = array(
 						array(
 							'key'     => 'booking_date',
-							'value'   => date( 'Y-m-d' ),
+							'value'   => $today,
 							'compare' => '=',
 						),
 					);
 					break;
 				case 'tomorrow':
-					$tomorrow             = date( 'Y-m-d', strtotime( '+1 day' ) );
+					$tomorrow             = date( 'Y-m-j', strtotime( '+1 day' ) );
 					$search_by_dates_meta = array(
 						array(
 							'key'     => 'booking_date',
@@ -426,8 +427,8 @@ class Bookingx_Admin {
 					);
 					break;
 				case 'this_week':
-					$monday               = date( 'Y-m-d', strtotime( 'monday this week' ) );
-					$sunday               = date( 'Y-m-d', strtotime( 'sunday this week' ) );
+					$monday               = date( 'Y-m-j', strtotime( 'monday this week' ) );
+					$sunday               = date( 'Y-m-j', strtotime( 'sunday this week' ) );
 					$search_by_dates_meta = array(
 						array(
 							'key'     => 'booking_date',
@@ -437,8 +438,8 @@ class Bookingx_Admin {
 					);
 					break;
 				case 'next_week':
-					$monday               = date( 'Y-m-d', strtotime( 'monday next week' ) );
-					$sunday               = date( 'Y-m-d', strtotime( 'sunday next week' ) );
+					$monday               = date( 'Y-m-j', strtotime( 'monday next week' ) );
+					$sunday               = date( 'Y-m-j', strtotime( 'sunday next week' ) );
 					$search_by_dates_meta = array(
 						array(
 							'key'     => 'booking_date',
@@ -448,7 +449,7 @@ class Bookingx_Admin {
 					);
 					break;
 				case 'this_month':
-					$monday               = date( 'Y-m-01' );
+					$monday               = date( 'Y-m-1' );
 					$sunday               = date( 'Y-m-t' );
 					$search_by_dates_meta = array(
 						array(
@@ -488,7 +489,6 @@ class Bookingx_Admin {
 			}
 		}
 		// phpcs:enable WordPress.DateTime.RestrictedFunctions.date_date
-
 	}
 
 	/**
@@ -633,7 +633,7 @@ class Bookingx_Admin {
 	/**
 	 * Register the stylesheets for the admin area.
 	 *
-	 * @since      1.0.15
+	 * @since      1.0.16
 	 */
 	public function enqueue_styles() {
 		/**
@@ -655,7 +655,7 @@ class Bookingx_Admin {
 	/**
 	 * Register the JavaScript for the admin area.
 	 *
-	 * @since      1.0.15
+	 * @since      1.0.16
 	 */
 	public function enqueue_scripts() {
 		/**
@@ -1151,8 +1151,10 @@ class Bookingx_Admin {
 	 * @param null      $which
 	 */
 	public function bkx_booking_seat_view( $post_type, $which = null ) {
-		if ( 'bkx_booking' === $post_type ) {
 
+		if ( 'bkx_booking' === $post_type ) {
+            global $wp_query;
+            $seat_view               = isset( $wp_query->query_vars['seat_view'] ) ? (int) $wp_query->query_vars['seat_view'] : '';
 			$args           = array(
 				'posts_per_page'   => -1,
 				'post_type'        => 'bkx_seat',
@@ -1173,7 +1175,8 @@ class Bookingx_Admin {
 				<select name="seat_view" class="seat_view">
 					<option> Select <?php echo esc_html( $alias_seat ); ?> </option>
 					<?php
-					$seat_view = isset( $_GET['seat_view'] ) ? sanitize_text_field( $_GET['seat_view'] ) : ''; //phpcs:ignore
+
+					//$seat_view = isset( $_GET['seat_view'] ) ? sanitize_text_field( $_GET['seat_view'] ) : ''; //phpcs:ignore
 					foreach ( $seat_obj as $seat_id => $seat_name ) {
 						printf(
 							'<option value="%s" %s>%s</option>',
