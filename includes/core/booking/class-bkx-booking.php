@@ -2988,6 +2988,11 @@ class BkxBooking {
 				)
 			)
 		);
+        $terms = explode(' ', $term);
+        $sql_format = array();
+        foreach ($terms as $string){
+            $sql_format[]= " p1.meta_value LIKE  '%".$wpdb->esc_like( bkx_clean( $string ) )."%' ";
+        }
 		// Search orders.
 		$post_ids = array_unique(
 			array_merge(
@@ -2995,13 +3000,11 @@ class BkxBooking {
 					$wpdb->prepare(
 						"
                         SELECT DISTINCT p1.post_id FROM {$wpdb->postmeta} p1 INNER JOIN {$wpdb->posts} p2 ON p1.post_id = p2.ID WHERE( p1.meta_key IN ('" . implode( "','", array_map( 'esc_sql', $search_fields ) ) . "') 
-                            AND p1.meta_value LIKE %s )",
-						'%' . $wpdb->esc_like( bkx_clean( $term ) ) . '%'
+                            AND ( ". implode(' OR ', $sql_format).") )"
 					)
 				)
 			)
 		);
-
 		return $post_ids;
 	}
 }
