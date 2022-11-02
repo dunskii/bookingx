@@ -638,7 +638,7 @@ if ( ! empty( $current_submenu_active ) && 'alias' === $current_submenu_active )
 							?>
 						> <?php printf( esc_html__( 'No', 'bookingx' ) ); ?>
 					</div>
-					<div class="shortcode-section" style="display: none;"><label>Shortcode : </label><code spellcheck="false">['bkx_my_account']</code></div>
+					<div class="shortcode-section" style="display: none;"><label>Shortcode : </label><code spellcheck="false">[bkx_my_account]</code></div>
 				</td>
 			</tr>
 
