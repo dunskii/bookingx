@@ -340,6 +340,7 @@ class Bookingx_Admin {
 		if ( 'edit.php' !== $pagenow || empty( $wp->query_vars['s'] ) || 'bkx_booking' !== $wp->query_vars['post_type'] ) {
 			return;
 		}
+
 		$order    = new BkxBooking();
 		$post_ids = $order->order_search( $wp->query_vars['s'] );
 
@@ -428,42 +429,64 @@ class Bookingx_Admin {
 					);
 					break;
 				case 'this_week':
-					$monday               = date( 'Y-m-t', strtotime( 'monday this week' ) );
-					$sunday               = date( 'Y-m-t', strtotime( 'sunday this week' ) );
-					$search_by_dates_meta = array(
-						array(
-							'key'     => 'booking_date',
-							'value'   => array( $monday, $sunday ),
-							'compare' => 'BETWEEN',
-						),
-					);
+					$monday               = date( 'Y-m-j', strtotime( 'monday this week' ) );
+					$last_date            = date( 'Y-m-j', strtotime( 'sunday this week' ) );
+                    $search_by_dates_meta = array(
+                        array(
+                            'relation' => 'AND',
+                            array(
+                                'key'     => 'booking_date',
+                                'value'   => $monday,
+                                'compare' => '>=',
+                                'type'=>'date',
+                            ),
+                            array(
+                                'key'     => 'booking_date',
+                                'value'   =>  $last_date,
+                                'compare' => '<=',
+                                'type'=>'date',
+                            ),
+                        ),
+                    );
 					break;
 				case 'next_week':
-					$monday               = date( 'Y-m-t', strtotime( 'monday next week' ) );
-					$sunday               = date( 'Y-m-t', strtotime( 'sunday next week' ) );
-					$search_by_dates_meta = array(
-						array(
-							'key'     => 'booking_date',
-							'value'   => array( $monday, $sunday ),
-							'compare' => 'BETWEEN',
-						),
-					);
+					$monday               = date( 'Y-m-j', strtotime( 'monday next week' ) );
+					$sunday               = date( 'Y-m-j', strtotime( 'sunday next week' ) );
+                    $search_by_dates_meta = array(
+                        array(
+                            'relation' => 'AND',
+                            array(
+                                'key'     => 'booking_date',
+                                'value'   => $monday,
+                                'compare' => '>=',
+                                'type'=>'date',
+                            ),
+                            array(
+                                'key'     => 'booking_date',
+                                'value'   =>  $sunday,
+                                'compare' => '<=',
+                                'type'=>'date',
+                            ),
+                        ),
+                    );
 					break;
 				case 'this_month':
 					$monday               = date( 'Y-m-1' );
 					$sunday               = date( 'Y-m-t' );
 					$search_by_dates_meta = array(
 						array(
-							'relation' => 'OR',
+							'relation' => 'AND',
 							array(
 								'key'     => 'booking_date',
-								'value'   => array( $monday, $sunday ),
-								'compare' => 'BETWEEN',
+								'value'   => $monday,
+								'compare' => '>=',
+                                'type'=>'date',
 							),
 							array(
 								'key'     => 'booking_date',
-								'value'   => array( date( 'Y-n-1' ), $sunday ),
-								'compare' => 'BETWEEN',
+								'value'   =>  $sunday,
+								'compare' => '<=',
+                                'type'=>'date',
 							),
 						),
 					);
