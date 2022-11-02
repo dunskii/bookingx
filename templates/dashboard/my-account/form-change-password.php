@@ -30,10 +30,13 @@ do_action( 'bkx_before_customer_change_password_form' );
 						<input type="password" name="current_password" class="form-control bkx-current_password" id="inputPasswordOld" required="">
 						<div class="invalid-feedback current_password-feedback"><?php esc_html_e( 'Please enter current password.', 'bookingx' ); ?></div>
 					</div>
+                    <?php $recommended_text = "Recommended : The password must be 8-20 characters, and must <em>not</em> contain spaces.";
+                    $allowed_tag = array('em');
+                    $recommended = wp_kses( $recommended_text, $allowed_tag );?>
 					<div class="form-group">
 						<label for="inputPasswordNew"><?php esc_html_e( 'New Password', 'bookingx' ); ?></label>
 						<input type="password" name="new_password" class="form-control bkx-new_password" id="inputPasswordNew" required="">
-						<span class="form-text small text-muted"><?php echo esc_html__( 'Recommended : The password must be 8-20 characters, and must <em>not</em> contain spaces.', 'bookingx' ); ?></span>
+						<span class="form-text small text-muted"><?php echo $recommended; ?></span>
 						<div class="invalid-feedback new_password-feedback"><?php esc_html_e( 'Please enter new password.', 'bookingx' ); ?></div>
 					</div>
 					<div class="form-group">
