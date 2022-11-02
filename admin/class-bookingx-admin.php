@@ -342,6 +342,7 @@ class Bookingx_Admin {
 		}
 		$order    = new BkxBooking();
 		$post_ids = $order->order_search( $wp->query_vars['s'] );
+
 		if ( ! empty( $wp->query_vars['s'] ) ) {
 			// Remove "s" - we don't want to search order name.
 			unset( $wp->query_vars['s'] );
@@ -427,8 +428,8 @@ class Bookingx_Admin {
 					);
 					break;
 				case 'this_week':
-					$monday               = date( 'Y-m-j', strtotime( 'monday this week' ) );
-					$sunday               = date( 'Y-m-j', strtotime( 'sunday this week' ) );
+					$monday               = date( 'Y-m-t', strtotime( 'monday this week' ) );
+					$sunday               = date( 'Y-m-t', strtotime( 'sunday this week' ) );
 					$search_by_dates_meta = array(
 						array(
 							'key'     => 'booking_date',
@@ -438,8 +439,8 @@ class Bookingx_Admin {
 					);
 					break;
 				case 'next_week':
-					$monday               = date( 'Y-m-j', strtotime( 'monday next week' ) );
-					$sunday               = date( 'Y-m-j', strtotime( 'sunday next week' ) );
+					$monday               = date( 'Y-m-t', strtotime( 'monday next week' ) );
+					$sunday               = date( 'Y-m-t', strtotime( 'sunday next week' ) );
 					$search_by_dates_meta = array(
 						array(
 							'key'     => 'booking_date',
@@ -854,6 +855,7 @@ class Bookingx_Admin {
 		} else {
 			list($date_data, $duration) = getDayDateDuration( $post->ID );
 		}
+        //echo "<pre>".print_r(get_post_meta($post->ID), true)."</pre>";
 		switch ( $column ) {
 			case 'order_status':
 				$order_status = $order_obj->get_order_status( $post->ID );
