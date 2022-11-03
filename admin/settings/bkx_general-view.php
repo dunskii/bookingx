@@ -623,12 +623,14 @@ if ( ! empty( $current_submenu_active ) && 'alias' === $current_submenu_active )
 					<div class="radio-button-section">
 						<input type="radio" name="bkx_enable_customer_dashboard" id="id_bkx_enable_customer_dashboard_yes" value="1"
 							<?php
+                            $shortcode_style = "none";
 							if ( bkx_crud_option_multisite( 'bkx_enable_customer_dashboard' ) === 1 ||
 								 bkx_crud_option_multisite( 'bkx_enable_customer_dashboard' ) === '1' ) {
+                                $shortcode_style = "block";
 								echo 'checked';
 							}
-							?>
-						><?php printf( esc_html__( 'Yes', 'bookingx' ) ); ?>
+							?>>
+						<?php printf( esc_html__( 'Yes', 'bookingx' ) ); ?>
 						<input type="radio" name="bkx_enable_customer_dashboard" id="id_bkx_enable_customer_dashboard_no" value="0"
 							<?php
 							if ( bkx_crud_option_multisite( 'bkx_enable_customer_dashboard' ) === 0 ||
@@ -638,9 +640,10 @@ if ( ! empty( $current_submenu_active ) && 'alias' === $current_submenu_active )
 							?>
 						> <?php printf( esc_html__( 'No', 'bookingx' ) ); ?>
 					</div>
-					<div class="shortcode-section" style="display: none;"><label>Shortcode : </label><code spellcheck="false">[bkx_my_account]</code></div>
 				</td>
 			</tr>
+            <tr><td></td><td><div class="shortcode-section" style="display: <?php echo $shortcode_style;?>;">
+                        <label>Shortcode :  Dashboard <code spellcheck="false">[bkx_dashboard]</code> My Account : <code spellcheck="false">[bkx_my_account]</code></label></div></td></tr>
 
             <tr class="active ">
                 <th scope="row"><label for="Allow customer to register during booking process"><?php echo esc_html__( 'Allow customer to register during booking process', 'bookingx' ); ?></label></th>
