@@ -2990,8 +2990,14 @@ class BkxBooking {
 		);
         $terms = explode(' ', $term);
         $sql_format = array();
+        $counter = 1;
+        $inner_counter = 2;
+        $inner_join = array();
         foreach ($terms as $string){
-            $sql_format[]= " p1.meta_value LIKE  '%".$wpdb->esc_like( bkx_clean( $string ) )."%' ";
+            $sql_format[]= " p{$inner_counter}.meta_value LIKE  '%".$wpdb->esc_like( bkx_clean( $string ) )."%' ";
+            $inner_join[] = " INNER JOIN {$wpdb->postmeta} p{$inner_counter} ON p1.ID = p{$inner_counter}.post_id   ";
+            $counter ++;
+            $inner_counter ++;
         }
 		// Search orders.
 		$post_ids = array_unique(
@@ -2999,8 +3005,12 @@ class BkxBooking {
 				$wpdb->get_col(
 					$wpdb->prepare(
 						"
-                        SELECT DISTINCT p1.post_id FROM {$wpdb->postmeta} p1 INNER JOIN {$wpdb->posts} p2 ON p1.post_id = p2.ID WHERE( p1.meta_key IN ('" . implode( "','", array_map( 'esc_sql', $search_fields ) ) . "') 
-                            AND ( ". implode(' OR ', $sql_format).") )"
+                            SELECT DISTINCT p1.ID 
+                            FROM {$wpdb->posts} p1 
+                            ". implode(' ', $inner_join)."
+                            WHERE 1=1 
+                            AND ( p2.meta_key IN ('" . implode( "','", array_map( 'esc_sql', $search_fields ) ) . "') 
+                            AND ( ". implode(' AND ', $sql_format).") )"
 					)
 				)
 			)
