@@ -270,7 +270,7 @@ class Bookingx_Admin {
 			'add_new'            => __( 'Add Booking', 'bookingx' ),
 			'edit_item'          => __( 'Update Booking', 'bookingx' ),
 			'update_item'        => __( 'Update booking', 'bookingx' ),
-			'search_items'       => __( 'Search bookings', 'bookingx' ),
+			'search_items'       => __( 'Find Customer', 'bookingx' ),
 			'not_found'          => __( ' Booking\'s not Found', 'bookingx' ),
 			'not_found_in_trash' => __( 'Booking\'s not found in Trash', 'bookingx' ),
 		);
