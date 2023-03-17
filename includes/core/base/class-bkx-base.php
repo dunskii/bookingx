@@ -54,7 +54,7 @@ class BkxBase {
 	/**
 	 * $get_price
 	 *
-	 * @var string
+	 * @var float
 	 */
 	public $get_price;
 
@@ -145,7 +145,7 @@ class BkxBase {
 	 */
 	public function __construct( $bkx_post = null, $post_id = null ) {
 		if ( is_multisite() ) :
-			$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+			$blog_id = get_current_blog_id();
 			switch_to_blog( $blog_id );
 		endif;
 
@@ -232,7 +232,7 @@ class BkxBase {
 		}
 
 		if ( is_multisite() ) :
-			$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+			$blog_id = get_current_blog_id();
 			switch_to_blog( $blog_id );
 		endif;
 		$base_lists = $this->get_base_by_seat( $seat_id );
@@ -264,7 +264,7 @@ class BkxBase {
 	 */
 	public function get_title( $plain = false ) {
 		$post_id = $this->id;
-		if ( empty( $post_id ) ) {
+		if ( empty( $post_id ) || $post_id == 'NaN' ) {
 			return;
 		}
 
@@ -276,6 +276,7 @@ class BkxBase {
 		if ( isset( $base_time['formatted'] ) ) {
 			$formatted = $base_time['formatted'];
 		}
+
 		$base_title = "{$bkx_post->post_title} - {$this->load_global->currency_sym}{$base_price} - {$formatted}";
 		if ( $plain == true ) {
 			$base_title = $bkx_post->post_title;
@@ -394,8 +395,9 @@ class BkxBase {
 	 */
 	public function get_price() {
 		$meta_data                      = $this->meta_data;
-		$base_price                     = isset( $meta_data['base_price'] ) ? esc_html( bkx_clean_price_format( $meta_data['base_price'][0] ) ) : 0;
-		$base_sale_price                = isset( $meta_data['base_sale_price'] ) ? esc_html( bkx_clean_price_format( $meta_data['base_sale_price'][0] ) ) : 0;
+
+		$base_price                     = isset( $meta_data['base_price'] ) ? esc_html( $meta_data['base_price'][0] ) : 0;
+		$base_sale_price                = isset( $meta_data['base_sale_price'] ) ? esc_html( $meta_data['base_sale_price'][0] ) : 0;
 		$price_array['base_price']      = bkx_clean_price_format($base_price );
 		$price_array['base_sale_price'] = bkx_clean_price_format($base_sale_price );
 		$price_array['meta_data']       = $meta_data;
@@ -585,7 +587,7 @@ class BkxBase {
 		}
 
 		if ( is_multisite() ) :
-			$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+			$blog_id = get_current_blog_id();
 			switch_to_blog( $blog_id );
 		endif;
 

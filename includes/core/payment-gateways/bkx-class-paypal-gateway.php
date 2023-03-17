@@ -29,7 +29,7 @@ class BkxPaymentPayPalExpress {
 	 */
 	public function __construct( $order_id = null ) {
 		if ( is_multisite() ) :
-			$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+			$blog_id = get_current_blog_id();
 			switch_to_blog( $blog_id );
 		endif;
         // phpcs:disable WordPress.Security.NonceVerification

@@ -29,6 +29,7 @@ class Bkx_Ajax_Loader {
 	public static function define_ajax() {
      // phpcs:disable
      if ( ! empty( $_GET['bkx-ajax'] ) ) {
+
             bkx_maybe_define_constant( 'DOING_AJAX', true );
             bkx_maybe_define_constant( 'BKX_DOING_AJAX', true );
             if ( ! WP_DEBUG || ( WP_DEBUG && ! WP_DEBUG_DISPLAY ) ) {
@@ -402,7 +403,7 @@ class Bkx_Ajax_Loader {
         if ( ! empty( $_POST['base_id'] ) ) {
          $args['seat_id']        = sanitize_text_field( wp_unslash( $_POST['seat_id'] ) );
          $args['base_id']        = sanitize_text_field( wp_unslash( $_POST['base_id'] ) );
-         $args['service_extend'] = ( isset( $_POST['service_extend'] ) && $_POST['service_extend'] > 0 ) ? sanitize_text_field( wp_unslash( $_POST['service_extend'] ) ) : 0;
+         $args['service_extend'] = ( isset( $_POST['service_extend'] ) && $_POST['service_extend'] != 'NaN' && $_POST['service_extend'] > 0 ) ? sanitize_text_field( wp_unslash( $_POST['service_extend'] ) ) : 0;
          if ( isset( $_POST['extra_id'] ) && ! empty( $_POST['extra_id'] ) && $_POST['extra_id'] != 'None' ) {
                 $args['extra_ids'] = array_map( 'absint', (array) isset( $_POST['extra_id'] ) ? wp_unslash( $_POST['extra_id'] ) : array() );
          }
@@ -787,7 +788,7 @@ class Bkx_Ajax_Loader {
 	public static function check_staff_availability() {
          check_ajax_referer( 'check-staff-availability', 'security' );
         if ( is_multisite() ) :
-            $blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+            $blog_id = get_current_blog_id();
             switch_to_blog( $blog_id );
 		endif;
 
