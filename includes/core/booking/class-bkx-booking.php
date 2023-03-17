@@ -160,7 +160,7 @@ class BkxBooking {
 	public function update_status( $status, $email = true ) {
 		//phpcs:disable WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase
 		if ( is_multisite() ) :
-			$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+			$blog_id = get_current_blog_id();
 			switch_to_blog( $blog_id );
 		endif;
 
@@ -210,7 +210,7 @@ class BkxBooking {
 		}
 
 		if ( is_multisite() ) :
-			$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+			$blog_id = get_current_blog_id();
 			switch_to_blog( $blog_id );
 		endif;
 		$StatusObj = get_post_status_object( get_post_status( $order_id ) );
@@ -235,7 +235,7 @@ class BkxBooking {
 	 */
 	public function add_order_note( $note, $is_customer_note = 0, $added_by_user = false, $order_id = null, $comment_type = 'booking_note' ) {
 		if ( is_multisite() ) :
-			$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+			$blog_id = get_current_blog_id();
 			switch_to_blog( $blog_id );
 		endif;
 
@@ -405,7 +405,7 @@ class BkxBooking {
 	 */
 	public function GetBookedRecords( $search = null ) {
 		if ( is_multisite() ) :
-			$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+			$blog_id = get_current_blog_id();
 			switch_to_blog( $blog_id );
 		endif;
 
@@ -572,7 +572,7 @@ class BkxBooking {
 		}
 
 		if ( is_multisite() ) :
-			$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+			$blog_id = get_current_blog_id();
 			switch_to_blog( $blog_id );
 		endif;
 
@@ -707,7 +707,7 @@ class BkxBooking {
 			$order_id = $this->order_id;
 		}
 		if ( is_multisite() ) :
-			$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+			$blog_id = get_current_blog_id();
 			switch_to_blog( $blog_id );
 		endif;
 
@@ -844,7 +844,7 @@ class BkxBooking {
 	 */
 	public function get_verify_slot( $args, $echo = true ) {
 		if ( is_multisite() ) :
-			$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+			$blog_id = get_current_blog_id();
 			switch_to_blog( $blog_id );
 		endif;
 		$lastSlotNumber       = 0;
@@ -1294,7 +1294,7 @@ class BkxBooking {
 	 */
 	public function get_display_availability_slots( $args ) {
 		if ( is_multisite() ) :
-			$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+			$blog_id = get_current_blog_id();
 			switch_to_blog( $blog_id );
 		endif;
 
@@ -1659,7 +1659,7 @@ class BkxBooking {
 			$post_data = $this->CreateBookingData( $form_post_data );
 		}
 		if ( is_multisite() ) :
-			$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+			$blog_id = get_current_blog_id();
 			switch_to_blog( $blog_id );
 		endif;
 
@@ -1974,9 +1974,10 @@ class BkxBooking {
 		$service_extend_total = 0;
 		if ( ! empty( $base_id ) && $base_id != '' && $base_id != 'NaN' ) {
 			$BkxBase    = new BkxBase( null, $base_id );
-			$base_price = $BkxBase->get_price;
+			$base_price = bkx_clean_price_format( $BkxBase->get_price );
 			$base_price = apply_filters( 'bkx_base_price_booking_total', $base_price, $base_id );
 			if ( isset( $service_extend ) && $service_extend > 0 ) {
+                $service_extend = bkx_clean_price_format( $service_extend );
 				$service_extend_total = $base_price * $service_extend;
 			}
 			$generate_total += $base_price;
@@ -2050,7 +2051,7 @@ class BkxBooking {
 	 */
 	public function create_new_user( $post_data ) {
 		if ( is_multisite() ) :
-			$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+			$blog_id = get_current_blog_id();
 			switch_to_blog( $blog_id );
 		endif;
 		$user_email = sanitize_user( $post_data['email'], true );
@@ -2091,7 +2092,7 @@ class BkxBooking {
 			return;
 		}
 		if ( is_multisite() ) :
-			$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+			$blog_id = get_current_blog_id();
 			switch_to_blog( $blog_id );
 		endif;
 		$user_id      = get_current_user_id();
@@ -2123,7 +2124,7 @@ class BkxBooking {
 	public function generate_order_meta( $post_data, $send_mail = true ) {
 		//phpcs:disable WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase
 		if ( is_multisite() ) :
-			$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+			$blog_id = get_current_blog_id();
 			switch_to_blog( $blog_id );
 		endif;
 
@@ -2573,7 +2574,10 @@ class BkxBooking {
 							$self_edit          = " data-self-edit='1' ";
 							$data_verify        = ' data-verify=' . $args['booking_date'] . '-' . $counter;
 						}
-						$bkx_selected_slots = json_decode( $args['bkx_selected_slots'] );
+                        if( isset($args['bkx_selected_slots']) && !empty($args['bkx_selected_slots']) ){
+                            $bkx_selected_slots = json_decode( $args['bkx_selected_slots'] );
+                        }
+
 						$selected_class     = '';
 						if ( ! empty( $bkx_selected_slots ) && in_array( $counter, $bkx_selected_slots ) ) {
 							$selected_class = ' selected ';
@@ -2689,7 +2693,7 @@ class BkxBooking {
 		}
 
 		if ( is_multisite() ) :
-			$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+			$blog_id = get_current_blog_id();
 			switch_to_blog( $blog_id );
 		endif;
 		$order_id = $this->order_id;
@@ -2722,7 +2726,7 @@ class BkxBooking {
 		}
 
 		if ( is_multisite() ) :
-			$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+			$blog_id = get_current_blog_id();
 			switch_to_blog( $blog_id );
 		endif;
 
@@ -2764,7 +2768,7 @@ class BkxBooking {
 		}
 
 		if ( is_multisite() ) :
-			$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+			$blog_id = get_current_blog_id();
 			switch_to_blog( $blog_id );
 		endif;
 		$booking_note_data = get_comments(
@@ -2787,7 +2791,7 @@ class BkxBooking {
 	 */
 	public function GetBookedRecordsByUser( $search = null ) {
 		if ( is_multisite() ) :
-			$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+			$blog_id = get_current_blog_id();
 			switch_to_blog( $blog_id );
 		endif;
 

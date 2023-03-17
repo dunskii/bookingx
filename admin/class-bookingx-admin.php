@@ -3,7 +3,7 @@
  * The admin-specific functionality of the plugin.
  *
  * @link       https://dunskii.com
- * @since      1.0.16
+ * @since      1.0.17
  *
  * @package    Bookingx
  * @subpackage Bookingx/admin
@@ -13,7 +13,7 @@ class Bookingx_Admin {
 	/**
 	 * The ID of this plugin.
 	 *
-	 * @since      1.0.16
+	 * @since      1.0.17
 	 * @access   private
 	 * @var      string $plugin_name The ID of this plugin.
 	 */
@@ -22,7 +22,7 @@ class Bookingx_Admin {
 	/**
 	 * The version of this plugin.
 	 *
-	 * @since      1.0.16
+	 * @since      1.0.17
 	 * @access   private
 	 * @var      string $version The current version of this plugin.
 	 */
@@ -33,7 +33,7 @@ class Bookingx_Admin {
 	 *
 	 * @param string $plugin_name The name of this plugin.
 	 * @param string $version The version of this plugin.
-	 * @since      1.0.16
+	 * @since      1.0.17
 	 */
 	public function __construct( $plugin_name = null, $version = null ) {
 		$this->plugin_name = $plugin_name;
@@ -535,7 +535,7 @@ class Bookingx_Admin {
 				$bkx_action_status = explode( '_', sanitize_text_field( $do_action ) );
 				$order_status      = $bkx_action_status[1];
 				if ( is_multisite() ) :
-					$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+					$blog_id = get_current_blog_id();
 					switch_to_blog( $blog_id );
 				endif;
 				$bkx_booking = new BkxBooking( '', $post_id );
@@ -657,7 +657,7 @@ class Bookingx_Admin {
 	/**
 	 * Register the stylesheets for the admin area.
 	 *
-	 * @since      1.0.16
+	 * @since      1.0.17
 	 */
 	public function enqueue_styles() {
 		/**
@@ -679,7 +679,7 @@ class Bookingx_Admin {
 	/**
 	 * Register the JavaScript for the admin area.
 	 *
-	 * @since      1.0.16
+	 * @since      1.0.17
 	 */
 	public function enqueue_scripts() {
 		/**

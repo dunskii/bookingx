@@ -21,7 +21,7 @@
  * Also maintains the unique identifier of this plugin as well as the current
  * version of the plugin.
  *
- * @since      1.0.16
+ * @since      1.0.17
  * @package    Bookingx
  * @subpackage Bookingx/includes
  * @author     Dunskii Web Services <divyang@dunskii.com>
@@ -149,6 +149,10 @@ class Bookingx {
 	 * @access private
 	 */
 	private function load_dependencies() {
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);
+
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
@@ -337,21 +341,7 @@ class Bookingx {
 		$this->loader->add_action( 'init', $plugin_public, 'register_bookingx_blocks_settings' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
-		add_filter(
-			'body_class',
-			function ( $classes ) {
-				if ( is_booking_page() ) {
-					$classes = array_merge( $classes, array( 'booking-x-form' ) );
-				}
-				if ( is_dashboard() ) {
-					$classes = array_merge( $classes, array( 'booking-x-dashboard' ) );
-				}
-				if ( is_bookingx() ) {
-					return array_merge( $classes, array( 'booking-x' ) );
-				}
-
-			}
-		);
+		$this->loader->add_filter( 'body_class', $plugin_public, 'bkx_adding_body_class' );
 
 	}
 

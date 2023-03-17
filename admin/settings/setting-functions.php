@@ -3,7 +3,7 @@
  * Template load for Save all setting action
  *
  * @package Bookingx/admin
- * @since      1.0.16
+ * @since      1.0.17
  */
 
 defined( 'ABSPATH' ) || exit;

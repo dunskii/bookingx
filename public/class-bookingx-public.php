@@ -75,6 +75,25 @@ class Bookingx_Public {
 		// wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/bookingx-public.css', array(), $this->version, 'all' );
 	}
 
+    /**
+     * @param $classes
+     * @return array
+     * Adding booking class for identify and Target those pages
+     */
+    public function bkx_adding_body_class($classes){
+       // $classes = array_merge( $classes, array( 'booking-x' ) );
+        if ( is_booking_page() ) {
+            $classes = array_merge( $classes, array( 'booking-x-form' ) );
+        }
+        if ( is_dashboard() ) {
+            $classes = array_merge( $classes, array( 'booking-x-dashboard' ) );
+        }
+        if ( is_bookingx() ) {
+            $classes =  array_merge( $classes, array( 'booking-x' ) );
+        }
+        return $classes;
+    }
+
 	/**
 	 * Register the JavaScript for the public-facing side of the site.
 	 *
