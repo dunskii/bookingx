@@ -104,7 +104,7 @@ class BkxSeat {
 	 */
 	public function __construct( $bkx_post = null, $post_id = null ) {
 		if ( is_multisite() ) :
-			$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+			$blog_id = get_current_blog_id();
 			switch_to_blog( $blog_id );
 		endif;
 		$this->bkx_post_type = 'bkx_seat';
@@ -142,7 +142,7 @@ class BkxSeat {
 	 */
 	public function get_seat_lists( $by_base = null ) {
 		if ( is_multisite() ) :
-			$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+			$blog_id = get_current_blog_id();
 			switch_to_blog( $blog_id );
 		endif;
 		$base_selected_seats = '';

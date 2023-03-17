@@ -18,7 +18,7 @@ function bkx_maybe_define_constant( $name, $value ) {
  */
 function bkx_reassign_available_emp_list( $seat_id, $start_date, $end_date, $service_id ) {
 	if ( is_multisite() ) :
-		$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+		$blog_id = get_current_blog_id();
 		switch_to_blog( $blog_id );
 	endif;
 
@@ -83,7 +83,7 @@ function bkx_reassign_available_emp_list( $seat_id, $start_date, $end_date, $ser
  */
 function bkx_get_booked_slot( $slot_id, $get_booked_slot, $get_free_seats, $total_seats, $bookigndate = null, $seat_id = null ): array {
 	if ( is_multisite() ) :
-		$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+		$blog_id = get_current_blog_id();
 		switch_to_blog( $blog_id );
 	endif;
 	$send_seat_block_data = array();
@@ -140,7 +140,7 @@ function bkx_get_booked_slot( $slot_id, $get_booked_slot, $get_free_seats, $tota
  */
 function bkx_get_range( $booking_date, $seatid, $array = false ) {
 	if ( is_multisite() ) :
-		$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+		$blog_id = get_current_blog_id();
 		switch_to_blog( $blog_id );
 	endif;
 
@@ -153,6 +153,7 @@ function bkx_get_range( $booking_date, $seatid, $array = false ) {
 	$GetSeatObj = get_post( $seatid );
 	$res_seat   = get_post_custom( $GetSeatObj->ID );
 
+
 	$db_res_seat_time_arr = array();
 	$bkx_business_days    = bkx_crud_option_multisite( 'bkx_business_days' );
 	if ( ! is_array( $bkx_business_days ) ) {
@@ -160,7 +161,8 @@ function bkx_get_range( $booking_date, $seatid, $array = false ) {
 	}
 
 	// $seat_days_time = maybe_unserialize($res_seat['seat_days_time'][0]);
-	$seat_is_certain_day = $res_seat['seat_is_certain_day'][0];
+
+	$seat_is_certain_day = isset($res_seat['seat_is_certain_day']) && !empty($res_seat['seat_is_certain_day']) ? $res_seat['seat_is_certain_day'][0] : '';
 
 	if ( $seat_is_certain_day == 'Y' ) {
 		$selected_days = get_post_meta( $GetSeatObj->ID, 'selected_days', true );
@@ -314,7 +316,7 @@ function block_column_cal( $column ) {
  */
 function bkx_setup_post_data( $post ) {
 	if ( is_multisite() ) :
-		$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+		$blog_id = get_current_blog_id();
 		switch_to_blog( $blog_id );
 	endif;
 
@@ -364,7 +366,7 @@ function bkx_placeholder_img_src( $size = 'service-thumb' ) {
  */
 function bkx_placeholder_img( $size = 'service-thumb' ) {
 	if ( is_multisite() ) :
-		$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+		$blog_id = get_current_blog_id();
 		switch_to_blog( $blog_id );
 	endif;
 	$dimensions['width']  = 300;
@@ -988,7 +990,7 @@ function get_bookingx_currency_symbol( $currency = '' ) {
  */
 function bkx_get_current_currency() {
 	if ( is_multisite() ) :
-		$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+		$blog_id = get_current_blog_id();
 		switch_to_blog( $blog_id );
 	endif;
 	if ( is_multisite() ) {
@@ -2189,8 +2191,8 @@ function bkx_block_enqueue_styles_loader( ) {
  * @return float|int|void
  */
 function bkx_clean_price_format( $value ){
-    if(empty($value))
+    if(empty($value) || $value == 'NaN')
         return;
 
-    return intval(($value*100))/100;
+    return intval(( $value * 100))/100;
 }

@@ -16,7 +16,7 @@ if ( empty( $args ) || ! isset( $args ) ) {
 }
 $args['type'] = 'new';
 $order_id     = ( isset( $_REQUEST['order_id'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['order_id'] ) ) : 0 ); // phpcs:disable WordPress.Security.NonceVerification
-if ( ( isset( $order_id ) && $order_id != '' ) ) {
+if ( ( isset( $order_id ) && $order_id != '' && $order_id > 0 ) ) {
 	$status = ( true );
 } else {
 	$status = ( false );

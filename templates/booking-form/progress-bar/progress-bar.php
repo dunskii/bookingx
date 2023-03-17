@@ -19,7 +19,7 @@ $form_title       = '';
 $is_active_5    = '';
 $default_active = 'is-active';
 
-if ( ! empty( $args ) && isset( $args['order_id'] ) && $args['order_id'] != '' ) {
+if ( ! empty( $args ) && isset( $args['order_id'] ) && $args['order_id'] != '' && $args['order_id'] > 0 && !isset( $_REQUEST['id'] ) && !isset( $_REQUEST['edit_booking_nonce'] ) ) {
 	$is_active_5    = 'is-active';
 	$default_active = '';
 }

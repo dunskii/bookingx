@@ -22,7 +22,7 @@ function bkx_action_status() { 	if ( empty( $_POST['status'] ) ) { //phpcs:ignor
 	$order_id     = $bkx_action_status[0];
 	$order_status = $bkx_action_status[1];
 if ( is_multisite() ) :
-	$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+	$blog_id = get_current_blog_id();
 	switch_to_blog( $blog_id );
 	endif;
 	$bkx_booking = new BkxBooking( '', $order_id );
@@ -87,7 +87,7 @@ add_action( 'wp_ajax_nopriv_bookingx_set_as_any_seat', 'bkx_bookingx_set_as_any_
  */
 function bkx_validate_seat_get_user() {
 	if ( is_multisite() ) :
-		$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+		$blog_id = get_current_blog_id();
 		switch_to_blog( $blog_id );
 	endif;
 	if ( empty( $_POST['data'] ) ) { //phpcs:ignore
@@ -136,7 +136,7 @@ add_action( 'wp_ajax_nopriv_bkx_validate_seat_get_user', 'bkx_validate_seat_get_
  */
 function bkx_get_user_data() {
 	if ( is_multisite() ) :
-		$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+		$blog_id = get_current_blog_id();
 		switch_to_blog( $blog_id );
 	endif;
 
@@ -175,7 +175,7 @@ add_action( 'wp_ajax_nopriv_bkx_get_user_data', 'bkx_get_user_data' );
  */
 function bkx_action_view_summary_callback() {
 	if ( is_multisite() ) :
-		$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+		$blog_id = get_current_blog_id();
 		switch_to_blog( $blog_id );
 	endif;
 	if ( empty( $_POST['post_id'] ) ) { //phpcs:ignore
@@ -210,7 +210,7 @@ add_action( 'wp_ajax_bkx_action_view_summary', 'bkx_action_view_summary_callback
  */
 function bkx_action_add_custom_note_callback() {
 	if ( is_multisite() ) :
-		$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+		$blog_id = get_current_blog_id();
 		switch_to_blog( $blog_id );
 	endif;
 	if ( empty( $_POST['booking_id'] ) ) { //phpcs:ignore

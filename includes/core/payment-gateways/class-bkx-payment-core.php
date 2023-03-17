@@ -38,7 +38,7 @@ class BkxPaymentCore {
 		}
 
 		if ( is_multisite() ) :
-			$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+			$blog_id = get_current_blog_id();
 			switch_to_blog( $blog_id );
 		endif;
 
@@ -379,7 +379,7 @@ class BkxPaymentCore {
 
 			}
 			if ( is_multisite() ) :
-				$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+				$blog_id = get_current_blog_id();
 				switch_to_blog( $blog_id );
 			endif;
 			$get_return_url = get_post_meta( $order_id, 'bkx_return_page_url', true );

@@ -455,7 +455,7 @@ class BkxExtra {
 		}
 		$extra_html = '';
 		if ( is_multisite() ) :
-			$blog_id = apply_filters( 'bkx_set_blog_id', get_current_blog_id() );
+			$blog_id = get_current_blog_id();
 			switch_to_blog( $blog_id );
 		endif;
 		$extra_lists = $this->get_extra_by_base( $base_id );
