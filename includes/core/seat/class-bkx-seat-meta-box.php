@@ -837,7 +837,7 @@ if ( ! class_exists( 'BkxSeatMetaBox' ) ) {
 			}
 			$seatPaymentOption    = $tempPaymentOption;
 			$seatCertainMonthTemp = '';
-			if ( count( $seatCertainMonth ) > 0 ) {
+			if ( !empty($seatCertainMonth) &&  count( $seatCertainMonth ) > 0 ) {
 				foreach ( $seatCertainMonth as $key => $temp ) {
 					$seatCertainMonthTemp .= $temp . ',';
 				}
