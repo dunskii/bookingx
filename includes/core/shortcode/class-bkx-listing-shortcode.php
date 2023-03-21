@@ -47,6 +47,7 @@ class BKX_Listing_ShortCodes {
 			} elseif ( isset( $atts['extra-id'] ) && $atts['extra-id'] != '' ) {
 				$id = isset( $atts['extra-id'] ) && $atts['extra-id'] > 0 ? $atts['extra-id'] : 0;
 			}
+
 			$id    = apply_filters( 'bkx_set_custom_id_by_post_type', $id, $atts );
 			$order = 'ASC';
 			if ( isset( $atts['order'] ) && $atts['order'] != '' ) {
@@ -57,7 +58,7 @@ class BKX_Listing_ShortCodes {
 				$order_by = $atts['order-by'];
 			}
 			$class = '';
-			if ( $id > 0 ) {
+			if ( is_numeric($id) && $id > 0 ) {
 				$query = new WP_Query(
 					array(
 						'post_type' => $post_type,
@@ -74,6 +75,7 @@ class BKX_Listing_ShortCodes {
 				);
 				$class = 'booking-x-lists';
 			}
+            //echo "<pre>".print_r($query, true)."</pre>";
 			$class = apply_filters( 'bkx_set_class_shortcode_by_post_type', $class );
 			if ( $query->have_posts() ) :?>
 				<div class="container <?php echo esc_attr( $class ); ?>">

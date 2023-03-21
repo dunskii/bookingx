@@ -192,7 +192,9 @@ function bkx_action_view_summary_callback() {
 	$bookingx_note_output          = $bkx_meta_boxes->bookingx_note_output( $get_post, 'ajax' );
 	$bookingx_reassign_output      = $bkx_meta_boxes->bookingx_reassign_output( $get_post, 'ajax' );
 	$bkx_dashboard_column_selected = bkx_crud_option_multisite( 'bkx_dashboard_column' );
-	$bkx_booking_columns_data      = ! empty( $bkx_dashboard_column_selected ) ? $bkx_dashboard_column_selected : Bookingx_Admin::bkx_booking_columns_data();
+    $Bookingx_Admin = new Bookingx_Admin();
+    $bkx_booking_columns_data = $Bookingx_Admin->bkx_booking_columns_data();
+  	$bkx_booking_columns_data      = ! empty( $bkx_dashboard_column_selected ) ? $bkx_dashboard_column_selected : $bkx_booking_columns_data;
 	$calculate_cols                = count( $bkx_booking_columns_data );
 	$total_cols                    = ! empty( $bkx_booking_columns_data ) ? $calculate_cols - 3 : 10;
 

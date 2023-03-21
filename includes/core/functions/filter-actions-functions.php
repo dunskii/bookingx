@@ -1079,7 +1079,6 @@ function render_bkx_resource_block( $attributes, $content ): string {
 	$seat_id    = isset( $attributes['seatPostId'] ) && $attributes['seatPostId'] > 0 ? $attributes['seatPostId'] : 'all';
 	$columns    = isset( $attributes['columns'] ) ? $attributes['columns'] : 3;
 	$rows       = isset( $attributes['rows'] ) ? $attributes['rows'] : 1;
-	// echo "<pre>".print_r($attributes, true)."</pre>";
 	$seats_data = do_shortcode( '[bookingx block="1" order="' . $order_type . '" order-by="' . $order_by . '" seat-id="' . $seat_id . '" columns="' . $columns . '" rows="' . $rows . '"  description="' . $desc . '" image="' . $image . '"]' );
 	return "<div class=\"gutenberg-booking-x-seats-data\">{$seats_data}</div>";
 }
