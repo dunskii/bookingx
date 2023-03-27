@@ -11,12 +11,12 @@
 
 defined( 'ABSPATH' ) || exit;
 global $bkx_seat;
-$personal_info          = $bkx_seat->seat_personal_info;
-$seat_available_months  = $bkx_seat->seat_available_months;
-$seat_available_days    = $bkx_seat->seat_available_days;
-$seat_notifiaction_info = $bkx_seat->seat_notifiaction_info;
-$seat_payment_info      = $bkx_seat->seat_payment_info;
-$booking_url            = $bkx_seat->booking_url;
+$personal_info          = isset($bkx_seat->seat_personal_info) && !empty($bkx_seat->seat_personal_info) ? $bkx_seat->seat_personal_info : '';
+$seat_available_months  = isset($bkx_seat->seat_available_months) && !empty($bkx_seat->seat_available_months) ? $bkx_seat->seat_available_months : '';
+$seat_available_days    = isset($bkx_seat->seat_available_days) && !empty($bkx_seat->seat_available_days) ? $bkx_seat->seat_available_days : '';
+$seat_notifiaction_info = isset($bkx_seat->seat_notifiaction_info) && !empty($bkx_seat->seat_notifiaction_info) ? $bkx_seat->seat_notifiaction_info : '';
+$seat_payment_info      = isset($bkx_seat->seat_payment_info) && !empty($bkx_seat->seat_payment_info) ? $bkx_seat->seat_payment_info : '';
+$booking_url            = isset($bkx_seat->booking_url) && !empty($bkx_seat->booking_url) ? $bkx_seat->booking_url : '';
 $currency_option        = ( bkx_crud_option_multisite( 'currency_option' ) ? bkx_crud_option_multisite( 'currency_option' ) : 'AUD' );
 
 if ( ! empty( $seat_available_months ) || ! empty( $seat_available_days ) || ! empty( $seat_payment_info ) ) :
