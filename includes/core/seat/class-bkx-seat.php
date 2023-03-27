@@ -261,11 +261,14 @@ class BkxSeat {
 	public function get_seat_personal_info() {
 		$meta_data                              = $this->meta_data;
 		$get_seat_personal_info                 = array();
-		$get_seat_personal_info['seat_street']  = ( isset( $meta_data['seat_street'][0] ) ? $meta_data['seat_street'][0] : '' );
-		$get_seat_personal_info['seat_city']    = ( isset( $meta_data['seat_city'][0] ) ? $meta_data['seat_city'][0] : '' );
-		$get_seat_personal_info['seat_state']   = ( isset( $meta_data['seat_state'][0] ) ? $meta_data['seat_state'][0] : '' );
-		$get_seat_personal_info['seat_zip']     = ( isset( $meta_data['seat_zip'][0] ) ? $meta_data['seat_zip'][0] : '' );
-		$get_seat_personal_info['seat_country'] = ( isset( $meta_data['seat_country'][0] ) ? $meta_data['seat_country'][0] : '' );
+        if(isset($meta_data['seat_street'][0])){
+            $get_seat_personal_info['seat_street']  = ( isset( $meta_data['seat_street'][0] ) ? $meta_data['seat_street'][0] : '' );
+            $get_seat_personal_info['seat_city']    = ( isset( $meta_data['seat_city'][0] ) ? $meta_data['seat_city'][0] : '' );
+            $get_seat_personal_info['seat_state']   = ( isset( $meta_data['seat_state'][0] ) ? $meta_data['seat_state'][0] : '' );
+            $get_seat_personal_info['seat_zip']     = ( isset( $meta_data['seat_zip'][0] ) ? $meta_data['seat_zip'][0] : '' );
+            $get_seat_personal_info['seat_country'] = ( isset( $meta_data['seat_country'][0] ) ? $meta_data['seat_country'][0] : '' );
+        }
+
 		return apply_filters( 'bkx_seat_personal_info', $get_seat_personal_info, $this );
 	}
 

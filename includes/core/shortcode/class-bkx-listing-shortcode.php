@@ -36,6 +36,7 @@ class BKX_Listing_ShortCodes {
 	 * @return false|string
 	 */
 	static function bookingx_shortcode_callback( $atts ) {
+
 		ob_start();
 		if ( ! empty( $atts ) ) {
 			$post_type = self::find_post_type( $atts );
@@ -84,11 +85,11 @@ class BKX_Listing_ShortCodes {
 				while ( $query->have_posts() ) :
 					$query->the_post();
 					if ( $id > 0 ) {
-						bkx_get_template( "content-single-{$post_type}.php", $atts );
-						do_action( 'bkx_load_template_content_single_file', $post_type );
+                        bkx_get_template( "content-{$post_type}.php", $atts );
+                        do_action( 'bkx_load_template_content_file', $post_type );
 					} else {
-						 bkx_get_template( "content-{$post_type}.php", $atts );
-						 do_action( 'bkx_load_template_content_file', $post_type );
+                        bkx_get_template( "content-single-{$post_type}.php", $atts );
+                        do_action( 'bkx_load_template_content_single_file', $post_type );
 					}
 				endwhile;
 				?>
