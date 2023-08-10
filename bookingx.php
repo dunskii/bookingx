@@ -3,7 +3,7 @@
  *  Plugin Name: Booking X - Appointment and Reservation Availability Calendar
  *  Plugin URI: https://booking-x.com/
  *  Description: A simple to use booking system that allows you to take appointments and reservations for multiple business types on WordPress.
- *  Version: 1.1
+ *  Version: 1.1.1
  *  Requires at least: 5.0
  *  Requires PHP: 7.0
  *  Author: Booking X
