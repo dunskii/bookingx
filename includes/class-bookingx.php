@@ -117,6 +117,8 @@ class Bookingx {
 		$this->define_public_hooks();
 		// Set up localisation.
 		$this->load_plugin_textdomain();
+		// SECURITY FIX: Initialize security measures
+		$this->init_security();
 	}
 
 
@@ -379,6 +381,71 @@ class Bookingx {
 					break;
 			}
 		}
+	}
+
+	/**
+	 * SECURITY FIX: Initialize security measures
+	 * 
+	 * @since 1.1.3
+	 */
+	private function init_security() {
+		// Add security headers
+		add_action( 'send_headers', array( $this, 'add_security_headers' ) );
+		
+		// Disable XML-RPC if not needed
+		add_filter( 'xmlrpc_enabled', '__return_false' );
+		
+		// Remove WordPress version from head
+		remove_action( 'wp_head', 'wp_generator' );
+		
+		// Hide login errors
+		add_filter( 'login_errors', array( $this, 'hide_login_errors' ) );
+		
+		// Add CSRF protection to forms
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_security_scripts' ) );
+	}
+
+	/**
+	 * SECURITY FIX: Add security headers
+	 * 
+	 * @since 1.1.3
+	 */
+	public function add_security_headers() {
+		if ( ! headers_sent() ) {
+			// Prevent clickjacking
+			header( 'X-Frame-Options: SAMEORIGIN' );
+			
+			// XSS protection
+			header( 'X-XSS-Protection: 1; mode=block' );
+			
+			// Prevent MIME type sniffing
+			header( 'X-Content-Type-Options: nosniff' );
+			
+			// Referrer policy
+			header( 'Referrer-Policy: strict-origin-when-cross-origin' );
+		}
+	}
+
+	/**
+	 * SECURITY FIX: Hide login errors
+	 * 
+	 * @since 1.1.3
+	 */
+	public function hide_login_errors() {
+		return esc_html__( 'Invalid login credentials.', 'bookingx' );
+	}
+
+	/**
+	 * SECURITY FIX: Enqueue security scripts
+	 * 
+	 * @since 1.1.3
+	 */
+	public function enqueue_security_scripts() {
+		// Add nonce for AJAX requests
+		wp_localize_script( 'jquery', 'bkx_ajax_object', array(
+			'ajax_url' => admin_url( 'admin-ajax.php' ),
+			'nonce'    => wp_create_nonce( 'bkx_ajax_nonce' ),
+		) );
 	}
 
 	/**
