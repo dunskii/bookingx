@@ -4,7 +4,7 @@ Tags: appointments, appointment booking, availability calendar, booking calendar
 Requires at least: 5.0
 Tested up to: 6.3
 Requires PHP: 7.0
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 License: GPLv2 or later
 License URI: https://booking-x.com/gpl-licence/
 
@@ -147,6 +147,9 @@ It should be, remember you can set the colours to fit your site by going Setting
 
 == Upgrade Notice ==
 
+= 1.1.3 =
+SECURITY UPDATE: Fixed critical vulnerability (CVE-2025-6814) that allowed unauthenticated access to export functionality. Added proper authentication and nonce verification to all export/import operations.
+
 = 1.1.2 =
 Latest WP version 6.3 capability update.
 
@@ -174,4 +177,5 @@ Automatic updates should work smoothly, but we still recommend you back up your 
 = 1.0.16 - Fixed Administration customer search bug. Added documentation for frontend dashboard shortcode.  2022-11-03 =
 = 1.1 - Modified code to be PHP 8 compatible.  2023-03-31 =
 = 1.1.1 - Latest WP version 6.2 capability update.  2023-08-10 =
+= 1.1.3 - SECURITY FIX: Fixed critical export vulnerability (CVE-2025-6814). Added authentication and nonce verification.  2025-09-10 =
 = 1.1.2 - Latest WP version 6.3 capability update.  2023-08-19 =

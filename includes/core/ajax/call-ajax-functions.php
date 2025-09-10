@@ -86,6 +86,16 @@ add_action( 'wp_ajax_nopriv_bookingx_set_as_any_seat', 'bkx_bookingx_set_as_any_
  * Validate User Resource
  */
 function bkx_validate_seat_get_user() {
+	// SECURITY FIX: Add nonce verification for CSRF protection
+	if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'bkx_ajax_nonce' ) ) {
+		wp_die( esc_html__( 'Security check failed.', 'bookingx' ), 'Security Error', array( 'response' => 403 ) );
+	}
+
+	// SECURITY FIX: Add capability check - only admins should access user data
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_die( esc_html__( 'Insufficient permissions to access user data.', 'bookingx' ), 'Unauthorized', array( 'response' => 403 ) );
+	}
+
 	if ( is_multisite() ) :
 		$blog_id = get_current_blog_id();
 		switch_to_blog( $blog_id );
@@ -127,7 +137,7 @@ function bkx_validate_seat_get_user() {
 }
 
 add_action( 'wp_ajax_bkx_validate_seat_get_user', 'bkx_validate_seat_get_user' );
-add_action( 'wp_ajax_nopriv_bkx_validate_seat_get_user', 'bkx_validate_seat_get_user' );
+// SECURITY FIX: Removed nopriv action - user validation should only be accessible to administrators
 
 /**
  * Get User Data when on change event on Resource edit page Admin side
@@ -135,6 +145,16 @@ add_action( 'wp_ajax_nopriv_bkx_validate_seat_get_user', 'bkx_validate_seat_get_
  * @return string
  */
 function bkx_get_user_data() {
+	// SECURITY FIX: Add nonce verification for CSRF protection
+	if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'bkx_ajax_nonce' ) ) {
+		wp_die( esc_html__( 'Security check failed.', 'bookingx' ), 'Security Error', array( 'response' => 403 ) );
+	}
+
+	// SECURITY FIX: Add capability check - only authenticated users with proper permissions
+	if ( ! is_user_logged_in() || ! current_user_can( 'edit_posts' ) ) {
+		wp_die( esc_html__( 'Insufficient permissions.', 'bookingx' ), 'Unauthorized', array( 'response' => 403 ) );
+	}
+
 	if ( is_multisite() ) :
 		$blog_id = get_current_blog_id();
 		switch_to_blog( $blog_id );
@@ -166,7 +186,7 @@ function bkx_get_user_data() {
 }
 
 add_action( 'wp_ajax_bkx_get_user_data', 'bkx_get_user_data' );
-add_action( 'wp_ajax_nopriv_bkx_get_user_data', 'bkx_get_user_data' );
+// SECURITY FIX: Removed nopriv action - user data should only be accessible to authenticated users
 /**
  * Bookings Listing Admin side When Click View Button call this function
  *
