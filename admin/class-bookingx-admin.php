@@ -782,6 +782,16 @@ class Bookingx_Admin {
 	}
 
 	public function export_now() {
+		// SECURITY FIX: Add capability check - only administrators can export
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_html__( 'You do not have sufficient permissions to export data.', 'bookingx' ), 'Unauthorized', array( 'response' => 403 ) );
+		}
+
+		// SECURITY FIX: Verify nonce for CSRF protection
+		if ( ! isset( $_POST['bkx_export_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['bkx_export_nonce'] ) ), 'bkx_export_action' ) ) {
+			wp_die( esc_html__( 'Security check failed. Please try again.', 'bookingx' ), 'Security Error', array( 'response' => 403 ) );
+		}
+
 		if ( isset( $_POST['export_xml'] ) && 'Export xml' === sanitize_text_field( $_POST['export_xml'] ) ) : //phpcs:ignore
 			$bkx_export_obj = new BkxExport();
 			$bkx_export_obj->export_now();
@@ -793,6 +803,16 @@ class Bookingx_Admin {
 	 * Import_now
 	 */
 	public function import_now() {
+		// SECURITY FIX: Add capability check - only administrators can import
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_html__( 'You do not have sufficient permissions to import data.', 'bookingx' ), 'Unauthorized', array( 'response' => 403 ) );
+		}
+
+		// SECURITY FIX: Verify nonce for CSRF protection
+		if ( ! isset( $_POST['bkx_import_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['bkx_import_nonce'] ) ), 'bkx_import_action' ) ) {
+			wp_die( esc_html__( 'Security check failed. Please try again.', 'bookingx' ), 'Security Error', array( 'response' => 403 ) );
+		}
+
 		if ( isset( $_POST['import_xml'] ) && 'Import Xml' === sanitize_text_field( $_POST['import_xml'] ) ) : //phpcs:ignore
 			$bkx_import = new BkxImport();
 			$bkx_import->import_now();

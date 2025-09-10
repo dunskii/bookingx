@@ -319,8 +319,11 @@ class Bookingx {
 		$this->loader->add_action( 'parse_query', $plugin_admin, 'bkx_booking_search_custom_fields' );
 		$this->loader->add_action( 'parse_comment_query', $plugin_admin, 'bkx_booking_parse_comment_query' );
 		$this->loader->add_action( 'pre_get_posts', $plugin_admin, 'bkx_add_meta_query' );
-		$this->loader->add_action( 'init', $plugin_admin, 'export_now' );
-		$this->loader->add_action( 'init', $plugin_admin, 'import_now' );
+		// SECURITY FIX: Move export/import to admin context with proper authentication
+		if ( is_admin() ) {
+			$this->loader->add_action( 'admin_init', $plugin_admin, 'export_now' );
+			$this->loader->add_action( 'admin_init', $plugin_admin, 'import_now' );
+		}
 		$this->loader->add_action( 'admin_notices', $plugin_admin, 'bkx_bulk_action_admin_notice' );
 
 		$this->loader->add_filter( 'manage_bkx_booking_posts_columns', $plugin_admin, 'bkx_booking_columns', 99, 2 );

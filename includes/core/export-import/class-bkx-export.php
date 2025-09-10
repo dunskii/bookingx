@@ -70,6 +70,12 @@ class BkxExport {
 	 * @return array
 	 */
 	public function export_now() {
+		// SECURITY FIX: Double-check capability even at this level (defense in depth)
+		if ( ! current_user_can( 'manage_options' ) ) {
+			$this->errors[] = esc_html__( 'Insufficient permissions for export operation.', 'bookingx' );
+			return $this->errors;
+		}
+
 		if ( isset( $_POST['export_xml'] ) && sanitize_text_field( wp_unslash( $_POST['export_xml'] ) ) == 'Export xml' ) {
 			if ( empty( $this->errors ) ) {
 				$this->bkx_get_posts( 'bkx_seat', 'SeatPosts', 'Resource' );
