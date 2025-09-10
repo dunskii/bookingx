@@ -288,16 +288,44 @@ class BkxImport {
 	 * @return array|bool|string
 	 */
 	function check_file_is_ok( $fileobj ) {
+		// SECURITY FIX: Double-check capability even at this level (defense in depth)
+		if ( ! current_user_can( 'manage_options' ) ) {
+			$this->errors['insufficient_permissions'] = esc_html__( 'Insufficient permissions for file upload.', 'bookingx' );
+			return false;
+		}
+
 		if ( isset( $fileobj['import_file'] ) && $fileobj['import_file']['size'] > 0 ) :
-			if ( $fileobj['import_file']['size'] > 10048576 ) :
-				$this->errors['file_size_not_in_range'] = 'Upload file size should be upto 5 MB.';
+			// SECURITY FIX: More restrictive file size limit (5MB instead of ~10MB)
+			if ( $fileobj['import_file']['size'] > 5242880 ) :
+				$this->errors['file_size_not_in_range'] = esc_html__( 'Upload file size should be up to 5 MB.', 'bookingx' );
 		 else :
-			 // $file_name         = sanitize_file_name( $fileobj['import_file']['name'] );
+			 // SECURITY FIX: Validate file extension from original filename
+			 $original_filename = sanitize_file_name( $fileobj['import_file']['name'] );
+			 $original_ext = strtolower( pathinfo( $original_filename, PATHINFO_EXTENSION ) );
+			 
+			 // SECURITY FIX: Only allow XML files
+			 if ( 'xml' !== $original_ext ) {
+				 $this->errors['invalid_file_type'] = esc_html__( 'Only XML files are allowed.', 'bookingx' );
+				 return false;
+			 }
+
+			 // SECURITY FIX: Validate MIME type
+			 $finfo = finfo_open( FILEINFO_MIME_TYPE );
+			 $mime_type = finfo_file( $finfo, $fileobj['import_file']['tmp_name'] );
+			 finfo_close( $finfo );
+			 
+			 $allowed_mime_types = array( 'application/xml', 'text/xml' );
+			 if ( ! in_array( $mime_type, $allowed_mime_types, true ) ) {
+				 $this->errors['invalid_mime_type'] = esc_html__( 'Invalid file type. Only XML files are allowed.', 'bookingx' );
+				 return false;
+			 }
+
 			 $this->target_file = $this->upload_dir . time() . '.xml';
 			 $filetype          = pathinfo( $this->target_file, PATHINFO_EXTENSION );
 			 if ( isset( $filetype ) && $filetype == 'xml' ) :
 				 if ( move_uploaded_file( $fileobj['import_file']['tmp_name'], "$this->target_file" ) ) :
-					 chmod( $this->target_file, 0777 );
+					 // SECURITY FIX: Use secure file permissions instead of 0777
+					 chmod( $this->target_file, 0644 );
 					 $file_data = file_get_contents( $this->target_file );
 					 return $file_data;
 				 endif;

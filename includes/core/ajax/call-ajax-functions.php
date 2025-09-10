@@ -13,24 +13,53 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Booking Action Update in Admin side
  */
-function bkx_action_status() { 	if ( empty( $_POST['status'] ) ) { //phpcs:ignore
+function bkx_action_status() {
+	// SECURITY FIX: Add nonce verification for CSRF protection
+	if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'bkx_ajax_nonce' ) ) {
+		wp_die( esc_html__( 'Security check failed.', 'bookingx' ), 'Security Error', array( 'response' => 403 ) );
+	}
+
+	// SECURITY FIX: Add capability check - only authenticated users with proper permissions can update booking status
+	if ( ! is_user_logged_in() || ! current_user_can( 'edit_posts' ) ) {
+		wp_die( esc_html__( 'Insufficient permissions to update booking status.', 'bookingx' ), 'Unauthorized', array( 'response' => 403 ) );
+	}
+
+	if ( empty( $_POST['status'] ) ) { //phpcs:ignore
 		return;
-}
+	}
 
 	$bkx_action_status = explode( '_', sanitize_text_field( wp_unslash( $_POST['status'] ) ) ); //phpcs:ignore
 
-	$order_id     = $bkx_action_status[0];
-	$order_status = $bkx_action_status[1];
-if ( is_multisite() ) :
-	$blog_id = get_current_blog_id();
-	switch_to_blog( $blog_id );
+	// SECURITY FIX: Validate array has expected elements
+	if ( count( $bkx_action_status ) !== 2 ) {
+		wp_die( esc_html__( 'Invalid status format.', 'bookingx' ), 'Invalid Request', array( 'response' => 400 ) );
+	}
+
+	$order_id     = intval( $bkx_action_status[0] );
+	$order_status = sanitize_text_field( $bkx_action_status[1] );
+
+	// SECURITY FIX: Validate order ID is numeric and positive
+	if ( $order_id <= 0 ) {
+		wp_die( esc_html__( 'Invalid order ID.', 'bookingx' ), 'Invalid Request', array( 'response' => 400 ) );
+	}
+
+	// SECURITY FIX: Whitelist allowed status values
+	$allowed_statuses = array( 'bkx-pending', 'bkx-ack', 'bkx-completed', 'bkx-missed', 'bkx-cancelled' );
+	if ( ! in_array( $order_status, $allowed_statuses, true ) ) {
+		wp_die( esc_html__( 'Invalid booking status.', 'bookingx' ), 'Invalid Request', array( 'response' => 400 ) );
+	}
+
+	if ( is_multisite() ) :
+		$blog_id = get_current_blog_id();
+		switch_to_blog( $blog_id );
 	endif;
+	
 	$bkx_booking = new BkxBooking( '', $order_id );
 	$bkx_booking->update_status( $order_status );
 	wp_die(); // this is required to terminate immediately and return a proper response.
 }
 
-add_action( 'wp_ajax_nopriv_bkx_action_status', 'bkx_action_status' );
+// SECURITY FIX: Removed nopriv action - booking status changes should require authentication
 add_action( 'wp_ajax_bkx_action_status', 'bkx_action_status' );
 
 /**
@@ -67,8 +96,24 @@ add_action( 'wp_ajax_get_time_format', 'bkx_ajax_get_time_format' );
 /**
  * Set Any Seat ID On Resource Listing Area
  */
-function bkx_bookingx_set_as_any_seat_callback() { 	$seat_id             = absint( sanitize_text_field( wp_unslash( $_GET['seat_id'] ) ) ); //phpcs:ignore
-	$select_default_seat                                     = bkx_crud_option_multisite( 'select_default_seat' );
+function bkx_bookingx_set_as_any_seat_callback() {
+	// SECURITY FIX: Add nonce verification for CSRF protection
+	if ( ! isset( $_GET['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['nonce'] ) ), 'bkx_any_seat_nonce' ) ) {
+		wp_die( esc_html__( 'Security check failed.', 'bookingx' ), 'Security Error', array( 'response' => 403 ) );
+	}
+
+	// SECURITY FIX: Add capability check - only administrators can modify plugin settings
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_die( esc_html__( 'Insufficient permissions to modify settings.', 'bookingx' ), 'Unauthorized', array( 'response' => 403 ) );
+	}
+
+	$seat_id = absint( sanitize_text_field( wp_unslash( $_GET['seat_id'] ) ) ); //phpcs:ignore
+	$select_default_seat = bkx_crud_option_multisite( 'select_default_seat' );
+
+	// SECURITY FIX: Validate seat_id is a valid bkx_seat post
+	if ( $seat_id > 0 && 'bkx_seat' !== get_post_type( $seat_id ) ) {
+		wp_die( esc_html__( 'Invalid seat ID.', 'bookingx' ), 'Invalid Request', array( 'response' => 400 ) );
+	}
 
 	if ( 'bkx_seat' === get_post_type( $seat_id ) && '' === $select_default_seat ) {
 		bkx_crud_option_multisite( 'select_default_seat', $seat_id, 'update' );
@@ -80,7 +125,7 @@ function bkx_bookingx_set_as_any_seat_callback() { 	$seat_id             = absin
 }
 
 add_action( 'wp_ajax_bookingx_set_as_any_seat', 'bkx_bookingx_set_as_any_seat_callback' );
-add_action( 'wp_ajax_nopriv_bookingx_set_as_any_seat', 'bkx_bookingx_set_as_any_seat_callback' );
+// SECURITY FIX: Removed nopriv action - plugin settings should only be accessible to administrators
 
 /**
  * Validate User Resource
@@ -231,6 +276,16 @@ add_action( 'wp_ajax_bkx_action_view_summary', 'bkx_action_view_summary_callback
  * @return int
  */
 function bkx_action_add_custom_note_callback() {
+	// SECURITY FIX: Add nonce verification for CSRF protection
+	if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'bkx_ajax_nonce' ) ) {
+		wp_die( esc_html__( 'Security check failed.', 'bookingx' ), 'Security Error', array( 'response' => 403 ) );
+	}
+
+	// SECURITY FIX: Add capability check - only authenticated users with proper permissions can add booking notes
+	if ( ! is_user_logged_in() || ! current_user_can( 'edit_posts' ) ) {
+		wp_die( esc_html__( 'Insufficient permissions to add booking notes.', 'bookingx' ), 'Unauthorized', array( 'response' => 403 ) );
+	}
+
 	if ( is_multisite() ) :
 		$blog_id = get_current_blog_id();
 		switch_to_blog( $blog_id );
@@ -238,11 +293,23 @@ function bkx_action_add_custom_note_callback() {
 	if ( empty( $_POST['booking_id'] ) ) { //phpcs:ignore
 		return '';
 	}
-	$booking_id      = sanitize_text_field( $_POST['booking_id'] ); //phpcs:ignore
-	$bkx_custom_note = sanitize_text_field( $_POST['bkx_custom_note'] ); //phpcs:ignore
+	$booking_id      = intval( sanitize_text_field( $_POST['booking_id'] ) ); //phpcs:ignore
+	$bkx_custom_note = sanitize_textarea_field( $_POST['bkx_custom_note'] ); //phpcs:ignore
 
-	if ( empty( $booking_id ) || empty( $bkx_custom_note ) ) {
-		return 0;
+	// SECURITY FIX: Validate booking ID is numeric and positive
+	if ( $booking_id <= 0 ) {
+		wp_die( esc_html__( 'Invalid booking ID.', 'bookingx' ), 'Invalid Request', array( 'response' => 400 ) );
+	}
+
+	// SECURITY FIX: Validate note content is not empty after sanitization
+	if ( empty( $booking_id ) || empty( trim( $bkx_custom_note ) ) ) {
+		wp_die( esc_html__( 'Booking ID and note content are required.', 'bookingx' ), 'Invalid Request', array( 'response' => 400 ) );
+	}
+
+	// SECURITY FIX: Validate booking exists and user has permission to modify it
+	$booking_post = get_post( $booking_id );
+	if ( ! $booking_post || 'bkx_booking' !== $booking_post->post_type ) {
+		wp_die( esc_html__( 'Invalid booking.', 'bookingx' ), 'Invalid Request', array( 'response' => 400 ) );
 	}
 
 	$booking_obj = new BkxBooking( '', $booking_id );
@@ -251,4 +318,4 @@ function bkx_action_add_custom_note_callback() {
 }
 
 add_action( 'wp_ajax_bkx_action_add_custom_note', 'bkx_action_add_custom_note_callback' );
-add_action( 'wp_ajax_nopriv_bkx_action_add_custom_note', 'bkx_action_add_custom_note_callback' );
+// SECURITY FIX: Removed nopriv action - booking notes should only be accessible to authenticated users
