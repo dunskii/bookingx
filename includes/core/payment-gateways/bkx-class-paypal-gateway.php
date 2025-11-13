@@ -34,7 +34,16 @@ class BkxPaymentPayPalExpress {
 		endif;
         // phpcs:disable WordPress.Security.NonceVerification
 		if ( isset( $_GET['order_id'] ) && $_GET['order_id'] != '' ) {
-			$order_id = sanitize_text_field ( base64_decode( wp_unslash( $_GET['order_id'] ) ) );
+			$decoded_order_id = base64_decode( wp_unslash( $_GET['order_id'] ), true );
+			// Validate decoded value is numeric and is a valid post ID
+			if ( $decoded_order_id !== false && is_numeric( $decoded_order_id ) ) {
+				$order_id = absint( $decoded_order_id );
+				// Verify the order exists and is a booking post
+				$post = get_post( $order_id );
+				if ( ! $post || $post->post_type !== 'bkx_booking' ) {
+					$order_id = null;
+				}
+			}
 		}
         // phpcs:enable WordPress.Security.NonceVerification
 

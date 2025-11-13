@@ -18,10 +18,36 @@ if ( empty( $_REQUEST['view-booking'] ) ) {
 $booking_id = sanitize_text_field( wp_unslash( $_REQUEST['view-booking'] ) );
 // phpcs:enable WordPress.Security.NonceVerification.Missing
 $booking_detail = apply_filters( 'bkx_booking_detail_load_before', $booking_id );
-extract( $booking_detail );
-extract( $booking_detail['booking_info'] );
-extract( $booking_detail['booking_payment'] );
-extract( $booking_detail['booking_business'] );
+
+// Explicitly assign variables instead of using extract()
+$first_header       = isset( $booking_detail['first_header'] ) ? $booking_detail['first_header'] : '';
+$second_header      = isset( $booking_detail['second_header'] ) ? $booking_detail['second_header'] : '';
+$is_mobile          = isset( $booking_detail['is_mobile'] ) ? $booking_detail['is_mobile'] : 0;
+$is_able_cancelled  = isset( $booking_detail['is_able_cancelled'] ) ? $booking_detail['is_able_cancelled'] : false;
+$cancel_policy_url  = isset( $booking_detail['cancel_policy_url'] ) ? $booking_detail['cancel_policy_url'] : '';
+
+// Booking info
+$date          = isset( $booking_detail['booking_info']['date'] ) ? $booking_detail['booking_info']['date'] : '';
+$service       = isset( $booking_detail['booking_info']['service'] ) ? $booking_detail['booking_info']['service'] : '';
+$extra         = isset( $booking_detail['booking_info']['extra'] ) ? $booking_detail['booking_info']['extra'] : '';
+$staff         = isset( $booking_detail['booking_info']['staff'] ) ? $booking_detail['booking_info']['staff'] : '';
+$duration      = isset( $booking_detail['booking_info']['duration'] ) ? $booking_detail['booking_info']['duration'] : '';
+$currency      = isset( $booking_detail['booking_info']['currency'] ) ? $booking_detail['booking_info']['currency'] : '';
+$total         = isset( $booking_detail['booking_info']['total'] ) ? $booking_detail['booking_info']['total'] : '';
+$status        = isset( $booking_detail['booking_info']['status'] ) ? $booking_detail['booking_info']['status'] : '';
+$timezone_data = isset( $booking_detail['booking_info']['timezone_data'] ) ? $booking_detail['booking_info']['timezone_data'] : array();
+
+// Payment info
+$gateway         = isset( $booking_detail['booking_payment']['gateway'] ) ? $booking_detail['booking_payment']['gateway'] : '';
+$transaction_id  = isset( $booking_detail['booking_payment']['transaction_id'] ) ? $booking_detail['booking_payment']['transaction_id'] : '';
+$payment_status  = isset( $booking_detail['booking_payment']['payment_status'] ) ? $booking_detail['booking_payment']['payment_status'] : '';
+$message         = isset( $booking_detail['booking_payment']['message'] ) ? $booking_detail['booking_payment']['message'] : '';
+
+// Business info
+$name    = isset( $booking_detail['booking_business']['name'] ) ? $booking_detail['booking_business']['name'] : '';
+$phone   = isset( $booking_detail['booking_business']['phone'] ) ? $booking_detail['booking_business']['phone'] : '';
+$email   = isset( $booking_detail['booking_business']['email'] ) ? $booking_detail['booking_business']['email'] : '';
+$address = isset( $booking_detail['booking_business']['address'] ) ? $booking_detail['booking_business']['address'] : '';
 ?>
 <div class="bkx-dashboard-booking">
 	<div class="container">

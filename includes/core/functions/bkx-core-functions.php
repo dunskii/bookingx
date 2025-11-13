@@ -41,12 +41,12 @@ function bkx_reassign_available_emp_list( $seat_id, $start_date, $end_date, $ser
 				'meta_query'  => array(
 					array(
 						'key'     => 'booking_start_date',
-						'value'   => date( 'Y-m-d H:i:s', strtotime( $start_date ) ), // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+						'value'   => wp_date( 'Y-m-d H:i:s', strtotime( $start_date ) ),
 						'compare' => '<=',
 					),
 					array(
 						'key'     => 'booking_end_date',
-						'value'   => date( 'Y-m-d H:i:s', strtotime( $end_date ) ), // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+						'value'   => wp_date( 'Y-m-d H:i:s', strtotime( $end_date ) ),
 						'compare' => '>=',
 					),
 				),
@@ -281,11 +281,14 @@ function bkx_get_template( $template_name, $args = '' ) {
 			'args'          => $args,
 		);
 
+		// Sanitize args before making them available to template
+		// Use EXTR_SKIP to prevent overwriting existing variables
 		if ( ! empty( $args ) && is_array( $args ) ) {
 			if ( isset( $args['action_args'] ) ) {
 				unset( $args['action_args'] );
 			}
-			extract( $args );
+			// phpcs:ignore WordPress.PHP.DontExtract.extract_extract -- Template system requires variable extraction. Using EXTR_SKIP for safety.
+			extract( $args, EXTR_SKIP );
 		}
 		do_action( 'bkx_before_template_part', $action_args['template_name'], $action_args['template_path'], $action_args['located'], $action_args['args'] );
 		include $action_args['located'];
@@ -1127,9 +1130,9 @@ function bkx_getDatesFromRange( $start, $end, $format = 'm/d/Y' ) {
 	}
 	$range         = array();
 	$start         = strtotime( $start );
-	$end           = date( 'Y-m-d', strtotime( '+1 day', strtotime( $end ) ) );
-	$new['first']  = date( 'Y-m-d', $start );
-	$new['last']   = date( 'Y-m-d', strtotime( $end ) );
+	$end           = wp_date( 'Y-m-d', strtotime( '+1 day', strtotime( $end ) ) );
+	$new['first']  = wp_date( 'Y-m-d', $start );
+	$new['last']   = wp_date( 'Y-m-d', strtotime( $end ) );
 	$interval      = '+1 days';
 	$date_interval = DateInterval::createFromDateString( $interval );
 	$periods       = new DatePeriod( new DateTime( $new['first'] ), $date_interval, new DateTime( $new['last'] ) );

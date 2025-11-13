@@ -422,9 +422,9 @@ jQuery(function ($) {
             }
             setTimeout(function () {
                 block($('div.step-4'));
-                console.log('Line 403 trigger now');
+                // console.log('Line 403 trigger now');
                 if( submission_skip == false ){
-                    console.log('submission_skip ==> trigger now');
+                    // console.log('submission_skip ==> trigger now');
                     $.ajax({
                         type: 'POST',
                         url: get_url('book_now'),

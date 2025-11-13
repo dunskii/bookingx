@@ -35,6 +35,8 @@ if ( ! empty( $current_submenu_active ) && 'all_license' === $current_submenu_ac
 	}
 	?>
 <form method="post" id="bkx-license-set-up">
+
+		<?php wp_nonce_field( 'bkx_settings_save', 'bkx_settings_nonce' ); ?>
 	<table class="form-table">
 		<tbody>
 		<?php

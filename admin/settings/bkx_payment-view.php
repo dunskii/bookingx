@@ -18,6 +18,8 @@ if ( ! empty( $current_submenu_active ) && 'bkx_gateway_paypal_express' === $cur
 	<a href="https://developer.paypal.com/docs/classic/api/apiCredentials/" target="_blank">Click
 		here</a> to create your paypal account and get API Credentials.
 	<form name="form_api" id="id_form_api" method="post">
+
+		<?php wp_nonce_field( 'bkx_settings_save', 'bkx_settings_nonce' ); ?>
 		<table cellspacing="0" class="widefat bkx-admin-paypal-settings" style="margin-top:20px;">
 			<tbody>
 			<input type="hidden" name="api_flag" value="1">
@@ -114,6 +116,8 @@ if ( ! empty( $current_submenu_active ) && 'bkx_gateway_paypal_express' === $cur
 	?>
 	</h3>
 	<form name="form_tax_option" id="id_form_tax_option" method="post">
+
+		<?php wp_nonce_field( 'bkx_settings_save', 'bkx_settings_nonce' ); ?>
 		<table cellspacing="0" class="widefat " style="margin-top:20px;">
 			<tbody>
 			<input type="hidden" name="tax_option_flag" value="1">
@@ -175,6 +179,8 @@ if ( ! empty( $current_submenu_active ) && 'bkx_gateway_paypal_express' === $cur
 	?>
 	</h3>
 	<form name="form_payment_option" id="id_form_payment_option" method="post">
+
+		<?php wp_nonce_field( 'bkx_settings_save', 'bkx_settings_nonce' ); ?>
 		<table cellspacing="0" class="widefat" style="margin-top:20px;">
 			<tbody>
 			<input type="hidden" name="payment_option_flag" value="1">
