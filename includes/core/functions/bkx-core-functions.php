@@ -41,12 +41,12 @@ function bkx_reassign_available_emp_list( $seat_id, $start_date, $end_date, $ser
 				'meta_query'  => array(
 					array(
 						'key'     => 'booking_start_date',
-						'value'   => date( 'Y-m-d H:i:s', strtotime( $start_date ) ), // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+						'value'   => wp_date( 'Y-m-d H:i:s', strtotime( $start_date ) ),
 						'compare' => '<=',
 					),
 					array(
 						'key'     => 'booking_end_date',
-						'value'   => date( 'Y-m-d H:i:s', strtotime( $end_date ) ), // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+						'value'   => wp_date( 'Y-m-d H:i:s', strtotime( $end_date ) ),
 						'compare' => '>=',
 					),
 				),
@@ -1130,9 +1130,9 @@ function bkx_getDatesFromRange( $start, $end, $format = 'm/d/Y' ) {
 	}
 	$range         = array();
 	$start         = strtotime( $start );
-	$end           = date( 'Y-m-d', strtotime( '+1 day', strtotime( $end ) ) );
-	$new['first']  = date( 'Y-m-d', $start );
-	$new['last']   = date( 'Y-m-d', strtotime( $end ) );
+	$end           = wp_date( 'Y-m-d', strtotime( '+1 day', strtotime( $end ) ) );
+	$new['first']  = wp_date( 'Y-m-d', $start );
+	$new['last']   = wp_date( 'Y-m-d', strtotime( $end ) );
 	$interval      = '+1 days';
 	$date_interval = DateInterval::createFromDateString( $interval );
 	$periods       = new DatePeriod( new DateTime( $new['first'] ), $date_interval, new DateTime( $new['last'] ) );

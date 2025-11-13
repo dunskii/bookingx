@@ -97,7 +97,7 @@ class Bkx_Meta_Boxes {
 			wp_nonce_field( 'bookingx_save_data', 'bookingx_meta_nonce' );
 			$extra_id           = get_post_meta( $post->ID, 'addition_ids', true );
 			$extra_id           = rtrim( $extra_id, ',' );
-			$booking_start_date = date( 'm/d/Y', strtotime( $order_meta['booking_start_date'] ) );
+			$booking_start_date = wp_date( 'm/d/Y', strtotime( $order_meta['booking_start_date'] ) );
 			$seat_alias         = bkx_crud_option_multisite( 'bkx_alias_seat' );
 			$base_alias         = bkx_crud_option_multisite( 'bkx_alias_base' );
 			$addition_alias     = bkx_crud_option_multisite( 'bkx_alias_addition' );
@@ -118,7 +118,7 @@ class Bkx_Meta_Boxes {
 				$check_remaining_payment = $order_meta['total_price'] - $check_total_payment;
 			}
 			$search['search_by']   = 'future';
-			$search['search_date'] = date( 'Y-m-d' );
+			$search['search_date'] = current_time( 'Y-m-d' );
 			$booked_days           = '';
 			$BookedRecords         = $orderObj->GetBookedRecordsByUser( $search );
 			if ( ! empty( $BookedRecords ) ) {
@@ -142,7 +142,7 @@ class Bkx_Meta_Boxes {
 							}
 						}
 					endif;
-					$booked_start_dates = date( 'm/d/Y', strtotime( $bookings['booking_start_date'] ) );
+					$booked_start_dates = wp_date( 'm/d/Y', strtotime( $bookings['booking_start_date'] ) );
 					$booked_days       .= $booked_start_dates . ',';
 				endforeach;
 				$booked_days = rtrim( $booked_days, ',' );
@@ -162,11 +162,11 @@ class Bkx_Meta_Boxes {
 			$base_time_option = get_post_meta( $post->ID, 'base_time_option', true );
 			$base_time_option = ( isset( $base_time_option ) && $base_time_option != '' ) ? $base_time_option : 'H';
 			$total_time       = '-';
-			$end_time         = date( 'H:i', strtotime( $order_meta['booking_end_date'] ) );
+			$end_time         = wp_date( 'H:i', strtotime( $order_meta['booking_end_date'] ) );
 			$date_format      = bkx_crud_option_multisite( 'date_format' );
 
 			if ( isset( $base_time_option ) && $base_time_option == 'H' ) {
-				$total_time = sprintf( esc_html__( '%s', 'bookingx' ), date( 'h:i A', strtotime( $order_meta['booking_start_date'] ) ), date( 'h:i A ', strtotime( $order_meta['booking_end_date'] ) ) );
+				$total_time = sprintf( esc_html__( '%s', 'bookingx' ), wp_date( 'h:i A', strtotime( $order_meta['booking_start_date'] ) ), wp_date( 'h:i A ', strtotime( $order_meta['booking_end_date'] ) ) );
 				$duration   = sprintf( esc_html__( '%s', 'bookingx' ), esc_html( $order_meta['total_duration'] ) );
 				$date_data  = sprintf( esc_html__( '%s', 'bookingx' ), date( $date_format, strtotime( $order_meta['booking_date'] ) ) );
 				$duration   = sprintf( esc_html__( '%s', 'bookingx' ), esc_html( $duration ) );

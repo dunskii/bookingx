@@ -168,8 +168,7 @@ class BkxBooking {
 		$order_id        = $this->order_id;
 		$current_user    = wp_get_current_user();
 		$current_user_id = $current_user->ID;
-		//phpcs:disable WordPress.DateTime.RestrictedFunctions
-		$date = date( 'Y-m-d H:i:s' );
+		$date = current_time( 'mysql' );
 
 		if ( ( isset( $order_id ) && $order_id != '' ) && ( isset( $status ) && $status != '' ) ) {
 			$status         = sanitize_text_field( $status );

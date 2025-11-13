@@ -21,6 +21,8 @@ if ( ! empty( $current_submenu_active ) && 'alias' === $current_submenu_active )
 	?>
 	</h3>
 	<form name="form_alias" id="id_form_alias" method="post">
+
+		<?php wp_nonce_field( 'bkx_settings_save', 'bkx_settings_nonce' ); ?>
 		<table cellspacing="0" class="widefat " style="margin-top:20px;">
 			<tbody>
 			<tr class="active">
@@ -109,6 +111,8 @@ if ( ! empty( $current_submenu_active ) && 'alias' === $current_submenu_active )
 
 	<!--End Page Setting-->
 	<form name="form_template" id="id_form_template" method="post">
+
+		<?php wp_nonce_field( 'bkx_settings_save', 'bkx_settings_nonce' ); ?>
 		<table cellspacing="0" class="widefat bkx-content-settings" style="margin-top:20px;">
 			<tbody>
 			<input type="hidden" name="template_flag" value="1">
@@ -402,6 +406,8 @@ if ( ! empty( $current_submenu_active ) && 'alias' === $current_submenu_active )
 				if ( strtolower( $email_key ) === $sub_tab ) {
 					?>
 					<form name="bkx_emails_settings" id="bkx_emails_settings" method="post">
+
+		<?php wp_nonce_field( 'bkx_settings_save', 'bkx_settings_nonce' ); ?>
 					<h3> 
 					<?php
 					// Translators: $s Email Title.
@@ -451,6 +457,8 @@ if ( ! empty( $current_submenu_active ) && 'alias' === $current_submenu_active )
 	</h3>
 
 	<form name="form_siteuser" id="id_form_sitecss" method="post">
+
+		<?php wp_nonce_field( 'bkx_settings_save', 'bkx_settings_nonce' ); ?>
 		<table cellspacing="0" class="widefat" style="margin-top:20px;">
 			<tbody>
 			<input type="hidden" name="sitecss_flag" value="1">
@@ -551,6 +559,8 @@ if ( ! empty( $current_submenu_active ) && 'alias' === $current_submenu_active )
 	?>
 	</h3>
 	<form name="form_other_setting" id="id_other_setting" method="post">
+
+		<?php wp_nonce_field( 'bkx_settings_save', 'bkx_settings_nonce' ); ?>
 		<table cellspacing="0" class="widefat" style="margin-top:20px;">
 			<tbody>
 			<input type="hidden" name="bkx_setting_form_init" value="1">
@@ -731,6 +741,8 @@ if ( ! empty( $current_submenu_active ) && 'alias' === $current_submenu_active )
 	}
 	?>
 		<form name="xml_export" method="post" action="">
+
+		<?php wp_nonce_field( 'bkx_settings_save', 'bkx_settings_nonce' ); ?>
 			<table class="widefat" style="margin-top:20px;">
 				<tr class="active">
 					<input type="hidden" id="id_addition_list" name="addition_list" value="">
@@ -746,6 +758,8 @@ if ( ! empty( $current_submenu_active ) && 'alias' === $current_submenu_active )
 	<div>
 		<h3> <?php echo esc_html__( 'Import XML', 'bookingx' ); ?> </h3>
 		<form name="xml_export" method="post" action="" enctype="multipart/form-data">
+
+		<?php wp_nonce_field( 'bkx_settings_save', 'bkx_settings_nonce' ); ?>
 			<table class="widefat" style="margin-top:20px;">
 				<tr class="active">
 					<td>
@@ -777,6 +791,8 @@ endif; ?>
 	?>
 	</h3>
 	<form name="form_other_settings_section" id="id_other_setting" method="post">
+
+		<?php wp_nonce_field( 'bkx_settings_save', 'bkx_settings_nonce' ); ?>
 		<table cellspacing="0" class="widefat" style="margin-top:20px;">
 			<tbody>
 				<input type="hidden" name="bkx_setting_form_init" value="1">

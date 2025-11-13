@@ -92,7 +92,7 @@ class BkxExport {
 	 */
 	public function generate_file() {
 		$this->xmlobj->formatOutput = true;
-		$cur_date                   = date( 'Y-m-d_H:i:s' ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+		$cur_date                   = date( 'Y-m-d_H:i:s' );
 		$content                    = $this->xmlobj->saveXML();
 		$newfile_name               = BKX_PLUGIN_DIR_PATH . 'public/uploads/newfile.xml';
 		unlink( $newfile_name );

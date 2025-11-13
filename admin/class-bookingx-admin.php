@@ -374,7 +374,7 @@ class Bookingx_Admin {
 		$seat_view               = isset( $query->query_vars['seat_view'] ) ? $query->query_vars['seat_view'] : '';
 		$search_by_dates         = isset( $query->query_vars['search_by_dates'] ) ? $query->query_vars['search_by_dates'] : '';
 		$search_by_selected_date = isset( $query->query_vars['search_by_selected_date'] ) ? $query->query_vars['search_by_selected_date'] : '';
-		$search_by_selected_date = date( 'Y-m-d', strtotime( $search_by_selected_date ) );
+		$search_by_selected_date = wp_date( 'Y-m-d', strtotime( $search_by_selected_date ) );
 		$search_by_dates_meta    = array();
 		$seat_view_query         = array();
 
@@ -419,7 +419,7 @@ class Bookingx_Admin {
 					);
 					break;
 				case 'tomorrow':
-					$tomorrow             = date( 'Y-m-j', strtotime( '+1 day' ) );
+					$tomorrow             = wp_date( 'Y-m-j', strtotime( '+1 day' ) );
 					$search_by_dates_meta = array(
 						array(
 							'key'     => 'booking_date',
@@ -429,8 +429,8 @@ class Bookingx_Admin {
 					);
 					break;
 				case 'this_week':
-					$monday               = date( 'Y-m-j', strtotime( 'monday this week' ) );
-					$last_date            = date( 'Y-m-j', strtotime( 'sunday this week' ) );
+					$monday               = wp_date( 'Y-m-j', strtotime( 'monday this week' ) );
+					$last_date            = wp_date( 'Y-m-j', strtotime( 'sunday this week' ) );
                     $search_by_dates_meta = array(
                         array(
                             'relation' => 'AND',
@@ -450,8 +450,8 @@ class Bookingx_Admin {
                     );
 					break;
 				case 'next_week':
-					$monday               = date( 'Y-m-j', strtotime( 'monday next week' ) );
-					$sunday               = date( 'Y-m-j', strtotime( 'sunday next week' ) );
+					$monday               = wp_date( 'Y-m-j', strtotime( 'monday next week' ) );
+					$sunday               = wp_date( 'Y-m-j', strtotime( 'sunday next week' ) );
                     $search_by_dates_meta = array(
                         array(
                             'relation' => 'AND',
@@ -774,10 +774,10 @@ class Bookingx_Admin {
 	}
 
 	public function date_format_correct( $date, $format = 'm/d/Y' ) {
-		$date          = date( 'm/d/Y', strtotime( $date ) ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+		$date          = wp_date( 'm/d/Y', strtotime( $date ) );
 		$date_arr      = explode( '/', $date );
 		$date_formated = strtotime( "{$date_arr[2]}/{$date_arr[1]}/{$date_arr[0]}" );// "Y-m-d".
-		$date_formated = date( $format, $date_formated ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+		$date_formated = date( $format, $date_formated );
 		return $date_formated;
 	}
 
@@ -1262,7 +1262,7 @@ class Bookingx_Admin {
 			$default_view = 'weekly' === $type ? 'timeGridWeek' : 'dayGridMonth';
 			// $bkx_calendar_json_data = bkx_crud_option_multisite( 'bkx_calendar_json_data' );
 			$bkx_booking            = new BkxBooking();
-			$search['booking_date'] = date( 'Y-m-d' ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+			$search['booking_date'] = current_time( 'Y-m-d' );
 			$search['by']           = 'future';
 			$search['type']         = $type;
 			$order_statuses         = array( 'bkx-pending', 'bkx-ack', 'bkx-completed', 'bkx-missed' );
@@ -1274,7 +1274,7 @@ class Bookingx_Admin {
 				var calendarEl = document.getElementById('calendar');
 
 				var calendar = new FullCalendar.Calendar(calendarEl, {
-				initialDate: '<?php echo date( 'Y-m-d' ); ?>',
+				initialDate: '<?php echo current_time( 'Y-m-d' ); ?>',
 				initialView: '<?php echo $default_view; ?>',
 				nowIndicator: true,
 				headerToolbar: {

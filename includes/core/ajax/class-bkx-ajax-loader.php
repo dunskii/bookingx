@@ -121,7 +121,7 @@ class Bkx_Ajax_Loader {
 		$sort_by   = sanitize_text_field( $_POST['sort_by'] );
 		$type     = sanitize_text_field( $_POST['type'] );
 		$BkxBooking                 = new BkxBooking();
-		$search_args['search_date'] = date( 'Y-m-d' ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+		$search_args['search_date'] = current_time( 'Y-m-d' );
 		$search_args['search_by']   = $type;
 		$search_args['user_id']     = get_current_user_id();
 		$search_args['sort_by']     = isset($sort_by) && $sort_by == 'up' ? 'DESC' : 'ASC';
@@ -486,24 +486,24 @@ class Bkx_Ajax_Loader {
          $args['extra_ids'] = array_map( 'absint', (array) isset( $_POST['extra_id'] ) ? wp_unslash( $_POST['extra_id'] ) : array() );
               }
         $operation_type       = '+7 day';
-        $end_date             = date( 'Y-m-d', strtotime( $operation_type ) );
+        $end_date             = wp_date( 'Y-m-d', strtotime( $operation_type ) );
         $args['booking_date'] = sanitize_text_field( wp_unslash( $_POST['booking_date'] ) );
         $get_date_range       = bkx_getDatesFromRange( $args['booking_date'], $end_date, 'Y-m-d' ); // 2019-6-3
         // echo '<pre>',print_r($get_date_range,1),'</pre>';die;
         if ( isset( $args['type'] ) && $args['type'] != '' ) {
          if ( $args['type'] == 'next' ) {
                 $operation_type = '+4 day';
-                $end_date       = date( 'Y-m-d', strtotime( $args['booking_date'] . $operation_type ) );
+                $end_date       = wp_date( 'Y-m-d', strtotime( $args['booking_date'] . $operation_type ) );
                 $get_date_range = bkx_getDatesFromRange( $args['booking_date'], $end_date, 'Y-m-d' ); // 2019-6-3
          }
 
          if ( $args['type'] == 'prev' ) {
                 $operation_type = '-3 day';
-                $end_date       = date( 'Y-m-d', strtotime( $args['booking_date'] . $operation_type ) );
-                if ( $end_date >= date( 'Y-m-d' ) ) {
+                $end_date       = wp_date( 'Y-m-d', strtotime( $args['booking_date'] . $operation_type ) );
+                if ( $end_date >= current_time( 'Y-m-d' ) ) {
                  $get_date_range = bkx_getDatesFromRange( $end_date, $args['booking_date'], 'Y-m-d' ); // 2019-6-3
                       } else {
-                 $get_date_range = bkx_getDatesFromRange( date( 'Y-m-d' ), date( 'Y-m-d', strtotime( $args['booking_date'] . '+ 3 day' ) ), 'Y-m-d' ); // 2019-6-3
+                 $get_date_range = bkx_getDatesFromRange( current_time( 'Y-m-d' ), wp_date( 'Y-m-d', strtotime( $args['booking_date'] . '+ 3 day' ) ), 'Y-m-d' ); // 2019-6-3
                       }
          }
               }
@@ -580,7 +580,7 @@ class Bkx_Ajax_Loader {
          if ( isset( $args['service_extend'] ) && $args['service_extend'] > 0 ) {
                 $base_day += $args['service_extend'];
          }
-         $end_date       = date( 'Y-m-d', strtotime( $start_date . " + {$base_day} days" ) );
+         $end_date       = wp_date( 'Y-m-d', strtotime( $start_date . " + {$base_day} days" ) );
          $get_date_range = bkx_getDatesFromRange( $start_date, $end_date, 'Y-m-d' ); // 2019-6-3
          $availability   = $BkxBooking->get_booking_form_calendar_availability( $args );
 
@@ -588,9 +588,9 @@ class Bkx_Ajax_Loader {
                 $allowed = array();
                 foreach ( $get_date_range as $date ) {
                  $args['booking_date'] = $date;
-                 $weekday              = date( 'l', strtotime( $date ) );
+                 $weekday              = wp_date( 'l', strtotime( $date ) );
                  if ( ! empty( $availability['unavailable_days'] )
-                     && in_array( date( 'm/d/Y', strtotime( $date ) ), $availability['unavailable_days'] ) ) {
+                     && in_array( wp_date( 'm/d/Y', strtotime( $date ) ), $availability['unavailable_days'] ) ) {
                         $already_booked = array( 0 );
                  } elseif ( ! in_array( $weekday, $availability['seat']['days'] ) ) {
                         $already_booked = array( 0 );

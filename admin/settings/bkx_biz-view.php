@@ -15,6 +15,8 @@ if ( ! empty( $current_submenu_active ) && 'biz_info' === $current_submenu_activ
 	?>
 	</h3>
 	<form name="form_alias" id="id_form_alias" method="post">
+
+		<?php wp_nonce_field( 'bkx_settings_save', 'bkx_settings_nonce' ); ?>
 		<table cellspacing="0" class="widefat " style="margin-top:20px;">
 			<tbody>
 			<tr class="active">
@@ -149,6 +151,8 @@ if ( ! empty( $current_submenu_active ) && 'biz_info' === $current_submenu_activ
 	</h3>
 
 	<form name="bkx_form_alias" id="id_form_alias" method="post">
+
+		<?php wp_nonce_field( 'bkx_settings_save', 'bkx_settings_nonce' ); ?>
 		<input type="hidden" name="bkx_setting_form_init" value="1">
 		<input type="hidden" name="days_operation_flag" value="1">
 		<input type="hidden" id="current_value" name="current_value_index" value="<?php echo esc_attr( $selected ); ?>">
@@ -205,6 +209,8 @@ if ( ! empty( $current_submenu_active ) && 'user_opt' === $current_submenu_activ
 	// Translators: $s Role Assignment.
         printf( esc_html__( '%1$s', 'bookingx' ), 'Role Assignment' ); //phpcs:ignore ?> </h3>
 	<form name="form_role_setting" id="id_role_setting" method="post">
+
+		<?php wp_nonce_field( 'bkx_settings_save', 'bkx_settings_nonce' ); ?>
 		<table cellspacing="0" class="widefat" style="margin-top:20px;">
 			<tbody>
 			<input type="hidden" name="bkx_setting_form_init" value="1">

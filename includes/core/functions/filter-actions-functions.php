@@ -646,7 +646,7 @@ function bkx_secs2hours( $secs ) {
 		$hours_min = $hours . ':' . $mins;
 	}
 	// if ( $this->time_format )
-	$hours_min = date( 'H:i', strtotime( $hours_min . ':00' ) ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+	$hours_min = wp_date( 'H:i', strtotime( $hours_min . ':00' ) );
 
 	return $hours_min;
 }
@@ -954,7 +954,7 @@ function bkx_booking_detail_load_before_action( $booking_id ) {
 		$total_time = getDateDuration( $order_meta );
 		$duration   = getDuration( $order_meta );
 		// translators: Booking Date.
-		$date_data  = sprintf( esc_html__( '%1$s %2$s', 'bookingx' ), date( $date_format, strtotime( $order_meta['booking_date'] ) ), $order_meta['booking_time_from'] ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+		$date_data  = sprintf( esc_html__( '%1$s %2$s', 'bookingx' ), date( $date_format, strtotime( $order_meta['booking_date'] ) ), $order_meta['booking_time_from'] );
 		$start_date = $order_meta['booking_date'];
 	} else {
 		list( $date_data, $duration, $start_date ) = getDayDateDuration( $booking_id );
@@ -963,8 +963,8 @@ function bkx_booking_detail_load_before_action( $booking_id ) {
 	$cancel_booking_page    = bkx_crud_option_multisite( 'cancellation_policy_page_id' );
 	$check_cancel_booking   = bkx_crud_option_multisite( 'enable_cancel_booking' );
 	$cancel_policy_url      = '';
-	$booking_date_converted = strtotime( date( 'Y-m-d', strtotime( $start_date ) ) ) . ' '; // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
-	$current_date           = strtotime( date( 'Y-m-d' ) ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+	$booking_date_converted = strtotime( wp_date( 'Y-m-d', strtotime( $start_date ) ) ) . ' ';
+	$current_date           = strtotime( current_time( 'Y-m-d' ) );
 	$status                 = array( 'Pending', 'Acknowledged', 'Missed', 'Failed' );
 	if ( $booking_date_converted >= $current_date && in_array( $order_status, $status ) && $check_cancel_booking == 1 ) {
 		$is_able_cancelled = true;
