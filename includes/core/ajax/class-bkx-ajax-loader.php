@@ -128,9 +128,9 @@ class Bkx_Ajax_Loader {
 		$BkxDashboard               = new BkxDashboard();
 		$BookedRecords =  $BkxBooking->GetBookedRecordsByUser( $search_args );
 		if ( ! empty( $BookedRecords ) ) {
-			echo $BkxDashboard->booking_html( $BookedRecords ); // phpcs:ignore
+			echo wp_kses_post( $BkxDashboard->booking_html( $BookedRecords ) );
 		} else {
-			echo "<tr><td colspan='5'>No Booking's Found</td></tr>";
+			echo '<tr><td colspan="5">' . esc_html__( "No Bookings Found", 'bookingx' ) . '</td></tr>';
 		}
 		wp_die();
 	}
@@ -207,11 +207,14 @@ class Bkx_Ajax_Loader {
 
 	public function booking_cancel() {
         check_ajax_referer( 'booking-cancel', 'security' );
-        extract( $_POST );
         $success = false;
         if ( is_user_logged_in() ) {
          $user_id    = get_current_user_id();
-         $booking_id = sanitize_text_field( $booking_id );
+         $booking_id = isset( $_POST['booking_id'] ) ? sanitize_text_field( wp_unslash( $_POST['booking_id'] ) ) : '';
+         if ( empty( $booking_id ) ) {
+                echo $success;
+                wp_die();
+         }
          $is_owner   = check_booking_owner( $user_id, $booking_id );
          if ( $is_owner == true ) {
                 $order = new BkxBooking( null, $booking_id );
